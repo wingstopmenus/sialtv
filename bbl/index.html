@@ -13,105 +13,119 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="BBL 2026-27 Schedule, Teams &amp; Points Table">
 <meta name="twitter:description" content="BBL 2026-27 schedule, teams and points table — 8 teams, 44 matches, 12 Dec 2026–26 Jan 2027. Chennai opener, full fixtures, venues and where to watch.">
-<meta name="theme-color" content="#f6f2e9">
+<meta name="theme-color" content="#0b3d2e">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","name":"BBL 2026-27 — Schedule, Teams & Points Table","url":"https://sialtv.com/bbl/","description":"BBL 2026-27 schedule, teams and points table — 8 teams, 44 matches, 12 Dec 2026–26 Jan 2027.","datePublished":"2026-11-10T08:25:00Z","dateModified":"2026-11-10T07:57:00Z"}
+{"@context":"https://schema.org","@type":"WebPage","name":"BBL 2026-27 — Schedule, Teams & Points Table","url":"https://sialtv.com/bbl/","description":"BBL 2026-27 schedule, teams and points table — 8 teams, 44 matches, 12 Dec 2026–26 Jan 2027.","datePublished":"2026-11-10T08:25:00Z","dateModified":"2026-11-10T07:51:00Z"}
 </script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"SialTV","item":"https://sialtv.com/"},{"@type":"ListItem","position":2,"name":"Big Bash League","item":"https://sialtv.com/bbl/"}]}
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@700&family=Spectral:ital,wght@0,400;0,500;1,400&family=Libre+Franklin:wght@500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@700;800&family=Albert+Sans:wght@400;500;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
 <style>
-/* SialTV design system — newsprint material (Hallmark "newsprint" theme, adapted).
-   Pale newsprint stock, warm black ink, Zilla Slab heads over a Spectral body,
-   Libre Franklin agate for listed figures. Rules, never boxes: radius 0, no shadow.
-   League accents are DRAFT placeholders (official hex TBC per league). */
-:root{--paper:#f6f2e9;--paper-2:#efe9da;--ink:#211d18;--ink-2:#3a352d;--muted:#6f675a;--rule:#cfc7b4;--rule-2:#2c2822;--accent:#9c3a26;--focus:#9c3a26}
-body.league-npl{--accent:#1b6b3a}body.league-ilt20{--accent:#8a6d00}body.league-apl{--accent:#0e1038}body.league-sa20{--accent:#0a4d8c}body.league-bbl{--accent:#15803d}body.league-psl{--accent:#14532d}
+/* SialTV design system v2 — cricket magazine (Hallmark "sport" theme, adapted).
+   Cool concrete paper, blue-black ink, Saira Condensed 800 caps over Albert Sans,
+   JetBrains Mono for times and figures. Pitch green, cricket-ball red, gold.
+   League colours are DRAFT (official hex TBC per league). */
+:root{--paper:#f2f4f1;--paper-2:#e6eae6;--card:#ffffff;--ink:#0f1c2b;--ink-2:#22364a;--muted:#5b6b7a;--rule:#d2d8d2;--rule-2:#0f1c2b;--brand:#0b3d2e;--ball:#d92323;--gold:#f5b301;--accent:#0b3d2e;--focus:#d92323;--league:#0b3d2e}
+body.league-npl{--accent:#d21034;--league:#d21034}body.league-ilt20{--accent:#1d4ed8;--league:#1d4ed8}body.league-apl{--accent:#0e1038;--league:#0e1038}body.league-sa20{--accent:#009444;--league:#009444}body.league-bbl{--accent:#0e7490;--league:#0e7490}body.league-psl{--accent:#00563f;--league:#00563f}
 *{box-sizing:border-box}
-html{scroll-behavior:auto}
-body{margin:0;font-family:"Spectral",ui-serif,Georgia,serif;color:var(--ink);background:var(--paper);font-size:17px;line-height:1.55}
-a{color:var(--accent);text-decoration:underline;text-underline-offset:.16em}
+body{margin:0;font-family:"Albert Sans",ui-sans-serif,system-ui,sans-serif;color:var(--ink);background:var(--paper);font-size:17px;line-height:1.55}
+a{color:var(--accent);text-decoration:underline;text-underline-offset:.18em;text-decoration-thickness:1px}
 a:hover{text-decoration-thickness:2px}
-a:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
-::selection{background:rgba(156,58,38,.2)}
-.wrap{max-width:1060px;margin:0 auto;padding:0 20px}
-h1,h2,h3{font-family:"Zilla Slab",ui-serif,Georgia,serif;font-weight:700;letter-spacing:-.02em;line-height:1.08}
-h1{font-size:38px}h2{font-size:27px;margin:0 0 14px}h3{font-size:20px}
+a:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+::selection{background:var(--gold);color:var(--ink)}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+h1,h2,h3{font-family:"Saira Condensed",ui-sans-serif,sans-serif;font-weight:800;text-transform:uppercase;letter-spacing:-.01em;line-height:1.02}
+h1{font-size:52px}h2{font-size:32px;margin:0 0 14px}h3{font-size:23px}
 p{margin:0 0 12px}
-.rule-double{height:3px;border-top:1px solid var(--rule-2);border-bottom:1px solid var(--rule-2);margin:0}
+.mono{font-family:"JetBrains Mono",ui-monospace,monospace;font-weight:500;font-variant-numeric:tabular-nums}
+/* Ticker */
+.ticker{background:var(--brand);color:#fff;font-size:14px;font-weight:500}
+.ticker .wrap{display:flex;justify-content:space-between;gap:16px;padding-top:8px;padding-bottom:8px}
+.ticker .t-time{font-family:"JetBrains Mono",ui-monospace,monospace;font-weight:500;white-space:nowrap}
+.ticker b{color:var(--gold);font-weight:700}
 /* Masthead */
-header{padding-top:18px}
-.mastrow{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-bottom:10px}
-.brand{font-family:"Zilla Slab",ui-serif,Georgia,serif;font-size:38px;font-weight:700;letter-spacing:-.02em;line-height:1;color:var(--ink);text-decoration:none}
-.brand span{color:var(--accent)}
-.dateline{font-family:"Libre Franklin",ui-sans-serif,sans-serif;font-size:14px;font-weight:500;color:var(--muted);margin:0}
+.masthead{padding:20px 0 0}
+.mastrow{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.brand{font-family:"Saira Condensed",ui-sans-serif,sans-serif;font-size:52px;font-weight:800;letter-spacing:-.01em;line-height:1;color:var(--ink);text-decoration:none;text-transform:uppercase}
+.brand span{color:var(--ball)}
+.tagline{font-family:"Saira Condensed",ui-sans-serif,sans-serif;font-size:19px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:0}
+.bar-rule{height:3px;background:var(--ink);margin:14px 0 0}
 nav.leagues{display:flex;flex-wrap:wrap;gap:0;padding:10px 0;border-bottom:1px solid var(--rule)}
-nav.leagues a{font-family:"Zilla Slab",ui-serif,Georgia,serif;font-size:18px;font-weight:700;color:var(--ink);text-decoration:none;padding:0 14px;border-left:1px solid var(--rule)}
+nav.leagues a{font-family:"Saira Condensed",ui-sans-serif,sans-serif;font-size:19px;font-weight:700;text-transform:uppercase;color:var(--ink);text-decoration:none;padding:0 16px;border-left:1px solid var(--rule)}
 nav.leagues a:first-child{padding-left:0;border-left:0}
-nav.leagues a:hover{color:var(--accent);text-decoration:underline}
-.live-mark{display:inline-block;width:9px;height:9px;background:var(--accent);margin-right:6px}
-.live-tag{font-family:"Libre Franklin",ui-sans-serif,sans-serif;font-size:12px;font-weight:500;color:var(--accent);text-transform:uppercase;letter-spacing:.06em;margin-left:4px}
-/* Hero — hub pages: ink band. Homepage: paper with double rule. */
-.hero{background:var(--ink);color:var(--paper);padding:38px 0 32px}
-.hero h1{color:var(--paper);margin:0 0 12px}
-.hero p{color:#ddd6c6;font-size:19px;max-width:780px}
-.hero .updated{color:#a89f8a;font-size:15px}
-.hero .crumbs{font-size:15px;color:#a89f8a}
-.hero .crumbs a{color:#a89f8a}
-.hero-home{background:var(--paper);color:var(--ink);padding:34px 0 30px;border-bottom:1px solid var(--rule)}
-.hero-home h1{color:var(--ink);font-size:44px}
+nav.leagues a:hover{color:var(--ball);text-decoration:underline;text-decoration-thickness:2px}
+.live-mark{display:inline-block;width:9px;height:9px;background:var(--ball);margin-right:6px}
+.live-tag{font-family:"Saira Condensed",ui-sans-serif,sans-serif;font-size:15px;font-weight:700;color:var(--ball);text-transform:uppercase;margin-left:4px}
+/* Hero — hub pages: league colour band. Homepage: paper cover. */
+.hero{background:var(--league);color:#fff;padding:38px 0 32px}
+.hero h1{color:#fff;margin:0 0 12px}
+.hero p{color:#e8ecef;font-size:19px;max-width:780px}
+.hero .updated{color:#c3ccd4;font-size:15px}
+.hero .crumbs{font-size:15px;color:#c3ccd4}
+.hero .crumbs a{color:#c3ccd4}
+.hero-home{background:var(--paper);color:var(--ink);padding:36px 0 30px;border-bottom:1px solid var(--rule)}
+.hero-home h1{color:var(--ink);font-size:58px}
 .hero-home p{color:var(--ink-2);font-size:20px}
 .hero-home .updated{color:var(--muted);font-size:15px}
 .crumbs{font-size:15px;color:var(--muted);padding:0;margin:0 0 10px}
 .crumbs a{color:var(--muted)}
-main section{padding:32px 0;border-bottom:1px solid var(--rule)}
+main section{padding:34px 0;border-bottom:1px solid var(--rule)}
+main section h2{border-top:3px solid var(--ink);padding-top:12px}
 p.lead{font-size:18px;margin:0 0 16px}
-.today{background:var(--paper-2);border-top:1px solid var(--rule-2);border-bottom:1px solid var(--rule-2);padding:18px 20px}
-.today strong{font-family:"Zilla Slab",ui-serif,Georgia,serif;font-size:20px}
-.today p{margin:0 0 8px}
+/* Today scoreboard — dark panel, mono time */
+.today{background:var(--brand);color:#fff;border-radius:6px;padding:22px 24px}
+.today .today-label{font-family:"Saira Condensed",ui-sans-serif,sans-serif;font-size:17px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--gold)}
+.today strong{font-family:"Saira Condensed",ui-sans-serif,sans-serif;font-size:28px;font-weight:800;text-transform:uppercase;line-height:1.05;display:block;margin:6px 0}
+.today p{margin:0 0 8px;color:#e8ecef}
 .today p:last-child{margin:0}
-/* League index — ruled rows, agate figures at the right edge */
-.index{border-top:1px solid var(--rule-2)}
-.index-row{display:grid;grid-template-columns:1fr auto;gap:4px 20px;align-items:baseline;padding:16px 12px 16px 16px;border-bottom:1px solid var(--rule);border-left:3px solid var(--league,#9c3a26);color:var(--ink);text-decoration:none}
-.index-row:hover{background:var(--paper-2)}
-.index-row h3{margin:0;font-size:22px}
-.index-row:hover h3{text-decoration:underline;text-underline-offset:.16em}
-.index-row .meta{grid-column:1;color:var(--muted);font-size:16px}
-.index-row .status{grid-column:2;grid-row:1;font-family:"Libre Franklin",ui-sans-serif,sans-serif;font-size:14px;font-weight:500;color:var(--accent);text-align:right;white-space:nowrap}
-/* Tables — agate figures, double rule under the head */
+.today a{color:var(--gold)}
+.today .t-time{font-family:"JetBrains Mono",ui-monospace,monospace;font-weight:500}
+/* League tiles — magazine cover tiles, strong league colour band */
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.tile{display:block;background:var(--card);border:1px solid var(--rule);border-top:8px solid var(--league,#0b3d2e);border-radius:6px;padding:18px 18px 16px;color:var(--ink);text-decoration:none}
+.tile:hover{border-color:var(--league,#0b3d2e)}
+.tile h3{margin:0 0 6px;font-size:27px;color:var(--ink)}
+.tile:hover h3{color:var(--league,#0b3d2e)}
+.tile .meta{color:var(--muted);font-size:16px;display:block;margin-bottom:12px}
+.tile .status{font-family:"Saira Condensed",ui-sans-serif,sans-serif;font-size:18px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--league,#0b3d2e)}
+/* Tables — scoreboard: dark head, mono figures */
 table{width:100%;border-collapse:collapse;font-size:16px}
-th,td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--rule)}
-thead th{font-family:"Libre Franklin",ui-sans-serif,sans-serif;font-size:13px;font-weight:500;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);border-bottom:2px solid var(--rule-2)}
-td{font-family:"Libre Franklin",ui-sans-serif,sans-serif;font-weight:500;font-variant-numeric:tabular-nums}
-td:first-child,th:first-child{padding-left:0}
+thead th{font-family:"Saira Condensed",ui-sans-serif,sans-serif;font-size:16px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;background:var(--ink);color:#fff;text-align:left;padding:10px 10px}
+th,td{padding:10px;border-bottom:1px solid var(--rule)}
+td{font-family:"JetBrains Mono",ui-monospace,monospace;font-weight:500;font-variant-numeric:tabular-nums}
+td:nth-child(2){font-family:"Albert Sans",ui-sans-serif,sans-serif;font-weight:500}
 .table-scroll{overflow-x:auto}
-.teams{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:0}
-.team{border-top:1px solid var(--rule);padding:14px 16px 14px 0}
-.team b{font-family:"Zilla Slab",ui-serif,Georgia,serif;font-size:19px}
+.teams{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.team{background:var(--card);border:1px solid var(--rule);border-top:4px solid var(--league,#0b3d2e);border-radius:6px;padding:14px 16px}
+.team b{font-family:"Saira Condensed",ui-sans-serif,sans-serif;font-size:21px;text-transform:uppercase}
 .team p{margin:4px 0 0;color:var(--muted);font-size:16px}
 .faq h3{margin:18px 0 6px}
 .faq p{margin:0 0 10px}
 .note{font-size:15px;color:var(--muted)}
-/* Footer */
-footer{padding:26px 0 34px;color:var(--muted);font-size:15px}
-.foot-cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px;padding:22px 0 8px}
-.foot-h{font-family:"Zilla Slab",ui-serif,Georgia,serif;font-size:18px;font-weight:700;color:var(--ink);margin:0 0 8px}
+/* Footer — pitch green band */
+footer{background:var(--brand);color:#dfe8dd;padding:30px 0 34px;font-size:15px}
+footer .gold-rule{height:3px;background:var(--gold);margin:0 0 22px}
+.foot-cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px;padding-bottom:8px}
+.foot-h{font-family:"Saira Condensed",ui-sans-serif,sans-serif;font-size:20px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#fff;margin:0 0 8px}
 .foot-cols p{margin:0 0 6px}
-.foot-cols a{color:var(--ink)}
-footer .disclaimer{border-top:1px solid var(--rule);padding-top:16px;margin:14px 0 6px}
-footer .copy{margin:0}
+.foot-cols a{color:#fff}
+.foot-cols a:hover{color:var(--gold)}
+footer .disclaimer{border-top:1px solid rgba(255,255,255,.25);padding-top:16px;margin:14px 0 6px;color:#b9cbb8}
+footer .copy{margin:0;color:#b9cbb8}
+@media (max-width:900px){.tiles{grid-template-columns:repeat(2,1fr)}}
 @media (max-width:640px){
   body{font-size:16px}
-  .brand{font-size:30px}
-  .dateline{font-size:13px}
-  nav.leagues a{font-size:16px;padding:0 10px}
-  .hero h1,.hero-home h1{font-size:30px}
+  .brand{font-size:40px}
+  .tagline{font-size:16px}
+  nav.leagues a{font-size:17px;padding:0 10px}
+  .hero h1,.hero-home h1{font-size:36px}
   .hero p,.hero-home p{font-size:17px}
-  .index-row{grid-template-columns:1fr}
-  .index-row .status{grid-column:1;grid-row:2;text-align:left}
+  .tiles{grid-template-columns:1fr}
+  .today strong{font-size:23px}
+  .ticker .wrap{flex-wrap:wrap}
   .foot-cols{gap:16px}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
@@ -119,12 +133,18 @@ footer .copy{margin:0}
 </head>
 <body class="league-bbl">
 <header>
+  <div class="ticker">
+    <div class="wrap">
+      <span><b>TODAY</b> · NPL Match 21 — Sudurpaschim Royals vs Janakpur Bolts</span>
+      <span class="t-time">4:30 PM NST · Tue 10 Nov 2026</span>
+    </div>
+  </div>
   <div class="wrap masthead">
     <div class="mastrow">
       <a class="brand" href="/">Sial<span>TV</span></a>
-      <p class="dateline">Tuesday, 10 November 2026 · Independent cricket coverage</p>
+      <p class="tagline">Cricket, every league, every match</p>
     </div>
-    <div class="rule-double" aria-hidden="true"></div>
+    <div class="bar-rule" aria-hidden="true"></div>
     <nav class="leagues" aria-label="Leagues">
       <a href="/npl/"><span class="live-mark" aria-hidden="true"></span>NPL <span class="live-tag">Live</span></a>
       <a href="/ilt20/">ILT20</a>
@@ -275,7 +295,7 @@ footer .copy{margin:0}
 
 <footer>
   <div class="wrap">
-    <div class="rule-double" aria-hidden="true"></div>
+    <div class="gold-rule" aria-hidden="true"></div>
     <div class="foot-cols">
       <div>
         <p class="foot-h">Leagues</p>
