@@ -13,9 +13,9 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Arjun Saud NPL 2026 — Runs, Role &amp; Chitwan Rhinos">
 <meta name="twitter:description" content="Arjun Saud has 72 runs in four games for Chitwan Rhinos in NPL 2026 — the most in the verified squad. His innings, his keeping, and what comes next.">
-<meta name="theme-color" content="#0860c4">
+<meta name="theme-color" content="#0f1014">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","name":"Arjun Saud NPL 2026 — Runs, Role &amp; Chitwan Rhinos","url":"https://sialtv.com/npl/players/arjun-saud/","description":"Arjun Saud has 72 runs in four games for Chitwan Rhinos in NPL 2026 — the most in the verified squad. His innings, his keeping, and what comes next.","datePublished":"2026-11-10T16:48:00Z","dateModified": "2026-11-10T21:57:00Z"}
+{"@context":"https://schema.org","@type":"WebPage","name":"Arjun Saud NPL 2026 — Runs, Role &amp; Chitwan Rhinos","url":"https://sialtv.com/npl/players/arjun-saud/","description":"Arjun Saud has 72 runs in four games for Chitwan Rhinos in NPL 2026 — the most in the verified squad. His innings, his keeping, and what comes next.","datePublished":"2026-11-10T16:48:00Z","dateModified": "2026-11-11T00:30:00Z"}
 </script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"SialTV","item":"https://sialtv.com/"},{"@type":"ListItem","position":2,"name":"Nepal Premier League","item":"https://sialtv.com/npl/"},{"@type":"ListItem","position":3,"name":"NPL 2026 Teams","item":"https://sialtv.com/npl/teams/"},{"@type":"ListItem","position":4,"name":"Arjun Saud","item":"https://sialtv.com/npl/players/arjun-saud/"}]}
@@ -209,6 +209,185 @@ main section.scores-sec{background:transparent;border:0;border-radius:0;padding:
 @media (max-width:900px){.home-grid{grid-template-columns:1fr}.score-card{flex-basis:260px}}
 @media (max-width:640px){.lead-head{font-size:24px}.car-btn{display:none}.score-card{flex-basis:100%}.num-big{font-size:34px}.hero-chip{font-size:12px;padding:5px 11px}}
 </style>
+<style>
+/* LOOK 2 — Direction D "iys premium". iys.iskills.com language, translated:
+   one accent (red) doing all the work; floating white pill sticky header;
+   centred white hero, huge H1 + one red phrase; black record band; large
+   section gaps + hairline dividers + numbered markers; radius 16-20px cards
+   with soft shadows; black footer with outline SIALTV watermark; scroll-
+   reveal + count-up (reduced-motion respected). Blue identity REMOVED here.
+   League colours survive ONLY as the thin top bar on league tiles.
+   No images, no colour blends, Archivo only. */
+:root{--bg:#ffffff;--blue:#c92a1e;--red-text:#c92a1e;--navy:#0f1014;--hero-navy:#0f1014;--rule:#e5e5e5;--rule-2:#e0e0e0;--focus:#c92a1e}
+body{background:#fff}
+::selection{background:var(--red-text);color:#fff}
+/* --- Floating pill sticky header --- */
+header{position:sticky;top:12px;z-index:80;background:transparent;margin-top:12px}
+.topbar{position:static;background:#fff;border-radius:999px;box-shadow:0 12px 32px rgba(15,16,20,.14),0 2px 8px rgba(15,16,20,.08);width:calc(100% - 24px);max-width:1230px;margin:0 auto}
+.topbar-in{padding:10px 12px 10px 24px;gap:16px}
+.brand{color:#0f1014}
+.brand span{color:var(--red)}
+nav.leagues a{color:#0f1014;border-radius:999px;white-space:nowrap;flex:0 0 auto}
+nav.leagues a:hover{background:#f4f4f5;text-decoration:none}
+.live-tag{color:var(--red-text)}
+.top-date{color:#8a8f98}
+.head-cta{margin-left:8px;flex:0 0 auto;font-family:"Archivo",ui-sans-serif,sans-serif;font-size:14px;font-weight:800;color:#0f1014;background:#fff;border:1px solid #e0e0e0;border-radius:999px;padding:10px 18px;text-decoration:none;white-space:nowrap;transition:border-color .15s ease,color .15s ease}
+.head-cta:hover{border-color:var(--red);color:var(--red-text);text-decoration:none}
+/* --- Subnav strip (below the sticky header, scrolls away) --- */
+.subnav{background:#fff;border-bottom:1px solid #e5e5e5}
+.subnav .wrap{max-width:1230px}
+/* --- Hero: centred, white, huge type --- */
+.hero,.hero-home{background:#fff;color:var(--ink);padding:96px 0 88px;text-align:center;border-bottom:0;position:relative;overflow:hidden}
+.hero .wrap{max-width:960px;position:relative;z-index:1}
+.hero .crumbs{color:var(--muted);margin:0 0 20px}
+.hero .crumbs a{color:var(--muted);text-decoration:none}
+.hero .crumbs a:hover{text-decoration:underline}
+.hero .eyebrow{font-size:14px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--red-text);margin:0 0 22px}
+.hero h1,.hero-home h1{font-size:68px;line-height:1.05;letter-spacing:-.02em;color:#0f1014;margin:0 0 24px}
+.hero h1 .accent{color:var(--red)}
+.hero p:not(.crumbs):not(.updated):not(.eyebrow){font-size:20px;line-height:1.7;color:#666;max-width:720px;margin:0 auto 28px}
+.hero .updated{color:#8a8f98;font-size:13px;margin:0 auto}
+.hero-chips{justify-content:center;gap:10px;margin:0 0 28px}
+.hero-chip{background:#fff;border:1px solid #e5e5e5;color:#0f1014;border-radius:999px;padding:12px 20px;font-size:15px;font-weight:700}
+.hero-chip::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--red);flex:0 0 auto}
+.hero-chip.live{background:var(--red);border-color:var(--red);color:#fff}
+.hero-chip.live::before{display:none}
+.hero a.hero-cta{display:inline-flex;align-items:center;gap:10px;background:var(--red);color:#fff;font-size:16px;font-weight:800;padding:16px 28px;border-radius:18px;text-decoration:none;box-shadow:0 12px 32px rgba(255,69,56,.35);margin:0 0 28px;transition:transform .15s ease,box-shadow .15s ease}
+.hero a.hero-cta:hover{color:#fff;text-decoration:none;transform:translateY(-1px);box-shadow:0 16px 38px rgba(255,69,56,.42)}
+.ghost{position:absolute;right:1%;top:6%;font-size:260px;font-weight:800;line-height:1;color:transparent;-webkit-text-stroke:2px rgba(15,16,20,.08);pointer-events:none;user-select:none}
+/* --- Black record band --- */
+.record-band{background:#0f1014;color:#fff;padding:72px 0}
+.record-band .wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:32px;max-width:1230px}
+.rec b{display:block;font-size:50px;line-height:1;font-weight:800;letter-spacing:-.02em;color:#fff;font-variant-numeric:tabular-nums}
+.rec span{display:block;font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#ff7a6e;margin-top:10px}
+/* --- Player stat cards --- */
+.stat-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:48px auto 0}
+.stat-card{background:#fff;border:1px solid #e9e9ec;border-radius:20px;padding:22px;box-shadow:0 2px 6px rgba(15,16,20,.04),0 14px 32px rgba(15,16,20,.07)}
+.stat-card b{display:block;font-size:48px;line-height:1;font-weight:800;letter-spacing:-.02em;color:var(--red);font-variant-numeric:tabular-nums}
+.stat-card span{display:block;font-size:15px;font-weight:800;color:#0f1014;margin-top:8px}
+.stat-card i{display:block;font-style:normal;font-size:13px;color:var(--muted);margin-top:4px}
+/* --- Main: hairlines, big gaps, numbered markers --- */
+main{padding:80px 0 8px}
+main p{font-size:17px;line-height:1.7}
+main section{background:transparent;border:0;border-radius:0;box-shadow:none;padding:80px 0 0;margin:0 0 80px;border-top:1px solid #e5e5e5}
+main section.scores-sec{border-top:0;padding:0;margin:0 0 80px}
+main section h2,.home-main section h2{font-size:42px;line-height:1.08;letter-spacing:-.02em;color:var(--ink);margin:0 0 16px;padding-left:0}
+main section h2::before{display:none}
+.sec-eyebrow{font-size:13px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--red-text);margin:0 0 12px}
+p.lead{font-size:19px;line-height:1.7;color:var(--muted)}
+/* --- Pills, carousel, score cards --- */
+.pills{margin-bottom:20px}
+.pill{font-size:14px;padding:9px 16px;border:1px solid #e0e0e0}
+.pill:hover{border-color:var(--red-text)}
+.pill[aria-pressed="true"]{background:var(--red-text);border-color:var(--red-text)}
+.carousel{gap:16px;padding:2px 2px 12px}
+.score-card{flex-basis:300px;border:1px solid #e9e9ec;border-top:3px solid #0f1014;border-radius:18px;padding:18px;box-shadow:0 2px 6px rgba(15,16,20,.04),0 12px 28px rgba(15,16,20,.06);transition:transform .15s ease,box-shadow .15s ease}
+.score-card[data-kind="result"]{background:#fff;border-top-color:var(--red)}
+.score-card:hover{border-color:var(--red);transform:translateY(-2px);box-shadow:0 6px 14px rgba(15,16,20,.06),0 18px 38px rgba(15,16,20,.10)}
+.sc-label{color:var(--red-text);background:var(--red-tint)}
+.car-btn{width:40px;height:40px;box-shadow:0 4px 14px rgba(15,16,20,.16)}
+.car-btn:hover{border-color:var(--red);color:var(--red-text)}
+.car-btn.prev{left:-8px}
+.car-btn.next{right:-8px}
+.quick-links{border-top:1px solid #e5e5e5;padding:16px 0 2px}
+.quick-links a{color:#0f1014;font-weight:600}
+.quick-links a:hover{color:var(--red-text)}
+/* --- Today card --- */
+.today{border:1px solid #e9e9ec;border-left:4px solid var(--red);border-radius:20px;padding:24px;box-shadow:0 2px 6px rgba(15,16,20,.04),0 14px 32px rgba(15,16,20,.06)}
+.lead-head{font-size:36px}
+/* --- League tiles --- */
+.tiles{gap:20px}
+.tile{border:1px solid #e9e9ec;border-top:4px solid var(--league,#0860c4);border-radius:20px;padding:22px;box-shadow:0 2px 6px rgba(15,16,20,.04),0 12px 28px rgba(15,16,20,.06)}
+.tile:hover{border-color:var(--red);box-shadow:0 6px 14px rgba(15,16,20,.06),0 18px 38px rgba(15,16,20,.10)}
+.tile h3{font-size:22px}
+.tile .status{background:#0f1014}
+.tiles .tile:first-child .status{background:var(--red)}
+/* --- Tables --- */
+table{font-size:15px}
+thead th{background:#fff;color:#8a8f98;font-size:12px;letter-spacing:.08em;padding:12px 10px;border-bottom:1px solid #e5e5e5}
+th,td{padding:12px 10px;border-bottom:1px solid #f0f0f2}
+tbody tr:hover td{background:#fafafa}
+.t-pts td:nth-child(n+3),.t-pts th:nth-child(n+3){text-align:right}
+.t-dates td:nth-child(4),.t-dates th:nth-child(4){text-align:right}
+.t-nums td:nth-child(n+2),.t-nums th:nth-child(n+2){text-align:right}
+.t-mbm td:not(:last-child),.t-mbm th:not(:last-child){text-align:right}
+/* --- Sidebar --- */
+.home-side{padding-top:80px;border-top:1px solid #e5e5e5}
+.side-card{border:1px solid #e9e9ec;border-top:1px solid #e9e9ec;border-radius:20px;padding:20px;box-shadow:0 2px 6px rgba(15,16,20,.04),0 12px 28px rgba(15,16,20,.06)}
+.side-card h3{font-size:19px}
+.side-card li{border-bottom:1px solid #f0f0f2}
+.num-panel{background:#0f1014;border:1px solid #0f1014;border-radius:20px;box-shadow:0 2px 6px rgba(15,16,20,.04),0 14px 32px rgba(15,16,20,.10)}
+.num-big{font-size:48px}
+.num-cap{color:#b9bcc4}
+.num-dot[aria-pressed="true"]{background:var(--red)}
+/* --- Footer: black + outline watermark --- */
+footer{background:#0f1014;color:#b9bcc4;padding:64px 0 0;border-top:3px solid var(--red);overflow:hidden}
+.foot-h{font-size:13px;letter-spacing:.14em}
+.foot-cols a{color:#e8e8ea}
+.foot-cols a:hover{color:#fff}
+.foot-cols p{color:#9a9da8}
+footer .copy-strip{background:#0f1014;border-top:1px solid #222;padding:20px 0;margin-top:48px}
+footer .copy{color:#8a8f98}
+.footer-mark{font-size:clamp(96px,20vw,240px);font-weight:800;letter-spacing:.02em;line-height:.78;text-align:center;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.16);margin:48px 0 -.32em;user-select:none;pointer-events:none}
+/* --- Scroll reveal --- */
+html.js [data-reveal]{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
+html.js [data-reveal].in{opacity:1;transform:none}
+/* --- Mobile --- */
+@media (max-width:900px){
+  .hero,.hero-home{padding:72px 0 64px}
+  .hero h1,.hero-home h1{font-size:52px}
+  .record-band .wrap{grid-template-columns:repeat(2,1fr);gap:24px}
+  .rec b{font-size:40px}
+  .stat-cards{grid-template-columns:repeat(2,1fr)}
+  .ghost{display:none}
+  .tiles{grid-template-columns:repeat(2,1fr)}
+  .top-date{display:none}
+  main{padding-top:64px}
+  main section{padding-top:64px;margin-bottom:64px}
+  .home-side{padding-top:64px}
+}
+@media (max-width:640px){
+  body{font-size:15px}
+  .brand{font-size:24px}
+  .topbar-in{flex-wrap:nowrap;overflow-x:auto;gap:10px;padding:8px 10px 8px 18px;scrollbar-width:none}
+  .topbar-in::-webkit-scrollbar{display:none}
+  nav.leagues{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-left:auto}
+  nav.leagues::-webkit-scrollbar{display:none}
+  .head-cta{display:none}
+  .hero h1,.hero-home h1{font-size:40px}
+  .hero p:not(.crumbs):not(.updated):not(.eyebrow){font-size:17px}
+  .hero .eyebrow{font-size:13px}
+  .hero-chip{font-size:14px;padding:10px 16px}
+  .hero a.hero-cta{font-size:15px;padding:14px 24px}
+  main section h2,.home-main section h2{font-size:30px}
+  .lead-head{font-size:26px}
+  .tiles{grid-template-columns:1fr}
+  .rec b{font-size:36px}
+  .record-band{padding:48px 0}
+  .stat-card b{font-size:38px}
+  .car-btn{display:none}
+  .score-card{flex-basis:100%}
+  main{padding-top:56px}
+  main section{padding-top:56px;margin-bottom:56px}
+  .home-side{padding-top:56px}
+  .subnav .wrap{flex-wrap:wrap}
+}
+@media (prefers-reduced-motion:reduce){
+  html.js [data-reveal]{opacity:1;transform:none;transition:none}
+  .hero a.hero-cta,.score-card,.tile{transition:none}
+}
+</style>
+<style>
+/* ROLLOUT ADDITIONS (not in the D samples): Design A's ".hero a{color:#fff}"
+   rule would leave the hero-lead links on 55 pages invisible on D's white
+   hero, so non-CTA hero links go red here; crumbs stay muted (re-asserted
+   after, same specificity, later in the cascade). */
+.hero a:not(.hero-cta),.hero a:not(.hero-cta):visited{color:var(--red-text);text-decoration:underline}
+.hero .crumbs a,.hero .crumbs a:visited{color:var(--muted);text-decoration:none}
+/* Live-scores widget (NPL hub sidebar) ships its own scoped <style> AFTER
+   <head>, so this needs higher specificity to beat its blue link rule. */
+main .sialtv-live-widget a{color:var(--red-text)}
+</style>
 </head>
 
 <body class="league-npl">
@@ -224,62 +403,76 @@ main section.scores-sec{background:transparent;border:0;border-radius:0;padding:
         <a href="/bbl/">BBL</a>
         <a href="/psl/">PSL</a>
       </nav>
-      <span class="top-date">Tue 10 Nov 2026</span>
+      <span class="top-date">Tue 10 Nov 2026</span><a class="head-cta" href="/npl/live-scores/">Live scores</a>
     </div>
   </div>
+</header>
   <div class="subnav">
     <div class="wrap">
       <span><b>NEXT</b> &middot; NPL Match 25 &mdash; Janakpur Bolts vs Chitwan Rhinos</span>
       <span class="t-time">4:30 PM NST &middot; Fri 13 Nov 2026</span>
     </div>
   </div>
-</header>
 
 <section class="hero">
+  <span class="ghost" aria-hidden="true">72</span>
   <div class="wrap">
     <p class="crumbs"><a href="/">SialTV</a> / <a href="/npl/">Nepal Premier League</a> / <a href="/npl/teams/">NPL 2026 Teams</a> / Arjun Saud</p>
-    <h1>Arjun Saud — Chitwan Rhinos wicketkeeper, NPL 2026</h1>
+    <p class="eyebrow">NPL Season 3 · Chitwan Rhinos</p>
+    <h1><span class="accent">Arjun Saud</span> — Chitwan Rhinos wicketkeeper, NPL 2026</h1>
     <p>Arjun Saud is the quiet accumulator at the top of the <a href="/npl/teams/chitwan-rhinos/">Chitwan Rhinos</a> order — 72 runs in four games, more than any other player in the verified Rhinos squad, and the wicketkeeper the franchise retained rather than re-bought. His best, 31 against Pokhara, came in Chitwan&rsquo;s biggest win of the season.</p>
-    <p class="updated">Last updated: 10 November 2026</p>
+        <a class="hero-cta" href="/npl/teams/chitwan-rhinos/">See Chitwan’s squad <span aria-hidden="true">›</span></a>
+    <p class="updated">Last updated: 11 November 2026</p>
   </div>
 </section>
+<div class="wrap"><div class="stat-cards">
+  <div class="stat-card"><b data-count="72">72</b><span>Runs</span><i>in 4 matches</i></div>
+  <div class="stat-card"><b data-count="31">31</b><span>Best</span><i>highest score</i></div>
+  <div class="stat-card"><b data-count="98.63" data-decimals="2">98.63</b><span>Strike rate</span><i>runs per 100 balls</i></div>
+  <div class="stat-card"><b data-count="4">4</b><span>Matches</span><i>played in Season 3</i></div>
+</div></div>
 
 <main>
 <div class="wrap"><div class="home-grid"><div class="home-main">
 
-  <section id="details">
+  <section data-reveal id="details">
+      <p class="sec-eyebrow">01 — Player details</p>
       <h2>Player details</h2>
       <div class="table-scroll"><table><thead><tr><th>Field</th><th>Detail</th></tr></thead><tbody><tr><td>Full name</td><td>Arjun Saud</td></tr><tr><td>Birthplace</td><td>Dhangadi, Nepal</td></tr><tr><td>Country</td><td>Nepal</td></tr><tr><td>Playing role</td><td>Wicketkeeper</td></tr><tr><td>Batting style</td><td>Right-hand bat</td></tr><tr><td>NPL team (Season 3)</td><td>Chitwan Rhinos</td></tr><tr><td>Joined</td><td>Retained</td></tr></tbody></table></div>
   </section>
 
-  <section id="numbers">
+  <section data-reveal id="numbers">
+      <p class="sec-eyebrow">02 — Season 3 numbers</p>
       <h2>Season 3 numbers</h2>
                   <h3>Batting — Season 3</h3>
-      <div class="table-scroll"><table><thead><tr><th>Matches</th><th>Runs</th><th>Balls</th><th>4s</th><th>6s</th><th>Highest</th><th>Strike rate</th><th>Average</th></tr></thead><tbody><tr><td>4</td><td>72</td><td>73</td><td>7</td><td>2</td><td>31</td><td>98.63</td><td>18.00</td></tr></tbody></table>
+      <div class="table-scroll"><table class="t-nums"><thead><tr><th>Matches</th><th>Runs</th><th>Balls</th><th>4s</th><th>6s</th><th>Highest</th><th>Strike rate</th><th>Average</th></tr></thead><tbody><tr><td>4</td><td>72</td><td>73</td><td>7</td><td>2</td><td>31</td><td>98.63</td><td>18.00</td></tr></tbody></table>
       <div class="note">Season 3 numbers below cover the league through Match 21 (10 November 2026). Chitwan&rsquo;s last game was Match 20, on 9 November.</div></div>
       <p>Four innings, four starts: 3 against Biratnagar in Match 2, 15 against the Royals in Match 11, 31 against Pokhara in Match 17 and 23 against Kathmandu in Match 20. No fifty yet, no failure either — just a wicketkeeper-batter doing his job at the top of the order while the big names around him take the headlines. Every Chitwan result so far is on the <a href="/npl/results/">NPL Results</a> page.</p>
       <p>The 31 against Pokhara was the most valuable of the four. Chitwan made 151 for 6 and won by 30 runs; Saud&rsquo;s 27-ball innings, with two fours and a six, gave the total its spine while Sikandar Raza provided the late fireworks. The 23 against Kathmandu came in a losing cause — 170 for 7 chasing 180 — but it was the second-highest score in the innings.</p>
   </section>
 
-  <section id="keeping">
+  <section data-reveal id="keeping">
+      <p class="sec-eyebrow">03 — The keeper&rsquo;s job</p>
       <h2>The keeper&rsquo;s job</h2>
       <p>Saud&rsquo;s value is two disciplines in one selection. Behind the stumps he keeps to an attack that asks a lot of its keeper: the seam of Rijan Dhakal and Kamal Singh Airee at pace, then the turn of Sikandar Raza&rsquo;s off-spin and Kushal Malla&rsquo;s slow left-arm orthodox. Standing back and then up, reading two completely different bowling styles in the same innings, is the hidden work of the role — a missed stumping off Raza costs the same as a dropped catch off the quicks.</p>
       <p>With the bat, his game is accumulation rather than explosion: a strike rate of 98.63 across the season, seven fours and two sixes in 73 balls. In a side whose overseas names provide the power, the keeper&rsquo;s steadiness at the top is what lets the hitters bat around him.</p>
   </section>
 
-  <section id="retention">
+  <section data-reveal id="retention">
+      <p class="sec-eyebrow">04 — The retention call</p>
       <h2>The retention call</h2>
       <p>Saud is one of only seven local players the Rhinos protected through retention rather than the auction — a domestic player the franchise kept out of the July pool entirely. Retention after a two-win Season 2 is a sterner test than it sounds: the post-season review had every reason to clear the decks, and it kept Saud anyway. That call followed months of domestic-cricket scouting, which means his value was measured over a season of league conditions rather than a single highlight.</p>
       <p>With no auction price attached, his worth is expressed entirely in continuity — the Rhinos chose not to re-buy what they already trusted. He is now into his second campaign in Rhinos colours, and the 72 runs so far are the early return on that trust.</p>
   </section>
 
-  <section id="runin">
+  <section data-reveal id="runin">
+      <p class="sec-eyebrow">05 — Chitwan&rsquo;s run-in</p>
       <h2>Chitwan&rsquo;s run-in</h2>
       <p>Chitwan are fourth after Match 21, with five points from five games and a net run rate of +0.009. The full table is on the <a href="/npl/points-table/">NPL Points Table</a>, and the remaining fixtures are on the <a href="/npl/schedule/">NPL Schedule</a>. Two league games are left: Janakpur Bolts on Friday 13 November and Karnali Yaks on Sunday 15 November. Win both and the Rhinos reach nine points — enough to guarantee a playoff place.</p>
       <p>For Saud, the run-in is a chance to turn four starts into a match-winning innings. A fifty in either game would be his first of the season — and, given how tight the playoff race is, it could be the innings that takes Chitwan through. Every Chitwan result is on the <a href="/npl/">Nepal Premier League</a> hub — follow it all on <a href="/">SialTV</a>.</p>
   </section>
 
-  <section class="faq" id="faq">
+  <section data-reveal class="faq" id="faq">
       <h2>Frequently asked questions</h2>
       <h3>What is Arjun Saud&rsquo;s role at Chitwan Rhinos?</h3>
       <p>Wicketkeeper-batter. He keeps wicket and bats at the top of the order, and he was retained by the franchise rather than bought at auction.</p>
@@ -290,7 +483,7 @@ main section.scores-sec{background:transparent;border:0;border-radius:0;padding:
   </section>
 </div>
 <aside class="home-side" aria-label="Sidebar">
-      <div class="side-card">
+      <div class="side-card" data-reveal>
         <h3>Coming up</h3>
         <ul>
           <li><b>Match 25: Janakpur Bolts vs Chitwan Rhinos</b><span>Fri 13 Nov, 4:30 PM NST &middot; Kirtipur</span></li>
@@ -300,7 +493,7 @@ main section.scores-sec{background:transparent;border:0;border-radius:0;padding:
         </ul>
         <p style="margin:10px 0 0"><a href="/npl/schedule/">Full schedule &rsaquo;</a></p>
       </div>
-      <div class="side-card">
+      <div class="side-card" data-reveal>
         <h3>On this page</h3>
         <ul>
           <li><a href="#details">Player details</a></li>
@@ -311,14 +504,14 @@ main section.scores-sec{background:transparent;border:0;border-radius:0;padding:
           <li><a href="#faq">Frequently asked questions</a></li>
         </ul>
       </div>
-      <div class="side-card">
+      <div class="side-card" data-reveal>
         <h3>Chitwan Rhinos</h3>
         <ul>
           <li><a href="/npl/teams/chitwan-rhinos/">Chitwan Rhinos</a><span>Squad, results, standings and the playoff maths.</span></li>
           <li><a href="/npl/">Nepal Premier League</a><span>Schedule, points table, results and all eight squads.</span></li>
         </ul>
       </div>
-      <div class="side-card">
+      <div class="side-card" data-reveal>
         <h3>Full NPL coverage</h3>
         <ul>
           <li><a href="/npl/schedule/">NPL Schedule</a><span>Every fixture, date and result.</span></li>
@@ -354,11 +547,47 @@ main section.scores-sec{background:transparent;border:0;border-radius:0;padding:
         <p class="foot-h">Write to us</p>
         <p><a href="mailto:contact@sialtv.com">contact@sialtv.com</a></p>
         <p>Corrections, missing fixtures and new leagues — tell us and it will be checked.</p>
-        <p>Last updated: 10 November 2026</p>
+        <p>Last updated: 11 November 2026</p>
       </div>
     </div>
   </div>
   <div class="copy-strip"><div class="wrap"><p class="copy">© 2026 SialTV</p></div></div>
+  <div class="footer-mark" aria-hidden="true">SIALTV</div>
 </footer>
+<script>
+/* Direction D: scroll-reveal + count-up. Progressive enhancement: without
+   JS nothing is hidden (the .js class gates the hidden state); with
+   prefers-reduced-motion everything is shown instantly, no animation. */
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.documentElement.classList.add('js');
+  if (reduce) { return; }
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, {threshold: .12});
+  document.querySelectorAll('[data-reveal]').forEach(function(el){ io.observe(el); });
+  var cio = new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if (!e.isIntersecting) { return; }
+      cio.unobserve(e.target);
+      var el = e.target, end = parseFloat(el.getAttribute('data-count')),
+          dec = parseInt(el.getAttribute('data-decimals') || '0', 10),
+          t0 = null, dur = 900;
+      function step(ts){
+        if (!t0) { t0 = ts; }
+        var p = Math.min(1, (ts - t0) / dur),
+            v = end * (1 - Math.pow(1 - p, 3));
+        el.textContent = dec ? v.toFixed(dec) : Math.round(v);
+        if (p < 1) { requestAnimationFrame(step); }
+        else { el.textContent = dec ? end.toFixed(dec) : end; }
+      }
+      requestAnimationFrame(step);
+    });
+  }, {threshold: .4});
+  document.querySelectorAll('[data-count]').forEach(function(el){ cio.observe(el); });
+})();
+</script>
 </body>
 </html>
