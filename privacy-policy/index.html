@@ -10,45 +10,125 @@
 <meta property="og:title" content="Privacy Policy — SialTV Cricket Leagues">
 <meta property="og:description" content="SialTV privacy policy: what the site collects, how analytics and advertising work, and how to contact us about your data.">
 <meta property="og:url" content="https://sialtv.com/privacy-policy/">
-<meta name="theme-color" content="#0b1f3a">
+<meta name="theme-color" content="#f6f2e9">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","name":"Privacy Policy — SialTV","url":"https://sialtv.com/privacy-policy/","description":"SialTV privacy policy: what the site collects, how analytics and advertising work, and how to contact us about your data.","datePublished":"2026-11-10T06:49:00Z","dateModified":"2026-11-10T06:49:00Z"}
+{"@context":"https://schema.org","@type":"WebPage","name":"Privacy Policy — SialTV","url":"https://sialtv.com/privacy-policy/","description":"SialTV privacy policy: what the site collects, how analytics and advertising work, and how to contact us about your data.","datePublished":"2026-11-10T08:33:00Z","dateModified":"2026-11-10T06:49:00Z"}
 </script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"SialTV","item":"https://sialtv.com/"},{"@type":"ListItem","position":2,"name":"Privacy Policy","item":"https://sialtv.com/privacy-policy/"}]}
 </script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@700&family=Spectral:ital,wght@0,400;0,500;1,400&family=Libre+Franklin:wght@500&display=swap" rel="stylesheet">
 <style>
-:root{--navy:#0b1f3a;--ink:#16181d;--muted:#5b6470;--paper:#ffffff;--soft:#f2f4f7;--line:#dfe3e8}
+/* SialTV design system — newsprint material (Hallmark "newsprint" theme, adapted).
+   Pale newsprint stock, warm black ink, Zilla Slab heads over a Spectral body,
+   Libre Franklin agate for listed figures. Rules, never boxes: radius 0, no shadow.
+   League accents are DRAFT placeholders (official hex TBC per league). */
+:root{--paper:#f6f2e9;--paper-2:#efe9da;--ink:#211d18;--ink-2:#3a352d;--muted:#6f675a;--rule:#cfc7b4;--rule-2:#2c2822;--accent:#9c3a26;--focus:#9c3a26}
+body.league-npl{--accent:#1b6b3a}body.league-ilt20{--accent:#8a6d00}body.league-apl{--accent:#0e1038}body.league-sa20{--accent:#0a4d8c}body.league-bbl{--accent:#15803d}body.league-psl{--accent:#14532d}
 *{box-sizing:border-box}
-body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:var(--ink);background:var(--paper);font-size:17px;line-height:1.6}
-a{color:#0b5cad}
-header{border-bottom:1px solid var(--line)}
+html{scroll-behavior:auto}
+body{margin:0;font-family:"Spectral",ui-serif,Georgia,serif;color:var(--ink);background:var(--paper);font-size:17px;line-height:1.55}
+a{color:var(--accent);text-decoration:underline;text-underline-offset:.16em}
+a:hover{text-decoration-thickness:2px}
+a:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+::selection{background:rgba(156,58,38,.2)}
 .wrap{max-width:1060px;margin:0 auto;padding:0 20px}
-.nav{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 0}
-.brand{font-size:26px;font-weight:800;letter-spacing:-.02em;color:var(--navy);text-decoration:none}
-.brand span{color:#0e7a4d}
-.nav nav a{margin-left:18px;text-decoration:none;color:var(--ink);font-weight:600}
-.hero{background:var(--navy);color:#fff;padding:40px 0 34px}
-.hero h1{font-size:36px;line-height:1.15;margin:0 0 12px;letter-spacing:-.02em}
-.hero p{font-size:19px;color:#d5dbe8;margin:0 0 12px;max-width:780px}
-.hero .updated{color:#9fb0d8;font-size:15px}
-main section{padding:32px 0;border-bottom:1px solid var(--line)}
-h2{font-size:26px;line-height:1.25;margin:0 0 14px;letter-spacing:-.01em}
+h1,h2,h3{font-family:"Zilla Slab",ui-serif,Georgia,serif;font-weight:700;letter-spacing:-.02em;line-height:1.08}
+h1{font-size:38px}h2{font-size:27px;margin:0 0 14px}h3{font-size:20px}
+p{margin:0 0 12px}
+.rule-double{height:3px;border-top:1px solid var(--rule-2);border-bottom:1px solid var(--rule-2);margin:0}
+/* Masthead */
+header{padding-top:18px}
+.mastrow{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-bottom:10px}
+.brand{font-family:"Zilla Slab",ui-serif,Georgia,serif;font-size:38px;font-weight:700;letter-spacing:-.02em;line-height:1;color:var(--ink);text-decoration:none}
+.brand span{color:var(--accent)}
+.dateline{font-family:"Libre Franklin",ui-sans-serif,sans-serif;font-size:14px;font-weight:500;color:var(--muted);margin:0}
+nav.leagues{display:flex;flex-wrap:wrap;gap:0;padding:10px 0;border-bottom:1px solid var(--rule)}
+nav.leagues a{font-family:"Zilla Slab",ui-serif,Georgia,serif;font-size:18px;font-weight:700;color:var(--ink);text-decoration:none;padding:0 14px;border-left:1px solid var(--rule)}
+nav.leagues a:first-child{padding-left:0;border-left:0}
+nav.leagues a:hover{color:var(--accent);text-decoration:underline}
+.live-mark{display:inline-block;width:9px;height:9px;background:var(--accent);margin-right:6px}
+.live-tag{font-family:"Libre Franklin",ui-sans-serif,sans-serif;font-size:12px;font-weight:500;color:var(--accent);text-transform:uppercase;letter-spacing:.06em;margin-left:4px}
+/* Hero — hub pages: ink band. Homepage: paper with double rule. */
+.hero{background:var(--ink);color:var(--paper);padding:38px 0 32px}
+.hero h1{color:var(--paper);margin:0 0 12px}
+.hero p{color:#ddd6c6;font-size:19px;max-width:780px}
+.hero .updated{color:#a89f8a;font-size:15px}
+.hero .crumbs{font-size:15px;color:#a89f8a}
+.hero .crumbs a{color:#a89f8a}
+.hero-home{background:var(--paper);color:var(--ink);padding:34px 0 30px;border-bottom:1px solid var(--rule)}
+.hero-home h1{color:var(--ink);font-size:44px}
+.hero-home p{color:var(--ink-2);font-size:20px}
+.hero-home .updated{color:var(--muted);font-size:15px}
+.crumbs{font-size:15px;color:var(--muted);padding:0;margin:0 0 10px}
+.crumbs a{color:var(--muted)}
+main section{padding:32px 0;border-bottom:1px solid var(--rule)}
 p.lead{font-size:18px;margin:0 0 16px}
-footer{background:var(--soft);padding:30px 0;color:var(--muted);font-size:15px}
-footer a{color:var(--ink)}
-@media (max-width:640px){.hero h1{font-size:30px}body{font-size:16px}.nav nav a{margin-left:12px}}
+.today{background:var(--paper-2);border-top:1px solid var(--rule-2);border-bottom:1px solid var(--rule-2);padding:18px 20px}
+.today strong{font-family:"Zilla Slab",ui-serif,Georgia,serif;font-size:20px}
+.today p{margin:0 0 8px}
+.today p:last-child{margin:0}
+/* League index — ruled rows, agate figures at the right edge */
+.index{border-top:1px solid var(--rule-2)}
+.index-row{display:grid;grid-template-columns:1fr auto;gap:4px 20px;align-items:baseline;padding:16px 12px 16px 16px;border-bottom:1px solid var(--rule);border-left:3px solid var(--league,#9c3a26);color:var(--ink);text-decoration:none}
+.index-row:hover{background:var(--paper-2)}
+.index-row h3{margin:0;font-size:22px}
+.index-row:hover h3{text-decoration:underline;text-underline-offset:.16em}
+.index-row .meta{grid-column:1;color:var(--muted);font-size:16px}
+.index-row .status{grid-column:2;grid-row:1;font-family:"Libre Franklin",ui-sans-serif,sans-serif;font-size:14px;font-weight:500;color:var(--accent);text-align:right;white-space:nowrap}
+/* Tables — agate figures, double rule under the head */
+table{width:100%;border-collapse:collapse;font-size:16px}
+th,td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--rule)}
+thead th{font-family:"Libre Franklin",ui-sans-serif,sans-serif;font-size:13px;font-weight:500;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);border-bottom:2px solid var(--rule-2)}
+td{font-family:"Libre Franklin",ui-sans-serif,sans-serif;font-weight:500;font-variant-numeric:tabular-nums}
+td:first-child,th:first-child{padding-left:0}
+.table-scroll{overflow-x:auto}
+.teams{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:0}
+.team{border-top:1px solid var(--rule);padding:14px 16px 14px 0}
+.team b{font-family:"Zilla Slab",ui-serif,Georgia,serif;font-size:19px}
+.team p{margin:4px 0 0;color:var(--muted);font-size:16px}
+.faq h3{margin:18px 0 6px}
+.faq p{margin:0 0 10px}
+.note{font-size:15px;color:var(--muted)}
+/* Footer */
+footer{padding:26px 0 34px;color:var(--muted);font-size:15px}
+.foot-cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px;padding:22px 0 8px}
+.foot-h{font-family:"Zilla Slab",ui-serif,Georgia,serif;font-size:18px;font-weight:700;color:var(--ink);margin:0 0 8px}
+.foot-cols p{margin:0 0 6px}
+.foot-cols a{color:var(--ink)}
+footer .disclaimer{border-top:1px solid var(--rule);padding-top:16px;margin:14px 0 6px}
+footer .copy{margin:0}
+@media (max-width:640px){
+  body{font-size:16px}
+  .brand{font-size:30px}
+  .dateline{font-size:13px}
+  nav.leagues a{font-size:16px;padding:0 10px}
+  .hero h1,.hero-home h1{font-size:30px}
+  .hero p,.hero-home p{font-size:17px}
+  .index-row{grid-template-columns:1fr}
+  .index-row .status{grid-column:1;grid-row:2;text-align:left}
+  .foot-cols{gap:16px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head>
 <body>
 <header>
-  <div class="wrap nav">
-    <a class="brand" href="/">Sial<span>TV</span></a>
-    <nav aria-label="Leagues">
-      <a href="/npl/">NPL</a>
+  <div class="wrap masthead">
+    <div class="mastrow">
+      <a class="brand" href="/">Sial<span>TV</span></a>
+      <p class="dateline">Tuesday, 10 November 2026 · Independent cricket coverage</p>
+    </div>
+    <div class="rule-double" aria-hidden="true"></div>
+    <nav class="leagues" aria-label="Leagues">
+      <a href="/npl/"><span class="live-mark" aria-hidden="true"></span>NPL <span class="live-tag">Live</span></a>
       <a href="/ilt20/">ILT20</a>
       <a href="/apl/">APL</a>
       <a href="/sa20/">SA20</a>
+      <a href="/bbl/">BBL</a>
+      <a href="/psl/">PSL</a>
     </nav>
   </div>
 </header>
@@ -76,9 +156,34 @@ footer a{color:var(--ink)}
 </main>
 <footer>
   <div class="wrap">
-    <p><a href="/">SialTV</a> · <a href="/about/">About</a> · <a href="/contact/">Contact Us</a> · <a href="/privacy-policy/">Privacy Policy</a> · <a href="/disclaimer/">Disclaimer</a> · <a href="/terms-and-conditions/">Terms and Conditions</a></p>
-    <p>This is an independent informational website. It is not affiliated with or endorsed by any league, club, board or federation.</p>
-    <p>Last updated: 10 November 2026</p>
+    <div class="rule-double" aria-hidden="true"></div>
+    <div class="foot-cols">
+      <div>
+        <p class="foot-h">Leagues</p>
+        <p><a href="/npl/">Nepal Premier League</a></p>
+        <p><a href="/ilt20/">ILT20</a></p>
+        <p><a href="/apl/">Afghanistan Premier League</a></p>
+        <p><a href="/sa20/">SA20</a></p>
+        <p><a href="/bbl/">Big Bash League</a></p>
+        <p><a href="/psl/">Pakistan Super League</a></p>
+      </div>
+      <div>
+        <p class="foot-h">SialTV</p>
+        <p><a href="/about/">About</a></p>
+        <p><a href="/contact/">Contact Us</a></p>
+        <p><a href="/privacy-policy/">Privacy Policy</a></p>
+        <p><a href="/disclaimer/">Disclaimer</a></p>
+        <p><a href="/terms-and-conditions/">Terms and Conditions</a></p>
+      </div>
+      <div>
+        <p class="foot-h">Write to us</p>
+        <p><a href="mailto:contact@sialtv.com">contact@sialtv.com</a></p>
+        <p>Corrections, missing fixtures and new leagues — tell us and it will be checked.</p>
+        <p>Last updated: 10 November 2026</p>
+      </div>
+    </div>
+    <p class="disclaimer">This is an independent informational website. It is not affiliated with or endorsed by any league, club, board or federation.</p>
+    <p class="copy">© 2026 SialTV</p>
   </div>
 </footer>
 </body>
