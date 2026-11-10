@@ -15,7 +15,6 @@
       "abbr2": "JAB",
       "status": "result",
       "statusText": "Sudurpaschim Royals won by 27 runs",
-      "toss": "Janakpur Bolts won the toss and chose to bowl",
       "score1": "120/9",
       "score2": "93",
       "overs1": "20",
@@ -31,16 +30,16 @@
             "overs": "20",
             "batting": [
               {
-                "name": "Scott Kuggeleijn",
-                "runs": 36,
-                "balls": 29
+                "name": "Brandon McMullen",
+                "runs": 33,
+                "balls": 23
               }
             ],
             "bowling": [
               {
                 "name": "Harmeet Singh",
                 "wickets": 4,
-                "runs": 21,
+                "runs": 17,
                 "overs": "4"
               }
             ]
@@ -51,22 +50,16 @@
             "overs": "19.5",
             "batting": [
               {
-                "name": "Ben McDermott",
-                "runs": 33,
-                "balls": 38
+                "name": "Trit Raj Das",
+                "runs": 21,
+                "balls": 29
               }
             ],
             "bowling": [
               {
-                "name": "Lalit Rajbanshi",
-                "wickets": 3,
-                "runs": 13,
-                "overs": "3.5"
-              },
-              {
                 "name": "Scott Kuggeleijn",
                 "wickets": 3,
-                "runs": 17,
+                "runs": 13,
                 "overs": "4"
               }
             ]
