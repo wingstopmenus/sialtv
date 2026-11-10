@@ -15,7 +15,7 @@
 <meta name="twitter:description" content="PSL 2027 schedule, teams and points table — HBL PSL 12, 18 Mar–2 May 2027, 8 teams, 44 matches. Auction, final in Lahore and where to watch.">
 <meta name="theme-color" content="#0860c4">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","name":"PSL 2027 — Schedule, Teams & Points Table","url":"https://sialtv.com/psl/","description":"PSL 2027 schedule, teams and points table — HBL PSL 12, 18 Mar–2 May 2027, 8 teams, 44 matches.","datePublished":"2026-11-10T08:27:00Z","dateModified":"2026-11-10T08:39:00Z"}
+{"@context":"https://schema.org","@type":"WebPage","name":"PSL 2027 — Schedule, Teams & Points Table","url":"https://sialtv.com/psl/","description":"PSL 2027 schedule, teams and points table — HBL PSL 12, 18 Mar–2 May 2027, 8 teams, 44 matches.","datePublished":"2026-11-10T08:27:00Z","dateModified":"2026-11-10T09:07:00Z"}
 </script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"SialTV","item":"https://sialtv.com/"},{"@type":"ListItem","position":2,"name":"Pakistan Super League","item":"https://sialtv.com/psl/"}]}
@@ -130,6 +130,72 @@ footer .copy{margin:0;color:#8fa1b0}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
+<style>
+/* Homepage-only extras — ESPNcricinfo structure (v3 tokens). */
+.topbar{position:sticky;top:0;z-index:50}
+main section.scores-sec{background:transparent;border:0;border-radius:0;padding:0 0 4px;box-shadow:none;margin-bottom:8px}
+.pills{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.pill{font-family:"Archivo",ui-sans-serif,sans-serif;font-size:13px;font-weight:700;color:var(--ink);background:#fff;border:1px solid var(--rule-2);border-radius:999px;padding:7px 14px;cursor:pointer}
+.pill:hover{border-color:var(--blue)}
+.pill[aria-pressed="true"]{background:#eef1f3;border-color:var(--ink);color:var(--ink)}
+.carousel-wrap{position:relative}
+.carousel{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding:2px 2px 8px;scrollbar-width:thin}
+.carousel::-webkit-scrollbar{height:6px}
+.carousel::-webkit-scrollbar-thumb{background:var(--rule-2);border-radius:3px}
+.score-card{flex:0 0 287px;scroll-snap-align:start;background:var(--card);border:1px solid var(--rule);border-radius:8px;padding:12px 14px;color:var(--ink);text-decoration:none;display:block}
+.score-card:hover{border-color:var(--blue);text-decoration:none}
+.score-card[hidden]{display:none}
+.sc-label{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--red)}
+.sc-label.upcoming{color:var(--muted)}
+.sc-match{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.sc-row{display:flex;justify-content:space-between;gap:8px;font-size:14px;padding:2px 0}
+.sc-row .sc-team{font-weight:700}
+.sc-row .sc-score{font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+.sc-row.loser .sc-team,.sc-row.loser .sc-score{font-weight:400;color:var(--muted)}
+.sc-result{font-size:13px;color:var(--blue);margin:8px 0 0;font-weight:500}
+.sc-result.upcoming{color:var(--muted)}
+.car-btn{position:absolute;top:50%;transform:translateY(-50%);width:36px;height:36px;border-radius:50%;background:#fff;border:1px solid var(--rule-2);color:var(--ink);font-size:18px;font-weight:700;cursor:pointer;box-shadow:0 1px 4px rgba(15,16,20,.15);display:flex;align-items:center;justify-content:center}
+.car-btn:hover{border-color:var(--blue);color:var(--blue)}
+.car-btn.prev{left:-12px}
+.car-btn.next{right:-12px}
+.car-btn[disabled]{opacity:.35;cursor:default}
+.quick-links{display:flex;flex-wrap:wrap;gap:4px 18px;font-size:14px;padding:10px 0 2px;border-top:1px solid var(--rule)}
+.quick-links a{color:var(--ink);font-weight:500}
+.quick-links a:hover{color:var(--blue)}
+/* Lead story */
+.lead-kicker{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:0 0 6px}
+.lead-kicker .live-dot{margin-right:6px}
+.lead-head{font-size:30px;margin:0 0 8px}
+.lead-score{font-size:16px;color:var(--ink-2);margin:0 0 8px}
+.lead-stand{font-size:15px;color:var(--muted);margin:0 0 10px}
+.lead-links{font-size:15px;margin:0}
+.lead-links a{font-weight:700}
+/* Two-column body */
+.home-grid{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:32px;align-items:start}
+.home-main{min-width:0}
+.home-main section h2{font-size:20px}
+.see-all{float:right;font-size:14px;font-weight:700}
+.home-side{min-width:0}
+.side-card{background:var(--card);border:1px solid var(--rule);border-radius:10px;padding:16px 18px;margin-bottom:20px;box-shadow:0 1px 3px rgba(15,16,20,.05)}
+.side-card h3{font-size:18px;margin:0 0 10px}
+.side-card ul{margin:0;padding:0;list-style:none}
+.side-card li{padding:8px 0;border-bottom:1px solid var(--rule);font-size:14px}
+.side-card li:last-child{border-bottom:0}
+.side-card li b{font-weight:700}
+.side-card li span{color:var(--muted);display:block;font-size:13px}
+.num-panel{background:#eaf1f8;border:1px solid #d5e3f0;border-radius:10px;padding:18px;text-align:center;margin-bottom:20px}
+.num-panel h3{font-size:16px;margin:0 0 10px;text-align:left}
+.num-big{font-size:40px;font-weight:800;color:var(--blue);line-height:1;margin:4px 0 8px}
+.num-cap{font-size:14px;color:var(--ink-2);margin:0 0 12px;min-height:42px}
+.num-nav{display:flex;align-items:center;justify-content:center;gap:12px}
+.num-arrow{width:30px;height:30px;border-radius:50%;background:#fff;border:1px solid var(--rule-2);cursor:pointer;font-size:15px;font-weight:700;color:var(--ink)}
+.num-arrow:hover{border-color:var(--blue);color:var(--blue)}
+.num-dots{display:flex;gap:6px}
+.num-dot{width:9px;height:9px;border-radius:50%;background:#c6cdd3;border:0;cursor:pointer;padding:0}
+.num-dot[aria-pressed="true"]{background:var(--blue)}
+@media (max-width:900px){.home-grid{grid-template-columns:1fr}.score-card{flex-basis:260px}}
+@media (max-width:640px){.lead-head{font-size:24px}.car-btn.prev{left:2px}.car-btn.next{right:2px}.num-big{font-size:34px}}
+</style>
 </head>
 <body class="league-psl">
 <header>
@@ -165,34 +231,32 @@ footer .copy{margin:0;color:#8fa1b0}
 </section>
 
 <main>
-  <section>
+  <section id="lead">
     <div class="wrap">
-      <h2>Key dates</h2>
+      <h2>Season opener</h2>
       <div class="today">
-        <p><strong>Tournament: 18 March – 2 May 2027</strong><br>
-        Player auction: 23 January 2027<br>
-        Final: 2 May 2027, Gaddafi Stadium, Lahore</p>
-        <p>Direct signings opened on 23 October 2026 and close on 23 November 2026. Each franchise can directly sign one marquee player who did not feature in PSL 10 or PSL 11. The retentions window ends on 13 January 2027.</p>
+        <p class="lead-kicker">Key dates &middot; HBL PSL 12</p>
+        <h3 class="lead-head">PSL 2027: 18 March &ndash; 2 May 2027</h3>
+        <p class="lead-score">Player auction: Saturday 23 January 2027 &middot; Final: Sunday 2 May 2027, Gaddafi Stadium, Lahore</p>
+        <p class="lead-stand">Direct signings opened on 23 October 2026 and close on 23 November 2026. Each franchise can directly sign one marquee player who did not feature in PSL 10 or PSL 11. The retentions window ends on 13 January 2027.</p>
+        <p class="lead-links"><a href="#schedule">PSL schedule</a> &middot; <a href="#teams">PSL teams</a> &middot; <a href="#where-to-watch">Where to watch</a></p>
       </div>
     </div>
   </section>
+<div class="wrap"><div class="home-grid"><div class="home-main">
 
-  <section>
-    <div class="wrap">
+
+  <section id="points-table">
       <h2>PSL 2027 points table</h2>
       <p class="lead">The season has not started yet, so there is no points table for PSL 12. The table will appear here after the first match on 18 March 2027, and will be updated after every match day. The top four teams qualify for the playoffs.</p>
-    </div>
   </section>
 
-  <section>
-    <div class="wrap">
+  <section id="schedule">
       <h2>PSL 2027 schedule</h2>
       <p class="lead">The PCB has confirmed the tournament window, the auction date and the final, but the full fixture list — match by match, with dates, times and venues — has not been published yet. It will be added here as soon as the PCB releases it. The tournament features 40 league matches and four playoff matches, played across five to six venues in Pakistan.</p>
-    </div>
   </section>
 
-  <section>
-    <div class="wrap">
+  <section id="teams">
       <h2>The eight teams</h2>
       <div class="teams">
         <div class="team"><b>Islamabad United</b><p>One of the six founding PSL franchises.</p></div>
@@ -204,18 +268,14 @@ footer .copy{margin:0;color:#8fa1b0}
         <div class="team"><b>Hyderabad Kingsmen</b><p>New franchise for PSL 12 — the league expands from six teams to eight.</p></div>
         <div class="team"><b>Eighth team</b><p>To be announced — the second new franchise for PSL 12 has not been named yet.</p></div>
       </div>
-    </div>
   </section>
 
-  <section>
-    <div class="wrap">
+  <section id="where-to-watch">
       <h2>Where to watch the PSL</h2>
       <p class="lead">Watch the Pakistan Super League only through its official broadcasters. SialTV never links to pirated streams. The broadcaster list for PSL 2027 has not been confirmed yet — it will be added here once the PCB announces it. Walee Technologies holds the PSL media rights until 2029.</p>
-    </div>
   </section>
 
-  <section class="faq">
-    <div class="wrap">
+  <section class="faq" id="faq">
       <h2>Frequently asked questions</h2>
       <h3>When does PSL 2027 start?</h3>
       <p>HBL PSL 12 starts on Thursday 18 March 2027 and ends with the final on Sunday 2 May 2027 at Gaddafi Stadium in Lahore.</p>
@@ -227,8 +287,37 @@ footer .copy{margin:0;color:#8fa1b0}
       <p>The March–May window was finalised by the PSL Governing Council in London on 1 September 2026. It overlaps with IPL 2027 for the third straight year, after Ramadan ends in early March.</p>
       <h3>Where can I see the full PSL schedule and every scorecard?</h3>
       <p>On the official PSL site (psl-t20.com) and the PCB's channels, which carry the complete fixture list with start times, squads and news for PSL 12.</p>
-    </div>
   </section>
+</div>
+<aside class="home-side" aria-label="Sidebar">
+      <div class="side-card">
+        <h3>Coming up</h3>
+        <ul>
+          <li><b>Player auction</b><span>Sat 23 Jan 2027</span></li>
+          <li><b>Season starts</b><span>Thu 18 Mar 2027</span></li>
+          <li><b>Final</b><span>Sun 2 May 2027 &middot; Gaddafi Stadium, Lahore</span></li>
+        </ul>
+      </div>
+      <div class="side-card">
+        <h3>Key numbers</h3>
+        <ul>
+          <li><b>44</b> matches<span>40 league + 4 playoffs</span></li>
+          <li><b>8</b> teams<span>Including new Hyderabad Kingsmen; 8th team to be announced</span></li>
+          <li><b>5&ndash;6</b> venues<span>Final in Lahore</span></li>
+        </ul>
+      </div>
+      <div class="side-card">
+        <h3>On this page</h3>
+        <ul>
+          <li><a href="#lead">Key dates</a></li>
+          <li><a href="#points-table">Points table</a></li>
+          <li><a href="#schedule">Schedule</a></li>
+          <li><a href="#teams">Teams</a></li>
+          <li><a href="#where-to-watch">Where to watch</a></li>
+        </ul>
+      </div>
+    </aside>
+</div></div>
 </main>
 
 <footer>

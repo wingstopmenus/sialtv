@@ -15,7 +15,7 @@
 <meta name="twitter:description" content="ILT20 Season 5 schedule, teams and points table — 6 teams, 34 matches in Dubai, Sharjah and Abu Dhabi, 21 Nov–20 Dec 2026. Opener, venues and where to watch.">
 <meta name="theme-color" content="#0860c4">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","name":"ILT20 Season 5 — Schedule, Teams & Points Table","url":"https://sialtv.com/ilt20/","description":"ILT20 Season 5 schedule, teams and points table — 6 teams, 34 matches in Dubai, Sharjah and Abu Dhabi, 21 Nov–20 Dec 2026.","datePublished":"2026-11-10T08:19:00Z","dateModified":"2026-11-10T08:35:00Z"}
+{"@context":"https://schema.org","@type":"WebPage","name":"ILT20 Season 5 — Schedule, Teams & Points Table","url":"https://sialtv.com/ilt20/","description":"ILT20 Season 5 schedule, teams and points table — 6 teams, 34 matches in Dubai, Sharjah and Abu Dhabi, 21 Nov–20 Dec 2026.","datePublished":"2026-11-10T08:19:00Z","dateModified":"2026-11-10T09:03:00Z"}
 </script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"SialTV","item":"https://sialtv.com/"},{"@type":"ListItem","position":2,"name":"ILT20","item":"https://sialtv.com/ilt20/"}]}
@@ -130,6 +130,72 @@ footer .copy{margin:0;color:#8fa1b0}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
+<style>
+/* Homepage-only extras — ESPNcricinfo structure (v3 tokens). */
+.topbar{position:sticky;top:0;z-index:50}
+main section.scores-sec{background:transparent;border:0;border-radius:0;padding:0 0 4px;box-shadow:none;margin-bottom:8px}
+.pills{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.pill{font-family:"Archivo",ui-sans-serif,sans-serif;font-size:13px;font-weight:700;color:var(--ink);background:#fff;border:1px solid var(--rule-2);border-radius:999px;padding:7px 14px;cursor:pointer}
+.pill:hover{border-color:var(--blue)}
+.pill[aria-pressed="true"]{background:#eef1f3;border-color:var(--ink);color:var(--ink)}
+.carousel-wrap{position:relative}
+.carousel{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding:2px 2px 8px;scrollbar-width:thin}
+.carousel::-webkit-scrollbar{height:6px}
+.carousel::-webkit-scrollbar-thumb{background:var(--rule-2);border-radius:3px}
+.score-card{flex:0 0 287px;scroll-snap-align:start;background:var(--card);border:1px solid var(--rule);border-radius:8px;padding:12px 14px;color:var(--ink);text-decoration:none;display:block}
+.score-card:hover{border-color:var(--blue);text-decoration:none}
+.score-card[hidden]{display:none}
+.sc-label{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--red)}
+.sc-label.upcoming{color:var(--muted)}
+.sc-match{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.sc-row{display:flex;justify-content:space-between;gap:8px;font-size:14px;padding:2px 0}
+.sc-row .sc-team{font-weight:700}
+.sc-row .sc-score{font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+.sc-row.loser .sc-team,.sc-row.loser .sc-score{font-weight:400;color:var(--muted)}
+.sc-result{font-size:13px;color:var(--blue);margin:8px 0 0;font-weight:500}
+.sc-result.upcoming{color:var(--muted)}
+.car-btn{position:absolute;top:50%;transform:translateY(-50%);width:36px;height:36px;border-radius:50%;background:#fff;border:1px solid var(--rule-2);color:var(--ink);font-size:18px;font-weight:700;cursor:pointer;box-shadow:0 1px 4px rgba(15,16,20,.15);display:flex;align-items:center;justify-content:center}
+.car-btn:hover{border-color:var(--blue);color:var(--blue)}
+.car-btn.prev{left:-12px}
+.car-btn.next{right:-12px}
+.car-btn[disabled]{opacity:.35;cursor:default}
+.quick-links{display:flex;flex-wrap:wrap;gap:4px 18px;font-size:14px;padding:10px 0 2px;border-top:1px solid var(--rule)}
+.quick-links a{color:var(--ink);font-weight:500}
+.quick-links a:hover{color:var(--blue)}
+/* Lead story */
+.lead-kicker{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:0 0 6px}
+.lead-kicker .live-dot{margin-right:6px}
+.lead-head{font-size:30px;margin:0 0 8px}
+.lead-score{font-size:16px;color:var(--ink-2);margin:0 0 8px}
+.lead-stand{font-size:15px;color:var(--muted);margin:0 0 10px}
+.lead-links{font-size:15px;margin:0}
+.lead-links a{font-weight:700}
+/* Two-column body */
+.home-grid{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:32px;align-items:start}
+.home-main{min-width:0}
+.home-main section h2{font-size:20px}
+.see-all{float:right;font-size:14px;font-weight:700}
+.home-side{min-width:0}
+.side-card{background:var(--card);border:1px solid var(--rule);border-radius:10px;padding:16px 18px;margin-bottom:20px;box-shadow:0 1px 3px rgba(15,16,20,.05)}
+.side-card h3{font-size:18px;margin:0 0 10px}
+.side-card ul{margin:0;padding:0;list-style:none}
+.side-card li{padding:8px 0;border-bottom:1px solid var(--rule);font-size:14px}
+.side-card li:last-child{border-bottom:0}
+.side-card li b{font-weight:700}
+.side-card li span{color:var(--muted);display:block;font-size:13px}
+.num-panel{background:#eaf1f8;border:1px solid #d5e3f0;border-radius:10px;padding:18px;text-align:center;margin-bottom:20px}
+.num-panel h3{font-size:16px;margin:0 0 10px;text-align:left}
+.num-big{font-size:40px;font-weight:800;color:var(--blue);line-height:1;margin:4px 0 8px}
+.num-cap{font-size:14px;color:var(--ink-2);margin:0 0 12px;min-height:42px}
+.num-nav{display:flex;align-items:center;justify-content:center;gap:12px}
+.num-arrow{width:30px;height:30px;border-radius:50%;background:#fff;border:1px solid var(--rule-2);cursor:pointer;font-size:15px;font-weight:700;color:var(--ink)}
+.num-arrow:hover{border-color:var(--blue);color:var(--blue)}
+.num-dots{display:flex;gap:6px}
+.num-dot{width:9px;height:9px;border-radius:50%;background:#c6cdd3;border:0;cursor:pointer;padding:0}
+.num-dot[aria-pressed="true"]{background:var(--blue)}
+@media (max-width:900px){.home-grid{grid-template-columns:1fr}.score-card{flex-basis:260px}}
+@media (max-width:640px){.lead-head{font-size:24px}.car-btn.prev{left:2px}.car-btn.next{right:2px}.num-big{font-size:34px}}
+</style>
 </head>
 <body class="league-ilt20">
 <header>
@@ -165,27 +231,28 @@ footer .copy{margin:0;color:#8fa1b0}
 </section>
 
 <main>
-  <section>
+  <section id="lead">
     <div class="wrap">
-      <h2>Season opener — Saturday 21 November 2026</h2>
+      <h2>Season opener</h2>
       <div class="today">
-        <p><strong>Match 1: Desert Vipers vs MI Emirates</strong><br>
-        Dubai International Stadium, Dubai — evening session (Gulf Standard Time)</p>
-        <p>Desert Vipers are the defending champions, and Babar Azam captains them for his first ILT20 season. MI Emirates are captained by Nicholas Pooran.</p>
+        <p class="lead-kicker">Season opener &middot; Saturday, 21 November 2026</p>
+        <h3 class="lead-head">Desert Vipers vs MI Emirates</h3>
+        <p class="lead-score">ILT20 Season 5, Match 1 &middot; Dubai International Stadium, Dubai &middot; evening session (Gulf Standard Time)</p>
+        <p class="lead-stand">Desert Vipers are the defending champions, and Babar Azam captains them for his first ILT20 season. MI Emirates are captained by Nicholas Pooran.</p>
+        <p class="lead-links"><a href="#points-table">ILT20 points table</a> &middot; <a href="#schedule">ILT20 schedule</a> &middot; <a href="#where-to-watch">Where to watch</a></p>
       </div>
       <p class="note">Exact start times per match are published on the full ILT20 site. This hub shows the session (afternoon or evening) for each fixture.</p>
     </div>
   </section>
+<div class="wrap"><div class="home-grid"><div class="home-main">
 
-  <section>
-    <div class="wrap">
+
+  <section id="points-table">
       <h2>ILT20 Season 5 points table</h2>
       <p class="lead">The season has not started yet, so there is no points table for Season 5. The table will appear here after the first match on 21 November, and will be updated after every match day. A win is worth 2 points.</p>
-    </div>
   </section>
 
-  <section>
-    <div class="wrap">
+  <section id="schedule">
       <h2>ILT20 Season 5 schedule — all 30 league matches</h2>
       <p class="lead">League stage: 21 November – 14 December 2026. Playoffs: 16–18 December, with the final on Sunday 20 December in Dubai. All matches are in Dubai, Sharjah or Abu Dhabi.</p>
       <div class="table-scroll">
@@ -226,11 +293,9 @@ footer .copy{margin:0;color:#8fa1b0}
       </table>
       </div>
       <p class="note">Fixtures verified against the ILT20 fixtures file (last verified 30 October 2026). Playoff fixtures (16, 17 and 18 December, plus the final on 20 December) depend on the league standings — teams are TBC. Qualifier 2 is in Sharjah on 18 December. The full ILT20 site carries exact start times and every match page: <a href="https://ileaguet20.com/">ileaguet20.com</a>.</p>
-    </div>
   </section>
 
-  <section>
-    <div class="wrap">
+  <section id="teams">
       <h2>The six teams</h2>
       <div class="teams">
         <div class="team"><b>Desert Vipers</b><p>Captain: Babar Azam · Coach: James Foster · Defending champions (2025-26).</p></div>
@@ -241,26 +306,20 @@ footer .copy{margin:0;color:#8fa1b0}
         <div class="team"><b>Sharjah Warriorz</b><p>Captain: James Vince · Coach: Adrian Birrell · Still chasing a first title.</p></div>
       </div>
       <p class="note">Full squads for every team are on the ILT20 site: <a href="https://ileaguet20.com/">ileaguet20.com</a>.</p>
-    </div>
   </section>
 
-  <section>
-    <div class="wrap">
+  <section id="venues">
       <h2>Venues</h2>
       <p class="lead">Three grounds host Season 5. Dubai International Stadium hosts 15 matches, including the opener and the final. Sharjah Cricket Stadium hosts 8 matches, including Qualifier 2. The remaining matches are in Abu Dhabi.</p>
-    </div>
   </section>
 
-  <section>
-    <div class="wrap">
+  <section id="where-to-watch">
       <h2>Where to watch the ILT20</h2>
       <p class="lead">Watch the ILT20 only through its official broadcasters. SialTV never links to pirated streams.</p>
       <p>In India, the ILT20 is on Zee TV and ZEE5. Broadcasters for Pakistan, the UAE and Gulf, the UK and the USA are still to be confirmed for Season 5 and will be added here once announced.</p>
-    </div>
   </section>
 
-  <section class="faq">
-    <div class="wrap">
+  <section class="faq" id="faq">
       <h2>Frequently asked questions</h2>
       <h3>When does ILT20 Season 5 start?</h3>
       <p>Season 5 starts on Saturday 21 November 2026 with Desert Vipers against MI Emirates in Dubai, and ends with the final on Sunday 20 December 2026, also in Dubai.</p>
@@ -272,8 +331,37 @@ footer .copy{margin:0;color:#8fa1b0}
       <p>At three grounds in the UAE: Dubai International Stadium (15 matches), Sharjah Cricket Stadium (8 matches) and Abu Dhabi.</p>
       <h3>Where can I see the full ILT20 schedule and every scorecard?</h3>
       <p>On the full ILT20 site, ileaguet20.com, which carries the complete fixture list with exact start times, squads, venues and news for Season 5.</p>
-    </div>
   </section>
+</div>
+<aside class="home-side" aria-label="Sidebar">
+      <div class="side-card">
+        <h3>Coming up</h3>
+        <ul>
+          <li><b>Match 1: Desert Vipers vs MI Emirates</b><span>Sat 21 Nov &middot; Dubai International Stadium</span></li>
+          <li><b>Qualifier 2</b><span>Fri 18 Dec &middot; Sharjah Cricket Stadium</span></li>
+          <li><b>Final</b><span>Sun 20 Dec &middot; Dubai International Stadium</span></li>
+        </ul>
+      </div>
+      <div class="side-card">
+        <h3>Key numbers</h3>
+        <ul>
+          <li><b>34</b> matches<span>30 league + 4 playoffs</span></li>
+          <li><b>6</b> teams<span>Abu Dhabi, Desert Vipers, Dubai, Gulf Giants, MI Emirates, Sharjah</span></li>
+          <li><b>3</b> venues<span>Dubai 15 matches, Sharjah 8, Abu Dhabi the rest</span></li>
+        </ul>
+      </div>
+      <div class="side-card">
+        <h3>On this page</h3>
+        <ul>
+          <li><a href="#points-table">Points table</a></li>
+          <li><a href="#schedule">Schedule</a></li>
+          <li><a href="#teams">Teams</a></li>
+          <li><a href="#venues">Venues</a></li>
+          <li><a href="#where-to-watch">Where to watch</a></li>
+        </ul>
+      </div>
+    </aside>
+</div></div>
 </main>
 
 <footer>

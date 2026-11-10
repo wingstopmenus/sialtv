@@ -15,7 +15,7 @@
 <meta name="twitter:description" content="BBL 2026-27 schedule, teams and points table — 8 teams, 44 matches, 12 Dec 2026–26 Jan 2027. Chennai opener, full fixtures, venues and where to watch.">
 <meta name="theme-color" content="#0860c4">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","name":"BBL 2026-27 — Schedule, Teams & Points Table","url":"https://sialtv.com/bbl/","description":"BBL 2026-27 schedule, teams and points table — 8 teams, 44 matches, 12 Dec 2026–26 Jan 2027.","datePublished":"2026-11-10T08:25:00Z","dateModified":"2026-11-10T08:38:00Z"}
+{"@context":"https://schema.org","@type":"WebPage","name":"BBL 2026-27 — Schedule, Teams & Points Table","url":"https://sialtv.com/bbl/","description":"BBL 2026-27 schedule, teams and points table — 8 teams, 44 matches, 12 Dec 2026–26 Jan 2027.","datePublished":"2026-11-10T08:25:00Z","dateModified":"2026-11-10T09:06:00Z"}
 </script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"SialTV","item":"https://sialtv.com/"},{"@type":"ListItem","position":2,"name":"Big Bash League","item":"https://sialtv.com/bbl/"}]}
@@ -130,6 +130,72 @@ footer .copy{margin:0;color:#8fa1b0}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
+<style>
+/* Homepage-only extras — ESPNcricinfo structure (v3 tokens). */
+.topbar{position:sticky;top:0;z-index:50}
+main section.scores-sec{background:transparent;border:0;border-radius:0;padding:0 0 4px;box-shadow:none;margin-bottom:8px}
+.pills{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.pill{font-family:"Archivo",ui-sans-serif,sans-serif;font-size:13px;font-weight:700;color:var(--ink);background:#fff;border:1px solid var(--rule-2);border-radius:999px;padding:7px 14px;cursor:pointer}
+.pill:hover{border-color:var(--blue)}
+.pill[aria-pressed="true"]{background:#eef1f3;border-color:var(--ink);color:var(--ink)}
+.carousel-wrap{position:relative}
+.carousel{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding:2px 2px 8px;scrollbar-width:thin}
+.carousel::-webkit-scrollbar{height:6px}
+.carousel::-webkit-scrollbar-thumb{background:var(--rule-2);border-radius:3px}
+.score-card{flex:0 0 287px;scroll-snap-align:start;background:var(--card);border:1px solid var(--rule);border-radius:8px;padding:12px 14px;color:var(--ink);text-decoration:none;display:block}
+.score-card:hover{border-color:var(--blue);text-decoration:none}
+.score-card[hidden]{display:none}
+.sc-label{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--red)}
+.sc-label.upcoming{color:var(--muted)}
+.sc-match{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.sc-row{display:flex;justify-content:space-between;gap:8px;font-size:14px;padding:2px 0}
+.sc-row .sc-team{font-weight:700}
+.sc-row .sc-score{font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+.sc-row.loser .sc-team,.sc-row.loser .sc-score{font-weight:400;color:var(--muted)}
+.sc-result{font-size:13px;color:var(--blue);margin:8px 0 0;font-weight:500}
+.sc-result.upcoming{color:var(--muted)}
+.car-btn{position:absolute;top:50%;transform:translateY(-50%);width:36px;height:36px;border-radius:50%;background:#fff;border:1px solid var(--rule-2);color:var(--ink);font-size:18px;font-weight:700;cursor:pointer;box-shadow:0 1px 4px rgba(15,16,20,.15);display:flex;align-items:center;justify-content:center}
+.car-btn:hover{border-color:var(--blue);color:var(--blue)}
+.car-btn.prev{left:-12px}
+.car-btn.next{right:-12px}
+.car-btn[disabled]{opacity:.35;cursor:default}
+.quick-links{display:flex;flex-wrap:wrap;gap:4px 18px;font-size:14px;padding:10px 0 2px;border-top:1px solid var(--rule)}
+.quick-links a{color:var(--ink);font-weight:500}
+.quick-links a:hover{color:var(--blue)}
+/* Lead story */
+.lead-kicker{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:0 0 6px}
+.lead-kicker .live-dot{margin-right:6px}
+.lead-head{font-size:30px;margin:0 0 8px}
+.lead-score{font-size:16px;color:var(--ink-2);margin:0 0 8px}
+.lead-stand{font-size:15px;color:var(--muted);margin:0 0 10px}
+.lead-links{font-size:15px;margin:0}
+.lead-links a{font-weight:700}
+/* Two-column body */
+.home-grid{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:32px;align-items:start}
+.home-main{min-width:0}
+.home-main section h2{font-size:20px}
+.see-all{float:right;font-size:14px;font-weight:700}
+.home-side{min-width:0}
+.side-card{background:var(--card);border:1px solid var(--rule);border-radius:10px;padding:16px 18px;margin-bottom:20px;box-shadow:0 1px 3px rgba(15,16,20,.05)}
+.side-card h3{font-size:18px;margin:0 0 10px}
+.side-card ul{margin:0;padding:0;list-style:none}
+.side-card li{padding:8px 0;border-bottom:1px solid var(--rule);font-size:14px}
+.side-card li:last-child{border-bottom:0}
+.side-card li b{font-weight:700}
+.side-card li span{color:var(--muted);display:block;font-size:13px}
+.num-panel{background:#eaf1f8;border:1px solid #d5e3f0;border-radius:10px;padding:18px;text-align:center;margin-bottom:20px}
+.num-panel h3{font-size:16px;margin:0 0 10px;text-align:left}
+.num-big{font-size:40px;font-weight:800;color:var(--blue);line-height:1;margin:4px 0 8px}
+.num-cap{font-size:14px;color:var(--ink-2);margin:0 0 12px;min-height:42px}
+.num-nav{display:flex;align-items:center;justify-content:center;gap:12px}
+.num-arrow{width:30px;height:30px;border-radius:50%;background:#fff;border:1px solid var(--rule-2);cursor:pointer;font-size:15px;font-weight:700;color:var(--ink)}
+.num-arrow:hover{border-color:var(--blue);color:var(--blue)}
+.num-dots{display:flex;gap:6px}
+.num-dot{width:9px;height:9px;border-radius:50%;background:#c6cdd3;border:0;cursor:pointer;padding:0}
+.num-dot[aria-pressed="true"]{background:var(--blue)}
+@media (max-width:900px){.home-grid{grid-template-columns:1fr}.score-card{flex-basis:260px}}
+@media (max-width:640px){.lead-head{font-size:24px}.car-btn.prev{left:2px}.car-btn.next{right:2px}.num-big{font-size:34px}}
+</style>
 </head>
 <body class="league-bbl">
 <header>
@@ -165,26 +231,27 @@ footer .copy{margin:0;color:#8fa1b0}
 </section>
 
 <main>
-  <section>
+  <section id="lead">
     <div class="wrap">
-      <h2>Season opener — Saturday 12 December 2026</h2>
+      <h2>Season opener</h2>
       <div class="today">
-        <p><strong>Match 1: Melbourne Renegades vs Perth Scorchers</strong><br>
-        MA Chidambaram Stadium, Chennai — 2:40 PM IST (3:10 PM PKT, 9:10 AM UTC)</p>
-        <p>Perth Scorchers are the defending champions, with six BBL titles. The Renegades count the Chennai match as a home game.</p>
+        <p class="lead-kicker">Season opener &middot; Saturday, 12 December 2026</p>
+        <h3 class="lead-head">Melbourne Renegades vs Perth Scorchers</h3>
+        <p class="lead-score">BBL|16, Match 1 &middot; MA Chidambaram Stadium, Chennai &middot; <span class="t-time">2:40 PM IST (3:10 PM PKT, 9:10 AM UTC)</span></p>
+        <p class="lead-stand">Perth Scorchers are the defending champions, with six BBL titles. The Renegades count the Chennai match as a home game.</p>
+        <p class="lead-links"><a href="#points-table">BBL points table</a> &middot; <a href="#schedule">BBL schedule</a> &middot; <a href="#where-to-watch">Where to watch</a></p>
       </div>
     </div>
   </section>
+<div class="wrap"><div class="home-grid"><div class="home-main">
 
-  <section>
-    <div class="wrap">
+
+  <section id="points-table">
       <h2>BBL 2026-27 points table</h2>
       <p class="lead">The season has not started yet, so there is no points table for BBL|16. The table will appear here after the first match on 12 December, and will be updated after every match day. A win is worth 2 points and a no result is worth 1 point. The top four teams qualify for the finals, and net run rate decides places when teams are level on points.</p>
-    </div>
   </section>
 
-  <section>
-    <div class="wrap">
+  <section id="schedule">
       <h2>BBL 2026-27 schedule — all 40 league matches</h2>
       <p class="lead">League stage: 12 December 2026 – 17 January 2027. Finals: Qualifier on 19 January, Knockout on 20 January, Challenger on 23 January, and the final on Tuesday 26 January 2027, with a reserve day available. Finals venues depend on the standings and will be confirmed once the league stage ends. Times are in India Standard Time (IST, UTC+5:30); Pakistan time is 30 minutes ahead of IST.</p>
       <div class="table-scroll">
@@ -235,11 +302,9 @@ footer .copy{margin:0;color:#8fa1b0}
       </table>
       </div>
       <p class="note">Fixtures verified against the full BBL|16 schedule announced by Cricket Australia on 14 July 2026, cross-checked across multiple season guides. The fixture list is shown in IST; local Australian times vary by city.</p>
-    </div>
   </section>
 
-  <section>
-    <div class="wrap">
+  <section id="teams">
       <h2>The eight teams</h2>
       <div class="teams">
         <div class="team"><b>Perth Scorchers</b><p>Defending champions — six BBL titles, the most of any team. Home: Perth Stadium.</p></div>
@@ -251,11 +316,9 @@ footer .copy{margin:0;color:#8fa1b0}
         <div class="team"><b>Sydney Thunder</b><p>Champions in 2015-16. Home: Sydney Showground Stadium.</p></div>
         <div class="team"><b>Melbourne Stars</b><p>The only team yet to win a BBL title, after four final defeats. Home: Melbourne Cricket Ground.</p></div>
       </div>
-    </div>
   </section>
 
-  <section>
-    <div class="wrap">
+  <section id="where-to-watch">
       <h2>Where to watch the BBL</h2>
       <p class="lead">Watch the Big Bash League only through its official broadcasters. SialTV never links to pirated streams.</p>
       <div class="table-scroll">
@@ -272,11 +335,9 @@ footer .copy{margin:0;color:#8fa1b0}
       </table>
       </div>
       <p class="note">Broadcasters are as listed in the BBL season guide. In India, JioStar carries the Chennai opener on 12 December.</p>
-    </div>
   </section>
 
-  <section class="faq">
-    <div class="wrap">
+  <section class="faq" id="faq">
       <h2>Frequently asked questions</h2>
       <h3>When does BBL 2026-27 start?</h3>
       <p>The season starts on Saturday 12 December 2026 with Melbourne Renegades against Perth Scorchers at MA Chidambaram Stadium in Chennai, and ends with the final on Tuesday 26 January 2027, Australia Day.</p>
@@ -288,8 +349,35 @@ footer .copy{margin:0;color:#8fa1b0}
       <p>A win is worth 2 points and a no result is worth 1 point. The top four teams qualify: the Qualifier on 19 January, the Knockout on 20 January, the Challenger on 23 January and the final on 26 January.</p>
       <h3>Where can I see the full BBL schedule and every scorecard?</h3>
       <p>On the official BBL site and Cricket Australia's fixture pages, which carry the complete schedule with local start times, squads and news for BBL|16.</p>
-    </div>
   </section>
+</div>
+<aside class="home-side" aria-label="Sidebar">
+      <div class="side-card">
+        <h3>Coming up</h3>
+        <ul>
+          <li><b>Match 1: Melbourne Renegades vs Perth Scorchers</b><span>Sat 12 Dec, 2:40 PM IST &middot; Chennai</span></li>
+          <li><b>Qualifier</b><span>Tue 19 Jan 2027</span></li>
+          <li><b>Final</b><span>Tue 26 Jan 2027 (Australia Day)</span></li>
+        </ul>
+      </div>
+      <div class="side-card">
+        <h3>Key numbers</h3>
+        <ul>
+          <li><b>44</b> matches<span>40 league + 4 finals</span></li>
+          <li><b>8</b> teams<span>First BBL match ever outside Australia — Chennai</span></li>
+        </ul>
+      </div>
+      <div class="side-card">
+        <h3>On this page</h3>
+        <ul>
+          <li><a href="#points-table">Points table</a></li>
+          <li><a href="#schedule">Schedule</a></li>
+          <li><a href="#teams">Teams</a></li>
+          <li><a href="#where-to-watch">Where to watch</a></li>
+        </ul>
+      </div>
+    </aside>
+</div></div>
 </main>
 
 <footer>
