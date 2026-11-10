@@ -15,7 +15,7 @@
 <meta name="twitter:description" content="Every cricket league in one place — NPL, ILT20, APL, SA20, BBL and PSL schedules, live scores, points tables and where to watch. Updated daily.">
 <meta name="theme-color" content="#0860c4">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebSite","name":"SialTV","url":"https://sialtv.com/","description":"Cricket leagues hub — schedules, scores, points tables and where to watch for NPL, ILT20, APL, SA20, BBL and PSL.","datePublished":"2026-11-10T06:07:00Z","dateModified":"2026-11-10T08:33:00Z"}
+{"@context":"https://schema.org","@type":"WebSite","name":"SialTV","url":"https://sialtv.com/","description":"Cricket leagues hub — schedules, scores, points tables and where to watch for NPL, ILT20, APL, SA20, BBL and PSL.","datePublished":"2026-11-10T06:07:00Z","dateModified":"2026-11-10T08:41:00Z"}
 </script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Organization","name":"SialTV","url":"https://sialtv.com/"}
@@ -133,6 +133,72 @@ footer .copy{margin:0;color:#8fa1b0}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
+<style>
+/* Homepage-only extras — ESPNcricinfo structure (v3 tokens). */
+.topbar{position:sticky;top:0;z-index:50}
+main section.scores-sec{background:transparent;border:0;border-radius:0;padding:0 0 4px;box-shadow:none;margin-bottom:8px}
+.pills{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.pill{font-family:"Archivo",ui-sans-serif,sans-serif;font-size:13px;font-weight:700;color:var(--ink);background:#fff;border:1px solid var(--rule-2);border-radius:999px;padding:7px 14px;cursor:pointer}
+.pill:hover{border-color:var(--blue)}
+.pill[aria-pressed="true"]{background:#eef1f3;border-color:var(--ink);color:var(--ink)}
+.carousel-wrap{position:relative}
+.carousel{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding:2px 2px 8px;scrollbar-width:thin}
+.carousel::-webkit-scrollbar{height:6px}
+.carousel::-webkit-scrollbar-thumb{background:var(--rule-2);border-radius:3px}
+.score-card{flex:0 0 287px;scroll-snap-align:start;background:var(--card);border:1px solid var(--rule);border-radius:8px;padding:12px 14px;color:var(--ink);text-decoration:none;display:block}
+.score-card:hover{border-color:var(--blue);text-decoration:none}
+.score-card[hidden]{display:none}
+.sc-label{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--red)}
+.sc-label.upcoming{color:var(--muted)}
+.sc-match{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.sc-row{display:flex;justify-content:space-between;gap:8px;font-size:14px;padding:2px 0}
+.sc-row .sc-team{font-weight:700}
+.sc-row .sc-score{font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+.sc-row.loser .sc-team,.sc-row.loser .sc-score{font-weight:400;color:var(--muted)}
+.sc-result{font-size:13px;color:var(--blue);margin:8px 0 0;font-weight:500}
+.sc-result.upcoming{color:var(--muted)}
+.car-btn{position:absolute;top:50%;transform:translateY(-50%);width:36px;height:36px;border-radius:50%;background:#fff;border:1px solid var(--rule-2);color:var(--ink);font-size:18px;font-weight:700;cursor:pointer;box-shadow:0 1px 4px rgba(15,16,20,.15);display:flex;align-items:center;justify-content:center}
+.car-btn:hover{border-color:var(--blue);color:var(--blue)}
+.car-btn.prev{left:-12px}
+.car-btn.next{right:-12px}
+.car-btn[disabled]{opacity:.35;cursor:default}
+.quick-links{display:flex;flex-wrap:wrap;gap:4px 18px;font-size:14px;padding:10px 0 2px;border-top:1px solid var(--rule)}
+.quick-links a{color:var(--ink);font-weight:500}
+.quick-links a:hover{color:var(--blue)}
+/* Lead story */
+.lead-kicker{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:0 0 6px}
+.lead-kicker .live-dot{margin-right:6px}
+.lead-head{font-size:30px;margin:0 0 8px}
+.lead-score{font-size:16px;color:var(--ink-2);margin:0 0 8px}
+.lead-stand{font-size:15px;color:var(--muted);margin:0 0 10px}
+.lead-links{font-size:15px;margin:0}
+.lead-links a{font-weight:700}
+/* Two-column body */
+.home-grid{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:32px;align-items:start}
+.home-main{min-width:0}
+.home-main section h2{font-size:20px}
+.see-all{float:right;font-size:14px;font-weight:700}
+.home-side{min-width:0}
+.side-card{background:var(--card);border:1px solid var(--rule);border-radius:10px;padding:16px 18px;margin-bottom:20px;box-shadow:0 1px 3px rgba(15,16,20,.05)}
+.side-card h3{font-size:18px;margin:0 0 10px}
+.side-card ul{margin:0;padding:0;list-style:none}
+.side-card li{padding:8px 0;border-bottom:1px solid var(--rule);font-size:14px}
+.side-card li:last-child{border-bottom:0}
+.side-card li b{font-weight:700}
+.side-card li span{color:var(--muted);display:block;font-size:13px}
+.num-panel{background:#eaf1f8;border:1px solid #d5e3f0;border-radius:10px;padding:18px;text-align:center;margin-bottom:20px}
+.num-panel h3{font-size:16px;margin:0 0 10px;text-align:left}
+.num-big{font-size:40px;font-weight:800;color:var(--blue);line-height:1;margin:4px 0 8px}
+.num-cap{font-size:14px;color:var(--ink-2);margin:0 0 12px;min-height:42px}
+.num-nav{display:flex;align-items:center;justify-content:center;gap:12px}
+.num-arrow{width:30px;height:30px;border-radius:50%;background:#fff;border:1px solid var(--rule-2);cursor:pointer;font-size:15px;font-weight:700;color:var(--ink)}
+.num-arrow:hover{border-color:var(--blue);color:var(--blue)}
+.num-dots{display:flex;gap:6px}
+.num-dot{width:9px;height:9px;border-radius:50%;background:#c6cdd3;border:0;cursor:pointer;padding:0}
+.num-dot[aria-pressed="true"]{background:var(--blue)}
+@media (max-width:900px){.home-grid{grid-template-columns:1fr}.score-card{flex-basis:260px}}
+@media (max-width:640px){.lead-head{font-size:24px}.car-btn.prev{left:2px}.car-btn.next{right:2px}.num-big{font-size:34px}}
+</style>
 </head>
 <body>
 <header>
@@ -167,22 +233,89 @@ footer .copy{margin:0;color:#8fa1b0}
 </section>
 
 <main>
+  <section class="scores-sec">
+    <div class="wrap">
+      <div class="pills" role="group" aria-label="Filter matches">
+        <button class="pill" type="button" data-filter="all" aria-pressed="true">All matches (6)</button>
+        <button class="pill" type="button" data-filter="upcoming" aria-pressed="false">Live &amp; upcoming (1)</button>
+        <button class="pill" type="button" data-filter="result" aria-pressed="false">Results (5)</button>
+      </div>
+      <div class="carousel-wrap">
+        <div class="carousel" id="scoreCarousel">
+          <a class="score-card" href="/npl/" data-kind="upcoming">
+            <p class="sc-label upcoming">Upcoming</p>
+            <p class="sc-match">Match 21 &bull; Kirtipur</p>
+            <p class="sc-row"><span class="sc-team">Sudurpaschim Royals</span></p>
+            <p class="sc-row"><span class="sc-team">Janakpur Bolts</span></p>
+            <p class="sc-result upcoming">Today, 4:30 PM NST &middot; TU International Cricket Ground</p>
+          </a>
+          <a class="score-card" href="/npl/" data-kind="result">
+            <p class="sc-label">Result</p>
+            <p class="sc-match">Match 20 &bull; Kirtipur</p>
+            <p class="sc-row loser"><span class="sc-team">Chitwan Rhinos</span><span class="sc-score">170/7 (20 ov)</span></p>
+            <p class="sc-row"><span class="sc-team">Kathmandu Gorkhas</span><span class="sc-score">180/8 (20 ov)</span></p>
+            <p class="sc-result">Kathmandu Gorkhas won by 10 runs</p>
+          </a>
+          <a class="score-card" href="/npl/" data-kind="result">
+            <p class="sc-label">Result</p>
+            <p class="sc-match">Match 19 &bull; Kirtipur</p>
+            <p class="sc-row"><span class="sc-team">Pokhara Avengers</span><span class="sc-score">217/3 (20 ov)</span></p>
+            <p class="sc-row loser"><span class="sc-team">Karnali Yaks</span><span class="sc-score">154/10 (18.3 ov)</span></p>
+            <p class="sc-result">Pokhara Avengers won by 63 runs</p>
+          </a>
+          <a class="score-card" href="/npl/" data-kind="result">
+            <p class="sc-label">Result</p>
+            <p class="sc-match">Match 18 &bull; Kirtipur</p>
+            <p class="sc-row"><span class="sc-team">Kathmandu Gorkhas</span><span class="sc-score">160/8 (20 ov)</span></p>
+            <p class="sc-row loser"><span class="sc-team">Lumbini Lions</span><span class="sc-score">124/10 (19.3 ov)</span></p>
+            <p class="sc-result">Kathmandu Gorkhas won by 36 runs</p>
+          </a>
+          <a class="score-card" href="/npl/" data-kind="result">
+            <p class="sc-label">Result</p>
+            <p class="sc-match">Match 17 &bull; Kirtipur</p>
+            <p class="sc-row"><span class="sc-team">Chitwan Rhinos</span><span class="sc-score">151/6 (20 ov)</span></p>
+            <p class="sc-row loser"><span class="sc-team">Pokhara Avengers</span><span class="sc-score">121/10 (19 ov)</span></p>
+            <p class="sc-result">Chitwan Rhinos won by 30 runs</p>
+          </a>
+          <a class="score-card" href="/npl/" data-kind="result">
+            <p class="sc-label">Result</p>
+            <p class="sc-match">Match 16 &bull; Kirtipur</p>
+            <p class="sc-row"><span class="sc-team">Sudurpaschim Royals</span><span class="sc-score">176/6 (20 ov)</span></p>
+            <p class="sc-row loser"><span class="sc-team">Karnali Yaks</span><span class="sc-score">137/7 (20 ov)</span></p>
+            <p class="sc-result">Sudurpaschim Royals won by 39 runs</p>
+          </a>
+        </div>
+        <button class="car-btn prev" type="button" id="carPrev" aria-label="Previous matches" disabled>&lsaquo;</button>
+        <button class="car-btn next" type="button" id="carNext" aria-label="Next matches">&rsaquo;</button>
+      </div>
+      <nav class="quick-links" aria-label="Quick links">
+        <a href="/npl/">NPL schedule &rsaquo;</a>
+        <a href="/npl/">NPL points table &rsaquo;</a>
+        <a href="/ilt20/">ILT20 schedule &rsaquo;</a>
+        <a href="/apl/">APL schedule &rsaquo;</a>
+        <a href="/sa20/">SA20 schedule &rsaquo;</a>
+        <a href="/bbl/">BBL schedule &rsaquo;</a>
+        <a href="/psl/">PSL schedule &rsaquo;</a>
+      </nav>
+    </div>
+  </section>
   <section>
     <div class="wrap">
-      <h2>Today — 10 November 2026</h2>
+      <h2>Match Coverage</h2>
       <div class="today">
-        <p><strong>Nepal Premier League, Match 21</strong><br>
-        Sudurpaschim Royals vs Janakpur Bolts<br>
-        TU International Cricket Ground, Kirtipur — 4:30 PM NST (3:45 PM PKT, 10:45 AM UTC)</p>
+        <p class="lead-kicker"><span class="live-dot" aria-hidden="true"></span>Upcoming &middot; Today, 10 November 2026</p>
+        <h3 class="lead-head">Sudurpaschim Royals vs Janakpur Bolts</h3>
+        <p class="lead-score">Nepal Premier League, Match 21 &middot; TU International Cricket Ground, Kirtipur &middot; <span class="t-time">4:30 PM NST (3:45 PM PKT, 10:45 AM UTC)</span></p>
+        <p class="lead-stand">Royals sit 3rd with 6 points and Bolts 5th with 4 after Match 20 &mdash; a Royals win takes them to 8 points, level with Kathmandu Gorkhas at the top.</p>
         <!-- TODO-VERIFY (narrowed 10 Nov): NPL fixtures/match page/broadcasters page say 4:30 PM NST (10:45 UTC); Cricbuzz lists 11:00 GMT (4:45 PM NST). 5:00 PM claims are fan posters/stale listings, not used. -->
-        <p><a href="/npl/">Nepal Premier League 2026</a></p>
+        <p class="lead-links"><a href="/npl/">NPL points table</a> &middot; <a href="/npl/">NPL schedule</a> &middot; <a href="/npl/">Where to watch</a></p>
       </div>
       <p class="note">Times are shown in Nepal Standard Time (NST, UTC+5:45) for NPL matches. Each league hub shows times in UTC and the main audience zones for that league.</p>
     </div>
   </section>
 
-  <section>
-    <div class="wrap">
+  <div class="wrap"><div class="home-grid"><div class="home-main">
+<section>
       <h2>Cricket leagues</h2>
       <p class="lead">Pick a league to open its hub — schedule, points table, teams, results and where to watch.</p>
       <div class="tiles">
@@ -218,11 +351,9 @@ footer .copy{margin:0;color:#8fa1b0}
         </a>
       </div>
       <p class="note">League colours are draft placeholders. Each hub will use that league's official colours once verified.</p>
-    </div>
   </section>
 
   <section>
-    <div class="wrap">
       <h2>League dates</h2>
       <div class="table-scroll">
       <table>
@@ -238,12 +369,10 @@ footer .copy{margin:0;color:#8fa1b0}
       </table>
       </div>
       <p class="note">APL match count is to be announced — it is shown as TBC, not guessed.</p>
-    </div>
   </section>
 
   <section>
-    <div class="wrap">
-      <h2>NPL points table — after Match 20 (9 November 2026)</h2>
+      <h2>NPL points table — after Match 20 (9 November 2026) <a class="see-all" href="/npl/">See all &rsaquo;</a></h2>
       <div class="table-scroll">
       <table>
         <thead><tr><th>#</th><th>Team</th><th>P</th><th>W</th><th>L</th><th>NR</th><th>Pts</th><th>NRR</th></tr></thead>
@@ -256,19 +385,15 @@ footer .copy{margin:0;color:#8fa1b0}
       </table>
       </div>
       <p><a href="/npl/">Full NPL points table</a> — all 8 teams, with the playoff race explained. The top four teams qualify for the playoffs.</p>
-    </div>
   </section>
 
   <section>
-    <div class="wrap">
       <h2>Where to watch</h2>
       <p class="lead">Each league hub lists its official broadcasters and streaming platforms by country. SialTV never links to pirated streams.</p>
       <p><a href="/npl/">Where to watch the NPL</a> · <a href="/ilt20/">Where to watch the ILT20</a> · <a href="/apl/">Where to watch the APL</a> · <a href="/sa20/">Where to watch the SA20</a></p>
-    </div>
   </section>
 
   <section class="faq">
-    <div class="wrap">
       <h2>Frequently asked questions</h2>
       <h3>Which cricket leagues does SialTV cover?</h3>
       <p>The Nepal Premier League, the ILT20, the Afghanistan Premier League, the SA20, the Big Bash League and the Pakistan Super League. The IPL will be added once its 2027 window is confirmed.</p>
@@ -280,8 +405,48 @@ footer .copy{margin:0;color:#8fa1b0}
       <p>Live leagues are updated after every match day. Points tables and results are updated the same day a match finishes.</p>
       <h3>How can I contact SialTV?</h3>
       <p>Use the <a href="/contact/">Contact Us</a> page.</p>
-    </div>
   </section>
+</div>
+<aside class="home-side" aria-label="Sidebar">
+      <div class="num-panel" id="numPanel">
+        <h3>Number Crunching</h3>
+        <p class="num-big" id="numBig">217</p>
+        <p class="num-cap" id="numCap">Pokhara Avengers&rsquo; 217/3 against Karnali Yaks (Match 19) is the highest total of NPL Season 3 so far.</p>
+        <div class="num-nav">
+          <button class="num-arrow" type="button" id="numPrev" aria-label="Previous number">&lsaquo;</button>
+          <div class="num-dots" role="group" aria-label="Choose number">
+            <button class="num-dot" type="button" data-slide="0" aria-pressed="true" aria-label="Number 1"></button>
+            <button class="num-dot" type="button" data-slide="1" aria-pressed="false" aria-label="Number 2"></button>
+            <button class="num-dot" type="button" data-slide="2" aria-pressed="false" aria-label="Number 3"></button>
+          </div>
+          <button class="num-arrow" type="button" id="numNext" aria-label="Next number">&rsaquo;</button>
+        </div>
+      </div>
+      <div class="side-card">
+        <h3>Coming up</h3>
+        <ul>
+          <li><b>Biratnagar Kings vs Pokhara Avengers</b><span>NPL Match 22 &middot; Thu 12 Nov, 12:30 PM NST &middot; Kirtipur</span></li>
+          <li><b>Desert Vipers vs MI Emirates</b><span>ILT20 opener &middot; Sat 21 Nov &middot; Dubai</span></li>
+          <li><b>Melbourne Renegades vs Perth Scorchers</b><span>BBL opener &middot; Sat 12 Dec, 2:40 PM IST &middot; Chennai</span></li>
+          <li><b>APL first ball</b><span>Sun 27 Dec, 5:30 PM AFT &middot; UAE</span></li>
+          <li><b>Sunrisers Eastern Cape vs Pretoria Capitals</b><span>SA20 opener &middot; Sun 17 Jan, 3:30 PM SAST &middot; St George&rsquo;s Park</span></li>
+          <li><b>PSL 2027 begins</b><span>Thu 18 Mar &middot; Pakistan</span></li>
+        </ul>
+        <p style="margin:10px 0 0"><a href="/npl/">NPL schedule &rsaquo;</a></p>
+      </div>
+      <div class="side-card">
+        <h3>Quick links</h3>
+        <ul>
+          <li><a href="/npl/">NPL points table</a></li>
+          <li><a href="/npl/">NPL teams and squads</a></li>
+          <li><a href="/ilt20/">ILT20 teams and squads</a></li>
+          <li><a href="/apl/">APL teams and squads</a></li>
+          <li><a href="/sa20/">SA20 broadcasters</a></li>
+          <li><a href="/contact/">Contact Us</a></li>
+        </ul>
+      </div>
+    </aside>
+</div></div>
 </main>
 
 <footer>
@@ -314,5 +479,57 @@ footer .copy{margin:0;color:#8fa1b0}
   </div>
   <div class="copy-strip"><div class="wrap"><p class="copy">© 2026 SialTV</p></div></div>
 </footer>
+<script>
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  /* Filter pills */
+  var pills = document.querySelectorAll('.pill');
+  var cards = document.querySelectorAll('.score-card');
+  pills.forEach(function(p){
+    p.addEventListener('click', function(){
+      pills.forEach(function(x){ x.setAttribute('aria-pressed','false'); });
+      p.setAttribute('aria-pressed','true');
+      var f = p.getAttribute('data-filter');
+      cards.forEach(function(c){ c.hidden = (f !== 'all' && c.getAttribute('data-kind') !== f); });
+      updateArrows();
+    });
+  });
+  /* Carousel: one card per click */
+  var track = document.getElementById('scoreCarousel');
+  var prev = document.getElementById('carPrev');
+  var next = document.getElementById('carNext');
+  function cardStep(){
+    var c = track.querySelector('.score-card:not([hidden])');
+    return c ? c.offsetWidth + 12 : 300;
+  }
+  function updateArrows(){
+    var max = track.scrollWidth - track.clientWidth - 2;
+    prev.disabled = track.scrollLeft <= 2;
+    next.disabled = track.scrollLeft >= max;
+  }
+  prev.addEventListener('click', function(){ track.scrollBy({left: -cardStep(), behavior: reduce ? 'auto' : 'smooth'}); });
+  next.addEventListener('click', function(){ track.scrollBy({left: cardStep(), behavior: reduce ? 'auto' : 'smooth'}); });
+  track.addEventListener('scroll', updateArrows, {passive: true});
+  window.addEventListener('resize', updateArrows);
+  updateArrows();
+  /* Number Crunching rotator */
+  var slides = [
+    {n: '217', c: 'Pokhara Avengers’ 217/3 against Karnali Yaks (Match 19) is the highest total of NPL Season 3 so far.'},
+    {n: '63', c: 'Pokhara Avengers beat Karnali Yaks by 63 runs (Match 19) — the biggest win of the season so far.'},
+    {n: '8', c: 'Kathmandu Gorkhas lead the points table with 8 points after Match 20.'}
+  ];
+  var big = document.getElementById('numBig'), cap = document.getElementById('numCap');
+  var dots = document.querySelectorAll('.num-dot'), idx = 0;
+  function show(i){
+    idx = (i + slides.length) % slides.length;
+    big.textContent = slides[idx].n;
+    cap.textContent = slides[idx].c;
+    dots.forEach(function(d, j){ d.setAttribute('aria-pressed', j === idx ? 'true' : 'false'); });
+  }
+  document.getElementById('numPrev').addEventListener('click', function(){ show(idx - 1); });
+  document.getElementById('numNext').addEventListener('click', function(){ show(idx + 1); });
+  dots.forEach(function(d){ d.addEventListener('click', function(){ show(parseInt(d.getAttribute('data-slide'), 10)); }); });
+})();
+</script>
 </body>
 </html>
