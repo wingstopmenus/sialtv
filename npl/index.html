@@ -15,7 +15,7 @@
 <meta name="twitter:description" content="NPL Season 3 schedule, points table and results — 8 teams, 32 matches at Kirtipur, 26 Oct–21 Nov 2026. Today's match, standings and where to watch.">
 <meta name="theme-color" content="#0860c4">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","name":"Nepal Premier League 2026 — Schedule, Points Table & Results","url":"https://sialtv.com/npl/","description":"NPL Season 3 schedule, points table and results — 8 teams, 32 matches at Kirtipur, 26 Oct–21 Nov 2026.","datePublished":"2026-11-10T08:17:00Z","dateModified":"2026-11-10T16:02:00Z"}
+{"@context":"https://schema.org","@type":"WebPage","name":"Nepal Premier League 2026 — Schedule, Points Table & Results","url":"https://sialtv.com/npl/","description":"NPL Season 3 schedule, points table and results — 8 teams, 32 matches at Kirtipur, 26 Oct–21 Nov 2026.","datePublished":"2026-11-10T08:17:00Z","dateModified":"2026-11-10T16:07:00Z"}
 </script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"SialTV","item":"https://sialtv.com/"},{"@type":"ListItem","position":2,"name":"Nepal Premier League","item":"https://sialtv.com/npl/"}]}
@@ -297,7 +297,7 @@ main section.scores-sec{background:transparent;border:0;border-radius:0;padding:
         <h3 class="lead-head">Biratnagar Kings vs Pokhara Avengers</h3>
         <p class="lead-score">Nepal Premier League, Match 22 &middot; TU International Cricket Ground, Kirtipur &middot; <span class="t-time">12:30 PM NST (11:45 AM PKT, 6:45 AM UTC)</span></p>
         <p class="lead-stand">Biratnagar sit 6th with 4 points and Pokhara 8th with 2 after Match 21 &mdash; a Kings win takes them to 6 points.</p>
-        <p class="lead-links"><a href="#points-table">NPL points table</a> &middot; <a href="#schedule">NPL schedule</a> &middot; <a href="#where-to-watch">Where to watch</a></p>
+        <p class="lead-links"><a href="#points-table">NPL points table</a> &middot; <a href="#schedule">NPL schedule</a> &middot; <a href="/npl/live-scores/">NPL live scores</a> &middot; <a href="#where-to-watch">Where to watch</a></p>
       </div>
       <p class="note">Times are shown in Nepal Standard Time (NST, UTC+5:45) for NPL matches.</p>
     </div>
@@ -506,6 +506,79 @@ main section.scores-sec{background:transparent;border:0;border-radius:0;padding:
   </section>
 </div>
 <aside class="home-side" aria-label="Sidebar">
+<!-- SialTV NPL live-score widget — paste this block where the card should appear.
+     Self-contained: card markup + scoped CSS + fetch logic in one snippet.
+     Reads /data/live-scores.json (same feed as /npl/live-scores/), re-reads
+     every 10 minutes while the tab is visible. No other file needed.
+     Drop-in only — the parent integrates it into the homepage / NPL hub. -->
+<div class="sialtv-live-widget" id="sialtvLiveWidget" aria-live="polite">
+  <p class="slw-loading">Loading the latest NPL score&hellip;</p>
+</div>
+<style>
+.sialtv-live-widget{font-family:"Archivo",ui-sans-serif,system-ui,sans-serif;background:#fff;border:1px solid #eaeaea;border-radius:10px;padding:16px 18px;box-shadow:0 1px 3px rgba(15,16,20,.05);color:#0f1014}
+.sialtv-live-widget .slw-label{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:#4b5166;margin:0 0 6px}
+.sialtv-live-widget .slw-label .slw-dot{display:inline-block;width:8px;height:8px;background:#ff4538;border-radius:50%;margin-right:6px}
+.sialtv-live-widget .slw-score{font-size:19px;font-weight:800;line-height:1.25;margin:0 0 6px}
+.sialtv-live-widget .slw-score span{font-weight:400;color:#4b5166}
+.sialtv-live-widget .slw-line{font-size:14px;color:#2c3a46;margin:0 0 6px}
+.sialtv-live-widget .slw-updated{font-size:13px;color:#4b5166;margin:8px 0 0}
+.sialtv-live-widget a{color:#0860c4;text-decoration:none;font-weight:700}
+.sialtv-live-widget a:hover{text-decoration:underline}
+</style>
+<script>
+(function(){
+  if (window.__sialtvLiveWidgetLoaded) return;
+  window.__sialtvLiveWidgetLoaded = true;
+  var FEED_URL = '/data/live-scores.json';
+  var POLL_MS = 10 * 60 * 1000;
+  var root = document.getElementById('sialtvLiveWidget');
+  if (!root) return;
+  function esc(s){
+    return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+  function fmtUpdated(iso){
+    try {
+      var d = new Date(iso);
+      return 'Updated ' + new Intl.DateTimeFormat('en-GB', {timeZone:'Asia/Kathmandu', day:'numeric', month:'short', hour:'numeric', minute:'2-digit', hour12:true}).format(d) + ' NST';
+    } catch (e) { return 'Updated ' + iso; }
+  }
+  function render(data){
+    var matches = (data && data.matches) || [];
+    var live = null, latest = null, next = null;
+    matches.forEach(function(m){
+      if (m.status === 'live') live = m;
+      if (m.status === 'result' && (!latest || m.matchNo > latest.matchNo)) latest = m;
+      if (m.status === 'upcoming' && (!next || m.matchNo < next.matchNo)) next = m;
+    });
+    var html = '';
+    var m = live || latest;
+    if (m) {
+      var label = live ? '<span class="slw-dot"></span>Live now' : 'Latest result &middot; Match ' + m.matchNo;
+      html += '<p class="slw-label">' + label + '</p>';
+      html += '<p class="slw-score">' + esc(m.team1) + ' ' + esc(m.score1 || '') + (m.overs1 ? ' <span>(' + esc(m.overs1) + ' ov)</span>' : '') + '<br>' + esc(m.team2) + ' ' + esc(m.score2 || '') + (m.overs2 ? ' <span>(' + esc(m.overs2) + ' ov)</span>' : '') + '</p>';
+      html += '<p class="slw-line">' + esc(m.statusText || '') + '</p>';
+    }
+    if (next) {
+      html += '<p class="slw-line">Next: ' + esc(next.team1) + ' vs ' + esc(next.team2) + ' &middot; Match ' + next.matchNo + ' &middot; ' + esc(next.statusText.split('—')[1] ? next.statusText.split('—')[1].trim() : next.date) + '</p>';
+    }
+    html += '<p class="slw-updated">' + esc(fmtUpdated(data.fetchedAt)) + ' &middot; <a href="/npl/live-scores/">NPL Live Scores</a></p>';
+    root.innerHTML = html || '<p class="slw-line">No NPL match data right now.</p>';
+  }
+  function load(){
+    if (document.hidden) return;
+    fetch(FEED_URL, {cache: 'no-store'})
+      .then(function(r){ if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+      .then(render)
+      .catch(function(){
+        root.innerHTML = '<p class="slw-line">Live scores could not be loaded just now. <a href="/npl/results/">NPL Results</a></p>';
+      });
+  }
+  load();
+  setInterval(load, POLL_MS);
+  document.addEventListener('visibilitychange', function(){ if (!document.hidden) load(); });
+})();
+</script>
+
       <div class="num-panel" id="numPanel">
         <h3>Number Crunching</h3>
         <p class="num-big" id="numBig">217</p>
@@ -550,6 +623,7 @@ main section.scores-sec{background:transparent;border:0;border-radius:0;padding:
           <li><a href="/npl/schedule/">NPL Schedule</a><span>Every fixture, date and result.</span></li>
           <li><a href="/npl/points-table/">NPL Points Table</a><span>Standings, NRR and the playoff race.</span></li>
           <li><a href="/npl/results/">NPL Results</a><span>Every match, scores and margins.</span></li>
+          <li><a href="/npl/live-scores/">NPL Live Scores</a><span>Latest score and next match.</span></li>
         </ul>
       </div>
     </aside>

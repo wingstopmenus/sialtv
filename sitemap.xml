@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://sialtv.com/</loc><lastmod>2026-11-10T14:57:00Z</lastmod><changefreq>daily</changefreq><priority>1.0</priority></url>
-  <url><loc>https://sialtv.com/npl/</loc><lastmod>2026-11-10T16:02:00Z</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>
+  <url><loc>https://sialtv.com/npl/</loc><lastmod>2026-11-10T16:07:00Z</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>
   <url><loc>https://sialtv.com/npl/schedule/</loc><lastmod>2026-11-10T15:52:00Z</lastmod><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://sialtv.com/npl/points-table/</loc><lastmod>2026-11-10T15:53:00Z</lastmod><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://sialtv.com/npl/results/</loc><lastmod>2026-11-10T15:54:00Z</lastmod><changefreq>daily</changefreq><priority>0.8</priority></url>
@@ -24,4 +24,5 @@
   <url><loc>https://sialtv.com/npl/teams/karnali-yaks/</loc><lastmod>2026-11-10T15:59:00Z</lastmod></url>
   <url><loc>https://sialtv.com/npl/teams/pokhara-avengers/</loc><lastmod>2026-11-10T16:00:00Z</lastmod></url>
   <url><loc>https://sialtv.com/npl/teams/</loc><lastmod>2026-11-10T16:01:00Z</lastmod></url>
+  <url><loc>https://sialtv.com/npl/live-scores/</loc><lastmod>2026-11-10T16:06:00Z</lastmod></url>
 </urlset>
