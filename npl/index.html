@@ -15,7 +15,7 @@
 <meta name="twitter:description" content="NPL Season 3 schedule, points table and results — 8 teams, 32 matches at Kirtipur, 26 Oct–21 Nov 2026. Today's match, standings and where to watch.">
 <meta name="theme-color" content="#0860c4">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","name":"Nepal Premier League 2026 — Schedule, Points Table & Results","url":"https://sialtv.com/npl/","description":"NPL Season 3 schedule, points table and results — 8 teams, 32 matches at Kirtipur, 26 Oct–21 Nov 2026.","datePublished":"2026-11-10T08:17:00Z","dateModified":"2026-11-10T08:34:00Z"}
+{"@context":"https://schema.org","@type":"WebPage","name":"Nepal Premier League 2026 — Schedule, Points Table & Results","url":"https://sialtv.com/npl/","description":"NPL Season 3 schedule, points table and results — 8 teams, 32 matches at Kirtipur, 26 Oct–21 Nov 2026.","datePublished":"2026-11-10T08:17:00Z","dateModified":"2026-11-10T09:01:00Z"}
 </script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"SialTV","item":"https://sialtv.com/"},{"@type":"ListItem","position":2,"name":"Nepal Premier League","item":"https://sialtv.com/npl/"}]}
@@ -130,6 +130,72 @@ footer .copy{margin:0;color:#8fa1b0}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
+<style>
+/* Homepage-only extras — ESPNcricinfo structure (v3 tokens). */
+.topbar{position:sticky;top:0;z-index:50}
+main section.scores-sec{background:transparent;border:0;border-radius:0;padding:0 0 4px;box-shadow:none;margin-bottom:8px}
+.pills{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.pill{font-family:"Archivo",ui-sans-serif,sans-serif;font-size:13px;font-weight:700;color:var(--ink);background:#fff;border:1px solid var(--rule-2);border-radius:999px;padding:7px 14px;cursor:pointer}
+.pill:hover{border-color:var(--blue)}
+.pill[aria-pressed="true"]{background:#eef1f3;border-color:var(--ink);color:var(--ink)}
+.carousel-wrap{position:relative}
+.carousel{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding:2px 2px 8px;scrollbar-width:thin}
+.carousel::-webkit-scrollbar{height:6px}
+.carousel::-webkit-scrollbar-thumb{background:var(--rule-2);border-radius:3px}
+.score-card{flex:0 0 287px;scroll-snap-align:start;background:var(--card);border:1px solid var(--rule);border-radius:8px;padding:12px 14px;color:var(--ink);text-decoration:none;display:block}
+.score-card:hover{border-color:var(--blue);text-decoration:none}
+.score-card[hidden]{display:none}
+.sc-label{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--red)}
+.sc-label.upcoming{color:var(--muted)}
+.sc-match{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.sc-row{display:flex;justify-content:space-between;gap:8px;font-size:14px;padding:2px 0}
+.sc-row .sc-team{font-weight:700}
+.sc-row .sc-score{font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+.sc-row.loser .sc-team,.sc-row.loser .sc-score{font-weight:400;color:var(--muted)}
+.sc-result{font-size:13px;color:var(--blue);margin:8px 0 0;font-weight:500}
+.sc-result.upcoming{color:var(--muted)}
+.car-btn{position:absolute;top:50%;transform:translateY(-50%);width:36px;height:36px;border-radius:50%;background:#fff;border:1px solid var(--rule-2);color:var(--ink);font-size:18px;font-weight:700;cursor:pointer;box-shadow:0 1px 4px rgba(15,16,20,.15);display:flex;align-items:center;justify-content:center}
+.car-btn:hover{border-color:var(--blue);color:var(--blue)}
+.car-btn.prev{left:-12px}
+.car-btn.next{right:-12px}
+.car-btn[disabled]{opacity:.35;cursor:default}
+.quick-links{display:flex;flex-wrap:wrap;gap:4px 18px;font-size:14px;padding:10px 0 2px;border-top:1px solid var(--rule)}
+.quick-links a{color:var(--ink);font-weight:500}
+.quick-links a:hover{color:var(--blue)}
+/* Lead story */
+.lead-kicker{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:0 0 6px}
+.lead-kicker .live-dot{margin-right:6px}
+.lead-head{font-size:30px;margin:0 0 8px}
+.lead-score{font-size:16px;color:var(--ink-2);margin:0 0 8px}
+.lead-stand{font-size:15px;color:var(--muted);margin:0 0 10px}
+.lead-links{font-size:15px;margin:0}
+.lead-links a{font-weight:700}
+/* Two-column body */
+.home-grid{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:32px;align-items:start}
+.home-main{min-width:0}
+.home-main section h2{font-size:20px}
+.see-all{float:right;font-size:14px;font-weight:700}
+.home-side{min-width:0}
+.side-card{background:var(--card);border:1px solid var(--rule);border-radius:10px;padding:16px 18px;margin-bottom:20px;box-shadow:0 1px 3px rgba(15,16,20,.05)}
+.side-card h3{font-size:18px;margin:0 0 10px}
+.side-card ul{margin:0;padding:0;list-style:none}
+.side-card li{padding:8px 0;border-bottom:1px solid var(--rule);font-size:14px}
+.side-card li:last-child{border-bottom:0}
+.side-card li b{font-weight:700}
+.side-card li span{color:var(--muted);display:block;font-size:13px}
+.num-panel{background:#eaf1f8;border:1px solid #d5e3f0;border-radius:10px;padding:18px;text-align:center;margin-bottom:20px}
+.num-panel h3{font-size:16px;margin:0 0 10px;text-align:left}
+.num-big{font-size:40px;font-weight:800;color:var(--blue);line-height:1;margin:4px 0 8px}
+.num-cap{font-size:14px;color:var(--ink-2);margin:0 0 12px;min-height:42px}
+.num-nav{display:flex;align-items:center;justify-content:center;gap:12px}
+.num-arrow{width:30px;height:30px;border-radius:50%;background:#fff;border:1px solid var(--rule-2);cursor:pointer;font-size:15px;font-weight:700;color:var(--ink)}
+.num-arrow:hover{border-color:var(--blue);color:var(--blue)}
+.num-dots{display:flex;gap:6px}
+.num-dot{width:9px;height:9px;border-radius:50%;background:#c6cdd3;border:0;cursor:pointer;padding:0}
+.num-dot[aria-pressed="true"]{background:var(--blue)}
+@media (max-width:900px){.home-grid{grid-template-columns:1fr}.score-card{flex-basis:260px}}
+@media (max-width:640px){.lead-head{font-size:24px}.car-btn.prev{left:2px}.car-btn.next{right:2px}.num-big{font-size:34px}}
+</style>
 </head>
 <body class="league-npl">
 <header>
@@ -165,20 +231,81 @@ footer .copy{margin:0;color:#8fa1b0}
 </section>
 
 <main>
-  <section>
+  <section class="scores-sec">
     <div class="wrap">
-      <h2>Today — 10 November 2026</h2>
-      <div class="today">
-        <p><strong>Match 21: Sudurpaschim Royals vs Janakpur Bolts</strong><br>
-        TU International Cricket Ground, Kirtipur — 4:30 PM NST (3:45 PM PKT, 10:45 AM UTC)</p>
-        <!-- TODO-VERIFY (narrowed 10 Nov, SERP + NPL site): NPL fixtures/match page/broadcasters page all say 4:30 PM NST (10:45 UTC); Cricbuzz lists 11:00 GMT (4:45 PM NST). The 5:00 PM claims are fan posters/stale listings, not used. 4:30 PM NST stands unless the NPL site changes it. -->
-        <p>Next match: Match 22, Biratnagar Kings vs Pokhara Avengers, Thursday 12 November, 12:30 PM NST.</p>
+      <div class="pills" role="group" aria-label="Filter matches">
+        <button class="pill" type="button" data-filter="all" aria-pressed="true">All matches (6)</button>
+        <button class="pill" type="button" data-filter="upcoming" aria-pressed="false">Live &amp; upcoming (1)</button>
+        <button class="pill" type="button" data-filter="result" aria-pressed="false">Results (5)</button>
+      </div>
+      <div class="carousel-wrap">
+        <div class="carousel" id="scoreCarousel">
+          <a class="score-card" href="#results" data-kind="upcoming">
+            <p class="sc-label upcoming">Upcoming</p>
+            <p class="sc-match">Match 21 &bull; Kirtipur</p>
+            <p class="sc-row"><span class="sc-team">Sudurpaschim Royals</span></p>
+            <p class="sc-row"><span class="sc-team">Janakpur Bolts</span></p>
+            <p class="sc-result upcoming">Today, 4:30 PM NST &middot; TU International Cricket Ground</p>
+          </a>
+          <a class="score-card" href="#results" data-kind="result">
+            <p class="sc-label">Result</p>
+            <p class="sc-match">Match 20 &bull; Kirtipur</p>
+            <p class="sc-row loser"><span class="sc-team">Chitwan Rhinos</span><span class="sc-score">170/7 (20 ov)</span></p>
+            <p class="sc-row"><span class="sc-team">Kathmandu Gorkhas</span><span class="sc-score">180/8 (20 ov)</span></p>
+            <p class="sc-result">Kathmandu Gorkhas won by 10 runs</p>
+          </a>
+          <a class="score-card" href="#results" data-kind="result">
+            <p class="sc-label">Result</p>
+            <p class="sc-match">Match 19 &bull; Kirtipur</p>
+            <p class="sc-row"><span class="sc-team">Pokhara Avengers</span><span class="sc-score">217/3 (20 ov)</span></p>
+            <p class="sc-row loser"><span class="sc-team">Karnali Yaks</span><span class="sc-score">154/10 (18.3 ov)</span></p>
+            <p class="sc-result">Pokhara Avengers won by 63 runs</p>
+          </a>
+          <a class="score-card" href="#results" data-kind="result">
+            <p class="sc-label">Result</p>
+            <p class="sc-match">Match 18 &bull; Kirtipur</p>
+            <p class="sc-row"><span class="sc-team">Kathmandu Gorkhas</span><span class="sc-score">160/8 (20 ov)</span></p>
+            <p class="sc-row loser"><span class="sc-team">Lumbini Lions</span><span class="sc-score">124/10 (19.3 ov)</span></p>
+            <p class="sc-result">Kathmandu Gorkhas won by 36 runs</p>
+          </a>
+          <a class="score-card" href="#results" data-kind="result">
+            <p class="sc-label">Result</p>
+            <p class="sc-match">Match 17 &bull; Kirtipur</p>
+            <p class="sc-row"><span class="sc-team">Chitwan Rhinos</span><span class="sc-score">151/6 (20 ov)</span></p>
+            <p class="sc-row loser"><span class="sc-team">Pokhara Avengers</span><span class="sc-score">121/10 (19 ov)</span></p>
+            <p class="sc-result">Chitwan Rhinos won by 30 runs</p>
+          </a>
+          <a class="score-card" href="#results" data-kind="result">
+            <p class="sc-label">Result</p>
+            <p class="sc-match">Match 16 &bull; Kirtipur</p>
+            <p class="sc-row"><span class="sc-team">Sudurpaschim Royals</span><span class="sc-score">176/6 (20 ov)</span></p>
+            <p class="sc-row loser"><span class="sc-team">Karnali Yaks</span><span class="sc-score">137/7 (20 ov)</span></p>
+            <p class="sc-result">Sudurpaschim Royals won by 39 runs</p>
+          </a>
+        </div>
+        <button class="car-btn prev" type="button" id="carPrev" aria-label="Previous matches" disabled>&lsaquo;</button>
+        <button class="car-btn next" type="button" id="carNext" aria-label="Next matches">&rsaquo;</button>
       </div>
     </div>
   </section>
-
   <section>
     <div class="wrap">
+      <h2>Match Coverage</h2>
+      <div class="today">
+        <p class="lead-kicker"><span class="live-dot" aria-hidden="true"></span>Upcoming &middot; Today, 10 November 2026</p>
+        <h3 class="lead-head">Sudurpaschim Royals vs Janakpur Bolts</h3>
+        <p class="lead-score">Nepal Premier League, Match 21 &middot; TU International Cricket Ground, Kirtipur &middot; <span class="t-time">4:30 PM NST (3:45 PM PKT, 10:45 AM UTC)</span></p>
+        <p class="lead-stand">Royals sit 3rd with 6 points and Bolts 5th with 4 after Match 20 &mdash; a Royals win takes them to 8 points, level with Kathmandu Gorkhas at the top.</p>
+        <!-- TODO-VERIFY (narrowed 10 Nov): NPL fixtures/match page/broadcasters page say 4:30 PM NST (10:45 UTC); Cricbuzz lists 11:00 GMT (4:45 PM NST). 5:00 PM claims are fan posters/stale listings, not used. -->
+        <p class="lead-links"><a href="#points-table">NPL points table</a> &middot; <a href="#schedule">NPL schedule</a> &middot; <a href="#where-to-watch">Where to watch</a></p>
+      </div>
+      <p class="note">Times are shown in Nepal Standard Time (NST, UTC+5:45) for NPL matches.</p>
+    </div>
+  </section>
+<div class="wrap"><div class="home-grid"><div class="home-main">
+
+
+  <section id="points-table">
       <h2>NPL Season 3 points table — after Match 20 (9 November 2026)</h2>
       <p class="lead">A win is worth 2 points. The top four teams qualify for the playoffs. Net run rate decides places when teams are level on points.</p>
       <div class="table-scroll">
@@ -197,11 +324,9 @@ footer .copy{margin:0;color:#8fa1b0}
       </table>
       </div>
       <p class="note">Table verified against the NPL data file (updated 9 November 2026, after Match 20) and cross-checked against published standings. NRR values were recomputed from runs and overs and match the published figures.</p>
-    </div>
   </section>
 
-  <section>
-    <div class="wrap">
+  <section id="schedule">
       <h2>NPL 2026 schedule — all 28 league matches</h2>
       <p class="lead">Every league match is at the TU International Cricket Ground, Kirtipur. Times are in Nepal Standard Time (NST, UTC+5:45). Playoffs run from 17 to 21 November, with Qualifier 1 on 17 November and the final on Saturday 21 November.</p>
       <div class="table-scroll">
@@ -240,47 +365,113 @@ footer .copy{margin:0;color:#8fa1b0}
       </table>
       </div>
       <p class="note">Fixtures verified against the NPL fixtures file. The full NPL site carries every match page, scorecard and preview: <a href="https://nplcricketleague.com/">nplcricketleague.com</a>.</p>
-    </div>
   </section>
 
-  <section>
-    <div class="wrap">
-      <h2>Latest results</h2>
+  <section id="results">
+      <h2>Results — every match so far <a class="see-all" href="#schedule">Full schedule &rsaquo;</a></h2>
+      <p class="lead">All 20 league matches played so far, newest first. Match 7 was abandoned due to rain — no result, points shared.</p>
       <div class="table-scroll">
       <table>
-        <thead><tr><th>Match</th><th>Result</th></tr></thead>
+        <thead><tr><th>Match</th><th>Fixture &amp; scores</th><th>Result</th></tr></thead>
         <tbody>
-          <tr><td>16 — Sudurpaschim Royals vs Karnali Yaks</td><td>Sudurpaschim Royals won by 39 runs</td></tr>
-          <tr><td>17 — Chitwan Rhinos vs Pokhara Avengers</td><td>Chitwan Rhinos won by 30 runs</td></tr>
-          <tr><td>18 — Kathmandu Gorkhas vs Lumbini Lions</td><td>Kathmandu Gorkhas won by 36 runs</td></tr>
-          <tr><td>19 — Pokhara Avengers vs Karnali Yaks</td><td>Pokhara Avengers won by 63 runs</td></tr>
-          <tr><td>20 — Chitwan Rhinos vs Kathmandu Gorkhas</td><td>Kathmandu Gorkhas won by 10 runs</td></tr>
+          <tr><td>20</td><td>Chitwan Rhinos 170/7 (20 ov) vs Kathmandu Gorkhas 180/8 (20 ov)</td><td>Kathmandu Gorkhas won by 10 runs</td></tr>
+          <tr><td>19</td><td>Pokhara Avengers 217/3 (20 ov) vs Karnali Yaks 154/10 (18.3 ov)</td><td>Pokhara Avengers won by 63 runs</td></tr>
+          <tr><td>18</td><td>Kathmandu Gorkhas 160/8 (20 ov) vs Lumbini Lions 124/10 (19.3 ov)</td><td>Kathmandu Gorkhas won by 36 runs</td></tr>
+          <tr><td>17</td><td>Chitwan Rhinos 151/6 (20 ov) vs Pokhara Avengers 121/10 (19 ov)</td><td>Chitwan Rhinos won by 30 runs</td></tr>
+          <tr><td>16</td><td>Sudurpaschim Royals 176/6 (20 ov) vs Karnali Yaks 137/7 (20 ov)</td><td>Sudurpaschim Royals won by 39 runs</td></tr>
+          <tr><td>15</td><td>Kathmandu Gorkhas 86/1 (9.4 ov) vs Biratnagar Kings 83/10 (18.3 ov)</td><td>Kathmandu Gorkhas won by 9 wickets</td></tr>
+          <tr><td>14</td><td>Lumbini Lions 149/8 (20 ov) vs Janakpur Bolts 133/8 (20 ov)</td><td>Lumbini Lions won by 16 runs</td></tr>
+          <tr><td>13</td><td>Lumbini Lions 98/2 (11.4 ov) vs Pokhara Avengers 97/9 (20 ov)</td><td>Lumbini Lions won by 8 wickets</td></tr>
+          <tr><td>12</td><td>Biratnagar Kings 174/3 (20 ov) vs Janakpur Bolts 172/7 (20 ov)</td><td>Biratnagar Kings won by 2 runs</td></tr>
+          <tr><td>11</td><td>Sudurpaschim Royals 131/5 (16.4 ov) vs Chitwan Rhinos 129/6 (20 ov)</td><td>Sudurpaschim Royals won by 5 wickets</td></tr>
+          <tr><td>10</td><td>Kathmandu Gorkhas 181/6 (19.4 ov) vs Karnali Yaks 180/6 (20 ov)</td><td>Kathmandu Gorkhas won by 4 wickets</td></tr>
+          <tr><td>9</td><td>Janakpur Bolts 147/7 (20 ov) vs Pokhara Avengers 138/9 (20 ov)</td><td>Janakpur Bolts won by 9 runs</td></tr>
+          <tr><td>8</td><td>Sudurpaschim Royals 70/3 (5 ov) vs Biratnagar Kings 105/2 (5 ov)</td><td>Biratnagar Kings won by 35 runs</td></tr>
+          <tr><td>7</td><td>Lumbini Lions &mdash; vs Chitwan Rhinos &mdash;</td><td>No result &mdash; abandoned due to rain, points shared</td></tr>
+          <tr><td>6</td><td>Karnali Yaks 187/6 (19.5 ov) vs Biratnagar Kings 186/7 (20 ov)</td><td>Karnali Yaks won by 4 wickets</td></tr>
+          <tr><td>5</td><td>Janakpur Bolts 116/2 (17.2 ov) vs Kathmandu Gorkhas 115/10 (19.3 ov)</td><td>Janakpur Bolts won by 8 wickets</td></tr>
+          <tr><td>4</td><td>Pokhara Avengers 145/7 (20 ov) vs Sudurpaschim Royals 148/4 (16.5 ov)</td><td>Sudurpaschim Royals won by 6 wickets</td></tr>
+          <tr><td>3</td><td>Karnali Yaks 132/9 (20 ov) vs Janakpur Bolts 113/10 (19.3 ov)</td><td>Karnali Yaks won by 19 runs</td></tr>
+          <tr><td>2</td><td>Biratnagar Kings 149/10 (19.3 ov) vs Chitwan Rhinos 157/3 (20 ov)</td><td>Chitwan Rhinos won by 8 runs</td></tr>
+          <tr><td>1</td><td>Lumbini Lions 88/3 (9.5 ov) vs Sudurpaschim Royals 87 (17.2 ov)</td><td>Lumbini Lions won by 7 wickets</td></tr>
         </tbody>
       </table>
       </div>
-      <p class="note">Match 7 (Lumbini Lions vs Chitwan Rhinos, 31 October) was abandoned due to rain — no result, points shared.</p>
-    </div>
+      <p class="note">Scores verified against the NPL results file (updated 9 November 2026, source: ESPN / verified scorecards). Every scorecard is on the full NPL site: <a href="https://nplcricketleague.com/">nplcricketleague.com</a>.</p>
   </section>
 
-  <section>
-    <div class="wrap">
-      <h2>The eight teams</h2>
-      <div class="teams">
-        <div class="team"><b>Kathmandu Gorkhas</b><p>Table leaders after Match 20 — four wins in a row.</p></div>
-        <div class="team"><b>Lumbini Lions</b><p>Second on 7 points, with the best net run rate in the league.</p></div>
-        <div class="team"><b>Sudurpaschim Royals</b><p>Third on 6 points, in the playoff places.</p></div>
-        <div class="team"><b>Chitwan Rhinos</b><p>Fourth on 5 points, one point ahead of the chasing pack.</p></div>
-        <div class="team"><b>Janakpur Bolts</b><p>Fifth on 4 points, needing wins to stay in the playoff race.</p></div>
-        <div class="team"><b>Biratnagar Kings</b><p>Sixth on 4 points, level with Janakpur and Karnali.</p></div>
-        <div class="team"><b>Karnali Yaks</b><p>Seventh on 4 points, after three straight defeats.</p></div>
-        <div class="team"><b>Pokhara Avengers</b><p>Eighth on 2 points, after their first win in Match 19.</p></div>
+  <section id="records">
+      <h2>Records &amp; stats — after Match 20</h2>
+      <p class="lead">The numbers that matter from Season 3 so far, from the NPL season stats file (updated 9 November 2026).</p>
+      <h3>Most runs</h3>
+      <div class="table-scroll">
+      <table>
+        <thead><tr><th>Player</th><th>Team</th><th>M</th><th>Runs</th><th>HS</th><th>SR</th><th>50s</th></tr></thead>
+        <tbody>
+          <tr><td>Lokesh Bam</td><td>Biratnagar Kings</td><td>5</td><td>194</td><td>87</td><td>154.0</td><td>2</td></tr>
+          <tr><td>Ravi Bopara</td><td>Chitwan Rhinos</td><td>4</td><td>171</td><td>55</td><td>132.6</td><td>1</td></tr>
+          <tr><td>Andre Russell</td><td>Biratnagar Kings</td><td>5</td><td>144</td><td>52</td><td>189.5</td><td>1</td></tr>
+          <tr><td>Ariful Islam</td><td>Karnali Yaks</td><td>5</td><td>143</td><td>44</td><td>183.3</td><td>0</td></tr>
+          <tr><td>Pawan Sarraf</td><td>Karnali Yaks</td><td>5</td><td>140</td><td>37</td><td>105.3</td><td>0</td></tr>
+        </tbody>
+      </table>
       </div>
-      <p class="note">Full squads for every team are on the NPL site: <a href="https://nplcricketleague.com/">nplcricketleague.com</a>.</p>
-    </div>
+      <h3>Most wickets</h3>
+      <div class="table-scroll">
+      <table>
+        <thead><tr><th>Player</th><th>Team</th><th>M</th><th>Wkts</th><th>Econ</th></tr></thead>
+        <tbody>
+          <tr><td>Rijan Dhakal</td><td>Chitwan Rhinos</td><td>4</td><td>10</td><td>6.75</td></tr>
+          <tr><td>Kamal Airee</td><td>Chitwan Rhinos</td><td>3</td><td>9</td><td>5.8</td></tr>
+          <tr><td>Sompal Kami</td><td>Karnali Yaks</td><td>5</td><td>9</td><td>8.82</td></tr>
+          <tr><td>Sher Malla</td><td>Lumbini Lions</td><td>4</td><td>8</td><td>5.19</td></tr>
+          <tr><td>Rahul Yadav</td><td>Janakpur Bolts</td><td>5</td><td>8</td><td>7.19</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <h3>Season records so far</h3>
+      <ul>
+        <li><b>Highest team total:</b> Pokhara Avengers 217/3 vs Karnali Yaks, Match 19 (9 November).</li>
+        <li><b>Biggest win:</b> Pokhara Avengers beat Karnali Yaks by 63 runs, Match 19.</li>
+        <li><b>Highest individual score:</b> Yuvraaj Samra 102 (Pokhara Avengers) vs Karnali Yaks, Match 19 — Player of the Match.</li>
+        <li><b>Most runs:</b> Lokesh Bam (Biratnagar Kings), 194 in 5 matches, including 16 sixes.</li>
+        <li><b>Most wickets:</b> Rijan Dhakal (Chitwan Rhinos), 10 in 4 matches.</li>
+      </ul>
+      <p class="note">Stats cover the 19 completed matches (Match 7 was abandoned). Full player stats are on the full NPL site: <a href="https://nplcricketleague.com/">nplcricketleague.com</a>.</p>
   </section>
 
-  <section>
-    <div class="wrap">
+  <section id="squads">
+      <h2>The eight teams &amp; squads</h2>
+      <p class="lead">Verified squad lists for Season 3. Roles are shown where confirmed. Full squads, player profiles and auction details are on the full NPL site: <a href="https://nplcricketleague.com/">nplcricketleague.com</a>.</p>
+      <div class="teams">
+        <div class="team"><b>Kathmandu Gorkhas</b><p>.</p><p>Bhim Sharki (Batter), David Warner (Batter), Dayanand Mandal (Bowler), Dev Shah, KS Bharat (Wicketkeeper-batter), Karan KC, Krishna Paudel, Mohammad Aadil Alam (All-rounder), Prashiddha Jaishi (Allrounder), Rashid Khan (Bowler), Sahan Arachchige (All-rounder), Sahil Patel (Wicketkeeper), Santosh Yadav (All-rounder), Shahab Alam (Bowler), Sonu Devkota (Bowler), Suryanshu Koirala (Batter)</p></div>
+        <div class="team"><b>Lumbini Lions</b><p>Coach: Tinu Yohannan. Lumbini Lions won the 2025 title..</p><p>Aakash Tripathi (Batter), Aasif Sheikh (Wicketkeeper), Abhishesh Gautam (Bowler), Ajay Chauhan (Bowler), Arniko Prasad Yadav (Batting Allrounder), Dilip Nath (Wicketkeeper), Dinesh Adhikari (All-rounder), Durgesh Gupta (Bowler), Kishore Mahato (Bowler), Rohit Kumar Paudel, Sher Malla (All-rounder), Sundeep Jora (Batter), Tilak Bhandari (Bowler), Tinu Yohannan (Head coach)</p></div>
+        <div class="team"><b>Sudurpaschim Royals</b><p>Coach: Misbah-ul-Haq.</p><p>Aarif Sheikh (Batter), Abinash Bohara (Bowler), Anil Kharel (Bowler), Ayub Chand, Binod Bhandari (Wicketkeeper), Dipak Bohara (Wicketkeeper), Dipendra Singh Airee (All-rounder), Hemant Dhami (Bowler), Hikmat Mahara, Ishan Pandey (Batter), Milan Bohara (Allrounder), Misbah-ul-Haq (Head coach), Sachin Bhatta (Bowler), Saif Ali Zaib (All-rounder), Tek Rawat (Wicketkeeper)</p></div>
+        <div class="team"><b>Chitwan Rhinos</b><p>Coach: Sohail Tanvir.</p><p>Arjun Saud, Ashok Dhami (Bowler), Bibek Kumar Yadav (Allrounder), Bipin Rawal (Wicketkeeper), Deepak Bohara, Dev Khanal (Batter), Gautam KC (Bowler), Kamal Singh Airee (Bowler), Kushal Malla (All-rounder), Mausam Dhakal (Bowler), Ranjeet Kumar, Rijan Dhakal, Salahuddin Khan, Sikandar Raza (All-rounder), Sohail Tanvir (Head coach), Usama Mir (Bowler)</p></div>
+        <div class="team"><b>Janakpur Bolts</b><p>Captain: Harmeet Singh. Coach: Shivnarine Chanderpaul. Janakpur Bolts won the inaugural title in 2024..</p><p>Aaditya Mahata (Bowler), Aashutosh Pandey, Abhisekh Tiwari (Allrounder), Amar Singh Rautela (Bowling allrounder), Anil Kumar Sah, Bikash Aagri, Bishal Kumar Patel (Bowling allrounder), Bishal Susling (Allrounder), Harmeet Singh (All-rounder), James Neesham (All-rounder), Lalit Narayan Rajbanshi, Mayan Yadav, Moeen Ali (All-rounder), Rit Gautam (Batter), Santosh Karki (Wicketkeeper), Shivnarine Chanderpaul (Head coach), Trit Raj Das (Batter)</p></div>
+        <div class="team"><b>Biratnagar Kings</b><p>Coach: Dhammika Prasad.</p><p>Andre Russell (All-rounder), Aprajit Poudel (Slow left-arm orthodox bowler), Basir Ahamad (Left-handed all-rounder (Left-arm spin)), Charith Asalanka (Batter), Dhammika Prasad (Head coach), Dilsad Ali (Wicketkeeper-batter), Imran Sheikh (Batter), Lokesh Bam (Wicketkeeper-batter), Narayan Joshi (Fast-bowling all-rounder (Right-arm medium-fast)), Naren Saud (Bowler), Prajwal Thapa (Wicketkeeper), Pratik Shrestha (Allrounder), Pratish GC (Left-arm fast bowler), Rupesh Kumar Singh (Allrounder), Sandeep Lamichhane (Right-arm leg-break bowler), Subash Bhandari (Right-arm offbreak bowler), Sujan Thapaliya (Allrounder)</p></div>
+        <div class="team"><b>Karnali Yaks</b><p>.</p><p>Bipin Prasad Sharma (Bowler), Deepak Dumre, Dipendra Rawat (Allrounder), Diwan Pun (Allrounder), Gulshan Kumar Jha, Nandan Yadav (Bowler), Pawan Sarraf (All-rounder), Sachin Sharma (Batter), Shubh Kansakar (Batter), Sompal Kami (Bowler), Surya Tamang (Bowler), Unish Bikram Singh Thakuri, Yuvraj Khatri (Bowler)</p></div>
+        <div class="team"><b>Pokhara Avengers</b><p>Coach: Ajantha Mendis.</p><p>Aakash Chand, Ajantha Mendis (Head coach), Arjun Gharti (Wicketkeeper), Arjun Kumal, Bibek Kumar Rana Magar (Batter), Bipin Acharya (Allrounder), Bipin Khatri, Chamika Karunaratne (Bowling all-rounder), Dinesh Kharel, Kiran Thagunna, Kushal Bhurtel (Batter), Mahedi Hasan (All-rounder), Pratik Pokharel (Bowler), Sagar Dhakal (Bowler), Shakib Al Hasan (All-rounder), Sudip Aryal (Bowler), Sunny BK</p></div>
+      </div>
+      <p class="note">Squad lists show players verified for Season 3 in the NPL data file (checked 21 October 2026, sources: Kathmandu Post retentions and CricNepal auction). A small number of players are still unverified for Season 3 and are not listed here.</p>
+  </section>
+
+  <section id="playoffs">
+      <h2>Playoffs</h2>
+      <p class="lead">The top four teams on the points table qualify for the playoffs. All playoff matches are at the TU International Cricket Ground, Kirtipur.</p>
+      <ul>
+        <li><b>Qualifier 1:</b> Tuesday 17 November 2026.</li>
+        <li><b>Final:</b> Saturday 21 November 2026.</li>
+      </ul>
+      <p class="note">The exact playoff fixtures depend on the final league standings and are to be announced.</p>
+  </section>
+  <section id="venue">
+      <h2>Venue</h2>
+      <p class="lead">All 32 matches of NPL Season 3 are played at one ground — the Tribhuvan University International Cricket Ground in Kirtipur, Nepal. The league stage runs from 26 October to 15 November 2026, and the playoffs from 17 to 21 November.</p>
+      <p>One venue for the whole season means every team plays on the same pitch, in the same conditions — and the points table is a straight read of who handled Kirtipur best.</p>
+  </section>
+
+  <section id="where-to-watch">
       <h2>Where to watch the NPL</h2>
       <p class="lead">Watch the Nepal Premier League only through its official broadcasters. SialTV never links to pirated streams, and there is no free legal live stream for Season 3.</p>
       <div class="table-scroll">
@@ -295,11 +486,9 @@ footer .copy{margin:0;color:#8fa1b0}
       </table>
       </div>
       <p class="note">Kantipur Max and DishHome GO held rights in Season 2 only — they do not carry Season 3. Season 3 rights were awarded in September 2026: NetTV for worldwide streaming and Himalaya Television for Nepal TV. Pass prices and availability vary by country; check the broadcaster before you buy.</p>
-    </div>
   </section>
 
-  <section class="faq">
-    <div class="wrap">
+  <section class="faq" id="faq">
       <h2>Frequently asked questions</h2>
       <h3>When does NPL Season 3 finish?</h3>
       <p>The league stage ends on Sunday 15 November 2026. The playoffs run from 17 to 21 November, and the final is on Saturday 21 November at the TU International Cricket Ground, Kirtipur.</p>
@@ -311,8 +500,54 @@ footer .copy{margin:0;color:#8fa1b0}
       <p>All 32 matches are played at the Tribhuvan University International Cricket Ground in Kirtipur, Nepal.</p>
       <h3>Where can I see the full NPL schedule and every scorecard?</h3>
       <p>On the full NPL site, nplcricketleague.com, which carries every match page, scorecard, squad list and news story for Season 3.</p>
-    </div>
   </section>
+</div>
+<aside class="home-side" aria-label="Sidebar">
+      <div class="num-panel" id="numPanel">
+        <h3>Number Crunching</h3>
+        <p class="num-big" id="numBig">217</p>
+        <p class="num-cap" id="numCap">Pokhara Avengers&rsquo; 217/3 against Karnali Yaks (Match 19) is the highest total of NPL Season 3 so far.</p>
+        <div class="num-nav">
+          <button class="num-arrow" type="button" id="numPrev" aria-label="Previous number">&lsaquo;</button>
+          <div class="num-dots" role="group" aria-label="Choose number">
+            <button class="num-dot" type="button" data-slide="0" aria-pressed="true" aria-label="Number 1"></button>
+            <button class="num-dot" type="button" data-slide="1" aria-pressed="false" aria-label="Number 2"></button>
+            <button class="num-dot" type="button" data-slide="2" aria-pressed="false" aria-label="Number 3"></button>
+          </div>
+          <button class="num-arrow" type="button" id="numNext" aria-label="Next number">&rsaquo;</button>
+        </div>
+      </div>
+      <div class="side-card">
+        <h3>Coming up</h3>
+        <ul>
+          <li><b>Match 21: Sudurpaschim Royals vs Janakpur Bolts</b><span>Today, Tue 10 Nov, 4:30 PM NST &middot; Kirtipur</span></li>
+          <li><b>Match 22: Biratnagar Kings vs Pokhara Avengers</b><span>Thu 12 Nov, 12:30 PM NST &middot; Kirtipur</span></li>
+          <li><b>Qualifier 1</b><span>Tue 17 Nov &middot; Kirtipur</span></li>
+          <li><b>Final</b><span>Sat 21 Nov &middot; Kirtipur</span></li>
+        </ul>
+        <p style="margin:10px 0 0"><a href="#schedule">Full schedule &rsaquo;</a></p>
+      </div>
+      <div class="side-card">
+        <h3>On this page</h3>
+        <ul>
+          <li><a href="#points-table">Points table</a></li>
+          <li><a href="#schedule">Schedule</a></li>
+          <li><a href="#results">Results</a></li>
+          <li><a href="#records">Records &amp; stats</a></li>
+          <li><a href="#squads">Teams &amp; squads</a></li>
+          <li><a href="#playoffs">Playoffs</a></li>
+          <li><a href="#venue">Venue</a></li>
+          <li><a href="#where-to-watch">Where to watch</a></li>
+        </ul>
+      </div>
+      <div class="side-card">
+        <h3>Full NPL coverage</h3>
+        <ul>
+          <li><a href="https://nplcricketleague.com/">nplcricketleague.com</a><span>Every match page, scorecard, squad and news story for Season 3.</span></li>
+        </ul>
+      </div>
+    </aside>
+</div></div>
 </main>
 
 <footer>
@@ -345,5 +580,57 @@ footer .copy{margin:0;color:#8fa1b0}
   </div>
   <div class="copy-strip"><div class="wrap"><p class="copy">© 2026 SialTV</p></div></div>
 </footer>
+<script>
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  /* Filter pills */
+  var pills = document.querySelectorAll('.pill');
+  var cards = document.querySelectorAll('.score-card');
+  pills.forEach(function(p){
+    p.addEventListener('click', function(){
+      pills.forEach(function(x){ x.setAttribute('aria-pressed','false'); });
+      p.setAttribute('aria-pressed','true');
+      var f = p.getAttribute('data-filter');
+      cards.forEach(function(c){ c.hidden = (f !== 'all' && c.getAttribute('data-kind') !== f); });
+      updateArrows();
+    });
+  });
+  /* Carousel: one card per click */
+  var track = document.getElementById('scoreCarousel');
+  var prev = document.getElementById('carPrev');
+  var next = document.getElementById('carNext');
+  function cardStep(){
+    var c = track.querySelector('.score-card:not([hidden])');
+    return c ? c.offsetWidth + 12 : 300;
+  }
+  function updateArrows(){
+    var max = track.scrollWidth - track.clientWidth - 2;
+    prev.disabled = track.scrollLeft <= 2;
+    next.disabled = track.scrollLeft >= max;
+  }
+  prev.addEventListener('click', function(){ track.scrollBy({left: -cardStep(), behavior: reduce ? 'auto' : 'smooth'}); });
+  next.addEventListener('click', function(){ track.scrollBy({left: cardStep(), behavior: reduce ? 'auto' : 'smooth'}); });
+  track.addEventListener('scroll', updateArrows, {passive: true});
+  window.addEventListener('resize', updateArrows);
+  updateArrows();
+  /* Number Crunching rotator */
+  var slides = [
+    {n: '217', c: 'Pokhara Avengers’ 217/3 against Karnali Yaks (Match 19) is the highest total of NPL Season 3 so far.'},
+    {n: '63', c: 'Pokhara Avengers beat Karnali Yaks by 63 runs (Match 19) — the biggest win of the season so far.'},
+    {n: '8', c: 'Kathmandu Gorkhas lead the points table with 8 points after Match 20.'}
+  ];
+  var big = document.getElementById('numBig'), cap = document.getElementById('numCap');
+  var dots = document.querySelectorAll('.num-dot'), idx = 0;
+  function show(i){
+    idx = (i + slides.length) % slides.length;
+    big.textContent = slides[idx].n;
+    cap.textContent = slides[idx].c;
+    dots.forEach(function(d, j){ d.setAttribute('aria-pressed', j === idx ? 'true' : 'false'); });
+  }
+  document.getElementById('numPrev').addEventListener('click', function(){ show(idx - 1); });
+  document.getElementById('numNext').addEventListener('click', function(){ show(idx + 1); });
+  dots.forEach(function(d){ d.addEventListener('click', function(){ show(parseInt(d.getAttribute('data-slide'), 10)); }); });
+})();
+</script>
 </body>
 </html>
