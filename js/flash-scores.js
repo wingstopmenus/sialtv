@@ -17,6 +17,8 @@
   }
 
   function chip(name) {
+    var img = window.sialtvTeamLogos && window.sialtvTeamLogos[String(name || '').trim()];
+    if (img) return img;
     var bits = String(name || '').trim().split(/\s+/);
     var ini = bits.map(function (w) { return w[0] || ''; }).join('').slice(0, 2).toUpperCase();
     return '<span class="sc-chip">' + esc(ini) + '</span>';
