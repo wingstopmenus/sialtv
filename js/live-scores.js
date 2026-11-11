@@ -88,6 +88,14 @@
     } catch (e) { return iso; }
   }
 
+  /* Match pages exist for npl, ilt20, sa20 and bbl only; apl and psl
+     fall back to the results list until their match pages exist. */
+  var MATCH_SEASON = { npl: '2026', ilt20: '2026-27', sa20: '2026-27', bbl: '2026-27' };
+  function matchUrl(league, matchNo) {
+    var season = MATCH_SEASON[league];
+    return season ? '/' + league + '/matches/' + season + '/match-' + matchNo + '/' : '/' + league + '/results/';
+  }
+
   function scoreLine(m) {
     if (!m) return '';
     if (m.status === 'upcoming') return esc(m.team1) + ' vs ' + esc(m.team2);
@@ -117,10 +125,10 @@
     return bits.length ? '<p class="note">' + bits.join(' &middot; ') + '.</p>' : '';
   }
 
-  function cardHtml(m, label) {
+  function cardHtml(m, label, league) {
     var html = '<div class="today">';
     html += '<p class="today-label">' + esc(label) + ' &middot; Match ' + m.matchNo + ' &middot; ' + esc(fmtDate(m.date)) + '</p>';
-    html += '<strong>' + scoreLine(m) + '</strong>';
+    html += '<strong><a href="' + matchUrl(league, m.matchNo) + '">' + scoreLine(m) + '</a></strong>';
     html += '<p>' + esc(m.statusText || '') + (m.venue ? ' at ' + esc(m.venue) : '') + '.</p>';
     if (m.status === 'result') html += performersLine(m);
     if (m.toss) html += '<p class="note">' + esc(m.toss) + '</p>';
@@ -128,8 +136,8 @@
     return html;
   }
 
-  function resultItem(m) {
-    return '<li><b>Match ' + m.matchNo + ': ' + esc(m.team1) + ' ' + esc(m.score1 || '') + ' vs ' + esc(m.team2) + ' ' + esc(m.score2 || '') + '</b><span>' + esc(m.statusText || '') + ' &middot; ' + esc(fmtDate(m.date)) + '</span></li>';
+  function resultItem(m, league) {
+    return '<li><a href="' + matchUrl(league, m.matchNo) + '"><b>Match ' + m.matchNo + ': ' + esc(m.team1) + ' ' + esc(m.score1 || '') + ' vs ' + esc(m.team2) + ' ' + esc(m.score2 || '') + '</b><span>' + esc(m.statusText || '') + ' &middot; ' + esc(fmtDate(m.date)) + '</span></a></li>';
   }
 
   /* ---- tabs (Summary / Scorecard / Overs) ---- */
@@ -160,9 +168,9 @@
     var overs = document.getElementById('slp-overs');
     var p = pick((data && data.matches) || []);
     var html = '';
-    if (p.live) html += cardHtml(p.live, 'Live now');
-    else if (p.latest) html += cardHtml(p.latest, 'Latest result');
-    if (p.next) html += cardHtml(p.next, 'Next match');
+    if (p.live) html += cardHtml(p.live, 'Live now', league);
+    else if (p.latest) html += cardHtml(p.latest, 'Latest result', league);
+    if (p.next) html += cardHtml(p.next, 'Next match', league);
     if (html && root) root.innerHTML = html;
     if (fresh) {
       fresh.textContent = (data.fetchedAt ? fmtUpdated(data.fetchedAt) : 'Last checked: 11 November 2026') +
@@ -184,7 +192,7 @@
           for (var j = 0; j < done.length; j++) if (done[j].matchNo === no) inFeed = true;
           if (!inFeed) kept.push(items[i].outerHTML);
         }
-        results.innerHTML = done.map(resultItem).join('') + kept.join('');
+        results.innerHTML = done.map(function (m) { return resultItem(m, league); }).join('') + kept.join('');
       }
     }
     var featured = p.live || p.latest;

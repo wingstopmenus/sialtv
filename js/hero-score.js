@@ -13,6 +13,14 @@
     });
   }
 
+  /* Match pages exist for npl, ilt20, sa20 and bbl only; apl and psl
+     fall back to the results list until their match pages exist. */
+  var MATCH_SEASON = { npl: '2026', ilt20: '2026-27', sa20: '2026-27', bbl: '2026-27' };
+  function matchUrl(league, matchNo) {
+    var season = MATCH_SEASON[league];
+    return season ? '/' + league + '/matches/' + season + '/match-' + matchNo + '/' : '/' + league + '/results/';
+  }
+
   function render(root, data, league) {
     var p = window.sialtvPick((data && data.matches) || []);
     var m = p.live || p.latest;
@@ -20,7 +28,7 @@
     if (m) {
       var label = p.live ? 'Live now' : 'Latest result · Match ' + m.matchNo;
       html += '<p class="lead-kicker">' + (p.live ? '<span class="live-dot" aria-hidden="true"></span>' : '') + esc(label) + '</p>';
-      html += '<h3 class="lead-head">' + esc(m.team1) + ' ' + esc(m.score1 || '') + (m.overs1 ? ' (' + esc(m.overs1) + ' ov)' : '') + ' vs ' + esc(m.team2) + ' ' + esc(m.score2 || '') + (m.overs2 ? ' (' + esc(m.overs2) + ' ov)' : '') + '</h3>';
+      html += '<h3 class="lead-head"><a href="' + matchUrl(league, m.matchNo) + '">' + esc(m.team1) + ' ' + esc(m.score1 || '') + (m.overs1 ? ' (' + esc(m.overs1) + ' ov)' : '') + ' vs ' + esc(m.team2) + ' ' + esc(m.score2 || '') + (m.overs2 ? ' (' + esc(m.overs2) + ' ov)' : '') + '</a></h3>';
       html += '<p class="lead-score">' + esc(m.statusText || '') + '</p>';
       if (p.live && m.live) {
         var bits = [];
@@ -30,7 +38,7 @@
       }
     }
     if (p.next) {
-      html += '<p class="lead-stand">Next: ' + esc(p.next.team1) + ' vs ' + esc(p.next.team2) + ' &middot; Match ' + p.next.matchNo + '</p>';
+      html += '<p class="lead-stand">Next: <a href="' + matchUrl(league, p.next.matchNo) + '">' + esc(p.next.team1) + ' vs ' + esc(p.next.team2) + '</a> &middot; Match ' + p.next.matchNo + '</p>';
     }
     html += '<p class="lead-links"><a href="/' + league + '/live-scores/">' + league.toUpperCase() + ' live scores</a> &middot; <a href="/' + league + '/results/">' + league.toUpperCase() + ' results</a> &middot; <a href="/' + league + '/points-table/">' + league.toUpperCase() + ' points table</a></p>';
     if (data.fetchedAt && window.sialtvFmtUpdated) {

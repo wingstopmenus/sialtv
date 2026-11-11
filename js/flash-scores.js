@@ -19,10 +19,18 @@
     return '<span class="sc-chip">' + esc(ini) + '</span>';
   }
 
+  /* Match pages exist for npl, ilt20, sa20 and bbl only; apl and psl
+     fall back to the results list until their match pages exist. */
+  var MATCH_SEASON = { npl: '2026', ilt20: '2026-27', sa20: '2026-27', bbl: '2026-27' };
+  function matchUrl(league, matchNo) {
+    var season = MATCH_SEASON[league];
+    return season ? '/' + league + '/matches/' + season + '/match-' + matchNo + '/' : '/' + league + '/results/';
+  }
+
   function cardHtml(m, league) {
     var kind = m.status === 'live' ? 'live' : (m.status === 'result' ? 'result' : 'upcoming');
     var label = m.status === 'live' ? 'Live' : (m.status === 'result' ? 'Result' : 'Upcoming');
-    var html = '<a class="score-card" data-kind="' + kind + '" data-match-no="' + m.matchNo + '" href="/' + league + '/results/">';
+    var html = '<a class="score-card" data-kind="' + kind + '" data-match-no="' + m.matchNo + '" href="' + matchUrl(league, m.matchNo) + '">';
     html += '<p class="sc-label' + (kind === 'upcoming' ? ' upcoming' : '') + '">' + label + '</p>';
     html += '<p class="sc-match">Match ' + m.matchNo + ' &middot; Kirtipur</p>';
     html += '<p class="sc-row"><span class="sc-team">' + chip(m.team1) + esc(m.team1) + '</span><span class="sc-score">' + esc(m.score1 || '') + (m.overs1 ? ' (' + esc(m.overs1) + ' ov)' : '') + '</span></p>';
