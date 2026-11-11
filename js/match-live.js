@@ -35,6 +35,7 @@
   var timer = null;
   var scoreLineEl = null;
   var scorecardEl = null;
+  var liveTabEl = null;
   var chipEl = null;
 
   function esc(s) {
@@ -91,7 +92,9 @@
     s.textContent = [
       '.slp-live-score{font-weight:800;font-size:19px;line-height:1.45;margin:14px 0 0;color:#fff}',
       '.slp-live-score small{display:block;font-weight:400;font-size:14px;color:#c8d3de;margin-top:4px}',
-      '.slp-live-chip{background:#c92a1e!important;border-color:#c92a1e!important;color:#fff!important}'
+      '.slp-live-chip{background:#c92a1e!important;border-color:#c92a1e!important;color:#fff!important}',
+      '.slp-ball{display:inline-block;min-width:22px;text-align:center;padding:2px 6px;margin:0 3px 3px 0;border:1px solid #e0e0e0;border-radius:999px;font-weight:700;font-size:13px}',
+      '.slp-ball-w{background:#c92a1e;border-color:#c92a1e;color:#fff}'
     ].join('');
     document.head.appendChild(s);
   }
@@ -145,6 +148,110 @@
         '<td>' + esc(b.runs) + '</td><td>' + esc(b.wickets) + '</td>' +
         '<td>' + esc(b.econ == null ? '' : b.econ) + '</td></tr>';
     }).join('');
+  }
+
+  /* Live tab: CRR and partnership are ARITHMETIC on feed data the
+     endpoint already carries — the feed's live.crr / live.partnership
+     fields are empty strings, so they are computed here and never
+     invented. CRR = current innings runs * 6 / balls bowled.
+     Partnership = the two batters at the crease, runs + balls each
+     (their combined runs with the bat; extras during the stand are
+     not in the feed, so the figure is the pair's batting runs). */
+  function ballsFromOvers(ov) {
+    var m = /^(\d+)(?:\.(\d))?$/.exec(String(ov || '').trim());
+    if (!m) return 0;
+    return parseInt(m[1], 10) * 6 + parseInt(m[2] || '0', 10);
+  }
+
+  function crrFromInnings(m) {
+    var inns = (m.scorecard && m.scorecard.innings) || [];
+    var g = null, i, j;
+    for (i = 0; i < inns.length; i++) {
+      var bat = inns[i].batting || [];
+      for (j = 0; j < bat.length; j++) {
+        if (bat[j].crease) { g = inns[i]; break; }
+      }
+      if (g) break;
+    }
+    if (!g && inns.length) g = inns[inns.length - 1];
+    if (!g) return '';
+    var runs = 0;
+    var tm = /^(\d+)\//.exec(String(g.total || ''));
+    if (tm) runs = parseInt(tm[1], 10);
+    var balls = ballsFromOvers(g.overs);
+    if (!balls || !runs) return '';
+    return (runs * 6 / balls).toFixed(2);
+  }
+
+  function partnershipFromLive(live) {
+    var bats = (live && live.batters) || [];
+    if (bats.length < 2) return null;
+    var runs = 0, balls = 0;
+    bats.slice(0, 2).forEach(function (b) {
+      runs += parseInt(b.runs || '0', 10);
+      balls += parseInt(b.balls || '0', 10);
+    });
+    return { runs: runs, balls: balls };
+  }
+
+  /* Live tab body, in the baked scorecard's own markup (.t-nums,
+     .table-scroll, h3). What the feed does NOT carry is omitted, not
+     faked: no career columns (Mat/Runs/HS/Ave, Mat/Wkts/BBI/Ave), no
+     "This bowler" / "Last 10 ov" / "This spell" / 0s-4s-6s columns,
+     no wagon wheel or pitch maps (no data), no commentary feed. */
+  function liveTabHtml(m, fetchedAt) {
+    var live = m.live || {};
+    var bats = live.batters || [];
+    var bowls = live.bowlers || [];
+    var overs = live.recentOvers || [];
+    if (m.status === 'upcoming' || (!bats.length && !bowls.length && !overs.length)) {
+      return '<p class="slp-live-note">Match yet to begin. Live updates appear here once the match starts.</p>';
+    }
+    var html = '';
+    var crr = bats.length ? crrFromInnings(m) : '';
+    var scoreBits = [];
+    if (m.score1) scoreBits.push(esc(m.team1 || '') + ' ' + esc(m.score1) + (m.overs1 ? ' (' + esc(m.overs1) + ' ov)' : ''));
+    if (m.score2) scoreBits.push(esc(m.team2 || '') + ' ' + esc(m.score2) + (m.overs2 ? ' (' + esc(m.overs2) + ' ov)' : ''));
+    if (scoreBits.length) html += '<p><strong>' + scoreBits.join(' &middot; ') + '</strong></p>';
+    var meta = [];
+    if (crr) meta.push('CRR ' + esc(crr));
+    if (live.lastOver) meta.push('Last over: ' + esc(live.lastOver));
+    if (meta.length) html += '<p>' + meta.join(' &middot; ') + '</p>';
+    if (bats.length) {
+      html += '<h3>Current batters</h3><div class="table-scroll"><table class="t-nums"><thead><tr><th>Batter</th><th>R</th><th>B</th><th>4s</th><th>6s</th><th>SR</th></tr></thead><tbody>';
+      html += bats.map(function (b) {
+        return '<tr><td>' + esc(b.name) + (b.striker ? ' *' : '') + '</td><td>' + esc(b.runs) + '</td><td>' + esc(b.balls) + '</td><td>' + esc(b.fours == null ? '' : b.fours) + '</td><td>' + esc(b.sixes == null ? '' : b.sixes) + '</td><td>' + esc(b.sr == null ? '' : b.sr) + '</td></tr>';
+      }).join('');
+      html += '</tbody></table></div>';
+      var pship = partnershipFromLive(live);
+      if (pship) {
+        html += '<p><b>Partnership:</b> ' + pship.runs + ' runs (' + pship.balls + ' balls) — ' + esc(bats[0].name) + ' ' + esc(bats[0].runs) + ' (' + esc(bats[0].balls) + ') &amp; ' + esc(bats[1].name) + ' ' + esc(bats[1].runs) + ' (' + esc(bats[1].balls) + ')</p>';
+      }
+    }
+    if (bowls.length) {
+      html += '<h3>Current bowlers</h3><div class="table-scroll"><table class="t-nums"><thead><tr><th>Bowler</th><th>O</th><th>M</th><th>R</th><th>W</th><th>Econ</th></tr></thead><tbody>';
+      html += bowls.map(function (b) {
+        return '<tr><td>' + esc(b.name) + (b.current ? ' *' : '') + '</td><td>' + esc(b.overs == null ? '' : b.overs) + '</td><td>' + esc(b.maidens == null ? '' : b.maidens) + '</td><td>' + esc(b.runs) + '</td><td>' + esc(b.wickets) + '</td><td>' + esc(b.econ == null ? '' : b.econ) + '</td></tr>';
+      }).join('');
+      html += '</tbody></table></div><p class="note">* At the crease / bowling now.</p>';
+    }
+    if (live.lastWicket) {
+      var lw = live.lastWicket;
+      html += '<p><b>Last wicket:</b> ' + esc(lw.name) + ' ' + esc(lw.runs) + ' (' + esc(lw.balls) + ') — ' + esc(lw.dismissal || '') + (lw.over ? ', over ' + esc(lw.over) : '') + '</p>';
+    }
+    if (overs.length) {
+      html += '<h3>Recent overs</h3>';
+      overs.forEach(function (o) {
+        var toks = (o.tokens || []).map(function (t) {
+          var w = String(t) === 'W';
+          return '<span class="slp-ball' + (w ? ' slp-ball-w' : '') + '">' + esc(w ? 'W' : (String(t) === '0' ? '•' : t)) + '</span>';
+        }).join('');
+        html += '<p><b>' + esc(o.label || '') + ':</b> ' + toks + ' <span>&middot; ' + esc(String(o.runs)) + '/' + esc(String(o.wickets)) + (o.bowler ? ' &middot; ' + esc(o.bowler) : '') + '</span></p>';
+      });
+    }
+    var upd = fmtUpdated(fetchedAt);
+    html += '<p class="note">Live score' + (upd ? ' — ' + upd : '') + '. The full scorecard appears here after the match.</p>';
+    return html;
   }
 
   /* Live innings tables in the baked scorecard's own markup. The feed
@@ -226,6 +333,24 @@
       }
       if (scorecardEl) scorecardEl.innerHTML = tablesHtml(m, fetchedAt);
     }
+    /* Live tab: same poll, same render. The baked-result guard above
+       (isBaked) already owns finished pages — this only runs while
+       the match is live or just finished, and shows the final state
+       once before polling stops. */
+    var lv = document.getElementById('live');
+    if (lv) {
+      try {
+        if (!liveTabEl) {
+          var note = lv.querySelector('.slp-live-note');
+          if (note) {
+            liveTabEl = document.createElement('div');
+            liveTabEl.setAttribute('data-slp-live-tab', 'true');
+            note.parentNode.replaceChild(liveTabEl, note);
+          }
+        }
+        if (liveTabEl) liveTabEl.innerHTML = liveTabHtml(m, fetchedAt);
+      } catch (e) { /* live tab must never break hero/scorecard */ }
+    }
   }
 
   function loadMatch(league, id) {
@@ -288,6 +413,14 @@
     tick();
     document.addEventListener('visibilitychange', function () { if (!document.hidden) tick(); });
   }
+
+  /* Test hook: lets a harness call the pure Live-tab renderer with a
+     fake feed match. Harmless in production. */
+  window.sialtvLiveTab = {
+    liveTabHtml: liveTabHtml,
+    crrFromInnings: crrFromInnings,
+    partnershipFromLive: partnershipFromLive
+  };
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
   else boot();
