@@ -15,7 +15,7 @@
 <meta name="twitter:description" content="BBL 2026-27 schedule, teams and points table — 8 teams, 44 matches, 12 Dec 2026–26 Jan 2027. Chennai opener, full fixtures, venues and where to watch.">
 <meta name="theme-color" content="#0f1014">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","name":"BBL 2026-27 — Schedule, Teams & Points Table","url":"https://sialtv.com/bbl/","description":"BBL 2026-27 schedule, teams and points table — 8 teams, 44 matches, 12 Dec 2026–26 Jan 2027.","datePublished":"2026-11-10T08:25:00Z","dateModified": "2026-11-11T02:37:00Z"}
+{"@context":"https://schema.org","@type":"WebPage","name":"BBL 2026-27 — Schedule, Teams & Points Table","url":"https://sialtv.com/bbl/","description":"BBL 2026-27 schedule, teams and points table — 8 teams, 44 matches, 12 Dec 2026–26 Jan 2027.","datePublished":"2026-11-10T08:25:00Z","dateModified": "2026-11-11T05:06:00Z"}
 </script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"SialTV","item":"https://sialtv.com/"},{"@type":"ListItem","position":2,"name":"Big Bash League","item":"https://sialtv.com/bbl/"}]}
@@ -388,6 +388,18 @@ html.js [data-reveal].in{opacity:1;transform:none}
    <head>, so this needs higher specificity to beat its blue link rule. */
 main .sialtv-live-widget a{color:var(--red-text)}
 </style>
+<style>
+/* BBL secondary nav (Direction D): white strip under the NEXT ticker, red
+   underline + red text on the active section, horizontal scroll on mobile. */
+.secnav{background:#fff;border-bottom:1px solid #e5e5e5}
+.secnav .wrap{max-width:1230px;display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;padding-top:0;padding-bottom:0}
+.secnav .wrap::-webkit-scrollbar{display:none}
+.secnav a{flex:0 0 auto;font-size:14px;font-weight:700;color:#4b5166;padding:12px 12px 10px;text-decoration:none;border-bottom:2px solid transparent;white-space:nowrap}
+.secnav a:hover{color:#0f1014;text-decoration:none}
+.secnav a.active{color:var(--red-text);border-bottom-color:var(--red)}
+nav.leagues a[aria-current="page"]{background:#f4f4f5}
+@media (max-width:640px){.secnav a{padding:10px 10px 8px}}
+</style>
 </head>
 <body class="league-bbl">
 <header>
@@ -399,7 +411,7 @@ main .sialtv-live-widget a{color:var(--red-text)}
         <a href="/ilt20/">ILT20</a>
         <a href="/apl/">APL</a>
         <a href="/sa20/">SA20</a>
-        <a href="/bbl/">BBL</a>
+        <a href="/bbl/" aria-current="page">BBL</a>
         <a href="/psl/">PSL</a>
       </nav>
       <span class="top-date">Tue 10 Nov 2026</span><a class="head-cta" href="/npl/live-scores/">Live scores</a>
@@ -408,10 +420,22 @@ main .sialtv-live-widget a{color:var(--red-text)}
 </header>
   <div class="subnav">
     <div class="wrap">
-      <span><b>TODAY</b> · NPL Match 21 — Sudurpaschim Royals vs Janakpur Bolts</span>
-      <span class="t-time">4:30 PM NST · Tue 10 Nov 2026</span>
+      <span><b>NEXT</b> &middot; BBL Match 1 &mdash; Melbourne Renegades vs Perth Scorchers</span>
+      <span class="t-time">2:40 PM IST &middot; Sat 12 Dec 2026</span>
     </div>
   </div>
+  <nav class="secnav" aria-label="BBL coverage">
+    <div class="wrap">
+      <a href="/bbl/" class="active" aria-current="page">Overview</a>
+      <a href="/bbl/schedule/">Schedule</a>
+      <a href="/bbl/points-table/">Points Table</a>
+      <a href="/bbl/results/">Results</a>
+      <a href="/bbl/live-scores/">Live Scores</a>
+      <a href="/bbl/teams/">Teams</a>
+      <a href="/bbl/stats/">Stats</a>
+      <a href="/bbl/tickets/">Tickets</a>
+    </div>
+  </nav>
 
 <section class="hero">
   <div class="wrap">
@@ -425,7 +449,7 @@ main .sialtv-live-widget a{color:var(--red-text)}
     <span class="hero-chip">8 teams</span>
     <span class="hero-chip">Opener in Chennai</span>
     </div>
-        <a class="hero-cta" href="#schedule">See the full schedule <span aria-hidden="true">›</span></a>
+        <a class="hero-cta" href="/bbl/schedule/">See the full schedule <span aria-hidden="true">›</span></a>
     <p class="updated">Last updated: 11 November 2026</p>
   </div>
 </section>
@@ -440,7 +464,7 @@ main .sialtv-live-widget a{color:var(--red-text)}
         <h3 class="lead-head">Melbourne Renegades vs Perth Scorchers</h3>
         <p class="lead-score">BBL|16, Match 1 &middot; MA Chidambaram Stadium, Chennai &middot; <span class="t-time">2:40 PM IST (3:10 PM PKT, 9:10 AM UTC)</span></p>
         <p class="lead-stand">Perth Scorchers are the defending champions, with six BBL titles. The Renegades count the Chennai match as a home game.</p>
-        <p class="lead-links"><a href="#points-table">BBL points table</a> &middot; <a href="#schedule">BBL schedule</a> &middot; <a href="#where-to-watch">Where to watch</a></p>
+        <p class="lead-links"><a href="/bbl/points-table/">BBL points table</a> &middot; <a href="/bbl/schedule/">BBL schedule</a> &middot; <a href="#where-to-watch">Where to watch</a></p>
       </div>
     </div>
   </section>
@@ -452,6 +476,7 @@ main .sialtv-live-widget a{color:var(--red-text)}
       <h2>BBL 2026-27 points table</h2>
       <p class="lead">The season has not started yet, so there is no points table for BBL|16. The table will appear here after the first match on 12 December, and will be updated after every match day. A win is worth 2 points and a no result is worth 1 point. The top four teams qualify for the finals, and net run rate decides places when teams are level on points.</p>
   </section>
+      <p><a href="/bbl/points-table/">See the full points table &rsaquo;</a></p>
 
   <section data-reveal id="schedule">
       <p class="sec-eyebrow">03 — BBL 2026-27 schedule</p>
@@ -506,6 +531,7 @@ main .sialtv-live-widget a{color:var(--red-text)}
       </div>
       <p class="note">Fixtures verified against the full BBL|16 schedule announced by Cricket Australia on 14 July 2026, cross-checked across multiple season guides. The fixture list is shown in IST; local Australian times vary by city.</p>
   </section>
+      <p><a href="/bbl/schedule/">See the full schedule &rsaquo;</a></p>
 
   <section data-reveal id="teams">
       <p class="sec-eyebrow">04 — The eight teams</p>
@@ -521,6 +547,7 @@ main .sialtv-live-widget a{color:var(--red-text)}
         <div class="team"><b>Melbourne Stars</b><p>The only team yet to win a BBL title, after four final defeats. Home: Melbourne Cricket Ground.</p></div>
       </div>
   </section>
+      <p><a href="/bbl/teams/">See all eight teams &rsaquo;</a></p>
 
   <section data-reveal id="where-to-watch">
       <p class="sec-eyebrow">05 — Where to watch the BBL</p>
@@ -555,6 +582,19 @@ main .sialtv-live-widget a{color:var(--red-text)}
       <h3>Where can I see the full BBL schedule and every scorecard?</h3>
       <p>On the official BBL site and Cricket Australia's fixture pages, which carry the complete schedule with local start times, squads and news for BBL|16.</p>
   </section>
+  <section data-reveal id="more">
+      <p class="sec-eyebrow">06 — More BBL coverage</p>
+      <h2>More BBL coverage</h2>
+      <ul>
+        <li><a href="/bbl/schedule/">BBL Schedule</a> &mdash; every fixture, date, time and venue.</li>
+        <li><a href="/bbl/points-table/">BBL Points Table</a> &mdash; the standings, and how the table works.</li>
+        <li><a href="/bbl/results/">BBL Results</a> &mdash; every result of the season, newest first.</li>
+        <li><a href="/bbl/live-scores/">BBL Live Scores</a> &mdash; scores as they happen, and the next match.</li>
+        <li><a href="/bbl/teams/">BBL Teams</a> &mdash; all eight clubs, titles and home grounds.</li>
+        <li><a href="/bbl/stats/">BBL Stats</a> &mdash; top run scorers, wicket takers and rates, once the season starts.</li>
+        <li><a href="/bbl/tickets/">BBL Tickets</a> &mdash; what is confirmed about tickets so far.</li>
+      </ul>
+  </section>
 </div>
 <aside class="home-side" aria-label="Sidebar">
       <div class="side-card" data-reveal>
@@ -580,6 +620,18 @@ main .sialtv-live-widget a{color:var(--red-text)}
           <li><a href="#teams">Teams</a></li>
           <li><a href="#where-to-watch">Where to watch</a></li>
         </ul>
+      <div class="side-card" data-reveal>
+        <h3>Full BBL coverage</h3>
+        <ul>
+          <li><a href="/bbl/schedule/">BBL Schedule</a><span>Every fixture, date and venue.</span></li>
+          <li><a href="/bbl/points-table/">BBL Points Table</a><span>Standings and the finals race.</span></li>
+          <li><a href="/bbl/results/">BBL Results</a><span>Every result, newest first.</span></li>
+          <li><a href="/bbl/live-scores/">BBL Live Scores</a><span>Scores as they happen.</span></li>
+          <li><a href="/bbl/teams/">BBL Teams</a><span>All eight clubs and titles.</span></li>
+          <li><a href="/bbl/stats/">BBL Stats</a><span>Top scorers and bowlers.</span></li>
+          <li><a href="/bbl/tickets/">BBL Tickets</a><span>What is confirmed so far.</span></li>
+        </ul>
+      </div>
       </div>
     </aside>
 </div></div>
