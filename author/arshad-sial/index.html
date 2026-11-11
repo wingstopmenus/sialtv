@@ -16,7 +16,7 @@
 <meta property="og:url" content="https://sialtv.com/author/arshad-sial/">
 <meta name="theme-color" content="#0f1014">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"ProfilePage","url":"https://sialtv.com/author/arshad-sial/","name":"Arshad Sial — Broadcast Editor | SialTV","description":"Arshad Sial covers broadcast rights and legal streaming for SialTV — confirmed TV partners and viewing information, checked against official sources.","datePublished":"2026-11-12T07:00:00Z","dateModified":"2026-11-12T15:39:50Z","mainEntity":{"@type":"Person","@id":"https://sialtv.com/author/arshad-sial/#person","name":"Arshad Sial","jobTitle":"Broadcast Editor","url":"https://sialtv.com/author/arshad-sial/","worksFor":{"@id":"https://sialtv.com/#organization"},"knowsAbout":["Nepal Premier League","ILT20","Afghanistan Premier League","SA20","Big Bash League","Pakistan Super League"]}}
+{"@context":"https://schema.org","@type":"ProfilePage","url":"https://sialtv.com/author/arshad-sial/","name":"Arshad Sial — Broadcast Editor | SialTV","description":"Arshad Sial covers broadcast rights and legal streaming for SialTV — confirmed TV partners and viewing information, checked against official sources.","datePublished":"2026-11-12T07:00:00Z","dateModified": "2026-11-12T15:54:52Z","mainEntity":{"@type":"Person","@id":"https://sialtv.com/author/arshad-sial/#person","name":"Arshad Sial","jobTitle":"Broadcast Editor","url":"https://sialtv.com/author/arshad-sial/","worksFor":{"@id":"https://sialtv.com/#organization"},"knowsAbout":["Nepal Premier League","ILT20","Afghanistan Premier League","SA20","Big Bash League","Pakistan Super League"]}}
 </script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"SialTV","item":"https://sialtv.com/"},{"@type":"ListItem","position":2,"name":"Arshad Sial","item":"https://sialtv.com/author/arshad-sial/"}]}
@@ -28,62 +28,38 @@
 /* SialTV design sample A — "ESPNcricinfo, richer".
    Evolves the live v3 system: same blue identity (#0860C4), deep navy hero,
    light-grey page, stronger cards, team chips, status pills. Content identical. */
-:root{--navy:#0860c4;--navy-2:#06509e;--hero-navy:#0a2e57;--blue:#0860c4;--red:#ff4538;--red-text:#c92a1e;--red-tint:#fdecea;--bg:#f3f5f7;--card:#ffffff;--ink:#0f1014;--ink-2:#2c3a46;--muted:#4b5166;--rule:#e3e6ea;--rule-2:#d3d8de;--focus:#0860c4;--league:#0860c4}
 body.league-npl{--accent:#d21034;--league:#d21034}body.league-ilt20{--accent:#1d4ed8;--league:#1d4ed8}body.league-apl{--accent:#0e1038;--league:#0e1038}body.league-sa20{--accent:#009444;--league:#009444}body.league-bbl{--accent:#0e7490;--league:#0e7490}body.league-psl{--accent:#00563f;--league:#00563f}
 *{box-sizing:border-box}
-body{margin:0;font-family:"Archivo",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);background:var(--bg);font-size:16px;line-height:1.5}
 a{color:var(--blue);text-decoration:none}
 a:hover{text-decoration:underline}
 a:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
-::selection{background:var(--blue);color:#fff}
 .wrap{max-width:1280px;margin:0 auto;padding:0 16px}
 h1,h2,h3{font-family:"Archivo",ui-sans-serif,sans-serif;font-weight:800;line-height:1.08;letter-spacing:-.01em}
 h1{font-size:40px}h2{font-size:24px;margin:0 0 12px}h3{font-size:19px}
 p{margin:0 0 12px}
 .num{font-variant-numeric:tabular-nums}
 /* Header — bright blue bar */
-.topbar{background:var(--navy);color:#fff;box-shadow:0 2px 10px rgba(6,42,87,.28)}
-.topbar-in{display:flex;align-items:center;gap:24px;padding:10px 16px}
-.brand{font-family:"Archivo",ui-sans-serif,sans-serif;font-size:32px;font-weight:800;letter-spacing:-.02em;line-height:1;color:#fff;text-decoration:none;white-space:nowrap}
-.brand span{color:#ff4538}
 .brand:hover{text-decoration:none}
 nav.leagues{display:flex;flex-wrap:wrap;gap:0;margin-left:auto}
-nav.leagues a{font-family:"Archivo",ui-sans-serif,sans-serif;font-size:15px;font-weight:700;color:#fff;text-decoration:none;padding:8px 12px;border-radius:4px}
-nav.leagues a:hover{background:var(--navy-2);text-decoration:none}
 .live-dot{display:inline-block;width:8px;height:8px;background:var(--red);border-radius:50%;margin-right:6px;vertical-align:middle;animation:pulse 1.8s infinite}
 @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,69,56,.55)}70%{box-shadow:0 0 0 7px rgba(255,69,56,0)}100%{box-shadow:0 0 0 0 rgba(255,69,56,0)}}
-.live-tag{font-size:12px;font-weight:800;color:#ffffff;text-transform:uppercase;letter-spacing:.06em;margin-left:4px}
-.top-date{font-size:13px;color:#b9c6d2;white-space:nowrap}
 /* Sub-nav strip — NEXT as a red pill */
-.subnav{background:#fff;color:var(--muted);font-size:14px;border-bottom:1px solid var(--rule)}
-.subnav .wrap{display:flex;justify-content:space-between;gap:16px;padding-top:8px;padding-bottom:8px}
 .subnav b{background:var(--red);color:#fff;font-weight:800;font-size:12px;letter-spacing:.06em;text-transform:uppercase;padding:2px 8px;border-radius:4px}
 .subnav .t-time{font-weight:700;white-space:nowrap}
 /* Hero — deep navy band, white title, red base rule */
 .hero{background:var(--league);color:#fff;padding:28px 0 24px}
 .hero h1{color:#fff;margin:0 0 8px}
 .hero p{color:#e8ecef;font-size:17px;max-width:820px}
-.hero .updated{color:#c3ccd4;font-size:14px}
-.hero .crumbs{font-size:14px;color:#c3ccd4}
-.hero .crumbs a{color:#c3ccd4}
 .hero-home{background:var(--hero-navy);color:#fff;padding:34px 0 28px;border-bottom:3px solid var(--red)}
 .hero-home h1{color:#fff;font-size:46px}
 .hero-home p{color:#c9d8e8;font-size:18px}
 .hero-home .updated{color:#8fa9c4;font-size:14px}
-.hero-chips{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 14px}
-.hero-chip{display:inline-flex;align-items:center;gap:6px;border:1px solid rgba(255,255,255,.35);color:#eaf2fa;border-radius:999px;padding:6px 13px;font-size:13px;font-weight:700}
-.hero-chip.live{background:var(--red);border-color:var(--red);color:#fff}
 .hero-chip.live .live-dot{background:#fff;animation:pulse-white 1.8s infinite}
 @keyframes pulse-white{0%{box-shadow:0 0 0 0 rgba(255,255,255,.55)}70%{box-shadow:0 0 0 7px rgba(255,255,255,0)}100%{box-shadow:0 0 0 0 rgba(255,255,255,0)}}
 .crumbs{font-size:14px;color:var(--muted);padding:0;margin:0 0 8px}
 .crumbs a{color:var(--muted)}
-main{padding:24px 0 8px}
-main section{background:var(--card);border:1px solid var(--rule);border-radius:12px;padding:22px 22px 18px;margin-bottom:20px;box-shadow:0 2px 10px rgba(15,16,20,.06)}
 main section h2{color:var(--ink);position:relative;padding-left:14px}
-main section h2::before{content:'';position:absolute;left:0;top:3px;bottom:3px;width:4px;background:var(--red);border-radius:2px}
-p.lead{font-size:17px;margin:0 0 14px}
 /* Today scorecard — blue left edge */
-.today{background:var(--card);border:1px solid var(--rule);border-left:4px solid var(--blue);border-radius:10px;padding:18px 20px;box-shadow:0 2px 8px rgba(15,16,20,.06)}
 .today .today-label::before{content:'';display:inline-block;width:8px;height:8px;background:var(--red);border-radius:50%;margin-right:6px}.today .today-label{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
 .today strong{font-size:22px;font-weight:800;display:block;margin:6px 0}
 .today p{margin:0 0 6px;color:var(--ink-2)}
@@ -91,17 +67,9 @@ p.lead{font-size:17px;margin:0 0 14px}
 .today a{font-weight:700}
 .today .t-time{font-weight:700}
 /* League cards — colour band, mini stat, status pill */
-.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.tile{display:block;background:var(--card);border:1px solid var(--rule);border-top:4px solid var(--league,#0860c4);border-radius:12px;padding:18px 18px 16px;color:var(--ink);text-decoration:none;box-shadow:0 1px 4px rgba(15,16,20,.04);transition:transform .15s ease,box-shadow .15s ease}
-.tile:hover{border-color:var(--league,#0860c4);text-decoration:none;box-shadow:0 6px 18px rgba(15,16,20,.10);transform:translateY(-2px)}
-.tile h3{margin:0 0 4px;font-size:21px;color:var(--ink)}
 .tile .meta{color:var(--muted);font-size:15px;display:block;margin-bottom:8px}
 .tile-stat{display:block;font-size:13px;font-weight:700;color:var(--ink-2);padding-top:10px;margin-top:2px;border-top:1px dashed var(--rule-2)}
-.tile .status{display:inline-block;margin-top:10px;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:#fff;background:var(--league,#0860c4);padding:4px 11px;border-radius:999px}
 /* Tables — darker head */
-table{width:100%;border-collapse:collapse;font-size:15px}
-thead th{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;background:#eef1f3;color:var(--muted);text-align:left;padding:9px 10px;border-bottom:2px solid var(--rule-2)}
-th,td{padding:9px 10px;border-bottom:1px solid var(--rule)}
 td{font-variant-numeric:tabular-nums}
 td:nth-child(2){font-weight:700}
 .table-scroll{overflow-x:auto}
@@ -113,30 +81,15 @@ td:nth-child(2){font-weight:700}
 .faq p{margin:0 0 10px}
 .note{font-size:14px;color:var(--muted)}
 /* Footer — charcoal with red top rule */
-footer{background:#202228;color:#a7bacb;padding:28px 0 0;font-size:14px;border-top:3px solid var(--red)}
 .foot-cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px;padding-bottom:8px}
-.foot-h{font-size:15px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:#fff;margin:0 0 8px}
-.foot-cols p{margin:0 0 6px}
-.foot-cols a{color:#fcfcfc}
-.foot-cols a:hover{color:#fff}
-footer .copy-strip{background:#16181f;padding:14px 0;margin-top:20px}
-footer .copy{margin:0;color:#8fa1b0}
-@media (max-width:900px){.tiles{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:900px){}
 @media (max-width:640px){
-  body{font-size:15px}
-  .brand{font-size:24px}
-  .topbar-in{flex-wrap:wrap;gap:8px}
-  nav.leagues{margin-left:0}
-  nav.leagues a{font-size:14px;padding:6px 8px}
+          nav.leagues a{font-size:14px;padding:6px 8px}
   .top-date{display:none}
-  .hero h1,.hero-home h1{font-size:32px}
-  .hero p,.hero-home p{font-size:16px}
+    .hero p,.hero-home p{font-size:16px}
   .hero-home{padding:26px 0 22px}
-  .tiles{grid-template-columns:1fr}
-  .today strong{font-size:19px}
-  main section{padding:18px 14px 14px}
-  .subnav .wrap{flex-wrap:wrap}
-  .foot-cols{gap:16px}
+    .today strong{font-size:19px}
+      .foot-cols{gap:16px}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 .hero a,.hero-home a,.hero a:visited,.hero-home a:visited{color:#fff;text-decoration:underline}
@@ -150,28 +103,28 @@ footer .copy{margin:0;color:#8fa1b0}
    reveal + count-up (reduced-motion respected). Blue identity REMOVED here.
    League colours survive ONLY as the thin top bar on league tiles.
    No images, no colour blends, Archivo only. */
-:root{--bg:#ffffff;--blue:#c92a1e;--red-text:#c92a1e;--navy:#0f1014;--hero-navy:#0f1014;--rule:#e5e5e5;--rule-2:#e0e0e0;--focus:#c92a1e}
-body{background:#fff}
+:root{--navy-2:#06509e;--red:#ff4538;--red-tint:#fdecea;--card:#ffffff;--ink:#0f1014;--ink-2:#2c3a46;--muted:#4b5166;--league:#0860c4;--bg:#ffffff;--blue:#c92a1e;--red-text:#c92a1e;--navy:#0f1014;--hero-navy:#0f1014;--rule:#e5e5e5;--rule-2:#e0e0e0;--focus:#c92a1e}
+body{margin:0;font-family:"Archivo",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);font-size:16px;line-height:1.5;background:#fff}
 ::selection{background:var(--red-text);color:#fff}
 /* --- Floating pill sticky header --- */
 header{position:sticky;top:12px;z-index:80;background:transparent;margin-top:12px}
-.topbar{position:static;background:#fff;border-radius:999px;box-shadow:0 12px 32px rgba(15,16,20,.14),0 2px 8px rgba(15,16,20,.08);width:calc(100% - 24px);max-width:1230px;margin:0 auto}
-.topbar-in{padding:10px 12px 10px 24px;gap:16px}
-.brand{color:#0f1014}
+.topbar{color:#fff;position:static;background:#fff;border-radius:999px;box-shadow:0 12px 32px rgba(15,16,20,.14),0 2px 8px rgba(15,16,20,.08);width:calc(100% - 24px);max-width:1230px;margin:0 auto}
+.topbar-in{display:flex;align-items:center;padding:10px 12px 10px 24px;gap:16px}
+.brand{font-family:"Archivo",ui-sans-serif,sans-serif;font-size:32px;font-weight:800;letter-spacing:-.02em;line-height:1;text-decoration:none;white-space:nowrap;color:#0f1014}
 .brand span{color:var(--red)}
-nav.leagues a{color:#0f1014;border-radius:999px;white-space:nowrap;flex:0 0 auto}
+nav.leagues a{font-family:"Archivo",ui-sans-serif,sans-serif;font-size:15px;font-weight:700;text-decoration:none;padding:8px 12px;color:#0f1014;border-radius:999px;white-space:nowrap;flex:0 0 auto}
 nav.leagues a:hover{background:#f4f4f5;text-decoration:none}
-.live-tag{color:var(--red-text)}
-.top-date{color:#8a8f98}
+.live-tag{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;margin-left:4px;color:var(--red-text)}
+.top-date{font-size:13px;white-space:nowrap;color:#8a8f98}
 .head-cta{margin-left:8px;flex:0 0 auto;font-family:"Archivo",ui-sans-serif,sans-serif;font-size:14px;font-weight:800;color:#0f1014;background:#fff;border:1px solid #e0e0e0;border-radius:999px;padding:10px 18px;text-decoration:none;white-space:nowrap;transition:border-color .15s ease,color .15s ease}
 .head-cta:hover{border-color:var(--red);color:var(--red-text);text-decoration:none}
 /* --- Subnav strip (below the sticky header, scrolls away) --- */
-.subnav{background:#fff;border-bottom:1px solid #e5e5e5}
-.subnav .wrap{max-width:1230px}
+.subnav{color:var(--muted);font-size:14px;background:#fff;border-bottom:1px solid #e5e5e5}
+.subnav .wrap{display:flex;justify-content:space-between;gap:16px;padding-top:8px;padding-bottom:8px;max-width:1230px}
 /* --- Hero: centred, white, huge type --- */
 .hero,.hero-home{background:#fff;color:var(--ink);padding:32px 0 29px;text-align:center;border-bottom:0;position:relative;overflow:hidden}
 .hero .wrap{max-width:960px;position:relative;z-index:1}
-.hero .crumbs{color:var(--muted);margin:0 0 20px}
+.hero .crumbs{font-size:14px;color:var(--muted);margin:0 0 20px}
 .hero .crumbs a{color:var(--muted);text-decoration:none}
 .hero .crumbs a:hover{text-decoration:underline}
 .hero .eyebrow{font-size:14px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--red-text);margin:0 0 22px;white-space:normal;overflow:visible}
@@ -179,8 +132,8 @@ nav.leagues a:hover{background:#f4f4f5;text-decoration:none}
 .hero h1 .accent{color:var(--red)}
 .hero p:not(.crumbs):not(.updated):not(.eyebrow){font-size:20px;line-height:1.7;color:#666;max-width:720px;margin:0 auto 28px}
 .hero .updated{color:#8a8f98;font-size:13px;margin:0 auto}
-.hero-chips{justify-content:center;gap:10px;margin:0 0 28px}
-.hero-chip{background:#fff;border:1px solid #e5e5e5;color:#0f1014;border-radius:999px;padding:12px 20px;font-size:15px;font-weight:700}
+.hero-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin:0 0 28px}
+.hero-chip{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid #e5e5e5;color:#0f1014;border-radius:999px;padding:12px 20px;font-size:15px;font-weight:700}
 .hero-chip::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--red);flex:0 0 auto}
 .hero-chip.live{background:var(--red);border-color:var(--red);color:#fff}
 .hero-chip.live::before{display:none}
@@ -201,12 +154,11 @@ nav.leagues a:hover{background:#f4f4f5;text-decoration:none}
 /* --- Main: hairlines, big gaps, numbered markers --- */
 main{padding:27px 0 8px}
 main p{font-size:17px;line-height:1.7}
-main section{background:transparent;border:0;border-radius:0;box-shadow:none;padding:27px 0 0;margin:0 0 27px;border-top:1px solid #e5e5e5}
+main section{margin-bottom:20px;background:transparent;border:0;border-radius:0;box-shadow:none;padding:27px 0 0;margin:0 0 27px;border-top:1px solid #e5e5e5}
 main section.scores-sec{border-top:0;padding:0;margin:0 0 27px}
 main section h2,.home-main section h2{font-size:42px;line-height:1.08;letter-spacing:-.02em;color:var(--ink);margin:0 0 16px;padding-left:0}
-main section h2::before{display:none}
-.sec-eyebrow{font-size:13px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--red-text);margin:0 0 12px;white-space:normal;overflow:visible}
-p.lead{font-size:19px;line-height:1.7;color:var(--muted)}
+main section h2::before{content:'';position:absolute;left:0;top:3px;bottom:3px;width:4px;background:var(--red);border-radius:2px;display:none}
+p.lead{margin:0 0 14px;font-size:19px;line-height:1.7;color:var(--muted)}
 /* --- Pills, carousel, score cards --- */
 .pills{margin-bottom:20px}
 .pill{font-size:14px;padding:9px 16px;border:1px solid #e0e0e0}
@@ -225,18 +177,18 @@ p.lead{font-size:19px;line-height:1.7;color:var(--muted)}
 .quick-links a{color:#0f1014;font-weight:600}
 .quick-links a:hover{color:var(--red-text)}
 /* --- Today card --- */
-.today{border:1px solid #e9e9ec;border-left:4px solid var(--red);border-radius:20px;padding:24px;box-shadow:0 2px 6px rgba(15,16,20,.04),0 14px 32px rgba(15,16,20,.06)}
+.today{background:var(--card);border:1px solid #e9e9ec;border-left:4px solid var(--red);border-radius:20px;padding:24px;box-shadow:0 2px 6px rgba(15,16,20,.04),0 14px 32px rgba(15,16,20,.06)}
 .lead-head{font-size:36px}
 /* --- League tiles --- */
-.tiles{gap:20px}
-.tile{border:1px solid #e9e9ec;border-top:4px solid var(--league,#0860c4);border-radius:20px;padding:22px;box-shadow:0 2px 6px rgba(15,16,20,.04),0 12px 28px rgba(15,16,20,.06)}
-.tile:hover{border-color:var(--red);box-shadow:0 6px 14px rgba(15,16,20,.06),0 18px 38px rgba(15,16,20,.10)}
-.tile h3{font-size:22px}
-.tile .status{background:#0f1014}
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.tile{display:block;background:var(--card);color:var(--ink);text-decoration:none;transition:transform .15s ease,box-shadow .15s ease;border:1px solid #e9e9ec;border-top:4px solid var(--league,#0860c4);border-radius:20px;padding:22px;box-shadow:0 2px 6px rgba(15,16,20,.04),0 12px 28px rgba(15,16,20,.06)}
+.tile:hover{text-decoration:none;transform:translateY(-2px);border-color:var(--red);box-shadow:0 6px 14px rgba(15,16,20,.06),0 18px 38px rgba(15,16,20,.10)}
+.tile h3{margin:0 0 4px;color:var(--ink);font-size:22px}
+.tile .status{display:inline-block;margin-top:10px;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:#fff;padding:4px 11px;border-radius:999px;background:#0f1014}
 .tiles .tile:first-child .status{background:var(--red)}
 /* --- Tables --- */
-table{font-size:15px}
-thead th{background:#fff;color:#8a8f98;font-size:12px;letter-spacing:.08em;padding:12px 10px;border-bottom:1px solid #e5e5e5}
+table{width:100%;border-collapse:collapse;font-size:15px}
+thead th{font-weight:800;text-transform:uppercase;text-align:left;background:#fff;color:#8a8f98;font-size:12px;letter-spacing:.08em;padding:12px 10px;border-bottom:1px solid #e5e5e5}
 th,td{padding:12px 10px;border-bottom:1px solid #f0f0f2}
 tbody tr:hover td{background:#fafafa}
 .t-pts td:nth-child(n+3),.t-pts th:nth-child(n+3){text-align:right}
@@ -253,13 +205,13 @@ tbody tr:hover td{background:#fafafa}
 .num-cap{color:#b9bcc4}
 .num-dot[aria-pressed="true"]{background:var(--red)}
 /* --- Footer: black + outline watermark --- */
-footer{background:#0f1014;color:#b9bcc4;padding:64px 0 0;border-top:3px solid var(--red);overflow:hidden}
-.foot-h{font-size:13px;letter-spacing:.14em}
+footer{font-size:14px;background:#0f1014;color:#b9bcc4;padding:64px 0 0;border-top:3px solid var(--red);overflow:hidden}
+.foot-h{font-weight:800;text-transform:uppercase;color:#fff;margin:0 0 8px;font-size:13px;letter-spacing:.14em}
 .foot-cols a{color:#e8e8ea}
 .foot-cols a:hover{color:#fff}
-.foot-cols p{color:#9a9da8}
+.foot-cols p{margin:0 0 6px;color:#9a9da8}
 footer .copy-strip{background:#0f1014;border-top:1px solid #222;padding:20px 0;margin-top:48px}
-footer .copy{color:#8a8f98}
+footer .copy{margin:0;color:#8a8f98}
 .footer-mark{font-size:clamp(96px,20vw,240px);font-weight:800;letter-spacing:.02em;line-height:.78;text-align:center;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.16);margin:48px 0 -.32em;user-select:none;pointer-events:none}
 /* --- Scroll reveal --- */
 html.js [data-reveal]{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
@@ -300,7 +252,7 @@ html.js [data-reveal].in{opacity:1;transform:none}
   .car-btn{display:none}
   .score-card{flex-basis:100%}
   main{padding-top:19px}
-  main section{padding-top:19px;margin-bottom:19px}
+  main section{padding:18px 14px 14px;padding-top:19px;margin-bottom:19px}
   .home-side{padding-top:19px}
   .subnav .wrap{flex-wrap:wrap}
 }
@@ -362,7 +314,6 @@ main .sialtv-live-widget a{color:var(--red-text)}
 <main>
   <section data-reveal>
     <div class="wrap">
-      <p class="sec-eyebrow">01 — About Arshad</p>
       <h2>About Arshad</h2>
       <div class="author-card">
         <img class="author-photo" src="data:image/webp;base64,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" width="120" height="120" alt="Arshad Sial">
@@ -376,7 +327,6 @@ main .sialtv-live-widget a{color:var(--red-text)}
   </section>
   <section data-reveal id="coverage">
     <div class="wrap">
-      <p class="sec-eyebrow">02 — Coverage</p>
       <h2>What Arshad covers</h2>
       <p class="lead">The six leagues SialTV follows, each with its own hub for schedule, points table, teams, results and where to watch. Arshad&rsquo;s focus is TV partners, legal streams and regional availability.</p>
       <div class="teams">
@@ -391,14 +341,12 @@ main .sialtv-live-widget a{color:var(--red-text)}
   </section>
   <section data-reveal>
     <div class="wrap">
-      <p class="sec-eyebrow">03 — Latest articles</p>
       <h2>Latest articles by Arshad Sial</h2>
       <p class="lead">SialTV’s news coverage is starting now and Arshad’s articles will appear here as they are published.</p>
     </div>
   </section>
   <section data-reveal>
     <div class="wrap">
-      <p class="sec-eyebrow">04 — Corrections</p>
       <h2>Corrections</h2>
       <p>Spot an error in a story or record? Send the page URL, the disputed detail and a supporting source to <a href="mailto:contact@sialtv.com">contact@sialtv.com</a> or through the <a href="/contact/">Contact Us</a> page. Corrections are made on the page itself, and the last-updated date is changed to match.</p>
     </div>
