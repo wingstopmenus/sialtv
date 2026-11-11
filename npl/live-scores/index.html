@@ -15,7 +15,7 @@
 <meta name="twitter:description" content="NPL Season 3 live scores from Kirtipur — the latest result, the next match and the points race, refreshed through the day. See today's score now.">
 <meta name="theme-color" content="#0f1014">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","name":"NPL 2026 Live Scores — Latest Match & Results","url":"https://sialtv.com/npl/live-scores/","description":"NPL Season 3 live scores from Kirtipur — the latest result, the next match and the points race.","datePublished":"2026-11-10T16:06:00Z","dateModified": "2026-11-11T05:17:00Z"}
+{"@context":"https://schema.org","@type":"WebPage","name":"NPL 2026 Live Scores — Latest Match & Results","url":"https://sialtv.com/npl/live-scores/","description":"NPL Season 3 live scores from Kirtipur — the latest result, the next match and the points race.","datePublished":"2026-11-10T16:06:00Z","dateModified": "2026-11-11T23:02:00Z"}
 </script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"SialTV","item":"https://sialtv.com/"},{"@type":"ListItem","position":2,"name":"Nepal Premier League","item":"https://sialtv.com/npl/"},{"@type":"ListItem","position":3,"name":"NPL 2026 Live Scores","item":"https://sialtv.com/npl/live-scores/"}]}
@@ -400,6 +400,26 @@ main .sialtv-live-widget a{color:var(--red-text)}
 .series-nav a[aria-current="page"]{color:var(--red-text);border-bottom-color:var(--red)}
 @media (max-width:640px){.series-nav a{padding:11px 12px 9px}}
 </style>
+<style>
+/* SialTV live panel — Direction D: one red accent, no blue, no colour blends. */
+.sialtv-live-panel .slp-fresh{font-size:14px;color:#4b5166}
+.slp-tabs{display:flex;gap:8px;margin:20px 0 14px;border-bottom:1px solid #e5e5e5}
+.slp-tab{font-family:"Archivo",ui-sans-serif,sans-serif;font-size:14px;font-weight:800;color:#0f1014;background:none;border:0;border-bottom:2px solid transparent;padding:10px 14px 8px;margin-bottom:-1px;cursor:pointer}
+.slp-tab:hover{color:#c92a1e}
+.slp-tab[aria-selected="true"]{color:#c92a1e;border-bottom-color:#c92a1e}
+.slp-flash{display:flex;gap:12px;overflow-x:auto;padding:2px 2px 10px;margin-bottom:16px;scrollbar-width:thin}
+.slp-flash .score-card{flex:0 0 287px}
+.slp-results{margin:0;padding:0;list-style:none}
+.slp-results li{padding:10px 0;border-bottom:1px solid #f0f0f2;font-size:15px}
+.slp-results li:last-child{border-bottom:0}
+.slp-results li b{font-weight:700}
+.slp-results li span{color:#4b5166;display:block;font-size:14px}
+.slp-hero-wrap{padding:24px 0 0}
+.slp-hero-wrap .wrap{max-width:1230px}
+#sialtv-sticky-bar a{color:#fff}
+#sialtv-sticky-bar a:hover{color:#fff}
+@media (max-width:640px){.slp-flash .score-card{flex-basis:100%}}
+</style>
 </head>
 <body class="league-npl">
 <header>
@@ -455,17 +475,113 @@ main .sialtv-live-widget a{color:var(--red-text)}
   <section data-reveal id="latest">
       <p class="sec-eyebrow">01 — Latest from Kirtipur</p>
       <h2>Latest from Kirtipur</h2>
-      <div id="liveScoreRoot" aria-live="polite">
-        <p>Loading the latest NPL score&hellip;</p>
+<div class="sialtv-live-panel" id="livePanel" data-league="npl">
+      <div class="slp-flash" id="sialtvFlash" data-league="npl" aria-label="Recent NPL matches">
+        <a class="score-card" data-kind="upcoming" data-match-no="22" href="/npl/results/">
+          <p class="sc-label upcoming">Upcoming</p>
+          <p class="sc-match">Match 22 &middot; Kirtipur</p>
+          <p class="sc-row"><span class="sc-team"><span class="sc-chip">BK</span>Biratnagar Kings</span></p>
+          <p class="sc-row"><span class="sc-team"><span class="sc-chip">PA</span>Pokhara Avengers</span></p>
+          <p class="sc-result upcoming">Thu 12 Nov, 12:30 PM NST &middot; TU International Cricket Ground</p>
+        </a>
+        <a class="score-card" data-kind="result" data-match-no="21" href="/npl/results/">
+          <p class="sc-label">Result</p>
+          <p class="sc-match">Match 21 &middot; Kirtipur</p>
+          <p class="sc-row"><span class="sc-team"><span class="sc-chip">SR</span>Sudurpaschim Royals</span><span class="sc-score">120/9 (20 ov)</span></p>
+          <p class="sc-row loser"><span class="sc-team"><span class="sc-chip">JB</span>Janakpur Bolts</span><span class="sc-score">93 (19.5 ov)</span></p>
+          <p class="sc-result">Sudurpaschim Royals won by 27 runs</p>
+        </a>
+        <a class="score-card" data-kind="result" data-match-no="20" href="/npl/results/">
+          <p class="sc-label">Result</p>
+          <p class="sc-match">Match 20 &middot; Kirtipur</p>
+          <p class="sc-row loser"><span class="sc-team"><span class="sc-chip">CR</span>Chitwan Rhinos</span><span class="sc-score">170/7 (20 ov)</span></p>
+          <p class="sc-row"><span class="sc-team"><span class="sc-chip">KG</span>Kathmandu Gorkhas</span><span class="sc-score">180/8 (20 ov)</span></p>
+          <p class="sc-result">Kathmandu Gorkhas won by 10 runs</p>
+        </a>
       </div>
+      <div id="liveScoreRoot" aria-live="polite">
+        <div class="today">
+          <p class="today-label">Latest result &middot; Match 21 &middot; Tue 10 Nov 2026</p>
+          <strong>Sudurpaschim Royals 120/9 (20 ov) vs Janakpur Bolts 93 (19.5 ov)</strong>
+          <p>Sudurpaschim Royals won by 27 runs at the TU International Cricket Ground, Kirtipur. Brandon McMullen top-scored with 33 off 23 balls; Scott Kuggeleijn took 3 for 13 and was Player of the Match.</p>
+        </div>
+        <div class="today">
+          <p class="today-label">Next match &middot; Match 22 &middot; Thu 12 Nov 2026</p>
+          <strong>Biratnagar Kings vs Pokhara Avengers</strong>
+          <p>Thursday 12 November 2026, 12:30 PM NST (11:45 AM PKT, 6:45 AM UTC), at the TU International Cricket Ground, Kirtipur.</p>
+        </div>
+      </div>
+      <div class="slp-tabs" role="tablist" aria-label="Match centre">
+        <button type="button" class="slp-tab" data-slp-tab="summary" aria-selected="true">Summary</button>
+        <button type="button" class="slp-tab" data-slp-tab="scorecard" aria-selected="false">Scorecard</button>
+        <button type="button" class="slp-tab" data-slp-tab="overs" aria-selected="false">Overs</button>
+      </div>
+      <div data-slp-panel="summary">
+        <h3>Match 21 — innings summary</h3>
+        <p>Sudurpaschim Royals made 120 for 9 in their 20 overs, then bowled Janakpur Bolts out for 93 in 19.5 overs. Brandon McMullen top-scored for the Royals with 33 off 23 balls, and Harmeet Singh took 4 for 17 for the Bolts. In reply Trit Raj Das made 21 off 29 for Janakpur, and Scott Kuggeleijn took 3 for 13 for the Royals — the Player of the Match performance. Lalit Rajbanshi went wicketless for 24 in the Royals innings.</p>
+        <h3>Points after Match 21</h3>
+        <div class="table-scroll"><table class="t-pts">
+          <thead><tr><th>#</th><th>Team</th><th>P</th><th>Pts</th><th>NRR</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>Kathmandu Gorkhas</td><td>5</td><td>8</td><td>+1.168</td></tr>
+            <tr><td>2</td><td>Sudurpaschim Royals</td><td>6</td><td>8</td><td>+0.069</td></tr>
+            <tr><td>3</td><td>Lumbini Lions</td><td>5</td><td>7</td><td>+1.501</td></tr>
+            <tr><td>4</td><td>Chitwan Rhinos</td><td>5</td><td>5</td><td>+0.009</td></tr>
+            <tr><td>5</td><td>Janakpur Bolts</td><td>6</td><td>4</td><td>&minus;0.303</td></tr>
+            <tr><td>6</td><td>Biratnagar Kings</td><td>5</td><td>4</td><td>&minus;0.820</td></tr>
+            <tr><td>7</td><td>Karnali Yaks</td><td>5</td><td>4</td><td>&minus;0.846</td></tr>
+            <tr><td>8</td><td>Pokhara Avengers</td><td>5</td><td>2</td><td>&minus;0.707</td></tr>
+          </tbody>
+        </table></div>
+        <p class="note">A win is worth 2 points; the top four qualify for the playoffs. The full table is on the <a href="/npl/points-table/">NPL Points Table</a> page.</p>
+      </div>
+      <div data-slp-panel="scorecard" id="slp-scorecard">
+        <h3>Sudurpaschim Royals — 120/9 (20 ov)</h3>
+        <div class="table-scroll slp-tables"><table>
+          <thead><tr><th>Batter</th><th class="num">R</th><th class="num">B</th><th class="num">4s</th><th class="num">6s</th><th class="num">SR</th></tr></thead>
+          <tbody><tr><td>Brandon McMullen</td><td class="num">33</td><td class="num">23</td><td class="num">&mdash;</td><td class="num">&mdash;</td><td class="num">&mdash;</td></tr></tbody>
+        </table></div>
+        <div class="table-scroll slp-tables"><table>
+          <thead><tr><th>Bowler</th><th class="num">O</th><th class="num">M</th><th class="num">R</th><th class="num">W</th><th class="num">Econ</th></tr></thead>
+          <tbody>
+            <tr><td>Harmeet Singh</td><td class="num">4</td><td class="num">&mdash;</td><td class="num">17</td><td class="num">4</td><td class="num">&mdash;</td></tr>
+            <tr><td>Lalit Rajbanshi</td><td class="num">&mdash;</td><td class="num">&mdash;</td><td class="num">24</td><td class="num">0</td><td class="num">&mdash;</td></tr>
+          </tbody>
+        </table></div>
+        <h3>Janakpur Bolts — 93 (19.5 ov)</h3>
+        <div class="table-scroll slp-tables"><table>
+          <thead><tr><th>Batter</th><th class="num">R</th><th class="num">B</th><th class="num">4s</th><th class="num">6s</th><th class="num">SR</th></tr></thead>
+          <tbody><tr><td>Trit Raj Das</td><td class="num">21</td><td class="num">29</td><td class="num">&mdash;</td><td class="num">&mdash;</td><td class="num">&mdash;</td></tr></tbody>
+        </table></div>
+        <div class="table-scroll slp-tables"><table>
+          <thead><tr><th>Bowler</th><th class="num">O</th><th class="num">M</th><th class="num">R</th><th class="num">W</th><th class="num">Econ</th></tr></thead>
+          <tbody><tr><td>Scott Kuggeleijn</td><td class="num">4</td><td class="num">&mdash;</td><td class="num">13</td><td class="num">3</td><td class="num">&mdash;</td></tr></tbody>
+        </table></div>
+        <p class="note">These are the verified headline figures from Match 21 — top scorer and wicket-takers from the match feed. Player of the Match: Scott Kuggeleijn (3 for 13).</p>
+      </div>
+      <div data-slp-panel="overs" id="slp-overs">
+        <p>Over-by-over balls are not published for Match 21 on this page.</p>
+      </div>
+      <h3>Results — the last five matches</h3>
+      <ul class="slp-results" id="liveResults">
+        <li><b>Match 21: Sudurpaschim Royals 120/9 vs Janakpur Bolts 93</b><span>Sudurpaschim Royals won by 27 runs &middot; Tue 10 Nov 2026</span></li>
+        <li><b>Match 20: Kathmandu Gorkhas 180/8 vs Chitwan Rhinos 170/7</b><span>Kathmandu Gorkhas won by 10 runs &middot; Sun 9 Nov 2026</span></li>
+        <li><b>Match 19: Pokhara Avengers 217/3 vs Karnali Yaks 154</b><span>Pokhara Avengers won by 63 runs &middot; Sat 8 Nov 2026</span></li>
+        <li><b>Match 18: Kathmandu Gorkhas 160/8 vs Lumbini Lions 124</b><span>Kathmandu Gorkhas won by 36 runs &middot; Fri 7 Nov 2026</span></li>
+        <li><b>Match 17: Chitwan Rhinos 151/6 vs Pokhara Avengers 121</b><span>Chitwan Rhinos won by 30 runs &middot; Thu 6 Nov 2026</span></li>
+      </ul>
+      <p class="note">Every result of the season is on the <a href="/npl/results/">NPL Results</a> page.</p>
+      <p class="slp-fresh" id="liveFreshness">Updated 10 November 2026, 9:35 PM NST (3:50 PM UTC). Scores refresh roughly every ten minutes while a match is on — a ten-minute-old score is shown as ten minutes old, never as ball-by-ball.</p>
       <noscript>
         <div class="today">
           <p class="today-label">Result &middot; Match 21 &middot; Tue 10 Nov 2026</p>
           <strong>Sudurpaschim Royals 120/9 (20 ov) vs Janakpur Bolts 93 (19.5 ov)</strong>
-          <p>Sudurpaschim Royals won by 27 runs at the TU International Cricket Ground, Kirtipur.</p>
+          <p>Sudurpaschim Royals won by 27 runs at the TU International Cricket Ground, Kirtipur. Brandon McMullen 33 off 23; Scott Kuggeleijn 3 for 13 and Player of the Match; Harmeet Singh 4 for 17; Trit Raj Das 21 off 29; Lalit Rajbanshi 0 for 24.</p>
+          <p>Points after Match 21: Kathmandu Gorkhas 8 (+1.168), Sudurpaschim Royals 8 (+0.069), Lumbini Lions 7 (+1.501), Chitwan Rhinos 5 (+0.009), Janakpur Bolts 4 (&minus;0.303), Biratnagar Kings 4 (&minus;0.820), Karnali Yaks 4 (&minus;0.846), Pokhara Avengers 2 (&minus;0.707).</p>
           <p>Next match: Biratnagar Kings vs Pokhara Avengers, Thursday 12 November 2026, 12:30 PM NST.</p>
         </div>
       </noscript>
+      </div>
       <p class="note">Scores are refreshed from verified live sources while a match is on. The time of the last update is shown with the score, so a score from ten minutes ago is shown as ten minutes old — never as ball-by-ball.</p>
   </section>
 
@@ -542,6 +658,7 @@ main .sialtv-live-widget a{color:var(--red-text)}
       <div>
         <p class="foot-h">SialTV</p>
         <p><a href="/about/">About</a></p>
+        <p><a href="/author/asad-sial/">Asad Sial</a></p>
         <p><a href="/contact/">Contact Us</a></p>
         <p><a href="/privacy-policy/">Privacy Policy</a></p>
         <p><a href="/disclaimer/">Disclaimer</a></p>
@@ -558,90 +675,7 @@ main .sialtv-live-widget a{color:var(--red-text)}
   <div class="copy-strip"><div class="wrap"><p class="copy">© 2026 SialTV</p></div></div>
   <div class="footer-mark" aria-hidden="true">SIALTV</div>
 </footer>
-<script>
-/* SialTV NPL live scores — Option A (static JSON feed).
-   Reads /data/live-scores.json, renders the live/latest/next card, and
-   re-reads it every 10 minutes while the tab is visible. The feed only
-   changes when the match-day flow pushes a new one, so a shorter poll
-   would only re-fetch the same file. On fetch failure the page keeps its
-   static sections and shows a plain fallback line. */
-(function(){
-  var ROOT_ID = 'liveScoreRoot';
-  var FEED_URL = '/data/live-scores.json';
-  var POLL_MS = 10 * 60 * 1000;
-  var root = document.getElementById(ROOT_ID);
-  if (!root) return;
-  function esc(s){
-    return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-  }
-  function fmtUpdated(iso){
-    try {
-      var d = new Date(iso);
-      var nst = new Intl.DateTimeFormat('en-GB', {timeZone:'Asia/Kathmandu', day:'numeric', month:'long', year:'numeric', hour:'numeric', minute:'2-digit', hour12:true}).format(d);
-      var utc = new Intl.DateTimeFormat('en-GB', {timeZone:'UTC', hour:'numeric', minute:'2-digit', hour12:true}).format(d);
-      return 'Updated ' + nst + ' NST (' + utc + ' UTC)';
-    } catch (e) { return 'Updated ' + iso; }
-  }
-  function fmtDate(iso){
-    try {
-      return new Intl.DateTimeFormat('en-GB', {timeZone:'Asia/Kathmandu', weekday:'short', day:'numeric', month:'short', year:'numeric'}).format(new Date(iso + 'T00:00:00Z'));
-    } catch (e) { return iso; }
-  }
-  function matchCard(m, label){
-    var html = '<div class="today">';
-    html += '<p class="today-label">' + esc(label) + ' &middot; Match ' + m.matchNo + ' &middot; ' + esc(fmtDate(m.date)) + '</p>';
-    if (m.status === 'live') {
-      html += '<strong>' + esc(m.team1) + ' ' + esc(m.score1 || '') + ' (' + esc(m.overs1 || '') + ' ov) vs ' + esc(m.team2) + ' ' + esc(m.score2 || '') + ' (' + esc(m.overs2 || '') + ' ov)</strong>';
-      html += '<p>' + esc(m.statusText || 'Live now') + '</p>';
-    } else if (m.status === 'result') {
-      html += '<strong>' + esc(m.team1) + ' ' + esc(m.score1) + ' (' + esc(m.overs1) + ' ov) vs ' + esc(m.team2) + ' ' + esc(m.score2) + ' (' + esc(m.overs2) + ' ov)</strong>';
-      html += '<p>' + esc(m.statusText) + ' at ' + esc(m.venue) + '.</p>';
-      if (m.toss) html += '<p class="note">' + esc(m.toss) + '.</p>';
-      if (m.scorecard && m.scorecard.innings) {
-        var bits = [];
-        m.scorecard.innings.forEach(function(inn){
-          (inn.batting || []).forEach(function(b){ bits.push(esc(b.name) + ' ' + b.runs + (b.balls ? ' (' + b.balls + ')' : '')); });
-          (inn.bowling || []).forEach(function(b){ bits.push(esc(b.name) + ' ' + b.wickets + '/' + b.runs); });
-        });
-        if (bits.length) html += '<p class="note">' + bits.join(' &middot; ') + '.</p>';
-      }
-    } else {
-      html += '<strong>' + esc(m.team1) + ' vs ' + esc(m.team2) + '</strong>';
-      html += '<p>' + esc(m.statusText) + ' at ' + esc(m.venue) + '.</p>';
-    }
-    html += '</div>';
-    return html;
-  }
-  function render(data){
-    var matches = (data && data.matches) || [];
-    var live = null, latest = null, next = null;
-    matches.forEach(function(m){
-      if (m.status === 'live') live = m;
-      if (m.status === 'result' && (!latest || m.matchNo > latest.matchNo)) latest = m;
-      if (m.status === 'upcoming' && (!next || m.matchNo < next.matchNo)) next = m;
-    });
-    var html = '';
-    if (live) html += matchCard(live, 'Live now');
-    else if (latest) html += matchCard(latest, 'Latest result');
-    if (next) html += matchCard(next, 'Next match');
-    if (!html) html = '<p>No NPL match data in the feed right now.</p>';
-    html += '<p class="note">' + esc(fmtUpdated(data.fetchedAt)) + '. Scores refresh roughly every ten minutes while a match is on.</p>';
-    root.innerHTML = html;
-  }
-  function load(){
-    if (document.hidden) return;
-    fetch(FEED_URL, {cache: 'no-store'})
-      .then(function(r){ if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
-      .then(render)
-      .catch(function(){
-        root.innerHTML = '<p>Live scores could not be loaded just now. The latest result is on the <a href="/npl/results/">NPL Results</a> page.</p>';
-      });
-  }
-  load();
-  setInterval(load, POLL_MS);
-  document.addEventListener('visibilitychange', function(){ if (!document.hidden) load(); });
-})();
-</script>
+
 <script>
 /* Direction D: scroll-reveal + count-up. Progressive enhancement: without
    JS nothing is hidden (the .js class gates the hidden state); with
@@ -677,5 +711,10 @@ main .sialtv-live-widget a{color:var(--red-text)}
   document.querySelectorAll('[data-count]').forEach(function(el){ cio.observe(el); });
 })();
 </script>
+
+<script src="/js/live-strip.js?v=1"></script>
+<script src="/js/live-scores.js?v=1"></script>
+<script src="/js/flash-scores.js?v=1"></script>
+<script src="/js/sticky-bar.js?v=1"></script>
 </body>
 </html>

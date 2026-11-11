@@ -15,7 +15,7 @@
 <meta name="twitter:description" content="ILT20 Season 5 live scores — pre-season, first live update on 21 Nov when Desert Vipers face MI Emirates in Dubai. Next match and fixtures here.">
 <meta name="theme-color" content="#0f1014">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","name":"ILT20 Season 5 Live Scores \u2014 Match 1 & Updates","url":"https://sialtv.com/ilt20/live-scores/","description":"ILT20 Season 5 live scores \u2014 pre-season, first live update on 21 Nov when Desert Vipers face MI Emirates in Dubai. Next match and fixtures here.","datePublished":"2026-11-11T04:55:00Z","dateModified": "2026-11-11T11:01:00Z"}
+{"@context":"https://schema.org","@type":"WebPage","name":"ILT20 Season 5 Live Scores \u2014 Match 1 & Updates","url":"https://sialtv.com/ilt20/live-scores/","description":"ILT20 Season 5 live scores \u2014 pre-season, first live update on 21 Nov when Desert Vipers face MI Emirates in Dubai. Next match and fixtures here.","datePublished":"2026-11-11T04:55:00Z","dateModified": "2026-11-11T23:03:00Z"}
 </script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"SialTV","item":"https://sialtv.com/"},{"@type":"ListItem","position":2,"name":"ILT20","item":"https://sialtv.com/ilt20/"},{"@type":"ListItem","position":3,"name":"ILT20 Season 5 Live Scores \u2014 Match 1 & Updates","item":"https://sialtv.com/ilt20/live-scores/"}]}
@@ -399,6 +399,26 @@ main .sialtv-live-widget a{color:var(--red-text)}
 .series-nav a[aria-current="page"]{color:#c92a1e;border-bottom-color:#ff4538}
 @media (max-width:640px){.series-nav a{font-size:13px;padding:12px 10px 10px}}
 </style>
+<style>
+/* SialTV live panel — Direction D: one red accent, no blue, no colour blends. */
+.sialtv-live-panel .slp-fresh{font-size:14px;color:#4b5166}
+.slp-tabs{display:flex;gap:8px;margin:20px 0 14px;border-bottom:1px solid #e5e5e5}
+.slp-tab{font-family:"Archivo",ui-sans-serif,sans-serif;font-size:14px;font-weight:800;color:#0f1014;background:none;border:0;border-bottom:2px solid transparent;padding:10px 14px 8px;margin-bottom:-1px;cursor:pointer}
+.slp-tab:hover{color:#c92a1e}
+.slp-tab[aria-selected="true"]{color:#c92a1e;border-bottom-color:#c92a1e}
+.slp-flash{display:flex;gap:12px;overflow-x:auto;padding:2px 2px 10px;margin-bottom:16px;scrollbar-width:thin}
+.slp-flash .score-card{flex:0 0 287px}
+.slp-results{margin:0;padding:0;list-style:none}
+.slp-results li{padding:10px 0;border-bottom:1px solid #f0f0f2;font-size:15px}
+.slp-results li:last-child{border-bottom:0}
+.slp-results li b{font-weight:700}
+.slp-results li span{color:#4b5166;display:block;font-size:14px}
+.slp-hero-wrap{padding:24px 0 0}
+.slp-hero-wrap .wrap{max-width:1230px}
+#sialtv-sticky-bar a{color:#fff}
+#sialtv-sticky-bar a:hover{color:#fff}
+@media (max-width:640px){.slp-flash .score-card{flex-basis:100%}}
+</style>
 </head>
 <body class="league-ilt20">
 <header>
@@ -453,6 +473,8 @@ main .sialtv-live-widget a{color:var(--red-text)}
   <section data-reveal id="latest">
       <p class="sec-eyebrow">01 &mdash; Next match — the opener</p>
       <h2>Next match &mdash; the opener</h2>
+      <div class="sialtv-live-panel" id="livePanel" data-league="ilt20" data-mode="preseason" data-checked="11 November 2026">
+      <p class="slp-status"><strong>No live score yet — the season starts on Saturday 21 November 2026.</strong></p>
       <div class="today">
         <p class="lead-kicker">Season opener &middot; Saturday, 21 November 2026</p>
         <h3 class="lead-head">Desert Vipers vs MI Emirates</h3>
@@ -461,7 +483,26 @@ main .sialtv-live-widget a{color:var(--red-text)}
         <p class="lead-links"><a href="/ilt20/schedule/">ILT20 Schedule</a> &middot; <a href="/ilt20/points-table/">ILT20 Points Table</a> &middot; <a href="/ilt20/results/">ILT20 Results</a></p>
       </div>
       <p class="note">Last checked: 11 November 2026. There is no live score yet &mdash; the season starts on 21 November. The first live update on this page lands when the opener begins.</p>
-  </section>
+  
+      <div class="slp-tabs" role="tablist" aria-label="Match centre">
+        <button type="button" class="slp-tab" data-slp-tab="summary" aria-selected="true">Summary</button>
+        <button type="button" class="slp-tab" data-slp-tab="scorecard" aria-selected="false">Scorecard</button>
+        <button type="button" class="slp-tab" data-slp-tab="overs" aria-selected="false">Overs</button>
+      </div>
+      <div data-slp-panel="summary">
+        <p>Next match: Desert Vipers vs MI Emirates, Match 1, Saturday 21 November 2026, evening session, Dubai International Stadium, Dubai.</p>
+      </div>
+      <div data-slp-panel="scorecard" id="slp-scorecard">
+        <p>The scorecard appears here once the opener begins.</p>
+      </div>
+      <div data-slp-panel="overs" id="slp-overs">
+        <p>Over-by-over balls are not published before the season starts.</p>
+      </div>
+      <h3>Results</h3>
+      <ul class="slp-results" id="liveResults"><li><b>No results yet</b><span>No results yet — the first result lands here after Match 1 on 21 November 2026.</span></li></ul>
+      <p class="slp-fresh" id="liveFreshness">Last checked: 11 November 2026. There is no live feed yet because the season has not started.</p>
+      <noscript><div class="today"><p class="today-label">Season opener</p><p>No live score yet. Next match: Desert Vipers vs MI Emirates, ILT20 Season 5 Match 1, Saturday 21 November 2026, evening session, Dubai International Stadium, Dubai. No results yet — the season starts on 21 November 2026.</p></div></noscript>
+      </div></section>
 
   <section data-reveal id="how-it-works">
       <p class="sec-eyebrow">02 &mdash; Live scores, kept honest</p>
@@ -535,7 +576,7 @@ main .sialtv-live-widget a{color:var(--red-text)}
       </div>
     </aside>
 </div></div>
-</main></main>
+</main>
 <footer>
   <div class="wrap">
     <div class="foot-cols">
@@ -551,6 +592,7 @@ main .sialtv-live-widget a{color:var(--red-text)}
       <div>
         <p class="foot-h">SialTV</p>
         <p><a href="/about/">About</a></p>
+        <p><a href="/author/asad-sial/">Asad Sial</a></p>
         <p><a href="/contact/">Contact Us</a></p>
         <p><a href="/privacy-policy/">Privacy Policy</a></p>
         <p><a href="/disclaimer/">Disclaimer</a></p>
@@ -602,5 +644,7 @@ main .sialtv-live-widget a{color:var(--red-text)}
   document.querySelectorAll('[data-count]').forEach(function(el){ cio.observe(el); });
 })();
 </script>
+
+<script src="/js/live-scores.js?v=1"></script>
 </body>
 </html>
