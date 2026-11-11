@@ -15,7 +15,7 @@
 <meta name="twitter:description" content="Will Sutherland, the Victorian captain, in BBL|16 for Renegades. Profile, role and what to watch when BBL|16 begins. Victoria&#x27;s captain.">
 <meta name="theme-color" content="#0f1014">
 <script type="application/ld+json">
-{"@context": "https://schema.org", "@type": "WebPage", "name": "Will Sutherland BBL 2026-27 — Renegades all-rounder", "url": "https://sialtv.com/bbl/players/will-sutherland/", "description": "Will Sutherland, the Victorian captain, in BBL|16 for Renegades. Profile, role and what to watch when BBL|16 begins. Victoria's captain.", "datePublished": "2026-11-11T09:45:00Z", "dateModified": "2026-11-12T08:32:00Z"}
+{"@context": "https://schema.org", "@type": "WebPage", "name": "Will Sutherland BBL 2026-27 — Renegades all-rounder", "url": "https://sialtv.com/bbl/players/will-sutherland/", "description": "Will Sutherland, the Victorian captain, in BBL|16 for Renegades. Profile, role and what to watch when BBL|16 begins. Victoria's captain.", "datePublished": "2026-11-11T09:45:00Z", "dateModified": "2026-11-12T13:51:39Z"}
 </script>
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "SialTV", "item": "https://sialtv.com/"}, {"@type": "ListItem", "position": 2, "name": "Big Bash League", "item": "https://sialtv.com/bbl/"}, {"@type": "ListItem", "position": 3, "name": "BBL Teams", "item": "https://sialtv.com/bbl/teams/"}, {"@type": "ListItem", "position": 4, "name": "Will Sutherland", "item": "https://sialtv.com/bbl/players/will-sutherland/"}]}
@@ -142,6 +142,15 @@ footer .copy{margin:0;color:#8fa1b0}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 .hero a,.hero-home a,.hero a:visited,.hero-home a:visited{color:#fff;text-decoration:underline}
+/* BBL secondary nav (Direction D): white strip under the NEXT ticker, red
+   underline + red text on the active section, horizontal scroll on mobile. */
+.secnav{background:#fff;border-bottom:1px solid #e5e5e5}
+.secnav .wrap{max-width:1230px;display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;padding-top:0;padding-bottom:0}
+.secnav .wrap::-webkit-scrollbar{display:none}
+.secnav a{flex:0 0 auto;font-size:14px;font-weight:700;color:#4b5166;padding:12px 12px 10px;text-decoration:none;border-bottom:2px solid transparent;white-space:nowrap}
+.secnav a:hover{color:#0f1014;text-decoration:none}
+.secnav a.active{color:var(--red-text);border-bottom-color:var(--red)}
+@media (max-width:640px){.secnav a{padding:10px 10px 8px}}
 </style>
 <style>
 /* Homepage-only extras — Sample A (richer v3). */
@@ -401,9 +410,6 @@ main .sialtv-live-widget a{color:var(--red-text)}
         <a href="/npl/"><span class="live-dot" aria-hidden="true"></span>NPL <span class="live-tag">Live</span></a>
         <a href="/ilt20/">ILT20</a>
         <a href="/apl/">APL</a>
-        <a href="/sa20/">SA20</a>
-        <a href="/bbl/">BBL</a>
-        <a href="/psl/">PSL</a>
       </nav>
       <span class="top-date">Wed 11 Nov 2026</span><a class="head-cta" href="/bbl/live-scores/">Live scores</a>
     </div>
@@ -548,9 +554,6 @@ main .sialtv-live-widget a{color:var(--red-text)}
         <p><a href="/npl/">Nepal Premier League</a></p>
         <p><a href="/ilt20/">ILT20</a></p>
         <p><a href="/apl/">Afghanistan Premier League</a></p>
-        <p><a href="/sa20/">SA20</a></p>
-        <p><a href="/bbl/">Big Bash League</a></p>
-        <p><a href="/psl/">Pakistan Super League</a></p>
       </div>
       <div>
         <p class="foot-h">SialTV</p>
