@@ -15,7 +15,7 @@
 <meta name="twitter:description" content="All 28 NPL 2026 league matches and the four playoffs at Kirtipur — dates, NST times and results as they happen, in one place. See the next match.">
 <meta name="theme-color" content="#0f1014">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","name":"NPL 2026 Schedule — Fixtures, Dates & Results","url":"https://sialtv.com/npl/schedule/","description":"All 28 NPL 2026 league matches and the four playoffs at Kirtipur — dates, NST times and results as they happen, in one place. See the next match.","datePublished":"2026-11-10T15:39:00Z","dateModified": "2026-11-12T16:17:39Z"}
+{"@context":"https://schema.org","@type":"WebPage","name":"NPL 2026 Schedule — Fixtures, Dates & Results","url":"https://sialtv.com/npl/schedule/","description":"All 28 NPL 2026 league matches and the four playoffs at Kirtipur — dates, NST times and results as they happen, in one place. See the next match.","datePublished":"2026-11-10T15:39:00Z","dateModified": "2026-11-12T16:18:22Z"}
 </script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"SialTV","item":"https://sialtv.com/"},{"@type":"ListItem","position":2,"name":"Nepal Premier League","item":"https://sialtv.com/npl/"},{"@type":"ListItem","position":3,"name":"NPL 2026 Schedule","item":"https://sialtv.com/npl/schedule/"}]}
@@ -360,6 +360,140 @@ img{max-width:100%;height:auto}
 .hero,.hero-home{padding-top:20px;padding-bottom:16px}
 }
 </style>
+<style>
+/* Rebuild 2026-11-12: Cricinfo-structure components (points table / schedule / results / stats) */
+.rx-tabs{display:flex;gap:0;border:1px solid #e5e7eb;border-radius:12px;overflow:hidden;margin:0 0 20px}
+.rx-tabs a{flex:1;text-align:center;padding:12px 8px;font-weight:700;color:#374151;text-decoration:none;background:#fff}
+.rx-tabs a[aria-current="page"]{background:#0f1014;color:#fff}
+.rx-tabs a:hover{background:#f3f4f6}
+.rx-strip{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:2px 0 8px;align-items:center}
+.rx-strip::-webkit-scrollbar{display:none}
+.rx-strip .rx-day{flex:0 0 auto;min-width:52px;text-align:center;padding:8px 6px;border:1px solid #e5e7eb;border-radius:10px;text-decoration:none;color:#374151;background:#fff}
+.rx-strip .rx-day b{display:block;font-size:18px;line-height:1.1;color:#0f1014}
+.rx-strip .rx-day span{font-size:12px;color:#6b7280}
+.rx-strip .rx-day.is-next{background:#0f1014;border-color:#0f1014}
+.rx-strip .rx-day.is-next b,.rx-strip .rx-day.is-next span{color:#fff}
+.rx-strip .rx-day.is-next em{display:block;font-size:10px;font-style:normal;color:#fca5a5}
+.rx-strip .rx-nav{flex:0 0 auto;width:40px;height:40px;border:1px solid #e5e7eb;border-radius:50%;background:#fff;font-size:18px;cursor:pointer;color:#374151}
+.rx-pills{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 20px}
+.rx-pills .rx-reset{border:0;background:none;color:#6b7280;cursor:pointer;font-size:14px;text-decoration:underline}
+.rx-pills .rx-pill{border:1px solid #d1d5db;border-radius:999px;padding:7px 14px;background:#fff;font-size:14px;cursor:pointer;color:#374151}
+.rx-pills .rx-pill[aria-pressed="true"]{background:#0f1014;color:#fff;border-color:#0f1014}
+.rx-date-pill{text-align:center;margin:28px 0 16px}
+.rx-date-pill span{display:inline-block;background:#f3f4f6;border-radius:999px;padding:8px 20px;font-weight:700;color:#374151}
+.rx-sched-row{position:relative;display:grid;grid-template-columns:170px 1fr 190px;gap:16px;align-items:start;padding:16px 4px;border-bottom:1px solid #e5e7eb;text-decoration:none;color:inherit}
+.rx-sched-row:hover{background:#fef2f2}
+.rx-row-link{position:absolute;inset:0;z-index:1}
+.rx-sched-series{position:relative;z-index:2}
+.rx-sched-time b{display:block;font-size:18px;color:#0f1014}
+.rx-sched-time span{display:block;font-size:13px;color:#6b7280;margin-top:2px}
+.rx-sched-mid b{font-size:17px;color:#0f1014}
+.rx-sched-mid .rx-desc{display:block;font-size:13px;color:#6b7280;margin-top:3px}
+.rx-sched-mid .rx-result{display:block;font-size:14px;color:#374151;margin-top:3px}
+.rx-sched-series{text-align:right;font-size:14px}
+.rx-sched-series a{color:#c92a1e;text-decoration:none;font-weight:600}
+.rx-note-card{border:1px solid #e5e7eb;border-radius:16px;padding:20px 22px;background:#fff;margin:0 0 20px}
+.rx-note-card p{margin:0 0 10px}
+.rx-note-card p:last-child{margin-bottom:0}
+.rx-res-grid{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.rx-res-card{border-bottom:1px solid #e5e7eb;border-right:1px solid #e5e7eb;padding:16px}
+.rx-res-card:nth-child(2n){border-right:0}
+.rx-res-status{font-size:12px;font-weight:700;letter-spacing:.06em;color:#6b7280;text-transform:uppercase}
+.rx-res-desc{font-size:13px;color:#6b7280;margin:4px 0 10px}
+.rx-res-desc a{color:#6b7280}
+.rx-res-team{display:flex;align-items:center;gap:8px;padding:3px 0;font-size:15px}
+.rx-res-team .rx-tname{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rx-res-team .rx-tscore{font-weight:700;color:#0f1014;white-space:nowrap}
+.rx-res-team.is-loser .rx-tname{color:#6b7280}
+.rx-res-team .rx-tpre{color:#6b7280;font-size:13px;white-space:nowrap}
+.rx-res-result{font-weight:700;color:#0f1014;margin:8px 0 10px;font-size:15px}
+.rx-res-links{border-top:1px solid #f3f4f6;padding-top:10px;display:flex;justify-content:space-between;font-size:14px}
+.rx-res-links a{color:#c92a1e;text-decoration:none;font-weight:600}
+.rx-res-box{border:1px solid #e5e7eb;border-radius:16px;background:#fff;margin:0 0 24px;overflow:hidden}
+.rx-res-boxhead{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-bottom:1px solid #e5e7eb}
+.rx-res-boxhead b{font-size:17px;color:#0f1014}
+.rx-res-boxhead b a{color:#0f1014;text-decoration:none}
+.rx-res-boxhead>a{color:#c92a1e;text-decoration:none;font-weight:600;font-size:14px}
+.rx-empty{color:#6b7280;text-align:center;padding:18px 0}
+.tlg{display:inline-block;width:24px;height:24px;flex:0 0 24px;background-size:contain;background-repeat:no-repeat;background-position:center;vertical-align:middle}
+table.rx-pts{width:100%;border-collapse:collapse}
+table.rx-pts th,table.rx-pts td{padding:10px 8px;border-bottom:1px solid #e5e7eb;text-align:center;white-space:nowrap}
+table.rx-pts th:first-child,table.rx-pts td:first-child{padding-left:12px}
+table.rx-pts th:nth-child(2),table.rx-pts td:nth-child(2){text-align:left;white-space:normal}
+table.rx-pts thead th{background:#f9fafb;font-size:13px;color:#374151;cursor:pointer;user-select:none}
+table.rx-pts thead th[data-sort]{cursor:pointer}
+table.rx-pts thead th .rx-arrow{font-size:11px;color:#c92a1e}
+table.rx-pts td.rx-pts-n{font-weight:700}
+table.rx-pts .rx-teamcell{display:flex;align-items:center;gap:8px;font-weight:700;color:#0f1014;min-width:170px}
+table.rx-pts .rx-teamcell a{color:#0f1014;text-decoration:none}
+.rx-form{display:inline-flex;gap:3px;align-items:center}
+.rx-form .rx-fc{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:5px;font-size:12px;font-weight:700;color:#fff}
+.rx-fc-w{background:#1a7f37}.rx-fc-l{background:#c92a1e}.rx-fc-a{background:#9ca3af}
+.rx-chev{border:0;background:none;cursor:pointer;font-size:14px;color:#6b7280;padding:2px 4px}
+tr.rx-detail{display:none}
+tr.rx-detail.open{display:table-row}
+tr.rx-detail td{background:#f9fafb;text-align:left;white-space:normal;padding:14px 16px}
+.rx-fd{list-style:none;margin:0;padding:0}
+.rx-fd li{display:flex;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px solid #e5e7eb;font-size:14px}
+.rx-fd li:last-child{border-bottom:0}
+.rx-fd .rx-fd-main{flex:1}
+.rx-fd .rx-fd-main b{display:block;color:#0f1014}
+.rx-fd .rx-fd-main span{color:#6b7280;font-size:13px}
+.rx-fd a{color:#c92a1e;text-decoration:none;font-weight:600;white-space:nowrap}
+.rx-legend{display:grid;grid-template-columns:repeat(3,1fr);gap:4px 24px;font-size:14px;color:#374151;margin:14px 0 0}
+.rx-legend b{color:#0f1014}
+.rx-footnote{color:#6b7280;font-size:14px;margin:14px 0 0}
+.pts-full{grid-template-columns:minmax(0,1fr) !important}
+.pts-full .home-main{max-width:1080px;width:100%;justify-self:center}
+.rx-perf-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:0 0 8px}
+.rx-perf-card{border:1px solid #e5e7eb;border-radius:16px;background:#fff;padding:18px 20px}
+.rx-perf-card h3{margin:0 0 12px;font-size:19px;color:#0f1014}
+.rx-perf-row{display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid #f3f4f6}
+.rx-perf-row:last-of-type{border-bottom:0}
+.rx-ava{width:40px;height:40px;flex:0 0 40px;border-radius:50%;background:#0f1014;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px}
+.rx-perf-who{flex:1;min-width:0}
+.rx-perf-who a{color:#0f1014;text-decoration:none;font-weight:700}
+.rx-perf-who span{display:block;font-size:13px;color:#6b7280}
+.rx-perf-fig{font-size:22px;font-weight:800;color:#0f1014;text-align:right}
+.rx-perf-fig small{display:block;font-size:12px;font-weight:400;color:#6b7280}
+.rx-perf-foot{margin:12px 0 0}
+.rx-perf-foot a{color:#c92a1e;text-decoration:none;font-weight:600;font-size:14px}
+.rx-records{border:1px solid #e5e7eb;border-radius:16px;background:#fff;padding:18px 20px}
+.rx-records h3{margin:0 0 4px;font-size:15px;letter-spacing:.04em;color:#6b7280;text-transform:uppercase}
+.rx-records .rx-seeall{float:right;font-size:14px}
+.rx-records ul{list-style:none;margin:12px 0 0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:8px 16px}
+.rx-records ul a{color:#0f1014;text-decoration:none;font-weight:600}
+.rx-records ul a:hover{color:#c92a1e}
+.rx-float{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;z-index:60;display:flex;gap:8px;align-items:center;background:#0f1014;border-radius:999px;padding:8px 10px;box-shadow:0 8px 24px rgba(0,0,0,.25)}
+.rx-float select{border:0;background:#1f2937;color:#fff;border-radius:999px;padding:8px 10px;font-size:14px;max-width:190px}
+.rx-float .rx-back{border:0;background:#2563eb;color:#fff;border-radius:999px;padding:8px 14px;font-size:14px;cursor:pointer;display:none}
+.rx-float .rx-back.show{display:inline-block}
+.rx-top{position:fixed;right:18px;bottom:18px;z-index:60;width:44px;height:44px;border-radius:50%;border:1px solid #e5e7eb;background:#fff;font-size:18px;cursor:pointer;display:none;box-shadow:0 4px 14px rgba(0,0,0,.15)}
+.rx-top.show{display:block}
+@media (max-width:640px){
+  main section h2,.home-main section h2{font-size:26px;line-height:1.2}
+  .rx-tabs a{padding:10px 4px;font-size:14px}
+  .rx-sched-row{grid-template-columns:110px 1fr;gap:10px}
+  .rx-sched-series{display:none}
+  .rx-res-grid{grid-template-columns:1fr}
+  .rx-res-card{border-right:0}
+  .rx-perf-grid{grid-template-columns:1fr}
+  .rx-legend{grid-template-columns:1fr 1fr}
+  .rx-float{bottom:76px;max-width:calc(100vw - 24px)}
+  .rx-float select{max-width:140px}
+  table.rx-pts th,table.rx-pts td{padding:8px 5px;font-size:13px}
+  table.rx-pts .rx-teamcell{min-width:130px}
+table.rx-sortable th[data-sort]{cursor:pointer;user-select:none}
+table.rx-sortable th .rx-arrow{font-size:11px;color:#c92a1e}
+.rx-viewall{margin:0 0 16px}
+.rx-viewall a{color:#c92a1e;text-decoration:none;font-weight:600}
+.rx-table-note{color:#6b7280;font-size:14px;margin:0 0 10px}
+.rx-stat-table{margin:0 0 28px}
+.rx-stat-table h3{font-size:20px;color:#0f1014;margin:0 0 10px}
+.rx-stat-table table{width:100%}
+
+}
+</style>
 </head>
 <body class="league-npl">
 <header>
@@ -412,45 +546,7 @@ img{max-width:100%;height:auto}
   <section data-reveal id="fixtures">
       <h2>NPL 2026 fixtures &mdash; all 28 league matches</h2>
       <p class="lead">Every league match is at the TU International Cricket Ground, Kirtipur. Times are in Nepal Standard Time (NST, UTC+5:45) &mdash; 12:30 PM NST is 11:45 AM PKT and 6:45 AM UTC, and 4:30 PM NST is 3:45 PM PKT and 10:45 AM UTC. 21 of the 28 matches are played, and the next match is Biratnagar Kings vs Pokhara Avengers on Thursday 12 November.</p>
-      <div class="table-scroll">
-      <table>
-        <thead><tr><th>Match</th><th>Date</th><th>Time (NST)</th><th>Fixture</th><th>Result</th></tr></thead>
-        <tbody>
-          <tr><td><a href="/npl/matches/2026/match-1/">1</a></td><td>Mon 26 Oct</td><td>4:30 PM</td><td>Lumbini Lions 88/3 (9.5 ov) vs Sudurpaschim Royals 87 (17.2 ov)</td><td>Lumbini Lions won by 7 wickets</td></tr>
-          <tr><td><a href="/npl/matches/2026/match-2/">2</a></td><td>Tue 27 Oct</td><td>12:30 PM</td><td>Biratnagar Kings 149/10 (19.3 ov) vs Chitwan Rhinos 157/3 (20 ov)</td><td>Chitwan Rhinos won by 8 runs</td></tr>
-          <tr><td><a href="/npl/matches/2026/match-3/">3</a></td><td>Tue 27 Oct</td><td>4:30 PM</td><td>Karnali Yaks 132/9 (20 ov) vs Janakpur Bolts 113/10 (19.3 ov)</td><td>Karnali Yaks won by 19 runs</td></tr>
-          <tr><td><a href="/npl/matches/2026/match-4/">4</a></td><td>Wed 28 Oct</td><td>4:30 PM</td><td>Pokhara Avengers 145/7 (20 ov) vs Sudurpaschim Royals 148/4 (16.5 ov)</td><td>Sudurpaschim Royals won by 6 wickets</td></tr>
-          <tr><td><a href="/npl/matches/2026/match-5/">5</a></td><td>Thu 29 Oct</td><td>12:30 PM</td><td>Janakpur Bolts 116/2 (17.2 ov) vs Kathmandu Gorkhas 115/10 (19.3 ov)</td><td>Janakpur Bolts won by 8 wickets</td></tr>
-          <tr><td><a href="/npl/matches/2026/match-6/">6</a></td><td>Thu 29 Oct</td><td>4:30 PM</td><td>Karnali Yaks 187/6 (19.5 ov) vs Biratnagar Kings 186/7 (20 ov)</td><td>Karnali Yaks won by 4 wickets</td></tr>
-          <tr><td><a href="/npl/matches/2026/match-7/">7</a></td><td>Sat 31 Oct</td><td>12:30 PM</td><td>Lumbini Lions &mdash; vs Chitwan Rhinos &mdash;</td><td>No result &mdash; abandoned due to rain, points shared</td></tr>
-          <tr><td><a href="/npl/matches/2026/match-8/">8</a></td><td>Sat 31 Oct</td><td>4:30 PM</td><td>Sudurpaschim Royals 70/3 (5 ov) vs Biratnagar Kings 105/2 (5 ov)</td><td>Biratnagar Kings won by 35 runs</td></tr>
-          <tr><td><a href="/npl/matches/2026/match-9/">9</a></td><td>Sun 01 Nov</td><td>4:30 PM</td><td>Janakpur Bolts 147/7 (20 ov) vs Pokhara Avengers 138/9 (20 ov)</td><td>Janakpur Bolts won by 9 runs</td></tr>
-          <tr><td><a href="/npl/matches/2026/match-10/">10</a></td><td>Mon 02 Nov</td><td>12:30 PM</td><td>Kathmandu Gorkhas 181/6 (19.4 ov) vs Karnali Yaks 180/6 (20 ov)</td><td>Kathmandu Gorkhas won by 4 wickets</td></tr>
-          <tr><td><a href="/npl/matches/2026/match-11/">11</a></td><td>Mon 02 Nov</td><td>4:30 PM</td><td>Sudurpaschim Royals 131/5 (16.4 ov) vs Chitwan Rhinos 129/6 (20 ov)</td><td>Sudurpaschim Royals won by 5 wickets</td></tr>
-          <tr><td><a href="/npl/matches/2026/match-12/">12</a></td><td>Tue 03 Nov</td><td>12:30 PM</td><td>Biratnagar Kings 174/3 (20 ov) vs Janakpur Bolts 172/7 (20 ov)</td><td>Biratnagar Kings won by 2 runs</td></tr>
-          <tr><td><a href="/npl/matches/2026/match-13/">13</a></td><td>Tue 03 Nov</td><td>4:30 PM</td><td>Lumbini Lions 98/2 (11.4 ov) vs Pokhara Avengers 97/9 (20 ov)</td><td>Lumbini Lions won by 8 wickets</td></tr>
-          <tr><td><a href="/npl/matches/2026/match-14/">14</a></td><td>Thu 05 Nov</td><td>12:30 PM</td><td>Lumbini Lions 149/8 (20 ov) vs Janakpur Bolts 133/8 (20 ov)</td><td>Lumbini Lions won by 16 runs</td></tr>
-          <tr><td><a href="/npl/matches/2026/match-15/">15</a></td><td>Thu 05 Nov</td><td>4:30 PM</td><td>Kathmandu Gorkhas 86/1 (9.4 ov) vs Biratnagar Kings 83/10 (18.3 ov)</td><td>Kathmandu Gorkhas won by 9 wickets</td></tr>
-          <tr><td><a href="/npl/matches/2026/match-16/">16</a></td><td>Fri 06 Nov</td><td>12:30 PM</td><td>Sudurpaschim Royals 176/6 (20 ov) vs Karnali Yaks 137/7 (20 ov)</td><td>Sudurpaschim Royals won by 39 runs</td></tr>
-          <tr><td><a href="/npl/matches/2026/match-17/">17</a></td><td>Fri 06 Nov</td><td>4:30 PM</td><td>Chitwan Rhinos 151/6 (20 ov) vs Pokhara Avengers 121/10 (19 ov)</td><td>Chitwan Rhinos won by 30 runs</td></tr>
-          <tr><td><a href="/npl/matches/2026/match-18/">18</a></td><td>Sat 07 Nov</td><td>4:30 PM</td><td>Kathmandu Gorkhas 160/8 (20 ov) vs Lumbini Lions 124/10 (19.3 ov)</td><td>Kathmandu Gorkhas won by 36 runs</td></tr>
-          <tr><td><a href="/npl/matches/2026/match-19/">19</a></td><td>Mon 09 Nov</td><td>12:30 PM</td><td>Pokhara Avengers 217/3 (20 ov) vs Karnali Yaks 154/10 (18.3 ov)</td><td>Pokhara Avengers won by 63 runs</td></tr>
-          <tr><td><a href="/npl/matches/2026/match-20/">20</a></td><td>Mon 09 Nov</td><td>4:30 PM</td><td>Chitwan Rhinos 170/7 (20 ov) vs Kathmandu Gorkhas 180/8 (20 ov)</td><td>Kathmandu Gorkhas won by 10 runs</td></tr>
-          <tr><td><a href="/npl/matches/2026/match-21/">21</a></td><td>Tue 10 Nov</td><td>4:30 PM</td><td>Sudurpaschim Royals 120/9 (20 ov) vs Janakpur Bolts 93 (19.5 ov)</td><td>Sudurpaschim Royals won by 27 runs</td></tr>
-          <tr><td><a href="/npl/matches/2026/match-22/">22</a></td><td>Thu 12 Nov</td><td>12:30 PM</td><td>Biratnagar Kings vs Pokhara Avengers</td><td>Upcoming</td></tr>
-          <tr><td><a href="/npl/matches/2026/match-23/">23</a></td><td>Thu 12 Nov</td><td>4:30 PM</td><td>Karnali Yaks vs Lumbini Lions</td><td>Upcoming</td></tr>
-          <tr><td><a href="/npl/matches/2026/match-24/">24</a></td><td>Fri 13 Nov</td><td>12:30 PM</td><td>Kathmandu Gorkhas vs Sudurpaschim Royals</td><td>Upcoming</td></tr>
-          <tr><td><a href="/npl/matches/2026/match-25/">25</a></td><td>Fri 13 Nov</td><td>4:30 PM</td><td>Janakpur Bolts vs Chitwan Rhinos</td><td>Upcoming</td></tr>
-          <tr><td><a href="/npl/matches/2026/match-26/">26</a></td><td>Sat 14 Nov</td><td>4:30 PM</td><td>Biratnagar Kings vs Lumbini Lions</td><td>Upcoming</td></tr>
-          <tr><td><a href="/npl/matches/2026/match-27/">27</a></td><td>Sun 15 Nov</td><td>12:30 PM</td><td>Chitwan Rhinos vs Karnali Yaks</td><td>Upcoming</td></tr>
-          <tr><td><a href="/npl/matches/2026/match-28/">28</a></td><td>Sun 15 Nov</td><td>4:30 PM</td><td>Pokhara Avengers vs Kathmandu Gorkhas</td><td>Upcoming</td></tr>
-        </tbody>
-      </table>
-      </div>
-      <p class="note">Fixtures verified against the NPL fixtures file. Scores are from the verified scorecards; the Match 21 score is from the CricTracker live scorecard (verified 10 November 2026). Match 8 was shortened to 5 overs per side by rain. Match 7 was abandoned due to rain &mdash; no result, points shared.</p>
-  </section>
-
-  <section data-reveal id="playoffs">
+      <div class="rx-tabs"><a href="/live-scores/">Live Cricket Score</a><a href="/npl/schedule/" aria-current="page">Cricket Schedule</a><a href="/npl/results/">Match Results</a></div><div class="rx-strip" role="navigation" aria-label="Jump to a date"><a class="rx-day" href="#date-2026-10-26"><span>Mon</span><b>26</b></a><a class="rx-day" href="#date-2026-10-27"><span>Tue</span><b>27</b></a><a class="rx-day" href="#date-2026-10-28"><span>Wed</span><b>28</b></a><a class="rx-day" href="#date-2026-10-29"><span>Thu</span><b>29</b></a><a class="rx-day" href="#date-2026-10-31"><span>Sat</span><b>31</b></a><a class="rx-day" href="#date-2026-11-01"><span>Sun</span><b>1</b></a><a class="rx-day" href="#date-2026-11-02"><span>Mon</span><b>2</b></a><a class="rx-day" href="#date-2026-11-03"><span>Tue</span><b>3</b></a><a class="rx-day" href="#date-2026-11-05"><span>Thu</span><b>5</b></a><a class="rx-day" href="#date-2026-11-06"><span>Fri</span><b>6</b></a><a class="rx-day" href="#date-2026-11-07"><span>Sat</span><b>7</b></a><a class="rx-day" href="#date-2026-11-09"><span>Mon</span><b>9</b></a><a class="rx-day" href="#date-2026-11-10"><span>Tue</span><b>10</b></a><a class="rx-day is-next" href="#date-2026-11-12"><span>Thu</span><b>12</b><em>Next</em></a><a class="rx-day" href="#date-2026-11-13"><span>Fri</span><b>13</b></a><a class="rx-day" href="#date-2026-11-14"><span>Sat</span><b>14</b></a><a class="rx-day" href="#date-2026-11-15"><span>Sun</span><b>15</b></a><a class="rx-day" href="#playoffs"><span>Tue</span><b>17</b></a><a class="rx-day" href="#playoffs"><span>Wed</span><b>18</b></a><a class="rx-day" href="#playoffs"><span>Thu</span><b>19</b></a><a class="rx-day" href="#playoffs"><span>Sat</span><b>21</b></a><button class="rx-nav" type="button" aria-label="Scroll dates" onclick="this.parentElement.scrollBy({left:260,behavior:'smooth'})">&rsaquo;</button><button class="rx-nav" type="button" aria-label="Pick a date" onclick="document.getElementById('rxCal').showPicker()">&#128197;</button><input type="date" id="rxCal" style="position:absolute;opacity:0;width:1px;height:1px" aria-label="Pick a date"></div><div class="rx-pills"><button class="rx-reset" type="button">Reset</button><button class="rx-pill" type="button" data-filter="t20" aria-pressed="true">T20s</button><button class="rx-pill" type="button" data-filter="men" aria-pressed="true">Men</button></div><div class="rx-date-group" id="date-2026-10-26"><div class="rx-date-pill"><span>Mon, 26 Oct</span></div><div class="rx-sched-row" data-format="t20" data-gender="men" data-teams="lumbini-lions sudurpaschim-royals"><a class="rx-row-link" href="/npl/matches/2026/match-1/" aria-label="Lumbini Lions vs Sudurpaschim Royals, 1st Match"></a><span class="rx-sched-time"><b>4:30 PM NST</b><span>3:45 PM PKT &middot; 10:45 AM GMT</span></span><span class="rx-sched-mid"><b>Lumbini Lions vs Sudurpaschim Royals</b><span class="rx-desc">1st Match, TU International Cricket Ground, Kirtipur, Monday, 26 October 2026</span><span class="rx-result">Lumbini Lions won by 7 wickets</span></span><span class="rx-sched-series"><a href="/npl/">Nepal Premier League</a></span></div></div><div class="rx-date-group" id="date-2026-10-27"><div class="rx-date-pill"><span>Tue, 27 Oct</span></div><div class="rx-sched-row" data-format="t20" data-gender="men" data-teams="biratnagar-kings chitwan-rhinos"><a class="rx-row-link" href="/npl/matches/2026/match-2/" aria-label="Biratnagar Kings vs Chitwan Rhinos, 2nd Match"></a><span class="rx-sched-time"><b>12:30 PM NST</b><span>11:45 AM PKT &middot; 6:45 AM GMT</span></span><span class="rx-sched-mid"><b>Biratnagar Kings vs Chitwan Rhinos</b><span class="rx-desc">2nd Match, TU International Cricket Ground, Kirtipur, Tuesday, 27 October 2026</span><span class="rx-result">Chitwan Rhinos won by 8 runs</span></span><span class="rx-sched-series"><a href="/npl/">Nepal Premier League</a></span></div><div class="rx-sched-row" data-format="t20" data-gender="men" data-teams="karnali-yaks janakpur-bolts"><a class="rx-row-link" href="/npl/matches/2026/match-3/" aria-label="Karnali Yaks vs Janakpur Bolts, 3rd Match"></a><span class="rx-sched-time"><b>4:30 PM NST</b><span>3:45 PM PKT &middot; 10:45 AM GMT</span></span><span class="rx-sched-mid"><b>Karnali Yaks vs Janakpur Bolts</b><span class="rx-desc">3rd Match, TU International Cricket Ground, Kirtipur, Tuesday, 27 October 2026</span><span class="rx-result">Karnali Yaks won by 19 runs</span></span><span class="rx-sched-series"><a href="/npl/">Nepal Premier League</a></span></div></div><div class="rx-date-group" id="date-2026-10-28"><div class="rx-date-pill"><span>Wed, 28 Oct</span></div><div class="rx-sched-row" data-format="t20" data-gender="men" data-teams="pokhara-avengers sudurpaschim-royals"><a class="rx-row-link" href="/npl/matches/2026/match-4/" aria-label="Pokhara Avengers vs Sudurpaschim Royals, 4th Match"></a><span class="rx-sched-time"><b>4:30 PM NST</b><span>3:45 PM PKT &middot; 10:45 AM GMT</span></span><span class="rx-sched-mid"><b>Pokhara Avengers vs Sudurpaschim Royals</b><span class="rx-desc">4th Match, TU International Cricket Ground, Kirtipur, Wednesday, 28 October 2026</span><span class="rx-result">Sudurpaschim Royals won by 6 wickets</span></span><span class="rx-sched-series"><a href="/npl/">Nepal Premier League</a></span></div></div><div class="rx-date-group" id="date-2026-10-29"><div class="rx-date-pill"><span>Thu, 29 Oct</span></div><div class="rx-sched-row" data-format="t20" data-gender="men" data-teams="janakpur-bolts kathmandu-gorkhas"><a class="rx-row-link" href="/npl/matches/2026/match-5/" aria-label="Janakpur Bolts vs Kathmandu Gorkhas, 5th Match"></a><span class="rx-sched-time"><b>12:30 PM NST</b><span>11:45 AM PKT &middot; 6:45 AM GMT</span></span><span class="rx-sched-mid"><b>Janakpur Bolts vs Kathmandu Gorkhas</b><span class="rx-desc">5th Match, TU International Cricket Ground, Kirtipur, Thursday, 29 October 2026</span><span class="rx-result">Janakpur Bolts won by 8 wickets</span></span><span class="rx-sched-series"><a href="/npl/">Nepal Premier League</a></span></div><div class="rx-sched-row" data-format="t20" data-gender="men" data-teams="karnali-yaks biratnagar-kings"><a class="rx-row-link" href="/npl/matches/2026/match-6/" aria-label="Karnali Yaks vs Biratnagar Kings, 6th Match"></a><span class="rx-sched-time"><b>4:30 PM NST</b><span>3:45 PM PKT &middot; 10:45 AM GMT</span></span><span class="rx-sched-mid"><b>Karnali Yaks vs Biratnagar Kings</b><span class="rx-desc">6th Match, TU International Cricket Ground, Kirtipur, Thursday, 29 October 2026</span><span class="rx-result">Karnali Yaks won by 4 wickets</span></span><span class="rx-sched-series"><a href="/npl/">Nepal Premier League</a></span></div></div><div class="rx-date-group" id="date-2026-10-31"><div class="rx-date-pill"><span>Sat, 31 Oct</span></div><div class="rx-sched-row" data-format="t20" data-gender="men" data-teams="lumbini-lions chitwan-rhinos"><a class="rx-row-link" href="/npl/matches/2026/match-7/" aria-label="Lumbini Lions vs Chitwan Rhinos, 7th Match"></a><span class="rx-sched-time"><b>12:30 PM NST</b><span>11:45 AM PKT &middot; 6:45 AM GMT</span></span><span class="rx-sched-mid"><b>Lumbini Lions vs Chitwan Rhinos</b><span class="rx-desc">7th Match, TU International Cricket Ground, Kirtipur, Saturday, 31 October 2026</span><span class="rx-result">Match 7 abandoned due to rain — no result, points shared</span></span><span class="rx-sched-series"><a href="/npl/">Nepal Premier League</a></span></div><div class="rx-sched-row" data-format="t20" data-gender="men" data-teams="sudurpaschim-royals biratnagar-kings"><a class="rx-row-link" href="/npl/matches/2026/match-8/" aria-label="Sudurpaschim Royals vs Biratnagar Kings, 8th Match"></a><span class="rx-sched-time"><b>4:30 PM NST</b><span>3:45 PM PKT &middot; 10:45 AM GMT</span></span><span class="rx-sched-mid"><b>Sudurpaschim Royals vs Biratnagar Kings</b><span class="rx-desc">8th Match, TU International Cricket Ground, Kirtipur, Saturday, 31 October 2026</span><span class="rx-result">Biratnagar Kings won by 35 runs</span></span><span class="rx-sched-series"><a href="/npl/">Nepal Premier League</a></span></div></div><div class="rx-date-group" id="date-2026-11-01"><div class="rx-date-pill"><span>Sun, 1 Nov</span></div><div class="rx-sched-row" data-format="t20" data-gender="men" data-teams="janakpur-bolts pokhara-avengers"><a class="rx-row-link" href="/npl/matches/2026/match-9/" aria-label="Janakpur Bolts vs Pokhara Avengers, 9th Match"></a><span class="rx-sched-time"><b>4:30 PM NST</b><span>3:45 PM PKT &middot; 10:45 AM GMT</span></span><span class="rx-sched-mid"><b>Janakpur Bolts vs Pokhara Avengers</b><span class="rx-desc">9th Match, TU International Cricket Ground, Kirtipur, Sunday, 1 November 2026</span><span class="rx-result">Janakpur Bolts won by 9 runs</span></span><span class="rx-sched-series"><a href="/npl/">Nepal Premier League</a></span></div></div><div class="rx-date-group" id="date-2026-11-02"><div class="rx-date-pill"><span>Mon, 2 Nov</span></div><div class="rx-sched-row" data-format="t20" data-gender="men" data-teams="kathmandu-gorkhas karnali-yaks"><a class="rx-row-link" href="/npl/matches/2026/match-10/" aria-label="Kathmandu Gorkhas vs Karnali Yaks, 10th Match"></a><span class="rx-sched-time"><b>12:30 PM NST</b><span>11:45 AM PKT &middot; 6:45 AM GMT</span></span><span class="rx-sched-mid"><b>Kathmandu Gorkhas vs Karnali Yaks</b><span class="rx-desc">10th Match, TU International Cricket Ground, Kirtipur, Monday, 2 November 2026</span><span class="rx-result">Kathmandu Gorkhas won by 4 wickets</span></span><span class="rx-sched-series"><a href="/npl/">Nepal Premier League</a></span></div><div class="rx-sched-row" data-format="t20" data-gender="men" data-teams="sudurpaschim-royals chitwan-rhinos"><a class="rx-row-link" href="/npl/matches/2026/match-11/" aria-label="Sudurpaschim Royals vs Chitwan Rhinos, 11th Match"></a><span class="rx-sched-time"><b>4:30 PM NST</b><span>3:45 PM PKT &middot; 10:45 AM GMT</span></span><span class="rx-sched-mid"><b>Sudurpaschim Royals vs Chitwan Rhinos</b><span class="rx-desc">11th Match, TU International Cricket Ground, Kirtipur, Monday, 2 November 2026</span><span class="rx-result">Sudurpaschim Royals won by 5 wickets</span></span><span class="rx-sched-series"><a href="/npl/">Nepal Premier League</a></span></div></div><div class="rx-date-group" id="date-2026-11-03"><div class="rx-date-pill"><span>Tue, 3 Nov</span></div><div class="rx-sched-row" data-format="t20" data-gender="men" data-teams="biratnagar-kings janakpur-bolts"><a class="rx-row-link" href="/npl/matches/2026/match-12/" aria-label="Biratnagar Kings vs Janakpur Bolts, 12th Match"></a><span class="rx-sched-time"><b>12:30 PM NST</b><span>11:45 AM PKT &middot; 6:45 AM GMT</span></span><span class="rx-sched-mid"><b>Biratnagar Kings vs Janakpur Bolts</b><span class="rx-desc">12th Match, TU International Cricket Ground, Kirtipur, Tuesday, 3 November 2026</span><span class="rx-result">Biratnagar Kings won by 2 runs</span></span><span class="rx-sched-series"><a href="/npl/">Nepal Premier League</a></span></div><div class="rx-sched-row" data-format="t20" data-gender="men" data-teams="lumbini-lions pokhara-avengers"><a class="rx-row-link" href="/npl/matches/2026/match-13/" aria-label="Lumbini Lions vs Pokhara Avengers, 13th Match"></a><span class="rx-sched-time"><b>4:30 PM NST</b><span>3:45 PM PKT &middot; 10:45 AM GMT</span></span><span class="rx-sched-mid"><b>Lumbini Lions vs Pokhara Avengers</b><span class="rx-desc">13th Match, TU International Cricket Ground, Kirtipur, Tuesday, 3 November 2026</span><span class="rx-result">Lumbini Lions won by 8 wickets</span></span><span class="rx-sched-series"><a href="/npl/">Nepal Premier League</a></span></div></div><div class="rx-date-group" id="date-2026-11-05"><div class="rx-date-pill"><span>Thu, 5 Nov</span></div><div class="rx-sched-row" data-format="t20" data-gender="men" data-teams="lumbini-lions janakpur-bolts"><a class="rx-row-link" href="/npl/matches/2026/match-14/" aria-label="Lumbini Lions vs Janakpur Bolts, 14th Match"></a><span class="rx-sched-time"><b>12:30 PM NST</b><span>11:45 AM PKT &middot; 6:45 AM GMT</span></span><span class="rx-sched-mid"><b>Lumbini Lions vs Janakpur Bolts</b><span class="rx-desc">14th Match, TU International Cricket Ground, Kirtipur, Thursday, 5 November 2026</span><span class="rx-result">Lumbini Lions won by 16 runs</span></span><span class="rx-sched-series"><a href="/npl/">Nepal Premier League</a></span></div><div class="rx-sched-row" data-format="t20" data-gender="men" data-teams="kathmandu-gorkhas biratnagar-kings"><a class="rx-row-link" href="/npl/matches/2026/match-15/" aria-label="Kathmandu Gorkhas vs Biratnagar Kings, 15th Match"></a><span class="rx-sched-time"><b>4:30 PM NST</b><span>3:45 PM PKT &middot; 10:45 AM GMT</span></span><span class="rx-sched-mid"><b>Kathmandu Gorkhas vs Biratnagar Kings</b><span class="rx-desc">15th Match, TU International Cricket Ground, Kirtipur, Thursday, 5 November 2026</span><span class="rx-result">Kathmandu Gorkhas won by 9 wickets</span></span><span class="rx-sched-series"><a href="/npl/">Nepal Premier League</a></span></div></div><div class="rx-date-group" id="date-2026-11-06"><div class="rx-date-pill"><span>Fri, 6 Nov</span></div><div class="rx-sched-row" data-format="t20" data-gender="men" data-teams="sudurpaschim-royals karnali-yaks"><a class="rx-row-link" href="/npl/matches/2026/match-16/" aria-label="Sudurpaschim Royals vs Karnali Yaks, 16th Match"></a><span class="rx-sched-time"><b>12:30 PM NST</b><span>11:45 AM PKT &middot; 6:45 AM GMT</span></span><span class="rx-sched-mid"><b>Sudurpaschim Royals vs Karnali Yaks</b><span class="rx-desc">16th Match, TU International Cricket Ground, Kirtipur, Friday, 6 November 2026</span><span class="rx-result">Sudurpaschim Royals won by 39 runs</span></span><span class="rx-sched-series"><a href="/npl/">Nepal Premier League</a></span></div><div class="rx-sched-row" data-format="t20" data-gender="men" data-teams="chitwan-rhinos pokhara-avengers"><a class="rx-row-link" href="/npl/matches/2026/match-17/" aria-label="Chitwan Rhinos vs Pokhara Avengers, 17th Match"></a><span class="rx-sched-time"><b>4:30 PM NST</b><span>3:45 PM PKT &middot; 10:45 AM GMT</span></span><span class="rx-sched-mid"><b>Chitwan Rhinos vs Pokhara Avengers</b><span class="rx-desc">17th Match, TU International Cricket Ground, Kirtipur, Friday, 6 November 2026</span><span class="rx-result">Chitwan Rhinos won by 30 runs</span></span><span class="rx-sched-series"><a href="/npl/">Nepal Premier League</a></span></div></div><div class="rx-date-group" id="date-2026-11-07"><div class="rx-date-pill"><span>Sat, 7 Nov</span></div><div class="rx-sched-row" data-format="t20" data-gender="men" data-teams="kathmandu-gorkhas lumbini-lions"><a class="rx-row-link" href="/npl/matches/2026/match-18/" aria-label="Kathmandu Gorkhas vs Lumbini Lions, 18th Match"></a><span class="rx-sched-time"><b>4:30 PM NST</b><span>3:45 PM PKT &middot; 10:45 AM GMT</span></span><span class="rx-sched-mid"><b>Kathmandu Gorkhas vs Lumbini Lions</b><span class="rx-desc">18th Match, TU International Cricket Ground, Kirtipur, Saturday, 7 November 2026</span><span class="rx-result">Kathmandu Gorkhas won by 36 runs</span></span><span class="rx-sched-series"><a href="/npl/">Nepal Premier League</a></span></div></div><div class="rx-date-group" id="date-2026-11-09"><div class="rx-date-pill"><span>Mon, 9 Nov</span></div><div class="rx-sched-row" data-format="t20" data-gender="men" data-teams="pokhara-avengers karnali-yaks"><a class="rx-row-link" href="/npl/matches/2026/match-19/" aria-label="Pokhara Avengers vs Karnali Yaks, 19th Match"></a><span class="rx-sched-time"><b>12:30 PM NST</b><span>11:45 AM PKT &middot; 6:45 AM GMT</span></span><span class="rx-sched-mid"><b>Pokhara Avengers vs Karnali Yaks</b><span class="rx-desc">19th Match, TU International Cricket Ground, Kirtipur, Monday, 9 November 2026</span><span class="rx-result">Pokhara Avengers won by 63 runs</span></span><span class="rx-sched-series"><a href="/npl/">Nepal Premier League</a></span></div><div class="rx-sched-row" data-format="t20" data-gender="men" data-teams="chitwan-rhinos kathmandu-gorkhas"><a class="rx-row-link" href="/npl/matches/2026/match-20/" aria-label="Chitwan Rhinos vs Kathmandu Gorkhas, 20th Match"></a><span class="rx-sched-time"><b>4:30 PM NST</b><span>3:45 PM PKT &middot; 10:45 AM GMT</span></span><span class="rx-sched-mid"><b>Chitwan Rhinos vs Kathmandu Gorkhas</b><span class="rx-desc">20th Match, TU International Cricket Ground, Kirtipur, Monday, 9 November 2026</span><span class="rx-result">Kathmandu Gorkhas won by 10 runs</span></span><span class="rx-sched-series"><a href="/npl/">Nepal Premier League</a></span></div></div><div class="rx-date-group" id="date-2026-11-10"><div class="rx-date-pill"><span>Tue, 10 Nov</span></div><div class="rx-sched-row" data-format="t20" data-gender="men" data-teams="sudurpaschim-royals janakpur-bolts"><a class="rx-row-link" href="/npl/matches/2026/match-21/" aria-label="Sudurpaschim Royals vs Janakpur Bolts, 21st Match"></a><span class="rx-sched-time"><b>4:30 PM NST</b><span>3:45 PM PKT &middot; 10:45 AM GMT</span></span><span class="rx-sched-mid"><b>Sudurpaschim Royals vs Janakpur Bolts</b><span class="rx-desc">21st Match, TU International Cricket Ground, Kirtipur, Tuesday, 10 November 2026</span><span class="rx-result">Sudurpaschim Royals won by 27 runs</span></span><span class="rx-sched-series"><a href="/npl/">Nepal Premier League</a></span></div></div><div class="rx-date-group" id="date-2026-11-12"><div class="rx-date-pill"><span>Thu, 12 Nov</span></div><div class="rx-sched-row" data-format="t20" data-gender="men" data-teams="biratnagar-kings pokhara-avengers"><a class="rx-row-link" href="/npl/matches/2026/match-22/" aria-label="Biratnagar Kings vs Pokhara Avengers, Match 22"></a><span class="rx-sched-time"><b>12:30 PM NST</b><span>11:45 AM PKT &middot; 6:45 AM GMT</span></span><span class="rx-sched-mid"><b>Biratnagar Kings vs Pokhara Avengers</b><span class="rx-desc">Match 22, TU International Cricket Ground, Kirtipur, Thursday, 12 November 2026</span></span><span class="rx-sched-series"><a href="/npl/">Nepal Premier League</a></span></div><div class="rx-sched-row" data-format="t20" data-gender="men" data-teams="karnali-yaks lumbini-lions"><a class="rx-row-link" href="/npl/matches/2026/match-23/" aria-label="Karnali Yaks vs Lumbini Lions, Match 23"></a><span class="rx-sched-time"><b>4:30 PM NST</b><span>3:45 PM PKT &middot; 10:45 AM GMT</span></span><span class="rx-sched-mid"><b>Karnali Yaks vs Lumbini Lions</b><span class="rx-desc">Match 23, TU International Cricket Ground, Kirtipur, Thursday, 12 November 2026</span></span><span class="rx-sched-series"><a href="/npl/">Nepal Premier League</a></span></div></div><div class="rx-date-group" id="date-2026-11-13"><div class="rx-date-pill"><span>Fri, 13 Nov</span></div><div class="rx-sched-row" data-format="t20" data-gender="men" data-teams="kathmandu-gorkhas sudurpaschim-royals"><a class="rx-row-link" href="/npl/matches/2026/match-24/" aria-label="Kathmandu Gorkhas vs Sudurpaschim Royals, Match 24"></a><span class="rx-sched-time"><b>12:30 PM NST</b><span>11:45 AM PKT &middot; 6:45 AM GMT</span></span><span class="rx-sched-mid"><b>Kathmandu Gorkhas vs Sudurpaschim Royals</b><span class="rx-desc">Match 24, TU International Cricket Ground, Kirtipur, Friday, 13 November 2026</span></span><span class="rx-sched-series"><a href="/npl/">Nepal Premier League</a></span></div><div class="rx-sched-row" data-format="t20" data-gender="men" data-teams="janakpur-bolts chitwan-rhinos"><a class="rx-row-link" href="/npl/matches/2026/match-25/" aria-label="Janakpur Bolts vs Chitwan Rhinos, Match 25"></a><span class="rx-sched-time"><b>4:30 PM NST</b><span>3:45 PM PKT &middot; 10:45 AM GMT</span></span><span class="rx-sched-mid"><b>Janakpur Bolts vs Chitwan Rhinos</b><span class="rx-desc">Match 25, TU International Cricket Ground, Kirtipur, Friday, 13 November 2026</span></span><span class="rx-sched-series"><a href="/npl/">Nepal Premier League</a></span></div></div><div class="rx-date-group" id="date-2026-11-14"><div class="rx-date-pill"><span>Sat, 14 Nov</span></div><div class="rx-sched-row" data-format="t20" data-gender="men" data-teams="biratnagar-kings lumbini-lions"><a class="rx-row-link" href="/npl/matches/2026/match-26/" aria-label="Biratnagar Kings vs Lumbini Lions, Match 26"></a><span class="rx-sched-time"><b>4:30 PM NST</b><span>3:45 PM PKT &middot; 10:45 AM GMT</span></span><span class="rx-sched-mid"><b>Biratnagar Kings vs Lumbini Lions</b><span class="rx-desc">Match 26, TU International Cricket Ground, Kirtipur, Saturday, 14 November 2026</span></span><span class="rx-sched-series"><a href="/npl/">Nepal Premier League</a></span></div></div><div class="rx-date-group" id="date-2026-11-15"><div class="rx-date-pill"><span>Sun, 15 Nov</span></div><div class="rx-sched-row" data-format="t20" data-gender="men" data-teams="chitwan-rhinos karnali-yaks"><a class="rx-row-link" href="/npl/matches/2026/match-27/" aria-label="Chitwan Rhinos vs Karnali Yaks, Match 27"></a><span class="rx-sched-time"><b>12:30 PM NST</b><span>11:45 AM PKT &middot; 6:45 AM GMT</span></span><span class="rx-sched-mid"><b>Chitwan Rhinos vs Karnali Yaks</b><span class="rx-desc">Match 27, TU International Cricket Ground, Kirtipur, Sunday, 15 November 2026</span></span><span class="rx-sched-series"><a href="/npl/">Nepal Premier League</a></span></div><div class="rx-sched-row" data-format="t20" data-gender="men" data-teams="pokhara-avengers kathmandu-gorkhas"><a class="rx-row-link" href="/npl/matches/2026/match-28/" aria-label="Pokhara Avengers vs Kathmandu Gorkhas, Match 28"></a><span class="rx-sched-time"><b>4:30 PM NST</b><span>3:45 PM PKT &middot; 10:45 AM GMT</span></span><span class="rx-sched-mid"><b>Pokhara Avengers vs Kathmandu Gorkhas</b><span class="rx-desc">Match 28, TU International Cricket Ground, Kirtipur, Sunday, 15 November 2026</span></span><span class="rx-sched-series"><a href="/npl/">Nepal Premier League</a></span></div></div></section><section data-reveal id="playoffs">
       <h2>Playoffs &mdash; four matches, 17 to 21 November</h2>
       <p class="lead">The top four teams on the points table qualify for the playoffs. All four playoff matches are at the TU International Cricket Ground, Kirtipur, and start at 4:30 PM NST (3:45 PM PKT, 10:45 AM UTC).</p>
       <div class="table-scroll">
@@ -465,9 +561,7 @@ img{max-width:100%;height:auto}
       </table>
       </div>
       <p class="note">The teams in each playoff match depend on the final league standings &mdash; they are confirmed once the league stage ends on Sunday 15 November. 20 November is a rest day between Qualifier 2 and the final.</p>
-  </section>
-
-  <section data-reveal class="faq" id="faq">
+  </section><section data-reveal class="faq" id="faq">
       <h2>Frequently asked questions</h2>
       <h3>When is the next NPL match?</h3>
       <p>Biratnagar Kings vs Pokhara Avengers, Match 22, on Thursday 12 November 2026 at 12:30 PM NST (11:45 AM PKT, 6:45 AM UTC), at the TU International Cricket Ground, Kirtipur.</p>
@@ -477,9 +571,7 @@ img{max-width:100%;height:auto}
       <p>Saturday 21 November 2026 at 4:30 PM NST (3:45 PM PKT, 10:45 AM UTC), at the TU International Cricket Ground, Kirtipur. The finalists are the winners of Qualifier 1 and Qualifier 2.</p>
       <h3>Where are NPL matches played?</h3>
       <p>All 32 matches of NPL Season 3 are played at the Tribhuvan University International Cricket Ground in Kirtipur, Nepal.</p>
-  </section>
-
-  <section data-reveal id="more">
+  </section><section data-reveal id="more">
       <h2>More NPL coverage</h2>
       <ul>
         <li><a href="/npl/">Nepal Premier League</a> &mdash; the points table, results, squads, playoffs and where to watch.</li>
@@ -492,22 +584,17 @@ img{max-width:100%;height:auto}
       <div class="side-card" data-reveal>
         <h3>Coming up</h3>
         <ul>
-          <li><b>Match 22: Biratnagar Kings vs Pokhara Avengers</b><span>Thu 12 Nov, 12:30 PM NST &middot; Kirtipur</span></li>
-          <li><b>Match 23: Karnali Yaks vs Lumbini Lions</b><span>Thu 12 Nov, 4:30 PM NST &middot; Kirtipur</span></li>
-          <li><b>Qualifier 1</b><span>Tue 17 Nov, 4:30 PM NST &middot; Kirtipur</span></li>
-          <li><b>Eliminator</b><span>Wed 18 Nov, 4:30 PM NST &middot; Kirtipur</span></li>
-          <li><b>Qualifier 2</b><span>Thu 19 Nov, 4:30 PM NST &middot; Kirtipur</span></li>
-          <li><b>Final</b><span>Sat 21 Nov, 4:30 PM NST &middot; Kirtipur</span></li>
+          <li><a href="/npl/matches/2026/match-22/"><b>Match 22: Biratnagar Kings vs Pokhara Avengers</b></a><span>Thu 12 Nov, 12:30 PM NST &middot; Kirtipur</span></li>
+          <li><a href="/npl/matches/2026/match-23/"><b>Match 23: Karnali Yaks vs Lumbini Lions</b></a><span>Thu 12 Nov, 4:30 PM NST &middot; Kirtipur</span></li>
+          <li><a href="/npl/schedule/#playoffs"><b>Qualifier 1</b></a><span>Tue 17 Nov, 4:30 PM NST &middot; Kirtipur</span></li>
+          <li><a href="/npl/schedule/#playoffs"><b>Eliminator</b></a><span>Wed 18 Nov, 4:30 PM NST &middot; Kirtipur</span></li>
+          <li><a href="/npl/schedule/#playoffs"><b>Qualifier 2</b></a><span>Thu 19 Nov, 4:30 PM NST &middot; Kirtipur</span></li>
+          <li><a href="/npl/schedule/#playoffs"><b>Final</b></a><span>Sat 21 Nov, 4:30 PM NST &middot; Kirtipur</span></li>
         </ul>
       </div>
       <div class="side-card" data-reveal>
         <h3>On this page</h3>
-        <ul>
-          <li><a href="#fixtures">Fixtures</a></li>
-          <li><a href="#playoffs">Playoffs</a></li>
-          <li><a href="#faq">Frequently asked questions</a></li>
-          <li><a href="#more">More NPL coverage</a></li>
-        </ul>
+        <ul><li><a href="#fixtures">Fixtures</a></li><li><a href="#playoffs">Playoffs</a></li><li><a href="#faq">Frequently asked questions</a></li></ul>
       </div>
       <div class="side-card" data-reveal>
         <h3>Full NPL coverage</h3>
@@ -519,7 +606,447 @@ img{max-width:100%;height:auto}
       </div>
     </aside>
 </div></div>
-</main>
+<script>
+(function(){
+  var cal=document.getElementById('rxCal');
+  if(cal){cal.addEventListener('change',function(){
+    var g=document.getElementById('date-'+cal.value);
+    if(g){g.scrollIntoView({behavior:'smooth'});}
+  });}
+  // filter pills: only T20s / Men apply on a single-league T20 page; they toggle
+  document.querySelectorAll('.rx-pills .rx-pill').forEach(function(p){
+    p.addEventListener('click',function(){
+      var on=p.getAttribute('aria-pressed')==='true';
+      p.setAttribute('aria-pressed',on?'false':'true');
+      applyFilters();
+    });
+  });
+  var reset=document.querySelector('.rx-pills .rx-reset');
+  if(reset){reset.addEventListener('click',function(){
+    document.querySelectorAll('.rx-pills .rx-pill').forEach(function(p){p.setAttribute('aria-pressed','true');});
+    applyFilters();
+  });}
+  var teamSel=document.getElementById('rxTeamSel');
+  if(teamSel){teamSel.addEventListener('change',applyFilters);}
+  function applyFilters(){
+    var team=teamSel?teamSel.value:'';
+    var active={};
+    document.querySelectorAll('.rx-pills .rx-pill').forEach(function(p){
+      active[p.getAttribute('data-filter')]=p.getAttribute('aria-pressed')==='true';
+    });
+    document.querySelectorAll('.rx-sched-row, .rx-res-card').forEach(function(row){
+      var show=true;
+      if(team && row.getAttribute('data-teams') && row.getAttribute('data-teams').indexOf(team)===-1){show=false;}
+      if(active['t20']===false && row.getAttribute('data-format')==='t20'){show=false;}
+      if(active['men']===false && row.getAttribute('data-gender')==='men'){show=false;}
+      row.style.display=show?'':'none';
+    });
+    document.querySelectorAll('.rx-date-group').forEach(function(g){
+      var any=false;
+      g.querySelectorAll('.rx-sched-row, .rx-res-card').forEach(function(r){if(r.style.display!=='none'){any=true;}});
+      g.style.display=any?'':'none';
+    });
+  }
+  // floating bar: back to current + back to top
+  var back=document.getElementById('rxBack'), top=document.getElementById('rxTop');
+  function onScroll(){
+    var show=window.scrollY>600;
+    if(back){back.classList.toggle('show',show);}
+    if(top){top.classList.toggle('show',show);}
+  }
+  window.addEventListener('scroll',onScroll,{passive:true}); onScroll();
+  if(back){back.addEventListener('click',function(){
+    var t=document.getElementById(back.getAttribute('data-target'));
+    if(t){t.scrollIntoView({behavior:'smooth'});}
+  });}
+  if(top){top.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});}
+})();
+</script><div class="rx-float"><select id="rxTeamSel" aria-label="Filter by team"><option value="">All teams</option><option value="kathmandu-gorkhas">Kathmandu Gorkhas</option><option value="sudurpaschim-royals">Sudurpaschim Royals</option><option value="lumbini-lions">Lumbini Lions</option><option value="chitwan-rhinos">Chitwan Rhinos</option><option value="janakpur-bolts">Janakpur Bolts</option><option value="biratnagar-kings">Biratnagar Kings</option><option value="karnali-yaks">Karnali Yaks</option><option value="pokhara-avengers">Pokhara Avengers</option></select><button class="rx-back" id="rxBack" type="button" data-target="date-2026-11-12">Back to current</button></div><button class="rx-top" id="rxTop" type="button" aria-label="Back to top">&#8593;</button><script>
+(function(){
+  var cal=document.getElementById('rxCal');
+  if(cal){cal.addEventListener('change',function(){
+    var g=document.getElementById('date-'+cal.value);
+    if(g){g.scrollIntoView({behavior:'smooth'});}
+  });}
+  // filter pills: only T20s / Men apply on a single-league T20 page; they toggle
+  document.querySelectorAll('.rx-pills .rx-pill').forEach(function(p){
+    p.addEventListener('click',function(){
+      var on=p.getAttribute('aria-pressed')==='true';
+      p.setAttribute('aria-pressed',on?'false':'true');
+      applyFilters();
+    });
+  });
+  var reset=document.querySelector('.rx-pills .rx-reset');
+  if(reset){reset.addEventListener('click',function(){
+    document.querySelectorAll('.rx-pills .rx-pill').forEach(function(p){p.setAttribute('aria-pressed','true');});
+    applyFilters();
+  });}
+  var teamSel=document.getElementById('rxTeamSel');
+  if(teamSel){teamSel.addEventListener('change',applyFilters);}
+  function applyFilters(){
+    var team=teamSel?teamSel.value:'';
+    var active={};
+    document.querySelectorAll('.rx-pills .rx-pill').forEach(function(p){
+      active[p.getAttribute('data-filter')]=p.getAttribute('aria-pressed')==='true';
+    });
+    document.querySelectorAll('.rx-sched-row, .rx-res-card').forEach(function(row){
+      var show=true;
+      if(team && row.getAttribute('data-teams') && row.getAttribute('data-teams').indexOf(team)===-1){show=false;}
+      if(active['t20']===false && row.getAttribute('data-format')==='t20'){show=false;}
+      if(active['men']===false && row.getAttribute('data-gender')==='men'){show=false;}
+      row.style.display=show?'':'none';
+    });
+    document.querySelectorAll('.rx-date-group').forEach(function(g){
+      var any=false;
+      g.querySelectorAll('.rx-sched-row, .rx-res-card').forEach(function(r){if(r.style.display!=='none'){any=true;}});
+      g.style.display=any?'':'none';
+    });
+  }
+  // floating bar: back to current + back to top
+  var back=document.getElementById('rxBack'), top=document.getElementById('rxTop');
+  function onScroll(){
+    var show=window.scrollY>600;
+    if(back){back.classList.toggle('show',show);}
+    if(top){top.classList.toggle('show',show);}
+  }
+  window.addEventListener('scroll',onScroll,{passive:true}); onScroll();
+  if(back){back.addEventListener('click',function(){
+    var t=document.getElementById(back.getAttribute('data-target'));
+    if(t){t.scrollIntoView({behavior:'smooth'});}
+  });}
+  if(top){top.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});}
+})();
+</script><div class="rx-float"><select id="rxTeamSel" aria-label="Filter by team"><option value="">All teams</option><option value="kathmandu-gorkhas">Kathmandu Gorkhas</option><option value="sudurpaschim-royals">Sudurpaschim Royals</option><option value="lumbini-lions">Lumbini Lions</option><option value="chitwan-rhinos">Chitwan Rhinos</option><option value="janakpur-bolts">Janakpur Bolts</option><option value="biratnagar-kings">Biratnagar Kings</option><option value="karnali-yaks">Karnali Yaks</option><option value="pokhara-avengers">Pokhara Avengers</option></select><button class="rx-back" id="rxBack" type="button" data-target="date-2026-11-12">Back to current</button></div><button class="rx-top" id="rxTop" type="button" aria-label="Back to top">&#8593;</button><script>
+(function(){
+  var cal=document.getElementById('rxCal');
+  if(cal){cal.addEventListener('change',function(){
+    var g=document.getElementById('date-'+cal.value);
+    if(g){g.scrollIntoView({behavior:'smooth'});}
+  });}
+  // filter pills: only T20s / Men apply on a single-league T20 page; they toggle
+  document.querySelectorAll('.rx-pills .rx-pill').forEach(function(p){
+    p.addEventListener('click',function(){
+      var on=p.getAttribute('aria-pressed')==='true';
+      p.setAttribute('aria-pressed',on?'false':'true');
+      applyFilters();
+    });
+  });
+  var reset=document.querySelector('.rx-pills .rx-reset');
+  if(reset){reset.addEventListener('click',function(){
+    document.querySelectorAll('.rx-pills .rx-pill').forEach(function(p){p.setAttribute('aria-pressed','true');});
+    applyFilters();
+  });}
+  var teamSel=document.getElementById('rxTeamSel');
+  if(teamSel){teamSel.addEventListener('change',applyFilters);}
+  function applyFilters(){
+    var team=teamSel?teamSel.value:'';
+    var active={};
+    document.querySelectorAll('.rx-pills .rx-pill').forEach(function(p){
+      active[p.getAttribute('data-filter')]=p.getAttribute('aria-pressed')==='true';
+    });
+    document.querySelectorAll('.rx-sched-row, .rx-res-card').forEach(function(row){
+      var show=true;
+      if(team && row.getAttribute('data-teams') && row.getAttribute('data-teams').indexOf(team)===-1){show=false;}
+      if(active['t20']===false && row.getAttribute('data-format')==='t20'){show=false;}
+      if(active['men']===false && row.getAttribute('data-gender')==='men'){show=false;}
+      row.style.display=show?'':'none';
+    });
+    document.querySelectorAll('.rx-date-group').forEach(function(g){
+      var any=false;
+      g.querySelectorAll('.rx-sched-row, .rx-res-card').forEach(function(r){if(r.style.display!=='none'){any=true;}});
+      g.style.display=any?'':'none';
+    });
+  }
+  // floating bar: back to current + back to top
+  var back=document.getElementById('rxBack'), top=document.getElementById('rxTop');
+  function onScroll(){
+    var show=window.scrollY>600;
+    if(back){back.classList.toggle('show',show);}
+    if(top){top.classList.toggle('show',show);}
+  }
+  window.addEventListener('scroll',onScroll,{passive:true}); onScroll();
+  if(back){back.addEventListener('click',function(){
+    var t=document.getElementById(back.getAttribute('data-target'));
+    if(t){t.scrollIntoView({behavior:'smooth'});}
+  });}
+  if(top){top.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});}
+})();
+</script><div class="rx-float"><select id="rxTeamSel" aria-label="Filter by team"><option value="">All teams</option><option value="kathmandu-gorkhas">Kathmandu Gorkhas</option><option value="sudurpaschim-royals">Sudurpaschim Royals</option><option value="lumbini-lions">Lumbini Lions</option><option value="chitwan-rhinos">Chitwan Rhinos</option><option value="janakpur-bolts">Janakpur Bolts</option><option value="biratnagar-kings">Biratnagar Kings</option><option value="karnali-yaks">Karnali Yaks</option><option value="pokhara-avengers">Pokhara Avengers</option></select><button class="rx-back" id="rxBack" type="button" data-target="date-2026-11-12">Back to current</button></div><button class="rx-top" id="rxTop" type="button" aria-label="Back to top">&#8593;</button><script>
+(function(){
+  var cal=document.getElementById('rxCal');
+  if(cal){cal.addEventListener('change',function(){
+    var g=document.getElementById('date-'+cal.value);
+    if(g){g.scrollIntoView({behavior:'smooth'});}
+  });}
+  // filter pills: only T20s / Men apply on a single-league T20 page; they toggle
+  document.querySelectorAll('.rx-pills .rx-pill').forEach(function(p){
+    p.addEventListener('click',function(){
+      var on=p.getAttribute('aria-pressed')==='true';
+      p.setAttribute('aria-pressed',on?'false':'true');
+      applyFilters();
+    });
+  });
+  var reset=document.querySelector('.rx-pills .rx-reset');
+  if(reset){reset.addEventListener('click',function(){
+    document.querySelectorAll('.rx-pills .rx-pill').forEach(function(p){p.setAttribute('aria-pressed','true');});
+    applyFilters();
+  });}
+  var teamSel=document.getElementById('rxTeamSel');
+  if(teamSel){teamSel.addEventListener('change',applyFilters);}
+  function applyFilters(){
+    var team=teamSel?teamSel.value:'';
+    var active={};
+    document.querySelectorAll('.rx-pills .rx-pill').forEach(function(p){
+      active[p.getAttribute('data-filter')]=p.getAttribute('aria-pressed')==='true';
+    });
+    document.querySelectorAll('.rx-sched-row, .rx-res-card').forEach(function(row){
+      var show=true;
+      if(team && row.getAttribute('data-teams') && row.getAttribute('data-teams').indexOf(team)===-1){show=false;}
+      if(active['t20']===false && row.getAttribute('data-format')==='t20'){show=false;}
+      if(active['men']===false && row.getAttribute('data-gender')==='men'){show=false;}
+      row.style.display=show?'':'none';
+    });
+    document.querySelectorAll('.rx-date-group').forEach(function(g){
+      var any=false;
+      g.querySelectorAll('.rx-sched-row, .rx-res-card').forEach(function(r){if(r.style.display!=='none'){any=true;}});
+      g.style.display=any?'':'none';
+    });
+  }
+  // floating bar: back to current + back to top
+  var back=document.getElementById('rxBack'), top=document.getElementById('rxTop');
+  function onScroll(){
+    var show=window.scrollY>600;
+    if(back){back.classList.toggle('show',show);}
+    if(top){top.classList.toggle('show',show);}
+  }
+  window.addEventListener('scroll',onScroll,{passive:true}); onScroll();
+  if(back){back.addEventListener('click',function(){
+    var t=document.getElementById(back.getAttribute('data-target'));
+    if(t){t.scrollIntoView({behavior:'smooth'});}
+  });}
+  if(top){top.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});}
+})();
+</script><div class="rx-float"><select id="rxTeamSel" aria-label="Filter by team"><option value="">All teams</option><option value="kathmandu-gorkhas">Kathmandu Gorkhas</option><option value="sudurpaschim-royals">Sudurpaschim Royals</option><option value="lumbini-lions">Lumbini Lions</option><option value="chitwan-rhinos">Chitwan Rhinos</option><option value="janakpur-bolts">Janakpur Bolts</option><option value="biratnagar-kings">Biratnagar Kings</option><option value="karnali-yaks">Karnali Yaks</option><option value="pokhara-avengers">Pokhara Avengers</option></select><button class="rx-back" id="rxBack" type="button" data-target="date-2026-11-12">Back to current</button></div><button class="rx-top" id="rxTop" type="button" aria-label="Back to top">&#8593;</button><script>
+(function(){
+  var cal=document.getElementById('rxCal');
+  if(cal){cal.addEventListener('change',function(){
+    var g=document.getElementById('date-'+cal.value);
+    if(g){g.scrollIntoView({behavior:'smooth'});}
+  });}
+  // filter pills: only T20s / Men apply on a single-league T20 page; they toggle
+  document.querySelectorAll('.rx-pills .rx-pill').forEach(function(p){
+    p.addEventListener('click',function(){
+      var on=p.getAttribute('aria-pressed')==='true';
+      p.setAttribute('aria-pressed',on?'false':'true');
+      applyFilters();
+    });
+  });
+  var reset=document.querySelector('.rx-pills .rx-reset');
+  if(reset){reset.addEventListener('click',function(){
+    document.querySelectorAll('.rx-pills .rx-pill').forEach(function(p){p.setAttribute('aria-pressed','true');});
+    applyFilters();
+  });}
+  var teamSel=document.getElementById('rxTeamSel');
+  if(teamSel){teamSel.addEventListener('change',applyFilters);}
+  function applyFilters(){
+    var team=teamSel?teamSel.value:'';
+    var active={};
+    document.querySelectorAll('.rx-pills .rx-pill').forEach(function(p){
+      active[p.getAttribute('data-filter')]=p.getAttribute('aria-pressed')==='true';
+    });
+    document.querySelectorAll('.rx-sched-row, .rx-res-card').forEach(function(row){
+      var show=true;
+      if(team && row.getAttribute('data-teams') && row.getAttribute('data-teams').indexOf(team)===-1){show=false;}
+      if(active['t20']===false && row.getAttribute('data-format')==='t20'){show=false;}
+      if(active['men']===false && row.getAttribute('data-gender')==='men'){show=false;}
+      row.style.display=show?'':'none';
+    });
+    document.querySelectorAll('.rx-date-group').forEach(function(g){
+      var any=false;
+      g.querySelectorAll('.rx-sched-row, .rx-res-card').forEach(function(r){if(r.style.display!=='none'){any=true;}});
+      g.style.display=any?'':'none';
+    });
+  }
+  // floating bar: back to current + back to top
+  var back=document.getElementById('rxBack'), top=document.getElementById('rxTop');
+  function onScroll(){
+    var show=window.scrollY>600;
+    if(back){back.classList.toggle('show',show);}
+    if(top){top.classList.toggle('show',show);}
+  }
+  window.addEventListener('scroll',onScroll,{passive:true}); onScroll();
+  if(back){back.addEventListener('click',function(){
+    var t=document.getElementById(back.getAttribute('data-target'));
+    if(t){t.scrollIntoView({behavior:'smooth'});}
+  });}
+  if(top){top.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});}
+})();
+</script><div class="rx-float"><select id="rxTeamSel" aria-label="Filter by team"><option value="">All teams</option><option value="kathmandu-gorkhas">Kathmandu Gorkhas</option><option value="sudurpaschim-royals">Sudurpaschim Royals</option><option value="lumbini-lions">Lumbini Lions</option><option value="chitwan-rhinos">Chitwan Rhinos</option><option value="janakpur-bolts">Janakpur Bolts</option><option value="biratnagar-kings">Biratnagar Kings</option><option value="karnali-yaks">Karnali Yaks</option><option value="pokhara-avengers">Pokhara Avengers</option></select><button class="rx-back" id="rxBack" type="button" data-target="date-2026-11-12">Back to current</button></div><button class="rx-top" id="rxTop" type="button" aria-label="Back to top">&#8593;</button><script>
+(function(){
+  var cal=document.getElementById('rxCal');
+  if(cal){cal.addEventListener('change',function(){
+    var g=document.getElementById('date-'+cal.value);
+    if(g){g.scrollIntoView({behavior:'smooth'});}
+  });}
+  // filter pills: only T20s / Men apply on a single-league T20 page; they toggle
+  document.querySelectorAll('.rx-pills .rx-pill').forEach(function(p){
+    p.addEventListener('click',function(){
+      var on=p.getAttribute('aria-pressed')==='true';
+      p.setAttribute('aria-pressed',on?'false':'true');
+      applyFilters();
+    });
+  });
+  var reset=document.querySelector('.rx-pills .rx-reset');
+  if(reset){reset.addEventListener('click',function(){
+    document.querySelectorAll('.rx-pills .rx-pill').forEach(function(p){p.setAttribute('aria-pressed','true');});
+    applyFilters();
+  });}
+  var teamSel=document.getElementById('rxTeamSel');
+  if(teamSel){teamSel.addEventListener('change',applyFilters);}
+  function applyFilters(){
+    var team=teamSel?teamSel.value:'';
+    var active={};
+    document.querySelectorAll('.rx-pills .rx-pill').forEach(function(p){
+      active[p.getAttribute('data-filter')]=p.getAttribute('aria-pressed')==='true';
+    });
+    document.querySelectorAll('.rx-sched-row, .rx-res-card').forEach(function(row){
+      var show=true;
+      if(team && row.getAttribute('data-teams') && row.getAttribute('data-teams').indexOf(team)===-1){show=false;}
+      if(active['t20']===false && row.getAttribute('data-format')==='t20'){show=false;}
+      if(active['men']===false && row.getAttribute('data-gender')==='men'){show=false;}
+      row.style.display=show?'':'none';
+    });
+    document.querySelectorAll('.rx-date-group').forEach(function(g){
+      var any=false;
+      g.querySelectorAll('.rx-sched-row, .rx-res-card').forEach(function(r){if(r.style.display!=='none'){any=true;}});
+      g.style.display=any?'':'none';
+    });
+  }
+  // floating bar: back to current + back to top
+  var back=document.getElementById('rxBack'), top=document.getElementById('rxTop');
+  function onScroll(){
+    var show=window.scrollY>600;
+    if(back){back.classList.toggle('show',show);}
+    if(top){top.classList.toggle('show',show);}
+  }
+  window.addEventListener('scroll',onScroll,{passive:true}); onScroll();
+  if(back){back.addEventListener('click',function(){
+    var t=document.getElementById(back.getAttribute('data-target'));
+    if(t){t.scrollIntoView({behavior:'smooth'});}
+  });}
+  if(top){top.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});}
+})();
+</script><div class="rx-float"><select id="rxTeamSel" aria-label="Filter by team"><option value="">All teams</option><option value="kathmandu-gorkhas">Kathmandu Gorkhas</option><option value="sudurpaschim-royals">Sudurpaschim Royals</option><option value="lumbini-lions">Lumbini Lions</option><option value="chitwan-rhinos">Chitwan Rhinos</option><option value="janakpur-bolts">Janakpur Bolts</option><option value="biratnagar-kings">Biratnagar Kings</option><option value="karnali-yaks">Karnali Yaks</option><option value="pokhara-avengers">Pokhara Avengers</option></select><button class="rx-back" id="rxBack" type="button" data-target="date-2026-11-12">Back to current</button></div><button class="rx-top" id="rxTop" type="button" aria-label="Back to top">&#8593;</button><script>
+(function(){
+  var cal=document.getElementById('rxCal');
+  if(cal){cal.addEventListener('change',function(){
+    var g=document.getElementById('date-'+cal.value);
+    if(g){g.scrollIntoView({behavior:'smooth'});}
+  });}
+  // filter pills: only T20s / Men apply on a single-league T20 page; they toggle
+  document.querySelectorAll('.rx-pills .rx-pill').forEach(function(p){
+    p.addEventListener('click',function(){
+      var on=p.getAttribute('aria-pressed')==='true';
+      p.setAttribute('aria-pressed',on?'false':'true');
+      applyFilters();
+    });
+  });
+  var reset=document.querySelector('.rx-pills .rx-reset');
+  if(reset){reset.addEventListener('click',function(){
+    document.querySelectorAll('.rx-pills .rx-pill').forEach(function(p){p.setAttribute('aria-pressed','true');});
+    applyFilters();
+  });}
+  var teamSel=document.getElementById('rxTeamSel');
+  if(teamSel){teamSel.addEventListener('change',applyFilters);}
+  function applyFilters(){
+    var team=teamSel?teamSel.value:'';
+    var active={};
+    document.querySelectorAll('.rx-pills .rx-pill').forEach(function(p){
+      active[p.getAttribute('data-filter')]=p.getAttribute('aria-pressed')==='true';
+    });
+    document.querySelectorAll('.rx-sched-row, .rx-res-card').forEach(function(row){
+      var show=true;
+      if(team && row.getAttribute('data-teams') && row.getAttribute('data-teams').indexOf(team)===-1){show=false;}
+      if(active['t20']===false && row.getAttribute('data-format')==='t20'){show=false;}
+      if(active['men']===false && row.getAttribute('data-gender')==='men'){show=false;}
+      row.style.display=show?'':'none';
+    });
+    document.querySelectorAll('.rx-date-group').forEach(function(g){
+      var any=false;
+      g.querySelectorAll('.rx-sched-row, .rx-res-card').forEach(function(r){if(r.style.display!=='none'){any=true;}});
+      g.style.display=any?'':'none';
+    });
+  }
+  // floating bar: back to current + back to top
+  var back=document.getElementById('rxBack'), top=document.getElementById('rxTop');
+  function onScroll(){
+    var show=window.scrollY>600;
+    if(back){back.classList.toggle('show',show);}
+    if(top){top.classList.toggle('show',show);}
+  }
+  window.addEventListener('scroll',onScroll,{passive:true}); onScroll();
+  if(back){back.addEventListener('click',function(){
+    var t=document.getElementById(back.getAttribute('data-target'));
+    if(t){t.scrollIntoView({behavior:'smooth'});}
+  });}
+  if(top){top.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});}
+})();
+</script><div class="rx-float"><select id="rxTeamSel" aria-label="Filter by team"><option value="">All teams</option><option value="kathmandu-gorkhas">Kathmandu Gorkhas</option><option value="sudurpaschim-royals">Sudurpaschim Royals</option><option value="lumbini-lions">Lumbini Lions</option><option value="chitwan-rhinos">Chitwan Rhinos</option><option value="janakpur-bolts">Janakpur Bolts</option><option value="biratnagar-kings">Biratnagar Kings</option><option value="karnali-yaks">Karnali Yaks</option><option value="pokhara-avengers">Pokhara Avengers</option></select><button class="rx-back" id="rxBack" type="button" data-target="date-2026-11-12">Back to current</button></div><button class="rx-top" id="rxTop" type="button" aria-label="Back to top">&#8593;</button><script>
+(function(){
+  var cal=document.getElementById('rxCal');
+  if(cal){cal.addEventListener('change',function(){
+    var g=document.getElementById('date-'+cal.value);
+    if(g){g.scrollIntoView({behavior:'smooth'});}
+  });}
+  // filter pills: only T20s / Men apply on a single-league T20 page; they toggle
+  document.querySelectorAll('.rx-pills .rx-pill').forEach(function(p){
+    p.addEventListener('click',function(){
+      var on=p.getAttribute('aria-pressed')==='true';
+      p.setAttribute('aria-pressed',on?'false':'true');
+      applyFilters();
+    });
+  });
+  var reset=document.querySelector('.rx-pills .rx-reset');
+  if(reset){reset.addEventListener('click',function(){
+    document.querySelectorAll('.rx-pills .rx-pill').forEach(function(p){p.setAttribute('aria-pressed','true');});
+    applyFilters();
+  });}
+  var teamSel=document.getElementById('rxTeamSel');
+  if(teamSel){teamSel.addEventListener('change',applyFilters);}
+  function applyFilters(){
+    var team=teamSel?teamSel.value:'';
+    var active={};
+    document.querySelectorAll('.rx-pills .rx-pill').forEach(function(p){
+      active[p.getAttribute('data-filter')]=p.getAttribute('aria-pressed')==='true';
+    });
+    document.querySelectorAll('.rx-sched-row, .rx-res-card').forEach(function(row){
+      var show=true;
+      if(team && row.getAttribute('data-teams') && row.getAttribute('data-teams').indexOf(team)===-1){show=false;}
+      if(active['t20']===false && row.getAttribute('data-format')==='t20'){show=false;}
+      if(active['men']===false && row.getAttribute('data-gender')==='men'){show=false;}
+      row.style.display=show?'':'none';
+    });
+    document.querySelectorAll('.rx-date-group').forEach(function(g){
+      var any=false;
+      g.querySelectorAll('.rx-sched-row, .rx-res-card').forEach(function(r){if(r.style.display!=='none'){any=true;}});
+      g.style.display=any?'':'none';
+    });
+  }
+  // floating bar: back to current + back to top
+  var back=document.getElementById('rxBack'), top=document.getElementById('rxTop');
+  function onScroll(){
+    var show=window.scrollY>600;
+    if(back){back.classList.toggle('show',show);}
+    if(top){top.classList.toggle('show',show);}
+  }
+  window.addEventListener('scroll',onScroll,{passive:true}); onScroll();
+  if(back){back.addEventListener('click',function(){
+    var t=document.getElementById(back.getAttribute('data-target'));
+    if(t){t.scrollIntoView({behavior:'smooth'});}
+  });}
+  if(top){top.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});}
+})();
+</script><div class="rx-float"><select id="rxTeamSel" aria-label="Filter by team"><option value="">All teams</option><option value="kathmandu-gorkhas">Kathmandu Gorkhas</option><option value="sudurpaschim-royals">Sudurpaschim Royals</option><option value="lumbini-lions">Lumbini Lions</option><option value="chitwan-rhinos">Chitwan Rhinos</option><option value="janakpur-bolts">Janakpur Bolts</option><option value="biratnagar-kings">Biratnagar Kings</option><option value="karnali-yaks">Karnali Yaks</option><option value="pokhara-avengers">Pokhara Avengers</option></select><button class="rx-back" id="rxBack" type="button" data-target="date-2026-11-12">Back to current</button></div><button class="rx-top" id="rxTop" type="button" aria-label="Back to top">&#8593;</button></main>
 <footer>
   <div class="wrap">
     <div class="foot-cols">
