@@ -13,7 +13,7 @@
   var POLL_MS = 30 * 1000;
   var CACHE_MS = 10 * 1000;
   var FEED_API = '/api/live-scores.php?league=';
-  var STATIC_FEED = { npl: '/data/live-scores.json' };
+  var STATIC_FEED = { npl: '/data/live-scores.json', ilt20: '/data/ilt20-live-scores.json', sa20: '/data/sa20-live-scores.json', bbl: '/data/bbl-live-scores.json' };
   var cache = {};
 
   function fetchJson(url) {

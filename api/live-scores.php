@@ -3,14 +3,17 @@
  * SialTV live scores — ESPN scoreboard proxy + normaliser + cache.
  *
  * GET /api/live-scores.php?league=npl  (npl is the default)
- * Today only the NPL has an ESPN series id (23081). Every other league
- * answers {"matches": [], "error": "league_not_configured"} — its series
- * id is TBC and is never guessed. The endpoint is built to accept other
- * leagues later: add the series id to LEAGUE_SERIES and a static
- * fallback to STATIC_FALLBACK.
+ * Configured leagues: npl (23081), ilt20 (1557442), sa20 (1547229),
+ * bbl (8044 — the ESPN league id; Cricinfo series 1545470 maps to it).
+ * Every other league answers {"matches": [], "error":
+ * "league_not_configured"} — apl and psl have no Cricinfo series page
+ * yet (checked 11 Nov 2026), so their series ids are TBC and are never
+ * guessed. To add a league: a series id in LEAGUE_SERIES, its event
+ * base in LEAGUE_EVENT_BASE, its id prefix in LEAGUE_ID_PREFIX, and a
+ * static fallback in STATIC_FALLBACK.
  *
  * Fallback chain: fresh cache (<12s) -> stale cache -> committed
- * data/live-scores.json (NPL only) -> empty matches. The pages never
+ * data/<league>-live-scores.json -> empty matches. The pages never
  * break when ESPN is down; they show the last good score with its real
  * "Updated ..." time.
  *
@@ -41,16 +44,42 @@ const SIALTV_UA = 'SialTVLive/1.0';
 const SIALTV_CACHE_SECONDS = 12;
 
 const LEAGUE_SERIES = [
-    'npl' => 23081, // Nepal Premier League 2026
-    // ilt20, apl, sa20, bbl, psl: ESPN series ids TBC — do not guess.
+    'npl' => 23081, // Nepal Premier League 2026 (website series 1558581)
+    'ilt20' => 1557442, // DP World ILT20 2026-27 — scoreboard verified
+    'sa20' => 1547229, // SA20 2027 — scoreboard verified
+    'bbl' => 8044, // Big Bash League 2026-27 — ESPN league id; Cricinfo
+    // series 1545470 maps to 8044 (scoreboard + summary verified)
+    // apl, psl: no Cricinfo series page yet — do not guess.
 ];
 const LEAGUE_NAMES = [
     'npl' => 'Nepal Premier League 2026',
+    'ilt20' => 'DP World ILT20 2026-27',
+    'sa20' => 'SA20 2027',
+    'bbl' => 'Big Bash League 2026-27',
 ];
 const STATIC_FALLBACK = [
     'npl' => '/data/live-scores.json',
+    'ilt20' => '/data/ilt20-live-scores.json',
+    'sa20' => '/data/sa20-live-scores.json',
+    'bbl' => '/data/bbl-live-scores.json',
 ];
-const NPL_EVENT_BASE = 1558581; // event 1558582 = Match 1 ... 1558609 = Match 28
+/* Per-league event base: M<n> = base + n (M1 verified per league by
+   curl: npl 1558602 (M28 = 1558609), ilt20 1557443, sa20 1547230,
+   bbl 1545498). */
+const LEAGUE_EVENT_BASE = [
+    'npl' => 1558581,
+    'ilt20' => 1557442,
+    'sa20' => 1547229,
+    'bbl' => 1545497,
+];
+/* Match-id prefix per league — must match the committed static files
+   exactly, or the merge dedupes by id and shows duplicate matches. */
+const LEAGUE_ID_PREFIX = [
+    'npl' => 'npl-2026',
+    'ilt20' => 'ilt20-2026-27',
+    'sa20' => 'sa20-2026-27',
+    'bbl' => 'bbl-2026-27',
+];
 
 $league = strtolower(trim((string) ($_GET['league'] ?? 'npl')));
 if ($league === '' || !preg_match('/^[a-z0-9]+$/', $league)) {
@@ -962,8 +991,9 @@ function sialtv_normalise_event(array $event, array $comp, ?array $summary, stri
         $matchNo = (int) $mm[1];
     }
     $eventId = (int) ($event['id'] ?? 0);
-    if ($matchNo === 0 && $league === 'npl' && $eventId > NPL_EVENT_BASE) {
-        $matchNo = $eventId - NPL_EVENT_BASE;
+    $eventBase = LEAGUE_EVENT_BASE[$league] ?? 0;
+    if ($matchNo === 0 && $eventBase > 0 && $eventId > $eventBase) {
+        $matchNo = $eventId - $eventBase;
     }
     if ($desc === '' || stripos($desc, ' vs ') !== false) {
         $desc = $matchNo > 0 ? 'Match ' . $matchNo : 'Match';
@@ -987,7 +1017,7 @@ function sialtv_normalise_event(array $event, array $comp, ?array $summary, stri
     }
 
     return [
-        'id' => 'npl-2026-m' . ($matchNo > 0 ? $matchNo : $eventId),
+        'id' => (LEAGUE_ID_PREFIX[$league] ?? $league) . '-m' . ($matchNo > 0 ? $matchNo : $eventId),
         'espnEventId' => $eventId,
         'matchNo' => $matchNo,
         'matchDesc' => $desc,

@@ -54,7 +54,14 @@
     function load() {
       if (document.hidden) return;
       window.sialtvScores(league).then(function (data) {
-        if (data && data.matches && data.matches.length) render(root, data, league);
+        if (!data || !data.matches || !data.matches.length) return;
+        /* The feed only carries live + upcoming while no match is on,
+           so a poll with no live match and no result must NOT wipe
+           the baked latest-result card — it stays until the feed can
+           actually improve it. */
+        var p = window.sialtvPick(data.matches);
+        if (!p.live && !p.latest) return;
+        render(root, data, league);
       }).catch(function () {});
     }
     load();

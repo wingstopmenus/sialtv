@@ -2,7 +2,10 @@
    next fixture) driven by the one shared feed. On the live-scores page
    it fills #sialtvFlash; on the homepage and the NPL hub it refreshes
    the baked carousel cards that carry a data-match-no. Baked cards are
-   left alone when the feed has nothing newer for them. */
+   left alone when the feed has nothing newer for them — except the two
+   cases the carousel could never show: an upcoming card has no score
+   spans, so the first live score creates them, and the filter pills
+   carry baked counts, so a flip re-counts them. */
 (function () {
   'use strict';
   var POLL_MS = 30 * 1000;
@@ -27,15 +30,80 @@
     return season ? '/' + league + '/matches/' + season + '/match-' + matchNo + '/' : '/' + league + '/results/';
   }
 
+  function scoreText(score, overs) {
+    if (!score) return '';
+    return score + (overs ? ' (' + overs + ' ov)' : '');
+  }
+
+  /* Live details for the short line under the scores: batters at the
+     crease and the run rate, Cricinfo-strip style. */
+  function liveDetails(m) {
+    var live = m.live || null;
+    if (!live) return '';
+    var bits = [];
+    var bats = (live.batters || []).map(function (b) {
+      return b.name + ' ' + b.runs + (b.striker ? '*' : '');
+    }).join(', ');
+    if (bats) bits.push(bats);
+    if (live.crr) bits.push('CRR ' + live.crr);
+    return bits.join(' · ');
+  }
+
+  function liveLine(m) {
+    var parts = [];
+    var st = m.statusText || '';
+    if (st && st !== 'Live' && st !== 'Upcoming') parts.push(st);
+    var d = liveDetails(m);
+    if (d) parts.push(d);
+    return parts.length ? parts.join(' · ') : 'Live now';
+  }
+
+  /* The loser row is dimmed. The winner comes from the result line
+     ("<team> won by ..."), never from comparing runs — a D/L winner
+     can have fewer runs than the first innings. No winner named
+     (tie / no result) means no loser row. */
+  function setLoser(card, m) {
+    var rows = card.querySelectorAll('.sc-row');
+    if (!rows.length) return;
+    if (m.status !== 'result') {
+      if (m.status === 'live') rows.forEach(function (r) { r.classList.remove('loser'); });
+      return;
+    }
+    var w = -1;
+    var st = m.statusText || '';
+    if (st.indexOf(m.team1 + ' won') === 0) w = 0;
+    else if (st.indexOf(m.team2 + ' won') === 0) w = 1;
+    rows.forEach(function (row, i) { row.classList.toggle('loser', w >= 0 && i !== w); });
+  }
+
+  /* The filter pills carry baked counts ("Results (5)"). Re-count from
+     the cards' data-kind after a flip, so a finished match moves the
+     counts with it. */
+  function recountPills(carousel) {
+    var pills = document.querySelectorAll('.pill[data-filter]');
+    if (!pills.length) return;
+    var n = { all: 0, upcoming: 0, result: 0 };
+    carousel.querySelectorAll('.score-card[data-match-no]').forEach(function (c) {
+      n.all++;
+      if (c.getAttribute('data-kind') === 'result') n.result++;
+      else n.upcoming++;
+    });
+    pills.forEach(function (p) {
+      var f = p.getAttribute('data-filter');
+      if (n[f] == null) return;
+      p.textContent = p.textContent.replace(/\(\d+\)\s*$/, '(' + n[f] + ')');
+    });
+  }
+
   function cardHtml(m, league) {
     var kind = m.status === 'live' ? 'live' : (m.status === 'result' ? 'result' : 'upcoming');
-    var label = m.status === 'live' ? 'Live' : (m.status === 'result' ? 'Result' : 'Upcoming');
+    var label = m.status === 'live' ? 'Live now' : (m.status === 'result' ? 'Result' : 'Upcoming');
     var html = '<a class="score-card" data-kind="' + kind + '" data-match-no="' + m.matchNo + '" href="' + matchUrl(league, m.matchNo) + '">';
     html += '<p class="sc-label' + (kind === 'upcoming' ? ' upcoming' : '') + '">' + label + '</p>';
     html += '<p class="sc-match">Match ' + m.matchNo + ' &middot; Kirtipur</p>';
     html += '<p class="sc-row"><span class="sc-team">' + chip(m.team1) + esc(m.team1) + '</span><span class="sc-score">' + esc(m.score1 || '') + (m.overs1 ? ' (' + esc(m.overs1) + ' ov)' : '') + '</span></p>';
     html += '<p class="sc-row"><span class="sc-team">' + chip(m.team2) + esc(m.team2) + '</span><span class="sc-score">' + esc(m.score2 || '') + (m.overs2 ? ' (' + esc(m.overs2) + ' ov)' : '') + '</span></p>';
-    html += '<p class="sc-result' + (kind === 'upcoming' ? ' upcoming' : '') + '">' + esc(m.statusText || '') + '</p></a>';
+    html += '<p class="sc-result' + (kind === 'upcoming' ? ' upcoming' : '') + '">' + esc(m.status === 'live' ? liveLine(m) : (m.statusText || '')) + '</p></a>';
     return html;
   }
 
@@ -65,19 +133,41 @@
       if (!m) return;
       var label = card.querySelector('.sc-label');
       var result = card.querySelector('.sc-result');
-      var rows = card.querySelectorAll('.sc-row .sc-score');
+      var rows = card.querySelectorAll('.sc-row');
       if (label) {
-        label.textContent = m.status === 'live' ? 'Live' : (m.status === 'result' ? 'Result' : 'Upcoming');
+        label.textContent = m.status === 'live' ? 'Live now' : (m.status === 'result' ? 'Result' : 'Upcoming');
         label.classList.toggle('upcoming', m.status === 'upcoming');
       }
-      if (rows[0]) rows[0].textContent = (m.score1 || '') + (m.overs1 ? ' (' + m.overs1 + ' ov)' : '');
-      if (rows[1]) rows[1].textContent = (m.score2 || '') + (m.overs2 ? ' (' + m.overs2 + ' ov)' : '');
+      /* Upcoming cards are baked without .sc-score spans, so a live
+         score would have nowhere to go — create the span the first
+         time the feed carries a score for that side. A side the feed
+         has no score for keeps its baked row untouched. */
+      rows.forEach(function (row, i) {
+        var s = scoreText(i === 0 ? m.score1 : m.score2, i === 0 ? m.overs1 : m.overs2);
+        if (!s) return;
+        var span = row.querySelector('.sc-score');
+        if (!span) {
+          span = document.createElement('span');
+          span.className = 'sc-score';
+          row.appendChild(span);
+        }
+        span.textContent = s;
+      });
       if (result) {
-        result.textContent = m.statusText || '';
+        /* Upcoming: the baked line carries the date, time and venue —
+           the feed's statusText for an upcoming match is either the
+           same line or a bare "Upcoming", so it stays put. */
+        if (m.status === 'live') result.textContent = liveLine(m);
+        else if (m.status === 'result') result.textContent = m.statusText || result.textContent;
         result.classList.toggle('upcoming', m.status === 'upcoming');
       }
-      card.setAttribute('data-kind', m.status === 'live' ? 'live' : (m.status === 'result' ? 'result' : 'upcoming'));
+      setLoser(card, m);
+      /* Live matches join the "Live & upcoming" filter bucket — the
+         pills only know all / upcoming / result, and a data-kind of
+         "live" would hide a live card under every filter. */
+      card.setAttribute('data-kind', m.status === 'result' ? 'result' : 'upcoming');
     });
+    recountPills(carousel);
   }
 
   function boot() {
