@@ -196,7 +196,8 @@
       });
     });
     if (flash || carousel) {
-      var league = (flash && flash.getAttribute('data-league')) || 'npl';
+      var league = (flash && flash.getAttribute('data-league')) ||
+        (carousel && carousel.getAttribute('data-flash')) || 'npl';
       loaders.push(function () {
         if (document.hidden) return;
         window.sialtvScores(league).then(function (data) {
