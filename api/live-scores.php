@@ -144,6 +144,7 @@ try {
     if ($cached !== null) {
         $payload = sialtv_keep_scorecards($payload, $cached);
     }
+    $payload = sialtv_merge_static_schedule($payload, $league);
     $json = json_encode($payload, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
     if (!is_string($json)) {
         throw new RuntimeException('encode');
@@ -239,6 +240,50 @@ function sialtv_keep_scorecards(array $payload, string $cachedJson): array
             }
         }
     }
+    return $payload;
+}
+
+/* A scheduled match must never vanish from the panel just because
+   ESPN's scoreboard stopped listing it. ESPN drops a 'pre' event once
+   its scheduled time passes without it going live (12 Nov 2026: M22
+   delayed, still unplayed, scoreboard returned only M23 — the panel
+   showed M23 as next). Merge unplayed matches from the committed
+   static file back in, in match order. Results come from ESPN only. */
+function sialtv_merge_static_schedule(array $payload, string $league): array
+{
+    $path = dirname(__DIR__) . (STATIC_FALLBACK[$league] ?? '');
+    if ($path === dirname(__DIR__) || !is_file($path)) {
+        return $payload;
+    }
+    $static = json_decode((string) @file_get_contents($path), true);
+    if (!is_array($static['matches'] ?? null)) {
+        return $payload;
+    }
+    $have = [];
+    foreach ($payload['matches'] as $m) {
+        if (is_array($m) && isset($m['id'])) {
+            $have[(string) $m['id']] = true;
+        }
+    }
+    $extra = [];
+    foreach ($static['matches'] as $m) {
+        if (!is_array($m) || empty($m['id']) || !empty($have[(string) $m['id']])) {
+            continue;
+        }
+        $st = strtolower((string) ($m['status'] ?? ''));
+        if ($st !== 'upcoming' && $st !== 'live') {
+            continue;
+        }
+        $extra[] = $m;
+    }
+    if ($extra === []) {
+        return $payload;
+    }
+    $merged = array_merge($payload['matches'], $extra);
+    usort($merged, static function ($a, $b) {
+        return ((int) ($a['matchNo'] ?? 0)) <=> ((int) ($b['matchNo'] ?? 0));
+    });
+    $payload['matches'] = array_values($merged);
     return $payload;
 }
 
