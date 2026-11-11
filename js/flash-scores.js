@@ -95,12 +95,16 @@
     });
   }
 
+  /* Venue city shown on a card built from scratch (the strip starts
+     empty). Baked cards carry their own venue line. */
+  var VENUE = { npl: 'Kirtipur', ilt20: 'Dubai', apl: 'UAE', sa20: 'South Africa', bbl: 'Australia' };
+
   function cardHtml(m, league) {
     var kind = m.status === 'live' ? 'live' : (m.status === 'result' ? 'result' : 'upcoming');
     var label = m.status === 'live' ? 'Live now' : (m.status === 'result' ? 'Result' : 'Upcoming');
     var html = '<a class="score-card" data-kind="' + kind + '" data-match-no="' + m.matchNo + '" href="' + matchUrl(league, m.matchNo) + '">';
     html += '<p class="sc-label' + (kind === 'upcoming' ? ' upcoming' : '') + '">' + label + '</p>';
-    html += '<p class="sc-match">Match ' + m.matchNo + ' &middot; Kirtipur</p>';
+    html += '<p class="sc-match">Match ' + m.matchNo + ' &middot; ' + esc(VENUE[league] || 'Kirtipur') + '</p>';
     html += '<p class="sc-row"><span class="sc-team">' + chip(m.team1) + esc(m.team1) + '</span><span class="sc-score">' + esc(m.score1 || '') + (m.overs1 ? ' (' + esc(m.overs1) + ' ov)' : '') + '</span></p>';
     html += '<p class="sc-row"><span class="sc-team">' + chip(m.team2) + esc(m.team2) + '</span><span class="sc-score">' + esc(m.score2 || '') + (m.overs2 ? ' (' + esc(m.overs2) + ' ov)' : '') + '</span></p>';
     html += '<p class="sc-result' + (kind === 'upcoming' ? ' upcoming' : '') + '">' + esc(m.status === 'live' ? liveLine(m) : (m.statusText || '')) + '</p></a>';
@@ -174,19 +178,37 @@
     if (!window.sialtvScores) return;
     var flash = document.getElementById('sialtvFlash');
     var carousel = document.getElementById('scoreCarousel');
-    if (!flash && !carousel) return;
-    var league = (flash && flash.getAttribute('data-league')) || 'npl';
-    function load() {
-      if (document.hidden) return;
-      window.sialtvScores(league).then(function (data) {
-        if (!data || !data.matches || !data.matches.length) return;
-        if (flash) refreshFlash(flash, data, league);
-        if (carousel) refreshCarousel(carousel, data);
-      }).catch(function () {});
+    var loaders = [];
+    /* Site-wide live-scores page: one .slp-flash per league, each
+       polled on its own league feed. #sialtvFlash is excluded — the
+       single-league path below already handles it (the NPL
+       live-scores page carries both the id and the class). */
+    document.querySelectorAll('.slp-flash[data-league]:not(#sialtvFlash)').forEach(function (group) {
+      var lg = group.getAttribute('data-league');
+      loaders.push(function () {
+        if (document.hidden) return;
+        window.sialtvScores(lg).then(function (data) {
+          if (!data || !data.matches || !data.matches.length) return;
+          refreshFlash(group, data, lg);
+        }).catch(function () {});
+      });
+    });
+    if (flash || carousel) {
+      var league = (flash && flash.getAttribute('data-league')) || 'npl';
+      loaders.push(function () {
+        if (document.hidden) return;
+        window.sialtvScores(league).then(function (data) {
+          if (!data || !data.matches || !data.matches.length) return;
+          if (flash) refreshFlash(flash, data, league);
+          if (carousel) refreshCarousel(carousel, data);
+        }).catch(function () {});
+      });
     }
-    load();
-    setInterval(load, POLL_MS);
-    document.addEventListener('visibilitychange', function () { if (!document.hidden) load(); });
+    if (!loaders.length) return;
+    function loadAll() { loaders.forEach(function (fn) { fn(); }); }
+    loadAll();
+    setInterval(loadAll, POLL_MS);
+    document.addEventListener('visibilitychange', function () { if (!document.hidden) loadAll(); });
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
