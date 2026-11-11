@@ -15,7 +15,7 @@
 <meta name="twitter:description" content="Rain washed out Lumbini Lions vs Chitwan Rhinos without a ball bowled, so the points were shared. What the abandoned NPL Match 7 meant for both sides.">
 <meta name="theme-color" content="#0f1014">
 <script type="application/ld+json">
-{"@context": "https://schema.org", "@type": "WebPage", "name": "Lumbini vs Chitwan NPL Match 7 — Abandoned", "url": "https://sialtv.com/npl/matches/2026/match-7/", "description": "Rain washed out Lumbini Lions vs Chitwan Rhinos without a ball bowled, so the points were shared. What the abandoned NPL Match 7 meant for both sides.", "datePublished": "2026-11-11T13:50:00Z", "dateModified": "2026-11-12T13:55:41Z"}
+{"@context": "https://schema.org", "@type": "WebPage", "name": "Lumbini vs Chitwan NPL Match 7 — Abandoned", "url": "https://sialtv.com/npl/matches/2026/match-7/", "description": "Rain washed out Lumbini Lions vs Chitwan Rhinos without a ball bowled, so the points were shared. What the abandoned NPL Match 7 meant for both sides.", "datePublished": "2026-11-11T13:50:00Z", "dateModified": "2026-11-12T14:13:00Z"}
 </script>
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "SialTV", "item": "https://sialtv.com/"}, {"@type": "ListItem", "position": 2, "name": "Nepal Premier League", "item": "https://sialtv.com/npl/"}, {"@type": "ListItem", "position": 3, "name": "Matches", "item": "https://sialtv.com/npl/results/"}, {"@type": "ListItem", "position": 4, "name": "Match 7", "item": "https://sialtv.com/npl/matches/2026/match-7/"}]}
@@ -400,6 +400,17 @@ main .sialtv-live-widget a{color:var(--red-text)}
 .series-nav a[aria-current="page"]{color:var(--red-text);border-bottom-color:var(--red)}
 @media (max-width:640px){.series-nav a{padding:11px 12px 9px}}
 </style>
+<style>
+/* Match tabs + innings pills (Part B, 2026-11-12, Direction D: red #FF4538 accent, no blue). */
+.slp-tabs{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 24px}
+.slp-tab{font-family:"Archivo",ui-sans-serif,sans-serif;font-size:14px;font-weight:800;color:#0f1014;background:#fff;border:1px solid #e0e0e0;border-radius:999px;padding:10px 18px;text-decoration:none}
+.slp-tab:hover{border-color:#ff4538;color:#c92a1e;text-decoration:none}
+.slp-tab[aria-current="true"]{background:#ff4538;border-color:#ff4538;color:#fff}
+.slp-pills{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px}
+.slp-pill{font-family:"Archivo",ui-sans-serif,sans-serif;font-size:13px;font-weight:700;color:#0f1014;background:#fff;border:1px solid #e0e0e0;border-radius:999px;padding:7px 14px;text-decoration:none}
+.slp-pill:hover{border-color:#ff4538;color:#c92a1e;text-decoration:none}
+@media (max-width:640px){.slp-tab{font-size:13px;padding:9px 15px}}
+</style>
 </head>
 <body class="league-npl">
 <header>
@@ -453,8 +464,19 @@ main .sialtv-live-widget a{color:var(--red-text)}
 <main>
 <div class="wrap"><div class="home-grid"><div class="home-main">
 
+  <nav class="slp-tabs" aria-label="Match sections">
+    <a class="slp-tab" href="#summary" aria-current="true">Summary</a>
+    <a class="slp-tab" href="#scorecard">Scorecard</a>
+  </nav>
+
+  <section data-reveal id="scorecard">
+      <p class="sec-eyebrow">01 — No scorecard</p>
+      <h2>No scorecard — no play was possible</h2>
+      <p>There is no scorecard for this match because not a single ball was bowled. Rain kept the players off the field all day at Kirtipur, and the match was abandoned without a result. No batting or bowling figures exist for this fixture, and none are shown here.</p>
+  </section>
+
   <section data-reveal id="summary">
-      <p class="sec-eyebrow">01 — Match summary</p>
+      <p class="sec-eyebrow">02 — Match summary</p>
       <h2>What happened in Match 7</h2>
       <p class="lead">The seventh match of NPL Season 3, between Lumbini Lions and Chitwan Rhinos, was abandoned without a ball bowled after rain at the TU International Cricket Ground in Kirtipur.</p>
       <p>No play was possible at all, so there is no scorecard for this match and no Player of the Match. The points were shared, one each.</p>
@@ -462,15 +484,9 @@ main .sialtv-live-widget a{color:var(--red-text)}
   </section>
 
   <section data-reveal id="table">
-      <p class="sec-eyebrow">02 — What it meant</p>
+      <p class="sec-eyebrow">03 — What it meant</p>
       <h2>What it meant for the points table</h2>
       <p>The shared point took both sides to three points at that stage of the season — Lumbini had won their opener and Chitwan theirs, so each side added one point here. After Match 21, Lumbini stood on 7 points and Chitwan on 5, and the point from this abandoned game was part of both totals. The <a href="/">NPL 2026</a> season carried on at Kirtipur without a replay for this fixture.</p>
-  </section>
-
-  <section data-reveal id="scorecard">
-      <p class="sec-eyebrow">03 — No scorecard</p>
-      <h2>No scorecard — no play was possible</h2>
-      <p>There is no scorecard for this match because not a single ball was bowled. Rain kept the players off the field all day at Kirtipur, and the match was abandoned without a result. No batting or bowling figures exist for this fixture, and none are shown here.</p>
   </section>
 
   <section data-reveal id="info">
@@ -479,6 +495,7 @@ main .sialtv-live-widget a{color:var(--red-text)}
       <div class="table-scroll">
       <table>
         <tbody>
+          <tr><td><strong>Match number</strong></td><td>7</td></tr>
           <tr><td><strong>Ground</strong></td><td>Tribhuvan University International Cricket Ground, Kirtipur</td></tr>
           <tr><td><strong>Series</strong></td><td>Nepal Premier League</td></tr>
           <tr><td><strong>Season</strong></td><td>2026 (Season 3)</td></tr>
@@ -508,9 +525,9 @@ main .sialtv-live-widget a{color:var(--red-text)}
       <div class="side-card" data-reveal>
         <h3>On this page</h3>
         <ul>
+          <li><a href="#scorecard">No scorecard</a></li>
           <li><a href="#summary">Match summary</a></li>
           <li><a href="#table">Points table</a></li>
-          <li><a href="#scorecard">No scorecard</a></li>
           <li><a href="#info">Match info</a></li>
         </ul>
       </div>

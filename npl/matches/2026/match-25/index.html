@@ -15,7 +15,7 @@
 <meta name="twitter:description" content="Janakpur Bolts play Chitwan Rhinos in Match 25 on 13 November. It is Janakpur's last league game — win or go home. Read the preview.">
 <meta name="theme-color" content="#0f1014">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","name":"Bolts vs Rhinos NPL Match 25 \u2014 Preview & Fixtures","url":"https://sialtv.com/npl/matches/2026/match-25/","description":"Janakpur Bolts play Chitwan Rhinos in Match 25 on 13 November. It is Janakpur's last league game \u2014 win or go home. Read the preview.","datePublished":"2026-11-11T14:08:00Z","dateModified":"2026-11-12T13:55:33Z"}
+{"@context":"https://schema.org","@type":"WebPage","name":"Bolts vs Rhinos NPL Match 25 \u2014 Preview & Fixtures","url":"https://sialtv.com/npl/matches/2026/match-25/","description":"Janakpur Bolts play Chitwan Rhinos in Match 25 on 13 November. It is Janakpur's last league game \u2014 win or go home. Read the preview.","datePublished":"2026-11-11T14:08:00Z","dateModified":"2026-11-12T14:31:00Z"}
 </script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"SialTV","item":"https://sialtv.com/"},{"@type":"ListItem","position":2,"name":"Nepal Premier League","item":"https://sialtv.com/npl/"},{"@type":"ListItem","position":3,"name":"Matches","item":"https://sialtv.com/npl/results/"},{"@type":"ListItem","position":4,"name":"Match 25","item":"https://sialtv.com/npl/matches/2026/match-25/"}]}
@@ -400,6 +400,17 @@ main .sialtv-live-widget a{color:var(--red-text)}
 .series-nav a[aria-current="page"]{color:var(--red-text);border-bottom-color:var(--red)}
 @media (max-width:640px){.series-nav a{padding:11px 12px 9px}}
 </style>
+<style>
+/* Match tabs + innings pills (Part B, 2026-11-12, Direction D: red #FF4538 accent, no blue). */
+.slp-tabs{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 24px}
+.slp-tab{font-family:"Archivo",ui-sans-serif,sans-serif;font-size:14px;font-weight:800;color:#0f1014;background:#fff;border:1px solid #e0e0e0;border-radius:999px;padding:10px 18px;text-decoration:none}
+.slp-tab:hover{border-color:#ff4538;color:#c92a1e;text-decoration:none}
+.slp-tab[aria-current="true"]{background:#ff4538;border-color:#ff4538;color:#fff}
+.slp-pills{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px}
+.slp-pill{font-family:"Archivo",ui-sans-serif,sans-serif;font-size:13px;font-weight:700;color:#0f1014;background:#fff;border:1px solid #e0e0e0;border-radius:999px;padding:7px 14px;text-decoration:none}
+.slp-pill:hover{border-color:#ff4538;color:#c92a1e;text-decoration:none}
+@media (max-width:640px){.slp-tab{font-size:13px;padding:9px 15px}}
+</style>
 </head>
 <body class="league-npl">
 <header>
@@ -454,6 +465,10 @@ main .sialtv-live-widget a{color:var(--red-text)}
 <main>
 <div class="wrap"><div class="home-grid"><div class="home-main">
 
+  <nav class="slp-tabs" aria-label="Match sections">
+    <a class="slp-tab" href="#fixture" aria-current="true">Summary</a>
+    <a class="slp-tab" href="#scorecard">Scorecard</a>
+  </nav>
 
   <section data-reveal id="fixture">
       <p class="sec-eyebrow">01 — The fixture</p>
@@ -461,8 +476,14 @@ main .sialtv-live-widget a{color:var(--red-text)}
       <p>The 25th match of the <a href="/">NPL</a> season is the evening game of Friday 13 November 2026, starting at 4:30 PM NST — 10:45 AM UTC, 3:45 PM PKT — at the Tribhuvan University International Cricket Ground in Kirtipur. It follows the afternoon match between Kathmandu Gorkhas and Sudurpaschim Royals, and it is the last game of the day.</p><p>This is the first meeting of the two sides this season. Chitwan Rhinos sit fourth on 5 points from five matches; Janakpur Bolts sit fifth on 4 points from six matches, and this is their final league game. The winner takes a big step towards the playoffs; the loser is left needing help from the final weekend. The full scorecard will appear on this page once the match is played.</p><p>Janakpur have lost their last three matches, all by clear margins, while Chitwan have alternated wins and defeats all season. Something has to give on Friday evening, and for Janakpur there is no tomorrow if it does not.</p>
   </section>
 
+  <section data-reveal id="scorecard">
+      <p class="sec-eyebrow">02 — Scorecard</p>
+      <h2>Scorecard</h2>
+      <p>Match yet to begin. The scorecard appears here once the match starts.</p>
+  </section>
+
   <section data-reveal id="form">
-      <p class="sec-eyebrow">02 — Form</p>
+      <p class="sec-eyebrow">03 — Form</p>
       <h2>How both sides arrive at Kirtipur</h2>
       <p class="lead">Recent results only — every score below is from Season 3, matches 1 to 21.</p>
       <div class="table-scroll">
@@ -475,7 +496,7 @@ main .sialtv-live-widget a{color:var(--red-text)}
   </section>
 
   <section data-reveal id="stakes">
-      <p class="sec-eyebrow">03 — What&rsquo;s at stake</p>
+      <p class="sec-eyebrow">04 — What&rsquo;s at stake</p>
       <h2>The points table and the playoff maths</h2>
       <p class="lead">Points table after Match 21, played on Tuesday 10 November 2026. The top four qualify for the playoffs.</p>
       <div class="table-scroll">
@@ -488,24 +509,25 @@ main .sialtv-live-widget a{color:var(--red-text)}
   </section>
 
   <section data-reveal id="players">
-      <p class="sec-eyebrow">04 — Players to watch</p>
+      <p class="sec-eyebrow">05 — Players to watch</p>
       <h2>The players who can decide it</h2>
       <p class="lead">Season 3 numbers only, from matches 1 to 21. Every name below links to that player's profile.</p>
       <p><a href="/npl/players/harmeet-singh/">Harmeet Singh</a> is the leading wicket-taker in the whole league, with 11 wickets in six matches at an economy of 5.83, and he is Janakpur's captain. His best spell, 4 for 17 against Sudurpaschim Royals in Match 21, came in a defeat — which tells you how much Janakpur have leaned on him. If he takes early wickets on Friday, Chitwan's batting has a problem.</p><p>With the bat, Janakpur look to <a href="/npl/players/saif-hassan/">Saif Hassan</a>, who has 140 runs in four matches with a highest score of 71, and <a href="/npl/players/trit-raj-das/">Trit Raj Das</a>, who has 112 runs in six matches with a highest score of 61. Both have made fifties this season, and Janakpur need one of them to make another on Friday.</p><p>For Chitwan, <a href="/npl/players/ravi-bopara/">Ravi Bopara</a> has 171 runs in four matches with a highest score of 55, the second-most runs in the league, and <a href="/npl/players/rijan-dhakal/">Rijan Dhakal</a> has 10 wickets in four matches, the second-most in the league. Chitwan's two best players are a batter and a bowler, and both are in the form that decides close games.</p>
   </section>
 
   <section data-reveal id="h2h">
-      <p class="sec-eyebrow">05 — Head-to-head</p>
+      <p class="sec-eyebrow">06 — Head-to-head</p>
       <h2>First meeting of the season</h2>
       <p>Janakpur Bolts and Chitwan Rhinos have not met before in Season 3, so this is their first meeting of the season. It is a strange way for a shootout to arrive — neither side has a read on the other from this season, only the shared experience of losing to the same teams at the top of the table.</p><p>Both have lost to Sudurpaschim Royals, and both have beaten Pokhara Avengers. The difference is the margins: Chitwan beat Pokhara by 30 runs, Janakpur by 9; Chitwan lost to Kathmandu by 10 runs, while Janakpur beat Kathmandu by 8 wickets in Match 5. On those numbers the two sides are almost impossible to separate — which is why Friday evening should be close.</p>
   </section>
 
   <section data-reveal id="info">
-      <p class="sec-eyebrow">06 — Match information</p>
+      <p class="sec-eyebrow">07 — Match information</p>
       <h2>Match information</h2>
       <div class="table-scroll">
       <table>
         <tbody>
+          <tr><td>Match number</td><td>25</td></tr>
           <tr><td>Ground</td><td>Tribhuvan University International Cricket Ground, Kirtipur</td></tr>
           <tr><td>Series</td><td>Nepal Premier League</td></tr>
           <tr><td>Season</td><td>2026, Season 3</td></tr>
@@ -529,7 +551,7 @@ main .sialtv-live-widget a{color:var(--red-text)}
   </section>
 
   <section data-reveal id="match-nav">
-      <p class="sec-eyebrow">07 — Around this match</p>
+      <p class="sec-eyebrow">08 — Around this match</p>
       <h2>Previous and next matches</h2>
       <p><a href="/npl/matches/2026/match-24/">&larr; Match 24</a></p>
       <p><a href="/npl/matches/2026/match-26/">Match 26 &rarr;</a></p>
@@ -549,6 +571,7 @@ main .sialtv-live-widget a{color:var(--red-text)}
         <h3>On this page</h3>
         <ul>
           <li><a href="#fixture">The fixture</a></li>
+          <li><a href="#scorecard">Scorecard</a></li>
           <li><a href="#form">Form</a></li>
           <li><a href="#stakes">What&rsquo;s at stake</a></li>
           <li><a href="#players">Players to watch</a></li>
