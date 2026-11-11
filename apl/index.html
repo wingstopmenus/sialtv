@@ -15,7 +15,7 @@
 <meta name="twitter:description" content="Afghanistan Premier League 2026-27 schedule, teams and points table — 5 teams, 24 matches, first ball 27 December 2026 in the UAE.">
 <meta name="theme-color" content="#0f1014">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","name":"Afghanistan Premier League 2026-27 — Schedule, Teams & Points Table","url":"https://sialtv.com/apl/","description":"Afghanistan Premier League 2026-27 schedule, teams and points table — 5 teams, 24 matches advertised, first ball 27 December 2026 in the UAE.","datePublished":"2026-11-10T08:21:00Z","dateModified": "2026-11-11T02:30:00Z"}
+{"@context":"https://schema.org","@type":"WebPage","name":"Afghanistan Premier League 2026-27 — Schedule, Teams & Points Table","url":"https://sialtv.com/apl/","description":"Afghanistan Premier League 2026-27 schedule, teams and points table — 5 teams, 24 matches advertised, first ball 27 December 2026 in the UAE.","datePublished":"2026-11-10T08:21:00Z","dateModified": "2026-11-11T05:26:00Z"}
 </script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"SialTV","item":"https://sialtv.com/"},{"@type":"ListItem","position":2,"name":"Afghanistan Premier League","item":"https://sialtv.com/apl/"}]}
@@ -388,6 +388,17 @@ html.js [data-reveal].in{opacity:1;transform:none}
    <head>, so this needs higher specificity to beat its blue link rule. */
 main .sialtv-live-widget a{color:var(--red-text)}
 </style>
+<style>
+/* Series secondary nav (Direction D, added 2026-11-11): one line under the
+   NEXT ticker, horizontal scroll on mobile, active item red. */
+.series-nav{background:#fff;border-bottom:1px solid #e5e5e5}
+.series-nav .wrap{display:flex;gap:2px;overflow-x:auto;padding:0 16px;scrollbar-width:none;max-width:1230px}
+.series-nav .wrap::-webkit-scrollbar{display:none}
+.series-nav a{font-size:14px;font-weight:700;color:#666;padding:14px 12px 12px;white-space:nowrap;border-bottom:2px solid transparent;text-decoration:none;flex:0 0 auto}
+.series-nav a:hover{color:#0f1014;text-decoration:none}
+.series-nav a[aria-current="page"]{color:#c92a1e;border-bottom-color:#ff4538}
+@media (max-width:640px){.series-nav a{font-size:13px;padding:12px 10px 10px}}
+</style>
 </head>
 <body class="league-apl">
 <header>
@@ -402,16 +413,28 @@ main .sialtv-live-widget a{color:var(--red-text)}
         <a href="/bbl/">BBL</a>
         <a href="/psl/">PSL</a>
       </nav>
-      <span class="top-date">Tue 10 Nov 2026</span><a class="head-cta" href="/npl/live-scores/">Live scores</a>
+      <span class="top-date">Tue 10 Nov 2026</span><a class="head-cta" href="/apl/live-scores/">Live scores</a>
     </div>
   </div>
 </header>
   <div class="subnav">
     <div class="wrap">
-      <span><b>TODAY</b> · NPL Match 21 — Sudurpaschim Royals vs Janakpur Bolts</span>
-      <span class="t-time">4:30 PM NST · Tue 10 Nov 2026</span>
+      <span><b>NEXT</b> · APL Match 1 — teams to be announced</span>
+      <span class="t-time">5:30 PM AFT · Sun 27 Dec 2026</span>
     </div>
   </div>
+<nav class="series-nav" aria-label="APL sections">
+  <div class="wrap">
+    <a href="/apl/" aria-current="page">Overview</a>
+    <a href="/apl/schedule/">Schedule</a>
+    <a href="/apl/points-table/">Points Table</a>
+    <a href="/apl/results/">Results</a>
+    <a href="/apl/live-scores/">Live Scores</a>
+    <a href="/apl/teams/">Teams</a>
+    <a href="/apl/stats/">Stats</a>
+    <a href="/apl/tickets/">Tickets</a>
+  </div>
+</nav>
 
 <section class="hero">
   <div class="wrap">
@@ -425,7 +448,7 @@ main .sialtv-live-widget a{color:var(--red-text)}
     <span class="hero-chip">5 teams</span>
     <span class="hero-chip">Final 20 Jan 2027</span>
     </div>
-        <a class="hero-cta" href="#schedule">See the full schedule <span aria-hidden="true">›</span></a>
+        <a class="hero-cta" href="/apl/schedule/">See the full schedule <span aria-hidden="true">›</span></a>
     <p class="updated">Last updated: 11 November 2026</p>
   </div>
 </section>
@@ -440,7 +463,7 @@ main .sialtv-live-widget a{color:var(--red-text)}
         <h3 class="lead-head">APL 2026-27 — first ball</h3>
         <p class="lead-score">Afghanistan Premier League, Match 1 &middot; <span class="t-time">5:30 PM AFT (5:00 PM Dubai time)</span> &middot; UAE &mdash; ground to be announced</p>
         <p class="lead-stand">The opening match teams and the ground have not been announced yet. The full fixture list will appear here once the Afghanistan Cricket Board publishes it.</p>
-        <p class="lead-links"><a href="#points-table">APL points table</a> &middot; <a href="#schedule">APL schedule</a> &middot; <a href="#where-to-watch">Where to watch</a></p>
+        <p class="lead-links"><a href="/apl/points-table/">APL points table</a> &middot; <a href="/apl/schedule/">APL schedule</a> &middot; <a href="#where-to-watch">Where to watch</a></p>
       </div>
     </div>
   </section>
@@ -451,12 +474,14 @@ main .sialtv-live-widget a{color:var(--red-text)}
       <p class="sec-eyebrow">02 — APL 2026-27 points table</p>
       <h2>APL 2026-27 points table</h2>
       <p class="lead">The season has not started yet, so there is no points table for 2026-27. The table will appear here after the first match on 27 December, and will be updated after every match day. A win is worth 2 points.</p>
+      <p><a href="/apl/points-table/">See the full APL points table &rsaquo;</a></p>
   </section>
 
   <section data-reveal id="schedule">
       <p class="sec-eyebrow">03 — APL 2026-27 schedule</p>
       <h2>APL 2026-27 schedule</h2>
       <p class="lead">The season runs from 27 December 2026 into January 2027, with 24 matches advertised. The full fixture list has not been published yet — no match dates, times or grounds beyond the first ball are confirmed, and no predicted schedule is shown here. Fixtures will be added to this page as soon as they are announced.</p>
+      <p><a href="/apl/schedule/">See the full APL schedule &rsaquo;</a></p>
       <div class="table-scroll">
       <table>
         <thead><tr><th>Stage</th><th>Dates</th><th>Matches</th></tr></thead>
@@ -480,6 +505,7 @@ main .sialtv-live-widget a{color:var(--red-text)}
         <div class="team"><b>Paktia</b><p>Captain: Rahmanullah Gurbaz · Coach: Azhar Mahmood</p></div>
       </div>
       <p class="note">Each squad has 19 players, picked at the draft in Dubai on 3 November 2026 — 90 players in 18 rounds, plus the five Afghan Icon captains.</p>
+      <p><a href="/apl/teams/">See all five APL teams &rsaquo;</a></p>
   </section>
 
   <section data-reveal id="history">
@@ -506,7 +532,7 @@ main .sialtv-live-widget a{color:var(--red-text)}
       <h3>Who are the captains?</h3>
       <p>Azmatullah Omarzai (Kabul), Ibrahim Zadran (Balkh Zwanan), Rashid Khan (Kandahar Warriors), Rahmat Shah (Nangarhar Cosmic) and Rahmanullah Gurbaz (Paktia). The five captains are also the Afghan Icon players.</p>
       <h3>Where can I see the full APL schedule and every squad?</h3>
-      <p>On SialTV — this page has every confirmed fixture, the five squads, and the season dates. The full fixture list will be added here as soon as the ACB publishes it.</p>
+      <p>On SialTV — the <a href="/apl/schedule/">APL Schedule</a> has every confirmed fixture and the <a href="/apl/teams/">APL Teams</a> page has all five squads. The full fixture list will be added to the schedule page as soon as the ACB publishes it.</p>
   </section>
 </div>
 <aside class="home-side" aria-label="Sidebar">

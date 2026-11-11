@@ -15,7 +15,7 @@
 <meta name="twitter:description" content="PSL 2027 schedule, teams and points table — HBL PSL 12, 18 Mar–2 May 2027, 8 teams, 44 matches. Auction, final in Lahore and where to watch.">
 <meta name="theme-color" content="#0f1014">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","name":"PSL 2027 — Schedule, Teams & Points Table","url":"https://sialtv.com/psl/","description":"PSL 2027 schedule, teams and points table — HBL PSL 12, 18 Mar–2 May 2027, 8 teams, 44 matches.","datePublished":"2026-11-10T08:27:00Z","dateModified": "2026-11-11T02:38:00Z"}
+{"@context":"https://schema.org","@type":"WebPage","name":"PSL 2027 — Schedule, Teams & Points Table","url":"https://sialtv.com/psl/","description":"PSL 2027 schedule, teams and points table — HBL PSL 12, 18 Mar–2 May 2027, 8 teams, 44 matches.","datePublished":"2026-11-10T08:27:00Z","dateModified": "2026-11-11T05:42:00Z"}
 </script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"SialTV","item":"https://sialtv.com/"},{"@type":"ListItem","position":2,"name":"Pakistan Super League","item":"https://sialtv.com/psl/"}]}
@@ -384,6 +384,13 @@ html.js [data-reveal].in{opacity:1;transform:none}
    after, same specificity, later in the cascade). */
 .hero a:not(.hero-cta),.hero a:not(.hero-cta):visited{color:var(--red-text);text-decoration:underline}
 .hero .crumbs a,.hero .crumbs a:visited{color:var(--muted);text-decoration:none}
+.series-nav{background:#fff;border-bottom:1px solid #e5e5e5}
+.series-nav .wrap{display:flex;gap:2px;overflow-x:auto;padding:0 16px;scrollbar-width:none;max-width:1230px}
+.series-nav .wrap::-webkit-scrollbar{display:none}
+.series-nav a{font-size:14px;font-weight:700;color:#666;padding:14px 12px 12px;white-space:nowrap;border-bottom:2px solid transparent;text-decoration:none;flex:0 0 auto}
+.series-nav a:hover{color:#0f1014;text-decoration:none}
+.series-nav a[aria-current="page"]{color:#c92a1e;border-bottom-color:#ff4538}
+@media (max-width:640px){.series-nav a{font-size:13px;padding:12px 10px 10px}}
 /* Live-scores widget (NPL hub sidebar) ships its own scoped <style> AFTER
    <head>, so this needs higher specificity to beat its blue link rule. */
 main .sialtv-live-widget a{color:var(--red-text)}
@@ -408,10 +415,22 @@ main .sialtv-live-widget a{color:var(--red-text)}
 </header>
   <div class="subnav">
     <div class="wrap">
-      <span><b>TODAY</b> · NPL Match 21 — Sudurpaschim Royals vs Janakpur Bolts</span>
-      <span class="t-time">4:30 PM NST · Tue 10 Nov 2026</span>
+      <span><b>NEXT</b> &middot; HBL PSL 12 starts &mdash; season opener</span>
+      <span class="t-time">Thu 18 Mar 2027 &middot; Fixtures TBC</span>
     </div>
   </div>
+<nav class="series-nav" aria-label="PSL sections">
+  <div class="wrap">
+    <a href="/psl/" aria-current="page">Overview</a>
+    <a href="/psl/schedule/">Schedule</a>
+    <a href="/psl/points-table/">Points Table</a>
+    <a href="/psl/results/">Results</a>
+    <a href="/psl/live-scores/">Live Scores</a>
+    <a href="/psl/teams/">Teams</a>
+    <a href="/psl/stats/">Stats</a>
+    <a href="/psl/tickets/">Tickets</a>
+  </div>
+</nav>
 
 <section class="hero">
   <div class="wrap">
@@ -425,7 +444,7 @@ main .sialtv-live-widget a{color:var(--red-text)}
     <span class="hero-chip">8 teams</span>
     <span class="hero-chip">Final 2 May</span>
     </div>
-        <a class="hero-cta" href="#schedule">See the full schedule <span aria-hidden="true">›</span></a>
+        <a class="hero-cta" href="/psl/schedule/">See the full schedule <span aria-hidden="true">›</span></a>
     <p class="updated">Last updated: 11 November 2026</p>
   </div>
 </section>
@@ -440,7 +459,7 @@ main .sialtv-live-widget a{color:var(--red-text)}
         <h3 class="lead-head">PSL 2027: 18 March &ndash; 2 May 2027</h3>
         <p class="lead-score">Player auction: Saturday 23 January 2027 &middot; Final: Sunday 2 May 2027, Gaddafi Stadium, Lahore</p>
         <p class="lead-stand">Direct signings opened on 23 October 2026 and close on 23 November 2026. Each franchise can directly sign one marquee player who did not feature in PSL 10 or PSL 11. The retentions window ends on 13 January 2027.</p>
-        <p class="lead-links"><a href="#schedule">PSL schedule</a> &middot; <a href="#teams">PSL teams</a> &middot; <a href="#where-to-watch">Where to watch</a></p>
+        <p class="lead-links"><a href="/psl/schedule/">PSL schedule</a> &middot; <a href="/psl/teams/">PSL teams</a> &middot; <a href="#where-to-watch">Where to watch</a></p>
       </div>
     </div>
   </section>
@@ -451,12 +470,14 @@ main .sialtv-live-widget a{color:var(--red-text)}
       <p class="sec-eyebrow">02 — PSL 2027 points table</p>
       <h2>PSL 2027 points table</h2>
       <p class="lead">The season has not started yet, so there is no points table for PSL 12. The table will appear here after the first match on 18 March 2027, and will be updated after every match day. The top four teams qualify for the playoffs.</p>
+      <p><a href="/psl/points-table/">See the PSL points table</a> &rsaquo;</p>
   </section>
 
   <section data-reveal id="schedule">
       <p class="sec-eyebrow">03 — PSL 2027 schedule</p>
       <h2>PSL 2027 schedule</h2>
       <p class="lead">The PCB has confirmed the tournament window, the auction date and the final, but the full fixture list — match by match, with dates, times and venues — has not been published yet. It will be added here as soon as the PCB releases it. The tournament features 40 league matches and four playoff matches, played across five to six venues in Pakistan.</p>
+      <p><a href="/psl/schedule/">See the PSL schedule</a> &rsaquo;</p>
   </section>
 
   <section data-reveal id="teams">
@@ -469,9 +490,10 @@ main .sialtv-live-widget a{color:var(--red-text)}
         <div class="team"><b>Peshawar Zalmi</b><p>Defending champions — won PSL 2026, beating Hyderabad Kingsmen in the final.</p></div>
         <div class="team"><b>Quetta Gladiators</b><p>One of the six founding PSL franchises.</p></div>
         <div class="team"><b>Multan Sultans</b><p>One of the six founding PSL franchises.</p></div>
-        <div class="team"><b>Hyderabad Kingsmen</b><p>New franchise for PSL 12 — the league expands from six teams to eight.</p></div>
-        <div class="team"><b>Rawalpindiz</b><p>New franchise for PSL 12 — Rawalpindi&rsquo;s team, the eighth franchise, joining Hyderabad Kingsmen in the expansion to eight teams.</p></div>
+        <div class="team"><b>Hyderabad Kingsmen</b><p>Runners-up in PSL 2026, beaten by Peshawar Zalmi in the final.</p></div>
+        <div class="team"><b>Rawalpindiz</b><p>New franchise for PSL 12 — Rawalpindi&rsquo;s team, the eighth franchise.</p></div>
       </div>
+      <p><a href="/psl/teams/">See all eight PSL teams</a> &rsaquo;</p>
   </section>
 
   <section data-reveal id="where-to-watch">
@@ -485,13 +507,13 @@ main .sialtv-live-widget a{color:var(--red-text)}
       <h3>When does PSL 2027 start?</h3>
       <p>HBL PSL 12 starts on Thursday 18 March 2027 and ends with the final on Sunday 2 May 2027 at Gaddafi Stadium in Lahore.</p>
       <h3>How many teams play in PSL 2027?</h3>
-      <p>Eight teams — the six existing franchises plus two new ones, including Hyderabad Kingsmen. The second new franchise has not been named yet.</p>
+      <p>Eight teams — the six founding franchises, Hyderabad Kingsmen and Rawalpindiz, the new franchise for PSL 12.</p>
       <h3>When is the PSL 2027 auction?</h3>
       <p>The player auction is on 23 January 2027. Direct signings run from 23 October to 23 November 2026, and retentions close on 13 January 2027.</p>
       <h3>Why does PSL 2027 clash with the IPL again?</h3>
       <p>The March–May window was finalised by the PSL Governing Council in London on 1 September 2026. It overlaps with IPL 2027 for the third straight year, after Ramadan ends in early March.</p>
       <h3>Where can I see the full PSL schedule and every scorecard?</h3>
-      <p>On the official PSL site (psl-t20.com) and the PCB's channels, which carry the complete fixture list with start times, squads and news for PSL 12.</p>
+      <p>Right here on SialTV. The <a href="/psl/schedule/">PSL Schedule</a> page carries the key dates and will carry the full fixture list once the PCB publishes it, and the <a href="/psl/results/">PSL Results</a> page carries every result once play starts.</p>
   </section>
 </div>
 <aside class="home-side" aria-label="Sidebar">
@@ -507,8 +529,20 @@ main .sialtv-live-widget a{color:var(--red-text)}
         <h3>Key numbers</h3>
         <ul>
           <li><b>44</b> matches<span>40 league + 4 playoffs</span></li>
-          <li><b>8</b> teams<span>Hyderabad Kingsmen + Rawalpindiz are the two new franchises</span></li>
+          <li><b>8</b> teams<span>Rawalpindiz are the new franchise; Hyderabad Kingsmen were 2026 runners-up</span></li>
           <li><b>5&ndash;6</b> venues<span>Final in Lahore</span></li>
+        </ul>
+      </div>
+      <div class="side-card" data-reveal>
+        <h3>PSL coverage</h3>
+        <ul>
+          <li><a href="/psl/schedule/">PSL Schedule</a><span>Key dates, and the full list once published.</span></li>
+          <li><a href="/psl/points-table/">PSL Points Table</a><span>Standings and the playoff race.</span></li>
+          <li><a href="/psl/results/">PSL Results</a><span>Every result, once the season starts.</span></li>
+          <li><a href="/psl/live-scores/">PSL Live Scores</a><span>The next match and live updates.</span></li>
+          <li><a href="/psl/teams/">PSL Teams</a><span>Captains, champions and the eighth team.</span></li>
+          <li><a href="/psl/stats/">PSL Stats</a><span>Top scorers, wicket takers and records.</span></li>
+          <li><a href="/psl/tickets/">PSL Tickets</a><span>Availability and official channels.</span></li>
         </ul>
       </div>
       <div class="side-card" data-reveal>
