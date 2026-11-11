@@ -15,7 +15,7 @@
 <meta name="twitter:description" content="The Eliminator is played in Dubai on 17 December: Seed 3 vs Seed 4, with the loser going home. The knockout stakes and how the playoffs work — read the preview.">
 <meta name="theme-color" content="#0f1014">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","name":"ILT20 Eliminator \u2014 Preview & Playoff Format","url":"https://sialtv.com/ilt20/matches/2026-27/match-32/","description":"The Eliminator is played in Dubai on 17 December: Seed 3 vs Seed 4, with the loser going home. The knockout stakes and how the playoffs work \u2014 read the preview.","datePublished": "2026-11-12T01:35:00Z","dateModified": "2026-11-12T13:52:40Z"}
+{"@context":"https://schema.org","@type":"WebPage","name":"ILT20 Eliminator \u2014 Preview & Playoff Format","url":"https://sialtv.com/ilt20/matches/2026-27/match-32/","description":"The Eliminator is played in Dubai on 17 December: Seed 3 vs Seed 4, with the loser going home. The knockout stakes and how the playoffs work \u2014 read the preview.","datePublished": "2026-11-12T01:35:00Z","dateModified": "2026-11-12T15:06:00Z"}
 </script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"SialTV","item":"https://sialtv.com/"},{"@type":"ListItem","position":2,"name":"ILT20","item":"https://sialtv.com/ilt20/"},{"@type":"ListItem","position":3,"name":"Matches","item":"https://sialtv.com/ilt20/results/"},{"@type":"ListItem","position":4,"name":"Match 32","item":"https://sialtv.com/ilt20/matches/2026-27/match-32/"}]}
@@ -400,6 +400,14 @@ main .sialtv-live-widget a{color:var(--red-text)}
 .series-nav a[aria-current="page"]{color:var(--red-text);border-bottom-color:var(--red)}
 @media (max-width:640px){.series-nav a{padding:11px 12px 9px}}
 </style>
+<style>
+/* Match tabs (ILT20 match pages, 2026-11-11): anchor tabs reusing the homepage
+   .slp-tabs pattern; Direction D red active state, no blue, no new fonts. */
+.slp-tabs{display:flex;gap:8px;margin:0 0 14px;border-bottom:1px solid #e5e5e5}
+.slp-tab{font-family:"Archivo",ui-sans-serif,sans-serif;font-size:14px;font-weight:800;color:#0f1014;background:none;border:0;border-bottom:2px solid transparent;padding:10px 14px 8px;margin-bottom:-1px;text-decoration:none}
+.slp-tab:hover{color:#c92a1e;text-decoration:none}
+.slp-tab[aria-current="true"]{color:#c92a1e;border-bottom-color:#c92a1e}
+</style>
 </head>
 <body class="league-npl">
 <header>
@@ -453,6 +461,10 @@ main .sialtv-live-widget a{color:var(--red-text)}
 
 <main>
 <div class="wrap"><div class="home-grid"><div class="home-main">
+<nav class="slp-tabs" aria-label="Match sections">
+  <a class="slp-tab" href="#fixture" aria-current="true">Summary</a>
+  <a class="slp-tab" href="#scorecard">Scorecard</a>
+</nav>
 
 
   <section data-reveal id="fixture">
@@ -462,9 +474,14 @@ main .sialtv-live-widget a{color:var(--red-text)}
       <p>The two teams are not known yet. The league stage ends with Match 30 on Monday 14 December, and the seeds are decided by the points table after that match. Qualifier 1 is played the day before this match, on Wednesday 16 December in Abu Dhabi, between Seed 1 and Seed 2. Tuesday 15 December is a rest day, separating the league stage from the playoffs. Once the Eliminator is played, the scorecard will appear on this page.</p>
       <p>This is the only playoff match with no second chance. The <a href="/">ILT20 Season 5</a> Eliminator is a straight knockout: win and play again tomorrow, lose and go home.</p>
   </section>
+  <section data-reveal id="scorecard">
+      <p class="sec-eyebrow">02 — Scorecard</p>
+      <h2>Scorecard</h2>
+      <p>Match yet to begin. The scorecard appears here once the match starts.</p>
+  </section>
 
   <section data-reveal id="form">
-      <p class="sec-eyebrow">02 — How the playoffs work</p>
+      <p class="sec-eyebrow">03 — How the playoffs work</p>
       <h2>How the playoffs work</h2>
       <p>The playoffs are four matches long: Qualifier 1, the Eliminator, Qualifier 2 and the final. The top four from the league stage qualify, seeded one to four by the table after 30 matches. Which team holds which seed is not known yet — the league stage ends with Match 30 on Monday 14 December.</p>
       <p>Seed 1 plays Seed 2 in Qualifier 1 on Wednesday 16 December in Abu Dhabi, and the winner goes directly to the final on Sunday 20 December. The loser gets another game, in Qualifier 2 on Friday 18 December in Sharjah. Seed 3 plays Seed 4 in the Eliminator, on Thursday 17 December in Dubai, and there the loser goes home. The Eliminator winner then meets the Qualifier 1 loser in Qualifier 2, with the second final place at stake.</p>
@@ -472,7 +489,7 @@ main .sialtv-live-widget a{color:var(--red-text)}
   </section>
 
   <section data-reveal id="stakes">
-      <p class="sec-eyebrow">03 — What&rsquo;s at stake</p>
+      <p class="sec-eyebrow">04 — What&rsquo;s at stake</p>
       <h2>The final berth, and what losing costs</h2>
       <p>The stakes in the Eliminator are the starkest of any playoff match. The winner goes to Qualifier 2 on Friday 18 December in Sharjah, where they meet the loser of Qualifier 1 for the second place in the final. The loser is eliminated — there is no second chance, no other route, and no further match. For the third and fourth seeds, the entire season comes down to one evening in Dubai.</p>
       <p>The winner&rsquo;s road is still the longest in the tournament. They must win the Eliminator, then win Qualifier 2 the next day, then beat the winner of Qualifier 1 in the final on Sunday 20 December. That is three wins in four days to lift the title. The reward for that run is a place in the final against a side that has had four days to prepare — so the Eliminator winner will need to carry their momentum straight through the week.</p>
@@ -480,7 +497,7 @@ main .sialtv-live-widget a{color:var(--red-text)}
   </section>
 
   <section data-reveal id="road">
-      <p class="sec-eyebrow">04 — The road to the final</p>
+      <p class="sec-eyebrow">05 — The road to the final</p>
       <h2>The road to the final</h2>
       <p>The top two seeds have the easiest route to the title. Seed 1 and Seed 2 meet in Qualifier 1 on Wednesday 16 December in Abu Dhabi; the winner goes straight to the final in Dubai on Sunday 20 December, and the loser gets a second chance in Qualifier 2 on Friday 18 December in Sharjah.</p>
       <p>The bottom two seeds have no such cushion. Seed 3 and Seed 4 meet in this match, the Eliminator, on Thursday 17 December in Dubai, and the loser&rsquo;s season ends. The winner must win again in Qualifier 2 on Friday, against the loser of Qualifier 1, and then win the final on Sunday against the winner of Qualifier 1 — three wins in four days, with a defeat at any stage ending the run.</p>
@@ -488,13 +505,13 @@ main .sialtv-live-widget a{color:var(--red-text)}
   </section>
 
   <section data-reveal id="h2h">
-      <p class="sec-eyebrow">05 — Head-to-head</p>
+      <p class="sec-eyebrow">06 — Head-to-head</p>
       <h2>No head-to-head yet — the teams are not decided</h2>
       <p>No head-to-head exists for this match yet — the two teams have not been decided. The league stage ends with Match 30 on Monday 14 December, and the seeds come from the table after that match. When the third and fourth seeds are known, this page will name them and add their past meetings.</p>
   </section>
 
   <section data-reveal id="info">
-      <p class="sec-eyebrow">06 — Match information</p>
+      <p class="sec-eyebrow">07 — Match information</p>
       <h2>Match information</h2>
 <div class="table-scroll">
       <table>
@@ -502,6 +519,7 @@ main .sialtv-live-widget a{color:var(--red-text)}
           <tr><td>Ground</td><td>Dubai International Stadium, Dubai</td></tr>
           <tr><td>Series</td><td>ILT20</td></tr>
           <tr><td>Season</td><td>2026-27, Season 5</td></tr>
+          <tr><td>Match number</td><td>Match 32</td></tr>
           <tr><td>Match Days</td><td>Thursday, 17 December 2026</td></tr>
           <tr><td>Points</td><td>Winner 2, loser 0</td></tr>
         </tbody>
@@ -521,7 +539,7 @@ main .sialtv-live-widget a{color:var(--red-text)}
   </section>
 
   <section data-reveal id="match-nav">
-      <p class="sec-eyebrow">07 — Around this match</p>
+      <p class="sec-eyebrow">08 — Around this match</p>
       <h2>Previous and next matches</h2>
 <p><a href="/ilt20/matches/2026-27/match-31/">&larr; Match 31</a></p>
 <p><a href="/ilt20/matches/2026-27/match-33/">Match 33 &rarr;</a></p>
@@ -537,13 +555,13 @@ main .sialtv-live-widget a{color:var(--red-text)}
       </div>
       <div class="side-card" data-reveal>
         <h3>On this page</h3>
-        <ul><li><a href="#fixture">The fixture</a></li>
+        <ul>
+          <li><a href="#fixture">The fixture</a></li>
+          <li><a href="#scorecard">Scorecard</a></li>
           <li><a href="#form">How the playoffs work</a></li>
           <li><a href="#stakes">What&rsquo;s at stake</a></li>
           <li><a href="#road">The road to the final</a></li>
-          <li><a href="#h2h">Head-to-head</a></li>
-          <li><a href="#info">Match information</a></li>
-          <li><a href="#faq">FAQ</a></li></ul>
+          <li><a href="#info">Match information</a></li></ul>
       </div>
     </aside>
 </div></div>
