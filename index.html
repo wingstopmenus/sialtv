@@ -15,7 +15,7 @@
 <meta name="twitter:description" content="NPL, ILT20 and APL schedules, live scores, points tables, teams and where to watch — one hub for the three leagues. Updated daily.">
 <meta name="theme-color" content="#0f1014">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebSite","name":"SialTV","url":"https://sialtv.com/","description":"NPL, ILT20 and APL schedules, live scores, points tables, teams and where to watch — one hub for the three leagues. Updated daily.","datePublished":"2026-11-10T06:07:00Z","dateModified": "2026-11-12T15:37:00Z"}
+{"@context":"https://schema.org","@type":"WebSite","name":"SialTV","url":"https://sialtv.com/","description":"NPL, ILT20 and APL schedules, live scores, points tables, teams and where to watch — one hub for the three leagues. Updated daily.","datePublished":"2026-11-10T06:07:00Z","dateModified": "2026-11-12T15:38:00Z"}
 </script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Organization","name":"SialTV","url":"https://sialtv.com/","@id":"https://sialtv.com/#organization","author":{"@id":"https://sialtv.com/author/asad-sial/#person"}}
@@ -323,6 +323,22 @@ tbody tr:hover td{background:#fafafa}
 .home-side #heroLiveCard .lead-stand{font-size:14px;margin-bottom:8px}
 .home-side #heroLiveCard .lead-links{font-size:14px}
 .home-side #heroLiveCard .note{font-size:13px;margin-top:8px}
+
+/* Match Coverage: per-match tabs + bulleted links (Cricinfo structure, 2026-11-11). */
+.mc-links{list-style:disc;margin:14px 0 0;padding-left:20px}
+.mc-links li{margin:7px 0;font-size:16px;line-height:1.5}
+.mc-links a{color:var(--ink);text-decoration:none}
+.mc-links a:hover{color:var(--red-text);text-decoration:underline}
+/* Featured: two-column lead + main article (Cricinfo structure). */
+.feat-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:28px;align-items:start}
+.feat-main .lead-head{font-size:24px;line-height:1.25}
+.feat-main .lead-score,.feat-main .lead-stand{font-size:15px}
+/* Top Stories: two-column grid (Cricinfo structure). */
+.stories-2col{display:grid;grid-template-columns:1fr 1fr;gap:0 32px}
+/* Trending Players: pill chips (Cricinfo structure). */
+.player-pills{display:flex;flex-wrap:wrap;gap:10px;list-style:none;margin:0;padding:0}
+.player-pills a{display:inline-block;padding:9px 16px;border:1px solid var(--rule-2);border-radius:999px;font-size:15px;font-weight:700;color:var(--ink);text-decoration:none;background:#fff}
+.player-pills a:hover{border-color:var(--red);color:var(--red-text)}
 .side-card{border:1px solid #e9e9ec;border-top:1px solid #e9e9ec;border-radius:20px;padding:20px;box-shadow:0 2px 6px rgba(15,16,20,.04),0 12px 28px rgba(15,16,20,.06)}
 .side-card h3{font-size:19px}
 .side-card li{border-bottom:1px solid #f0f0f2}
@@ -355,6 +371,8 @@ html.js [data-reveal].in{opacity:1;transform:none}
   main{padding-top:21px}
   main section{padding-top:21px;margin-bottom:21px}
   .home-side{padding-top:21px}
+  .feat-grid{grid-template-columns:1fr}
+  .stories-2col{grid-template-columns:1fr}
 }
 @media (max-width:640px){
   body{font-size:15px}
@@ -403,7 +421,7 @@ main .sialtv-live-widget a{color:var(--red-text)}
 <style>
 /* SialTV live panel — Direction D: one red accent, no blue, no colour blends. */
 .sialtv-live-panel .slp-fresh{font-size:14px;color:#4b5166}
-.slp-tabs{display:flex;gap:8px;margin:20px 0 14px;border-bottom:1px solid #e5e5e5}
+.slp-tabs{display:flex;flex-wrap:wrap;gap:8px;margin:20px 0 14px;border-bottom:1px solid #e5e5e5}
 .slp-tab{font-family:"Archivo",ui-sans-serif,sans-serif;font-size:14px;font-weight:800;color:#0f1014;background:none;border:0;border-bottom:2px solid transparent;padding:10px 14px 8px;margin-bottom:-1px;cursor:pointer}
 .slp-tab:hover{color:#c92a1e}
 .slp-tab[aria-selected="true"]{color:#c92a1e;border-bottom-color:#c92a1e}
@@ -553,43 +571,56 @@ main .sialtv-live-widget a{color:var(--red-text)}
   <div class="wrap"><div class="home-grid"><div class="home-main">
 <section data-reveal>
       <h2>Match Coverage</h2>
-      <div class="slp-tabs" role="tablist" aria-label="Match coverage by league">
-        <button class="slp-tab" type="button" role="tab" data-mc-tab="npl" aria-selected="true">NPL</button>
-        <button class="slp-tab" type="button" role="tab" data-mc-tab="ilt20" aria-selected="false">ILT20</button>
-        <button class="slp-tab" type="button" role="tab" data-mc-tab="apl" aria-selected="false">APL</button>
+      <div class="slp-tabs" role="tablist" aria-label="Match coverage by match">
+        <button class="slp-tab" type="button" role="tab" data-mc-tab="m22" aria-selected="true">Match 22 &mdash; Biratnagar vs Pokhara</button>
+        <button class="slp-tab" type="button" role="tab" data-mc-tab="m21" aria-selected="false">Match 21 &mdash; Sudurpaschim vs Janakpur</button>
+        <button class="slp-tab" type="button" role="tab" data-mc-tab="m23" aria-selected="false">Match 23 &mdash; Karnali vs Lumbini</button>
       </div>
-      <div class="mc-panel" data-mc-panel="npl">
+      <div class="mc-panel" data-mc-panel="m22">
         <div class="today">
           <p class="lead-kicker"><span class="live-dot" aria-hidden="true"></span>Upcoming &middot; Thursday, 12 November 2026</p>
-          <h3 class="lead-head">Biratnagar Kings vs Pokhara Avengers</h3>
+          <h3 class="lead-head"><a href="/npl/matches/2026/match-22/">Biratnagar Kings vs Pokhara Avengers</a></h3>
           <p class="lead-score">Nepal Premier League, Match 22 &middot; TU International Cricket Ground, Kirtipur &middot; <span class="t-time">12:30 PM NST (11:45 AM PKT, 6:45 AM UTC)</span></p>
           <p class="lead-stand">Biratnagar sit 6th with 4 points and Pokhara 8th with 2 after Match 21 &mdash; a Kings win takes them to 6 points.</p>
-          <p class="lead-links"><a href="/npl/points-table/">NPL points table</a> &middot; <a href="/npl/schedule/">NPL schedule</a> &middot; <a href="/npl/matches/2026/match-22/">Match 22 preview</a></p>
         </div>
-        <p>Last result: Sudurpaschim Royals 120/9 beat Janakpur Bolts 93 by 27 runs (Match 21) — <a href="/npl/matches/2026/match-21/">Match 21</a>.</p>
+        <ul class="mc-links">
+          <li><a href="/npl/matches/2026/match-22/">Match 22 preview &mdash; Biratnagar Kings vs Pokhara Avengers</a></li>
+          <li><a href="/npl/points-table/">NPL points table &mdash; Kathmandu and Sudurpaschim lead with 8 points</a></li>
+          <li><a href="/npl/schedule/">NPL schedule &mdash; Match 23 follows at 4:30 PM NST on Thursday</a></li>
+          <li><a href="/npl/results/">NPL results &mdash; Match 21: Sudurpaschim beat Janakpur by 27 runs</a></li>
+          <li><a href="/npl/stats/">NPL stats &mdash; Lokesh Bam leads the runs with 194</a></li>
+        </ul>
       </div>
-      <div class="mc-panel" data-mc-panel="ilt20" hidden>
+      <div class="mc-panel" data-mc-panel="m21" hidden>
         <div class="today">
-          <p class="lead-kicker">Season opener &middot; Saturday, 21 November 2026</p>
-          <h3 class="lead-head">Desert Vipers vs MI Emirates</h3>
-          <p class="lead-score">ILT20 Season 5, Match 1 &middot; Dubai International Stadium &middot; session only (exact start time not published yet)</p>
-          <p class="lead-stand">Babar Azam captains the defending champions against Nicholas Pooran&rsquo;s MI Emirates in the season opener.</p>
-          <p class="lead-links"><a href="/ilt20/matches/2026-27/match-1/">Match 1 preview</a> &middot; <a href="/ilt20/schedule/">ILT20 schedule</a> &middot; <a href="/ilt20/">ILT20</a></p>
+          <p class="lead-kicker">Result &middot; Tuesday, 10 November 2026</p>
+          <h3 class="lead-head"><a href="/npl/matches/2026/match-21/">Sudurpaschim Royals 120/9 beat Janakpur Bolts 93 by 27 runs</a></h3>
+          <p class="lead-score">Nepal Premier League, Match 21 &middot; TU International Cricket Ground, Kirtipur</p>
+          <p class="lead-stand">Brandon McMullen 33 (23) top-scored; Scott Kuggeleijn took 3/13 and made 6 (3) to take Player of the Match.</p>
         </div>
-        <p>The final is in Dubai on Sunday 20 December. <a href="/ilt20/schedule/">ILT20 schedule</a> has all 34 matches.</p>
+        <ul class="mc-links">
+          <li><a href="/npl/matches/2026/match-21/">Match 21 scorecard &mdash; Sudurpaschim Royals 120/9 vs Janakpur Bolts 93</a></li>
+          <li><a href="/npl/points-table/">NPL points table &mdash; Sudurpaschim join Kathmandu on 8 points</a></li>
+          <li><a href="/npl/results/">NPL results &mdash; all 21 results so far</a></li>
+          <li><a href="/npl/schedule/">NPL schedule &mdash; Match 22 next, Thursday 12:30 PM NST</a></li>
+          <li><a href="/npl/stats/">NPL stats &mdash; Harmeet Singh leads the wickets with 11</a></li>
+        </ul>
       </div>
-      <div class="mc-panel" data-mc-panel="apl" hidden>
+      <div class="mc-panel" data-mc-panel="m23" hidden>
         <div class="today">
-          <p class="lead-kicker">First ball &middot; Sunday, 27 December 2026</p>
-          <h3 class="lead-head">Afghanistan Premier League returns</h3>
-          <p class="lead-score">APL 2026-27 &middot; UAE &middot; first ball 5:30 PM AFT (5:00 PM Dubai) &middot; grounds to be announced</p>
-          <p class="lead-stand">Five teams, 24 matches, and a final on 20 January 2027 — eight years after the only finished season.</p>
-          <p class="lead-links"><a href="/apl/schedule/">APL schedule</a> &middot; <a href="/apl/teams/">APL teams</a> &middot; <a href="/apl/">Afghanistan Premier League</a></p>
+          <p class="lead-kicker">Upcoming &middot; Thursday, 12 November 2026</p>
+          <h3 class="lead-head"><a href="/npl/matches/2026/match-23/">Karnali Yaks vs Lumbini Lions</a></h3>
+          <p class="lead-score">Nepal Premier League, Match 23 &middot; TU International Cricket Ground, Kirtipur &middot; <span class="t-time">4:30 PM NST (3:45 PM PKT, 10:45 AM UTC)</span></p>
+          <p class="lead-stand">Lumbini sit 3rd with 7 points and Karnali 7th with 4 after Match 21 &mdash; a Lions win takes them to 9 points and top of the table.</p>
         </div>
-        <p>The full fixture list has not been published yet. <a href="/apl/schedule/">APL schedule</a> says so plainly.</p>
+        <ul class="mc-links">
+          <li><a href="/npl/matches/2026/match-23/">Match 23 preview &mdash; Karnali Yaks vs Lumbini Lions</a></li>
+          <li><a href="/npl/points-table/">NPL points table &mdash; Lumbini can go top with a win</a></li>
+          <li><a href="/npl/schedule/">NPL schedule &mdash; Match 22 first, Thursday 12:30 PM NST</a></li>
+          <li><a href="/npl/results/">NPL results &mdash; Sudurpaschim beat Janakpur by 27 runs in Match 21</a></li>
+          <li><a href="/npl/stats/">NPL stats &mdash; Lokesh Bam leads the runs with 194</a></li>
+        </ul>
       </div>
-      <p class="lead-links"><a href="/npl/points-table/">NPL points table</a> &middot; <a href="/npl/results/">NPL results</a> &middot; <a href="/ilt20/schedule/">ILT20 schedule</a> &middot; <a href="/apl/schedule/">APL schedule</a> &middot; <a href="/npl/stats/">NPL stats</a></p>
-      <p class="note">Times are shown in Nepal Standard Time (NST, UTC+5:45) for NPL matches. Each league hub shows times in UTC and the main audience zones for that league.</p>
   </section>
 
   <section data-reveal>
@@ -619,19 +650,33 @@ main .sialtv-live-widget a{color:var(--red-text)}
 
   <section data-reveal>
       <h2>Featured</h2>
-      <div class="today">
-        <p class="lead-kicker">NPL Season 3 &middot; Title race</p>
-        <h3 class="lead-head">Four teams, three points — the NPL title race is wide open</h3>
-        <p class="lead-score">After Match 21, Kathmandu lead with 8 points, level with the Royals, with Lumbini on 7 and Chitwan on 5.</p>
-        <p class="lead-stand">Seven league matches remain before the playoffs start on 17 November. The top four teams qualify.</p>
-        <p class="lead-links"><a href="/npl/points-table/">NPL points table</a> &middot; <a href="/npl/results/">NPL results</a></p>
+      <div class="feat-grid">
+        <div class="today">
+          <p class="lead-kicker">NPL Season 3 &middot; Title race</p>
+          <h3 class="lead-head"><a href="/npl/points-table/">Four teams, three points &mdash; the NPL title race is wide open</a></h3>
+          <p class="lead-score">After Match 21, Kathmandu lead with 8 points, level with the Royals, with Lumbini on 7 and Chitwan on 5.</p>
+          <p class="lead-stand">Seven league matches remain before the playoffs start on 17 November. The top four teams qualify.</p>
+          <p class="lead-links"><a href="/npl/results/">NPL results</a></p>
+        </div>
+        <div class="feat-main">
+          <p class="lead-kicker">ILT20 Season 5 &middot; Season opener</p>
+          <h3 class="lead-head"><a href="/ilt20/matches/2026-27/match-1/">Desert Vipers vs MI Emirates &mdash; ILT20 Season 5 opener</a></h3>
+          <p class="lead-score">Saturday, 21 November 2026 &middot; Dubai International Stadium &middot; session only (exact start time not published yet)</p>
+          <p class="lead-stand">Babar Azam captains the defending champions against Nicholas Pooran&rsquo;s MI Emirates.</p>
+          <ul class="mc-links">
+            <li><a href="/ilt20/schedule/">ILT20 schedule &mdash; all 34 matches, 21 November to 20 December</a></li>
+            <li><a href="/ilt20/teams/">ILT20 teams &mdash; six squads, verified</a></li>
+            <li><a href="/ilt20/points-table/">ILT20 points table</a></li>
+            <li><a href="/ilt20/results/">ILT20 results</a></li>
+            <li><a href="/apl/schedule/">APL schedule &mdash; first ball 27 December in the UAE</a></li>
+          </ul>
+        </div>
       </div>
-      <p class="lead-links"><a href="/npl/matches/2026/match-22/">Match 22 preview</a> &middot; <a href="/npl/stats/">NPL stats</a> &middot; <a href="/ilt20/schedule/">ILT20 schedule</a> &middot; <a href="/apl/">Afghanistan Premier League</a> &middot; <a href="/npl/tickets/">NPL tickets</a></p>
   </section>
 
   <section data-reveal>
       <h2>Top Stories <a class="see-all" href="/npl/">See all &rsaquo;</a></h2>
-      <ul class="story-list">
+      <ul class="story-list stories-2col">
         <li><a href="/npl/matches/2026/match-21/">Sudurpaschim Royals beat Janakpur Bolts by 27 runs</a><span>McMullen&rsquo;s 33 and Harmeet&rsquo;s 4 for 17 settled Match 21 at Kirtipur.</span></li>
         <li><a href="/npl/matches/2026/match-22/">Biratnagar Kings vs Pokhara Avengers — Match 22 preview</a><span>The Kings need a win to stay in the playoff race; Pokhara need one to stay alive.</span></li>
         <li><a href="/npl/points-table/">NPL points table after Match 21</a><span>Kathmandu and the Royals are level on 8 points; Lumbini sit third on 7.</span></li>
@@ -647,17 +692,17 @@ main .sialtv-live-widget a{color:var(--red-text)}
 
   <section data-reveal>
       <h2>Trending Players</h2>
-      <ul class="story-list">
-        <li><a href="/npl/players/brandon-mcmullen/">Brandon McMullen</a><span>Sudurpaschim Royals</span></li>
-        <li><a href="/npl/players/harmeet-singh/">Harmeet Singh</a><span>Janakpur Bolts</span></li>
-        <li><a href="/npl/players/lokesh-bam/">Lokesh Bam</a><span>Biratnagar Kings</span></li>
-        <li><a href="/npl/players/ravi-bopara/">Ravi Bopara</a><span>Chitwan Rhinos</span></li>
-        <li><a href="/npl/players/dipendra-singh-airee/">Dipendra Singh Airee</a><span>Sudurpaschim Royals</span></li>
-        <li><a href="/ilt20/players/babar-azam/">Babar Azam</a><span>Desert Vipers</span></li>
-        <li><a href="/apl/players/rahmanullah-gurbaz/">Rahmanullah Gurbaz</a><span>Paktia</span></li>
-        <li><a href="/apl/players/rashid-khan/">Rashid Khan</a><span>Kandahar Warriors</span></li>
-        <li><a href="/npl/players/karan-kc/">Karan KC</a><span>Kathmandu Gorkhas</span></li>
-        <li><a href="/npl/players/sompal-kami/">Sompal Kami</a><span>Karnali Yaks</span></li>
+      <ul class="player-pills">
+        <li><a href="/npl/players/brandon-mcmullen/">Brandon McMullen</a></li>
+        <li><a href="/npl/players/harmeet-singh/">Harmeet Singh</a></li>
+        <li><a href="/npl/players/lokesh-bam/">Lokesh Bam</a></li>
+        <li><a href="/npl/players/ravi-bopara/">Ravi Bopara</a></li>
+        <li><a href="/npl/players/dipendra-singh-airee/">Dipendra Singh Airee</a></li>
+        <li><a href="/ilt20/players/babar-azam/">Babar Azam</a></li>
+        <li><a href="/apl/players/rahmanullah-gurbaz/">Rahmanullah Gurbaz</a></li>
+        <li><a href="/apl/players/rashid-khan/">Rashid Khan</a></li>
+        <li><a href="/npl/players/karan-kc/">Karan KC</a></li>
+        <li><a href="/npl/players/sompal-kami/">Sompal Kami</a></li>
       </ul>
   </section>
 
