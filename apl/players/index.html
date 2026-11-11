@@ -15,7 +15,7 @@
 <meta name="twitter:description" content="Every APL 2026-27 player in one place — all 95 profiles grouped by team, with roles, captains and squads. Find your player here.">
 <meta name="theme-color" content="#0f1014">
 <script type="application/ld+json">
-{"@context": "https://schema.org", "@type": "WebPage", "name": "APL 2026-27 Players — All 95 Profiles & Teams", "url": "https://sialtv.com/apl/players/", "description": "Every APL 2026-27 player in one place — all 95 profiles grouped by team, with roles, captains and squads. Find your player here.", "datePublished": "2026-11-12T03:13:00Z", "dateModified": "2026-11-12T16:10:41Z"}
+{"@context": "https://schema.org", "@type": "WebPage", "name": "APL 2026-27 Players — All 95 Profiles & Teams", "url": "https://sialtv.com/apl/players/", "description": "Every APL 2026-27 player in one place — all 95 profiles grouped by team, with roles, captains and squads. Find your player here.", "datePublished": "2026-11-12T03:13:00Z", "dateModified": "2026-11-12T18:00:06Z"}
 </script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"SialTV","item":"https://sialtv.com/"},{"@type":"ListItem","position":2,"name":"APL","item":"https://sialtv.com/apl/"},{"@type":"ListItem","position":3,"name":"APL 2026-27 Players","item":"https://sialtv.com/apl/players/"}]}
@@ -181,8 +181,6 @@ nav.leagues a:hover{background:#f4f4f5;text-decoration:none}
 .hero a.hero-cta:hover{color:#fff;text-decoration:none;transform:translateY(-1px);box-shadow:0 16px 38px rgba(255,69,56,.42)}
 .ghost{position:absolute;right:1%;top:6%;font-size:260px;font-weight:800;line-height:1;color:transparent;-webkit-text-stroke:2px rgba(15,16,20,.08);pointer-events:none;user-select:none}
 /* --- Black record band --- */
-.record-band{background:#0f1014;color:#fff;padding:72px 0}
-.record-band .wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:32px;max-width:1230px}
 .rec b{display:block;font-size:50px;line-height:1;font-weight:800;letter-spacing:-.02em;color:#fff;font-variant-numeric:tabular-nums}
 .rec span{display:block;font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#ff7a6e;margin-top:10px;text-wrap:balance}
 /* --- Player stat cards --- */
@@ -260,8 +258,7 @@ html.js [data-reveal].in{opacity:1;transform:none}
 @media (max-width:900px){
   .hero,.hero-home{padding:24px 0 21px}
   .hero h1,.hero-home h1{font-size:52px}
-  .record-band .wrap{grid-template-columns:repeat(2,1fr);gap:24px}
-  .rec b{font-size:40px}
+    .rec b{font-size:40px}
   .stat-cards{grid-template-columns:repeat(2,1fr)}
   .ghost{display:none}
   .tiles{grid-template-columns:repeat(2,1fr)}
@@ -287,8 +284,7 @@ html.js [data-reveal].in{opacity:1;transform:none}
   .lead-head{font-size:26px}
   .tiles{grid-template-columns:1fr}
   .rec b{font-size:36px}
-  .record-band{padding:48px 0}
-  .stat-card b{font-size:38px}
+    .stat-card b{font-size:38px}
   .car-btn{display:none}
   .score-card{flex-basis:100%}
   main{padding-top:19px}
@@ -334,7 +330,7 @@ main .sialtv-live-widget a{color:var(--red-text)}
 @media (max-width:640px){.player-list{columns:1}}
 </style>
 <style>/* Record band: centre the numbers and labels (2026-11-11). */
-.record-band .rec{text-align:center}/* polish 2026-11-11: compact points-table logo+name alignment; hub/live carousel scrollbar+buttons match homepage */
+/* polish 2026-11-11: compact points-table logo+name alignment; hub/live carousel scrollbar+buttons match homepage */
 .t-pts td:has(>img.team-logo){display:flex;align-items:center;gap:6px;overflow-wrap:anywhere}
 .t-pts td:has(>img.team-logo) img.team-logo{flex:0 0 auto;margin-right:0;width:20px;height:20px}
 .pts-mini th,.pts-mini td{padding:8px 4px}
@@ -418,15 +414,6 @@ img{max-width:100%;height:auto}
     <p class="updated">Last updated: 12 November 2026</p>
   </div>
 </section>
-<section class="record-band" aria-label="Season in numbers">
-  <div class="wrap">
-    <div class="rec"><b data-count="95">95</b><span>Players in 2026-27</span></div>
-    <div class="rec"><b data-count="24">24</b><span>Matches &middot; 20 league + 4 playoffs</span></div>
-    <div class="rec"><b data-count="5">5</b><span>Teams in the league</span></div>
-    <div class="rec"><b data-count="20">20</b><span>January &mdash; the final</span></div>
-  </div>
-</section>
-
 <main>
 <div class="wrap"><div class="home-grid"><div class="home-main">
 

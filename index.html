@@ -15,7 +15,7 @@
 <meta name="twitter:description" content="NPL, ILT20 and APL schedules, live scores, points tables, teams and where to watch — one hub for the three leagues. Updated daily.">
 <meta name="theme-color" content="#0f1014">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebSite","name":"SialTV","url":"https://sialtv.com/","description":"NPL, ILT20 and APL schedules, live scores, points tables, teams and where to watch — one hub for the three leagues. Updated daily.","datePublished":"2026-11-10T06:07:00Z","dateModified": "2026-11-12T16:09:57Z"}
+{"@context":"https://schema.org","@type":"WebSite","name":"SialTV","url":"https://sialtv.com/","description":"NPL, ILT20 and APL schedules, live scores, points tables, teams and where to watch — one hub for the three leagues. Updated daily.","datePublished":"2026-11-10T06:07:00Z","dateModified": "2026-11-12T18:00:00Z"}
 </script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Organization","name":"SialTV","url":"https://sialtv.com/","@id":"https://sialtv.com/#organization","author":{"@id":"https://sialtv.com/author/asad-sial/#person"}}
@@ -192,8 +192,6 @@ nav.leagues a:hover{background:#f4f4f5;text-decoration:none}
 .hero a.hero-cta:hover{color:#fff;text-decoration:none;transform:translateY(-1px);box-shadow:0 16px 38px rgba(255,69,56,.42)}
 .ghost{position:absolute;right:1%;top:6%;font-size:260px;font-weight:800;line-height:1;color:transparent;-webkit-text-stroke:2px rgba(15,16,20,.08);pointer-events:none;user-select:none}
 /* --- Black record band --- */
-.record-band{background:#0f1014;color:#fff;padding:72px 0}
-.record-band .wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:32px;max-width:1230px}
 .rec b{display:block;font-size:50px;line-height:1;font-weight:800;letter-spacing:-.02em;color:#fff;font-variant-numeric:tabular-nums}
 .rec span{display:block;font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#ff7a6e;margin-top:10px;text-wrap:balance}
 /* --- Player stat cards --- */
@@ -298,8 +296,7 @@ html.js [data-reveal].in{opacity:1;transform:none}
 @media (max-width:900px){
   .hero,.hero-home{padding:24px 0 21px}
   .hero h1,.hero-home h1{font-size:52px}
-  .record-band .wrap{grid-template-columns:repeat(2,1fr);gap:24px}
-  .rec b{font-size:40px}
+    .rec b{font-size:40px}
   .stat-cards{grid-template-columns:repeat(2,1fr)}
   .ghost{display:none}
   .tiles{grid-template-columns:repeat(2,1fr)}
@@ -327,8 +324,7 @@ html.js [data-reveal].in{opacity:1;transform:none}
   .lead-head{font-size:26px}
   .tiles{grid-template-columns:1fr}
   .rec b{font-size:36px}
-  .record-band{padding:48px 0}
-  .stat-card b{font-size:38px}
+    .stat-card b{font-size:38px}
   .car-btn{display:none}
   .score-card{flex-basis:100%}
   main{padding-top:19px}
@@ -353,7 +349,7 @@ html.js [data-reveal].in{opacity:1;transform:none}
 main .sialtv-live-widget a{color:var(--red-text)}
 </style>
 <style>/* Record band: centre the numbers and labels (2026-11-11). */
-.record-band .rec{text-align:center}</style>
+</style>
 <style>
 /* SialTV live panel — Direction D: one red accent, no blue, no colour blends. */
 .sialtv-live-panel .slp-fresh{font-size:14px;color:#4b5166}
@@ -870,16 +866,6 @@ img{max-width:100%;height:auto}
     </aside>
 </div></div>
 </main>
-
-<section class="record-band" aria-label="SialTV in numbers">
-  <div class="wrap">
-    <div class="rec"><b data-count="3">3</b><span>Leagues covered</span></div>
-    <div class="rec"><b data-count="90">90</b><span>Matches scheduled</span></div>
-    <div class="rec"><b data-count="19">19</b><span>Teams</span></div>
-    <div class="rec"><b data-count="355">355</b><span>Player profiles</span></div>
-  </div>
-</section>
-
 
 <footer>
   <div class="wrap">
