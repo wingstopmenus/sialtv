@@ -15,7 +15,7 @@
 <meta name="twitter:description" content="SA20 Season 5 schedule, teams and points table — 6 teams, 34 matches across South Africa, 17 Jan–21 Feb 2027. Opener, venues and where to watch.">
 <meta name="theme-color" content="#0f1014">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","name":"SA20 Season 5 — Schedule, Teams & Points Table","url":"https://sialtv.com/sa20/","description":"SA20 Season 5 schedule, teams and points table — 6 teams, 34 matches across South Africa, 17 Jan–21 Feb 2027.","datePublished":"2026-11-10T08:23:00Z","dateModified": "2026-11-11T22:38:00Z"}
+{"@context":"https://schema.org","@type":"WebPage","name":"SA20 Season 5 — Schedule, Teams & Points Table","url":"https://sialtv.com/sa20/","description":"SA20 Season 5 schedule, teams and points table — 6 teams, 34 matches across South Africa, 17 Jan–21 Feb 2027.","datePublished":"2026-11-10T08:23:00Z","dateModified": "2026-11-12T13:58:25Z"}
 </script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"SialTV","item":"https://sialtv.com/"},{"@type":"ListItem","position":2,"name":"SA20","item":"https://sialtv.com/sa20/"}]}
@@ -388,6 +388,17 @@ html.js [data-reveal].in{opacity:1;transform:none}
    <head>, so this needs higher specificity to beat its blue link rule. */
 main .sialtv-live-widget a{color:var(--red-text)}
 </style>
+<style>
+/* Series secondary nav (Direction D, added 2026-11-11): one line under the
+   NEXT ticker, horizontal scroll on mobile, active item red. */
+.series-nav{background:#fff;border-bottom:1px solid #e5e5e5}
+.series-nav .wrap{display:flex;gap:2px;overflow-x:auto;padding:0 16px;scrollbar-width:none;max-width:1230px}
+.series-nav .wrap::-webkit-scrollbar{display:none}
+.series-nav a{font-size:14px;font-weight:700;color:#666;padding:14px 12px 12px;white-space:nowrap;border-bottom:2px solid transparent;text-decoration:none;flex:0 0 auto}
+.series-nav a:hover{color:#0f1014;text-decoration:none}
+.series-nav a[aria-current="page"]{color:#c92a1e;border-bottom-color:#ff4538}
+@media (max-width:640px){.series-nav a{font-size:13px;padding:12px 10px 10px}}
+</style>
 </head>
 <body class="league-sa20">
 <header>
@@ -398,9 +409,6 @@ main .sialtv-live-widget a{color:var(--red-text)}
         <a href="/npl/"><span class="live-dot" aria-hidden="true"></span>NPL <span class="live-tag">Live</span></a>
         <a href="/ilt20/">ILT20</a>
         <a href="/apl/">APL</a>
-        <a href="/sa20/">SA20</a>
-        <a href="/bbl/">BBL</a>
-        <a href="/psl/">PSL</a>
       </nav>
       <span class="top-date">Wed 11 Nov 2026</span><a class="head-cta" href="/sa20/live-scores/">Live scores</a>
     </div>
@@ -420,6 +428,7 @@ main .sialtv-live-widget a{color:var(--red-text)}
     <a href="/sa20/results/">Results</a>
     <a href="/sa20/live-scores/">Live Scores</a>
     <a href="/sa20/teams/">Teams</a>
+    <a href="/sa20/players/">Players</a>
     <a href="/sa20/stats/">Stats</a>
     <a href="/sa20/tickets/">Tickets</a>
   </div>
@@ -438,7 +447,7 @@ main .sialtv-live-widget a{color:var(--red-text)}
     <span class="hero-chip">Final 21 Feb</span>
     </div>
         <a class="hero-cta" href="#schedule">See the full schedule <span aria-hidden="true">›</span></a>
-    <p class="updated">Last updated: 11 November 2026</p>
+    <p class="updated">Last updated: 12 November 2026</p>
   </div>
 </section>
 
@@ -450,9 +459,9 @@ main .sialtv-live-widget a{color:var(--red-text)}
       <div class="today">
         <p class="lead-kicker">Season opener &middot; Sunday, 17 January 2027</p>
         <h3 class="lead-head">Sunrisers Eastern Cape vs Pretoria Capitals</h3>
-        <p class="lead-score">SA20 Season 5, Match 1 &middot; St George&rsquo;s Park, Gqeberha &middot; <span class="t-time">3:30 PM SAST (6:30 PM PKT)</span></p>
-        <p class="lead-stand">Sunrisers Eastern Cape are captained by Tristan Stubbs. Pretoria Capitals are captained by Keshav Maharaj and coached by Sourav Ganguly.</p>
-        <p class="lead-links"><a href="#points-table">SA20 points table</a> &middot; <a href="#schedule">SA20 schedule</a> &middot; <a href="#where-to-watch">Where to watch</a></p>
+        <p class="lead-score">SA20 Season 5, <a href="/sa20/matches/2026-27/match-1/">Match 1</a> &middot; St George&rsquo;s Park, Gqeberha &middot; <span class="t-time">3:30 PM SAST (6:30 PM PKT, 1:30 PM UTC)</span></p>
+        <p class="lead-stand">Sunrisers Eastern Cape are captained by Tristan Stubbs. Pretoria Capitals are captained by Keshav Maharaj and coached by Sourav Ganguly. It is a rematch of the 2026 final, which Sunrisers Eastern Cape won.</p>
+        <p class="lead-links"><a href="/sa20/points-table/">SA20 Points Table</a> &middot; <a href="/sa20/schedule/">SA20 Schedule</a> &middot; <a href="#where-to-watch">Where to watch</a></p>
       </div>
     </div>
   </section>
@@ -461,16 +470,17 @@ main .sialtv-live-widget a{color:var(--red-text)}
 
   <section data-reveal id="points-table">
       <p class="sec-eyebrow">02 — SA20 Season 5 points table</p>
-      <h2>SA20 Season 5 points table</h2>
-      <p class="lead"><a href="/">SialTV</a> will publish the points table here after the first match on 17 January 2027, and update it after every match day. The points a win is worth in 2027 are still to be confirmed &mdash; the official playing conditions had not been published at the 3 November 2026 check &mdash; so the table starts empty and stays honest until the league publishes them.</p>
-      <p><a href="/sa20/points-table/">See the SA20 Points Table <span aria-hidden="true">&rsaquo;</span></a></p>
+      <h2>No points table yet — the season hasn&rsquo;t started</h2>
+      <p class="lead"><a href="/">SialTV</a> will publish the points table here after the first match on 17 January 2027, and update it after every match day. How many points a win is worth in 2027 is still to be confirmed — the official playing conditions had not been published at the 3 November 2026 check — so the table starts empty and stays honest until the league publishes them.</p>
+      <p>In recent SA20 seasons a win was worth four points, with a bonus point available. That is how past seasons worked, not a statement about 2027: the 2027 rule is TBC, and this page will carry the confirmed system as soon as SA20 publishes it.</p>
+      <p><a href="/sa20/points-table/">SA20 Points Table <span aria-hidden="true">&rsaquo;</span></a></p>
   </section>
 
   <section data-reveal id="schedule">
       <p class="sec-eyebrow">03 — SA20 Season 5 schedule</p>
       <h2>SA20 Season 5 schedule — all 30 league matches</h2>
-      <p class="lead">League stage: 17 January – 14 February 2027. Playoffs: Qualifier 1 on 16 February at Boland Park, Eliminator on 17 February at the Wanderers, Qualifier 2 on 19 February at the Wanderers, and the final on Sunday 21 February at Newlands. Times are in South African Standard Time (SAST, UTC+2).</p>
-      <div class="table-scroll">
+      <p class="lead">League stage: 17 January – 14 February 2027. Thirty matches, every team playing ten — five at home, five away. Then four playoff matches: Qualifier 1 on Tuesday 16 February at Boland Park, the Eliminator on Wednesday 17 February at the Wanderers, Qualifier 2 on Friday 19 February at the Wanderers, and the final on Sunday 21 February at Newlands. Times are in South African Standard Time (SAST, UTC+2) — 5:30 PM SAST is 8:30 PM in Pakistan and 3:30 PM UTC, 3:30 PM SAST is 6:30 PM PKT and 1:30 PM UTC, and 1:00 PM SAST is 4:00 PM PKT and 11:00 AM UTC.</p>
+<div class="table-scroll">
       <table>
         <thead><tr><th>Match</th><th>Date</th><th>Time (SAST)</th><th>Fixture</th><th>Venue</th></tr></thead>
         <tbody>
@@ -508,13 +518,13 @@ main .sialtv-live-widget a{color:var(--red-text)}
       </table>
       </div>
       <p class="note">Fixtures verified against the SA20 matches file (last verified 3 November 2026). Playoff teams are TBC — they depend on the league standings.</p>
-      <p><a href="/sa20/schedule/">See the SA20 Schedule <span aria-hidden="true">&rsaquo;</span></a></p>
+      <p><a href="/sa20/schedule/">SA20 Schedule <span aria-hidden="true">&rsaquo;</span></a></p>
   </section>
 
   <section data-reveal id="teams">
       <p class="sec-eyebrow">04 — The six teams</p>
       <h2>The six teams</h2>
-      <div class="teams">
+<div class="teams">
         <div class="team"><b><a href="/sa20/teams/mi-cape-town/">MI Cape Town</a></b><p>Captain: Rashid Khan · Coach: Robin Peterson · Home: Newlands, Cape Town</p></div>
         <div class="team"><b><a href="/sa20/teams/joburg-super-kings/">Joburg Super Kings</a></b><p>Captain: to be announced · Coach: Albie Morkel · Home: Wanderers, Johannesburg</p></div>
         <div class="team"><b><a href="/sa20/teams/sunrisers-eastern-cape/">Sunrisers Eastern Cape</a></b><p>Captain: Tristan Stubbs · Coach: Adrian Birrell · Home: St George's Park, Gqeberha</p></div>
@@ -522,14 +532,54 @@ main .sialtv-live-widget a{color:var(--red-text)}
         <div class="team"><b><a href="/sa20/teams/pretoria-capitals/">Pretoria Capitals</a></b><p>Captain: Keshav Maharaj · Coach: Sourav Ganguly · Home: SuperSport Park, Centurion</p></div>
         <div class="team"><b><a href="/sa20/teams/paarl-royals/">Paarl Royals</a></b><p>Captain: David Miller · Coach: Trevor Penney · Home: Boland Park, Paarl</p></div>
       </div>
-      <p><a href="/sa20/teams/">See the SA20 Teams <span aria-hidden="true">&rsaquo;</span></a></p>
+      <p>Every squad member has a profile on this site — all 113 players are listed on the <a href="/sa20/players/">SA20 Players</a> index.</p>
+      <p><a href="/sa20/teams/">SA20 Teams <span aria-hidden="true">&rsaquo;</span></a></p>
+  </section>
+
+  <section data-reveal id="format">
+      <p class="sec-eyebrow">05 — Format</p>
+      <h2>How Season 5 works</h2>
+      <p class="lead">Six teams, ten league games each, every opponent twice — once at home, once away. The top four at the end of the league stage reach the playoffs, and four matches across six days in February decide the title.</p>
+      <div class="table-scroll">
+      <table>
+        <thead><tr><th>Stage</th><th>Date</th><th>Time (SAST)</th><th>Venue</th></tr></thead>
+        <tbody>
+          <tr><td>Qualifier 1 — 1st vs 2nd</td><td>Tue 16 Feb</td><td>5:30 PM</td><td>Boland Park, Paarl</td></tr>
+          <tr><td>Eliminator — 3rd vs 4th</td><td>Wed 17 Feb</td><td>5:30 PM</td><td>Wanderers, Johannesburg</td></tr>
+          <tr><td>Qualifier 2</td><td>Fri 19 Feb</td><td>5:30 PM</td><td>Wanderers, Johannesburg</td></tr>
+          <tr><td>Final</td><td>Sun 21 Feb</td><td>3:30 PM</td><td>Newlands, Cape Town</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <p>Qualifier 1 is first against second, and its winner goes straight to the final. The Eliminator is third against fourth, and its winner meets the loser of Qualifier 1 in Qualifier 2 for the other place in the final. Playoff pairings depend on the league standings, so the teams are TBC until the league stage ends on 14 February.</p>
+  </section>
+
+  <section data-reveal id="venues">
+      <p class="sec-eyebrow">06 — Venues</p>
+      <h2>Six grounds across South Africa</h2>
+      <p class="lead">Every match is at one of six grounds. The Wanderers in Johannesburg hosts the most matches — seven, including the Eliminator and Qualifier 2 — while Boland Park and Newlands host six each, and St George&rsquo;s Park, Kingsmead and SuperSport Park host five each.</p>
+      <div class="table-scroll">
+      <table>
+        <thead><tr><th>Ground</th><th>City</th><th>Capacity</th></tr></thead>
+        <tbody>
+          <tr><td>Newlands</td><td>Cape Town</td><td>25,000</td></tr>
+          <tr><td>Wanderers</td><td>Johannesburg</td><td>34,000</td></tr>
+          <tr><td>St George&rsquo;s Park</td><td>Gqeberha</td><td>19,000</td></tr>
+          <tr><td>Kingsmead</td><td>Durban</td><td>25,000</td></tr>
+          <tr><td>Boland Park</td><td>Paarl</td><td>10,000</td></tr>
+          <tr><td>SuperSport Park</td><td>Centurion</td><td>22,000</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <p class="note">Capacities are published figures. They have not been reconfirmed by SA20 as the 2027 ticketed capacities.</p>
+      <p>Newlands hosts the final on 21 February, Boland Park hosts Qualifier 1 on 16 February, and St George&rsquo;s Park hosts the opener on 17 January.</p>
   </section>
 
   <section data-reveal id="where-to-watch">
-      <p class="sec-eyebrow">05 — Where to watch SA20</p>
+      <p class="sec-eyebrow">07 — Where to watch SA20</p>
       <h2>Where to watch SA20</h2>
       <p class="lead">Watch SA20 only through its official broadcasters. SialTV never links to pirated streams.</p>
-      <div class="table-scroll">
+<div class="table-scroll">
       <table>
         <thead><tr><th>Region</th><th>Broadcaster</th></tr></thead>
         <tbody>
@@ -542,18 +592,20 @@ main .sialtv-live-widget a{color:var(--red-text)}
         </tbody>
       </table>
       </div>
-      <p class="note">Broadcasters for the UAE and Middle East, and the rest of the world, are still to be confirmed for Season 5.</p>
-      <p><a href="/sa20/live-scores/">See the SA20 Live Scores <span aria-hidden="true">&rsaquo;</span></a></p>
+      <p class="note">Broadcasters for the UAE and Middle East, and the rest of the world, are still to be confirmed for Season 5 (last checked 5 November 2026).</p>
+      <p><a href="/sa20/live-scores/">SA20 Live Scores <span aria-hidden="true">&rsaquo;</span></a></p>
   </section>
 
   <section data-reveal class="faq" id="faq">
       <h2>Frequently asked questions</h2>
       <h3>When does SA20 Season 5 start?</h3>
-      <p>Season 5 starts on Sunday 17 January 2027 with Sunrisers Eastern Cape against Pretoria Capitals at St George's Park, Gqeberha, and ends with the final on Sunday 21 February 2027 at Newlands, Cape Town.</p>
+      <p>Season 5 starts on Sunday 17 January 2027 with Sunrisers Eastern Cape against Pretoria Capitals at St George&rsquo;s Park, Gqeberha, and ends with the final on Sunday 21 February 2027 at Newlands, Cape Town.</p>
       <h3>How many teams play in SA20?</h3>
-      <p>Six teams: MI Cape Town, Joburg Super Kings, Sunrisers Eastern Cape, Durban's Super Giants, Pretoria Capitals and Paarl Royals. Each team plays 10 league matches.</p>
+      <p>Six teams: MI Cape Town, Joburg Super Kings, Sunrisers Eastern Cape, Durban&rsquo;s Super Giants, Pretoria Capitals and Paarl Royals. Each team plays 10 league matches.</p>
+      <h3>How many points is a win worth in SA20 Season 5?</h3>
+      <p>To be confirmed. The official 2027 playing conditions had not been published at the 3 November 2026 check, so no 2027 points value is stated here. In recent seasons a win was worth four points with a bonus point available — that is history, not the 2027 rule — and the confirmed system will appear on the points table here once SA20 publishes it.</p>
       <h3>Where are SA20 matches played?</h3>
-      <p>At six grounds across South Africa: Newlands in Cape Town, the Wanderers in Johannesburg, St George's Park in Gqeberha, Kingsmead in Durban, SuperSport Park in Centurion and Boland Park in Paarl.</p>
+      <p>At six grounds across South Africa: Newlands in Cape Town, the Wanderers in Johannesburg, St George&rsquo;s Park in Gqeberha, Kingsmead in Durban, SuperSport Park in Centurion and Boland Park in Paarl.</p>
       <h3>Where can I watch SA20 in Pakistan?</h3>
       <p>On Apex, the official broadcaster for Pakistan in Season 5. In India the league is on JioStar, in the UK on Sky Sports, and in Sub-Saharan Africa on SuperSport.</p>
       <h3>Where can I see the full SA20 schedule and every scorecard?</h3>
@@ -563,6 +615,7 @@ main .sialtv-live-widget a{color:var(--red-text)}
   <section data-reveal id="more">
       <h2>More SA20 coverage</h2>
       <ul>
+        <li><a href="/sa20/players/">SA20 Players</a> &mdash; All 113 squad players, grouped by team.</li>
         <li><a href="/sa20/results/">SA20 Results</a> &mdash; Every result, once the season starts.</li>
         <li><a href="/sa20/stats/">SA20 Stats</a> &mdash; Top scorers, wicket takers and records.</li>
         <li><a href="/sa20/tickets/">SA20 Tickets</a> &mdash; Availability and official channels.</li>
@@ -583,6 +636,8 @@ main .sialtv-live-widget a{color:var(--red-text)}
         <ul>
           <li><b>34</b> matches<span>30 league + 4 playoffs</span></li>
           <li><b>6</b> teams<span>MI Cape Town, Joburg Super Kings, Sunrisers Eastern Cape, Durban&rsquo;s Super Giants, Pretoria Capitals, Paarl Royals</span></li>
+          <li><b>113</b> players<span>19 in five squads, 18 at Joburg Super Kings</span></li>
+          <li><b>6</b> venues<span>Newlands, Wanderers, St George&rsquo;s Park, Kingsmead, SuperSport Park, Boland Park</span></li>
         </ul>
       </div>
       <div class="side-card" data-reveal>
@@ -591,6 +646,8 @@ main .sialtv-live-widget a{color:var(--red-text)}
           <li><a href="#points-table">Points table</a></li>
           <li><a href="#schedule">Schedule</a></li>
           <li><a href="#teams">Teams</a></li>
+          <li><a href="#format">Format</a></li>
+          <li><a href="#venues">Venues</a></li>
           <li><a href="#where-to-watch">Where to watch</a></li>
         </ul>
       </div>
@@ -606,9 +663,6 @@ main .sialtv-live-widget a{color:var(--red-text)}
         <p><a href="/npl/">Nepal Premier League</a></p>
         <p><a href="/ilt20/">ILT20</a></p>
         <p><a href="/apl/">Afghanistan Premier League</a></p>
-        <p><a href="/sa20/">SA20</a></p>
-        <p><a href="/bbl/">Big Bash League</a></p>
-        <p><a href="/psl/">Pakistan Super League</a></p>
       </div>
       <div>
         <p class="foot-h">SialTV</p>
@@ -623,7 +677,7 @@ main .sialtv-live-widget a{color:var(--red-text)}
         <p class="foot-h">Write to us</p>
         <p><a href="mailto:contact@sialtv.com">contact@sialtv.com</a></p>
         <p>Corrections, missing fixtures and new leagues — tell us and it will be checked.</p>
-        <p>Last updated: 11 November 2026</p>
+        <p>Last updated: 12 November 2026</p>
       </div>
     </div>
   </div>
