@@ -15,7 +15,7 @@
 <meta name="twitter:description" content="NPL Season 3 schedule, points table and results — 8 teams, 32 matches at Kirtipur, 26 Oct–21 Nov 2026. Today's match, standings and where to watch.">
 <meta name="theme-color" content="#0f1014">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","name":"Nepal Premier League 2026 — Schedule, Points Table & Results","url":"https://sialtv.com/npl/","description":"NPL Season 3 schedule, points table and results — 8 teams, 32 matches at Kirtipur, 26 Oct–21 Nov 2026.","datePublished":"2026-11-10T08:17:00Z","dateModified": "2026-11-11T05:12:00Z"}
+{"@context":"https://schema.org","@type":"WebPage","name":"Nepal Premier League 2026 — Schedule, Points Table & Results","url":"https://sialtv.com/npl/","description":"NPL Season 3 schedule, points table and results — 8 teams, 32 matches at Kirtipur, 26 Oct–21 Nov 2026.","datePublished":"2026-11-10T08:17:00Z","dateModified": "2026-11-11T23:01:00Z"}
 </script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"SialTV","item":"https://sialtv.com/"},{"@type":"ListItem","position":2,"name":"Nepal Premier League","item":"https://sialtv.com/npl/"}]}
@@ -400,6 +400,28 @@ main .sialtv-live-widget a{color:var(--red-text)}
 .series-nav a[aria-current="page"]{color:var(--red-text);border-bottom-color:var(--red)}
 @media (max-width:640px){.series-nav a{padding:11px 12px 9px}}
 </style>
+<style>/* Record band: centre the numbers and labels (2026-11-11). */
+.record-band .rec{text-align:center}</style>
+<style>
+/* SialTV live panel — Direction D: one red accent, no blue, no colour blends. */
+.sialtv-live-panel .slp-fresh{font-size:14px;color:#4b5166}
+.slp-tabs{display:flex;gap:8px;margin:20px 0 14px;border-bottom:1px solid #e5e5e5}
+.slp-tab{font-family:"Archivo",ui-sans-serif,sans-serif;font-size:14px;font-weight:800;color:#0f1014;background:none;border:0;border-bottom:2px solid transparent;padding:10px 14px 8px;margin-bottom:-1px;cursor:pointer}
+.slp-tab:hover{color:#c92a1e}
+.slp-tab[aria-selected="true"]{color:#c92a1e;border-bottom-color:#c92a1e}
+.slp-flash{display:flex;gap:12px;overflow-x:auto;padding:2px 2px 10px;margin-bottom:16px;scrollbar-width:thin}
+.slp-flash .score-card{flex:0 0 287px}
+.slp-results{margin:0;padding:0;list-style:none}
+.slp-results li{padding:10px 0;border-bottom:1px solid #f0f0f2;font-size:15px}
+.slp-results li:last-child{border-bottom:0}
+.slp-results li b{font-weight:700}
+.slp-results li span{color:#4b5166;display:block;font-size:14px}
+.slp-hero-wrap{padding:24px 0 0}
+.slp-hero-wrap .wrap{max-width:1230px}
+#sialtv-sticky-bar a{color:#fff}
+#sialtv-sticky-bar a:hover{color:#fff}
+@media (max-width:640px){.slp-flash .score-card{flex-basis:100%}}
+</style>
 </head>
 <body class="league-npl">
 <header>
@@ -418,10 +440,10 @@ main .sialtv-live-widget a{color:var(--red-text)}
     </div>
   </div>
 </header>
-  <div class="subnav">
+  <div class="subnav" id="sialtvLiveStrip" data-league="npl">
     <div class="wrap">
-      <span><b>NEXT</b> · NPL Match 22 — Biratnagar Kings vs Pokhara Avengers</span>
-      <span class="t-time">12:30 PM NST · Thu 12 Nov 2026</span>
+      <span><b>RESULT</b> · Sudurpaschim Royals 120/9 beat Janakpur Bolts 93 by 27 runs</span>
+      <span class="t-time">Next: Biratnagar Kings vs Pokhara Avengers · Thu 12 Nov, 12:30 PM NST · <a href="/npl/live-scores/">Live scores</a></span>
     </div>
   </div>
 
@@ -474,15 +496,15 @@ main .sialtv-live-widget a{color:var(--red-text)}
         <button class="pill" type="button" data-filter="result" aria-pressed="false">Results (5)</button>
       </div>
       <div class="carousel-wrap">
-        <div class="carousel" id="scoreCarousel">
-          <a class="score-card" data-reveal href="#results" data-kind="upcoming">
+        <div class="carousel" id="scoreCarousel" data-flash="npl">
+          <a class="score-card" data-reveal href="#results" data-kind="upcoming" data-match-no="22">
             <p class="sc-label upcoming">Upcoming</p>
             <p class="sc-match">Match 22 &bull; Kirtipur</p>
             <p class="sc-row"><span class="sc-team"><span class="sc-chip">BK</span>Biratnagar Kings</span></p>
             <p class="sc-row"><span class="sc-team"><span class="sc-chip">PA</span>Pokhara Avengers</span></p>
             <p class="sc-result upcoming">Thu 12 Nov, 12:30 PM NST &middot; TU International Cricket Ground</p>
           </a>
-          <a class="score-card" data-reveal href="#results" data-kind="result">
+          <a class="score-card" data-reveal href="#results" data-kind="result" data-match-no="21">
             <p class="sc-label">Result</p>
             <p class="sc-match">Match 21 &bull; Kirtipur</p>
             <p class="sc-row"><span class="sc-team"><span class="sc-chip">SR</span>Sudurpaschim Royals</span><span class="sc-score">120/9 (20 ov)</span></p>
@@ -528,12 +550,13 @@ main .sialtv-live-widget a{color:var(--red-text)}
     <div class="wrap">
       <p class="sec-eyebrow">02 — Match Coverage</p>
       <h2>Match Coverage</h2>
-      <div class="today">
+      <div class="today" id="heroLiveCard" data-league="npl" aria-live="polite">
         <p class="lead-kicker"><span class="live-dot" aria-hidden="true"></span>Upcoming &middot; Thursday, 12 November 2026</p>
         <h3 class="lead-head">Biratnagar Kings vs Pokhara Avengers</h3>
         <p class="lead-score">Nepal Premier League, Match 22 &middot; TU International Cricket Ground, Kirtipur &middot; <span class="t-time">12:30 PM NST (11:45 AM PKT, 6:45 AM UTC)</span></p>
         <p class="lead-stand">Biratnagar sit 6th with 4 points and Pokhara 8th with 2 after Match 21 &mdash; a Kings win takes them to 6 points.</p>
         <p class="lead-links"><a href="#points-table">NPL points table</a> &middot; <a href="#schedule">NPL schedule</a> &middot; <a href="/npl/live-scores/">NPL live scores</a> &middot; <a href="#where-to-watch">Where to watch</a></p>
+        <p class="note">Latest result: Sudurpaschim Royals beat Janakpur Bolts by 27 runs (Match 21) &middot; Updated 10 November 2026, 9:35 PM NST.</p>
       </div>
       <p class="note">Times are shown in Nepal Standard Time (NST, UTC+5:45) for NPL matches.</p>
     </div>
@@ -571,34 +594,34 @@ main .sialtv-live-widget a{color:var(--red-text)}
       <table>
         <thead><tr><th>Match</th><th>Date</th><th>Time (NST)</th><th>Fixture</th></tr></thead>
         <tbody>
-          <tr><td>1</td><td>Mon 26 Oct</td><td>4:30 PM</td><td>Lumbini Lions vs Sudurpaschim Royals</td></tr>
-          <tr><td>2</td><td>Tue 27 Oct</td><td>12:30 PM</td><td>Biratnagar Kings vs Chitwan Rhinos</td></tr>
-          <tr><td>3</td><td>Tue 27 Oct</td><td>4:30 PM</td><td>Karnali Yaks vs Janakpur Bolts</td></tr>
-          <tr><td>4</td><td>Wed 28 Oct</td><td>4:30 PM</td><td>Pokhara Avengers vs Sudurpaschim Royals</td></tr>
-          <tr><td>5</td><td>Thu 29 Oct</td><td>12:30 PM</td><td>Janakpur Bolts vs Kathmandu Gorkhas</td></tr>
-          <tr><td>6</td><td>Thu 29 Oct</td><td>4:30 PM</td><td>Karnali Yaks vs Biratnagar Kings</td></tr>
-          <tr><td>7</td><td>Sat 31 Oct</td><td>12:30 PM</td><td>Lumbini Lions vs Chitwan Rhinos</td></tr>
-          <tr><td>8</td><td>Sat 31 Oct</td><td>4:30 PM</td><td>Sudurpaschim Royals vs Biratnagar Kings</td></tr>
-          <tr><td>9</td><td>Sun 1 Nov</td><td>4:30 PM</td><td>Janakpur Bolts vs Pokhara Avengers</td></tr>
-          <tr><td>10</td><td>Mon 2 Nov</td><td>12:30 PM</td><td>Kathmandu Gorkhas vs Karnali Yaks</td></tr>
-          <tr><td>11</td><td>Mon 2 Nov</td><td>4:30 PM</td><td>Sudurpaschim Royals vs Chitwan Rhinos</td></tr>
-          <tr><td>12</td><td>Tue 3 Nov</td><td>12:30 PM</td><td>Biratnagar Kings vs Janakpur Bolts</td></tr>
-          <tr><td>13</td><td>Tue 3 Nov</td><td>4:30 PM</td><td>Lumbini Lions vs Pokhara Avengers</td></tr>
-          <tr><td>14</td><td>Thu 5 Nov</td><td>12:30 PM</td><td>Lumbini Lions vs Janakpur Bolts</td></tr>
-          <tr><td>15</td><td>Thu 5 Nov</td><td>4:30 PM</td><td>Kathmandu Gorkhas vs Biratnagar Kings</td></tr>
-          <tr><td>16</td><td>Fri 6 Nov</td><td>12:30 PM</td><td>Sudurpaschim Royals vs Karnali Yaks</td></tr>
-          <tr><td>17</td><td>Fri 6 Nov</td><td>4:30 PM</td><td>Chitwan Rhinos vs Pokhara Avengers</td></tr>
-          <tr><td>18</td><td>Sat 7 Nov</td><td>4:30 PM</td><td>Kathmandu Gorkhas vs Lumbini Lions</td></tr>
-          <tr><td>19</td><td>Mon 9 Nov</td><td>12:30 PM</td><td>Pokhara Avengers vs Karnali Yaks</td></tr>
-          <tr><td>20</td><td>Mon 9 Nov</td><td>4:30 PM</td><td>Chitwan Rhinos vs Kathmandu Gorkhas</td></tr>
-          <tr><td>21</td><td>Tue 10 Nov</td><td>4:30 PM</td><td>Sudurpaschim Royals vs Janakpur Bolts</td></tr>
-          <tr><td>22</td><td>Thu 12 Nov</td><td>12:30 PM</td><td>Biratnagar Kings vs Pokhara Avengers</td></tr>
-          <tr><td>23</td><td>Thu 12 Nov</td><td>4:30 PM</td><td>Karnali Yaks vs Lumbini Lions</td></tr>
-          <tr><td>24</td><td>Fri 13 Nov</td><td>12:30 PM</td><td>Kathmandu Gorkhas vs Sudurpaschim Royals</td></tr>
-          <tr><td>25</td><td>Fri 13 Nov</td><td>4:30 PM</td><td>Janakpur Bolts vs Chitwan Rhinos</td></tr>
-          <tr><td>26</td><td>Sat 14 Nov</td><td>4:30 PM</td><td>Biratnagar Kings vs Lumbini Lions</td></tr>
-          <tr><td>27</td><td>Sun 15 Nov</td><td>12:30 PM</td><td>Chitwan Rhinos vs Karnali Yaks</td></tr>
-          <tr><td>28</td><td>Sun 15 Nov</td><td>4:30 PM</td><td>Pokhara Avengers vs Kathmandu Gorkhas</td></tr>
+          <tr><td><a href="/npl/matches/2026/match-1/">1</a></td><td>Mon 26 Oct</td><td>4:30 PM</td><td>Lumbini Lions vs Sudurpaschim Royals</td></tr>
+          <tr><td><a href="/npl/matches/2026/match-2/">2</a></td><td>Tue 27 Oct</td><td>12:30 PM</td><td>Biratnagar Kings vs Chitwan Rhinos</td></tr>
+          <tr><td><a href="/npl/matches/2026/match-3/">3</a></td><td>Tue 27 Oct</td><td>4:30 PM</td><td>Karnali Yaks vs Janakpur Bolts</td></tr>
+          <tr><td><a href="/npl/matches/2026/match-4/">4</a></td><td>Wed 28 Oct</td><td>4:30 PM</td><td>Pokhara Avengers vs Sudurpaschim Royals</td></tr>
+          <tr><td><a href="/npl/matches/2026/match-5/">5</a></td><td>Thu 29 Oct</td><td>12:30 PM</td><td>Janakpur Bolts vs Kathmandu Gorkhas</td></tr>
+          <tr><td><a href="/npl/matches/2026/match-6/">6</a></td><td>Thu 29 Oct</td><td>4:30 PM</td><td>Karnali Yaks vs Biratnagar Kings</td></tr>
+          <tr><td><a href="/npl/matches/2026/match-7/">7</a></td><td>Sat 31 Oct</td><td>12:30 PM</td><td>Lumbini Lions vs Chitwan Rhinos</td></tr>
+          <tr><td><a href="/npl/matches/2026/match-8/">8</a></td><td>Sat 31 Oct</td><td>4:30 PM</td><td>Sudurpaschim Royals vs Biratnagar Kings</td></tr>
+          <tr><td><a href="/npl/matches/2026/match-9/">9</a></td><td>Sun 1 Nov</td><td>4:30 PM</td><td>Janakpur Bolts vs Pokhara Avengers</td></tr>
+          <tr><td><a href="/npl/matches/2026/match-10/">10</a></td><td>Mon 2 Nov</td><td>12:30 PM</td><td>Kathmandu Gorkhas vs Karnali Yaks</td></tr>
+          <tr><td><a href="/npl/matches/2026/match-11/">11</a></td><td>Mon 2 Nov</td><td>4:30 PM</td><td>Sudurpaschim Royals vs Chitwan Rhinos</td></tr>
+          <tr><td><a href="/npl/matches/2026/match-12/">12</a></td><td>Tue 3 Nov</td><td>12:30 PM</td><td>Biratnagar Kings vs Janakpur Bolts</td></tr>
+          <tr><td><a href="/npl/matches/2026/match-13/">13</a></td><td>Tue 3 Nov</td><td>4:30 PM</td><td>Lumbini Lions vs Pokhara Avengers</td></tr>
+          <tr><td><a href="/npl/matches/2026/match-14/">14</a></td><td>Thu 5 Nov</td><td>12:30 PM</td><td>Lumbini Lions vs Janakpur Bolts</td></tr>
+          <tr><td><a href="/npl/matches/2026/match-15/">15</a></td><td>Thu 5 Nov</td><td>4:30 PM</td><td>Kathmandu Gorkhas vs Biratnagar Kings</td></tr>
+          <tr><td><a href="/npl/matches/2026/match-16/">16</a></td><td>Fri 6 Nov</td><td>12:30 PM</td><td>Sudurpaschim Royals vs Karnali Yaks</td></tr>
+          <tr><td><a href="/npl/matches/2026/match-17/">17</a></td><td>Fri 6 Nov</td><td>4:30 PM</td><td>Chitwan Rhinos vs Pokhara Avengers</td></tr>
+          <tr><td><a href="/npl/matches/2026/match-18/">18</a></td><td>Sat 7 Nov</td><td>4:30 PM</td><td>Kathmandu Gorkhas vs Lumbini Lions</td></tr>
+          <tr><td><a href="/npl/matches/2026/match-19/">19</a></td><td>Mon 9 Nov</td><td>12:30 PM</td><td>Pokhara Avengers vs Karnali Yaks</td></tr>
+          <tr><td><a href="/npl/matches/2026/match-20/">20</a></td><td>Mon 9 Nov</td><td>4:30 PM</td><td>Chitwan Rhinos vs Kathmandu Gorkhas</td></tr>
+          <tr><td><a href="/npl/matches/2026/match-21/">21</a></td><td>Tue 10 Nov</td><td>4:30 PM</td><td>Sudurpaschim Royals vs Janakpur Bolts</td></tr>
+          <tr><td><a href="/npl/matches/2026/match-22/">22</a></td><td>Thu 12 Nov</td><td>12:30 PM</td><td>Biratnagar Kings vs Pokhara Avengers</td></tr>
+          <tr><td><a href="/npl/matches/2026/match-23/">23</a></td><td>Thu 12 Nov</td><td>4:30 PM</td><td>Karnali Yaks vs Lumbini Lions</td></tr>
+          <tr><td><a href="/npl/matches/2026/match-24/">24</a></td><td>Fri 13 Nov</td><td>12:30 PM</td><td>Kathmandu Gorkhas vs Sudurpaschim Royals</td></tr>
+          <tr><td><a href="/npl/matches/2026/match-25/">25</a></td><td>Fri 13 Nov</td><td>4:30 PM</td><td>Janakpur Bolts vs Chitwan Rhinos</td></tr>
+          <tr><td><a href="/npl/matches/2026/match-26/">26</a></td><td>Sat 14 Nov</td><td>4:30 PM</td><td>Biratnagar Kings vs Lumbini Lions</td></tr>
+          <tr><td><a href="/npl/matches/2026/match-27/">27</a></td><td>Sun 15 Nov</td><td>12:30 PM</td><td>Chitwan Rhinos vs Karnali Yaks</td></tr>
+          <tr><td><a href="/npl/matches/2026/match-28/">28</a></td><td>Sun 15 Nov</td><td>4:30 PM</td><td>Pokhara Avengers vs Kathmandu Gorkhas</td></tr>
         </tbody>
       </table>
       </div>
@@ -768,62 +791,10 @@ main .sialtv-live-widget a{color:var(--red-text)}
 .sialtv-live-widget .slw-score span{font-weight:400;color:#4b5166}
 .sialtv-live-widget .slw-line{font-size:14px;color:#2c3a46;margin:0 0 6px}
 .sialtv-live-widget .slw-updated{font-size:13px;color:#4b5166;margin:8px 0 0}
-.sialtv-live-widget a{color:#0860c4;text-decoration:none;font-weight:700}
+.sialtv-live-widget a{color:#c92a1e;text-decoration:none;font-weight:700}
 .sialtv-live-widget a:hover{text-decoration:underline}
 </style>
-<script>
-(function(){
-  if (window.__sialtvLiveWidgetLoaded) return;
-  window.__sialtvLiveWidgetLoaded = true;
-  var FEED_URL = '/data/live-scores.json';
-  var POLL_MS = 10 * 60 * 1000;
-  var root = document.getElementById('sialtvLiveWidget');
-  if (!root) return;
-  function esc(s){
-    return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-  }
-  function fmtUpdated(iso){
-    try {
-      var d = new Date(iso);
-      return 'Updated ' + new Intl.DateTimeFormat('en-GB', {timeZone:'Asia/Kathmandu', day:'numeric', month:'short', hour:'numeric', minute:'2-digit', hour12:true}).format(d) + ' NST';
-    } catch (e) { return 'Updated ' + iso; }
-  }
-  function render(data){
-    var matches = (data && data.matches) || [];
-    var live = null, latest = null, next = null;
-    matches.forEach(function(m){
-      if (m.status === 'live') live = m;
-      if (m.status === 'result' && (!latest || m.matchNo > latest.matchNo)) latest = m;
-      if (m.status === 'upcoming' && (!next || m.matchNo < next.matchNo)) next = m;
-    });
-    var html = '';
-    var m = live || latest;
-    if (m) {
-      var label = live ? '<span class="slw-dot"></span>Live now' : 'Latest result &middot; Match ' + m.matchNo;
-      html += '<p class="slw-label">' + label + '</p>';
-      html += '<p class="slw-score">' + esc(m.team1) + ' ' + esc(m.score1 || '') + (m.overs1 ? ' <span>(' + esc(m.overs1) + ' ov)</span>' : '') + '<br>' + esc(m.team2) + ' ' + esc(m.score2 || '') + (m.overs2 ? ' <span>(' + esc(m.overs2) + ' ov)</span>' : '') + '</p>';
-      html += '<p class="slw-line">' + esc(m.statusText || '') + '</p>';
-    }
-    if (next) {
-      html += '<p class="slw-line">Next: ' + esc(next.team1) + ' vs ' + esc(next.team2) + ' &middot; Match ' + next.matchNo + ' &middot; ' + esc(next.statusText.split('—')[1] ? next.statusText.split('—')[1].trim() : next.date) + '</p>';
-    }
-    html += '<p class="slw-updated">' + esc(fmtUpdated(data.fetchedAt)) + ' &middot; <a href="/npl/live-scores/">NPL Live Scores</a></p>';
-    root.innerHTML = html || '<p class="slw-line">No NPL match data right now.</p>';
-  }
-  function load(){
-    if (document.hidden) return;
-    fetch(FEED_URL, {cache: 'no-store'})
-      .then(function(r){ if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
-      .then(render)
-      .catch(function(){
-        root.innerHTML = '<p class="slw-line">Live scores could not be loaded just now. <a href="/npl/results/">NPL Results</a></p>';
-      });
-  }
-  load();
-  setInterval(load, POLL_MS);
-  document.addEventListener('visibilitychange', function(){ if (!document.hidden) load(); });
-})();
-</script>
+<script src="/js/live-card.js?v=1"></script>
 
       <div class="num-panel" data-reveal id="numPanel">
         <h3>Number Crunching</h3>
@@ -891,6 +862,7 @@ main .sialtv-live-widget a{color:var(--red-text)}
       <div>
         <p class="foot-h">SialTV</p>
         <p><a href="/about/">About</a></p>
+        <p><a href="/author/asad-sial/">Asad Sial</a></p>
         <p><a href="/contact/">Contact Us</a></p>
         <p><a href="/privacy-policy/">Privacy Policy</a></p>
         <p><a href="/disclaimer/">Disclaimer</a></p>
@@ -995,5 +967,12 @@ main .sialtv-live-widget a{color:var(--red-text)}
   document.querySelectorAll('[data-count]').forEach(function(el){ cio.observe(el); });
 })();
 </script>
+
+<script src="/js/live-scores.js?v=1"></script>
+<script src="/js/live-strip.js?v=1"></script>
+<script src="/js/live-card.js?v=1"></script>
+<script src="/js/hero-score.js?v=1"></script>
+<script src="/js/flash-scores.js?v=1"></script>
+<script src="/js/sticky-bar.js?v=1"></script>
 </body>
 </html>
