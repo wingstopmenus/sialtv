@@ -15,7 +15,7 @@
 <meta name="twitter:description" content="Khalil Ahmad Gurbaz, a Test-capped leg-break bowler, is Paktia's Supplementary pick for APL 2026-27. Not a keeper — his record — read the profile.">
 <meta name="theme-color" content="#0f1014">
 <script type="application/ld+json">
-{"@context": "https://schema.org", "@type": "WebPage", "name": "Khalil Ahmad Gurbaz APL 2026-27 — Paktia Leg-Spinner", "url": "https://sialtv.com/apl/players/khalil-ahmad-gurbaz/", "description": "Khalil Ahmad Gurbaz, a Test-capped leg-break bowler, is Paktia's Supplementary pick for APL 2026-27. Not a keeper — his record — read the profile.", "datePublished": "2026-11-12T03:12:00Z", "dateModified": "2026-11-12T15:53:56Z"}
+{"@context": "https://schema.org", "@type": "WebPage", "name": "Khalil Ahmad Gurbaz APL 2026-27 — Paktia Leg-Spinner", "url": "https://sialtv.com/apl/players/khalil-ahmad-gurbaz/", "description": "Khalil Ahmad Gurbaz, a Test-capped leg-break bowler, is Paktia's Supplementary pick for APL 2026-27. Not a keeper — his record — read the profile.", "datePublished": "2026-11-12T03:12:00Z", "dateModified": "2026-11-12T16:10:52Z"}
 </script>
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "SialTV", "item": "https://sialtv.com/"}, {"@type": "ListItem", "position": 2, "name": "Afghanistan Premier League", "item": "https://sialtv.com/apl/"}, {"@type": "ListItem", "position": 3, "name": "Paktia", "item": "https://sialtv.com/apl/teams/paktia/"}, {"@type": "ListItem", "position": 4, "name": "Khalil Ahmad Gurbaz", "item": "https://sialtv.com/apl/players/khalil-ahmad-gurbaz/"}]}
@@ -99,8 +99,7 @@ td:nth-child(2){font-weight:700}
 <style>
 /* Homepage-only extras — Sample A (richer v3). */
 .carousel-wrap{position:relative}
-.carousel::-webkit-scrollbar{height:6px}
-.carousel::-webkit-scrollbar-thumb{background:var(--rule-2);border-radius:3px}
+.carousel::-webkit-scrollbar{display:none}
 .score-card[hidden]{display:none}
 .sc-label.upcoming{color:var(--muted);background:#eef1f3}
 .sc-match{font-size:13px;color:var(--muted);margin:8px 0 8px}
@@ -208,15 +207,15 @@ p.lead{margin:0 0 14px;font-size:19px;line-height:1.7;color:var(--muted)}
 .pill{font-family:"Archivo",ui-sans-serif,sans-serif;font-weight:700;color:var(--ink);background:#fff;border-radius:999px;cursor:pointer;font-size:14px;padding:9px 16px;border:1px solid #e0e0e0}
 .pill:hover{border-color:var(--red-text)}
 .pill[aria-pressed="true"]{color:#fff;background:var(--red-text);border-color:var(--red-text)}
-.carousel{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:thin;gap:16px;padding:2px 2px 12px}
+.carousel{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;gap:16px;padding:2px 2px 12px}
 .score-card{flex:0 0 287px;scroll-snap-align:start;background:var(--card);color:var(--ink);text-decoration:none;display:block;flex-basis:300px;border:1px solid #e9e9ec;border-top:3px solid #0f1014;border-radius:18px;padding:18px;box-shadow:0 2px 6px rgba(15,16,20,.04),0 12px 28px rgba(15,16,20,.06);transition:transform .15s ease,box-shadow .15s ease}
 .score-card[data-kind="result"]{background:#fff;border-top-color:var(--red)}
 .score-card:hover{text-decoration:none;border-color:var(--red);transform:translateY(-2px);box-shadow:0 6px 14px rgba(15,16,20,.06),0 18px 38px rgba(15,16,20,.10)}
 .sc-label{display:inline-block;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;padding:2px 8px;border-radius:4px;color:var(--red-text);background:var(--red-tint)}
 .car-btn{position:absolute;top:50%;transform:translateY(-50%);border-radius:50%;background:#fff;border:1px solid var(--rule-2);color:var(--ink);font-size:18px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;width:40px;height:40px;box-shadow:0 4px 14px rgba(15,16,20,.16)}
 .car-btn:hover{border-color:var(--red);color:var(--red-text)}
-.car-btn.prev{left:-8px}
-.car-btn.next{right:-8px}
+.car-btn.prev{left:8px}
+.car-btn.next{right:8px}
 .quick-links{display:flex;flex-wrap:wrap;gap:4px 18px;font-size:14px;border-top:1px solid #e5e5e5;padding:16px 0 2px}
 .quick-links a{color:#0f1014;font-weight:600}
 .quick-links a:hover{color:var(--red-text)}
@@ -327,6 +326,42 @@ main .sialtv-live-widget a{color:var(--red-text)}
 .series-nav a:hover{color:var(--red-text);text-decoration:none}
 .series-nav a[aria-current="page"]{color:var(--red-text);border-bottom-color:var(--red)}
 @media (max-width:640px){.series-nav a{padding:11px 12px 9px}}
+/* polish 2026-11-11: compact points-table logo+name alignment; hub/live carousel scrollbar+buttons match homepage */
+.t-pts td:has(>img.team-logo){display:flex;align-items:center;gap:6px;overflow-wrap:anywhere}
+.t-pts td:has(>img.team-logo) img.team-logo{flex:0 0 auto;margin-right:0;width:20px;height:20px}
+.pts-mini th,.pts-mini td{padding:8px 4px}
+.carousel{scrollbar-width:none}
+.carousel::-webkit-scrollbar{display:none}
+.car-btn.prev{left:8px}
+.car-btn.next{right:8px}
+/* mobile-fix-2026-11-11: first screen + horizontal scroll + tap targets (max-width:640px only; desktop unchanged) */
+@media (max-width:640px){
+.subnav .wrap{display:block}
+.subnav .t-time{white-space:normal}
+.subnav .wrap>*{min-width:0}
+.hero h1,.hero-home h1{font-size:32px;line-height:1.12}
+.hero .eyebrow{font-size:12px;letter-spacing:.04em}
+.hero-home .hero-lead{display:none}
+.hero-chips{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;justify-content:flex-start}
+.hero-chips::-webkit-scrollbar{display:none}
+.hero-chip{flex:0 0 auto;white-space:nowrap}
+.slp-tabs{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
+.slp-tabs::-webkit-scrollbar{display:none}
+.slp-tab{flex:0 0 auto;white-space:nowrap}
+.pills{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
+.pills::-webkit-scrollbar{display:none}
+.pill{flex:0 0 auto;white-space:nowrap}
+.series-nav a{padding:13px 12px 11px}
+nav.leagues a{padding:12px 8px}
+#sialtv-sticky-bar{font-size:13px!important;padding:10px 48px 10px 12px!important}
+#sialtv-sticky-bar button{min-width:44px!important;min-height:44px!important;padding:4px 12px!important}
+.table-scroll table{font-size:13px}
+.table-scroll th,.table-scroll td{padding:6px 8px}
+img{max-width:100%;height:auto}
+.hero-logos{justify-content:center}
+.hero-logos .team-logo{width:40px;height:40px}
+.hero,.hero-home{padding-top:20px;padding-bottom:16px}
+}
 </style>
 </head>
 <body class="league-apl">
