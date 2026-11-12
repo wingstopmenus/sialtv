@@ -9,7 +9,9 @@
    v6 (2026-11-12, homepage clean rebuild): also updates the homepage's
    Match Coverage panels (data-mc-panel — kicker status word + live
    stand line) and hides live/result rows from the sidebar "Coming up";
-   computes CRR from the score when the feed leaves crr empty. */
+   computes CRR from the score when the feed leaves crr empty.
+   v7 (2026-11-13): carousel Match strip (.st-strip) — league pills,
+   right-arrow scroll and kickoff countdowns on upcoming cards. */
 (function () {
   'use strict';
   var POLL_MS = 30 * 1000;
@@ -270,7 +272,54 @@
     });
   }
 
+
+  /* Carousel Match strip (.st-strip): league filter pills, the
+     right-arrow scroll, and a kickoff countdown on upcoming cards
+     ("Match starts in X hrs Y mins"). A card whose feed status flips
+     away from upcoming hides its countdown line. */
+  function stripCountdowns() {
+    document.querySelectorAll('.st-strip [data-kickoff]').forEach(function (el) {
+      var card = el.closest('.score-card');
+      if (card && card.getAttribute('data-kind') !== 'upcoming') { el.hidden = true; return; }
+      var t = Date.parse(el.getAttribute('data-kickoff'));
+      if (!t) { el.hidden = true; return; }
+      var diff = t - Date.now();
+      if (diff <= 0) { el.hidden = true; return; }
+      el.hidden = false;
+      var mins = Math.floor(diff / 60000);
+      var d = Math.floor(mins / 1440), h = Math.floor((mins % 1440) / 60), m = mins % 60;
+      var when = d > 0 ? d + (d === 1 ? ' day ' : ' days ') + h + ' hrs'
+        : (h > 0 ? h + ' hrs ' + m + ' mins' : m + ' mins');
+      el.textContent = 'Match starts in ' + when;
+    });
+  }
+
+  function initStrip() {
+    document.querySelectorAll('.st-strip').forEach(function (strip) {
+      var pills = strip.querySelectorAll('[data-strip-filter]');
+      var arrow = strip.querySelector('[data-strip-next]');
+      pills.forEach(function (pill) {
+        pill.addEventListener('click', function () {
+          var lg = pill.getAttribute('data-strip-filter');
+          pills.forEach(function (p) { p.setAttribute('aria-pressed', p === pill ? 'true' : 'false'); });
+          strip.querySelectorAll('[data-strip-group]').forEach(function (g) {
+            g.hidden = g.getAttribute('data-strip-group') !== lg;
+          });
+          if (arrow) arrow.style.display = lg === 'apl' ? 'none' : '';
+          stripCountdowns();
+        });
+      });
+      if (arrow) arrow.addEventListener('click', function () {
+        var track = strip.querySelector('.st-strip-track:not([hidden])');
+        if (track) track.scrollBy({ left: track.clientWidth * 0.8, behavior: 'smooth' });
+      });
+    });
+    stripCountdowns();
+    setInterval(stripCountdowns, 60000);
+  }
+
   function boot() {
+    initStrip();
     if (!window.sialtvScores) return;
     var flash = document.getElementById('sialtvFlash');
     var carousel = document.getElementById('scoreCarousel');

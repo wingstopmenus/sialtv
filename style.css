@@ -1299,7 +1299,7 @@ body.st-inner .lead-links { margin: 0; }
 body.st-inner .lead-links a { color: var(--st-rose-deep); font-weight: 650; }
 
 /* Hub grid + rails + side cards. */
-body.st-inner .hub-grid { display: grid; grid-template-columns: 0.75fr 1.5fr 0.75fr; gap: 1.25rem; align-items: start; }
+body.st-inner .hub-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; align-items: start; }
 body.st-inner .hub-rail { display: flex; flex-direction: column; gap: 1.25rem; min-width: 0; }
 body.st-inner .hub-centre { min-width: 0; }
 body.st-inner .side-card ul { margin: 0; padding: 0; list-style: none; }
@@ -1352,7 +1352,7 @@ body.st-inner tbody tr:hover { background: var(--st-bg); }
 
 /* ---------- Visual fixes — browser check 2026-11-13 ---------- */
 /* 7. Sticky masthead (~74px) must never cover an anchored heading. */
-body.st-inner [id] { scroll-margin-top: 96px; }
+body.st-inner [id] { scroll-margin-top: 116px; }
 
 /* 10+11. Section heads: left-aligned, normal H2 size — not the homepage hero size
    (.st-block__head h2 was clamp(1.9rem,4.2vw,3.15rem) with 2.75rem bottom margin). */
@@ -1695,172 +1695,182 @@ body.st-inner .side-card li:has(.init) {
 @media (max-width: 980px) {
   body.st-inner .player-grid { grid-template-columns: 1fr; }
 }
-
-/* ---------- ILT20 pages — player / team / match / hub components (13 Nov 2026) ----------
-   Scoped to body.st-inner, so the homepage (body.st-home) renders exactly as before.
-   Layout values follow the previous template; colours and fonts use the new tokens. */
-
-/* Player page grid: profile card on the right, details on the left. */
-body.st-inner.league-ilt20 .player-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 300px;
-  grid-template-areas: "left right" "centre centre";
-  gap: 0 2rem;
-}
-body.st-inner.league-ilt20 .player-left { grid-area: left; display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; align-items: start; }
-body.st-inner.league-ilt20 .player-right { grid-area: right; }
-body.st-inner.league-ilt20 .player-centre { grid-area: centre; min-width: 0; }
-body.st-inner.league-ilt20 .player-centre > section { padding-top: 2rem; margin-bottom: 2rem; }
-body.st-inner.league-ilt20 .player-centre > section:first-child { padding-top: 0; }
-
-/* Team page grid: centre + right rail, details row below. */
-body.st-inner.league-ilt20 .team-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 300px;
-  grid-template-areas: "centre right" "left left";
-  gap: 0 2rem;
-}
-body.st-inner.league-ilt20 .team-left { grid-area: left; display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; align-items: start; }
-body.st-inner.league-ilt20 .team-right { grid-area: right; }
-body.st-inner.league-ilt20 .team-centre { grid-area: centre; min-width: 0; }
-body.st-inner.league-ilt20 .team-centre > section { padding-top: 2rem; margin-bottom: 2rem; }
-body.st-inner.league-ilt20 .team-centre > section:first-child { padding-top: 0; }
-
-/* Player profile card (dark card, initials circle, name = H1). */
-body.st-inner.league-ilt20 .profile-card { background: var(--st-night); color: #fff; border-radius: var(--st-radius-sm); padding: 1.375rem 1.25rem; text-align: center; }
-body.st-inner.league-ilt20 .profile-card .init.big { width: 72px; height: 72px; font-size: 1.625rem; background: #fff; color: var(--st-night); border: 3px solid var(--st-rose); margin: 0 auto 0.75rem; }
-body.st-inner.league-ilt20 .pc-name { font-size: 1.375rem; font-weight: 800; line-height: 1.5; margin: 0 0 0.375rem; }
-body.st-inner.league-ilt20 .pc-summary { font-size: 0.875rem; line-height: 1.6; color: #c8c9d1; margin: 0 0 0.625rem; }
-body.st-inner.league-ilt20 .pc-strip { font-size: 0.75rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: #9a9ba3; margin: 0; padding-top: 0.625rem; border-top: 1px solid #2a2b31; }
-
-/* Initials circles (used where no photo exists). */
-body.st-inner.league-ilt20 .init { display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; background: var(--st-night); color: #fff; font-weight: 800; flex-shrink: 0; }
-
-/* Definition grids (profile details, team information). */
-body.st-inner.league-ilt20 .details-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem 1.5rem; margin: 0; }
-body.st-inner.league-ilt20 .details-grid dt { font-size: 0.75rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--st-mute); margin-bottom: 0.125rem; }
-body.st-inner.league-ilt20 .details-grid dd { margin: 0; font-size: 0.9375rem; color: var(--st-ink); }
-body.st-inner.league-ilt20 .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.75rem 1.5rem; margin: 0; }
-body.st-inner.league-ilt20 .info-grid dt { font-size: 0.75rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--st-mute); margin-bottom: 0.125rem; }
-body.st-inner.league-ilt20 .info-grid dd { margin: 0; font-size: 0.9375rem; color: var(--st-ink); }
-
-/* Top-10 lists (records, most viewed players). */
-body.st-inner.league-ilt20 .top10 { list-style: none; margin: 0; padding: 0; }
-body.st-inner.league-ilt20 .top10 li { display: flex; align-items: center; gap: 0.625rem; padding: 0.5rem 0; border-top: 1px solid var(--st-line); }
-body.st-inner.league-ilt20 .top10 li:first-child { border-top: 0; padding-top: 0; }
-body.st-inner.league-ilt20 .top10 .init { flex: 0 0 32px; width: 32px; height: 32px; font-size: 0.75rem; }
-body.st-inner.league-ilt20 .top10 a { color: var(--st-ink); font-weight: 700; }
-body.st-inner.league-ilt20 .top10 a:hover { color: var(--st-rose-deep); }
-
-/* Team card (hub + teams index). */
-body.st-inner.league-ilt20 .team { background: var(--st-surface); border: 1px solid var(--st-line); border-top: 3px solid var(--st-rose); border-radius: 0.7rem; padding: 0.75rem 0.9rem; }
-body.st-inner.league-ilt20 .team .team-logo { display: block; width: 48px; height: 48px; margin: 0 0 0.5rem; }
-body.st-inner.league-ilt20 .team b { font-size: 1.125rem; }
-body.st-inner.league-ilt20 .team p { margin: 0.25rem 0 0; color: var(--st-mute); font-size: 0.9375rem; }
-body.st-inner.league-ilt20 .trophies { list-style: none; margin: 0; padding: 0; }
-body.st-inner.league-ilt20 .trophies li { padding: 0.5rem 0; border-top: 1px solid var(--st-line); }
-body.st-inner.league-ilt20 .trophies li:first-child { border-top: 0; }
-body.st-inner.league-ilt20 .trophies b { margin-right: 0.5rem; }
-body.st-inner.league-ilt20 .player-list { list-style: none; margin: 0; padding: 0; }
-body.st-inner.league-ilt20 .player-list li { padding: 0.5rem 0; border-top: 1px solid var(--st-line); }
-body.st-inner.league-ilt20 .player-list li:first-child { border-top: 0; }
-body.st-inner.league-ilt20 .player-list a { color: var(--st-ink); font-weight: 700; }
-body.st-inner.league-ilt20 .player-list a:hover { color: var(--st-rose-deep); }
-
-/* Match page header + tabs + live note. */
-body.st-inner.league-ilt20 .match-head { padding: 1rem 0 0.5rem; }
-body.st-inner.league-ilt20 .match-head .crumbs { font-size: 0.875rem; color: var(--st-mute); margin: 0 0 0.5rem; }
-body.st-inner.league-ilt20 .match-head .eyebrow { font-size: 0.8125rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--st-rose-deep); margin: 0 0 0.625rem; }
-body.st-inner.league-ilt20 .match-head h1 { font-size: 2rem; line-height: 1.2; letter-spacing: -0.01em; margin: 0 0 0.5rem; }
-body.st-inner.league-ilt20 .match-head .hero-logos { display: flex; align-items: center; gap: 0.75rem; margin: 0 0 0.625rem; }
-body.st-inner.league-ilt20 .match-head .hero-logos .hero-vs { font-weight: 800; color: var(--st-ink); opacity: .85; }
-body.st-inner.league-ilt20 .match-head .hero-logos .team-logo { width: 32px; height: 32px; margin-right: 0; }
-body.st-inner.league-ilt20 .match-head .hero-chips { display: flex; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; justify-content: flex-start; gap: 0.5rem; margin: 0 0 0.625rem; }
-body.st-inner.league-ilt20 .match-head .hero-chips::-webkit-scrollbar { display: none; }
-body.st-inner.league-ilt20 .hero-chip { flex: 0 0 auto; white-space: nowrap; display: inline-flex; align-items: center; gap: 0.375rem; font-size: 0.875rem; color: var(--st-ink-2); }
-body.st-inner.league-ilt20 .hero-chip::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--st-rose); flex: 0 0 auto; }
-body.st-inner.league-ilt20 .match-head .match-status { font-size: 1rem; line-height: 1.6; color: var(--st-ink-2); margin: 0 0 0.625rem; }
-body.st-inner.league-ilt20 .match-head .updated { font-size: 0.8125rem; color: var(--st-mute); margin: 0; }
-/* Match tabs use the live pill .slp-tab (NPL player batch); only the
-   aria-current variant (match tabs are links) is new here. */
+body.st-inner .match-head { padding: 1rem 0 0.5rem; }
+body.st-inner .match-head .crumbs { font-size: 0.875rem; color: var(--st-mute); margin: 0 0 0.5rem; }
+body.st-inner .match-head .eyebrow { font-size: 0.8125rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--st-rose-deep); margin: 0 0 0.625rem; }
+body.st-inner .match-head h1 { font-size: 2rem; line-height: 1.2; letter-spacing: -0.01em; margin: 0 0 0.5rem; }
+body.st-inner .match-head .hero-logos { display: flex; align-items: center; gap: 0.75rem; margin: 0 0 0.625rem; }
+body.st-inner .match-head .hero-logos .hero-vs { font-weight: 800; color: var(--st-ink); opacity: .85; }
+body.st-inner .match-head .hero-logos .team-logo { width: 32px; height: 32px; margin-right: 0; }
+body.st-inner .match-head .hero-chips { display: flex; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; justify-content: flex-start; gap: 0.5rem; margin: 0 0 0.625rem; }
+body.st-inner .match-head .hero-chips::-webkit-scrollbar { display: none; }
+body.st-inner .hero-chip { flex: 0 0 auto; white-space: nowrap; display: inline-flex; align-items: center; gap: 0.375rem; font-size: 0.875rem; color: var(--st-ink-2); }
+body.st-inner .hero-chip::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--st-rose); flex: 0 0 auto; }
+body.st-inner .match-head .match-status { font-size: 1rem; line-height: 1.6; color: var(--st-ink-2); margin: 0 0 0.625rem; }
+body.st-inner .match-head .updated { font-size: 0.8125rem; color: var(--st-mute); margin: 0; }
 body.st-inner .slp-tab[aria-current="true"] { background: var(--st-rose); border-color: var(--st-rose); color: #fff; font-weight: 700; }
-body.st-inner.league-ilt20 .slp-live-note { background: var(--st-surface); border: 1px solid var(--st-line); border-radius: var(--st-radius-sm); padding: 1.25rem 1.375rem; box-shadow: var(--st-shadow-sm); }
-body.st-inner.league-ilt20 .slp-live-note h3 { font-size: 1.05rem; margin: 1.25rem 0 0.5rem; }
-body.st-inner.league-ilt20 .slp-live-note h3:first-of-type { margin-top: 1rem; }
-body.st-inner.league-ilt20 .slp-status { font-size: 1rem; line-height: 1.6; color: var(--st-ink-2); margin: 0 0 0.625rem; }
-/* .slp-results uses the live rule (NPL player batch); not re-added. */
-body.st-inner.league-ilt20 .slp-fresh { font-size: 0.8125rem; color: var(--st-mute); }
 
-/* Hub carousel + pills. */
-body.st-inner.league-ilt20 .carousel { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; gap: 1rem; padding: 2px 2px 0.75rem; }
-body.st-inner.league-ilt20 .carousel::-webkit-scrollbar { display: none; }
-body.st-inner.league-ilt20 .carousel-wrap { position: relative; }
-body.st-inner.league-ilt20 .car-btn { position: absolute; top: 50%; transform: translateY(-50%); border-radius: 50%; background: #fff; border: 1px solid var(--st-line); color: var(--st-ink); font-size: 1.125rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; box-shadow: var(--st-shadow-sm); z-index: 1; }
-body.st-inner.league-ilt20 .car-btn.prev { left: -8px; }
-body.st-inner.league-ilt20 .car-btn.next { right: -8px; }
-body.st-inner.league-ilt20 .fx-pills { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
-body.st-inner.league-ilt20 .fx-pill { display: inline-block; padding: 0.5625rem 1rem; border: 1px solid var(--st-line); border-radius: 999px; background: var(--st-surface); font-size: 0.875rem; font-weight: 700; color: var(--st-ink); cursor: pointer; text-decoration: none; }
-body.st-inner.league-ilt20 .fx-pill:hover { border-color: var(--st-rose-deep); color: var(--st-rose-deep); text-decoration: none; }
-/* .hub-hero-img uses the live rule (NPL hub redesign); not re-added. */
-/* .today-label uses the live rule (NPL player batch); not re-added. */
-
-/* Small points table (team pages) + date-group rows (schedule). */
-body.st-inner.league-ilt20 .pts-mini { font-size: 0.8125rem; }
-body.st-inner.league-ilt20 .pts-mini th, body.st-inner.league-ilt20 .pts-mini td { padding: 0.5rem 0.375rem; }
-body.st-inner.league-ilt20 .pts-mini td:nth-child(n+2), body.st-inner.league-ilt20 .pts-mini th:nth-child(n+2) { text-align: right; }
-body.st-inner.league-ilt20 .fix-date td { background: var(--st-bg-soft); font-weight: 800; font-size: 0.8125rem; letter-spacing: .06em; text-transform: uppercase; color: var(--st-ink-2); }
-
-/* Stats components. */
-body.st-inner.league-ilt20 .rx-stat-table { margin: 0 0 1.75rem; }
-body.st-inner.league-ilt20 .rx-stat-table h3 { font-size: 1.25rem; color: var(--st-ink); margin: 0 0 0.625rem; }
-body.st-inner.league-ilt20 .rx-stat-table table { width: 100%; }
-body.st-inner.league-ilt20 .rx-empty { color: var(--st-mute); text-align: center; padding: 1.125rem 0; }
-body.st-inner.league-ilt20 .rx-footnote { color: var(--st-mute); font-size: 0.875rem; margin: 0.875rem 0 0; }
-body.st-inner.league-ilt20 .rx-legend { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.25rem 1.5rem; font-size: 0.875rem; color: var(--st-ink-2); margin: 0.875rem 0 0; }
-body.st-inner.league-ilt20 .rx-legend b { color: var(--st-ink); }
-body.st-inner.league-ilt20 .rx-note-card { border: 1px solid var(--st-line); border-radius: var(--st-radius-sm); padding: 1.25rem 1.375rem; background: var(--st-surface); margin: 0 0 1.25rem; }
-body.st-inner.league-ilt20 .rx-note-card p { margin: 0 0 0.625rem; }
-body.st-inner.league-ilt20 .rx-note-card p:last-child { margin-bottom: 0; }
-body.st-inner.league-ilt20 .rx-records { border: 1px solid var(--st-line); border-radius: var(--st-radius-sm); background: var(--st-surface); padding: 1.125rem 1.25rem; }
-body.st-inner.league-ilt20 .rx-records h3 { margin: 0 0 0.25rem; font-size: 0.9375rem; letter-spacing: .04em; color: var(--st-mute); text-transform: uppercase; }
-body.st-inner.league-ilt20 .rx-records ul { list-style: none; margin: 0.75rem 0 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem 1rem; }
-body.st-inner.league-ilt20 .rx-records ul a { color: var(--st-ink); text-decoration: none; font-weight: 600; }
-body.st-inner.league-ilt20 .rx-records ul a:hover { color: var(--st-rose-deep); }
-body.st-inner.league-ilt20 .rx-records .rx-seeall { float: right; }
-body.st-inner.league-ilt20 .rx-viewall { margin: 0 0 1rem; }
-body.st-inner.league-ilt20 .rx-viewall a { color: var(--st-rose-deep); text-decoration: none; font-weight: 600; }
-body.st-inner.league-ilt20 .rx-seeall { font-size: 0.875rem; font-weight: 700; color: var(--st-rose-deep); text-decoration: none; }
-body.st-inner.league-ilt20 .rx-arrow { font-weight: 800; color: var(--st-rose-deep); }
-
-/* Number-column tables (right-aligned numbers). */
-body.st-inner.league-ilt20 .t-nums td:nth-child(n+2), body.st-inner.league-ilt20 .t-nums th:nth-child(n+2) { text-align: right; }
-body.st-inner.league-ilt20 .t-mbm td:nth-child(n+2), body.st-inner.league-ilt20 .t-mbm th:nth-child(n+2) { text-align: right; }
-
-/* Team-logo sizes — the old template's width/height attributes are 96px, which
-   rendered huge in tables (NPL hub defect). Constrain every context. */
-body.st-inner.league-ilt20 .rx-pts .team-logo, body.st-inner.league-ilt20 .t-pts .team-logo { width: 28px; height: 28px; margin-right: 0; }
-body.st-inner.league-ilt20 .rx-stat-table .team-logo { width: 28px; height: 28px; margin-right: 6px; }
-body.st-inner.league-ilt20 .pts-mini .team-logo { width: 24px; height: 24px; margin-right: 6px; }
-body.st-inner.league-ilt20 .sc-row .team-logo { width: 24px; height: 24px; margin-right: 6px; }
-body.st-inner.league-ilt20 .fx-team .team-logo { width: 24px; height: 24px; margin-right: 6px; }
-body.st-inner.league-ilt20 .sialtv-live-panel .team-logo { width: 28px; height: 28px; margin-right: 6px; }
-body.st-inner.league-ilt20 .tl-hero .team-logo { width: 48px; height: 48px; margin-right: 0; }
-body.st-inner.league-ilt20 .tl-tile .team-logo { width: 40px; height: 40px; margin-right: 0; }
-body.st-inner.league-ilt20 .tl-table .team-logo { width: 32px; height: 32px; margin-right: 6px; }
-
-/* Live panel + small utilities. */
-body.st-inner.league-ilt20 .sialtv-live-panel { background: var(--st-surface); border: 1px solid var(--st-line); border-radius: var(--st-radius-sm); padding: 1rem 1.25rem; }
-body.st-inner.league-ilt20 .u-mt-10 { margin-top: 10px; }
-body.st-inner.league-ilt20 .u-mb-10 { margin-bottom: 10px; }
-body.st-inner.league-ilt20 .u-sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
-
-/* Mobile: player/team grids collapse to one column; legend to two. */
+/* ---------- NPL match pages — position pills, scorecard, summary ----------
+   Added for the NPL match pages rebuild (2026-11-13). Scoped to
+   body.st-inner, so the homepage (body.st-home) renders exactly as before.
+   NOTE: the shared match-page header rules (.match-head, .hero-logos,
+   .hero-chips/.hero-chip, .slp-tab[aria-current]) already live in the
+   APL coordinator's block on disk — they are REUSED here, not re-added
+   (no duplicate selectors, per the user's order). Only the rules the
+   APL block does not have are added below. */
+/* Table-position pills under the team logos (post-M21 standings). */
+body.st-inner .mh-pos { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; margin: 0 0 0.75rem; font-size: 0.95rem; }
+body.st-inner .mh-pos a { color: var(--st-ink); font-weight: 700; }
+body.st-inner .mh-pos-pill { display: inline-block; background: var(--st-rose-soft); color: var(--st-rose-deep); font-weight: 800; font-size: 0.8rem; padding: 0.15rem 0.5rem; border-radius: var(--st-pill); margin-left: 0.3rem; }
+body.st-inner .mh-vs { color: var(--st-mute); font-weight: 700; }
+/* Scorecard innings pills (pre-existing links on result pages). */
+body.st-inner .slp-pills { display: flex; flex-wrap: wrap; gap: 0.45rem; margin: 0 0 1rem; }
+body.st-inner .slp-pill { background: var(--st-bg); border: 1px solid var(--st-line); color: var(--st-ink); font-weight: 650; font-size: 0.85rem; padding: 0.45rem 0.75rem; border-radius: var(--st-pill); }
+body.st-inner .slp-pill:hover { background: var(--st-rose-soft); border-color: #fecdd3; color: var(--st-rose-deep); }
+/* Scorecard tables (.t-nums) — rose header, shading, numbers right. */
+body.st-inner .t-nums th, body.st-inner .t-nums td { padding: 0.55rem 0.5rem; }
+body.st-inner .t-nums thead th { background: var(--st-rose); color: #fff; text-align: left; }
+body.st-inner .t-nums thead th:not(:first-child) { text-align: right; }
+body.st-inner .t-nums tbody tr:nth-child(even) { background: var(--st-bg-soft); }
+body.st-inner .t-nums tbody td:not(:first-child) { text-align: right; font-variant-numeric: tabular-nums; }
+/* Two-team points table in the Summary (.mc-pts) — same treatment. */
+body.st-inner .mc-pts th, body.st-inner .mc-pts td { padding: 0.55rem 0.5rem; }
+body.st-inner .mc-pts thead th { background: var(--st-rose); color: #fff; }
+body.st-inner .mc-pts tbody tr:nth-child(even) { background: var(--st-bg-soft); }
+body.st-inner .mc-pts td.num, body.st-inner .mc-pts th.num { text-align: right; font-variant-numeric: tabular-nums; }
+/* Recent-form table (.t-mbm) — rose header, shading. */
+body.st-inner .t-mbm th, body.st-inner .t-mbm td { padding: 0.55rem 0.5rem; }
+body.st-inner .t-mbm thead th { background: var(--st-rose); color: #fff; }
+body.st-inner .t-mbm tbody tr:nth-child(even) { background: var(--st-bg-soft); }
+/* Playoff-race table: its Team column is 2nd (Pos is 1st), so it must stay
+   left-aligned despite the .t-pts rule that right-aligns non-first cells. */
+body.st-inner #stakes .t-pts td:nth-child(2), body.st-inner #stakes .t-pts th:nth-child(2) { text-align: left; }
+/* Recent Performance W/L squares (.form-row / .fc-w / .fc-l). */
+body.st-inner .form-row { display: flex; align-items: center; gap: 0.75rem; padding: 0.6rem 0; border-top: 1px solid var(--st-line); }
+body.st-inner .form-row:first-of-type { border-top: 0; }
+body.st-inner .form-row .ft { font-weight: 700; min-width: 11rem; }
+body.st-inner .form-chips { display: inline-flex; gap: 0.3rem; }
+body.st-inner .fc-w, body.st-inner .fc-l, body.st-inner .fc-n { display: inline-flex; align-items: center; justify-content: center; width: 1.6rem; height: 1.6rem; border-radius: 0.4rem; font-size: 0.8rem; font-weight: 800; }
+body.st-inner .fc-w { background: #dcfce7; color: #166534; }
+body.st-inner .fc-l { background: #fee2e2; color: #991b1b; }
+body.st-inner .fc-n { background: #e0e7ff; color: #3730a3; }
+/* Match-page section spacing + headings inside the Summary panel. */
+body.st-inner .home-main > section { margin-bottom: 2rem; }
+body.st-inner .home-main section section { margin-bottom: 1.75rem; }
+body.st-inner .home-main h2 { font-size: clamp(1.35rem, 2.5vw, 1.75rem); line-height: 1.2; margin: 0 0 0.75rem; }
+body.st-inner .home-main h3 { font-size: 1.1rem; margin: 1.25rem 0 0.5rem; }
+/* Match pages on small screens. */
 @media (max-width: 980px) {
-  body.st-inner.league-ilt20 .player-grid, body.st-inner.league-ilt20 .team-grid { grid-template-columns: minmax(0, 1fr); grid-template-areas: none; }
-  body.st-inner.league-ilt20 .player-left, body.st-inner.league-ilt20 .team-left { grid-template-columns: minmax(0, 1fr); }
-  body.st-inner.league-ilt20 .player-left, body.st-inner.league-ilt20 .team-left,
-  body.st-inner.league-ilt20 .player-right, body.st-inner.league-ilt20 .team-right,
-  body.st-inner.league-ilt20 .player-centre, body.st-inner.league-ilt20 .team-centre { grid-area: auto; }
-  body.st-inner.league-ilt20 .rx-legend { grid-template-columns: 1fr 1fr; }
-  body.st-inner.league-ilt20 .rx-records ul { grid-template-columns: 1fr; }
+  body.st-inner .form-row { flex-wrap: wrap; }
+  body.st-inner .form-row .ft { min-width: 0; }
+}
+
+/* ---------- Round 2 — hub fixes + carousel Match strip (2026-11-13) ----------
+   Appended in place to the main /style.css. No query strings, no duplicate selectors,
+   no versioned copy. */
+/* [hidden] must win over every display rule (mc-panels, fixture lists,
+   strip groups and countdown lines are all toggled with hidden). */
+[hidden] { display: none !important; }
+
+/* 7. Anchor jumps must clear the sticky masthead (~74px) on every page.
+   (scroll-margin-top on [id] is 116px — see the in-place edit above.
+   No html scroll-padding: it ADDS to the margin and lands targets 232px
+   down instead of 116px.) */
+
+/* 1+2+11. Table logos: 28px, tables fit with no internal scroll. */
+body.st-inner .score-card .sc-team img.team-logo { width: 2rem; height: 2rem; }
+body.st-inner .t-pts img.tl-table,
+body.st-inner .t-nums img.tl-table,
+body.st-inner #records table img.tl-table { width: 1.75rem; height: 1.75rem; }
+body.st-inner .fx-team img.team-logo { width: 1.75rem; height: 1.75rem; }
+body.st-inner #points-table .table-scroll,
+body.st-inner #records .table-scroll { overflow-x: visible; }
+body.st-inner #points-table .t-pts th,
+body.st-inner #points-table .t-pts td { padding: 0.45rem 0.35rem; }
+body.st-inner #points-table .t-pts td:first-child { gap: 0.35rem; font-size: 0.9rem; }
+body.st-inner #records .t-nums th,
+body.st-inner #records .t-nums td { padding: 0.45rem 0.35rem; }
+body.st-inner #records table { font-size: 0.9rem; }
+body.st-inner #where-to-watch table { width: 100%; }
+body.st-inner #where-to-watch thead th { background: var(--st-rose); color: #fff; }
+body.st-inner #where-to-watch tbody tr:nth-child(even) { background: var(--st-bg-soft); }
+body.st-inner #where-to-watch th,
+body.st-inner #where-to-watch td { padding: 0.55rem 0.6rem; text-align: left; }
+
+/* 3. Match panels: score card left, links fill the right side (no blank half). */
+body.st-inner .mc-panel { display: grid; grid-template-columns: 1.6fr 1fr; gap: 1rem; align-items: stretch; }
+body.st-inner .mc-panel > .score-card { align-self: stretch; }
+body.st-inner .mc-panel .mc-links { margin: 0; display: flex; flex-direction: column; justify-content: center; gap: 0.5rem; }
+body.st-inner .mc-panel .mc-links a { display: block; text-align: center; }
+
+/* 4. Fixtures & Results: one card per fixture. */
+body.st-inner #fxFixtures li,
+body.st-inner #fxResults li { background: var(--st-surface); border: 1px solid var(--st-line); border-radius: 0.7rem; padding: 0.75rem 0.9rem; margin-bottom: 0.6rem; box-shadow: var(--st-shadow-sm); }
+body.st-inner #fxFixtures li:last-child,
+body.st-inner #fxResults li:last-child { margin-bottom: 0; }
+
+/* 6. Match Coverage is full-width above the grid now; the hero image fills it. */
+body.st-inner .hub-coverage { margin-bottom: 2rem; }
+body.st-inner .hub-hero-img { display: block; width: 100%; height: auto; border-radius: var(--st-radius-sm); margin-bottom: 1rem; }
+
+/* 8. Teams: two-column grid of cards (the .team card itself comes from the
+   results/teams block above; here only the grid + the hub wrapper). */
+body.st-inner #squads .teams { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+body.st-inner #squads .team { margin-bottom: 0; }
+
+/* 9. Playoffs / Venue / Where to Watch: white cards, not plain text. */
+body.st-inner #playoffs,
+body.st-inner #venue,
+body.st-inner #where-to-watch { background: var(--st-surface); border: 1px solid var(--st-line); border-radius: var(--st-radius-sm); padding: 1.25rem 1.4rem; box-shadow: var(--st-shadow-sm); }
+body.st-inner #playoffs ul { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin: 0; padding: 0; list-style: none; }
+body.st-inner #playoffs ul li { background: var(--st-bg); border: 1px solid var(--st-line); border-radius: 0.7rem; padding: 0.9rem 1rem; }
+body.st-inner #playoffs ul li b { color: var(--st-rose-deep); }
+
+/* 9. FAQ: accordion cards on the lavender page background. */
+body.st-inner .faq-item { background: var(--st-surface); border: 1px solid var(--st-line); border-radius: 0.7rem; padding: 0.9rem 1.1rem; margin-bottom: 0.75rem; box-shadow: var(--st-shadow-sm); }
+body.st-inner .faq-item summary { font-weight: 750; cursor: pointer; }
+body.st-inner .faq-item summary::-webkit-details-marker { color: var(--st-rose-deep); }
+body.st-inner .faq-item p { margin: 0.6rem 0 0; color: var(--st-ink-2); }
+
+/* ---------- Carousel Match strip (.st-strip) — global, all page types ----------
+   Unscoped on purpose: the hub is body.st-inner, the homepage is
+   body.st-home and the live-scores pages use the old chrome, so the strip
+   carries its own card styles instead of relying on the inner-page rules. */
+.st-strip { background: var(--st-bg, #f5f3fb); border-bottom: 1px solid var(--st-line, #e3dff0); padding: 0.8rem 0 0.95rem; }
+.st-strip-pills { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 0.75rem; }
+.st-strip-pill { background: var(--st-surface, #fff); border: 1px solid var(--st-line, #e3dff0); color: var(--st-ink-2, #3b4258); font-weight: 650; font-size: 0.85rem; padding: 0.45rem 0.85rem; border-radius: 999px; cursor: pointer; font-family: inherit; }
+.st-strip-pill:hover { background: var(--st-bg-soft, #eceaf6); color: var(--st-ink, #0c1022); }
+.st-strip-pill[aria-pressed="true"] { background: var(--st-rose, #e11d48); border-color: var(--st-rose, #e11d48); color: #fff; font-weight: 700; }
+.st-strip-view { position: relative; }
+.st-strip-track { display: flex; gap: 0.85rem; overflow-x: auto; scroll-behavior: smooth; padding-bottom: 0.25rem; scrollbar-width: thin; }
+.st-strip-track .score-card { flex: 0 0 20rem; min-width: 0; }
+.st-strip .score-card { display: block; background: var(--st-surface, #fff); border: 1px solid var(--st-line, #e3dff0); border-radius: 0.85rem; padding: 1.1rem 1.2rem; box-shadow: 0 1px 3px rgba(9, 8, 17, 0.08); color: var(--st-ink, #0c1022); }
+.st-strip .score-card:hover { transform: translateY(-2px); box-shadow: 0 4px 14px rgba(9, 8, 17, 0.12); }
+.st-strip .sc-label { display: inline-block; font-size: 0.68rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #fff; background: var(--st-rose, #e11d48); padding: 0.3rem 0.6rem; border-radius: 999px; margin: 0 0 0.75rem; }
+.st-strip .sc-label.upcoming { background: var(--st-ink-2, #3b4258); }
+.st-strip .sc-match { color: var(--st-mute, #6b7280); font-size: 0.85rem; font-weight: 600; margin: 0 0 0.75rem; }
+.st-strip a.sc-teams { display: block; color: inherit; text-decoration: none; }
+.st-strip .sc-row { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; padding: 0.45rem 0; }
+.st-strip .sc-row.loser { opacity: 0.6; }
+.st-strip .sc-team { display: flex; align-items: center; gap: 0.6rem; font-weight: 700; min-width: 0; }
+.st-strip .sc-team img.team-logo { width: 2rem; height: 2rem; object-fit: contain; flex-shrink: 0; }
+.st-strip .sc-team img.team-logo[alt*="Pokhara"] { background: var(--st-night-2, #17141f); border-radius: 0.55rem; padding: 0.25rem 0.4rem; box-sizing: border-box; }
+.st-strip .sc-score { font-weight: 800; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.st-strip .sc-result { color: var(--st-ink-2, #3b4258); font-size: 0.95rem; margin: 0.75rem 0 0; }
+.st-strip .sc-countdown { color: var(--st-mute, #6b7280); font-size: 0.85rem; margin: 0.5rem 0 0; }
+.st-strip .sc-links { display: flex; gap: 1.25rem; margin: 0.75rem 0 0; padding-top: 0.75rem; border-top: 1px solid var(--st-line, #e3dff0); font-size: 0.85rem; font-weight: 700; }
+.st-strip .sc-links a { color: var(--st-rose-deep, #be123c); text-decoration: none; }
+.st-strip .sc-links a:hover { text-decoration: underline; }
+.st-strip-note { background: var(--st-surface, #fff); border: 1px solid var(--st-line, #e3dff0); border-radius: 0.7rem; padding: 1rem 1.2rem; color: var(--st-ink-2, #3b4258); }
+.st-strip-note p { margin: 0; }
+.st-strip-note b { color: var(--st-ink, #0c1022); }
+.st-strip-arrow { position: absolute; top: 50%; right: 0.5rem; transform: translateY(-50%); width: 2.5rem; height: 2.5rem; border-radius: 50%; background: #fff; border: 1px solid var(--st-line, #e3dff0); box-shadow: 0 2px 8px rgba(9, 8, 17, 0.18); color: var(--st-ink, #0c1022); font-size: 1.4rem; font-weight: 800; line-height: 1; cursor: pointer; z-index: 5; padding: 0; }
+.st-strip-arrow:hover { background: var(--st-rose, #e11d48); border-color: var(--st-rose, #e11d48); color: #fff; }
+/* Initials chip (JS-built cards from the feed carry one when no logo exists). */
+.sc-chip { display: inline-flex; align-items: center; justify-content: center; width: 2rem; height: 2rem; border-radius: 50%; background: var(--st-rose-soft, #ffe4e6); color: var(--st-rose-deep, #be123c); font-size: 0.7rem; font-weight: 800; flex-shrink: 0; }
+@media (max-width: 640px) {
+  body.st-inner .mc-panel { grid-template-columns: 1fr; }
+  body.st-inner #squads .teams { grid-template-columns: 1fr; }
+  body.st-inner #playoffs ul { grid-template-columns: 1fr; }
+  .st-strip-track .score-card { flex-basis: 16.5rem; }
 }
