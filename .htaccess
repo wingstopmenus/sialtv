@@ -1,0 +1,94 @@
+# SialTV — Hostinger (LiteSpeed/Apache) rules
+Options -Indexes
+DirectoryIndex index.html
+ErrorDocument 404 /404.html
+ErrorDocument 410 /410.html
+AddDefaultCharset UTF-8
+
+# Avoid mod_dir emitting non-canonical slash redirects behind the CDN.
+<IfModule mod_dir.c>
+DirectorySlash Off
+</IfModule>
+
+<IfModule mod_rewrite.c>
+RewriteEngine On
+
+# Retired financial-calculator URLs from the previous sialtv.com site.
+# 410 Gone (different topic — do not 301 to the cricket homepage).
+RewriteRule ^(advertising-disclosure|affordability-calculator|car-payment-calculator|compound-interest-calculator|debt-payoff-calculator|editorial-policy|embed|guides|hourly-to-salary|investment-calculator|loan-calculator|methodology|mortgage-calculator|paycheck-calculator|paycheck-calculator-by-state|refinance-calculator|rent-vs-buy-calculator|research|retirement-calculator|salary-calculator|sources)(/.*)?$ - [G,L]
+RewriteRule ^terms(/.*)?$ - [G,L]
+
+# Slash and index.html rules target the https apex so http/www/no-slash
+# combinations resolve in a single 301 hop.
+# 1) Directory without trailing slash -> add slash
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteCond %{REQUEST_URI} !/$
+RewriteRule ^(.*)$ https://sialtv.com/$1/ [L,R=301,NE]
+
+# 2) /index.html -> directory URL
+RewriteCond %{THE_REQUEST} \s/+(.*/)?index\.html[\s?] [NC]
+RewriteRule ^(.*/)?index\.html$ https://sialtv.com/$1 [L,R=301,NE]
+
+# 3) HTTP -> HTTPS (honours X-Forwarded-Proto from Hostinger CDN)
+RewriteCond %{HTTPS} !=on
+RewriteCond %{HTTP:X-Forwarded-Proto} !=https [NC]
+RewriteCond %{HTTP:X-Forwarded-SSL} !=on [NC]
+RewriteRule ^ https://sialtv.com%{REQUEST_URI} [L,R=301,NE]
+
+# 4) www -> apex (always https)
+RewriteCond %{HTTP_HOST} ^www\.sialtv\.com$ [NC]
+RewriteRule ^ https://sialtv.com%{REQUEST_URI} [L,R=301,NE]
+</IfModule>
+
+# Cron-only refresher: block public HTTP; CLI `php scripts/...` is unaffected.
+<IfModule mod_authz_core.c>
+  <Files "sialtv-live-refresh.php">
+    Require all denied
+  </Files>
+</IfModule>
+<IfModule !mod_authz_core.c>
+  <Files "sialtv-live-refresh.php">
+    Order allow,deny
+    Deny from all
+  </Files>
+</IfModule>
+
+# Byline HTML snippets are paste-in fragments, not standalone pages.
+<IfModule mod_headers.c>
+  <FilesMatch "^byline-snippet">
+    Header set X-Robots-Tag "noindex, nofollow"
+  </FilesMatch>
+</IfModule>
+
+<IfModule mod_deflate.c>
+AddOutputFilterByType DEFLATE text/html text/plain text/css text/xml application/xml application/javascript text/javascript application/json image/svg+xml application/ld+json
+</IfModule>
+
+<IfModule mod_expires.c>
+ExpiresActive On
+ExpiresDefault "access plus 1 hour"
+ExpiresByType text/html "access plus 0 seconds"
+ExpiresByType text/css "access plus 7 days"
+ExpiresByType application/javascript "access plus 7 days"
+ExpiresByType text/javascript "access plus 7 days"
+ExpiresByType image/svg+xml "access plus 30 days"
+ExpiresByType image/png "access plus 30 days"
+ExpiresByType image/jpeg "access plus 30 days"
+ExpiresByType image/webp "access plus 30 days"
+ExpiresByType application/json "access plus 1 hour"
+ExpiresByType application/xml "access plus 1 hour"
+</IfModule>
+
+<IfModule mod_headers.c>
+Header always set X-Content-Type-Options "nosniff"
+Header always set Referrer-Policy "strict-origin-when-cross-origin"
+<FilesMatch "\.(css|js|svg|png|jpg|jpeg|webp|woff2)$">
+Header set Cache-Control "public, max-age=604800"
+</FilesMatch>
+<FilesMatch "\.(json|xml|txt)$">
+Header set Cache-Control "public, max-age=3600"
+</FilesMatch>
+<FilesMatch "\.html$">
+Header set Cache-Control "public, max-age=0, must-revalidate"
+</FilesMatch>
+</IfModule>
