@@ -176,10 +176,16 @@
   window.sialtvLiveOvers = oversHtml;
 
   /* ---- the strip itself ---- */
+  /* The feed carries team names with a league suffix ("Karnali Yaks
+     (NPL)") — the strip shows the plain name. */
+  function shortName(name) {
+    return String(name || '').replace(/\s*\([^)]*\)\s*$/, '').trim();
+  }
+
   function stripHtml(p, showNext) {
     var m = p.live || p.latest;
     var right = '';
-    if (p.next && showNext) right = 'Next: ' + esc(p.next.team1) + ' vs ' + esc(p.next.team2) + ' · Match ' + p.next.matchNo;
+    if (p.next && showNext) right = 'Next: ' + esc(shortName(p.next.team1)) + ' vs ' + esc(shortName(p.next.team2)) + ' · Match ' + p.next.matchNo;
     if (p.live) {
       var live = p.live.live || {};
       var bats = (live.batters || []).map(function (b) { return esc(b.name) + ' ' + esc(b.runs) + (b.striker ? '*' : ''); }).join(', ');
@@ -187,16 +193,30 @@
       var line = '<span class="slp-strip-score">' + esc(p.live.abbr1 || p.live.team1) + ' ' + esc(p.live.score1 || '') + ' (' + esc(p.live.overs1 || '') + ' ov)</span>';
       if (p.live.score2) line += ' vs <span class="slp-strip-score">' + esc(p.live.abbr2 || p.live.team2) + ' ' + esc(p.live.score2) + ' (' + esc(p.live.overs2 || '') + ' ov)</span>';
       if (bats) line += ' · ' + bats;
-      if (bowl) line += ' · ' + esc(bowl.name) + ' ' + esc(bowl.wickets || 0) + '/' + esc(bowl.runs || 0);
-      if (live.crr) line += ' · CRR ' + esc(live.crr);
+      /* The feed often carries the bowler with no overs/runs/wickets
+         yet — a "0/0" would look broken, so the bowler is shown only
+         when it has real figures. (Runs/wickets arrive as strings, so
+         '0' is truthy — compare numerically.) */
+      if (bowl && (bowl.overs || Number(bowl.runs) || Number(bowl.wickets))) line += ' · ' + esc(bowl.name) + ' ' + esc(bowl.wickets || 0) + '/' + esc(bowl.runs || 0);
+      /* CRR from the score when the feed leaves crr empty (it usually
+         does). The batting side is the one whose innings is open:
+         score1 while the second innings is on (score2 all out), else
+         the side with the open innings — same rule as statsRow. */
+      var crr = live.crr || (function () {
+        function w(s) { var x = /^(\d+)\/(\d+)/.exec(s || ''); return x ? parseInt(x[2], 10) : -1; }
+        if (w(p.live.score2) >= 10) return rateOf(p.live.score1, p.live.overs1);
+        if (w(p.live.score1) >= 10) return rateOf(p.live.score2, p.live.overs2);
+        return rateOf(p.live.score1, p.live.overs1);
+      })();
+      if (crr) line += ' · CRR ' + esc(crr);
       return { left: '<span class="slp-live"><b><span class="live-dot" aria-hidden="true"></span>LIVE</b></span> · ' + line, right: right };
     }
     if (p.latest) {
-      return { left: '<span><b>RESULT</b> · ' + esc(p.latest.statusText || '') + ' (' + esc(p.latest.team1) + ' ' + esc(p.latest.score1 || '') + ' vs ' + esc(p.latest.team2) + ' ' + esc(p.latest.score2 || '') + ')</span>', right: right };
+      return { left: '<span><b>RESULT</b> · ' + esc(p.latest.statusText || '') + ' (' + esc(shortName(p.latest.team1)) + ' ' + esc(p.latest.score1 || '') + ' vs ' + esc(shortName(p.latest.team2)) + ' ' + esc(p.latest.score2 || '') + ')</span>', right: right };
     }
     if (p.next) {
       if (!showNext) return null;
-      return { left: '<span><b>NEXT</b> · ' + esc(p.next.team1) + ' vs ' + esc(p.next.team2) + ' — Match ' + p.next.matchNo + '</span>', right: esc(p.next.statusText || '') };
+      return { left: '<span><b>NEXT</b> · ' + esc(shortName(p.next.team1)) + ' vs ' + esc(shortName(p.next.team2)) + ' — Match ' + p.next.matchNo + '</span>', right: esc(p.next.statusText || '') };
     }
     return null;
   }

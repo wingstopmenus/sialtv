@@ -13,6 +13,26 @@
     });
   }
 
+  /* The feed carries team names with a league suffix ("Biratnagar
+     Kings (NPL)") — the bar shows the plain name. CRR is computed
+     from the score when the feed leaves crr empty (it usually does). */
+  function shortName(name) {
+    return String(name || '').replace(/\s*\([^)]*\)\s*$/, '').trim();
+  }
+  function cleanStatus(s) {
+    return String(s || '').replace(/\s*\([A-Z0-9]+\)/g, '');
+  }
+  function crrOf(m) {
+    var live = m.live || null;
+    if (live && live.crr) return live.crr;
+    var runs = parseInt(String(m.score1 || '0').split('/')[0], 10);
+    var ov = String(m.overs1 || '');
+    var parts = ov.split('.');
+    var o = parseInt(parts[0] || '0', 10) + (parseInt(parts[1] || '0', 10) / 6);
+    if (!runs || !o) return '';
+    return (runs / o).toFixed(2);
+  }
+
   function ensureBar() {
     var bar = document.getElementById('sialtv-sticky-bar');
     if (bar) return bar;
@@ -46,20 +66,21 @@
     var link = ' · <a href="/' + league + '/live-scores/" style="color:#fff;font-weight:700">Live scores</a>';
     if (p.live) {
       var m = p.live;
-      var line = 'LIVE: ' + m.team1 + ' ' + (m.score1 || '') + ' (' + (m.overs1 || '') + ' ov)';
-      if (m.score2) line += ' vs ' + m.team2 + ' ' + m.score2 + ' (' + (m.overs2 || '') + ' ov)';
-      if (m.live && m.live.crr) line += ' · CRR ' + m.live.crr;
+      var line = 'LIVE: ' + shortName(m.team1) + ' ' + (m.score1 || '') + ' (' + (m.overs1 || '') + ' ov)';
+      if (m.score2) line += ' vs ' + shortName(m.team2) + ' ' + m.score2 + ' (' + (m.overs2 || '') + ' ov)';
+      var crr = crrOf(m);
+      if (crr) line += ' · CRR ' + crr;
       if (m.toss) line += ' · ' + m.toss;
       return line + link;
     }
     if (p.latest) {
-      var out = 'Latest: ' + p.latest.statusText;
-      if (p.next && showNext) out += ' · Next: ' + p.next.team1 + ' vs ' + p.next.team2 + ', Match ' + p.next.matchNo;
+      var out = 'Latest: ' + cleanStatus(p.latest.statusText);
+      if (p.next && showNext) out += ' · Next: ' + shortName(p.next.team1) + ' vs ' + shortName(p.next.team2) + ', Match ' + p.next.matchNo;
       return out + link;
     }
     if (p.next) {
       if (!showNext) return '';
-      return 'Next: ' + p.next.team1 + ' vs ' + p.next.team2 + ' · Match ' + p.next.matchNo + link;
+      return 'Next: ' + shortName(p.next.team1) + ' vs ' + shortName(p.next.team2) + ' · Match ' + p.next.matchNo + link;
     }
     return '';
   }

@@ -5,7 +5,11 @@
    left alone when the feed has nothing newer for them — except the two
    cases the carousel could never show: an upcoming card has no score
    spans, so the first live score creates them, and the filter pills
-   carry baked counts, so a flip re-counts them. */
+   carry baked counts, so a flip re-counts them.
+   v6 (2026-11-12, homepage clean rebuild): also updates the homepage's
+   Match Coverage panels (data-mc-panel — kicker status word + live
+   stand line) and hides live/result rows from the sidebar "Coming up";
+   computes CRR from the score when the feed leaves crr empty. */
 (function () {
   'use strict';
   var POLL_MS = 30 * 1000;
@@ -37,6 +41,31 @@
     return score + (overs ? ' (' + overs + ' ov)' : '');
   }
 
+  /* Run rate from the score when the feed leaves crr empty (it usually
+     does — the normaliser does not carry it). Overs are cricket
+     notation: "15.2" is 15 overs + 2 balls. */
+  function crrOf(m) {
+    var live = m.live || null;
+    if (live && live.crr) return live.crr;
+    var runs = parseInt(String(m.score1 || '0').split('/')[0], 10);
+    var ov = String(m.overs1 || '');
+    var parts = ov.split('.');
+    var o = parseInt(parts[0] || '0', 10) + (parseInt(parts[1] || '0', 10) / 6);
+    if (!runs || !o) return '';
+    return (runs / o).toFixed(2);
+  }
+
+  function shortName(name) {
+    return String(name || '').replace(/\s*\([^)]*\)\s*$/, '').trim();
+  }
+
+  /* The feed's statusText carries the league suffix on every team
+     ("Biratnagar Kings (NPL) need 27 runs...") — the card shows the
+     plain name. */
+  function cleanStatus(s) {
+    return String(s || '').replace(/\s*\([A-Z0-9]+\)/g, '');
+  }
+
   /* Live details for the short line under the scores: batters at the
      crease and the run rate, Cricinfo-strip style. */
   function liveDetails(m) {
@@ -47,13 +76,14 @@
       return b.name + ' ' + b.runs + (b.striker ? '*' : '');
     }).join(', ');
     if (bats) bits.push(bats);
-    if (live.crr) bits.push('CRR ' + live.crr);
+    var crr = crrOf(m);
+    if (crr) bits.push('CRR ' + crr);
     return bits.join(' · ');
   }
 
   function liveLine(m) {
     var parts = [];
-    var st = m.statusText || '';
+    var st = cleanStatus(m.statusText);
     if (st && st !== 'Live' && st !== 'Upcoming') parts.push(st);
     var d = liveDetails(m);
     if (d) parts.push(d);
@@ -72,9 +102,9 @@
       return;
     }
     var w = -1;
-    var st = m.statusText || '';
-    if (st.indexOf(m.team1 + ' won') === 0) w = 0;
-    else if (st.indexOf(m.team2 + ' won') === 0) w = 1;
+    var st = cleanStatus(m.statusText);
+    if (st.indexOf(shortName(m.team1) + ' won') === 0) w = 0;
+    else if (st.indexOf(shortName(m.team2) + ' won') === 0) w = 1;
     rows.forEach(function (row, i) { row.classList.toggle('loser', w >= 0 && i !== w); });
   }
 
@@ -164,7 +194,7 @@
            the feed's statusText for an upcoming match is either the
            same line or a bare "Upcoming", so it stays put. */
         if (m.status === 'live') result.textContent = liveLine(m);
-        else if (m.status === 'result') result.textContent = m.statusText || result.textContent;
+        else if (m.status === 'result') result.textContent = cleanStatus(m.statusText) || result.textContent;
         result.classList.toggle('upcoming', m.status === 'upcoming');
       }
       setLoser(card, m);
@@ -174,6 +204,70 @@
       card.setAttribute('data-kind', m.status === 'result' ? 'result' : 'upcoming');
     });
     recountPills(carousel);
+  }
+
+  /* Match Coverage panels (homepage): a panel carries
+     data-mc-panel="m22" and shows the match's status word in its kicker
+     ("Upcoming"/"Live now"/"Result") plus a live line in its stand.
+     Live and result panels are updated from the feed; upcoming panels
+     are left exactly as baked. */
+  function refreshMcPanels(data) {
+    if (!data || !data.matches) return;
+    var panels = document.querySelectorAll('.mc-panel[data-mc-panel]');
+    if (!panels.length) return;
+    var byNo = {};
+    data.matches.forEach(function (m) { byNo[m.matchNo] = m; });
+    panels.forEach(function (panel) {
+      var raw = panel.getAttribute('data-mc-panel') || '';
+      var no = parseInt(raw.replace(/[^0-9]/g, ''), 10);
+      var m = byNo[no];
+      if (!m) return;
+      if (m.status !== 'live' && m.status !== 'result') return;
+      var kicker = panel.querySelector('.lead-kicker');
+      if (kicker) {
+        var datePart = kicker.textContent.split('·').pop().trim();
+        var label = m.status === 'live' ? 'Live now' : 'Result';
+        var dot = m.status === 'live'
+          ? '<span class="live-dot" aria-hidden="true"></span>' : '';
+        kicker.innerHTML = dot + esc(label) + ' &middot; ' + esc(datePart);
+      }
+      var stand = panel.querySelector('.lead-stand');
+      if (stand) {
+        if (m.status === 'live') {
+          stand.textContent = shortName(m.team2) + ' ' + scoreText(m.score2, m.overs2)
+            + ' · ' + shortName(m.team1) + ' ' + scoreText(m.score1, m.overs1)
+            + ' — ' + liveLine(m);
+        } else if (m.status === 'result') {
+          stand.textContent = cleanStatus(m.statusText) || '';
+        }
+      }
+    });
+  }
+
+  /* Sidebar "Coming up" (homepage): a match that is live or finished
+     is no longer coming up, so its row is hidden. The item's link
+     carries the league and match number
+     (/<league>/matches/<season>/match-<no>/). Items for other leagues
+     or without a link are left alone. */
+  function refreshComingUp(data) {
+    if (!data || !data.matches) return;
+    var cards = document.querySelectorAll('.side-card');
+    var byNo = {};
+    data.matches.forEach(function (m) { byNo[m.matchNo] = m; });
+    cards.forEach(function (card) {
+      var h = card.querySelector('h3');
+      if (!h || h.textContent.trim() !== 'Coming up') return;
+      card.querySelectorAll('li').forEach(function (li) {
+        var a = li.querySelector('a');
+        if (!a) return;
+        var mm = (a.getAttribute('href') || '').match(/match-(\d+)\//);
+        if (!mm) return;
+        var m = byNo[parseInt(mm[1], 10)];
+        if (m && (m.status === 'live' || m.status === 'result')) {
+          li.style.display = 'none';
+        }
+      });
+    });
   }
 
   function boot() {
@@ -204,6 +298,8 @@
           if (!data || !data.matches || !data.matches.length) return;
           if (flash) refreshFlash(flash, data, league);
           if (carousel) refreshCarousel(carousel, data);
+          refreshMcPanels(data);
+          refreshComingUp(data);
         }).catch(function () {});
       });
     }
