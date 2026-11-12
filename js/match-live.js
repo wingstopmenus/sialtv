@@ -4,14 +4,14 @@
    snapshot second. No parallel fetcher, no second poll loop.
 
    What it does, and only while the match is actually on:
-   - hero status chip: "Match yet to begin" -> LIVE (red dot) -> Result
-   - a live score line under the hero intro (scores + chase/result line)
+   - match-head status chip: "Match yet to begin" -> LIVE (red dot) -> Result
+   - a live score line under the match-head intro (scores + chase/result line)
    - the Scorecard tab: the "Match yet to begin" note becomes live
      batting/bowling tables from the feed, in the same markup as the
      baked scorecard (Batter/Dismissal/R/B/4s/6s/SR, Bowler/O/M/R/W/Econ).
 
    GOLDEN RULE: a baked result is never touched. If the page already
-   shows a result (hero "X beat Y by Z runs", or a baked scorecard with
+   shows a result (match-head "X beat Y by Z runs", or a baked scorecard with
    "Fall of wickets"), this module does nothing at all — no fetch, no
    poll. The match-day bake owns the finished page. Likewise the
    Summary tab is never touched: it is generated at bake time by
@@ -61,10 +61,13 @@
     return { league: league, season: SEASON[league], matchNo: parseInt(m[3], 10) };
   }
 
-  /* A baked result page: hero result line, or a baked scorecard with
-     fall of wickets. Either one means the bake owns this page. */
+  /* A baked result page: match-head result line, or a baked scorecard with
+     fall of wickets. Either one means the bake owns this page.
+     (The '.hero h1' fallback covers pages whose hero has not been removed
+     yet - SA20/BBL off-site pages and any not-yet-rebuilt match page.) */
   function isBaked() {
-    var h1 = document.querySelector('.hero h1');
+    var h1 = document.querySelector('.match-head h1') ||
+      document.querySelector('.hero h1');
     if (h1 && /beat|won by|tied|no result|abandoned/i.test(h1.textContent || '')) return true;
     var sc = document.getElementById('scorecard');
     if (sc && /Fall of wickets/i.test(sc.textContent || '')) return true;
@@ -90,8 +93,8 @@
     var s = document.createElement('style');
     s.id = 'slp-match-live-css';
     s.textContent = [
-      '.slp-live-score{font-weight:800;font-size:19px;line-height:1.45;margin:14px 0 0;color:#fff}',
-      '.slp-live-score small{display:block;font-weight:400;font-size:14px;color:#c8d3de;margin-top:4px}',
+      '.slp-live-score{font-weight:800;font-size:19px;line-height:1.45;margin:14px 0 0;color:#0f1014}',
+      '.slp-live-score small{display:block;font-weight:400;font-size:14px;color:#666;margin-top:4px}',
       '.slp-live-chip{background:#c92a1e!important;border-color:#c92a1e!important;color:#fff!important}',
       '.slp-ball{display:inline-block;min-width:22px;text-align:center;padding:2px 6px;margin:0 3px 3px 0;border:1px solid #e0e0e0;border-radius:999px;font-weight:700;font-size:13px}',
       '.slp-ball-w{background:#c92a1e;border-color:#c92a1e;color:#fff}'
@@ -285,7 +288,11 @@
 
   function render(m, fetchedAt, names) {
     ensureCss();
-    var hero = document.querySelector('.hero');
+    /* The compact match header replaced the hero section on 2026-11-12;
+       the '.hero' fallback covers pages whose hero has not been removed
+       yet (SA20/BBL off-site pages and any not-yet-rebuilt match page). */
+    var hero = document.querySelector('.match-head') ||
+      document.querySelector('.hero');
     if (hero) {
       if (!chipEl) {
         /* The status chip ("Match yet to begin"); never another chip. */
@@ -308,7 +315,7 @@
         scoreLineEl = document.createElement('p');
         scoreLineEl.className = 'slp-live-score';
         /* The intro paragraph is the <p> right after the h1 — not the
-           crumbs (the hero's first <p>), which sits above the h1. */
+           crumbs (the match-head's first <p>), which sits above the h1. */
         var h1 = hero.querySelector('h1');
         var intro = (h1 && h1.nextElementSibling && h1.nextElementSibling.tagName === 'P')
           ? h1.nextElementSibling : null;
@@ -349,7 +356,7 @@
           }
         }
         if (liveTabEl) liveTabEl.innerHTML = liveTabHtml(m, fetchedAt);
-      } catch (e) { /* live tab must never break hero/scorecard */ }
+      } catch (e) { /* live tab must never break match-head/scorecard */ }
     }
   }
 
