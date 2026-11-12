@@ -15,7 +15,7 @@
 <meta name="twitter:description" content="The first Afghan to score a Test double hundred anchors Paktia's batting in APL 2026-27. Shahidi's 2018 season and his role — read the profile.">
 <meta name="theme-color" content="#0f1014">
 <script type="application/ld+json">
-{"@context": "https://schema.org", "@type": "WebPage", "name": "Hashmatullah Shahidi APL 2026-27 — Paktia Anchor", "url": "https://sialtv.com/apl/players/hashmatullah-shahidi/", "description": "The first Afghan to score a Test double hundred anchors Paktia's batting in APL 2026-27. Shahidi's 2018 season and his role — read the profile.", "datePublished": "2026-11-12T03:02:00Z", "dateModified": "2026-11-12T16:10:32Z"}
+{"@context": "https://schema.org", "@type": "WebPage", "name": "Hashmatullah Shahidi APL 2026-27 — Paktia Anchor", "url": "https://sialtv.com/apl/players/hashmatullah-shahidi/", "description": "The first Afghan to score a Test double hundred anchors Paktia's batting in APL 2026-27. Shahidi's 2018 season and his role — read the profile.", "datePublished": "2026-11-12T03:02:00Z", "dateModified": "2026-11-12T21:05:54Z"}
 </script>
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "SialTV", "item": "https://sialtv.com/"}, {"@type": "ListItem", "position": 2, "name": "Afghanistan Premier League", "item": "https://sialtv.com/apl/"}, {"@type": "ListItem", "position": 3, "name": "Paktia", "item": "https://sialtv.com/apl/teams/paktia/"}, {"@type": "ListItem", "position": 4, "name": "Hashmatullah Shahidi", "item": "https://sialtv.com/apl/players/hashmatullah-shahidi/"}]}
@@ -26,245 +26,28 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;700;800&display=swap" rel="stylesheet">
-<style>
-/* SialTV design sample A — "ESPNcricinfo, richer".
+<style>/* SialTV design sample A — "ESPNcricinfo, richer".
    Evolves the live v3 system: same blue identity (#0860C4), deep navy hero,
-   light-grey page, stronger cards, team chips, status pills. Content identical. */
-body.league-npl{--accent:#d21034;--league:#d21034}body.league-ilt20{--accent:#1d4ed8;--league:#1d4ed8}body.league-apl{--accent:#0e1038;--league:#0e1038}body.league-sa20{--accent:#009444;--league:#009444}body.league-bbl{--accent:#0e7490;--league:#0e7490}body.league-psl{--accent:#00563f;--league:#00563f}
-*{box-sizing:border-box}
-a{color:var(--blue);text-decoration:none}
-a:hover{text-decoration:underline}
-a:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
-.wrap{max-width:1280px;margin:0 auto;padding:0 16px}
-h1,h2,h3{font-family:"Archivo",ui-sans-serif,sans-serif;font-weight:800;line-height:1.08;letter-spacing:-.01em}
-h1{font-size:40px}h2{font-size:24px;margin:0 0 12px}h3{font-size:19px}
-p{margin:0 0 12px}
-.num{font-variant-numeric:tabular-nums}
-/* Header — bright blue bar */
-.brand:hover{text-decoration:none}
-nav.leagues{display:flex;flex-wrap:wrap;gap:0;margin-left:auto}
-.live-dot{display:inline-block;width:8px;height:8px;background:var(--red);border-radius:50%;margin-right:6px;vertical-align:middle;animation:pulse 1.8s infinite}
-@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,69,56,.55)}70%{box-shadow:0 0 0 7px rgba(255,69,56,0)}100%{box-shadow:0 0 0 0 rgba(255,69,56,0)}}
-/* Sub-nav strip — NEXT as a red pill */
-.subnav b{background:var(--red);color:#fff;font-weight:800;font-size:12px;letter-spacing:.06em;text-transform:uppercase;padding:2px 8px;border-radius:4px}
-.subnav .t-time{font-weight:700;white-space:nowrap}
-/* Hero — deep navy band, white title, red base rule */
-.hero{background:var(--league);color:#fff;padding:28px 0 24px}
-.hero h1{color:#fff;margin:0 0 8px}
-.hero p{color:#e8ecef;font-size:17px;max-width:820px}
-.hero-home{background:var(--hero-navy);color:#fff;padding:34px 0 28px;border-bottom:3px solid var(--red)}
-.hero-home h1{color:#fff;font-size:46px}
-.hero-home p{color:#c9d8e8;font-size:18px}
-.hero-home .updated{color:#8fa9c4;font-size:14px}
-.hero-chip.live .live-dot{background:#fff;animation:pulse-white 1.8s infinite}
-@keyframes pulse-white{0%{box-shadow:0 0 0 0 rgba(255,255,255,.55)}70%{box-shadow:0 0 0 7px rgba(255,255,255,0)}100%{box-shadow:0 0 0 0 rgba(255,255,255,0)}}
-.crumbs{font-size:14px;color:var(--muted);padding:0;margin:0 0 8px}
-.crumbs a{color:var(--muted)}
-main section h2{color:var(--ink);position:relative;padding-left:14px}
-/* Today scorecard — blue left edge */
-.today .today-label::before{content:'';display:inline-block;width:8px;height:8px;background:var(--red);border-radius:50%;margin-right:6px}.today .today-label{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
-.today strong{font-size:22px;font-weight:800;display:block;margin:6px 0}
-.today p{margin:0 0 6px;color:var(--ink-2)}
-.today p:last-child{margin:0}
-.today a{font-weight:700}
-.today .t-time{font-weight:700}
-/* League cards — colour band, mini stat, status pill */
-.tile .meta{color:var(--muted);font-size:15px;display:block;margin-bottom:8px}
-.tile-stat{display:block;font-size:13px;font-weight:700;color:var(--ink-2);padding-top:10px;margin-top:2px;border-top:1px dashed var(--rule-2)}
-/* Tables — darker head */
-td{font-variant-numeric:tabular-nums}
-td:nth-child(2){font-weight:700}
-.table-scroll{overflow-x:auto}
-.teams{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
-.team{background:var(--card);border:1px solid var(--rule);border-top:3px solid var(--league,#0860c4);border-radius:10px;padding:12px 14px}
-.team b{font-size:18px}
-.team p{margin:4px 0 0;color:var(--muted);font-size:15px}
-.faq h3{margin:16px 0 4px}
-.faq p{margin:0 0 10px}
-.note{font-size:14px;color:var(--muted)}
-/* Footer — charcoal with red top rule */
-.foot-cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px;padding-bottom:8px}
-@media (max-width:900px){}
-@media (max-width:640px){
+   light-grey page, stronger cards, team chips, status pills. Content identical. */body.league-npl{--accent:#d21034;--league:#d21034}body.league-ilt20{--accent:#1d4ed8;--league:#1d4ed8}body.league-apl{--accent:#0e1038;--league:#0e1038}body.league-sa20{--accent:#009444;--league:#009444}body.league-bbl{--accent:#0e7490;--league:#0e7490}body.league-psl{--accent:#00563f;--league:#00563f}*{box-sizing:border-box}a{color:var(--blue);text-decoration:none}a:hover{text-decoration:underline}a:focus-visible{outline:3px solid var(--focus);outline-offset:2px}.wrap{max-width:1280px;margin:0 auto;padding:0 16px}h1,h2,h3{font-family:"Archivo",ui-sans-serif,sans-serif;font-weight:800;line-height:1.08;letter-spacing:-.01em}h1{font-size:40px}h2{font-size:24px;margin:0 0 12px}h3{font-size:19px}p{margin:0 0 12px}.num{font-variant-numeric:tabular-nums}/* Header — bright blue bar */.brand:hover{text-decoration:none}nav.leagues{display:flex;flex-wrap:wrap;gap:0;margin-left:auto}.live-dot{display:inline-block;width:8px;height:8px;background:var(--red);border-radius:50%;margin-right:6px;vertical-align:middle;animation:pulse 1.8s infinite}@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,69,56,.55)}70%{box-shadow:0 0 0 7px rgba(255,69,56,0)}100%{box-shadow:0 0 0 0 rgba(255,69,56,0)}}/* Sub-nav strip — NEXT as a red pill */.subnav b{background:var(--red);color:#fff;font-weight:800;font-size:12px;letter-spacing:.06em;text-transform:uppercase;padding:2px 8px;border-radius:4px}.subnav .t-time{font-weight:700;white-space:nowrap}/* Hero — deep navy band, white title, red base rule */.hero-home{background:var(--hero-navy);color:#fff;padding:34px 0 28px;border-bottom:3px solid var(--red)}.hero-home h1{color:#fff;font-size:46px}.hero-home p{color:#c9d8e8;font-size:18px}.hero-home .updated{color:#8fa9c4;font-size:14px}@keyframes pulse-white{0%{box-shadow:0 0 0 0 rgba(255,255,255,.55)}70%{box-shadow:0 0 0 7px rgba(255,255,255,0)}100%{box-shadow:0 0 0 0 rgba(255,255,255,0)}}.crumbs{font-size:14px;color:var(--muted);padding:0;margin:0 0 8px}.crumbs a{color:var(--muted)}main section h2{color:var(--ink);position:relative;padding-left:14px}/* Today scorecard — blue left edge */.today .today-label::before{content:'';display:inline-block;width:8px;height:8px;background:var(--red);border-radius:50%;margin-right:6px}.today .today-label{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}.today strong{font-size:22px;font-weight:800;display:block;margin:6px 0}.today p{margin:0 0 6px;color:var(--ink-2)}.today p:last-child{margin:0}.today a{font-weight:700}.today .t-time{font-weight:700}/* League cards — colour band, mini stat, status pill */.tile .meta{color:var(--muted);font-size:15px;display:block;margin-bottom:8px}.tile-stat{display:block;font-size:13px;font-weight:700;color:var(--ink-2);padding-top:10px;margin-top:2px;border-top:1px dashed var(--rule-2)}/* Tables — darker head */td{font-variant-numeric:tabular-nums}td:nth-child(2){font-weight:700}.table-scroll{overflow-x:auto}.teams{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}.team{background:var(--card);border:1px solid var(--rule);border-top:3px solid var(--league,#0860c4);border-radius:10px;padding:12px 14px}.team b{font-size:18px}.team p{margin:4px 0 0;color:var(--muted);font-size:15px}.faq h3{margin:16px 0 4px}.faq p{margin:0 0 10px}.note{font-size:14px;color:var(--muted)}/* Footer — charcoal with red top rule */.foot-cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px;padding-bottom:8px}@media (max-width:900px){}@media (max-width:640px){
           nav.leagues a{font-size:14px;padding:6px 8px}
   .top-date{display:none}
     .hero p,.hero-home p{font-size:16px}
   .hero-home{padding:26px 0 22px}
     .today strong{font-size:19px}
       .foot-cols{gap:16px}
-}
-@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
-.hero a,.hero-home a,.hero a:visited,.hero-home a:visited{color:#fff;text-decoration:underline}
-</style>
-<style>
-/* Homepage-only extras — Sample A (richer v3). */
-.carousel-wrap{position:relative}
-.carousel::-webkit-scrollbar{display:none}
-.score-card[hidden]{display:none}
-.sc-label.upcoming{color:var(--muted);background:#eef1f3}
-.sc-match{font-size:13px;color:var(--muted);margin:8px 0 8px}
-.sc-row{display:flex;justify-content:space-between;gap:8px;font-size:14px;padding:3px 0;align-items:center}
-.sc-row .sc-team{font-weight:700;display:flex;align-items:center}
-.sc-chip{display:inline-flex;align-items:center;justify-content:center;flex:0 0 26px;width:26px;height:26px;border-radius:6px;background:#0f1014;color:#fff;font-size:11px;font-weight:800;margin-right:8px}
-.sc-row.loser .sc-chip{background:#9aa3af}
-.sc-row .sc-score{font-weight:700;font-size:15px;font-variant-numeric:tabular-nums;white-space:nowrap}
-.sc-row.loser .sc-team,.sc-row.loser .sc-score{font-weight:400;color:var(--muted)}
-.sc-result{font-size:13px;color:var(--blue);margin:10px 0 0;font-weight:700}
-.sc-result.upcoming{color:var(--muted);font-weight:500}
-.car-btn[disabled]{opacity:.35;cursor:default}
-/* Lead story */
-.lead-kicker{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:0 0 6px}
-.lead-kicker .live-dot{margin-right:6px}
-.lead-score{font-size:16px;color:var(--ink-2);margin:0 0 8px}
-.lead-stand{font-size:15px;color:var(--muted);margin:0 0 10px}
-.lead-links{font-size:15px;margin:0}
-.lead-links a{font-weight:700}
-/* Two-column body */
-.home-grid{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:32px;align-items:start}
-.home-main{min-width:0}
-.home-main section h2{font-size:20px}
-.see-all{float:right;font-size:14px;font-weight:700}
-.side-card ul{margin:0;padding:0;list-style:none}
-.side-card li:last-child{border-bottom:0}
-.side-card li b{font-weight:700}
-.side-card li span{color:var(--muted);display:block;font-size:13px}
-.num-panel h3{font-size:16px;margin:0 0 10px;text-align:left;color:#fff}
-.num-nav{display:flex;align-items:center;justify-content:center;gap:12px}
-.num-arrow{width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);cursor:pointer;font-size:15px;font-weight:700;color:#fff}
-.num-arrow:hover{border-color:#fff;color:#fff}
-.num-dots{display:flex;gap:6px}
-.num-dot{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.35);border:0;cursor:pointer;padding:0}
-@media (max-width:900px){.home-grid{grid-template-columns:1fr}.score-card{flex-basis:260px}}
-@media (max-width:640px){.num-big{font-size:34px}}
-</style>
-<style>
-/* LOOK 2 — Direction D "iys premium". iys.iskills.com language, translated:
+}@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}.hero-home a, .hero-home a:visited{color:#fff;text-decoration:underline}</style>
+<style>/* Homepage-only extras — Sample A (richer v3). */.carousel-wrap{position:relative}.carousel::-webkit-scrollbar{display:none}.score-card[hidden]{display:none}.sc-label.upcoming{color:var(--muted);background:#eef1f3}.sc-match{font-size:13px;color:var(--muted);margin:8px 0 8px}.sc-row{display:flex;justify-content:space-between;gap:8px;font-size:14px;padding:3px 0;align-items:center}.sc-row .sc-team{font-weight:700;display:flex;align-items:center}.sc-chip{display:inline-flex;align-items:center;justify-content:center;flex:0 0 26px;width:26px;height:26px;border-radius:6px;background:#0f1014;color:#fff;font-size:11px;font-weight:800;margin-right:8px}.sc-row.loser .sc-chip{background:#9aa3af}.sc-row .sc-score{font-weight:700;font-size:15px;font-variant-numeric:tabular-nums;white-space:nowrap}.sc-row.loser .sc-team,.sc-row.loser .sc-score{font-weight:400;color:var(--muted)}.sc-result{font-size:13px;color:var(--blue);margin:10px 0 0;font-weight:700}.sc-result.upcoming{color:var(--muted);font-weight:500}.car-btn[disabled]{opacity:.35;cursor:default}/* Lead story */.lead-kicker{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:0 0 6px}.lead-kicker .live-dot{margin-right:6px}.lead-score{font-size:16px;color:var(--ink-2);margin:0 0 8px}.lead-stand{font-size:15px;color:var(--muted);margin:0 0 10px}.lead-links{font-size:15px;margin:0}.lead-links a{font-weight:700}/* Two-column body */.home-grid{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:32px;align-items:start}.home-main{min-width:0}.home-main section h2{font-size:20px}.see-all{float:right;font-size:14px;font-weight:700}.side-card ul{margin:0;padding:0;list-style:none}.side-card li:last-child{border-bottom:0}.side-card li b{font-weight:700}.side-card li span{color:var(--muted);display:block;font-size:13px}.num-panel h3{font-size:16px;margin:0 0 10px;text-align:left;color:#fff}.num-nav{display:flex;align-items:center;justify-content:center;gap:12px}.num-arrow{width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);cursor:pointer;font-size:15px;font-weight:700;color:#fff}.num-arrow:hover{border-color:#fff;color:#fff}.num-dots{display:flex;gap:6px}.num-dot{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.35);border:0;cursor:pointer;padding:0}@media (max-width:900px){.home-grid{grid-template-columns:1fr}.score-card{flex-basis:260px}}@media (max-width:640px){.num-big{font-size:34px}}</style>
+<style>/* LOOK 2 — Direction D "iys premium". iys.iskills.com language, translated:
    one accent (red) doing all the work; floating white pill sticky header;
    centred white hero, huge H1 + one red phrase; black record band; large
    section gaps + hairline dividers + numbered markers; radius 16-20px cards
    with soft shadows; black footer with outline SIALTV watermark; scroll-
    reveal + count-up (reduced-motion respected). Blue identity REMOVED here.
    League colours survive ONLY as the thin top bar on league tiles.
-   No images, no colour blends, Archivo only. */
-:root{--navy-2:#06509e;--red:#ff4538;--red-tint:#fdecea;--card:#ffffff;--ink:#0f1014;--ink-2:#2c3a46;--muted:#4b5166;--league:#0860c4;--bg:#ffffff;--blue:#c92a1e;--red-text:#c92a1e;--navy:#0f1014;--hero-navy:#0f1014;--rule:#e5e5e5;--rule-2:#e0e0e0;--focus:#c92a1e}
-body{margin:0;font-family:"Archivo",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);font-size:16px;line-height:1.5;background:#fff}
-::selection{background:var(--red-text);color:#fff}
-/* --- Floating pill sticky header --- */
-header{position:sticky;top:12px;z-index:80;background:transparent;margin-top:12px}
-.topbar{color:#fff;top:0;z-index:50;position:static;background:#fff;border-radius:999px;box-shadow:0 12px 32px rgba(15,16,20,.14),0 2px 8px rgba(15,16,20,.08);width:calc(100% - 24px);max-width:1230px;margin:0 auto}
-.topbar-in{display:flex;align-items:center;padding:10px 12px 10px 24px;gap:16px}
-.brand{font-family:"Archivo",ui-sans-serif,sans-serif;font-size:32px;font-weight:800;letter-spacing:-.02em;line-height:1;text-decoration:none;white-space:nowrap;color:#0f1014}
-.brand span{color:var(--red)}
-nav.leagues a{font-family:"Archivo",ui-sans-serif,sans-serif;font-size:15px;font-weight:700;text-decoration:none;padding:8px 12px;color:#0f1014;border-radius:999px;white-space:nowrap;flex:0 0 auto}
-nav.leagues a:hover{background:#f4f4f5;text-decoration:none}
-.live-tag{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;margin-left:4px;color:var(--red-text)}
-.top-date{font-size:13px;white-space:nowrap;color:#8a8f98}
-.head-cta{margin-left:8px;flex:0 0 auto;font-family:"Archivo",ui-sans-serif,sans-serif;font-size:14px;font-weight:800;color:#0f1014;background:#fff;border:1px solid #e0e0e0;border-radius:999px;padding:10px 18px;text-decoration:none;white-space:nowrap;transition:border-color .15s ease,color .15s ease}
-.head-cta:hover{border-color:var(--red);color:var(--red-text);text-decoration:none}
-/* --- Subnav strip (below the sticky header, scrolls away) --- */
-.subnav{color:var(--muted);font-size:14px;background:#fff;border-bottom:1px solid #e5e5e5}
-.subnav .wrap{display:flex;justify-content:space-between;gap:16px;padding-top:8px;padding-bottom:8px;max-width:1230px}
-/* --- Hero: centred, white, huge type --- */
-.hero,.hero-home{background:#fff;color:var(--ink);padding:32px 0 29px;text-align:center;border-bottom:0;position:relative;overflow:hidden}
-.hero .wrap{max-width:960px;position:relative;z-index:1}
-.hero .crumbs{font-size:14px;color:var(--muted);margin:0 0 20px}
-.hero .crumbs a{color:var(--muted);text-decoration:none}
-.hero .crumbs a:hover{text-decoration:underline}
-.hero .eyebrow{font-size:14px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--red-text);margin:0 0 22px;white-space:normal;overflow:visible}
-.hero h1,.hero-home h1{font-size:68px;line-height:1.05;letter-spacing:-.02em;color:#0f1014;margin:0 0 24px}
-.hero h1 .accent{color:var(--red)}
-.hero p:not(.crumbs):not(.updated):not(.eyebrow){font-size:20px;line-height:1.7;color:#666;max-width:720px;margin:0 auto 28px}
-.hero .updated{color:#8a8f98;font-size:13px;margin:0 auto}
-.hero-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin:0 0 28px}
-.hero-chip{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid #e5e5e5;color:#0f1014;border-radius:999px;padding:12px 20px;font-size:15px;font-weight:700}
-.hero-chip::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--red);flex:0 0 auto}
-.hero-chip.live{background:var(--red);border-color:var(--red);color:#fff}
-.hero-chip.live::before{display:none}
-.hero a.hero-cta{display:inline-flex;align-items:center;gap:10px;background:var(--red);color:#fff;font-size:16px;font-weight:800;padding:16px 28px;border-radius:18px;text-decoration:none;box-shadow:0 12px 32px rgba(255,69,56,.35);margin:0 0 28px;transition:transform .15s ease,box-shadow .15s ease}
-.hero a.hero-cta:hover{color:#fff;text-decoration:none;transform:translateY(-1px);box-shadow:0 16px 38px rgba(255,69,56,.42)}
-.ghost{position:absolute;right:1%;top:6%;font-size:260px;font-weight:800;line-height:1;color:transparent;-webkit-text-stroke:2px rgba(15,16,20,.08);pointer-events:none;user-select:none}
-/* --- Black record band --- */
-.record-band{background:#0f1014;color:#fff;padding:72px 0}
-.record-band .wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:32px;max-width:1230px}
-.rec b{display:block;font-size:50px;line-height:1;font-weight:800;letter-spacing:-.02em;color:#fff;font-variant-numeric:tabular-nums}
-.rec span{display:block;font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#ff7a6e;margin-top:10px;text-wrap:balance}
-/* --- Player stat cards --- */
-.stat-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:48px auto 0}
-.stat-card{background:#fff;border:1px solid #e9e9ec;border-radius:20px;padding:22px;box-shadow:0 2px 6px rgba(15,16,20,.04),0 14px 32px rgba(15,16,20,.07)}
-.stat-card b{display:block;font-size:48px;line-height:1;font-weight:800;letter-spacing:-.02em;color:var(--red);font-variant-numeric:tabular-nums}
-.stat-card span{display:block;font-size:15px;font-weight:800;color:#0f1014;margin-top:8px}
-.stat-card i{display:block;font-style:normal;font-size:13px;color:var(--muted);margin-top:4px}
-/* --- Main: hairlines, big gaps, numbered markers --- */
-main{padding:27px 0 8px}
-main p{font-size:17px;line-height:1.7}
-main section{margin-bottom:20px;background:transparent;border:0;border-radius:0;box-shadow:none;padding:27px 0 0;margin:0 0 27px;border-top:1px solid #e5e5e5}
-main section.scores-sec{background:transparent;border:0;border-radius:0;box-shadow:none;margin-bottom:8px;border-top:0;padding:0;margin:0 0 27px}
-main section h2,.home-main section h2{font-size:42px;line-height:1.08;letter-spacing:-.02em;color:var(--ink);margin:0 0 16px;padding-left:0}
-main section h2::before{content:'';position:absolute;left:0;top:3px;bottom:3px;width:4px;background:var(--red);border-radius:2px;display:none}
-p.lead{margin:0 0 14px;font-size:19px;line-height:1.7;color:var(--muted)}
-/* --- Pills, carousel, score cards --- */
-.pills{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
-.pill{font-family:"Archivo",ui-sans-serif,sans-serif;font-weight:700;color:var(--ink);background:#fff;border-radius:999px;cursor:pointer;font-size:14px;padding:9px 16px;border:1px solid #e0e0e0}
-.pill:hover{border-color:var(--red-text)}
-.pill[aria-pressed="true"]{color:#fff;background:var(--red-text);border-color:var(--red-text)}
-.carousel{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;gap:16px;padding:2px 2px 12px}
-.score-card{flex:0 0 287px;scroll-snap-align:start;background:var(--card);color:var(--ink);text-decoration:none;display:block;flex-basis:300px;border:1px solid #e9e9ec;border-top:3px solid #0f1014;border-radius:18px;padding:18px;box-shadow:0 2px 6px rgba(15,16,20,.04),0 12px 28px rgba(15,16,20,.06);transition:transform .15s ease,box-shadow .15s ease}
-.score-card[data-kind="result"]{background:#fff;border-top-color:var(--red)}
-.score-card:hover{text-decoration:none;border-color:var(--red);transform:translateY(-2px);box-shadow:0 6px 14px rgba(15,16,20,.06),0 18px 38px rgba(15,16,20,.10)}
-.sc-label{display:inline-block;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;padding:2px 8px;border-radius:4px;color:var(--red-text);background:var(--red-tint)}
-.car-btn{position:absolute;top:50%;transform:translateY(-50%);border-radius:50%;background:#fff;border:1px solid var(--rule-2);color:var(--ink);font-size:18px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;width:40px;height:40px;box-shadow:0 4px 14px rgba(15,16,20,.16)}
-.car-btn:hover{border-color:var(--red);color:var(--red-text)}
-.car-btn.prev{left:8px}
-.car-btn.next{right:8px}
-.quick-links{display:flex;flex-wrap:wrap;gap:4px 18px;font-size:14px;border-top:1px solid #e5e5e5;padding:16px 0 2px}
-.quick-links a{color:#0f1014;font-weight:600}
-.quick-links a:hover{color:var(--red-text)}
-/* --- Today card --- */
-.today{background:var(--card);border:1px solid #e9e9ec;border-left:4px solid var(--red);border-radius:20px;padding:24px;box-shadow:0 2px 6px rgba(15,16,20,.04),0 14px 32px rgba(15,16,20,.06)}
-.lead-head{margin:0 0 8px;font-size:36px}
-/* --- League tiles --- */
-.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-.tile{display:block;background:var(--card);color:var(--ink);text-decoration:none;transition:transform .15s ease,box-shadow .15s ease;border:1px solid #e9e9ec;border-top:4px solid var(--league,#0860c4);border-radius:20px;padding:22px;box-shadow:0 2px 6px rgba(15,16,20,.04),0 12px 28px rgba(15,16,20,.06)}
-.tile:hover{text-decoration:none;transform:translateY(-2px);border-color:var(--red);box-shadow:0 6px 14px rgba(15,16,20,.06),0 18px 38px rgba(15,16,20,.10)}
-.tile h3{margin:0 0 4px;color:var(--ink);font-size:22px}
-.tile .status{display:inline-block;margin-top:10px;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:#fff;padding:4px 11px;border-radius:999px;background:#0f1014}
-.tiles .tile:first-child .status{background:var(--red)}
-/* --- Tables --- */
-table{width:100%;border-collapse:collapse;font-size:15px}
-thead th{font-weight:800;text-transform:uppercase;text-align:left;background:#fff;color:#8a8f98;font-size:12px;letter-spacing:.08em;padding:12px 10px;border-bottom:1px solid #e5e5e5}
-th,td{padding:12px 10px;border-bottom:1px solid #f0f0f2}
-tbody tr:hover td{background:#fafafa}
-.t-pts td:nth-child(n+3),.t-pts th:nth-child(n+3){text-align:right}
-.t-dates td:nth-child(4),.t-dates th:nth-child(4){text-align:right}
-.t-nums td:nth-child(n+2),.t-nums th:nth-child(n+2){text-align:right}
-.t-mbm td:not(:last-child),.t-mbm th:not(:last-child){text-align:right}
-/* --- Sidebar --- */
-.home-side{min-width:0;padding-top:27px;border-top:1px solid #e5e5e5}
-.side-card{background:var(--card);margin-bottom:20px;border:1px solid #e9e9ec;border-top:1px solid #e9e9ec;border-radius:20px;padding:20px;box-shadow:0 2px 6px rgba(15,16,20,.04),0 12px 28px rgba(15,16,20,.06)}
-.side-card h3{margin:0 0 10px;font-size:19px}
-.side-card li{padding:8px 0;font-size:14px;border-bottom:1px solid #f0f0f2}
-.num-panel{padding:18px;text-align:center;margin-bottom:20px;background:#0f1014;border:1px solid #0f1014;border-radius:20px;box-shadow:0 2px 6px rgba(15,16,20,.04),0 14px 32px rgba(15,16,20,.10)}
-.num-big{font-weight:800;color:#fff;line-height:1;margin:4px 0 8px;font-size:48px}
-.num-cap{font-size:14px;margin:0 0 12px;min-height:42px;color:#b9bcc4}
-.num-dot[aria-pressed="true"]{background:var(--red)}
-/* --- Footer: black + outline watermark --- */
-footer{font-size:14px;background:#0f1014;color:#b9bcc4;padding:64px 0 0;border-top:3px solid var(--red);overflow:hidden}
-.foot-h{font-weight:800;text-transform:uppercase;color:#fff;margin:0 0 8px;font-size:13px;letter-spacing:.14em}
-.foot-cols a{color:#e8e8ea}
-.foot-cols a:hover{color:#fff}
-.foot-cols p{margin:0 0 6px;color:#9a9da8}
-footer .copy-strip{background:#0f1014;border-top:1px solid #222;padding:20px 0;margin-top:48px}
-footer .copy{margin:0;color:#8a8f98}
-.footer-mark{font-size:clamp(96px,20vw,240px);font-weight:800;letter-spacing:.02em;line-height:.78;text-align:center;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.16);margin:48px 0 -.32em;user-select:none;pointer-events:none}
-/* --- Scroll reveal --- */
-html.js [data-reveal]{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
-html.js [data-reveal].in{opacity:1;transform:none}
-/* --- Mobile --- */
-@media (max-width:900px){
+   No images, no colour blends, Archivo only. */:root{--navy-2:#06509e;--red:#ff4538;--red-tint:#fdecea;--card:#ffffff;--ink:#0f1014;--ink-2:#2c3a46;--muted:#4b5166;--league:#0860c4;--bg:#ffffff;--blue:#c92a1e;--red-text:#c92a1e;--navy:#0f1014;--hero-navy:#0f1014;--rule:#e5e5e5;--rule-2:#e0e0e0;--focus:#c92a1e}body{margin:0;font-family:"Archivo",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);font-size:16px;line-height:1.5;background:#fff}::selection{background:var(--red-text);color:#fff}/* --- Floating pill sticky header --- */header{position:sticky;top:12px;z-index:80;background:transparent;margin-top:12px}.topbar{color:#fff;top:0;z-index:50;position:static;background:#fff;border-radius:999px;box-shadow:0 12px 32px rgba(15,16,20,.14),0 2px 8px rgba(15,16,20,.08);width:calc(100% - 24px);max-width:1230px;margin:0 auto}.topbar-in{display:flex;align-items:center;padding:10px 12px 10px 24px;gap:16px}.brand{font-family:"Archivo",ui-sans-serif,sans-serif;font-size:32px;font-weight:800;letter-spacing:-.02em;line-height:1;text-decoration:none;white-space:nowrap;color:#0f1014}.brand span{color:var(--red)}nav.leagues a{font-family:"Archivo",ui-sans-serif,sans-serif;font-size:15px;font-weight:700;text-decoration:none;padding:8px 12px;color:#0f1014;border-radius:999px;white-space:nowrap;flex:0 0 auto}nav.leagues a:hover{background:#f4f4f5;text-decoration:none}.live-tag{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;margin-left:4px;color:var(--red-text)}.top-date{font-size:13px;white-space:nowrap;color:#8a8f98}.head-cta{margin-left:8px;flex:0 0 auto;font-family:"Archivo",ui-sans-serif,sans-serif;font-size:14px;font-weight:800;color:#0f1014;background:#fff;border:1px solid #e0e0e0;border-radius:999px;padding:10px 18px;text-decoration:none;white-space:nowrap;transition:border-color .15s ease,color .15s ease}.head-cta:hover{border-color:var(--red);color:var(--red-text);text-decoration:none}/* --- Subnav strip (below the sticky header, scrolls away) --- */.subnav{color:var(--muted);font-size:14px;background:#fff;border-bottom:1px solid #e5e5e5}.subnav .wrap{display:flex;justify-content:space-between;gap:16px;padding-top:8px;padding-bottom:8px;max-width:1230px}/* --- Hero: centred, white, huge type --- */.hero-home{background:#fff;color:var(--ink);padding:32px 0 29px;text-align:center;border-bottom:0;position:relative;overflow:hidden}.hero-home h1{font-size:68px;line-height:1.05;letter-spacing:-.02em;color:#0f1014;margin:0 0 24px}/* --- Black record band --- */.rec b{display:block;font-size:50px;line-height:1;font-weight:800;letter-spacing:-.02em;color:#fff;font-variant-numeric:tabular-nums}.rec span{display:block;font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#ff7a6e;margin-top:10px;text-wrap:balance}/* --- Player stat cards --- *//* --- Main: hairlines, big gaps, numbered markers --- */main{padding:27px 0 8px}main p{font-size:17px;line-height:1.7}main section{margin-bottom:20px;background:transparent;border:0;border-radius:0;box-shadow:none;padding:27px 0 0;margin:0 0 27px;border-top:1px solid #e5e5e5}main section.scores-sec{background:transparent;border:0;border-radius:0;box-shadow:none;margin-bottom:8px;border-top:0;padding:0;margin:0 0 27px}main section h2,.home-main section h2{font-size:42px;line-height:1.08;letter-spacing:-.02em;color:var(--ink);margin:0 0 16px;padding-left:0}main section h2::before{content:'';position:absolute;left:0;top:3px;bottom:3px;width:4px;background:var(--red);border-radius:2px;display:none}p.lead{margin:0 0 14px;font-size:19px;line-height:1.7;color:var(--muted)}/* --- Pills, carousel, score cards --- */.pills{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}.pill{font-family:"Archivo",ui-sans-serif,sans-serif;font-weight:700;color:var(--ink);background:#fff;border-radius:999px;cursor:pointer;font-size:14px;padding:9px 16px;border:1px solid #e0e0e0}.pill:hover{border-color:var(--red-text)}.pill[aria-pressed="true"]{color:#fff;background:var(--red-text);border-color:var(--red-text)}.carousel{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;gap:16px;padding:2px 2px 12px}.score-card{flex:0 0 287px;scroll-snap-align:start;background:var(--card);color:var(--ink);text-decoration:none;display:block;flex-basis:300px;border:1px solid #e9e9ec;border-top:3px solid #0f1014;border-radius:18px;padding:18px;box-shadow:0 2px 6px rgba(15,16,20,.04),0 12px 28px rgba(15,16,20,.06);transition:transform .15s ease,box-shadow .15s ease}.score-card[data-kind="result"]{background:#fff;border-top-color:var(--red)}.score-card:hover{text-decoration:none;border-color:var(--red);transform:translateY(-2px);box-shadow:0 6px 14px rgba(15,16,20,.06),0 18px 38px rgba(15,16,20,.10)}.sc-label{display:inline-block;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;padding:2px 8px;border-radius:4px;color:var(--red-text);background:var(--red-tint)}.car-btn{position:absolute;top:50%;transform:translateY(-50%);border-radius:50%;background:#fff;border:1px solid var(--rule-2);color:var(--ink);font-size:18px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;width:40px;height:40px;box-shadow:0 4px 14px rgba(15,16,20,.16)}.car-btn:hover{border-color:var(--red);color:var(--red-text)}.car-btn.prev{left:8px}.car-btn.next{right:8px}.quick-links{display:flex;flex-wrap:wrap;gap:4px 18px;font-size:14px;border-top:1px solid #e5e5e5;padding:16px 0 2px}.quick-links a{color:#0f1014;font-weight:600}.quick-links a:hover{color:var(--red-text)}/* --- Today card --- */.today{background:var(--card);border:1px solid #e9e9ec;border-left:4px solid var(--red);border-radius:20px;padding:24px;box-shadow:0 2px 6px rgba(15,16,20,.04),0 14px 32px rgba(15,16,20,.06)}.lead-head{margin:0 0 8px;font-size:36px}/* --- League tiles --- */.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}.tile{display:block;background:var(--card);color:var(--ink);text-decoration:none;transition:transform .15s ease,box-shadow .15s ease;border:1px solid #e9e9ec;border-top:4px solid var(--league,#0860c4);border-radius:20px;padding:22px;box-shadow:0 2px 6px rgba(15,16,20,.04),0 12px 28px rgba(15,16,20,.06)}.tile:hover{text-decoration:none;transform:translateY(-2px);border-color:var(--red);box-shadow:0 6px 14px rgba(15,16,20,.06),0 18px 38px rgba(15,16,20,.10)}.tile h3{margin:0 0 4px;color:var(--ink);font-size:22px}.tile .status{display:inline-block;margin-top:10px;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:#fff;padding:4px 11px;border-radius:999px;background:#0f1014}.tiles .tile:first-child .status{background:var(--red)}/* --- Tables --- */table{width:100%;border-collapse:collapse;font-size:15px}thead th{font-weight:800;text-transform:uppercase;text-align:left;background:#fff;color:#8a8f98;font-size:12px;letter-spacing:.08em;padding:12px 10px;border-bottom:1px solid #e5e5e5}th,td{padding:12px 10px;border-bottom:1px solid #f0f0f2}tbody tr:hover td{background:#fafafa}.t-pts td:nth-child(n+3),.t-pts th:nth-child(n+3){text-align:right}.t-dates td:nth-child(4),.t-dates th:nth-child(4){text-align:right}.t-nums td:nth-child(n+2),.t-nums th:nth-child(n+2){text-align:right}.t-mbm td:not(:last-child),.t-mbm th:not(:last-child){text-align:right}/* --- Sidebar --- */.home-side{min-width:0;padding-top:27px;border-top:1px solid #e5e5e5}.side-card{background:var(--card);margin-bottom:20px;border:1px solid #e9e9ec;border-top:1px solid #e9e9ec;border-radius:20px;padding:20px;box-shadow:0 2px 6px rgba(15,16,20,.04),0 12px 28px rgba(15,16,20,.06)}.side-card h3{margin:0 0 10px;font-size:19px}.side-card li{padding:8px 0;font-size:14px;border-bottom:1px solid #f0f0f2}.num-panel{padding:18px;text-align:center;margin-bottom:20px;background:#0f1014;border:1px solid #0f1014;border-radius:20px;box-shadow:0 2px 6px rgba(15,16,20,.04),0 14px 32px rgba(15,16,20,.10)}.num-big{font-weight:800;color:#fff;line-height:1;margin:4px 0 8px;font-size:48px}.num-cap{font-size:14px;margin:0 0 12px;min-height:42px;color:#b9bcc4}.num-dot[aria-pressed="true"]{background:var(--red)}/* --- Footer: black + outline watermark --- */footer{font-size:14px;background:#0f1014;color:#b9bcc4;padding:64px 0 0;border-top:3px solid var(--red);overflow:hidden}.foot-h{font-weight:800;text-transform:uppercase;color:#fff;margin:0 0 8px;font-size:13px;letter-spacing:.14em}.foot-cols a{color:#e8e8ea}.foot-cols a:hover{color:#fff}.foot-cols p{margin:0 0 6px;color:#9a9da8}footer .copy-strip{background:#0f1014;border-top:1px solid #222;padding:20px 0;margin-top:48px}footer .copy{margin:0;color:#8a8f98}.footer-mark{font-size:clamp(96px,20vw,240px);font-weight:800;letter-spacing:.02em;line-height:.78;text-align:center;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.16);margin:48px 0 -.32em;user-select:none;pointer-events:none}/* --- Scroll reveal --- */html.js [data-reveal]{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}html.js [data-reveal].in{opacity:1;transform:none}/* --- Mobile --- */@media (max-width:900px){
   .hero,.hero-home{padding:24px 0 21px}
   .hero h1,.hero-home h1{font-size:52px}
-  .record-band .wrap{grid-template-columns:repeat(2,1fr);gap:24px}
-  .rec b{font-size:40px}
+    .rec b{font-size:40px}
   .stat-cards{grid-template-columns:repeat(2,1fr)}
   .ghost{display:none}
   .tiles{grid-template-columns:repeat(2,1fr)}
@@ -272,8 +55,7 @@ html.js [data-reveal].in{opacity:1;transform:none}
   main{padding-top:21px}
   main section{padding-top:21px;margin-bottom:21px}
   .home-side{padding-top:21px}
-}
-@media (max-width:640px){
+}@media (max-width:640px){
   body{font-size:15px}
   .brand{font-size:24px}
   .topbar-in{flex-wrap:nowrap;overflow-x:auto;gap:10px;padding:8px 10px 8px 18px;scrollbar-width:none}
@@ -290,52 +72,25 @@ html.js [data-reveal].in{opacity:1;transform:none}
   .lead-head{font-size:26px}
   .tiles{grid-template-columns:1fr}
   .rec b{font-size:36px}
-  .record-band{padding:48px 0}
-  .stat-card b{font-size:38px}
+    .stat-card b{font-size:38px}
   .car-btn{display:none}
   .score-card{flex-basis:100%}
   main{padding-top:19px}
   main section{padding:18px 14px 14px;padding-top:19px;margin-bottom:19px}
   .home-side{padding-top:19px}
   .subnav .wrap{flex-wrap:wrap}
-}
-@media (prefers-reduced-motion:reduce){
+}@media (prefers-reduced-motion:reduce){
   html.js [data-reveal]{opacity:1;transform:none;transition:none}
   .hero a.hero-cta,.score-card,.tile{transition:none}
-}
-</style>
-<style>
-/* ROLLOUT ADDITIONS (not in the D samples): Design A's ".hero a{color:#fff}"
+}</style>
+<style>/* ROLLOUT ADDITIONS (not in the D samples): Design A's ".hero a{color:#fff}"
    rule would leave the hero-lead links on 55 pages invisible on D's white
    hero, so non-CTA hero links go red here; crumbs stay muted (re-asserted
-   after, same specificity, later in the cascade). */
-.hero a:not(.hero-cta),.hero a:not(.hero-cta):visited{color:var(--red-text);text-decoration:underline}
-.hero .crumbs a,.hero .crumbs a:visited{color:var(--muted);text-decoration:none}
-/* Live-scores widget (NPL hub sidebar) ships its own scoped <style> AFTER
-   <head>, so this needs higher specificity to beat its blue link rule. */
-main .sialtv-live-widget a{color:var(--red-text)}
-</style>
-<style>
-/* SERIES NAV (Wave 1, 2026-11-11, ESPN-STRUCTURE-SPEC §3): secondary nav strip
+   after, same specificity, later in the cascade). *//* Live-scores widget (NPL hub sidebar) ships its own scoped <style> AFTER
+   <head>, so this needs higher specificity to beat its blue link rule. */main .sialtv-live-widget a{color:var(--red-text)}</style>
+<style>/* SERIES NAV (Wave 1, 2026-11-11, ESPN-STRUCTURE-SPEC §3): secondary nav strip
    under the NEXT ticker, above the hero. One line, horizontal scroll on
-   mobile. Active item: red text + red underline (Direction D: no blue UI). */
-.series-nav{background:#fff;border-bottom:1px solid #e5e5e5}
-.series-nav .wrap{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;max-width:1230px}
-.series-nav .wrap::-webkit-scrollbar{display:none}
-.series-nav a{flex:0 0 auto;font-family:"Archivo",ui-sans-serif,sans-serif;font-size:14px;font-weight:700;color:#0f1014;padding:13px 14px 11px;text-decoration:none;border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap}
-.series-nav a:hover{color:var(--red-text);text-decoration:none}
-.series-nav a[aria-current="page"]{color:var(--red-text);border-bottom-color:var(--red)}
-@media (max-width:640px){.series-nav a{padding:11px 12px 9px}}
-/* polish 2026-11-11: compact points-table logo+name alignment; hub/live carousel scrollbar+buttons match homepage */
-.t-pts td:has(>img.team-logo){display:flex;align-items:center;gap:6px;overflow-wrap:anywhere}
-.t-pts td:has(>img.team-logo) img.team-logo{flex:0 0 auto;margin-right:0;width:20px;height:20px}
-.pts-mini th,.pts-mini td{padding:8px 4px}
-.carousel{scrollbar-width:none}
-.carousel::-webkit-scrollbar{display:none}
-.car-btn.prev{left:8px}
-.car-btn.next{right:8px}
-/* mobile-fix-2026-11-11: first screen + horizontal scroll + tap targets (max-width:640px only; desktop unchanged) */
-@media (max-width:640px){
+   mobile. Active item: red text + red underline (Direction D: no blue UI). */.series-nav{background:#fff;border-bottom:1px solid #e5e5e5}.series-nav .wrap{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;max-width:1230px}.series-nav .wrap::-webkit-scrollbar{display:none}.series-nav a{flex:0 0 auto;font-family:"Archivo",ui-sans-serif,sans-serif;font-size:14px;font-weight:700;color:#0f1014;padding:13px 14px 11px;text-decoration:none;border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap}.series-nav a:hover{color:var(--red-text);text-decoration:none}.series-nav a[aria-current="page"]{color:var(--red-text);border-bottom-color:var(--red)}@media (max-width:640px){.series-nav a{padding:11px 12px 9px}}/* polish 2026-11-11: compact points-table logo+name alignment; hub/live carousel scrollbar+buttons match homepage */.t-pts td:has(>img.team-logo){display:flex;align-items:center;gap:6px;overflow-wrap:anywhere}.t-pts td:has(>img.team-logo) img.team-logo{flex:0 0 auto;margin-right:0;width:20px;height:20px}.pts-mini th,.pts-mini td{padding:8px 4px}.carousel{scrollbar-width:none}.carousel::-webkit-scrollbar{display:none}.car-btn.prev{left:8px}.car-btn.next{right:8px}/* mobile-fix-2026-11-11: first screen + horizontal scroll + tap targets (max-width:640px only; desktop unchanged) */@media (max-width:640px){
 .subnav .wrap{display:block}
 .subnav .t-time{white-space:normal}
 .subnav .wrap>*{min-width:0}
@@ -361,8 +116,19 @@ img{max-width:100%;height:auto}
 .hero-logos{justify-content:center}
 .hero-logos .team-logo{width:40px;height:40px}
 .hero,.hero-home{padding-top:20px;padding-bottom:16px}
-}
-</style>
+}</style>
+<style>/* player-grid-2026-11-12: Cricinfo player profile adapted to 3-col (Direction D unchanged) */.player-grid{display:grid;grid-template-columns:260px minmax(0,1fr) 300px;gap:28px;align-items:start}.player-left,.player-right{min-width:0}.player-left .side-card,.player-right .side-card{margin-bottom:20px}.player-centre{min-width:0}.player-centre section{padding-top:32px;margin-bottom:32px}.player-centre section:first-child{padding-top:0}.player-centre section h2{font-size:30px}.player-centre section h3{font-size:20px;margin:24px 0 10px}.ptabs + section{padding-top:16px}.profile-card{background:#0f1014;color:#fff;border-radius:16px;padding:22px 20px;text-align:center}.profile-card .init.big{width:72px;height:72px;font-size:26px;background:#fff;color:#0f1014;border:3px solid #ff4538;margin:0 auto 12px}.pc-name{font-size:22px;font-weight:800;margin:0 0 6pxline-height:1.5}.pc-summary{font-size:14px;color:#c8c9d1;margin:0 0 10px}.pc-strip{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#9a9ba3;margin:0;padding-top:10px;border-top:1px solid #2a2b31}.details-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px 24px;margin:0}.details-grid div{border-top:1px solid var(--rule);padding-top:8px}.details-grid dt{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}.details-grid dd{margin:4px 0 0;font-size:16px;font-weight:700;overflow-wrap:anywhere}.ptabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px}.ptab{font-family:"Archivo",ui-sans-serif,sans-serif;font-weight:700;color:var(--ink);background:#fff;border-radius:999px;font-size:14px;padding:9px 16px;border:1px solid #e0e0e0;text-decoration:none}.ptab:hover{border-color:var(--red-text)}.ptab[aria-current="true"]{color:#fff;background:var(--red-text);border-color:var(--red-text)}.career-table{width:100%;border-collapse:collapse;font-size:14px}.career-table th,.career-table td{padding:8px 10px;border-bottom:1px solid var(--rule);text-align:left;white-space:nowrap}.career-table th{font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}.career-table td:first-child{font-weight:700}.record-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px}.record-card{border:1px solid var(--rule);border-radius:16px;padding:16px}.record-card h3{margin:0 0 6px}.rec-rank{font-size:26px;font-weight:800;color:var(--red-text)}.rec-val{font-size:18px;font-weight:800;margin:0}.rec-fmt{font-size:13px;color:var(--muted);margin:4px 0 0}.top10{list-style:none;margin:0;padding:0}.top10 li{display:flex;align-items:center;gap:10px;padding:8px 0;border-top:1px solid var(--rule)}.top10 li:first-child{border-top:0}.top10 .init{flex:0 0 32px;width:32px;height:32px;border-radius:50%;background:#0f1014;color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:800}.top10 a{font-weight:700}@media (max-width:1100px){
+  .player-grid{grid-template-columns:minmax(0,1fr) 300px;grid-template-areas:"left right" "centre centre"}
+  .player-centre{grid-area:centre}
+  .player-right{grid-area:right}
+  .player-left{grid-area:left;display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}
+  .player-left .side-card{margin-bottom:0}
+}@media (max-width:900px){
+  .player-grid{grid-template-columns:1fr;grid-template-areas:"left" "centre" "right"}
+  .player-left{grid-template-columns:1fr}
+  .player-centre section h2{font-size:26px}
+  .details-grid{grid-template-columns:repeat(2,1fr)}
+}</style>
 </head>
 <body class="league-apl">
 <header>
@@ -397,43 +163,58 @@ img{max-width:100%;height:auto}
     <a href="/apl/tickets/">Tickets</a>
   </div>
 </nav>
-<section class="hero">
-  <span class="ghost" aria-hidden="true">246</span>
-  <div class="wrap">
-    <p class="crumbs"><a href="/">SialTV</a> / <a href="/apl/">Afghanistan Premier League</a> / <a href="/apl/teams/paktia/">Paktia</a> / Hashmatullah Shahidi</p>
-    <p class="eyebrow">APL 2026-27 &middot; Paktia</p>
-    <h1><span class="accent">Hashmatullah Shahidi</span> &mdash; the anchor in a squad full of hitters</h1>
-    <p>Hashmatullah Shahidi is in the Paktia squad for APL 2026-27, picked in the Gold category at the Dubai draft. The left-handed top-order batter is the first Afghan to make a Test double hundred, and he arrives as the calmest head in a batting order built for fireworks.</p>
-        <a class="hero-cta" href="/apl/teams/paktia/">See Paktia&rsquo;s squad <span aria-hidden="true">&rsaquo;</span></a>
-    <p class="updated">Last updated: 12 November 2026</p>
-  </div>
-</section>
-<div class="wrap"><div class="stat-cards">
-  <div class="stat-card"><b>246</b><span>Highest Test score</span><i>by an Afghan batter</i></div>
-  <div class="stat-card"><b>202</b><span>Runs in APL 2018</span><i>for Nangarhar Leopards</i></div>
-  <div class="stat-card"><b>49*</b><span>Best innings, APL 2018</span><i>vs Paktia Panthers</i></div>
-  <div class="stat-card"><b>5</b><span>Years as Afghanistan captain</span><i>Tests and ODIs</i></div>
-</div></div>
-
-<main>
-<div class="wrap"><div class="home-grid"><div class="home-main">
-
-
-  <section data-reveal id="player">
+<div class="wrap"><p class="crumbs"><a href="/">SialTV</a> / <a href="/apl/">Afghanistan Premier League</a> / <a href="/apl/teams/paktia/">Paktia</a> / Hashmatullah Shahidi</p></div>
+<main><div class="wrap"><div class="player-grid">
+<div class="player-left">
+<div class="side-card profile-card" data-reveal>
+        <span class="init big" aria-hidden="true">HS</span>
+        <h1 class="pc-name">Hashmatullah Shahidi</h1>
+        <p class="pc-summary">Paktia | Batter</p>
+        <p class="pc-strip">APL 2026–27</p>
+      </div>
+<div class="side-card" data-reveal>
+        <h3>Most Viewed Players</h3>
+        <ul class="top10">
+          <li><span class="init" aria-hidden="true">RK</span><a href="/apl/players/rashid-khan/">Rashid Khan</a></li>
+          <li><span class="init" aria-hidden="true">RG</span><a href="/apl/players/rahmanullah-gurbaz/">Rahmanullah Gurbaz</a></li>
+          <li><span class="init" aria-hidden="true">AO</span><a href="/apl/players/azmatullah-omarzai/">Azmatullah Omarzai</a></li>
+          <li><span class="init" aria-hidden="true">IZ</span><a href="/apl/players/ibrahim-zadran/">Ibrahim Zadran</a></li>
+          <li><span class="init" aria-hidden="true">RS</span><a href="/apl/players/rahmat-shah/">Rahmat Shah</a></li>
+          <li><span class="init" aria-hidden="true">MN</span><a href="/apl/players/mohammad-nabi/">Mohammad Nabi</a></li>
+          <li><span class="init" aria-hidden="true">MA</span><a href="/apl/players/muhammad-amir/">Muhammad Amir</a></li>
+          <li><span class="init" aria-hidden="true">MA</span><a href="/apl/players/moeen-ali/">Moeen Ali</a></li>
+          <li><span class="init" aria-hidden="true">WH</span><a href="/apl/players/wanindu-hasaranga/">Wanindu Hasaranga</a></li>
+          <li><span class="init" aria-hidden="true">IT</span><a href="/apl/players/imran-tahir/">Imran Tahir</a></li>
+        </ul>
+      </div>
+<div class="side-card" data-reveal>
+        <h3>More Links</h3>
+        <ul>
+          <li><a href="/apl/players/">Afghanistan Premier League players</a></li>
+          <li><a href="/apl/teams/paktia/">Paktia</a></li>
+        </ul>
+      </div>
+</div>
+<div class="player-centre">
+<section data-reveal id="overview">
+      <h2>Profile details</h2>
+<dl class="details-grid">
+        <div><dt>FULL NAME</dt><dd>Hashmatullah Shahidi</dd></div><div><dt>PLAYING ROLE</dt><dd>Batter</dd></div><div><dt>TEAMS</dt><dd><a href="/apl/teams/paktia/">Paktia</a></dd></div>
+      </dl>
+    </section>
+<section data-reveal id="player">
       <h2>Temperament, bought in the Gold round</h2>
       <p class="lead">Hashmatullah Shahidi was born in Logar on 4 November 1994. He bats left-handed, bowls right-arm off-break, and he is a top-order batter who has built his reputation on long, unhurried innings in Test cricket.</p>
       <p>Paktia took him as the fifth and last Gold pick of the draft on 3 November 2026, for a reported $40,000, after Ijaz Ahmadzai, Farmanullah Safi, Colin Munro and David Wiese. He joins a side captained by Rahmanullah Gurbaz, coached by Azhar Mahmood and mentored by Waqar Younis, and the season starts on 27 December 2026.</p>
       <p>It will be his second APL campaign: he played the first season in 2018, for Nangarhar Leopards. What Paktia are buying is temperament &mdash; in a T20 squad full of hitters, he is the anchor, the batter who can bat through the middle overs, hold one end while the stroke-makers play around him, and still find the boundary when the asking rate climbs.</p>
   </section>
-
-  <section data-reveal id="career">
+<section data-reveal id="career">
       <h2>The first Afghan Test double hundred</h2>
       <p class="lead">Shahidi is the first Afghan to make a Test double hundred, and he holds the highest Test score by an Afghan batter, 246. He captained Afghanistan in Tests and ODIs for five years, leading the side at the 2023 World Cup and the 2025 Champions Trophy, before stepping down in July 2026. Paktia&rsquo;s captain is Gurbaz, so Shahidi arrives as a senior voice rather than the leader &mdash; the kind of presence a dressing room leans on in a tight chase or a difficult week.</p>
       <p>His 2018 season showed he can adapt the method to the format. Playing for Nangarhar Leopards, he was in the XI for all nine of the side&rsquo;s matches &mdash; eight in the league stage and the semi-final &mdash; and finished with 202 runs at an average of 40.40 and a strike rate of 103.06, with a highest score of 49 not out, dismissed only five times in nine innings. Nangarhar finished fourth in the five-team league and lost the semi-final to Balkh Legends.</p>
       <p>His best innings came against the team he now plays for. Against Paktia Panthers on 7 October, Nangarhar were in trouble when Shahidi walked in, and he stayed there: an unbeaten 49 off 36 balls, in a 112-run stand with captain Ben Cutting, who made 71. The stand was the fourth-highest sixth-wicket partnership in T20 history at the time, and the first century stand for the sixth wicket or lower in a T20 played in the UAE. Cutting, named Player of the Match, gave the credit to his partner: &ldquo;Full credit to Hash. We needed a partnership and he kept going and that was pretty exceptional.&rdquo; Paktia still won, by 21 runs.</p>
   </section>
-
-  <section data-reveal id="apl">
+<section data-reveal id="apl">
       <h2>202 runs in 2018, and a second campaign</h2>
       <p class="lead">Shahidi&rsquo;s 2018 numbers are verified from that season&rsquo;s scorecards. His 2026-27 numbers do not exist yet, because the season has not started.</p>
       <div class="table-scroll">
@@ -444,20 +225,17 @@ img{max-width:100%;height:auto}
       </div>
       <p class="note">2018: 202 runs at 40.40, strike rate 103.06, best 49 not out. Nangarhar finished fourth and lost the semi-final to Balkh Legends.</p>
   </section>
-
-  <section data-reveal id="role">
+<section data-reveal id="role">
       <h2>The senior voice, and the rebuild</h2>
       <p class="lead">Every T20 side needs a batter who can rebuild an innings rather than just survive one, and Shahidi has spent a career doing it. His 2018 season was a run of useful, unbeaten contributions in winning causes and fighting ones in defeats &mdash; 26 not out against Kandahar, 31 not out against Balkh, the 49 not out against Paktia.</p>
       <p>For a new squad of nineteen players who have never played together, his other value is quieter. He has captained his country for five years, and he knows how a dressing room works when a week goes wrong. Gurbaz leads the side; Shahidi is the man the captain can turn to.</p>
   </section>
-
-  <section data-reveal id="team">
+<section data-reveal id="team">
       <h2>A new club, a blank record</h2>
       <p class="lead">Twenty league matches, three playoffs and a final: that is the shape of APL 2026-27. Five teams play each other twice, eight matches apiece, and four of them reach the playoffs, so one side is out after the league stage. A win is worth two points. The table is still blank &mdash; the season has not started, and the first update comes after Match 1 on 27 December 2026, first ball 5:30 PM Afghanistan time (5:00 PM Dubai time) in the UAE, with the final on Wednesday 20 January 2027.</p>
       <p>Paktia are a new club for 2026-27, not a continuation of the 2018 Paktia Panthers &mdash; Shahidi&rsquo;s 2018 runs were scored against Paktia, for Nangarhar Leopards. The <a href="/apl/">Afghanistan Premier League 2026</a> season starts on 27 December 2026 in the UAE.</p>
   </section>
-
-  <section data-reveal class="faq" id="faq">
+<section data-reveal class="faq" id="faq">
       <h2>Frequently asked questions</h2>
       <h3>What is Hashmatullah Shahidi's highest Test score?</h3>
       <p>246 — the highest Test score by an Afghan batter. He is the first Afghan to make a Test double hundred.</p>
@@ -466,12 +244,10 @@ img{max-width:100%;height:auto}
       <h3>Did Hashmatullah Shahidi captain Afghanistan?</h3>
       <p>Yes, in Tests and ODIs for five years, including the 2023 World Cup and the 2025 Champions Trophy, before stepping down in July 2026.</p>
   </section>
-
-  <p class="lead-links"><a href="/apl/teams/paktia/">Paktia</a> &middot; <a href="/apl/schedule/">APL Schedule</a> &middot; <a href="/apl/points-table/">APL Points Table</a> &middot; <a href="/apl/">Afghanistan Premier League</a></p>
-
+<p class="lead-links"><a href="/apl/teams/paktia/">Paktia</a> &middot; <a href="/apl/schedule/">APL Schedule</a> &middot; <a href="/apl/points-table/">APL Points Table</a> &middot; <a href="/apl/">Afghanistan Premier League</a></p>
 </div>
-<aside class="home-side" aria-label="Sidebar">
-      <div class="side-card" data-reveal>
+<div class="player-right">
+<div class="side-card" data-reveal>
         <h3>Player &amp; team</h3>
         <ul>
           <li><b>Role</b><span>Batter</span></li>
@@ -481,26 +257,26 @@ img{max-width:100%;height:auto}
           <li><b>Draft</b><span>Gold pick — $40,000 (5th Gold pick)</span></li>
         </ul>
       </div>
-      <div class="side-card" data-reveal>
+<div class="side-card" data-reveal>
         <h3>Coming up</h3>
         <ul>
           <li><b>First ball</b><span>Sun 27 Dec, 5:30 PM AFT &middot; UAE</span></li>
           <li><b>Final</b><span>Wed 20 Jan 2027 &middot; UAE</span></li>
-          <li><b>Season</b><span>APL 2026-27 &middot; 24 matches</span></li>
+          <li><a href="/apl/"><b>Season</b><span>APL 2026-27 &middot; 24 matches</span></a></li>
         </ul>
       </div>
-      <div class="side-card" data-reveal>
+<div class="side-card" data-reveal>
         <h3>On this page</h3>
         <ul>
-          <li><a href="#player">The player</a></li>
-          <li><a href="#career">Career so far</a></li>
-          <li><a href="#apl">APL record</a></li>
-          <li><a href="#role">What he brings</a></li>
-          <li><a href="#team">Where Paktia stand</a></li>
-          <li><a href="#faq">FAQ</a></li>
+          <li><a href="#overview">Profile details</a></li>
+          <li><a href="#player">Temperament, bought in the Gold round</a></li>
+          <li><a href="#career">The first Afghan Test double hundred</a></li>
+          <li><a href="#apl">202 runs in 2018, and a second campaign</a></li>
+          <li><a href="#role">The senior voice, and the rebuild</a></li>
+          <li><a href="#team">A new club, a blank record</a></li>
         </ul>
       </div>
-      <div class="side-card" data-reveal>
+<div class="side-card" data-reveal>
         <h3>More APL coverage</h3>
         <ul>
           <li><a href="/apl/teams/paktia/">Paktia</a><span>Squad, captain and fixtures.</span></li>
@@ -510,9 +286,10 @@ img{max-width:100%;height:auto}
           <li><a href="/apl/">Afghanistan Premier League</a><span>The season in full.</span></li>
         </ul>
       </div>
-    </aside>
-</div></div>
-</main>
+</div>
+</div>
+<p class="note">Last updated: 12 November 2026</p>
+</div></main>
 
 <footer>
   <div class="wrap">
