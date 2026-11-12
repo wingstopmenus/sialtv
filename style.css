@@ -1096,3 +1096,304 @@ body:not(.st-home) footer {
 }
 body:not(.st-home) iframe,
 body:not(.st-home) video { max-width: 100%; }
+
+/* ---------- Inner pages (body.st-inner) ----------
+   League and inner pages use the new design system too. Scoped to
+   body.st-inner so the homepage (body.st-home) renders exactly as
+   before. These rules beat the document fallback above: body.st-inner
+   has equal or higher specificity and comes later in the file. */
+body.st-inner {
+  margin: 0;
+  max-width: none;
+  padding: 0;
+  font-family: var(--st-font);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  color: var(--st-ink);
+  background: var(--st-bg);
+}
+body.st-inner a { color: var(--st-rose-deep); text-decoration: none; }
+body.st-inner a:hover { text-decoration: underline; }
+body.st-inner .wrap {
+  width: min(var(--st-shell), calc(100% - 2.5rem));
+  margin-inline: auto;
+}
+body.st-inner .live-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--st-rose);
+  display: inline-block;
+}
+
+/* Match strip — dark bar at the very top, above the masthead. */
+.st-match-strip {
+  background: var(--st-night);
+  color: #eceaf6;
+  font-size: 0.875rem;
+  font-weight: 550;
+}
+.st-match-strip .wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 2.65rem;
+  padding-block: 0.45rem;
+}
+.st-match-strip b,
+.st-match-strip .slp-live b {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: var(--st-rose);
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.22rem 0.55rem;
+  border-radius: var(--st-pill);
+  line-height: 1;
+}
+.st-match-strip .live-dot {
+  width: 0.42rem;
+  height: 0.42rem;
+  border-radius: 50%;
+  background: #fff;
+  display: inline-block;
+  animation: st-pulse 1.8s ease-out infinite;
+}
+.st-match-strip .slp-strip-score { color: #fff; font-weight: 800; }
+.st-match-strip a { color: #fff; font-weight: 700; white-space: nowrap; }
+.st-match-strip a:hover { color: var(--st-rose-glow); }
+.st-match-strip .t-time { color: #b9b4c9; }
+
+/* Series nav — pill links under the strip. */
+body.st-inner .series-nav {
+  background: var(--st-surface);
+  border-bottom: 1px solid var(--st-line);
+  margin: 0;
+}
+body.st-inner .series-nav .wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.15rem;
+  align-items: center;
+  padding-block: 0.5rem;
+}
+body.st-inner .series-nav a {
+  color: var(--st-ink-2);
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 0.45rem 0.7rem;
+  border-radius: 0.65rem;
+}
+body.st-inner .series-nav a:hover { background: var(--st-bg-soft); color: var(--st-ink); }
+body.st-inner .series-nav a[aria-current="page"] {
+  background: var(--st-rose-soft);
+  color: var(--st-rose-deep);
+  font-weight: 700;
+}
+
+/* Page head — H1 block. */
+body.st-inner .page-head { padding: 2.5rem 0 1.5rem; }
+body.st-inner .page-head h1 {
+  font-size: clamp(1.9rem, 4.2vw, 3.15rem);
+  letter-spacing: -0.035em;
+  line-height: 1.08;
+  font-weight: 800;
+  color: var(--st-ink);
+  margin: 0.6rem 0 0.5rem;
+}
+body.st-inner .crumbs { color: var(--st-mute); font-size: 0.9rem; font-weight: 600; margin: 0; }
+body.st-inner .crumbs a { color: var(--st-rose-deep); }
+body.st-inner .updated { color: var(--st-mute); font-size: 0.9rem; margin: 0; }
+
+/* Match tabs — pill buttons. */
+body.st-inner .hub-tabs { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.25rem; }
+body.st-inner .hub-tab {
+  background: var(--st-surface);
+  border: 1px solid var(--st-line);
+  color: var(--st-ink-2);
+  font-weight: 650;
+  font-size: 0.9rem;
+  padding: 0.6rem 0.95rem;
+  border-radius: var(--st-pill);
+  cursor: pointer;
+  transition: background var(--st-ease), color var(--st-ease), border-color var(--st-ease);
+}
+body.st-inner .hub-tab:hover { background: var(--st-bg-soft); color: var(--st-ink); }
+body.st-inner .hub-tab[aria-selected="true"] {
+  background: var(--st-rose);
+  border-color: var(--st-rose);
+  color: #fff;
+  font-weight: 700;
+}
+
+/* Score cards. */
+body.st-inner .score-card {
+  display: block;
+  background: var(--st-surface);
+  border: 1px solid var(--st-line);
+  border-radius: var(--st-radius-sm);
+  padding: 1.25rem 1.3rem;
+  box-shadow: var(--st-shadow-sm);
+  color: var(--st-ink);
+  transition: transform var(--st-ease), box-shadow var(--st-ease);
+}
+body.st-inner .score-card:hover { transform: translateY(-2px); box-shadow: var(--st-shadow); }
+body.st-inner .sc-label {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #fff;
+  background: var(--st-rose);
+  padding: 0.3rem 0.6rem;
+  border-radius: var(--st-pill);
+  margin: 0 0 0.75rem;
+}
+body.st-inner .sc-label.upcoming { background: var(--st-ink-2); }
+body.st-inner .sc-match { color: var(--st-mute); font-size: 0.85rem; font-weight: 600; margin: 0 0 0.75rem; }
+body.st-inner .sc-row { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; padding: 0.45rem 0; }
+body.st-inner .sc-team { display: flex; align-items: center; gap: 0.6rem; font-weight: 700; }
+body.st-inner .sc-score { font-weight: 800; font-variant-numeric: tabular-nums; white-space: nowrap; }
+body.st-inner .sc-result { color: var(--st-ink-2); font-size: 0.95rem; margin: 0.75rem 0 0; }
+body.st-inner .mc-links { display: flex; flex-wrap: wrap; gap: 0.45rem; margin: 1rem 0 0; padding: 0; list-style: none; }
+body.st-inner .mc-links a {
+  background: var(--st-bg);
+  border: 1px solid var(--st-line);
+  color: var(--st-ink);
+  font-weight: 650;
+  font-size: 0.85rem;
+  padding: 0.45rem 0.75rem;
+  border-radius: var(--st-pill);
+}
+body.st-inner .mc-links a:hover { background: var(--st-rose-soft); border-color: #fecdd3; color: var(--st-rose-deep); }
+
+/* Hero card (#heroLiveCard). */
+body.st-inner .today {
+  background: var(--st-surface);
+  border: 1px solid var(--st-line);
+  border-radius: var(--st-radius);
+  padding: 1.5rem 1.6rem;
+  box-shadow: var(--st-shadow-sm);
+}
+body.st-inner .lead-kicker {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--st-rose-deep);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin: 0;
+}
+body.st-inner .lead-head { font-size: 1.5rem; letter-spacing: -0.03em; line-height: 1.2; font-weight: 800; margin: 0.5rem 0; }
+body.st-inner .lead-head a { color: var(--st-ink); }
+body.st-inner .lead-score, body.st-inner .lead-stand { color: var(--st-ink-2); margin: 0 0 0.75rem; }
+body.st-inner .lead-links { margin: 0; }
+body.st-inner .lead-links a { color: var(--st-rose-deep); font-weight: 650; }
+
+/* Hub grid + rails + side cards. */
+body.st-inner .hub-grid { display: grid; grid-template-columns: 0.75fr 1.5fr 0.75fr; gap: 1.25rem; align-items: start; }
+body.st-inner .hub-rail { display: flex; flex-direction: column; gap: 1.25rem; min-width: 0; }
+body.st-inner .hub-centre { min-width: 0; }
+body.st-inner .side-card ul { margin: 0; padding: 0; list-style: none; }
+body.st-inner .side-card li { padding: 0.7rem 0; border-top: 1px solid var(--st-line); }
+body.st-inner .side-card li:first-child { border-top: 0; }
+body.st-inner .side-card li > a { display: block; color: var(--st-ink); }
+body.st-inner .side-card li:has(.tp-main) { display: flex; align-items: center; gap: 0.85rem; }
+body.st-inner .side-card .see-all { font-size: 0.78rem; font-weight: 700; color: var(--st-rose-deep); float: right; }
+body.st-inner .tp-photo { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; flex-shrink: 0; }
+body.st-inner .tp-main { display: flex; flex-direction: column; gap: 0.15rem; min-width: 0; }
+body.st-inner .tp-name { font-weight: 750; color: var(--st-ink); }
+body.st-inner .tp-sub { color: var(--st-mute); font-size: 0.85rem; line-height: 1.45; }
+body.st-inner .tp-fig { margin-left: auto; font-size: 1.35rem; font-weight: 800; font-variant-numeric: tabular-nums; }
+
+/* Fixtures / results lists. */
+body.st-inner .fx-seg { display: flex; gap: 0.4rem; margin-bottom: 1rem; }
+body.st-inner .fx-seg-btn {
+  flex: 1;
+  background: var(--st-bg);
+  border: 1px solid var(--st-line);
+  color: var(--st-ink-2);
+  font-weight: 650;
+  font-size: 0.9rem;
+  padding: 0.55rem 0.75rem;
+  border-radius: 0.7rem;
+  cursor: pointer;
+}
+body.st-inner .fx-seg-btn:hover { background: var(--st-bg-soft); }
+body.st-inner .fx-seg-btn[aria-pressed="true"] { background: var(--st-rose); border-color: var(--st-rose); color: #fff; font-weight: 700; }
+body.st-inner .fx-date { display: block; color: var(--st-rose-deep); font-size: 0.78rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; }
+body.st-inner .fx-desc { display: block; color: var(--st-mute); font-size: 0.85rem; }
+body.st-inner .fx-team { display: flex; align-items: center; gap: 0.5rem; font-weight: 700; font-size: 0.95rem; }
+body.st-inner .fx-status { display: block; color: var(--st-mute); font-size: 0.85rem; margin-top: 0.25rem; }
+
+/* Tables. */
+body.st-inner .table-scroll { margin-bottom: 20px; overflow-x: auto; }
+body.st-inner th { font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: var(--st-mute); }
+body.st-inner td.num, body.st-inner th.num { text-align: right; font-variant-numeric: tabular-nums; }
+body.st-inner tbody tr:hover { background: var(--st-bg); }
+
+/* Inner pages on small screens. */
+@media (max-width: 980px) {
+  body.st-inner .hub-grid { grid-template-columns: 1fr; }
+  .st-match-strip .wrap { flex-direction: column; align-items: flex-start; gap: 0.35rem; }
+}
+@media (max-width: 640px) {
+  body.st-inner .wrap { width: min(var(--st-shell), calc(100% - 1.5rem)); }
+  body.st-inner .page-head { padding: 1.75rem 0 1.25rem; }
+}
+
+/* ---------- Visual fixes — browser check 2026-11-13 ---------- */
+/* 7. Sticky masthead (~74px) must never cover an anchored heading. */
+body.st-inner [id] { scroll-margin-top: 96px; }
+
+/* 10+11. Section heads: left-aligned, normal H2 size — not the homepage hero size
+   (.st-block__head h2 was clamp(1.9rem,4.2vw,3.15rem) with 2.75rem bottom margin). */
+body.st-inner .st-block__head { text-align: left; max-width: none; margin: 0 0 1rem; }
+body.st-inner .st-block__head--left { max-width: none; }
+body.st-inner .st-block__head h2 { font-size: clamp(1.35rem, 2.5vw, 1.75rem); line-height: 1.2; margin: 0; }
+body.st-inner .st-block__head .st-eyebrow { margin-bottom: 0.3rem; }
+
+/* 10. Spacing for the full-width sections below the hub grid + the scores block. */
+body.st-inner .wrap > section { margin-bottom: 2.25rem; }
+body.st-inner .scores-sec { margin-bottom: 1.5rem; }
+body.st-inner .hub-centre > section { margin-bottom: 2rem; }
+
+/* 6. Side cards: a visible border on lavender (the .st-jump white border is invisible). */
+body.st-inner .side-card { border: 1px solid var(--st-line); }
+
+/* 6. Points table: rose header, even-row shading, right-aligned numbers, team cell flex. */
+body.st-inner .t-pts th, body.st-inner .t-pts td { padding: 0.55rem 0.5rem; }
+body.st-inner .t-pts thead th { background: var(--st-rose); color: #fff; }
+body.st-inner .t-pts tbody tr:nth-child(even) { background: var(--st-bg-soft); }
+body.st-inner .t-pts td:not(:first-child), body.st-inner .t-pts th:not(:first-child) { text-align: right; font-variant-numeric: tabular-nums; }
+body.st-inner .t-pts td:first-child { display: flex; align-items: center; gap: 0.5rem; font-weight: 700; }
+
+/* 8. Team logos keep proportions; Pokhara (pale gold, luminance 203) gets a dark chip
+   so it reads on white. Chitwan is dark (luminance 74), so the chip is Pokhara-only. */
+body.st-inner img.team-logo { object-fit: contain; flex-shrink: 0; }
+body.st-inner img.team-logo[alt*="Pokhara"] { background: var(--st-night-2); border-radius: 0.55rem; padding: 0.25rem 0.4rem; box-sizing: border-box; }
+
+/* Stats top performances (.rx-perf-*): the new design has no rules for these, so the
+   name and team/stats run together ("Lokesh BamBIK"). Row layout + stacked who. */
+body.st-inner .rx-perf-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+body.st-inner .rx-perf-card { background: var(--st-surface); border: 1px solid var(--st-line); border-radius: var(--st-radius-sm); padding: 1.25rem 1.3rem; box-shadow: var(--st-shadow-sm); }
+body.st-inner .rx-perf-card h3 { font-size: 1.05rem; margin: 0 0 0.75rem; }
+body.st-inner .rx-perf-row { display: flex; align-items: center; gap: 0.85rem; padding: 0.7rem 0; border-top: 1px solid var(--st-line); }
+body.st-inner .rx-perf-row:first-of-type { border-top: 0; }
+body.st-inner .rx-ava { width: 2.75rem; height: 2.75rem; border-radius: 50%; background: var(--st-rose-soft); color: var(--st-rose-deep); font-weight: 800; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 0.85rem; }
+body.st-inner .rx-perf-who { display: flex; flex-direction: column; gap: 0.1rem; min-width: 0; }
+body.st-inner .rx-perf-who a { font-weight: 700; color: var(--st-ink); line-height: 1.3; }
+body.st-inner .rx-perf-who span { color: var(--st-mute); font-size: 0.85rem; line-height: 1.45; }
+body.st-inner .rx-perf-fig { margin-left: auto; font-size: 1.35rem; font-weight: 800; font-variant-numeric: tabular-nums; }
+body.st-inner .rx-perf-foot { margin: 0.75rem 0 0; font-size: 0.85rem; font-weight: 700; }
+@media (max-width: 640px) {
+  body.st-inner .rx-perf-grid { grid-template-columns: 1fr; }
+}
