@@ -15,7 +15,7 @@
 <meta name="twitter:description" content="Rijan Dhakal took 4 for 24 as Chitwan beat Pokhara by 30 runs. Full scorecard, Sikandar Raza&#x27;s 37 off 16 and the points-table picture.">
 <meta name="theme-color" content="#0f1014">
 <script type="application/ld+json">
-{"@context": "https://schema.org", "@type": "WebPage", "name": "Rhinos vs Avengers NPL Match 17 — Scorecard & Result", "url": "https://sialtv.com/npl/matches/2026/match-17/", "description": "Rijan Dhakal took 4 for 24 as Chitwan beat Pokhara by 30 runs. Full scorecard, Sikandar Raza's 37 off 16 and the points-table picture.", "datePublished": "2026-11-11T14:00:00Z", "dateModified": "2026-11-12T21:07:07Z"}
+{"@context": "https://schema.org", "@type": "WebPage", "name": "Rhinos vs Avengers NPL Match 17 — Scorecard & Result", "url": "https://sialtv.com/npl/matches/2026/match-17/", "description": "Rijan Dhakal took 4 for 24 as Chitwan beat Pokhara by 30 runs. Full scorecard, Sikandar Raza's 37 off 16 and the points-table picture.", "datePublished": "2026-11-11T14:00:00Z", "dateModified": "2026-11-12T21:17:15Z"}
 </script>
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "SialTV", "item": "https://sialtv.com/"}, {"@type": "ListItem", "position": 2, "name": "Nepal Premier League", "item": "https://sialtv.com/npl/"}, {"@type": "ListItem", "position": 3, "name": "Matches", "item": "https://sialtv.com/npl/results/"}, {"@type": "ListItem", "position": 4, "name": "Match 17", "item": "https://sialtv.com/npl/matches/2026/match-17/"}]}
@@ -302,8 +302,7 @@ main section {padding:18px 14px 14px;padding-top:19px;margin-bottom:19px}
 .hero-chips{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;justify-content:flex-start}
 .hero-chips::-webkit-scrollbar{display:none}
 .hero-chip{flex:0 0 auto;white-space:nowrap}
-.slp-tabs{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
-.slp-tabs::-webkit-scrollbar{display:none}
+.slp-tabs{flex-wrap:wrap;overflow-x:visible}
 .slp-tab{flex:0 0 auto;white-space:nowrap}
 .pills{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
 .pills::-webkit-scrollbar{display:none}
@@ -419,7 +418,7 @@ main section{padding-top:12px}
     <a class="slp-tab" href="#scorecard" aria-current="true">Scorecard</a>
   </nav>
 
-<section data-reveal id="scorecard">
+<section id="scorecard">
 <h2>Scorecard</h2>
 <p class="slp-pills"><a class="slp-pill" href="#innings-1">Chitwan Rhinos innings</a> <a class="slp-pill" href="#innings-2">Pokhara Avengers innings</a> <a class="slp-pill" href="#summary">Info</a></p>
 <p class="lead">Every run and every wicket, exactly as the match finished.</p>
@@ -442,7 +441,7 @@ main section{padding-top:12px}
 <div class="table-scroll"><table class="t-nums"><thead><tr><th>Bowler</th><th>O</th><th>M</th><th>R</th><th>W</th><th>ECON</th><th>WD</th><th>NB</th></tr></thead><tbody><tr><td><a href="/npl/players/kamal-singh-airee/">Kamal Airee</a></td><td>2</td><td>1</td><td>7</td><td>3</td><td>3.5</td><td>1</td><td>0</td></tr><tr><td><a href="/npl/players/rijan-dhakal/">Rijan Dhakal</a></td><td>4</td><td>0</td><td>24</td><td>4</td><td>6</td><td>1</td><td>0</td></tr><tr><td>Dan Mousley</td><td>2</td><td>0</td><td>10</td><td>1</td><td>5</td><td>1</td><td>0</td></tr><tr><td><a href="/npl/players/sikandar-raza/">Sikandar Raza</a></td><td>2</td><td>0</td><td>19</td><td>0</td><td>9.5</td><td>0</td><td>0</td></tr><tr><td><a href="/npl/players/ranjeet-kumar/">Ranjit Kumar</a></td><td>3</td><td>0</td><td>34</td><td>0</td><td>11.33</td><td>1</td><td>0</td></tr><tr><td><a href="/npl/players/mausam-dhakal/">Mousom Dhakal</a></td><td>2</td><td>0</td><td>11</td><td>1</td><td>5.5</td><td>2</td><td>0</td></tr><tr><td><a href="/npl/players/kushal-malla/">Kushal Malla</a></td><td>4</td><td>0</td><td>12</td><td>1</td><td>3</td><td>1</td><td>0</td></tr></tbody></table></div>
 </section>
 
-<section data-reveal id="summary">
+<section id="summary">
       <h2>Scorecard summary</h2>
       <p class="lead">Chitwan Rhinos 151/6 (20 overs) v Pokhara Avengers 121/10 (19 overs) — Chitwan Rhinos won by 30 runs</p>
       <h3>Chitwan Rhinos innings — 151/6 (20 overs)</h3>
@@ -614,5 +613,49 @@ main section{padding-top:12px}
 </script>
 <script src="/js/live-scores.js" defer></script>
 <script src="/js/match-live.js" defer></script>
+<script>
+/* Match tabs (2026-11-12): real tabs — click shows the panel in place, no scroll. */
+(function(){
+  var nav = document.querySelector('.slp-tabs');
+  if (!nav) return;
+  var tabs = nav.querySelectorAll('.slp-tab');
+  if (!tabs.length) return;
+  var panels = [];
+  tabs.forEach(function(t){
+    var el = document.getElementById(t.getAttribute('href').slice(1));
+    if (el) panels.push(el);
+  });
+  if (!panels.length) return;
+  function show(key){
+    panels.forEach(function(p){ p.hidden = (p.id !== key); });
+    tabs.forEach(function(t){
+      var k = t.getAttribute('href').slice(1);
+      t.setAttribute('aria-current', k === key ? 'true' : 'false');
+    });
+  }
+  var def = tabs[0].getAttribute('href').slice(1);
+  tabs.forEach(function(t){
+    if (t.getAttribute('aria-current') === 'true') def = t.getAttribute('href').slice(1);
+  });
+  show(def);
+  tabs.forEach(function(t){
+    t.addEventListener('click', function(e){
+      e.preventDefault();
+      show(t.getAttribute('href').slice(1));
+    });
+  });
+  /* "On this page" + any in-page anchor to a tabbed section: switch the tab, then jump */
+  document.addEventListener('click', function(e){
+    var a = e.target.closest ? e.target.closest('a[href^="#"]') : null;
+    if (!a || a.classList.contains('slp-tab')) return;
+    var k = a.getAttribute('href').slice(1);
+    var el = document.getElementById(k);
+    if (!el || panels.indexOf(el) === -1) return;
+    e.preventDefault();
+    show(k);
+    el.scrollIntoView();
+  });
+})();
+</script>
 </body>
 </html>

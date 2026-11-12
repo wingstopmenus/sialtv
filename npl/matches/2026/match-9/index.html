@@ -15,7 +15,7 @@
 <meta name="twitter:description" content="Trit Raj Das made 61 as Janakpur Bolts defended 147/7 to beat Pokhara Avengers by 9 runs in Match 9. Read the full scorecard and how the chase slipped away.">
 <meta name="theme-color" content="#0f1014">
 <script type="application/ld+json">
-{"@context": "https://schema.org", "@type": "WebPage", "name": "Bolts vs Avengers NPL Match 9 — Scorecard & Result", "url": "https://sialtv.com/npl/matches/2026/match-9/", "description": "Trit Raj Das made 61 as Janakpur Bolts defended 147/7 to beat Pokhara Avengers by 9 runs in Match 9. Read the full scorecard and how the chase slipped away.", "datePublished": "2026-11-11T13:52:00Z", "dateModified": "2026-11-12T21:07:56Z"}
+{"@context": "https://schema.org", "@type": "WebPage", "name": "Bolts vs Avengers NPL Match 9 — Scorecard & Result", "url": "https://sialtv.com/npl/matches/2026/match-9/", "description": "Trit Raj Das made 61 as Janakpur Bolts defended 147/7 to beat Pokhara Avengers by 9 runs in Match 9. Read the full scorecard and how the chase slipped away.", "datePublished": "2026-11-11T13:52:00Z", "dateModified": "2026-11-12T21:17:07Z"}
 </script>
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "SialTV", "item": "https://sialtv.com/"}, {"@type": "ListItem", "position": 2, "name": "Nepal Premier League", "item": "https://sialtv.com/npl/"}, {"@type": "ListItem", "position": 3, "name": "Matches", "item": "https://sialtv.com/npl/results/"}, {"@type": "ListItem", "position": 4, "name": "Match 9", "item": "https://sialtv.com/npl/matches/2026/match-9/"}]}
@@ -305,8 +305,7 @@ main section {padding:18px 14px 14px;padding-top:19px;margin-bottom:19px}
 .hero-chips{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;justify-content:flex-start}
 .hero-chips::-webkit-scrollbar{display:none}
 .hero-chip{flex:0 0 auto;white-space:nowrap}
-.slp-tabs{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
-.slp-tabs::-webkit-scrollbar{display:none}
+.slp-tabs{flex-wrap:wrap;overflow-x:visible}
 .slp-tab{flex:0 0 auto;white-space:nowrap}
 .pills{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
 .pills::-webkit-scrollbar{display:none}
@@ -422,7 +421,7 @@ main section{padding-top:12px}
     <a class="slp-tab" href="#scorecard" aria-current="true">Scorecard</a>
   </nav>
 
-  <section data-reveal id="scorecard">
+  <section id="scorecard">
       <h2>Scorecard</h2>
 <p class="slp-pills"><a class="slp-pill" href="#innings-1">Janakpur Bolts innings</a> <a class="slp-pill" href="#innings-2">Pokhara Avengers innings</a> <a class="slp-pill" href="#info">Info</a></p>
       <p class="lead">Janakpur Bolts won by 9 runs. Every batter and bowler below links to their player page where one exists.</p>
@@ -495,7 +494,7 @@ main section{padding-top:12px}
       </div>
   </section>
 
-  <section data-reveal id="summary">
+  <section id="summary">
       <h2>Scorecard summary</h2>
       <p class="lead">Janakpur Bolts 147/7 (20 overs) v Pokhara Avengers 138/9 (20 overs) — Janakpur Bolts won by 9 runs</p>
       <h3>Janakpur Bolts innings — 147/7 (20 overs)</h3>
@@ -680,5 +679,49 @@ main section{padding-top:12px}
 </script>
 <script src="/js/live-scores.js" defer></script>
 <script src="/js/match-live.js" defer></script>
+<script>
+/* Match tabs (2026-11-12): real tabs — click shows the panel in place, no scroll. */
+(function(){
+  var nav = document.querySelector('.slp-tabs');
+  if (!nav) return;
+  var tabs = nav.querySelectorAll('.slp-tab');
+  if (!tabs.length) return;
+  var panels = [];
+  tabs.forEach(function(t){
+    var el = document.getElementById(t.getAttribute('href').slice(1));
+    if (el) panels.push(el);
+  });
+  if (!panels.length) return;
+  function show(key){
+    panels.forEach(function(p){ p.hidden = (p.id !== key); });
+    tabs.forEach(function(t){
+      var k = t.getAttribute('href').slice(1);
+      t.setAttribute('aria-current', k === key ? 'true' : 'false');
+    });
+  }
+  var def = tabs[0].getAttribute('href').slice(1);
+  tabs.forEach(function(t){
+    if (t.getAttribute('aria-current') === 'true') def = t.getAttribute('href').slice(1);
+  });
+  show(def);
+  tabs.forEach(function(t){
+    t.addEventListener('click', function(e){
+      e.preventDefault();
+      show(t.getAttribute('href').slice(1));
+    });
+  });
+  /* "On this page" + any in-page anchor to a tabbed section: switch the tab, then jump */
+  document.addEventListener('click', function(e){
+    var a = e.target.closest ? e.target.closest('a[href^="#"]') : null;
+    if (!a || a.classList.contains('slp-tab')) return;
+    var k = a.getAttribute('href').slice(1);
+    var el = document.getElementById(k);
+    if (!el || panels.indexOf(el) === -1) return;
+    e.preventDefault();
+    show(k);
+    el.scrollIntoView();
+  });
+})();
+</script>
 </body>
 </html>

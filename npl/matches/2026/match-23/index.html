@@ -15,7 +15,7 @@
 <meta name="twitter:description" content="Karnali Yaks face Lumbini Lions in Match 23 at Kirtipur on 12 November. Three straight defeats meet the league's best net run rate — read the preview.">
 <meta name="theme-color" content="#0f1014">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","name":"Yaks vs Lions NPL Match 23 \u2014 Preview & Fixtures","url":"https://sialtv.com/npl/matches/2026/match-23/","description":"Karnali Yaks face Lumbini Lions in Match 23 at Kirtipur on 12 November. Three straight defeats meet the league's best net run rate \u2014 read the preview.","datePublished":"2026-11-11T14:06:00Z","dateModified": "2026-11-12T21:07:14Z"}
+{"@context":"https://schema.org","@type":"WebPage","name":"Yaks vs Lions NPL Match 23 \u2014 Preview & Fixtures","url":"https://sialtv.com/npl/matches/2026/match-23/","description":"Karnali Yaks face Lumbini Lions in Match 23 at Kirtipur on 12 November. Three straight defeats meet the league's best net run rate \u2014 read the preview.","datePublished":"2026-11-11T14:06:00Z","dateModified": "2026-11-12T21:17:21Z"}
 </script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"SialTV","item":"https://sialtv.com/"},{"@type":"ListItem","position":2,"name":"Nepal Premier League","item":"https://sialtv.com/npl/"},{"@type":"ListItem","position":3,"name":"Matches","item":"https://sialtv.com/npl/results/"},{"@type":"ListItem","position":4,"name":"Match 23","item":"https://sialtv.com/npl/matches/2026/match-23/"}]}
@@ -304,8 +304,7 @@ main section {padding:18px 14px 14px;padding-top:19px;margin-bottom:19px}
 .hero-chips{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;justify-content:flex-start}
 .hero-chips::-webkit-scrollbar{display:none}
 .hero-chip{flex:0 0 auto;white-space:nowrap}
-.slp-tabs{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
-.slp-tabs::-webkit-scrollbar{display:none}
+.slp-tabs{flex-wrap:wrap;overflow-x:visible}
 .slp-tab{flex:0 0 auto;white-space:nowrap}
 .pills{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
 .pills::-webkit-scrollbar{display:none}
@@ -422,7 +421,7 @@ main section{padding-top:12px}
     <a class="slp-tab" href="#live">Live</a>
   </nav>
 
-  <section data-reveal id="fixture">
+  <section id="fixture">
       <h2>Karnali Yaks vs Lumbini Lions, Thursday, 12 November 2026 at 4:30 PM NST</h2>
       <p>The 23rd match of the <a href="/">NPL</a> season is the evening game of Thursday 12 November 2026, starting at 4:30 PM NST — 10:45 AM UTC, 3:45 PM PKT — at the Tribhuvan University International Cricket Ground in Kirtipur. It follows the afternoon match between Biratnagar Kings and Pokhara Avengers, and it is the last game of the day.</p><p>This is the first meeting of the two sides this season. Lumbini Lions arrive third in the table on 7 points from five matches, with the league's best net run rate at +1.501. Karnali Yaks are seventh on 4 points from five matches, and they have lost their last three games. The full scorecard will appear on this page once the match is played.</p><p>The contrast is the story of the game: Lumbini have won by 7 wickets, by 8 wickets and by 16 runs in their three victories, while Karnali's defeats have grown heavier — by 4 wickets, by 39 runs and then by 63 runs. A fourth straight defeat would leave Karnali's season hanging by a thread.</p>
   
@@ -439,11 +438,11 @@ main section{padding-top:12px}
 <div class="form-row"><span class="ft">Karnali Yaks</span><span class="form-chips"><span class="fc-w">W</span><span class="fc-w">W</span><span class="fc-l">L</span><span class="fc-l">L</span><span class="fc-l">L</span></span></div>
 </section>
 
-  <section data-reveal id="scorecard">
+  <section id="scorecard">
       <h2>Scorecard</h2>
       <p>Match yet to begin. The scorecard appears here once the match starts.</p>
   </section>
-  <section data-reveal id="live">
+  <section id="live">
       <h2>Live</h2>
       <p class="slp-live-note">Match yet to begin. Live updates appear here once the match starts.</p>
   </section>
@@ -617,5 +616,49 @@ main section{padding-top:12px}
 </script>
 <script src="/js/live-scores.js" defer></script>
 <script src="/js/match-live.js?v=3" defer></script>
+<script>
+/* Match tabs (2026-11-12): real tabs — click shows the panel in place, no scroll. */
+(function(){
+  var nav = document.querySelector('.slp-tabs');
+  if (!nav) return;
+  var tabs = nav.querySelectorAll('.slp-tab');
+  if (!tabs.length) return;
+  var panels = [];
+  tabs.forEach(function(t){
+    var el = document.getElementById(t.getAttribute('href').slice(1));
+    if (el) panels.push(el);
+  });
+  if (!panels.length) return;
+  function show(key){
+    panels.forEach(function(p){ p.hidden = (p.id !== key); });
+    tabs.forEach(function(t){
+      var k = t.getAttribute('href').slice(1);
+      t.setAttribute('aria-current', k === key ? 'true' : 'false');
+    });
+  }
+  var def = tabs[0].getAttribute('href').slice(1);
+  tabs.forEach(function(t){
+    if (t.getAttribute('aria-current') === 'true') def = t.getAttribute('href').slice(1);
+  });
+  show(def);
+  tabs.forEach(function(t){
+    t.addEventListener('click', function(e){
+      e.preventDefault();
+      show(t.getAttribute('href').slice(1));
+    });
+  });
+  /* "On this page" + any in-page anchor to a tabbed section: switch the tab, then jump */
+  document.addEventListener('click', function(e){
+    var a = e.target.closest ? e.target.closest('a[href^="#"]') : null;
+    if (!a || a.classList.contains('slp-tab')) return;
+    var k = a.getAttribute('href').slice(1);
+    var el = document.getElementById(k);
+    if (!el || panels.indexOf(el) === -1) return;
+    e.preventDefault();
+    show(k);
+    el.scrollIntoView();
+  });
+})();
+</script>
 </body>
 </html>

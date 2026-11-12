@@ -38,7 +38,10 @@
     return bar;
   }
 
-  function textFor(data, league) {
+  /* showNext: pages with data-show-next="0" on <body> (NPL hub + live-scores)
+     hide the Next line; everywhere else the bar is unchanged. Same guard
+     pattern as live-strip.js. */
+  function textFor(data, league, showNext) {
     var p = window.sialtvPick((data && data.matches) || []);
     var link = ' · <a href="/' + league + '/live-scores/" style="color:#fff;font-weight:700">Live scores</a>';
     if (p.live) {
@@ -51,10 +54,13 @@
     }
     if (p.latest) {
       var out = 'Latest: ' + p.latest.statusText;
-      if (p.next) out += ' · Next: ' + p.next.team1 + ' vs ' + p.next.team2 + ', Match ' + p.next.matchNo;
+      if (p.next && showNext) out += ' · Next: ' + p.next.team1 + ' vs ' + p.next.team2 + ', Match ' + p.next.matchNo;
       return out + link;
     }
-    if (p.next) return 'Next: ' + p.next.team1 + ' vs ' + p.next.team2 + ' · Match ' + p.next.matchNo + link;
+    if (p.next) {
+      if (!showNext) return '';
+      return 'Next: ' + p.next.team1 + ' vs ' + p.next.team2 + ' · Match ' + p.next.matchNo + link;
+    }
     return '';
   }
 
@@ -62,11 +68,12 @@
     if (!window.sialtvScores) return;
     try { if (sessionStorage.getItem('sialtv-sticky-closed') === '1') return; } catch (e) {}
     var league = document.body.getAttribute('data-sticky-league') || 'npl';
+    var showNext = document.body.getAttribute('data-show-next') !== '0';
     function load() {
       if (document.hidden) return;
       window.sialtvScores(league).then(function (data) {
         if (!data || !data.matches || !data.matches.length) return;
-        var text = textFor(data, league);
+        var text = textFor(data, league, showNext);
         if (!text) return;
         var bar = ensureBar();
         var span = document.getElementById('sialtv-sticky-text');

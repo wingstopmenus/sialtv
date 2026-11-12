@@ -15,7 +15,7 @@
 <meta name="twitter:description" content="Rashid Khan&#x27;s 52 took Kathmandu to 180 and a 10-run win over Chitwan. Full scorecard, Ravi Bopara&#x27;s 55 and the points-table picture.">
 <meta name="theme-color" content="#0f1014">
 <script type="application/ld+json">
-{"@context": "https://schema.org", "@type": "WebPage", "name": "Gorkhas vs Rhinos NPL Match 20 — Scorecard & Result", "url": "https://sialtv.com/npl/matches/2026/match-20/", "description": "Rashid Khan's 52 took Kathmandu to 180 and a 10-run win over Chitwan. Full scorecard, Ravi Bopara's 55 and the points-table picture.", "datePublished": "2026-11-11T14:03:00Z", "dateModified": "2026-11-12T21:07:11Z"}
+{"@context": "https://schema.org", "@type": "WebPage", "name": "Gorkhas vs Rhinos NPL Match 20 — Scorecard & Result", "url": "https://sialtv.com/npl/matches/2026/match-20/", "description": "Rashid Khan's 52 took Kathmandu to 180 and a 10-run win over Chitwan. Full scorecard, Ravi Bopara's 55 and the points-table picture.", "datePublished": "2026-11-11T14:03:00Z", "dateModified": "2026-11-12T21:17:18Z"}
 </script>
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "SialTV", "item": "https://sialtv.com/"}, {"@type": "ListItem", "position": 2, "name": "Nepal Premier League", "item": "https://sialtv.com/npl/"}, {"@type": "ListItem", "position": 3, "name": "Matches", "item": "https://sialtv.com/npl/results/"}, {"@type": "ListItem", "position": 4, "name": "Match 20", "item": "https://sialtv.com/npl/matches/2026/match-20/"}]}
@@ -302,8 +302,7 @@ main section {padding:18px 14px 14px;padding-top:19px;margin-bottom:19px}
 .hero-chips{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;justify-content:flex-start}
 .hero-chips::-webkit-scrollbar{display:none}
 .hero-chip{flex:0 0 auto;white-space:nowrap}
-.slp-tabs{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
-.slp-tabs::-webkit-scrollbar{display:none}
+.slp-tabs{flex-wrap:wrap;overflow-x:visible}
 .slp-tab{flex:0 0 auto;white-space:nowrap}
 .pills{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
 .pills::-webkit-scrollbar{display:none}
@@ -419,7 +418,7 @@ main section{padding-top:12px}
     <a class="slp-tab" href="#scorecard" aria-current="true">Scorecard</a>
   </nav>
 
-<section data-reveal id="scorecard">
+<section id="scorecard">
 <h2>Scorecard</h2>
 <p class="slp-pills"><a class="slp-pill" href="#innings-1">Kathmandu Gorkhas innings</a> <a class="slp-pill" href="#innings-2">Chitwan Rhinos innings</a> <a class="slp-pill" href="#summary">Info</a></p>
 <p class="lead">Every run and every wicket, exactly as the match finished.</p>
@@ -443,7 +442,7 @@ main section{padding-top:12px}
 <div class="table-scroll"><table class="t-nums"><thead><tr><th>Bowler</th><th>O</th><th>M</th><th>R</th><th>W</th><th>ECON</th><th>WD</th><th>NB</th></tr></thead><tbody><tr><td>Jahandad Khan</td><td>4</td><td>0</td><td>37</td><td>1</td><td>9.25</td><td>2</td><td>1</td></tr><tr><td><a href="/npl/players/karan-kc/">Karan KC</a></td><td>4</td><td>0</td><td>43</td><td>1</td><td>10.75</td><td>3</td><td>0</td></tr><tr><td><a href="/npl/players/santosh-yadav/">Santosh Yadav</a></td><td>3</td><td>0</td><td>19</td><td>1</td><td>6.33</td><td>0</td><td>0</td></tr><tr><td><a href="/npl/players/sahan-arachchige/">Sahan Arachchige</a></td><td>4</td><td>0</td><td>37</td><td>2</td><td>9.25</td><td>1</td><td>0</td></tr><tr><td>Ganesh Gautam</td><td>3</td><td>0</td><td>16</td><td>1</td><td>5.33</td><td>0</td><td>0</td></tr><tr><td><a href="/npl/players/rashid-khan/">Rashid Khan</a></td><td>2</td><td>0</td><td>15</td><td>0</td><td>7.5</td><td>0</td><td>0</td></tr></tbody></table></div>
 </section>
 
-<section data-reveal id="summary">
+<section id="summary">
       <h2>Scorecard summary</h2>
       <p class="lead">Kathmandu Gorkhas 180/8 (20 overs) v Chitwan Rhinos 170/7 (20 overs) — Kathmandu Gorkhas won by 10 runs</p>
       <h3>Kathmandu Gorkhas innings — 180/8 (20 overs)</h3>
@@ -615,5 +614,49 @@ main section{padding-top:12px}
 </script>
 <script src="/js/live-scores.js" defer></script>
 <script src="/js/match-live.js" defer></script>
+<script>
+/* Match tabs (2026-11-12): real tabs — click shows the panel in place, no scroll. */
+(function(){
+  var nav = document.querySelector('.slp-tabs');
+  if (!nav) return;
+  var tabs = nav.querySelectorAll('.slp-tab');
+  if (!tabs.length) return;
+  var panels = [];
+  tabs.forEach(function(t){
+    var el = document.getElementById(t.getAttribute('href').slice(1));
+    if (el) panels.push(el);
+  });
+  if (!panels.length) return;
+  function show(key){
+    panels.forEach(function(p){ p.hidden = (p.id !== key); });
+    tabs.forEach(function(t){
+      var k = t.getAttribute('href').slice(1);
+      t.setAttribute('aria-current', k === key ? 'true' : 'false');
+    });
+  }
+  var def = tabs[0].getAttribute('href').slice(1);
+  tabs.forEach(function(t){
+    if (t.getAttribute('aria-current') === 'true') def = t.getAttribute('href').slice(1);
+  });
+  show(def);
+  tabs.forEach(function(t){
+    t.addEventListener('click', function(e){
+      e.preventDefault();
+      show(t.getAttribute('href').slice(1));
+    });
+  });
+  /* "On this page" + any in-page anchor to a tabbed section: switch the tab, then jump */
+  document.addEventListener('click', function(e){
+    var a = e.target.closest ? e.target.closest('a[href^="#"]') : null;
+    if (!a || a.classList.contains('slp-tab')) return;
+    var k = a.getAttribute('href').slice(1);
+    var el = document.getElementById(k);
+    if (!el || panels.indexOf(el) === -1) return;
+    e.preventDefault();
+    show(k);
+    el.scrollIntoView();
+  });
+})();
+</script>
 </body>
 </html>
