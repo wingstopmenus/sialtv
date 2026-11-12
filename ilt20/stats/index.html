@@ -15,7 +15,7 @@
 <meta name="twitter:description" content="ILT20 Season 5 stats — top run scorers, wicket takers, strike rates and economy, once play starts. First update after Match 1 on 21 Nov. See what is tracked.">
 <meta name="theme-color" content="#0f1014">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","name":"ILT20 Season 5 Stats \u2014 Top Run Scorers & Wickets","url":"https://sialtv.com/ilt20/stats/","description":"ILT20 Season 5 stats \u2014 top run scorers, wicket takers, strike rates and economy, once play starts. First update after Match 1 on 21 Nov. See what is tracked.","datePublished":"2026-11-11T04:57:00Z","dateModified": "2026-11-12T16:14:47Z"}
+{"@context":"https://schema.org","@type":"WebPage","name":"ILT20 Season 5 Stats \u2014 Top Run Scorers & Wickets","url":"https://sialtv.com/ilt20/stats/","description":"ILT20 Season 5 stats \u2014 top run scorers, wicket takers, strike rates and economy, once play starts. First update after Match 1 on 21 Nov. See what is tracked.","datePublished":"2026-11-11T04:57:00Z","dateModified": "2026-11-12T20:00:14Z"}
 </script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"SialTV","item":"https://sialtv.com/"},{"@type":"ListItem","position":2,"name":"ILT20","item":"https://sialtv.com/ilt20/"},{"@type":"ListItem","position":3,"name":"ILT20 Season 5 Stats \u2014 Top Run Scorers & Wickets","item":"https://sialtv.com/ilt20/stats/"}]}
@@ -46,13 +46,6 @@ nav.leagues{display:flex;flex-wrap:wrap;gap:0;margin-left:auto}
 .subnav b{background:var(--red);color:#fff;font-weight:800;font-size:12px;letter-spacing:.06em;text-transform:uppercase;padding:2px 8px;border-radius:4px}
 .subnav .t-time{font-weight:700;white-space:nowrap}
 /* Hero — deep navy band, white title, red base rule */
-.hero{background:var(--league);color:#fff;padding:28px 0 24px}
-.hero h1{color:#fff;margin:0 0 8px}
-.hero p{color:#e8ecef;font-size:17px;max-width:820px}
-.hero-home{background:var(--hero-navy);color:#fff;padding:34px 0 28px;border-bottom:3px solid var(--red)}
-.hero-home h1{color:#fff;font-size:46px}
-.hero-home p{color:#c9d8e8;font-size:18px}
-.hero-home .updated{color:#8fa9c4;font-size:14px}
 .hero-chip.live .live-dot{background:#fff;animation:pulse-white 1.8s infinite}
 @keyframes pulse-white{0%{box-shadow:0 0 0 0 rgba(255,255,255,.55)}70%{box-shadow:0 0 0 7px rgba(255,255,255,0)}100%{box-shadow:0 0 0 0 rgba(255,255,255,0)}}
 .crumbs{font-size:14px;color:var(--muted);padding:0;margin:0 0 8px}
@@ -85,13 +78,10 @@ td:nth-child(2){font-weight:700}
 @media (max-width:640px){
           nav.leagues a{font-size:14px;padding:6px 8px}
   .top-date{display:none}
-    .hero p,.hero-home p{font-size:16px}
-  .hero-home{padding:26px 0 22px}
     .today strong{font-size:19px}
       .foot-cols{gap:16px}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
-.hero a,.hero-home a,.hero a:visited,.hero-home a:visited{color:#fff;text-decoration:underline}
 </style>
 <style>
 /* Homepage-only extras — Sample A (richer v3). */
@@ -162,23 +152,6 @@ nav.leagues a:hover{background:#f4f4f5;text-decoration:none}
 .subnav{color:var(--muted);font-size:14px;background:#fff;border-bottom:1px solid #e5e5e5}
 .subnav .wrap{display:flex;justify-content:space-between;gap:16px;padding-top:8px;padding-bottom:8px;max-width:1230px}
 /* --- Hero: centred, white, huge type --- */
-.hero,.hero-home{background:#fff;color:var(--ink);padding:32px 0 29px;text-align:center;border-bottom:0;position:relative;overflow:hidden}
-.hero .wrap{max-width:960px;position:relative;z-index:1}
-.hero .crumbs{font-size:14px;color:var(--muted);margin:0 0 20px}
-.hero .crumbs a{color:var(--muted);text-decoration:none}
-.hero .crumbs a:hover{text-decoration:underline}
-.hero .eyebrow{font-size:14px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--red-text);margin:0 0 22px;white-space:normal;overflow:visible}
-.hero h1,.hero-home h1{font-size:68px;line-height:1.05;letter-spacing:-.02em;color:#0f1014;margin:0 0 24px}
-.hero h1 .accent{color:var(--red)}
-.hero p:not(.crumbs):not(.updated):not(.eyebrow){font-size:20px;line-height:1.7;color:#666;max-width:720px;margin:0 auto 28px}
-.hero .updated{color:#8a8f98;font-size:13px;margin:0 auto}
-.hero-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin:0 0 28px}
-.hero-chip{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid #e5e5e5;color:#0f1014;border-radius:999px;padding:12px 20px;font-size:15px;font-weight:700}
-.hero-chip::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--red);flex:0 0 auto}
-.hero-chip.live{background:var(--red);border-color:var(--red);color:#fff}
-.hero-chip.live::before{display:none}
-.hero a.hero-cta{display:inline-flex;align-items:center;gap:10px;background:var(--red);color:#fff;font-size:16px;font-weight:800;padding:16px 28px;border-radius:18px;text-decoration:none;box-shadow:0 12px 32px rgba(255,69,56,.35);margin:0 0 28px;transition:transform .15s ease,box-shadow .15s ease}
-.hero a.hero-cta:hover{color:#fff;text-decoration:none;transform:translateY(-1px);box-shadow:0 16px 38px rgba(255,69,56,.42)}
 .ghost{position:absolute;right:1%;top:6%;font-size:260px;font-weight:800;line-height:1;color:transparent;-webkit-text-stroke:2px rgba(15,16,20,.08);pointer-events:none;user-select:none}
 /* --- Black record band --- */
 .record-band{background:#0f1014;color:#fff;padding:72px 0}
@@ -258,8 +231,6 @@ html.js [data-reveal]{opacity:0;transform:translateY(14px);transition:opacity .6
 html.js [data-reveal].in{opacity:1;transform:none}
 /* --- Mobile --- */
 @media (max-width:900px){
-  .hero,.hero-home{padding:24px 0 21px}
-  .hero h1,.hero-home h1{font-size:52px}
   .record-band .wrap{grid-template-columns:repeat(2,1fr);gap:24px}
   .rec b{font-size:40px}
   .stat-cards{grid-template-columns:repeat(2,1fr)}
@@ -278,11 +249,6 @@ html.js [data-reveal].in{opacity:1;transform:none}
   nav.leagues{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-left:auto}
   nav.leagues::-webkit-scrollbar{display:none}
   .head-cta{display:none}
-  .hero h1,.hero-home h1{font-size:40px}
-  .hero p:not(.crumbs):not(.updated):not(.eyebrow){font-size:17px}
-  .hero .eyebrow{font-size:13px}
-  .hero-chip{font-size:14px;padding:10px 16px}
-  .hero a.hero-cta{font-size:15px;padding:14px 24px}
   main section h2,.home-main section h2{font-size:30px}
   .lead-head{font-size:26px}
   .tiles{grid-template-columns:1fr}
@@ -298,7 +264,6 @@ html.js [data-reveal].in{opacity:1;transform:none}
 }
 @media (prefers-reduced-motion:reduce){
   html.js [data-reveal]{opacity:1;transform:none;transition:none}
-  .hero a.hero-cta,.score-card,.tile{transition:none}
 }
 </style>
 <style>
@@ -306,8 +271,6 @@ html.js [data-reveal].in{opacity:1;transform:none}
    rule would leave the hero-lead links on 55 pages invisible on D's white
    hero, so non-CTA hero links go red here; crumbs stay muted (re-asserted
    after, same specificity, later in the cascade). */
-.hero a:not(.hero-cta),.hero a:not(.hero-cta):visited{color:var(--red-text);text-decoration:underline}
-.hero .crumbs a,.hero .crumbs a:visited{color:var(--muted);text-decoration:none}
 /* Live-scores widget (NPL hub sidebar) ships its own scoped <style> AFTER
    <head>, so this needs higher specificity to beat its blue link rule. */
 main .sialtv-live-widget a{color:var(--red-text)}
@@ -359,6 +322,151 @@ img{max-width:100%;height:auto}
 .hero,.hero-home{padding-top:20px;padding-bottom:16px}
 }
 </style>
+<style>
+/* Rebuild 2026-11-12: Cricinfo-structure components (points table / schedule / results / stats) */
+.rx-tabs{display:flex;gap:0;border:1px solid #e5e7eb;border-radius:12px;overflow:hidden;margin:0 0 20px}
+.rx-tabs a{flex:1;text-align:center;padding:12px 8px;font-weight:700;color:#374151;text-decoration:none;background:#fff}
+.rx-tabs a[aria-current="page"]{background:#0f1014;color:#fff}
+.rx-tabs a:hover{background:#f3f4f6}
+.rx-strip{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:2px 0 8px;align-items:center}
+.rx-strip::-webkit-scrollbar{display:none}
+.rx-strip .rx-day{flex:0 0 auto;min-width:52px;text-align:center;padding:8px 6px;border:1px solid #e5e7eb;border-radius:10px;text-decoration:none;color:#374151;background:#fff}
+.rx-strip .rx-day b{display:block;font-size:18px;line-height:1.1;color:#0f1014}
+.rx-strip .rx-day span{font-size:12px;color:#6b7280}
+.rx-strip .rx-day.is-next{background:#0f1014;border-color:#0f1014}
+.rx-strip .rx-day.is-next b,.rx-strip .rx-day.is-next span{color:#fff}
+.rx-strip .rx-day.is-next em{display:block;font-size:10px;font-style:normal;color:#fca5a5}
+.rx-strip .rx-nav{flex:0 0 auto;width:40px;height:40px;border:1px solid #e5e7eb;border-radius:50%;background:#fff;font-size:18px;cursor:pointer;color:#374151}
+.rx-pills{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 20px}
+.rx-pills .rx-reset{border:0;background:none;color:#6b7280;cursor:pointer;font-size:14px;text-decoration:underline}
+.rx-pills .rx-pill{border:1px solid #d1d5db;border-radius:999px;padding:7px 14px;background:#fff;font-size:14px;cursor:pointer;color:#374151}
+.rx-pills .rx-pill[aria-pressed="true"]{background:#0f1014;color:#fff;border-color:#0f1014}
+.rx-date-pill{text-align:center;margin:28px 0 16px}
+.rx-date-pill span{display:inline-block;background:#f3f4f6;border-radius:999px;padding:8px 20px;font-weight:700;color:#374151}
+.rx-sched-row{position:relative;display:grid;grid-template-columns:170px 1fr 190px;gap:16px;align-items:start;padding:16px 4px;border-bottom:1px solid #e5e7eb;text-decoration:none;color:inherit}
+.rx-sched-row:hover{background:#fef2f2}
+.rx-row-link{position:absolute;inset:0;z-index:1}
+.rx-sched-series{position:relative;z-index:2}
+.rx-sched-time b{display:block;font-size:18px;color:#0f1014}
+.rx-sched-time span{display:block;font-size:13px;color:#6b7280;margin-top:2px}
+.rx-sched-mid b{font-size:17px;color:#0f1014}
+.rx-sched-mid .rx-desc{display:block;font-size:13px;color:#6b7280;margin-top:3px}
+.rx-sched-mid .rx-result{display:block;font-size:14px;color:#374151;margin-top:3px}
+.rx-sched-series{text-align:right;font-size:14px}
+.rx-sched-series a{color:#c92a1e;text-decoration:none;font-weight:600}
+.rx-note-card{border:1px solid #e5e7eb;border-radius:16px;padding:20px 22px;background:#fff;margin:0 0 20px}
+.rx-note-card p{margin:0 0 10px}
+.rx-note-card p:last-child{margin-bottom:0}
+.rx-res-grid{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.rx-res-card{border-bottom:1px solid #e5e7eb;border-right:1px solid #e5e7eb;padding:16px}
+.rx-res-card:nth-child(2n){border-right:0}
+.rx-res-status{font-size:12px;font-weight:700;letter-spacing:.06em;color:#6b7280;text-transform:uppercase}
+.rx-res-desc{font-size:13px;color:#6b7280;margin:4px 0 10px}
+.rx-res-desc a{color:#6b7280}
+.rx-res-team{display:flex;align-items:center;gap:8px;padding:3px 0;font-size:15px}
+.rx-res-team .rx-tname{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rx-res-team .rx-tscore{font-weight:700;color:#0f1014;white-space:nowrap}
+.rx-res-team.is-loser .rx-tname{color:#6b7280}
+.rx-res-team .rx-tpre{color:#6b7280;font-size:13px;white-space:nowrap}
+.rx-res-result{font-weight:700;color:#0f1014;margin:8px 0 10px;font-size:15px}
+.rx-res-links{border-top:1px solid #f3f4f6;padding-top:10px;display:flex;justify-content:space-between;font-size:14px}
+.rx-res-links a{color:#c92a1e;text-decoration:none;font-weight:600}
+.rx-res-box{border:1px solid #e5e7eb;border-radius:16px;background:#fff;margin:0 0 24px;overflow:hidden}
+.rx-res-boxhead{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-bottom:1px solid #e5e7eb}
+.rx-res-boxhead b{font-size:17px;color:#0f1014}
+.rx-res-boxhead b a{color:#0f1014;text-decoration:none}
+.rx-res-boxhead>a{color:#c92a1e;text-decoration:none;font-weight:600;font-size:14px}
+.rx-empty{color:#6b7280;text-align:center;padding:18px 0}
+.tlg{display:inline-block;width:24px;height:24px;flex:0 0 24px;background-size:contain;background-repeat:no-repeat;background-position:center;vertical-align:middle}
+table.rx-pts{width:100%;border-collapse:collapse}
+table.rx-pts th,table.rx-pts td{padding:10px 8px;border-bottom:1px solid #e5e7eb;text-align:center;white-space:nowrap}
+table.rx-pts th:first-child,table.rx-pts td:first-child{padding-left:12px}
+table.rx-pts th:nth-child(2),table.rx-pts td:nth-child(2){text-align:left;white-space:normal}
+table.rx-pts thead th{background:#f9fafb;font-size:13px;color:#374151;cursor:pointer;user-select:none}
+table.rx-pts thead th[data-sort]{cursor:pointer}
+table.rx-pts thead th .rx-arrow{font-size:11px;color:#c92a1e}
+table.rx-pts td.rx-pts-n{font-weight:700}
+table.rx-pts .rx-teamcell{display:flex;align-items:center;gap:8px;font-weight:700;color:#0f1014;min-width:170px}
+table.rx-pts .rx-teamcell a{color:#0f1014;text-decoration:none}
+.rx-form{display:inline-flex;gap:3px;align-items:center}
+.rx-form .rx-fc{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:5px;font-size:12px;font-weight:700;color:#fff}
+.rx-fc-w{background:#1a7f37}.rx-fc-l{background:#c92a1e}.rx-fc-a{background:#9ca3af}
+.rx-chev{border:0;background:none;cursor:pointer;font-size:14px;color:#6b7280;padding:2px 4px}
+tr.rx-detail{display:none}
+tr.rx-detail.open{display:table-row}
+tr.rx-detail td{background:#f9fafb;text-align:left;white-space:normal;padding:14px 16px}
+.rx-fd{list-style:none;margin:0;padding:0}
+.rx-fd li{display:flex;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px solid #e5e7eb;font-size:14px}
+.rx-fd li:last-child{border-bottom:0}
+.rx-fd .rx-fd-main{flex:1}
+.rx-fd .rx-fd-main b{display:block;color:#0f1014}
+.rx-fd .rx-fd-main span{color:#6b7280;font-size:13px}
+.rx-fd a{color:#c92a1e;text-decoration:none;font-weight:600;white-space:nowrap}
+.rx-legend{display:grid;grid-template-columns:repeat(3,1fr);gap:4px 24px;font-size:14px;color:#374151;margin:14px 0 0}
+.rx-legend b{color:#0f1014}
+.rx-footnote{color:#6b7280;font-size:14px;margin:14px 0 0}
+.pts-full{grid-template-columns:minmax(0,1fr) !important}
+.pts-full .home-main{max-width:1080px;width:100%;justify-self:center}
+.rx-perf-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:0 0 8px}
+.rx-perf-card{border:1px solid #e5e7eb;border-radius:16px;background:#fff;padding:18px 20px}
+.rx-perf-card h3{margin:0 0 12px;font-size:19px;color:#0f1014}
+.rx-perf-row{display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid #f3f4f6}
+.rx-perf-row:last-of-type{border-bottom:0}
+.rx-ava{width:40px;height:40px;flex:0 0 40px;border-radius:50%;background:#0f1014;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px}
+.rx-perf-who{flex:1;min-width:0}
+.rx-perf-who a{color:#0f1014;text-decoration:none;font-weight:700}
+.rx-perf-who span{display:block;font-size:13px;color:#6b7280}
+.rx-perf-fig{font-size:22px;font-weight:800;color:#0f1014;text-align:right}
+.rx-perf-fig small{display:block;font-size:12px;font-weight:400;color:#6b7280}
+.rx-perf-foot{margin:12px 0 0}
+.rx-perf-foot a{color:#c92a1e;text-decoration:none;font-weight:600;font-size:14px}
+.rx-records{border:1px solid #e5e7eb;border-radius:16px;background:#fff;padding:18px 20px}
+.rx-records h3{margin:0 0 4px;font-size:15px;letter-spacing:.04em;color:#6b7280;text-transform:uppercase}
+.rx-records .rx-seeall{float:right;font-size:14px}
+.rx-records ul{list-style:none;margin:12px 0 0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:8px 16px}
+.rx-records ul a{color:#0f1014;text-decoration:none;font-weight:600}
+.rx-records ul a:hover{color:#c92a1e}
+.rx-float{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;z-index:60;display:flex;gap:8px;align-items:center;background:#0f1014;border-radius:999px;padding:8px 10px;box-shadow:0 8px 24px rgba(0,0,0,.25)}
+.rx-float select{border:0;background:#1f2937;color:#fff;border-radius:999px;padding:8px 10px;font-size:14px;max-width:190px}
+.rx-float .rx-back{border:0;background:#2563eb;color:#fff;border-radius:999px;padding:8px 14px;font-size:14px;cursor:pointer;display:none}
+.rx-float .rx-back.show{display:inline-block}
+.rx-top{position:fixed;right:18px;bottom:18px;z-index:60;width:44px;height:44px;border-radius:50%;border:1px solid #e5e7eb;background:#fff;font-size:18px;cursor:pointer;display:none;box-shadow:0 4px 14px rgba(0,0,0,.15)}
+.rx-top.show{display:block}
+@media (max-width:640px){
+  main section h2,.home-main section h2{font-size:26px;line-height:1.2}
+  .rx-tabs a{padding:10px 4px;font-size:14px}
+  .rx-sched-row{grid-template-columns:110px 1fr;gap:10px}
+  .rx-sched-series{display:none}
+  .rx-res-grid{grid-template-columns:1fr}
+  .rx-res-card{border-right:0}
+  .rx-perf-grid{grid-template-columns:1fr}
+  .rx-legend{grid-template-columns:1fr 1fr}
+  .rx-float{bottom:76px;max-width:calc(100vw - 24px)}
+  .rx-float select{max-width:140px}
+  table.rx-pts th,table.rx-pts td{padding:8px 5px;font-size:13px}
+  table.rx-pts .rx-teamcell{min-width:130px}
+table.rx-sortable th[data-sort]{cursor:pointer;user-select:none}
+table.rx-sortable th .rx-arrow{font-size:11px;color:#c92a1e}
+.rx-viewall{margin:0 0 16px}
+.rx-viewall a{color:#c92a1e;text-decoration:none;font-weight:600}
+.rx-table-note{color:#6b7280;font-size:14px;margin:0 0 10px}
+.rx-stat-table{margin:0 0 28px}
+.rx-stat-table h3{font-size:20px;color:#0f1014;margin:0 0 10px}
+.rx-stat-table table{width:100%}
+
+}
+
+/* page-head-2026-11-12: compact header after hero removal (temporary; restore via tools/hero-backup-rest-2026-11-12.json) */
+.page-head{padding:28px 0 8px}
+.page-head .crumbs{font-size:14px;color:var(--muted);margin:0 0 8px}
+.page-head .crumbs a{color:var(--muted);text-decoration:none}
+.page-head .crumbs a:hover{text-decoration:underline}
+.page-head h1{font-size:42px;line-height:1.1;letter-spacing:-.02em;color:#0f1014;margin:8px 0}
+.page-head h1 .accent{color:var(--red)}
+.page-head .team-logo.tl-hero{display:block;width:96px;height:96px;margin:4px 0 8px}
+.page-head .updated{color:#8a8f98;font-size:13px;margin:8px 0 0}
+@media (max-width:640px){.page-head{padding:20px 0 8px}.page-head h1{font-size:32px;line-height:1.12}}
+</style>
 </head>
 <body class="league-ilt20">
 <header>
@@ -394,74 +502,15 @@ img{max-width:100%;height:auto}
   </div>
 </nav>
 
-<section class="hero">
-  <div class="wrap">
-    <p class="crumbs"><a href="/">SialTV</a> / <a href="/ilt20/">ILT20</a> / ILT20 Season 5 Stats</p>
-    <p class="eyebrow">ILT20 &middot; Season 5</p>
-    <h1>ILT20 Season 5 <span class="accent">Stats</span> &mdash; Top Performances &amp; Records</h1>
-    <p>ILT20 Season 5 has not started yet, so there are no stats to show &mdash; no runs, no wickets, no records. This page is where the season&rsquo;s numbers will live: top run scorers, top wicket takers, best strike rates and best economy, updated after every match from the opener on Saturday 21 November.</p>
-        <a class="hero-cta" href="/ilt20/schedule/">See the ILT20 schedule <span aria-hidden="true">&rsaquo;</span></a>
-    <p class="updated">Last updated: 12 November 2026</p>
-  </div>
-</section>
+<div class="wrap page-head">
+  <p class="crumbs"><a href="/">SialTV</a> / <a href="/ilt20/">ILT20</a> / ILT20 Season 5 Stats</p>
+  <h1>ILT20 Season 5 <span class="accent">Stats</span> &mdash; Top Performances &amp; Records</h1>
+  <p class="updated">Last updated: 12 November 2026</p>
+</div>
 <main>
 <div class="wrap"><div class="home-grid"><div class="home-main">
 
-  <section data-reveal id="top-runs">
-      <h2>Top run scorers</h2>
-      <p class="lead">The leading run scorers of ILT20 Season 5, once play starts. Each row shows the player, their team, runs, innings and average.</p>
-      <div class="table-scroll">
-      <table>
-        <thead><tr><th>Player</th><th>Team</th><th>Runs</th><th>Inns</th><th>Average</th></tr></thead>
-        <tbody>
-          <tr><td colspan="5">No runs scored yet &mdash; the first update comes after Match 1, Desert Vipers against MI Emirates, on Saturday 21 November.</td></tr>
-        </tbody>
-      </table>
-      </div>
-      <p class="note">Runs are counted from verified scorecards after every match. Nothing here is a prediction.</p>
-  </section>
-
-  <section data-reveal id="top-wickets">
-      <h2>Top wicket takers</h2>
-      <p class="lead">The leading wicket takers of ILT20 Season 5, once play starts. Each row shows the player, their team, wickets, innings and average.</p>
-      <div class="table-scroll">
-      <table>
-        <thead><tr><th>Player</th><th>Team</th><th>Wickets</th><th>Inns</th><th>Average</th></tr></thead>
-        <tbody>
-          <tr><td colspan="5">No wickets taken yet &mdash; the first update comes after Match 1, Desert Vipers against MI Emirates, on Saturday 21 November.</td></tr>
-        </tbody>
-      </table>
-      </div>
-      <p class="note">Wickets are counted from verified scorecards after every match.</p>
-  </section>
-
-  <section data-reveal id="strike-rates">
-      <h2>Best batting strike rates</h2>
-      <p class="lead">The fastest scorers of ILT20 Season 5, once play starts &mdash; runs per 100 balls, for batters with a meaningful number of balls faced.</p>
-      <div class="table-scroll">
-      <table>
-        <thead><tr><th>Player</th><th>Team</th><th>Runs</th><th>Balls</th><th>Strike rate</th></tr></thead>
-        <tbody>
-          <tr><td colspan="5">No balls faced yet &mdash; the first update comes after Match 1, Desert Vipers against MI Emirates, on Saturday 21 November.</td></tr>
-        </tbody>
-      </table>
-      </div>
-  </section>
-
-  <section data-reveal id="economy">
-      <h2>Best bowling economy</h2>
-      <p class="lead">The most economical bowlers of ILT20 Season 5, once play starts &mdash; runs conceded per over, for bowlers with a meaningful number of overs bowled.</p>
-      <div class="table-scroll">
-      <table>
-        <thead><tr><th>Player</th><th>Team</th><th>Overs</th><th>Runs</th><th>Economy</th></tr></thead>
-        <tbody>
-          <tr><td colspan="5">No balls bowled yet &mdash; the first update comes after Match 1, Desert Vipers against MI Emirates, on Saturday 21 November.</td></tr>
-        </tbody>
-      </table>
-      </div>
-  </section>
-
-  <section data-reveal id="records">
+  <section data-reveal id="top-performances"><h2>Top performances</h2><p class="rx-viewall"><a href="#stats-tables">View all stats</a></p><div class="rx-perf-grid"><div class="rx-perf-card"><h3>Top Run Scorers</h3><p class="rx-empty">No stats yet &mdash; the season starts on Saturday, 21 November 2026.</p><p class="rx-perf-foot"><a href="#most-runs">View full list</a></p></div><div class="rx-perf-card"><h3>Top Wicket Takers</h3><p class="rx-empty">No stats yet &mdash; the season starts on Saturday, 21 November 2026.</p><p class="rx-perf-foot"><a href="#most-wickets">View full list</a></p></div><div class="rx-perf-card"><h3>Best Batting Strike Rates</h3><p class="rx-empty">No stats yet &mdash; the season starts on Saturday, 21 November 2026.</p><p class="rx-perf-foot"><a href="#strike-rates">View full list</a></p></div><div class="rx-perf-card"><h3>Best Bowling Economy</h3><p class="rx-empty">No stats yet &mdash; the season starts on Saturday, 21 November 2026.</p><p class="rx-perf-foot"><a href="#most-wickets">View full list</a></p></div></div></section><section data-reveal id="stats-tables"><h2>Full season tables</h2><div class="rx-stat-table" id="most-runs"><h3>Most runs</h3><p class="rx-empty">No data yet &mdash; No stats yet &mdash; the season starts on Saturday, 21 November 2026.</p></div><div class="rx-stat-table" id="most-wickets"><h3>Most wickets</h3><p class="rx-empty">No data yet &mdash; No stats yet &mdash; the season starts on Saturday, 21 November 2026.</p></div><div class="rx-stat-table" id="high-scores"><h3>High scores</h3><p class="rx-empty">No data yet &mdash; No stats yet &mdash; the season starts on Saturday, 21 November 2026.</p></div><div class="rx-stat-table" id="best-bowling"><h3>Best bowling</h3><p class="rx-empty">No data yet &mdash; No stats yet &mdash; the season starts on Saturday, 21 November 2026.</p></div><div class="rx-stat-table" id="high-team-totals"><h3>High team totals</h3><p class="rx-empty">No data yet &mdash; No stats yet &mdash; the season starts on Saturday, 21 November 2026.</p></div><div class="rx-stat-table" id="most-catches"><h3>Most catches</h3><p class="rx-empty">No data yet &mdash; No stats yet &mdash; the season starts on Saturday, 21 November 2026.</p></div><div class="rx-stat-table" id="strike-rates"><h3>Highest strike rates</h3><p class="rx-empty">No data yet &mdash; No stats yet &mdash; the season starts on Saturday, 21 November 2026.</p></div></section><section data-reveal id="top-performances"><h2>Top performances</h2><p class="rx-viewall"><a href="#stats-tables">View all stats</a></p><div class="rx-perf-grid"><div class="rx-perf-card"><h3>Top Run Scorers</h3><p class="rx-empty">No stats yet &mdash; the season starts on Saturday, 21 November 2026.</p><p class="rx-perf-foot"><a href="#most-runs">View full list</a></p></div><div class="rx-perf-card"><h3>Top Wicket Takers</h3><p class="rx-empty">No stats yet &mdash; the season starts on Saturday, 21 November 2026.</p><p class="rx-perf-foot"><a href="#most-wickets">View full list</a></p></div><div class="rx-perf-card"><h3>Best Batting Strike Rates</h3><p class="rx-empty">No stats yet &mdash; the season starts on Saturday, 21 November 2026.</p><p class="rx-perf-foot"><a href="#strike-rates">View full list</a></p></div><div class="rx-perf-card"><h3>Best Bowling Economy</h3><p class="rx-empty">No stats yet &mdash; the season starts on Saturday, 21 November 2026.</p><p class="rx-perf-foot"><a href="#most-wickets">View full list</a></p></div></div></section><section data-reveal id="stats-tables"><h2>Full season tables</h2><div class="rx-stat-table" id="most-runs"><h3>Most runs</h3><p class="rx-empty">No data yet &mdash; No stats yet &mdash; the season starts on Saturday, 21 November 2026.</p></div><div class="rx-stat-table" id="most-wickets"><h3>Most wickets</h3><p class="rx-empty">No data yet &mdash; No stats yet &mdash; the season starts on Saturday, 21 November 2026.</p></div><div class="rx-stat-table" id="high-scores"><h3>High scores</h3><p class="rx-empty">No data yet &mdash; No stats yet &mdash; the season starts on Saturday, 21 November 2026.</p></div><div class="rx-stat-table" id="best-bowling"><h3>Best bowling</h3><p class="rx-empty">No data yet &mdash; No stats yet &mdash; the season starts on Saturday, 21 November 2026.</p></div><div class="rx-stat-table" id="high-team-totals"><h3>High team totals</h3><p class="rx-empty">No data yet &mdash; No stats yet &mdash; the season starts on Saturday, 21 November 2026.</p></div><div class="rx-stat-table" id="most-catches"><h3>Most catches</h3><p class="rx-empty">No data yet &mdash; No stats yet &mdash; the season starts on Saturday, 21 November 2026.</p></div><div class="rx-stat-table" id="strike-rates"><h3>Highest strike rates</h3><p class="rx-empty">No data yet &mdash; No stats yet &mdash; the season starts on Saturday, 21 November 2026.</p></div></section><section data-reveal id="records">
       <h2>ILT20 Season 5 stats &amp; records</h2>
       <p>Once the season starts, this page tracks the records as they fall. The lists below point to the cards on this page; separate record pages arrive once the numbers exist.</p>
       <ul>
@@ -472,9 +521,7 @@ img{max-width:100%;height:auto}
         <li>High Scores, High Team Totals and Most Catches &mdash; tracked from Match 1, listed here once the first innings are played.</li>
       </ul>
       <p><a href="/">SialTV</a> updates every card on this page after each match day, and the <a href="/ilt20/results/">ILT20 Results</a> page carries the scores behind the numbers.</p>
-  </section>
-
-  <section data-reveal class="faq" id="faq">
+  </section><section data-reveal class="faq" id="faq">
       <h2>Frequently asked questions</h2>
       <h3>When do ILT20 Season 5 stats appear?</h3>
       <p>After Match 1, Desert Vipers against MI Emirates, on Saturday 21 November 2026. Until then no runs have been scored and no wickets have been taken, so every card on this page is empty &mdash; honestly.</p>
@@ -484,9 +531,7 @@ img{max-width:100%;height:auto}
       <p>Top run scorers, top wicket takers, best batting strike rates and best bowling economy, plus high scores, high team totals and most catches once play starts.</p>
       <h3>Where do the stats come from?</h3>
       <p>Verified scorecards after every match. SialTV updates this page after each match day, and the points table and results pages are updated at the same time.</p>
-  </section>
-
-  <section data-reveal id="more">
+  </section><section data-reveal id="more">
       <h2>More ILT20 coverage</h2>
       <ul>
         <li><a href="/ilt20/schedule/">ILT20 Schedule</a> &mdash; Every fixture, date and session.</li>
@@ -500,26 +545,18 @@ img{max-width:100%;height:auto}
   </section>
 
 </div>
-<aside class="home-side" aria-label="Sidebar">
+<aside class="home-side" aria-label="Sidebar"><div class="rx-records"><h3>Stats &amp; Records<a class="rx-seeall" href="#stats-tables">See All</a></h3><p>ILT20 SEASON 5 (2026-27)</p><ul><li><a href="#most-runs">Most Runs</a></li><li><a href="#most-wickets">Most Wickets</a></li><li><a href="#high-scores">High Scores</a></li><li><a href="#best-bowling">Best Bowling</a></li><li><a href="#high-team-totals">High Team Totals</a></li><li><a href="#most-catches">Most Catches</a></li></ul></div><div class="rx-records"><h3>Stats &amp; Records<a class="rx-seeall" href="#stats-tables">See All</a></h3><p>ILT20 SEASON 5 (2026-27)</p><ul><li><a href="#most-runs">Most Runs</a></li><li><a href="#most-wickets">Most Wickets</a></li><li><a href="#high-scores">High Scores</a></li><li><a href="#best-bowling">Best Bowling</a></li><li><a href="#high-team-totals">High Team Totals</a></li><li><a href="#most-catches">Most Catches</a></li></ul></div>
       <div class="side-card" data-reveal>
         <h3>Coming up</h3>
         <ul>
-          <li><b>Match 1: Desert Vipers vs MI Emirates</b><span>Sat 21 Nov, evening &middot; Dubai</span></li>
-          <li><b>Qualifier 2</b><span>Fri 18 Dec, evening &middot; Sharjah</span></li>
-          <li><b>Final</b><span>Sun 20 Dec, evening &middot; Dubai</span></li>
+          <li><a href="/ilt20/matches/2026-27/match-1/"><b>Match 1: Desert Vipers vs MI Emirates</b></a><span>Sat 21 Nov, evening &middot; Dubai</span></li>
+          <li><a href="/ilt20/matches/2026-27/match-33/"><b>Qualifier 2</b></a><span>Fri 18 Dec, evening &middot; Sharjah</span></li>
+          <li><a href="/ilt20/matches/2026-27/match-34/"><b>Final</b></a><span>Sun 20 Dec, evening &middot; Dubai</span></li>
         </ul>
       </div>
       <div class="side-card" data-reveal>
         <h3>On this page</h3>
-        <ul>
-          <li><a href="#top-runs">Top run scorers</a></li>
-          <li><a href="#top-wickets">Top wicket takers</a></li>
-          <li><a href="#strike-rates">Best batting strike rates</a></li>
-          <li><a href="#economy">Best bowling economy</a></li>
-          <li><a href="#records">Stats & records</a></li>
-          <li><a href="#faq">Frequently asked questions</a></li>
-          <li><a href="#more">More ILT20 coverage</a></li>
-        </ul>
+        <ul><li><a href="#top-performances">Top performances</a></li><li><a href="#most-runs">Most runs</a></li><li><a href="#most-wickets">Most wickets</a></li><li><a href="#high-scores">High scores</a></li><li><a href="#best-bowling">Best bowling</a></li><li><a href="#high-team-totals">High team totals</a></li><li><a href="#most-catches">Most catches</a></li><li><a href="#strike-rates">Highest strike rates</a></li><li><a href="#records">Season records</a></li><li><a href="#faq">Frequently asked questions</a></li></ul>
       </div>
       <div class="side-card" data-reveal>
         <h3>Full ILT20 coverage</h3>
@@ -534,7 +571,55 @@ img{max-width:100%;height:auto}
       </div>
     </aside>
 </div></div>
-</main></main>
+<script>
+(function(){
+  document.querySelectorAll('table.rx-sortable').forEach(function(tbl){
+    var tbody=tbl.querySelector('tbody'); if(!tbody) return;
+    var order={};
+    tbl.querySelectorAll('thead th[data-sort]').forEach(function(th){
+      th.addEventListener('click',function(){
+        var idx=parseInt(th.getAttribute('data-sort'),10);
+        var dir=(order[idx]==='asc')?'desc':'asc'; order[idx]=dir;
+        var rows=Array.prototype.slice.call(tbody.querySelectorAll('tr'));
+        rows.sort(function(a,b){
+          var va=a.cells[idx].textContent.trim(), vb=b.cells[idx].textContent.trim();
+          var na=parseFloat(va.replace(/[^0-9.\-]/g,'')), nb=parseFloat(vb.replace(/[^0-9.\-]/g,''));
+          var cmp=(isNaN(na)||isNaN(nb))?va.localeCompare(vb):na-nb;
+          return dir==='asc'?cmp:-cmp;
+        });
+        tbl.querySelectorAll('thead th .rx-arrow').forEach(function(s){s.remove();});
+        var ar=document.createElement('span'); ar.className='rx-arrow';
+        ar.innerHTML=dir==='asc'?'\u25B2':'\u25BC'; th.appendChild(ar);
+        rows.forEach(function(r){tbody.appendChild(r);});
+      });
+    });
+  });
+})();
+</script><script>
+(function(){
+  document.querySelectorAll('table.rx-sortable').forEach(function(tbl){
+    var tbody=tbl.querySelector('tbody'); if(!tbody) return;
+    var order={};
+    tbl.querySelectorAll('thead th[data-sort]').forEach(function(th){
+      th.addEventListener('click',function(){
+        var idx=parseInt(th.getAttribute('data-sort'),10);
+        var dir=(order[idx]==='asc')?'desc':'asc'; order[idx]=dir;
+        var rows=Array.prototype.slice.call(tbody.querySelectorAll('tr'));
+        rows.sort(function(a,b){
+          var va=a.cells[idx].textContent.trim(), vb=b.cells[idx].textContent.trim();
+          var na=parseFloat(va.replace(/[^0-9.\-]/g,'')), nb=parseFloat(vb.replace(/[^0-9.\-]/g,''));
+          var cmp=(isNaN(na)||isNaN(nb))?va.localeCompare(vb):na-nb;
+          return dir==='asc'?cmp:-cmp;
+        });
+        tbl.querySelectorAll('thead th .rx-arrow').forEach(function(s){s.remove();});
+        var ar=document.createElement('span'); ar.className='rx-arrow';
+        ar.innerHTML=dir==='asc'?'\u25B2':'\u25BC'; th.appendChild(ar);
+        rows.forEach(function(r){tbody.appendChild(r);});
+      });
+    });
+  });
+})();
+</script></main></main>
 <footer>
   <div class="wrap">
     <div class="foot-cols">
