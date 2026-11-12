@@ -16,7 +16,7 @@
 <meta name="twitter:description" content="Kathmandu Gorkhas lead the NPL points table on 8 points after Match 21, level with Sudurpaschim Royals — full standings, NRR and the playoff race.">
 <meta name="theme-color" content="#090811">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","name":"NPL 2026 Points Table — Standings After Match 21","url":"https://sialtv.com/npl/points-table/","description":"Kathmandu Gorkhas lead the NPL points table on 8 points after Match 21, level with Sudurpaschim Royals — full standings, NRR and the playoff race.","datePublished":"2026-11-10T15:40:00Z","dateModified": "2026-11-13T00:15:00Z"}
+{"@context":"https://schema.org","@type":"WebPage","name":"NPL 2026 Points Table — Standings After Match 21","url":"https://sialtv.com/npl/points-table/","description":"Kathmandu Gorkhas lead the NPL points table on 8 points after Match 21, level with Sudurpaschim Royals — full standings, NRR and the playoff race.","datePublished":"2026-11-10T15:40:00Z","dateModified": "2026-11-13T00:30:01Z"}
 </script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"SialTV","item":"https://sialtv.com/"},{"@type":"ListItem","position":2,"name":"Nepal Premier League","item":"https://sialtv.com/npl/"},{"@type":"ListItem","position":3,"name":"NPL Points Table","item":"https://sialtv.com/npl/points-table/"}]}
@@ -24,9 +24,16 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400..800;1,400..800&display=swap">
 </head>
-<body class="league-npl" data-css="p44">
+<body class="league-npl st-inner" data-css="p44">
 <a class="st-skip" href="#main">Skip to content</a>
+<div class="st-match-strip">
+    <div class="wrap">
+      <span><b>NEXT</b> · NPL Match 22 — Biratnagar Kings vs Pokhara Avengers</span>
+      <span class="t-time">12:30 PM NST · Thu 12 Nov 2026</span>
+    </div>
+  </div>
 <header class="st-masthead" style="border-bottom:1px solid rgba(227,223,240,.85);padding-bottom:0;margin-bottom:0">
   <div class="st-shell st-masthead__row">
     <a class="st-wordmark" href="/" aria-label="SialTV home" style="color:#0c1022;text-decoration:none">
@@ -58,12 +65,7 @@
     </div>
   </div>
 </header>
-  <div class="subnav">
-    <div class="wrap">
-      <span><b>NEXT</b> · NPL Match 22 — Biratnagar Kings vs Pokhara Avengers</span>
-      <span class="t-time">12:30 PM NST · Thu 12 Nov 2026</span>
-    </div>
-  </div>
+  
 
 <nav class="series-nav" aria-label="NPL sections">
   <div class="wrap">
@@ -133,258 +135,6 @@
 
 </div></div>
 <script>
-(function(){
-  var tbl=document.getElementById('rxPtsTable'); if(!tbl) return;
-  var tbody=tbl.querySelector('tbody');
-  tbody.querySelectorAll('.rx-chev').forEach(function(btn){
-    btn.addEventListener('click',function(){
-      var tr=btn.closest('tr'); var det=tr.nextElementSibling;
-      if(!det||!det.classList.contains('rx-detail')) return;
-      var open=det.classList.toggle('open');
-      btn.setAttribute('aria-expanded',open?'true':'false');
-      btn.innerHTML=open?'\u25B2':'\u25BC';
-    });
-  });
-  var order={};
-  tbl.querySelectorAll('thead th[data-sort]').forEach(function(th){
-    th.addEventListener('click',function(){
-      var key=th.getAttribute('data-sort'); if(key==='team'){return;}
-      var dir=(order[key]==='asc')?'desc':'asc'; order[key]=dir;
-      var rows=[]; var det={};
-      Array.prototype.forEach.call(tbody.querySelectorAll('tr:not(.rx-detail)'),function(tr){
-        rows.push(tr); var d=tr.nextElementSibling;
-        if(d&&d.classList.contains('rx-detail')) det[tr.getAttribute('data-rank')]=d;
-      });
-      rows.sort(function(a,b){
-        var va=a.getAttribute('data-'+key), vb=b.getAttribute('data-'+key);
-        var na=parseFloat(va), nb=parseFloat(vb);
-        var cmp=isNaN(na)||isNaN(nb)?String(va).localeCompare(String(vb)):na-nb;
-        return dir==='asc'?cmp:-cmp;
-      });
-      tbl.querySelectorAll('thead th .rx-arrow').forEach(function(s){s.remove();});
-      var ar=document.createElement('span'); ar.className='rx-arrow';
-      ar.innerHTML=dir==='asc'?'\u25B2':'\u25BC'; th.appendChild(ar);
-      rows.forEach(function(tr){ tbody.appendChild(tr); var d=det[tr.getAttribute('data-rank')]; if(d) tbody.appendChild(d); });
-    });
-  });
-})();
-</script><script>
-(function(){
-  var tbl=document.getElementById('rxPtsTable'); if(!tbl) return;
-  var tbody=tbl.querySelector('tbody');
-  tbody.querySelectorAll('.rx-chev').forEach(function(btn){
-    btn.addEventListener('click',function(){
-      var tr=btn.closest('tr'); var det=tr.nextElementSibling;
-      if(!det||!det.classList.contains('rx-detail')) return;
-      var open=det.classList.toggle('open');
-      btn.setAttribute('aria-expanded',open?'true':'false');
-      btn.innerHTML=open?'\u25B2':'\u25BC';
-    });
-  });
-  var order={};
-  tbl.querySelectorAll('thead th[data-sort]').forEach(function(th){
-    th.addEventListener('click',function(){
-      var key=th.getAttribute('data-sort'); if(key==='team'){return;}
-      var dir=(order[key]==='asc')?'desc':'asc'; order[key]=dir;
-      var rows=[]; var det={};
-      Array.prototype.forEach.call(tbody.querySelectorAll('tr:not(.rx-detail)'),function(tr){
-        rows.push(tr); var d=tr.nextElementSibling;
-        if(d&&d.classList.contains('rx-detail')) det[tr.getAttribute('data-rank')]=d;
-      });
-      rows.sort(function(a,b){
-        var va=a.getAttribute('data-'+key), vb=b.getAttribute('data-'+key);
-        var na=parseFloat(va), nb=parseFloat(vb);
-        var cmp=isNaN(na)||isNaN(nb)?String(va).localeCompare(String(vb)):na-nb;
-        return dir==='asc'?cmp:-cmp;
-      });
-      tbl.querySelectorAll('thead th .rx-arrow').forEach(function(s){s.remove();});
-      var ar=document.createElement('span'); ar.className='rx-arrow';
-      ar.innerHTML=dir==='asc'?'\u25B2':'\u25BC'; th.appendChild(ar);
-      rows.forEach(function(tr){ tbody.appendChild(tr); var d=det[tr.getAttribute('data-rank')]; if(d) tbody.appendChild(d); });
-    });
-  });
-})();
-</script><script>
-(function(){
-  var tbl=document.getElementById('rxPtsTable'); if(!tbl) return;
-  var tbody=tbl.querySelector('tbody');
-  tbody.querySelectorAll('.rx-chev').forEach(function(btn){
-    btn.addEventListener('click',function(){
-      var tr=btn.closest('tr'); var det=tr.nextElementSibling;
-      if(!det||!det.classList.contains('rx-detail')) return;
-      var open=det.classList.toggle('open');
-      btn.setAttribute('aria-expanded',open?'true':'false');
-      btn.innerHTML=open?'\u25B2':'\u25BC';
-    });
-  });
-  var order={};
-  tbl.querySelectorAll('thead th[data-sort]').forEach(function(th){
-    th.addEventListener('click',function(){
-      var key=th.getAttribute('data-sort'); if(key==='team'){return;}
-      var dir=(order[key]==='asc')?'desc':'asc'; order[key]=dir;
-      var rows=[]; var det={};
-      Array.prototype.forEach.call(tbody.querySelectorAll('tr:not(.rx-detail)'),function(tr){
-        rows.push(tr); var d=tr.nextElementSibling;
-        if(d&&d.classList.contains('rx-detail')) det[tr.getAttribute('data-rank')]=d;
-      });
-      rows.sort(function(a,b){
-        var va=a.getAttribute('data-'+key), vb=b.getAttribute('data-'+key);
-        var na=parseFloat(va), nb=parseFloat(vb);
-        var cmp=isNaN(na)||isNaN(nb)?String(va).localeCompare(String(vb)):na-nb;
-        return dir==='asc'?cmp:-cmp;
-      });
-      tbl.querySelectorAll('thead th .rx-arrow').forEach(function(s){s.remove();});
-      var ar=document.createElement('span'); ar.className='rx-arrow';
-      ar.innerHTML=dir==='asc'?'\u25B2':'\u25BC'; th.appendChild(ar);
-      rows.forEach(function(tr){ tbody.appendChild(tr); var d=det[tr.getAttribute('data-rank')]; if(d) tbody.appendChild(d); });
-    });
-  });
-})();
-</script><script>
-(function(){
-  var tbl=document.getElementById('rxPtsTable'); if(!tbl) return;
-  var tbody=tbl.querySelector('tbody');
-  tbody.querySelectorAll('.rx-chev').forEach(function(btn){
-    btn.addEventListener('click',function(){
-      var tr=btn.closest('tr'); var det=tr.nextElementSibling;
-      if(!det||!det.classList.contains('rx-detail')) return;
-      var open=det.classList.toggle('open');
-      btn.setAttribute('aria-expanded',open?'true':'false');
-      btn.innerHTML=open?'\u25B2':'\u25BC';
-    });
-  });
-  var order={};
-  tbl.querySelectorAll('thead th[data-sort]').forEach(function(th){
-    th.addEventListener('click',function(){
-      var key=th.getAttribute('data-sort'); if(key==='team'){return;}
-      var dir=(order[key]==='asc')?'desc':'asc'; order[key]=dir;
-      var rows=[]; var det={};
-      Array.prototype.forEach.call(tbody.querySelectorAll('tr:not(.rx-detail)'),function(tr){
-        rows.push(tr); var d=tr.nextElementSibling;
-        if(d&&d.classList.contains('rx-detail')) det[tr.getAttribute('data-rank')]=d;
-      });
-      rows.sort(function(a,b){
-        var va=a.getAttribute('data-'+key), vb=b.getAttribute('data-'+key);
-        var na=parseFloat(va), nb=parseFloat(vb);
-        var cmp=isNaN(na)||isNaN(nb)?String(va).localeCompare(String(vb)):na-nb;
-        return dir==='asc'?cmp:-cmp;
-      });
-      tbl.querySelectorAll('thead th .rx-arrow').forEach(function(s){s.remove();});
-      var ar=document.createElement('span'); ar.className='rx-arrow';
-      ar.innerHTML=dir==='asc'?'\u25B2':'\u25BC'; th.appendChild(ar);
-      rows.forEach(function(tr){ tbody.appendChild(tr); var d=det[tr.getAttribute('data-rank')]; if(d) tbody.appendChild(d); });
-    });
-  });
-})();
-</script><script>
-(function(){
-  var tbl=document.getElementById('rxPtsTable'); if(!tbl) return;
-  var tbody=tbl.querySelector('tbody');
-  tbody.querySelectorAll('.rx-chev').forEach(function(btn){
-    btn.addEventListener('click',function(){
-      var tr=btn.closest('tr'); var det=tr.nextElementSibling;
-      if(!det||!det.classList.contains('rx-detail')) return;
-      var open=det.classList.toggle('open');
-      btn.setAttribute('aria-expanded',open?'true':'false');
-      btn.innerHTML=open?'\u25B2':'\u25BC';
-    });
-  });
-  var order={};
-  tbl.querySelectorAll('thead th[data-sort]').forEach(function(th){
-    th.addEventListener('click',function(){
-      var key=th.getAttribute('data-sort'); if(key==='team'){return;}
-      var dir=(order[key]==='asc')?'desc':'asc'; order[key]=dir;
-      var rows=[]; var det={};
-      Array.prototype.forEach.call(tbody.querySelectorAll('tr:not(.rx-detail)'),function(tr){
-        rows.push(tr); var d=tr.nextElementSibling;
-        if(d&&d.classList.contains('rx-detail')) det[tr.getAttribute('data-rank')]=d;
-      });
-      rows.sort(function(a,b){
-        var va=a.getAttribute('data-'+key), vb=b.getAttribute('data-'+key);
-        var na=parseFloat(va), nb=parseFloat(vb);
-        var cmp=isNaN(na)||isNaN(nb)?String(va).localeCompare(String(vb)):na-nb;
-        return dir==='asc'?cmp:-cmp;
-      });
-      tbl.querySelectorAll('thead th .rx-arrow').forEach(function(s){s.remove();});
-      var ar=document.createElement('span'); ar.className='rx-arrow';
-      ar.innerHTML=dir==='asc'?'\u25B2':'\u25BC'; th.appendChild(ar);
-      rows.forEach(function(tr){ tbody.appendChild(tr); var d=det[tr.getAttribute('data-rank')]; if(d) tbody.appendChild(d); });
-    });
-  });
-})();
-</script><script>
-(function(){
-  var tbl=document.getElementById('rxPtsTable'); if(!tbl) return;
-  var tbody=tbl.querySelector('tbody');
-  tbody.querySelectorAll('.rx-chev').forEach(function(btn){
-    btn.addEventListener('click',function(){
-      var tr=btn.closest('tr'); var det=tr.nextElementSibling;
-      if(!det||!det.classList.contains('rx-detail')) return;
-      var open=det.classList.toggle('open');
-      btn.setAttribute('aria-expanded',open?'true':'false');
-      btn.innerHTML=open?'\u25B2':'\u25BC';
-    });
-  });
-  var order={};
-  tbl.querySelectorAll('thead th[data-sort]').forEach(function(th){
-    th.addEventListener('click',function(){
-      var key=th.getAttribute('data-sort'); if(key==='team'){return;}
-      var dir=(order[key]==='asc')?'desc':'asc'; order[key]=dir;
-      var rows=[]; var det={};
-      Array.prototype.forEach.call(tbody.querySelectorAll('tr:not(.rx-detail)'),function(tr){
-        rows.push(tr); var d=tr.nextElementSibling;
-        if(d&&d.classList.contains('rx-detail')) det[tr.getAttribute('data-rank')]=d;
-      });
-      rows.sort(function(a,b){
-        var va=a.getAttribute('data-'+key), vb=b.getAttribute('data-'+key);
-        var na=parseFloat(va), nb=parseFloat(vb);
-        var cmp=isNaN(na)||isNaN(nb)?String(va).localeCompare(String(vb)):na-nb;
-        return dir==='asc'?cmp:-cmp;
-      });
-      tbl.querySelectorAll('thead th .rx-arrow').forEach(function(s){s.remove();});
-      var ar=document.createElement('span'); ar.className='rx-arrow';
-      ar.innerHTML=dir==='asc'?'\u25B2':'\u25BC'; th.appendChild(ar);
-      rows.forEach(function(tr){ tbody.appendChild(tr); var d=det[tr.getAttribute('data-rank')]; if(d) tbody.appendChild(d); });
-    });
-  });
-})();
-</script><script>
-(function(){
-  var tbl=document.getElementById('rxPtsTable'); if(!tbl) return;
-  var tbody=tbl.querySelector('tbody');
-  tbody.querySelectorAll('.rx-chev').forEach(function(btn){
-    btn.addEventListener('click',function(){
-      var tr=btn.closest('tr'); var det=tr.nextElementSibling;
-      if(!det||!det.classList.contains('rx-detail')) return;
-      var open=det.classList.toggle('open');
-      btn.setAttribute('aria-expanded',open?'true':'false');
-      btn.innerHTML=open?'\u25B2':'\u25BC';
-    });
-  });
-  var order={};
-  tbl.querySelectorAll('thead th[data-sort]').forEach(function(th){
-    th.addEventListener('click',function(){
-      var key=th.getAttribute('data-sort'); if(key==='team'){return;}
-      var dir=(order[key]==='asc')?'desc':'asc'; order[key]=dir;
-      var rows=[]; var det={};
-      Array.prototype.forEach.call(tbody.querySelectorAll('tr:not(.rx-detail)'),function(tr){
-        rows.push(tr); var d=tr.nextElementSibling;
-        if(d&&d.classList.contains('rx-detail')) det[tr.getAttribute('data-rank')]=d;
-      });
-      rows.sort(function(a,b){
-        var va=a.getAttribute('data-'+key), vb=b.getAttribute('data-'+key);
-        var na=parseFloat(va), nb=parseFloat(vb);
-        var cmp=isNaN(na)||isNaN(nb)?String(va).localeCompare(String(vb)):na-nb;
-        return dir==='asc'?cmp:-cmp;
-      });
-      tbl.querySelectorAll('thead th .rx-arrow').forEach(function(s){s.remove();});
-      var ar=document.createElement('span'); ar.className='rx-arrow';
-      ar.innerHTML=dir==='asc'?'\u25B2':'\u25BC'; th.appendChild(ar);
-      rows.forEach(function(tr){ tbody.appendChild(tr); var d=det[tr.getAttribute('data-rank')]; if(d) tbody.appendChild(d); });
-    });
-  });
-})();
-</script><script>
 (function(){
   var tbl=document.getElementById('rxPtsTable'); if(!tbl) return;
   var tbody=tbl.querySelector('tbody');

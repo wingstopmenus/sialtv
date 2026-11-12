@@ -1397,3 +1397,90 @@ body.st-inner .rx-perf-foot { margin: 0.75rem 0 0; font-size: 0.85rem; font-weig
 @media (max-width: 640px) {
   body.st-inner .rx-perf-grid { grid-template-columns: 1fr; }
 }
+
+/* ---------- Section pages — home-grid + schedule + points table ----------
+   Added for the NPL schedule + points-table rebuild (2026-11-13). Scoped to
+   body.st-inner, so the homepage (body.st-home) renders exactly as before. */
+body.st-inner .home-grid { display: grid; grid-template-columns: 1.5fr 0.85fr; gap: 1.25rem; align-items: start; }
+body.st-inner .home-grid.pts-full { grid-template-columns: 1fr; }
+body.st-inner .home-main { min-width: 0; }
+body.st-inner .home-side { display: flex; flex-direction: column; gap: 1.25rem; min-width: 0; }
+body.st-inner .lead { color: var(--st-ink-2); font-size: 1.05rem; line-height: 1.6; margin: 0 0 1.25rem; }
+body.st-inner .note { color: var(--st-mute); font-size: 0.9rem; margin: 1rem 0 0; }
+body.st-inner .faq h3 { font-size: 1.05rem; margin: 1.25rem 0 0.4rem; }
+body.st-inner .faq p { margin: 0 0 0.75rem; }
+
+/* Schedule page — tab links (Live / Schedule / Results). */
+body.st-inner .rx-tabs { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0 0 1.25rem; }
+body.st-inner .rx-tabs a { background: var(--st-surface); border: 1px solid var(--st-line); color: var(--st-ink-2); font-weight: 650; font-size: 0.9rem; padding: 0.6rem 0.95rem; border-radius: var(--st-pill); }
+body.st-inner .rx-tabs a:hover { background: var(--st-bg-soft); color: var(--st-ink); }
+body.st-inner .rx-tabs a[aria-current="page"] { background: var(--st-rose); border-color: var(--st-rose); color: #fff; font-weight: 700; }
+
+/* Schedule page — date strip (jump to a date). */
+body.st-inner .rx-strip { display: flex; gap: 0.4rem; overflow-x: auto; padding-bottom: 0.5rem; margin-bottom: 1rem; }
+body.st-inner .rx-day { display: flex; flex-direction: column; align-items: center; min-width: 3.25rem; background: var(--st-surface); border: 1px solid var(--st-line); color: var(--st-ink-2); font-weight: 650; font-size: 0.8rem; padding: 0.5rem 0.4rem; border-radius: 0.7rem; flex-shrink: 0; }
+body.st-inner .rx-day b { font-size: 1.05rem; font-weight: 800; color: var(--st-ink); }
+body.st-inner .rx-day.is-next { background: var(--st-rose); border-color: var(--st-rose); color: #fff; }
+body.st-inner .rx-day.is-next b { color: #fff; }
+body.st-inner .rx-day.is-next em { font-style: normal; font-size: 0.65rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; }
+body.st-inner .rx-nav { flex-shrink: 0; background: var(--st-surface); border: 1px solid var(--st-line); color: var(--st-ink); font-size: 1.1rem; font-weight: 800; width: 2.5rem; border-radius: 0.7rem; cursor: pointer; }
+
+/* Schedule page — filter pills (Reset / T20s / Men). */
+body.st-inner .rx-pills { display: flex; flex-wrap: wrap; gap: 0.45rem; margin-bottom: 1.25rem; }
+body.st-inner .rx-pill, body.st-inner .rx-reset { background: var(--st-surface); border: 1px solid var(--st-line); color: var(--st-ink-2); font-weight: 650; font-size: 0.85rem; padding: 0.45rem 0.8rem; border-radius: var(--st-pill); cursor: pointer; }
+body.st-inner .rx-pill[aria-pressed="true"] { background: var(--st-rose); border-color: var(--st-rose); color: #fff; font-weight: 700; }
+
+/* Schedule page — date groups + fixture rows (one card per match). */
+body.st-inner .rx-date-group { margin-bottom: 1.5rem; }
+body.st-inner .rx-date-pill { display: inline-block; background: var(--st-rose-soft); color: var(--st-rose-deep); font-weight: 800; font-size: 0.85rem; letter-spacing: 0.04em; padding: 0.35rem 0.8rem; border-radius: var(--st-pill); margin-bottom: 0.75rem; }
+body.st-inner .rx-sched-row { position: relative; display: grid; grid-template-columns: 9.5rem 1fr auto; gap: 1rem; align-items: center; background: var(--st-surface); border: 1px solid var(--st-line); border-radius: var(--st-radius-sm); padding: 1rem 1.15rem; box-shadow: var(--st-shadow-sm); margin-bottom: 0.75rem; }
+body.st-inner .rx-sched-row:hover { box-shadow: var(--st-shadow); }
+body.st-inner .rx-row-link { position: absolute; inset: 0; border-radius: inherit; }
+body.st-inner .rx-sched-time { display: flex; flex-direction: column; gap: 0.15rem; }
+body.st-inner .rx-sched-time b { font-weight: 800; font-variant-numeric: tabular-nums; }
+body.st-inner .rx-sched-time span { color: var(--st-mute); font-size: 0.8rem; }
+body.st-inner .rx-sched-mid { display: flex; flex-direction: column; gap: 0.2rem; min-width: 0; }
+body.st-inner .rx-sched-mid > b { font-weight: 750; line-height: 1.35; }
+body.st-inner .rx-desc { color: var(--st-mute); font-size: 0.85rem; }
+body.st-inner .rx-result { color: var(--st-rose-deep); font-weight: 700; font-size: 0.9rem; }
+body.st-inner .rx-sched-series { position: relative; z-index: 1; font-size: 0.85rem; }
+body.st-inner .rx-sched-series a { color: var(--st-mute); font-weight: 600; white-space: nowrap; }
+
+/* Schedule page — floating team filter (sticky bottom bar). */
+body.st-inner .rx-float { position: sticky; bottom: 0.75rem; z-index: 20; display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem; background: var(--st-surface); border: 1px solid var(--st-line); border-radius: var(--st-radius-sm); padding: 0.75rem 1rem; box-shadow: var(--st-shadow); margin-top: 1.5rem; }
+body.st-inner .rx-float select { font: inherit; font-size: 0.9rem; font-weight: 650; color: var(--st-ink); background: var(--st-bg); border: 1px solid var(--st-line); border-radius: 0.6rem; padding: 0.5rem 0.6rem; }
+body.st-inner .rx-back { background: var(--st-bg); border: 1px solid var(--st-line); color: var(--st-ink); font-weight: 650; font-size: 0.85rem; padding: 0.5rem 0.8rem; border-radius: var(--st-pill); cursor: pointer; }
+body.st-inner .rx-top { background: var(--st-rose); border: 0; color: #fff; font-weight: 800; font-size: 1rem; width: 2.4rem; height: 2.4rem; border-radius: 50%; cursor: pointer; margin-left: auto; }
+
+/* Points table — full table (rose header, shading, numbers right, team cell flex). */
+body.st-inner .rx-pts th, body.st-inner .rx-pts td { padding: 0.55rem 0.5rem; }
+body.st-inner .rx-pts thead th { background: var(--st-rose); color: #fff; text-align: right; }
+body.st-inner .rx-pts tbody tr[data-rank="2"], body.st-inner .rx-pts tbody tr[data-rank="4"], body.st-inner .rx-pts tbody tr[data-rank="6"], body.st-inner .rx-pts tbody tr[data-rank="8"] { background: var(--st-bg-soft); }
+body.st-inner .rx-pts tbody tr:not(.rx-detail) td { text-align: right; font-variant-numeric: tabular-nums; }
+body.st-inner .rx-pts tbody tr:not(.rx-detail) td:nth-child(2), body.st-inner .rx-pts tbody tr:not(.rx-detail) td:nth-child(10), body.st-inner .rx-pts tbody tr:not(.rx-detail) td:nth-child(11) { text-align: left; }
+body.st-inner .rx-pts thead th:nth-child(2), body.st-inner .rx-pts thead th:nth-child(10), body.st-inner .rx-pts thead th:nth-child(11) { text-align: left; }
+body.st-inner .rx-pts .rx-teamcell { display: inline-flex; align-items: center; gap: 0.5rem; font-weight: 700; }
+body.st-inner .rx-pts .rx-chev { background: var(--st-bg); border: 1px solid var(--st-line); border-radius: 0.5rem; cursor: pointer; padding: 0.2rem 0.45rem; font-size: 0.75rem; }
+body.st-inner .rx-pts tr.rx-detail { display: none; }
+body.st-inner .rx-pts tr.rx-detail.open { display: table-row; }
+body.st-inner .rx-pts .rx-fd { margin: 0; padding: 0; list-style: none; text-align: left; }
+body.st-inner .rx-pts .rx-fd li { display: flex; align-items: center; gap: 0.6rem; padding: 0.5rem 0; border-top: 1px solid var(--st-line); }
+body.st-inner .rx-pts .rx-fd li:first-child { border-top: 0; }
+body.st-inner .rx-pts .rx-fc { display: inline-flex; align-items: center; justify-content: center; width: 1.5rem; height: 1.5rem; border-radius: 50%; font-size: 0.75rem; font-weight: 800; flex-shrink: 0; }
+body.st-inner .rx-pts .rx-fc-w { background: #dcfce7; color: #166534; }
+body.st-inner .rx-pts .rx-fc-l { background: #fee2e2; color: #991b1b; }
+body.st-inner .rx-pts .rx-fc-a { background: #e0e7ff; color: #3730a3; }
+body.st-inner .rx-pts .rx-fd-main { display: flex; flex-direction: column; gap: 0.1rem; min-width: 0; }
+body.st-inner .rx-pts .rx-fd-main b { font-size: 0.9rem; }
+body.st-inner .rx-pts .rx-fd-main span { color: var(--st-mute); font-size: 0.85rem; }
+
+/* Schedule page — playoffs table (rose header, even-row shading). */
+body.st-inner #playoffs table th, body.st-inner #playoffs table td { padding: 0.55rem 0.5rem; }
+body.st-inner #playoffs table thead th { background: var(--st-rose); color: #fff; }
+body.st-inner #playoffs table tbody tr:nth-child(even) { background: var(--st-bg-soft); }
+
+/* Section pages on small screens. */
+@media (max-width: 980px) {
+  body.st-inner .home-grid { grid-template-columns: 1fr; }
+  body.st-inner .rx-sched-row { grid-template-columns: 1fr; gap: 0.5rem; }
+}
