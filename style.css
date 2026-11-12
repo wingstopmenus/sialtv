@@ -1484,3 +1484,85 @@ body.st-inner #playoffs table tbody tr:nth-child(even) { background: var(--st-bg
   body.st-inner .home-grid { grid-template-columns: 1fr; }
   body.st-inner .rx-sched-row { grid-template-columns: 1fr; gap: 0.5rem; }
 }
+
+/* ---------- Results + teams + live-scores pages ----------
+   Added for the NPL results + teams + live-scores rebuild (2026-11-13).
+   Scoped to body.st-inner, so the homepage (body.st-home) renders exactly
+   as before. */
+body.st-inner .today-label {
+  color: var(--st-rose-deep);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+/* Side-card stack fix (live-scores "Coming up" wraps its link in <b>, so the
+   hub's .side-card li > a { display:block } does not match and the name +
+   date run together — "AvengersThu 12 Nov". Stack <b> and <span> as blocks;
+   on the results page the <span> is already on its own line, so no-op there.) */
+body.st-inner .side-card li > b { display: block; }
+body.st-inner .side-card li > span { display: block; }
+
+/* Results page — result boxes + cards (one card per match). */
+body.st-inner .rx-res-box { background: var(--st-surface); border: 1px solid var(--st-line); border-radius: var(--st-radius-sm); box-shadow: var(--st-shadow-sm); padding: 1rem 1.15rem; margin-bottom: 1rem; }
+body.st-inner .rx-res-boxhead { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--st-line); margin-bottom: 0.75rem; }
+body.st-inner .rx-res-boxhead a { color: var(--st-ink); font-weight: 700; font-size: 0.9rem; }
+body.st-inner .rx-res-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+body.st-inner .rx-res-card { background: var(--st-bg); border: 1px solid var(--st-line); border-radius: 0.7rem; padding: 0.9rem 1rem; }
+body.st-inner .rx-res-status { display: inline-block; font-size: 0.68rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #fff; background: var(--st-rose); padding: 0.25rem 0.55rem; border-radius: var(--st-pill); margin: 0 0 0.6rem; }
+body.st-inner .rx-res-status.abandoned { background: var(--st-ink-2); }
+body.st-inner .rx-res-desc { color: var(--st-mute); font-size: 0.85rem; margin: 0 0 0.6rem; }
+body.st-inner .rx-res-team { display: flex; align-items: center; gap: 0.5rem; padding: 0.35rem 0; font-weight: 700; }
+body.st-inner .rx-res-team.is-loser { color: var(--st-mute); font-weight: 600; }
+body.st-inner .rx-res-team img.team-logo { width: 1.75rem; height: 1.75rem; }
+body.st-inner .rx-tname { min-width: 0; }
+body.st-inner .rx-tpre { color: var(--st-mute); font-size: 0.8rem; font-weight: 600; }
+body.st-inner .rx-tscore { margin-left: auto; font-weight: 800; font-variant-numeric: tabular-nums; white-space: nowrap; }
+body.st-inner .rx-res-result { color: var(--st-rose-deep); font-weight: 700; font-size: 0.9rem; margin: 0.6rem 0 0; }
+body.st-inner .rx-res-links { display: flex; flex-wrap: wrap; gap: 0.45rem; margin: 0.75rem 0 0; }
+body.st-inner .rx-res-links a { background: var(--st-surface); border: 1px solid var(--st-line); color: var(--st-ink); font-weight: 650; font-size: 0.85rem; padding: 0.4rem 0.7rem; border-radius: var(--st-pill); }
+body.st-inner .rx-res-links a:hover { background: var(--st-rose-soft); border-color: #fecdd3; color: var(--st-rose-deep); }
+
+/* Teams page — one card per team. */
+body.st-inner .team { display: flex; gap: 1rem; align-items: flex-start; background: var(--st-surface); border: 1px solid var(--st-line); border-radius: var(--st-radius-sm); padding: 1.1rem 1.25rem; box-shadow: var(--st-shadow-sm); margin-bottom: 0.9rem; }
+body.st-inner .team img.tl-tile { width: 5rem; height: 5rem; border-radius: 0.8rem; flex-shrink: 0; }
+body.st-inner .team-body { min-width: 0; }
+body.st-inner .team-body > b { display: block; font-size: 1.15rem; font-weight: 800; letter-spacing: -0.02em; }
+body.st-inner .team-body > b a { color: var(--st-ink); }
+body.st-inner .team-body p { margin: 0.3rem 0 0; color: var(--st-ink-2); }
+body.st-inner .team-body p:first-of-type { font-weight: 700; color: var(--st-rose-deep); }
+
+/* Live-scores page — flash row of score cards. */
+body.st-inner .slp-flash { display: flex; gap: 0.85rem; overflow-x: auto; padding-bottom: 0.75rem; margin-bottom: 1.25rem; }
+body.st-inner .slp-flash .score-card { flex: 0 0 20rem; min-width: 0; }
+body.st-inner .slp-flash img.team-logo { width: 1.6rem; height: 1.6rem; }
+
+/* Live-scores page — match-centre tabs. */
+body.st-inner .slp-tabs { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0 0 1.25rem; }
+body.st-inner .slp-tab { background: var(--st-surface); border: 1px solid var(--st-line); color: var(--st-ink-2); font-weight: 650; font-size: 0.9rem; padding: 0.6rem 0.95rem; border-radius: var(--st-pill); cursor: pointer; }
+body.st-inner .slp-tab:hover { background: var(--st-bg-soft); color: var(--st-ink); }
+body.st-inner .slp-tab[aria-selected="true"] { background: var(--st-rose); border-color: var(--st-rose); color: #fff; font-weight: 700; }
+
+/* Live-scores page — last-five results list. */
+body.st-inner .slp-results { margin: 0; padding: 0; list-style: none; }
+body.st-inner .slp-results li { padding: 0.7rem 0; border-top: 1px solid var(--st-line); }
+body.st-inner .slp-results li:first-child { border-top: 0; }
+body.st-inner .slp-results li b { display: block; font-weight: 750; }
+body.st-inner .slp-results li span { color: var(--st-mute); font-size: 0.9rem; }
+
+/* Live-scores page — scorecard tables (rose header, even-row shading). */
+body.st-inner .slp-tables table th, body.st-inner .slp-tables table td { padding: 0.5rem; }
+body.st-inner .slp-tables table thead th { background: var(--st-rose); color: #fff; }
+body.st-inner .slp-tables table tbody tr:nth-child(even) { background: var(--st-bg-soft); }
+
+/* Results + teams + live-scores on small screens. */
+@media (max-width: 980px) {
+  body.st-inner .rx-res-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  body.st-inner .slp-flash .score-card { flex-basis: 16.5rem; }
+  body.st-inner .team { gap: 0.75rem; padding: 0.9rem 1rem; }
+  body.st-inner .team img.tl-tile { width: 4rem; height: 4rem; }
+}
