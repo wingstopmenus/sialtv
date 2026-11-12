@@ -1566,3 +1566,132 @@ body.st-inner .slp-tables table tbody tr:nth-child(even) { background: var(--st-
   body.st-inner .team { gap: 0.75rem; padding: 0.9rem 1rem; }
   body.st-inner .team img.tl-tile { width: 4rem; height: 4rem; }
 }
+
+/* ---------- Player pages (body.st-inner) ----------
+   NPL player profiles: dark profile card, pill tabs, side cards.
+   Scoped to body.st-inner so the homepage (body.st-home) renders
+   exactly as before. */
+body.st-inner .player-grid {
+  display: grid;
+  grid-template-columns: 0.85fr 1.5fr;
+  gap: 1.25rem;
+  align-items: start;
+}
+body.st-inner .player-left {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  min-width: 0;
+}
+body.st-inner .player-centre { min-width: 0; }
+body.st-inner .profile-card {
+  background: var(--st-night);
+  color: #eceaf6;
+  border: 1px solid var(--st-night);
+  border-radius: var(--st-radius);
+  padding: 1.5rem 1.4rem;
+  box-shadow: var(--st-shadow-sm);
+}
+body.st-inner .profile-card .pc-photo {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+}
+body.st-inner .profile-card .pc-name {
+  color: #fff;
+  font-size: 1.7rem;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  font-weight: 800;
+  margin: 0.85rem 0 0.35rem;
+}
+body.st-inner .profile-card .pc-summary {
+  color: #c8c4d6;
+  font-weight: 600;
+  margin: 0 0 0.6rem;
+}
+body.st-inner .profile-card .pc-strip {
+  color: #8f8aa3;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin: 0;
+}
+body.st-inner .profile-card .init.big {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--st-rose);
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: 800;
+}
+body.st-inner .ptabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+body.st-inner .ptabs .ptab {
+  background: var(--st-surface);
+  border: 1px solid var(--st-line);
+  color: var(--st-ink-2);
+  font-weight: 650;
+  font-size: 0.9rem;
+  padding: 0.6rem 0.95rem;
+  border-radius: var(--st-pill);
+}
+body.st-inner .ptabs .ptab:hover {
+  background: var(--st-bg-soft);
+  color: var(--st-ink);
+}
+body.st-inner .ptabs .ptab[aria-current="true"] {
+  background: var(--st-rose);
+  border-color: var(--st-rose);
+  color: #fff;
+  font-weight: 700;
+}
+body.st-inner .bop-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+body.st-inner .bop-filters select {
+  flex: 1 1 8rem;
+  background: var(--st-bg);
+  border: 1px solid var(--st-line);
+  color: var(--st-ink);
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0.55rem 0.6rem;
+  border-radius: 0.7rem;
+}
+body.st-inner .init {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: var(--st-rose-soft);
+  color: var(--st-rose-deep);
+  font-size: 0.75rem;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+body.st-inner .side-card li:has(.init) {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+@media (max-width: 980px) {
+  body.st-inner .player-grid { grid-template-columns: 1fr; }
+}
