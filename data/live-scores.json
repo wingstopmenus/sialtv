@@ -1,99 +1,209 @@
 {
-  "fetchedAt": "2026-11-10T15:50:00Z",
-  "source": "crictracker",
-  "series": "Nepal Premier League 2026",
-  "matches": [
-    {
-      "id": "npl-2026-m21",
-      "espnEventId": 1558602,
-      "matchNo": 21,
-      "matchDesc": "Match 21",
-      "series_name": "Nepal Premier League 2026",
-      "team1": "Sudurpaschim Royals",
-      "team2": "Janakpur Bolts",
-      "abbr1": "SPR",
-      "abbr2": "JAB",
-      "status": "result",
-      "statusText": "Sudurpaschim Royals won by 27 runs",
-      "score1": "120/9",
-      "score2": "93",
-      "overs1": "20",
-      "overs2": "19.5",
-      "venue": "Tribhuvan University International Cricket Ground, Kirtipur",
-      "date": "2026-11-10",
-      "kickoffIso": "2026-11-10T16:30:00+05:45",
-      "scorecard": {
-        "innings": [
-          {
-            "team": "Sudurpaschim Royals",
-            "total": "120/9",
-            "overs": "20",
-            "batting": [
-              {
-                "name": "Brandon McMullen",
-                "runs": 33,
-                "balls": 23
-              }
-            ],
-            "bowling": [
-              {
-                "name": "Harmeet Singh",
-                "wickets": 4,
-                "runs": 17,
-                "overs": "4"
-              }
-            ]
-          },
-          {
-            "team": "Janakpur Bolts",
-            "total": "93",
-            "overs": "19.5",
-            "batting": [
-              {
-                "name": "Trit Raj Das",
-                "runs": 21,
-                "balls": 29
-              }
-            ],
-            "bowling": [
-              {
-                "name": "Scott Kuggeleijn",
-                "wickets": 3,
-                "runs": 13,
-                "overs": "4"
-              }
-            ]
-          }
-        ]
-      },
-      "commentary": [],
-      "overTimeline": [],
-      "live": null
-    },
-    {
-      "id": "npl-2026-m22",
-      "espnEventId": 1558603,
-      "matchNo": 22,
-      "matchDesc": "Match 22",
-      "series_name": "Nepal Premier League 2026",
-      "team1": "Biratnagar Kings",
-      "team2": "Pokhara Avengers",
-      "abbr1": "BIK",
-      "abbr2": "POA",
-      "status": "upcoming",
-      "statusText": "Biratnagar Kings vs Pokhara Avengers \u2014 Thursday 12 November 2026, 12:30 PM NST",
-      "toss": null,
-      "score1": null,
-      "score2": null,
-      "overs1": null,
-      "overs2": null,
-      "venue": "Tribhuvan University International Cricket Ground, Kirtipur",
-      "date": "2026-11-12",
-      "kickoffIso": "2026-11-12T12:30:00+05:45",
-      "scorecard": null,
-      "commentary": [],
-      "overTimeline": [],
-      "live": null
-    }
-  ]
+ "fetchedAt": "2026-11-13T03:05:07Z",
+ "source": "crictracker",
+ "series": "Nepal Premier League 2026",
+ "matches": [
+  {
+   "id": "npl-2026-m21",
+   "espnEventId": 1558602,
+   "matchNo": 21,
+   "matchDesc": "Match 21",
+   "series_name": "Nepal Premier League 2026",
+   "team1": "Sudurpaschim Royals",
+   "team2": "Janakpur Bolts",
+   "abbr1": "SPR",
+   "abbr2": "JAB",
+   "status": "result",
+   "statusText": "Sudurpaschim Royals won by 27 runs",
+   "score1": "120/9",
+   "score2": "93",
+   "overs1": "20",
+   "overs2": "19.5",
+   "venue": "Tribhuvan University International Cricket Ground, Kirtipur",
+   "date": "2026-11-10",
+   "kickoffIso": "2026-11-10T16:30:00+05:45",
+   "scorecard": {
+    "innings": [
+     {
+      "team": "Sudurpaschim Royals",
+      "total": "120/9",
+      "overs": "20",
+      "batting": [
+       {
+        "name": "Brandon McMullen",
+        "runs": 33,
+        "balls": 23
+       }
+      ],
+      "bowling": [
+       {
+        "name": "Harmeet Singh",
+        "wickets": 4,
+        "runs": 17,
+        "overs": "4"
+       }
+      ]
+     },
+     {
+      "team": "Janakpur Bolts",
+      "total": "93",
+      "overs": "19.5",
+      "batting": [
+       {
+        "name": "Trit Raj Das",
+        "runs": 21,
+        "balls": 29
+       }
+      ],
+      "bowling": [
+       {
+        "name": "Scott Kuggeleijn",
+        "wickets": 3,
+        "runs": 13,
+        "overs": "4"
+       }
+      ]
+     }
+    ]
+   },
+   "commentary": [],
+   "overTimeline": [],
+   "live": null
+  },
+  {
+   "id": "npl-2026-m22",
+   "espnEventId": 1558603,
+   "matchNo": 22,
+   "matchDesc": "Match 22",
+   "series_name": "Nepal Premier League 2026",
+   "team1": "Biratnagar Kings",
+   "team2": "Pokhara Avengers",
+   "abbr1": "BIK",
+   "abbr2": "POA",
+   "status": "result",
+   "statusText": "Biratnagar Kings won by 4 wickets",
+   "toss": null,
+   "score1": "136/6",
+   "score2": "132/10",
+   "overs1": "19.2",
+   "overs2": "17.5",
+   "venue": "Tribhuvan University International Cricket Ground, Kirtipur",
+   "date": "2026-11-12",
+   "kickoffIso": "2026-11-12T12:30:00+05:45",
+   "scorecard": {
+    "innings": [
+     {
+      "team": "Pokhara Avengers",
+      "total": "132/10",
+      "overs": "17.5",
+      "batting": [
+       {
+        "name": "Yuvraj Samra",
+        "runs": 84,
+        "balls": 47
+       }
+      ],
+      "bowling": [
+       {
+        "name": "Sandeep Lamichhane",
+        "wickets": 6,
+        "runs": 27,
+        "overs": "4"
+       }
+      ]
+     },
+     {
+      "team": "Biratnagar Kings",
+      "total": "136/6",
+      "overs": "19.2",
+      "batting": [
+       {
+        "name": "Basir Ahamad",
+        "runs": 37,
+        "balls": 39
+       }
+      ],
+      "bowling": [
+       {
+        "name": "Kushal Bhurtel",
+        "wickets": 2,
+        "runs": 21,
+        "overs": "4"
+       }
+      ]
+     }
+    ]
+   },
+   "commentary": [],
+   "overTimeline": [],
+   "live": null
+  },
+  {
+   "id": "npl-2026-m23",
+   "espnEventId": 1558604,
+   "matchNo": 23,
+   "matchDesc": "Match 23",
+   "series_name": "Nepal Premier League 2026",
+   "team1": "Karnali Yaks",
+   "team2": "Lumbini Lions",
+   "abbr1": "KAY",
+   "abbr2": "LUL",
+   "status": "result",
+   "statusText": "Lumbini Lions won by 4 wickets",
+   "score1": "105/10",
+   "score2": "107/6",
+   "overs1": "19.2",
+   "overs2": "16.4",
+   "venue": "Tribhuvan University International Cricket Ground, Kirtipur",
+   "date": "2026-11-12",
+   "kickoffIso": "2026-11-12T16:30:00+05:45",
+   "scorecard": {
+    "innings": [
+     {
+      "team": "Karnali Yaks",
+      "total": "105/10",
+      "overs": "19.2",
+      "batting": [
+       {
+        "name": "Sompal Kami",
+        "runs": 28,
+        "balls": 18
+       }
+      ],
+      "bowling": [
+       {
+        "name": "Kishore Mahato",
+        "wickets": 2,
+        "runs": 6,
+        "overs": "2.2"
+       }
+      ]
+     },
+     {
+      "team": "Lumbini Lions",
+      "total": "107/6",
+      "overs": "16.4",
+      "batting": [
+       {
+        "name": "D'Arcy Short",
+        "runs": 46,
+        "balls": 34
+       }
+      ],
+      "bowling": [
+       {
+        "name": "Mark Watt",
+        "wickets": 4,
+        "runs": 12,
+        "overs": "4"
+       }
+      ]
+     }
+    ]
+   },
+   "commentary": [],
+   "overTimeline": [],
+   "live": null
+  }
+ ]
 }
