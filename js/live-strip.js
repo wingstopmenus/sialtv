@@ -176,10 +176,10 @@
   window.sialtvLiveOvers = oversHtml;
 
   /* ---- the strip itself ---- */
-  function stripHtml(p) {
+  function stripHtml(p, showNext) {
     var m = p.live || p.latest;
     var right = '';
-    if (p.next) right = 'Next: ' + esc(p.next.team1) + ' vs ' + esc(p.next.team2) + ' · Match ' + p.next.matchNo;
+    if (p.next && showNext) right = 'Next: ' + esc(p.next.team1) + ' vs ' + esc(p.next.team2) + ' · Match ' + p.next.matchNo;
     if (p.live) {
       var live = p.live.live || {};
       var bats = (live.batters || []).map(function (b) { return esc(b.name) + ' ' + esc(b.runs) + (b.striker ? '*' : ''); }).join(', ');
@@ -195,6 +195,7 @@
       return { left: '<span><b>RESULT</b> · ' + esc(p.latest.statusText || '') + ' (' + esc(p.latest.team1) + ' ' + esc(p.latest.score1 || '') + ' vs ' + esc(p.latest.team2) + ' ' + esc(p.latest.score2 || '') + ')</span>', right: right };
     }
     if (p.next) {
+      if (!showNext) return null;
       return { left: '<span><b>NEXT</b> · ' + esc(p.next.team1) + ' vs ' + esc(p.next.team2) + ' — Match ' + p.next.matchNo + '</span>', right: esc(p.next.statusText || '') };
     }
     return null;
@@ -205,14 +206,18 @@
     if (!strip || !window.sialtvScores || !window.sialtvPick) return;
     ensureCss();
     var league = strip.getAttribute('data-league') || 'npl';
+    /* data-show-next="0" (NPL hub) hides the Next line entirely; default shows it. */
+    var showNext = strip.getAttribute('data-show-next') !== '0';
     var wrap = strip.querySelector('.wrap');
     function load() {
       if (document.hidden) return;
       window.sialtvScores(league).then(function (data) {
         var p = window.sialtvPick((data && data.matches) || []);
-        var h = stripHtml(p);
+        var h = stripHtml(p, showNext);
         if (!h || !wrap) return;
-        wrap.innerHTML = '<span>' + h.left + '</span><span class="t-time">' + (h.right || '') + ' · <a href="/' + league + '/live-scores/">Live scores</a></span>';
+        var inner = '<span>' + h.left + '</span>';
+        if (showNext || h.right) inner += '<span class="t-time">' + (h.right || '') + ' · <a href="/' + league + '/live-scores/">Live scores</a></span>';
+        wrap.innerHTML = inner;
       }).catch(function () {});
     }
     load();
