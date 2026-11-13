@@ -2057,3 +2057,79 @@ body.st-inner.league-ilt20 .u-sr-only { position: absolute; width: 1px; height: 
 #records .records-grid table { width: 100%; }
 @media (min-width: 981px) { body.league-npl .hub-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 @media (max-width: 980px) { #records .records-grid { grid-template-columns: 1fr; } }
+
+/* ---------- Layout fix 2 (v2, 2026-11-13) ----------
+   Defect 3: homepage pills (body.st-home button reset, line 59, 0,1,2)
+   beats .st-strip-pill (0,1,0). Defect 1: strip scrollbar.
+   Defect 2: 4th card clipped + ">" arrow overlapping it.
+   Defect 6a: strip cards tall with empty space below Schedule/Table.
+   Defect 4: hub middle 2 columns not 3. Defect 5: Records & Stats
+   stacked narrow. Defect 6b: Scores panel 819px in a 1160px section
+   (.hub-match-panels is .slp-flash = display:flex, so .mc-panel
+   shrink-wraps to content). Hub rules are scoped to body.st-inner
+   (0,3,1) because body.st-inner rules at lines 1235/1539/1565 beat
+   the unscoped strip rules on the hub. */
+
+/* --- Defect 3: homepage filter pills (same as hub) --- */
+body.st-home .st-strip-pill {
+  background: #fff;
+  border: 1px solid #e3dff0;
+  color: var(--st-ink-2);
+  padding: 0.5rem 0.85rem;
+}
+body.st-home .st-strip-pill:hover { background: var(--st-bg-soft); color: var(--st-ink); }
+body.st-home .st-strip-pill[aria-pressed="true"] {
+  background: var(--st-rose);
+  border-color: var(--st-rose);
+  color: #fff;
+}
+
+/* --- Defect 1: hide the strip scrollbar completely --- */
+.st-strip-track { scrollbar-width: none; -ms-overflow-style: none; padding-bottom: 0; }
+.st-strip-track::-webkit-scrollbar { display: none; width: 0; height: 0; }
+
+/* --- Defect 2: whole cards + arrow clear of every card --- */
+.st-strip-view { padding-right: 3.25rem; }
+.st-strip-track { padding-right: 0; }
+.st-strip-view::after { display: none; }
+.st-strip-arrow { right: 0.25rem; }
+/* 3 whole cards (desktop). Hub: beats body.st-inner .slp-flash .score-card
+   (line 1539, 0,3,1) — same specificity, later in file, so it wins. */
+.st-strip-track .score-card { flex: 0 0 calc((100% - 1.7rem) / 3); min-width: 0; }
+body.st-inner .st-strip-track .score-card { flex: 0 0 calc((100% - 1.7rem) / 3); min-width: 0; }
+@media (max-width: 980px) {
+  .st-strip-track .score-card { flex: 0 0 calc((100% - 0.85rem) / 2); }
+  body.st-inner .st-strip-track .score-card { flex: 0 0 calc((100% - 0.85rem) / 2); }
+}
+@media (max-width: 640px) {
+  /* 1 whole card (mobile). Hub: beats line 1565 flex-basis:16.5rem (0,3,1). */
+  .st-strip-track .score-card { flex: 0 0 100%; }
+  body.st-inner .st-strip-track .score-card { flex: 0 0 100%; }
+}
+
+/* --- Defect 6a: pin Schedule/Table links to the card bottom ---
+   Hub: beats body.st-inner .score-card { display:block } (line 1235, 0,2,1). */
+.st-strip .score-card { display: flex; flex-direction: column; }
+body.st-inner .st-strip .score-card { display: flex; flex-direction: column; }
+.st-strip .sc-links { margin-top: auto; }
+body.st-inner .st-strip .sc-links { margin-top: auto; }
+
+/* --- Defect 4: hub middle = 3 equal columns (desktop) --- */
+@media (min-width: 981px) {
+  body.league-npl .hub-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+/* --- Defect 5: Records & Stats side-by-side, full width (desktop only) ---
+   Desktop-only on purpose: an unconditional 1fr 1fr broke mobile
+   (hub-390 records stayed 2 cols and overflowed the page). */
+@media (min-width: 981px) {
+  #records .records-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; align-items: start; }
+}
+@media (max-width: 980px) {
+  #records .records-grid { grid-template-columns: 1fr; }
+}
+
+/* --- Defect 6b: Scores panel fills the section width ---
+   .hub-match-panels is .slp-flash (display:flex), so .mc-panel
+   shrink-wraps to content (819px). Grow it to the full width. */
+body.st-inner .hub-match-panels .mc-panel { flex: 1 1 100%; min-width: 0; }
