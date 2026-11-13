@@ -5,7 +5,7 @@
   <ns0:url><ns0:loc>https://sialtv.com/live-scores/</ns0:loc>
     <ns0:lastmod>2026-11-13T04:00:02Z</ns0:lastmod><ns0:changefreq>daily</ns0:changefreq><ns0:priority>0.9</ns0:priority></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/</ns0:loc>
-    <ns0:lastmod>2026-11-13T07:25:00Z</ns0:lastmod><ns0:changefreq>daily</ns0:changefreq><ns0:priority>0.9</ns0:priority></ns0:url>
+    <ns0:lastmod>2026-11-13T07:55:00Z</ns0:lastmod><ns0:changefreq>daily</ns0:changefreq><ns0:priority>0.9</ns0:priority></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/players/</ns0:loc>
     <ns0:lastmod>2026-11-12T21:07:57Z</ns0:lastmod><ns0:changefreq>daily</ns0:changefreq><ns0:priority>0.8</ns0:priority></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/tickets/</ns0:loc>
@@ -634,4 +634,4 @@
 <ns0:url><ns0:loc>https://sialtv.com/apl/teams/nangarhar-cosmic/</ns0:loc><ns0:lastmod>2026-11-13T01:01:46Z</ns0:lastmod></ns0:url>
 <ns0:url><ns0:loc>https://sialtv.com/apl/teams/paktia/</ns0:loc><ns0:lastmod>2026-11-13T01:01:47Z</ns0:lastmod></ns0:url>
 <ns0:url><ns0:loc>https://sialtv.com/apl/tickets/</ns0:loc><ns0:lastmod>2026-11-13T01:01:48Z</ns0:lastmod></ns0:url>
-<ns0:url><ns0:loc>https://sialtv.com/teams/</ns0:loc><ns0:lastmod>2026-11-12T20:00:05Z</ns0:lastmod></ns0:url><ns0:url><ns0:loc>https://sialtv.com/series/</ns0:loc><ns0:lastmod>2026-11-12T20:00:06Z</ns0:lastmod></ns0:url></ns0:urlset>
+<ns0:url><ns0:loc>https://sialtv.com/teams/</ns0:loc><ns0:lastmod>2026-11-12T20:00:05Z</ns0:lastmod></ns0:url><ns0:url><ns0:loc>https://sialtv.com/series/</ns0:loc><ns0:lastmod>2026-11-12T20:00:06Z</ns0:lastmod></ns0:url><ns0:url><ns0:loc>https://sialtv.com/npl/news/pakistan-players-in-doubt-for-nepal-premier-league/</ns0:loc><ns0:lastmod>2026-11-13T07:55:00Z</ns0:lastmod><ns0:changefreq>daily</ns0:changefreq><ns0:priority>0.9</ns0:priority></ns0:url></ns0:urlset>
