@@ -230,6 +230,51 @@
     return p;
   }
 
+
+  /* Sidebar "Live now — Match N" (live-scores pages): the baked line
+     freezes at the bake ("Kathmandu yet to bat") while the match moves
+     on. Update it from the same feed as the live centre, on every poll.
+     The venue is kept from the baked line (the feed carries none). */
+  function refreshSidebarLive(data) {
+    /* Every sidebar card is updated from the feed entry for ITS OWN
+       match — not just the live/latest one. When Match 24 finishes and
+       Match 25 goes live, the Match 24 card must flip to its result
+       instead of staying frozen on "yet to bat". */
+    var byNo = {};
+    (data.matches || []).forEach(function (m) { byNo[m.matchNo] = m; });
+    var links = document.querySelectorAll('.side-card h3 a[href*="/match-"]');
+    for (var i = 0; i < links.length; i++) {
+      var mm = (links[i].getAttribute('href') || '').match(/match-(\d+)\//);
+      if (!mm) continue;
+      var m = byNo[parseInt(mm[1], 10)];
+      if (!m || (m.status !== 'live' && m.status !== 'result')) continue;
+      var card = links[i].closest('.side-card');
+      if (!card) continue;
+      var line = card.querySelector('p:not(.note)');
+      if (m.status === 'live') {
+        links[i].textContent = 'Live now — Match ' + m.matchNo;
+        if (line) line.innerHTML = sidebarLiveLine(m, line);
+      } else if (m.status === 'result') {
+        links[i].textContent = 'Result — Match ' + m.matchNo;
+        if (line) line.textContent = teamName(m.statusText || '');
+      }
+    }
+  }
+  function sidebarLiveLine(m, line) {
+    var a = esc(teamName(m.team1)) + ' ' + esc(m.score1 || '');
+    if (m.score1 && hasOvers(m.overs1)) a += ' (' + esc(m.overs1) + ' ov)';
+    else if (m.status === 'live' && !m.score1 && m.score2) a = esc(teamName(m.team1)) + ' yet to bat';
+    var b = esc(teamName(m.team2)) + ' ' + esc(m.score2 || '');
+    if (m.score2 && hasOvers(m.overs2)) b += ' (' + esc(m.overs2) + ' ov)';
+    else if (m.status === 'live' && !m.score2 && m.score1) b = esc(teamName(m.team2)) + ' yet to bat';
+    var venue = '';
+    if (line) {
+      var parts = (line.textContent || '').split('·');
+      if (parts.length > 1) venue = ' &middot; ' + esc(parts[parts.length - 1].trim());
+    }
+    return '<b>' + esc(teamName(m.team1)) + ' vs ' + esc(teamName(m.team2)) + '</b><br>' + a + ' &middot; ' + b + venue;
+  }
+
   function boot() {
     var panel = document.getElementById('livePanel');
     if (!panel) return;
@@ -242,7 +287,7 @@
     function load() {
       if (document.hidden) return;
       sialtvScores(league).then(function (data) {
-        if (data && data.matches && data.matches.length) renderPanel(panel, data);
+        if (data && data.matches && data.matches.length) { renderPanel(panel, data); refreshSidebarLive(data); }
       }).catch(function () {});
     }
     load();

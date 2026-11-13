@@ -348,7 +348,8 @@
          time the feed carries a score for that side. A side the feed
          has no score for keeps its baked row untouched. */
       rows.forEach(function (row, i) {
-        var s = scoreText(i === 0 ? m.score1 : m.score2, i === 0 ? m.overs1 : m.overs2);
+        var side = rowSide(row, m, i);
+        var s = scoreText(side === 0 ? m.score1 : m.score2, side === 0 ? m.overs1 : m.overs2);
         if (!s) return;
         var span = row.querySelector('.sc-score');
         if (!span) {
@@ -380,6 +381,101 @@
        just moved it, so re-render the countdowns now, not at the next
        60-second tick. */
     stripCountdowns();
+  }
+
+
+  /* Fixture lists (hub #fxFixtures / #fxResults): a live row is a baked
+     snapshot — it freezes the moment the page was baked while the strip,
+     Match Coverage and ticker all move on. Update every row whose match
+     the feed carries as live or result, in place, from the same poll
+     that drives the strip. An upcoming row gains its score spans and
+     LIVE badge the first time the feed carries a score for it. */
+  /* Which feed side does this row belong to? Baked rows carry the
+     3-letter code (JAB/CHR); JS-built rows carry the full name. Match
+     either, so a feed whose team order differs from the baked order
+     (M25: feed CHR/JAB, baked JAB/CHR) still lands the score on the
+     right team instead of swapping the two scores. Falls back to the
+     row's index when nothing matches. */
+  function rowSide(row, m, fallback) {
+    var t = (row.textContent || '').replace(/\s+/g, ' ').trim();
+    if (t) {
+      if (m.abbr1 && t.indexOf(m.abbr1) !== -1) return 0;
+      if (m.abbr2 && t.indexOf(m.abbr2) !== -1) return 1;
+      if (shortName(m.team1) && t.indexOf(shortName(m.team1)) !== -1) return 0;
+      if (shortName(m.team2) && t.indexOf(shortName(m.team2)) !== -1) return 1;
+    }
+    return fallback;
+  }
+  function battingSide(m) {
+    /* Same open-innings rule as crrOf: a score while the other side has
+       none, else the side with fewer overs (10 wickets ends an innings). */
+    function wkts(s) { var x = /^(\d+)\/(\d+)/.exec(String(s || '')); return x ? parseInt(x[2], 10) : -1; }
+    function balls(o) { var p = String(o || '').split('.'); return (parseInt(p[0] || '0', 10) * 6) + (parseInt(p[1] || '0', 10) || 0); }
+    if (m.score2 && !m.score1) return { team: shortName(m.team2), score: m.score2, overs: m.overs2 };
+    if (m.score1 && !m.score2) return { team: shortName(m.team1), score: m.score1, overs: m.overs1 };
+    if (m.score1 && m.score2) {
+      if (wkts(m.score2) >= 10) return { team: shortName(m.team1), score: m.score1, overs: m.overs1 };
+      if (wkts(m.score1) >= 10) return { team: shortName(m.team2), score: m.score2, overs: m.overs2 };
+      if (balls(m.overs1) > balls(m.overs2)) return { team: shortName(m.team2), score: m.score2, overs: m.overs2 };
+      return { team: shortName(m.team1), score: m.score1, overs: m.overs1 };
+    }
+    return null;
+  }
+  function fixtureStatus(m) {
+    if (m.status === 'result') return cleanStatus(m.statusText) || '';
+    /* Chase: "Kathmandu Gorkhas need 92 off 79 balls." — the baked
+       fixture style, parsed from the feed's "need 92 runs from 79 balls". */
+    var need = /(.+?)\s+need\s+(\d+)\s+runs?\s+from\s+(\d+)\s+balls?/i.exec(cleanStatus(m.statusText || ''));
+    if (need) return need[1] + ' need ' + need[2] + ' off ' + need[3] + ' balls.';
+    /* First innings (or any other live state): batting side + score. */
+    var bat = battingSide(m);
+    if (bat) return bat.team + ' ' + bat.score + (bat.overs ? ' (' + bat.overs + ' ov)' : '');
+    return cleanStatus(m.statusText) || 'Live now';
+  }
+  function refreshFixtures(data) {
+    var lists = document.querySelectorAll('#fxFixtures, #fxResults');
+    if (!lists.length || !data || !data.matches) return;
+    var byNo = {};
+    data.matches.forEach(function (m) { byNo[m.matchNo] = m; });
+    lists.forEach(function (list) {
+      list.querySelectorAll('li a[href*="/match-"]').forEach(function (a) {
+        var mm = (a.getAttribute('href') || '').match(/match-(\d+)\//);
+        if (!mm) return;
+        var m = byNo[parseInt(mm[1], 10)];
+        if (!m || (m.status !== 'live' && m.status !== 'result')) return;
+        var li = a.closest('li');
+        var teams = a.querySelectorAll('.fx-team');
+        teams.forEach(function (span, i) {
+          var side = rowSide(span, m, i);
+          var sc = side === 0 ? m.score1 : m.score2;
+          var ov = side === 0 ? m.overs1 : m.overs2;
+          if (!sc) { var b0 = span.querySelector('b'); if (b0) b0.textContent = ''; return; }
+          var txt = (ov ? '(' + ov + ' ov) ' : '') + sc;
+          var b = span.querySelector('b');
+          if (!b) {
+            b = document.createElement('b');
+            span.appendChild(document.createTextNode(' '));
+            span.appendChild(b);
+          }
+          b.textContent = txt;
+        });
+        var st = a.querySelector('.fx-status');
+        if (st) {
+          var target = st.querySelector('strong') || st;
+          target.textContent = fixtureStatus(m);
+        }
+        if (m.status === 'live' && li && !li.classList.contains('fx-live-item')) {
+          li.classList.add('fx-live-item');
+          if (!a.querySelector('.fx-live-badge')) {
+            var badge = document.createElement('span');
+            badge.className = 'fx-live-badge';
+            badge.innerHTML = '<span class="live-dot" aria-hidden="true"></span>LIVE';
+            a.insertBefore(badge, a.firstChild);
+            a.insertBefore(document.createTextNode(' '), badge.nextSibling);
+          }
+        }
+      });
+    });
   }
 
   /* Match Coverage panels (homepage): a panel carries
@@ -590,6 +686,11 @@
       });
       updateArrows(strip);
     });
+    /* Baked evening times: correct a stale "4:30 PM NST" on load,
+       whether or not the feed carries the match — the feed-gated pass
+       in refreshCarousel skips a card the feed does not know. Idempotent:
+       after the first fix the text no longer matches. */
+    document.querySelectorAll('.st-strip .score-card').forEach(function (c) { fixEveningTime(c); });
     stripCountdowns();
     setInterval(stripCountdowns, 60000);
     window.addEventListener('resize', function () {
@@ -614,6 +715,7 @@
         window.sialtvScores(lg).then(function (data) {
           if (!data || !data.matches || !data.matches.length) return;
           refreshFlash(group, data, lg);
+          refreshFixtures(data);
           if (lg === 'npl') refreshHero(data);
         }).catch(function () {});
       });
