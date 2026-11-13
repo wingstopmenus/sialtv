@@ -207,29 +207,41 @@
     return null;
   }
 
-  /* CRR = current innings runs * 6 / balls bowled. The header score
-     (team score + overs) is authoritative — it includes extras, which
-     the batting sum misses. Falls back to the innings total. */
+  /* CRR = current innings runs * 6 / balls bowled. The header scores
+     are authoritative — the scorecard lags or duplicates innings during
+     a chase, so picking the batting innings from it returned SPR's
+     completed 125/6 (20 ov) — CRR 6.25 — while KAG were chasing
+     (M24fix2 flag, 2026-11-13). Same batting-side rule as crrOf in
+     flash-scores.js: a score while the other has none, else the side
+     with fewer overs (an innings ends at 10 wickets or when its overs
+     run out). Falls back to the batting innings' total when the header
+     scores are missing. */
   function crrFromInnings(m) {
+    var live = m.live || null;
+    if (live && live.crr) return live.crr;
+    function wkts(s) { var x = /^(\d+)\/(\d+)/.exec(String(s || '')); return x ? parseInt(x[2], 10) : -1; }
+    function balls(o) { var q = String(o || '').split('.'); return (parseInt(q[0] || '0', 10) * 6) + (parseInt(q[1] || '0', 10) || 0); }
+    var s = '', o = '';
+    if (m.score2 && !m.score1) { s = m.score2; o = m.overs2; }
+    else if (m.score1 && !m.score2) { s = m.score1; o = m.overs1; }
+    else if (m.score1 && m.score2) {
+      if (wkts(m.score2) >= 10) { s = m.score1; o = m.overs1; }
+      else if (wkts(m.score1) >= 10) { s = m.score2; o = m.overs2; }
+      else if (balls(m.overs1) > balls(m.overs2)) { s = m.score2; o = m.overs2; }
+      else { s = m.score1; o = m.overs1; }
+    }
+    if (s && o) {
+      var runs = parseInt(String(s).split('/')[0], 10);
+      var b = balls(o);
+      if (runs && b) return (runs * 6 / b).toFixed(2);
+    }
     var g = battingInnings(m);
     if (!g) return '';
-    var runs = 0, balls = 0;
-    var team = String(g.team || '');
-    var hdr = null;
-    if (team && m.team1 && team.indexOf(m.team1) !== -1 && m.score1) hdr = [m.score1, m.overs1];
-    else if (team && m.team2 && team.indexOf(m.team2) !== -1 && m.score2) hdr = [m.score2, m.overs2];
-    if (hdr) {
-      var tm = /^(\d+)\//.exec(String(hdr[0]));
-      if (tm) runs = parseInt(tm[1], 10);
-      balls = ballsFromOvers(hdr[1]);
-    }
-    if (!runs || !balls) {
-      var tm2 = /^(\d+)\//.exec(String(g.total || ''));
-      if (tm2) runs = parseInt(tm2[1], 10);
-      balls = ballsFromOvers(g.overs);
-    }
-    if (!balls || !runs) return '';
-    return (runs * 6 / balls).toFixed(2);
+    var tm = /^(\d+)\//.exec(String(g.total || ''));
+    var r2 = tm ? parseInt(tm[1], 10) : 0;
+    var b2 = ballsFromOvers(g.overs);
+    if (!r2 || !b2) return '';
+    return (r2 * 6 / b2).toFixed(2);
   }
 
   function partnershipFromLive(live) {
