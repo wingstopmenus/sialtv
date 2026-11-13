@@ -13,6 +13,9 @@ DirectorySlash Off
 <IfModule mod_rewrite.c>
 RewriteEngine On
 
+# NPL: /npl/results/ merged into the combined Fixtures & Results page (2026-11-13).
+RewriteRule ^npl/results/?$ https://sialtv.com/npl/schedule/ [L,R=301,NE]
+
 # Retired financial-calculator URLs from the previous sialtv.com site.
 # 410 Gone (different topic — do not 301 to the cricket homepage).
 RewriteRule ^(advertising-disclosure|affordability-calculator|car-payment-calculator|compound-interest-calculator|debt-payoff-calculator|editorial-policy|embed|guides|hourly-to-salary|investment-calculator|loan-calculator|methodology|mortgage-calculator|paycheck-calculator|paycheck-calculator-by-state|refinance-calculator|rent-vs-buy-calculator|research|retirement-calculator|salary-calculator|sources)(/.*)?$ - [G,L]
