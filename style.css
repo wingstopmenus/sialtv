@@ -2454,7 +2454,7 @@ body.st-inner nav.series-secnav .secnav-title { font-size: 1.05rem; }
 .secnav-switch:focus-visible { outline: 2px solid var(--st-rose); outline-offset: 3px; border-radius: 0.35rem; }
 .secnav-caret { color: var(--st-mute); font-size: 0.85em; }
 .secnav-drop { position: absolute; top: calc(100% + 0.5rem); left: 0; z-index: 40; display: none; min-width: 19rem; background: var(--st-surface); border: 1px solid var(--st-line); border-radius: 0.9rem; box-shadow: var(--st-shadow); padding: 0.4rem; }
-.secnav-title-wrap:hover .secnav-drop, .secnav-title-wrap:focus-within .secnav-drop { display: block; }
+.secnav-title-wrap:hover:not(.secnav-closed) .secnav-drop, .secnav-title-wrap:focus-within:not(.secnav-closed) .secnav-drop, .secnav-title-wrap.secnav-open .secnav-drop { display: block; }
 body.st-inner .secnav-drop a { display: block; padding: 0.55rem 0.75rem; border-radius: 0.6rem; color: var(--st-ink-2); font-weight: 600; font-size: 0.92rem; text-decoration: none; }
 body.st-inner .secnav-drop a:hover { background: var(--st-bg-soft); color: var(--st-ink); }
 .secnav-div { width: 1px; align-self: stretch; background: var(--st-line); flex-shrink: 0; }
