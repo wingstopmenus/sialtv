@@ -317,6 +317,21 @@
     return Date.now() >= hideFrom;
   }
 
+
+  /* One card step = distance between two adjacent cards (card width +
+     gap). Scrolling by exactly one card lands on a clean 3 whole cards;
+     the old 80%-of-track scroll (2.4 cards) landed mid-card. */
+  function cardStep(track) {
+    var cards = track.querySelectorAll('.score-card');
+    if (cards.length > 1) {
+      var step = cards[1].offsetLeft - cards[0].offsetLeft;
+      if (step > 0) return step;
+    }
+    var card = track.querySelector('.score-card');
+    if (card) return card.offsetWidth + 14;
+    return track.clientWidth / 3;
+  }
+
   function visibleTrack(strip) {
     return strip.querySelector('.st-strip-track:not([hidden])');
   }
@@ -398,11 +413,11 @@
       });
       if (prev) prev.addEventListener('click', function () {
         var track = visibleTrack(strip);
-        if (track) track.scrollBy({ left: -track.clientWidth * 0.8, behavior: 'smooth' });
+        if (track) track.scrollBy({ left: -cardStep(track), behavior: 'smooth' });
       });
       if (next) next.addEventListener('click', function () {
         var track = visibleTrack(strip);
-        if (track) track.scrollBy({ left: track.clientWidth * 0.8, behavior: 'smooth' });
+        if (track) track.scrollBy({ left: cardStep(track), behavior: 'smooth' });
       });
       strip.querySelectorAll('.st-strip-track').forEach(function (track) {
         track.addEventListener('scroll', function () { updateArrows(strip); }, { passive: true });

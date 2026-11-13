@@ -2156,3 +2156,43 @@ body.st-inner .st-strip .sc-match { margin-bottom: 0.5rem; }
 body.st-inner .st-strip .sc-row { margin: 0; padding: 0.3rem 0; }
 body.st-inner .st-strip .sc-result { margin-top: 0.5rem; }
 body.st-inner .st-strip .sc-countdown { margin-top: 0.3rem; }
+
+/* ---------- Layout fix 4 (2026-11-13): compact Cricinfo cards, scroll-snap,
+   Records tables fill the width ----------
+   Nuance 1: cards still ~277px with a ~28px slack band below the links on
+   RESULT cards (the track stretches every card to the tallest UPCOMING
+   card). Fix: track aligns items to the top (no stretch) + tighter card
+   spacing, so RESULT lands ~203px and UPCOMING ~220px (image-40/42
+   reference), with no empty band below the links.
+   Nuance 2: Records tables are full-width elements but their columns only
+   span ~365px (runs) / ~300px (wickets) — the Player column stays
+   content-sized and the spare width is left empty. Fix: width:100% on
+   the Player column so it absorbs the spare width (verified at
+   1544/1280/390px, innerGap 0, no overflow).
+   Nuance 4: ">" scrolled by 80% of the track (= 2.4 cards) and landed
+   mid-card. Fix: scroll-snap on the track + JS scrolls exactly one card
+   (see flash-scores.js cardStep). */
+.st-strip-track { align-items: flex-start; scroll-snap-type: x mandatory; }
+.st-strip-track .score-card { scroll-snap-align: start; }
+body.st-inner .st-strip-track { align-items: flex-start; }
+.st-strip .score-card { padding: 0.5rem 0.95rem; }
+body.st-inner .st-strip .score-card { padding: 0.5rem 0.95rem; }
+.st-strip .sc-label { padding: 0.18rem 0.55rem; margin-bottom: 0.3rem; }
+.st-strip .sc-match { margin-bottom: 0.3rem; }
+.st-strip .sc-row { padding: 0.18rem 0; }
+.st-strip .sc-team img.team-logo { width: 1.6rem; height: 1.6rem; }
+.st-strip .sc-result { margin-top: 0.3rem; font-size: 0.9rem; }
+.st-strip .sc-countdown { margin-top: 0.15rem; font-size: 0.75rem; line-height: 1.25; }
+.st-strip .sc-links { margin-top: 0.3rem; padding-top: 0.3rem; }
+body.st-inner .st-strip .sc-label { padding: 0.18rem 0.55rem; margin-bottom: 0.3rem; }
+body.st-inner .st-strip .sc-match { margin-bottom: 0.3rem; }
+body.st-inner .st-strip .sc-row { padding: 0.18rem 0; }
+body.st-inner .st-strip .sc-team img.team-logo { width: 1.6rem; height: 1.6rem; }
+body.st-inner .st-strip .sc-result { margin-top: 0.3rem; font-size: 0.9rem; }
+body.st-inner .st-strip .sc-countdown { margin-top: 0.15rem; font-size: 0.75rem; line-height: 1.25; }
+body.st-inner .st-strip .sc-links { margin-top: 0.3rem; padding-top: 0.3rem; }
+/* Records tables: the Player column absorbs the spare width so the
+   columns fill the full table. (table-layout:fixed did NOT absorb it —
+   the auto Player column stayed content-sized and left a ~150-240px
+   gap; width:100% on the first column fills it at every viewport.) */
+#records .t-nums th:first-child, #records .t-nums td:first-child { width: 100%; }
