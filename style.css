@@ -2133,3 +2133,26 @@ body.st-inner .st-strip .sc-links { margin-top: auto; }
    .hub-match-panels is .slp-flash (display:flex), so .mc-panel
    shrink-wraps to content (819px). Grow it to the full width. */
 body.st-inner .hub-match-panels .mc-panel { flex: 1 1 100%; min-width: 0; }
+
+/* --- Strip refinements 3 (2026-11-13): "All Matches" tab, previous
+   arrow, compact Cricinfo-style cards (image-40 reference) ---
+   Cards: tighter padding/gaps, venue + countdown on one line each
+   (ellipsis), Schedule/Table links follow the content directly —
+   no pinned-footer slack. Beats the layout-fix-2 margin-top:auto
+   (lines 2114-2115): same specificity, later in file, so it wins. */
+.st-strip-view { padding-left: 3.25rem; }
+.st-strip-arrow[data-strip-prev] { right: auto; left: 0.25rem; }
+.st-strip .score-card { padding: 0.8rem 0.95rem; }
+body.st-inner .st-strip .score-card { padding: 0.8rem 0.95rem; }
+.st-strip .sc-label { margin-bottom: 0.5rem; }
+.st-strip .sc-match { margin-bottom: 0.5rem; }
+.st-strip .sc-row { padding: 0.3rem 0; }
+.st-strip .sc-result { margin-top: 0.5rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.st-strip .sc-countdown { margin-top: 0.3rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.st-strip .sc-links { margin-top: 0.5rem; padding-top: 0.5rem; }
+body.st-inner .st-strip .sc-links { margin-top: 0.5rem; }
+body.st-inner .st-strip .sc-label { margin-bottom: 0.5rem; }
+body.st-inner .st-strip .sc-match { margin-bottom: 0.5rem; }
+body.st-inner .st-strip .sc-row { margin: 0; padding: 0.3rem 0; }
+body.st-inner .st-strip .sc-result { margin-top: 0.5rem; }
+body.st-inner .st-strip .sc-countdown { margin-top: 0.3rem; }

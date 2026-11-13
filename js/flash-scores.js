@@ -11,7 +11,9 @@
    stand line) and hides live/result rows from the sidebar "Coming up";
    computes CRR from the score when the feed leaves crr empty.
    v7 (2026-11-13): carousel Match strip (.st-strip) — league pills,
-   right-arrow scroll and kickoff countdowns on upcoming cards. */
+   right-arrow scroll and kickoff countdowns on upcoming cards.
+   v8 (2026-11-13): "All Matches" tab first (merged across leagues),
+   previous arrow, 3-day post-final league expiry, compact cards. */
 (function () {
   'use strict';
   var POLL_MS = 30 * 1000;
@@ -136,7 +138,7 @@
   function cardHtml(m, league) {
     var kind = m.status === 'live' ? 'live' : (m.status === 'result' ? 'result' : 'upcoming');
     var label = m.status === 'live' ? 'Live now' : (m.status === 'result' ? 'Result' : 'Upcoming');
-    var html = '<a class="score-card" data-kind="' + kind + '" data-match-no="' + m.matchNo + '" href="' + matchUrl(league, m.matchNo) + '">';
+    var html = '<a class="score-card" data-kind="' + kind + '" data-match-no="' + m.matchNo + '" data-league="' + esc(league) + '" href="' + matchUrl(league, m.matchNo) + '">';
     html += '<p class="sc-label' + (kind === 'upcoming' ? ' upcoming' : '') + '">' + label + '</p>';
     html += '<p class="sc-match">Match ' + m.matchNo + ' &middot; ' + esc(VENUE[league] || 'Kirtipur') + '</p>';
     html += '<p class="sc-row"><span class="sc-team">' + chip(m.team1) + esc(m.team1) + '</span><span class="sc-score">' + esc(m.score1 || '') + (m.overs1 ? ' (' + esc(m.overs1) + ' ov)' : '') + '</span></p>';
@@ -165,7 +167,13 @@
   function refreshCarousel(carousel, data) {
     var byNo = {};
     (data.matches || []).forEach(function (m) { byNo[m.matchNo] = m; });
-    var cards = carousel.querySelectorAll('.score-card[data-match-no]');
+    var cards = Array.prototype.slice.call(carousel.querySelectorAll('.score-card[data-match-no]'));
+    /* The "All Matches" track duplicates this league's cards — update
+       the copies too, matched by league + match number. */
+    var league = carousel.getAttribute('data-league');
+    if (league) {
+      document.querySelectorAll('[data-strip-group="all"] .score-card[data-league="' + league + '"][data-match-no]').forEach(function (c) { cards.push(c); });
+    }
     cards.forEach(function (card) {
       var m = byNo[parseInt(card.getAttribute('data-match-no'), 10)];
       if (!m) return;
@@ -294,10 +302,89 @@
     });
   }
 
+  /* League end dates (finals, verified): NPL Sat 21 Nov 2026, ILT20
+     Sun 20 Dec 2026, APL Wed 20 Jan 2027. A league leaves the strip
+     3 days after its final — its tab, its track and its cards in the
+     "All Matches" track all disappear. Checked against the current
+     date on every page load, so nothing is hardcoded to hide a league
+     "now": while a league is still running it keeps showing. */
+  var LEAGUE_END = { npl: '2026-11-21', ilt20: '2026-12-20', apl: '2027-01-20' };
+  var LEAGUE_EXPIRY_DAYS = 3;
+  function leagueExpired(lg) {
+    var end = LEAGUE_END[lg];
+    if (!end) return false;
+    var hideFrom = Date.parse(end + 'T00:00:00Z') + LEAGUE_EXPIRY_DAYS * 86400000;
+    return Date.now() >= hideFrom;
+  }
+
+  function visibleTrack(strip) {
+    return strip.querySelector('.st-strip-track:not([hidden])');
+  }
+
+  /* "<" shows once the track is scrolled right, ">" hides at the end;
+     both hide when the APL note (no track) is showing. */
+  function updateArrows(strip) {
+    var prev = strip.querySelector('[data-strip-prev]');
+    var next = strip.querySelector('[data-strip-next]');
+    var track = visibleTrack(strip);
+    if (!track) {
+      if (prev) prev.style.display = 'none';
+      if (next) next.style.display = 'none';
+      return;
+    }
+    var max = track.scrollWidth - track.clientWidth;
+    if (prev) prev.style.display = track.scrollLeft > 0 ? '' : 'none';
+    if (next) next.style.display = track.scrollLeft < max - 1 ? '' : 'none';
+  }
+
   function initStrip() {
     document.querySelectorAll('.st-strip').forEach(function (strip) {
       var pills = strip.querySelectorAll('[data-strip-filter]');
-      var arrow = strip.querySelector('[data-strip-next]');
+      var prev = strip.querySelector('[data-strip-prev]');
+      var next = strip.querySelector('[data-strip-next]');
+      /* 3-day expiry: hide the finished league's pill + track + its
+         cards in the "All Matches" track, and re-count "All Matches". */
+      var expired = {};
+      var allExpired = true;
+      pills.forEach(function (pill) {
+        var lg = pill.getAttribute('data-strip-filter');
+        if (lg === 'all') return;
+        if (leagueExpired(lg)) {
+          expired[lg] = true;
+          pill.style.display = 'none';
+        } else {
+          allExpired = false;
+        }
+      });
+      if (allExpired) { strip.style.display = 'none'; return; }
+      strip.querySelectorAll('[data-strip-group]').forEach(function (g) {
+        var lg = g.getAttribute('data-strip-group');
+        if (lg !== 'all' && expired[lg]) g.remove();
+      });
+      strip.querySelectorAll('[data-strip-group="all"] .score-card[data-league]').forEach(function (c) {
+        if (expired[c.getAttribute('data-league')]) c.remove();
+      });
+      var allPill = strip.querySelector('[data-strip-filter="all"]');
+      if (allPill) {
+        var total = 0;
+        pills.forEach(function (p) {
+          var lg = p.getAttribute('data-strip-filter');
+          if (lg === 'all' || expired[lg]) return;
+          var m = (p.textContent || '').match(/\((\d+)\)/);
+          if (m) total += parseInt(m[1], 10);
+        });
+        allPill.textContent = allPill.textContent.replace(/\(\d+\)\s*$/, '(' + total + ')');
+      }
+      /* If the baked-active pill belonged to an expired league, fall
+         back to "All Matches". */
+      var active = strip.querySelector('[data-strip-filter][aria-pressed="true"]');
+      if (active && expired[active.getAttribute('data-strip-filter')]) {
+        active.setAttribute('aria-pressed', 'false');
+        if (allPill) allPill.setAttribute('aria-pressed', 'true');
+        strip.querySelectorAll('[data-strip-group]').forEach(function (g) {
+          g.hidden = g.getAttribute('data-strip-group') !== 'all';
+        });
+      }
       pills.forEach(function (pill) {
         pill.addEventListener('click', function () {
           var lg = pill.getAttribute('data-strip-filter');
@@ -305,17 +392,28 @@
           strip.querySelectorAll('[data-strip-group]').forEach(function (g) {
             g.hidden = g.getAttribute('data-strip-group') !== lg;
           });
-          if (arrow) arrow.style.display = lg === 'apl' ? 'none' : '';
+          updateArrows(strip);
           stripCountdowns();
         });
       });
-      if (arrow) arrow.addEventListener('click', function () {
-        var track = strip.querySelector('.st-strip-track:not([hidden])');
+      if (prev) prev.addEventListener('click', function () {
+        var track = visibleTrack(strip);
+        if (track) track.scrollBy({ left: -track.clientWidth * 0.8, behavior: 'smooth' });
+      });
+      if (next) next.addEventListener('click', function () {
+        var track = visibleTrack(strip);
         if (track) track.scrollBy({ left: track.clientWidth * 0.8, behavior: 'smooth' });
       });
+      strip.querySelectorAll('.st-strip-track').forEach(function (track) {
+        track.addEventListener('scroll', function () { updateArrows(strip); }, { passive: true });
+      });
+      updateArrows(strip);
     });
     stripCountdowns();
     setInterval(stripCountdowns, 60000);
+    window.addEventListener('resize', function () {
+      document.querySelectorAll('.st-strip').forEach(updateArrows);
+    });
   }
 
   function boot() {
