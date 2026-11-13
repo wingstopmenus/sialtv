@@ -68,9 +68,9 @@ AddOutputFilterByType DEFLATE text/html text/plain text/css text/xml application
 ExpiresActive On
 ExpiresDefault "access plus 1 hour"
 ExpiresByType text/html "access plus 0 seconds"
-ExpiresByType text/css "access plus 7 days"
-ExpiresByType application/javascript "access plus 7 days"
-ExpiresByType text/javascript "access plus 7 days"
+ExpiresByType text/css "access plus 5 minutes"
+ExpiresByType application/javascript "access plus 5 minutes"
+ExpiresByType text/javascript "access plus 5 minutes"
 ExpiresByType image/svg+xml "access plus 30 days"
 ExpiresByType image/png "access plus 30 days"
 ExpiresByType image/jpeg "access plus 30 days"
@@ -82,7 +82,14 @@ ExpiresByType application/xml "access plus 1 hour"
 <IfModule mod_headers.c>
 Header always set X-Content-Type-Options "nosniff"
 Header always set Referrer-Policy "strict-origin-when-cross-origin"
-<FilesMatch "\.(css|js|svg|png|jpg|jpeg|webp|woff2)$">
+# JS/CSS change on every deploy — keep their edge cache short (5 min) so
+# a fix reaches browsers in minutes, not days. Images/fonts rarely change
+# and keep the long cache. (2026-11-13: the 7-day JS cache left the old
+# flash-scores.js live on CDN edges after fix9 shipped.)
+<FilesMatch "\.(css|js)$">
+Header set Cache-Control "public, max-age=300, must-revalidate"
+</FilesMatch>
+<FilesMatch "\.(svg|png|jpg|jpeg|webp|woff2)$">
 Header set Cache-Control "public, max-age=604800"
 </FilesMatch>
 <FilesMatch "\.(json|xml|txt)$">
