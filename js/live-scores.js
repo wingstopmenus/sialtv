@@ -151,8 +151,22 @@
     return html;
   }
 
+  /* League tag for feed rows, Cricinfo-style: "Biratnagar Kings (NPL)". */
+  var LEAGUE_TAG = { npl: 'NPL', ilt20: 'ILT20', apl: 'APL', sa20: 'SA20', bbl: 'BBL', psl: 'PSL' };
+  function leagueTag(league) { return LEAGUE_TAG[league] || String(league || '').toUpperCase(); }
+
   function resultItem(m, league) {
-    return '<li><a href="' + matchUrl(league, m.matchNo) + '"><b>Match ' + m.matchNo + ': ' + esc(teamName(m.team1)) + ' ' + esc(m.score1 || '') + ' vs ' + esc(teamName(m.team2)) + ' ' + esc(m.score2 || '') + '</b><span>' + esc(teamName(m.statusText || '')) + ' &middot; ' + esc(fmtDate(m.date)) + '</span></a></li>';
+    var tag = leagueTag(league);
+    function side(team, score, overs) {
+      var s = esc(teamName(team)) + ' (' + tag + ') ' + esc(score || '');
+      if (hasOvers(overs)) s += ' (' + esc(overs) + ' ov)';
+      return s;
+    }
+    return '<li class="ls-row"><a href="' + matchUrl(league, m.matchNo) + '">' +
+      '<span class="ls-row-teams">' + side(m.team1, m.score1, m.overs1) + ' vs ' + side(m.team2, m.score2, m.overs2) + '</span>' +
+      '<span class="ls-row-meta">Match ' + m.matchNo + ' &middot; ' + esc(tag) + ' &middot; ' + esc(fmtDate(m.date)) + (m.venue ? ' &middot; ' + esc(m.venue) : '') + '</span>' +
+      '<span class="ls-row-status">' + esc(teamName(m.statusText || '')) + '</span>' +
+      '</a></li>';
   }
 
   /* ---- tabs (Summary / Scorecard / Overs) ---- */
