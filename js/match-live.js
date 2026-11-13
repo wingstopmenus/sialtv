@@ -4,7 +4,11 @@
    snapshot second. No parallel fetcher, no second poll loop.
 
    What it does, and only while the match is actually on:
-   - match-head status chip: "Match yet to begin" -> LIVE (red dot) -> Result
+   - match-head status chip AND the .mh-live-badge: "Match yet to begin" -> LIVE (red dot) -> Result
+   - state-driven default tab + document.title + H1 (2026-11-13): live -> Live tab
+     + live-score title (Cricinfo pattern); result -> Scorecard tab + result title
+     + result H1 + result meta/JSON-LD. Only on a status change, never after the
+     user has picked a tab.
    - the match-head live score block (team scores, toss, current run rate)
    - the Scorecard tab: live batting/bowling tables from the feed, in the
      same markup as the baked scorecard (Batter/Dismissal/R/B/4s/6s/SR,
@@ -55,6 +59,8 @@
   var oversEl = null;
   var statsEl = null;
   var chipEl = null;
+  var lastStatus = '';
+  var userPickedTab = false;
 
   function esc(s) {
     if (window.sialtvEsc) return window.sialtvEsc(s);
@@ -477,10 +483,6 @@
         return '<tr><td>' + esc(b.name) + (b.striker ? ' *' : '') + '</td><td>' + esc(b.runs) + '</td><td>' + esc(b.balls) + '</td><td>' + esc(b.fours == null ? '' : b.fours) + '</td><td>' + esc(b.sixes == null ? '' : b.sixes) + '</td><td>' + esc(b.sr == null ? '' : b.sr) + '</td></tr>';
       }).join('');
       html += '</tbody></table></div>';
-      var pship = partnershipFromLive(live);
-      if (pship) {
-        html += '<p><b>Partnership:</b> ' + pship.runs + ' runs (' + pship.balls + ' balls) — ' + esc(bats[0].name) + ' ' + esc(bats[0].runs) + ' (' + esc(bats[0].balls) + ') &amp; ' + esc(bats[1].name) + ' ' + esc(bats[1].runs) + ' (' + esc(bats[1].balls) + ')</p>';
-      }
     }
     if (bowls.length) {
       html += '<h3>Bowlers</h3><div class="table-scroll"><table class="t-nums"><thead><tr><th>Bowler</th><th>O</th><th>M</th><th>R</th><th>W</th><th>Econ</th></tr></thead><tbody>';
@@ -489,11 +491,27 @@
       }).join('');
       html += '</tbody></table></div><p class="note">* At the crease / bowling now.</p>';
     }
+    /* Cricinfo Live tab (image-61): one line — Partnership • Last Bat • FOW.
+       All three come from the feed (partnership from the two not-out batters,
+       Last Bat + FOW from the ball-by-ball). The dismissal detail itself lives
+       in the Match Centre / Commentary below. */
     var lw = lastWicketForLive(m);
-    if (lw) {
-      html += '<p><b>Last wicket:</b> ' + esc(lw.name) + ' ' + esc(lw.runs) + ' (' + esc(lw.balls) + ') — ' + esc(lw.dismissal || '') + (lw.fow ? ', ' + esc(lw.fow) : '') + (lw.over ? ' (' + esc(lw.over) + ' ov)' : '') + '</p>';
+    var fow = fowFromCommentary(m);
+    var pship = partnershipFromLive(live);
+    var bits = [];
+    if (pship && bats.length >= 2) {
+      bits.push('<b>Partnership:</b> ' + pship.runs + ' runs (' + pship.balls + ' balls) — ' +
+        esc(bats[0].name) + ' ' + esc(bats[0].runs) + ' (' + esc(bats[0].balls) + ') &amp; ' +
+        esc(bats[1].name) + ' ' + esc(bats[1].runs) + ' (' + esc(bats[1].balls) + ')');
     }
+    if (lw) bits.push('<b>Last Bat:</b> ' + esc(lw.name) + ' ' + esc(lw.runs) + ' (' + esc(lw.balls) + 'b)');
+    if (fow.length) {
+      var lastFow = fow[fow.length - 1];
+      bits.push('<b>FOW:</b> ' + esc(lastFow.score) + (lastFow.over ? ' (' + esc(lastFow.over) + ' Ov)' : ''));
+    }
+    if (bits.length) html += '<p>' + bits.join(' &middot; ') + '</p>';
     html += oversChipsHtml(overs);
+    if (overs.length) html += '<p><a href="#commentary" data-slp-goto="commentary">See all &rsaquo;</a></p>';
     html += matchCentreHtml(m, 12);
     var upd = fmtUpdated(fetchedAt);
     html += '<p class="note">Live score' + (upd ? ' — ' + upd : '') + '. The full scorecard is on the Scorecard tab.</p>';
@@ -712,6 +730,191 @@
     if (note) note.textContent = 'Runs by over — ' + team + ' innings.';
   }
 
+  /* ---- State-driven title / tab / H1 (user order 2026-11-13) ----
+     Cricinfo's match-page title keeps changing with the state: the live score
+     while the match is on, the result title when it finishes. Ours was stuck
+     on "Preview" for all three states. The bake owns the finished page; this
+     only moves the live browser session (a baked result page never reaches
+     here — boot() returns early on isBaked()). */
+  var TEAM_CODE = {
+    'Kathmandu Gorkhas': 'KAG', 'Sudurpaschim Royals': 'SPR',
+    'Janakpur Bolts': 'JAB', 'Chitwan Rhinos': 'CHR',
+    'Biratnagar Kings': 'BIK', 'Lumbini Lions': 'LUL',
+    'Karnali Yaks': 'KAY', 'Pokhara Avengers': 'POA'
+  };
+  var TEAM_SHORT = {
+    'Kathmandu Gorkhas': 'Gorkhas', 'Sudurpaschim Royals': 'Royals',
+    'Janakpur Bolts': 'Bolts', 'Chitwan Rhinos': 'Rhinos',
+    'Biratnagar Kings': 'Kings', 'Lumbini Lions': 'Lions',
+    'Karnali Yaks': 'Yaks', 'Pokhara Avengers': 'Avengers'
+  };
+  var NPL_VENUE = 'Tribhuvan University International Cricket Ground, Kirtipur';
+  function cleanTeam(name) { return String(name || '').replace(/\s*\([^)]*\)/g, '').trim(); }
+  function ordinal(n) {
+    n = parseInt(n, 10) || 0;
+    if (n % 100 >= 11 && n % 100 <= 13) return n + 'th';
+    var s = { 1: 'st', 2: 'nd', 3: 'rd' }[n % 10];
+    return n + (s || 'th');
+  }
+  function feedDateLong(iso) {
+    var p = /^(\d{4})-(\d{2})-(\d{2})/.exec(String(iso || ''));
+    if (!p) return '';
+    var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
+      'August', 'September', 'October', 'November', 'December'];
+    return months[parseInt(p[2], 10) - 1] + ' ' + parseInt(p[3], 10) + ', ' + p[1];
+  }
+  function battingSide(m) {
+    /* Same open-innings rule as crrFromInnings. */
+    function wkts(s) { var x = /^(\d+)\/(\d+)/.exec(String(s || '')); return x ? parseInt(x[2], 10) : -1; }
+    function balls(o) { var q = String(o || '').split('.'); return (parseInt(q[0] || '0', 10) * 6) + (parseInt(q[1] || '0', 10) || 0); }
+    if (m.score2 && !m.score1) return { team: m.team2, code: m.abbr2, score: m.score2, overs: m.overs2 };
+    if (m.score1 && !m.score2) return { team: m.team1, code: m.abbr1, score: m.score1, overs: m.overs1 };
+    if (m.score1 && m.score2) {
+      if (wkts(m.score2) >= 10) return { team: m.team1, code: m.abbr1, score: m.score1, overs: m.overs1 };
+      if (wkts(m.score1) >= 10) return { team: m.team2, code: m.abbr2, score: m.score2, overs: m.overs2 };
+      if (balls(m.overs1) > balls(m.overs2)) return { team: m.team2, code: m.abbr2, score: m.score2, overs: m.overs2 };
+      return { team: m.team1, code: m.abbr1, score: m.score1, overs: m.overs1 };
+    }
+    return null;
+  }
+  /* Tab SET per state (user screenshots, 2026-11-13): the tabs themselves change
+     with the state, not just the active one. Upcoming: Summary | Stats | Squads |
+     Table. Live: Live | Scorecard | Commentary | Live Stats | News | Playing XI.
+     Result: Summary | Scorecard | MVP | Commentary | Stats | Overs | News.
+     Each tab link + panel carries data-states="..." in the baked HTML; a tab
+     with no data-states is treated as always visible (backward compatible). */
+  var STATE_TABS = {
+    upcoming: ['fixture', 'stats', 'squads', 'table'],
+    live: ['live', 'scorecard', 'commentary', 'livestats', 'news', 'playingxi'],
+    result: ['fixture', 'scorecard', 'mvp', 'commentary', 'stats', 'overs', 'news']
+  };
+  var STATE_DEFAULT = { upcoming: 'fixture', live: 'live', result: 'scorecard' };
+  function tabStates(el) {
+    var a = el.getAttribute('data-states');
+    return a ? a.split(/\s+/) : null;
+  }
+  function applyStateTabs(state) {
+    /* Show only this state's tabs + panels; hide the rest. If the tab the
+       user is reading has just left the set, fall back to the state's
+       default tab so the page never shows a hidden panel. */
+    var nav = document.querySelector('.slp-tabs');
+    if (!nav) return;
+    var tabs = nav.querySelectorAll('.slp-tab');
+    var cur = null;
+    tabs.forEach(function (tb) {
+      if (tb.getAttribute('aria-current') === 'true') cur = tb.getAttribute('href').slice(1);
+      var st = tabStates(tb);
+      var show = !st || st.indexOf(state) !== -1;
+      tb.hidden = !show;
+      var el = document.getElementById(tb.getAttribute('href').slice(1));
+      if (el) {
+        var pst = tabStates(el);
+        el.hidden = !(!pst || pst.indexOf(state) !== -1);
+      }
+    });
+    var set = STATE_TABS[state] || [];
+    if (!cur || set.indexOf(cur) === -1) switchTab(STATE_DEFAULT[state] || 'fixture');
+  }
+  function switchTab(key) {
+    /* Mirror the page's inline tab script: aria-current on the tab, hidden on panels.
+       No-op when the target tab is not in the nav (a state the page was not baked
+       for) — switching then would hide every panel. */
+    var nav = document.querySelector('.slp-tabs');
+    if (!nav) return;
+    var tabs = nav.querySelectorAll('.slp-tab');
+    var found = false;
+    tabs.forEach(function (tb) { if (tb.getAttribute('href').slice(1) === key) found = true; });
+    if (!found) return;
+    var panels = [];
+    tabs.forEach(function (tb) {
+      var el = document.getElementById(tb.getAttribute('href').slice(1));
+      if (el) panels.push(el);
+    });
+    if (!panels.length) return;
+    panels.forEach(function (p) { p.hidden = (p.id !== key); });
+    tabs.forEach(function (tb) {
+      var k = tb.getAttribute('href').slice(1);
+      tb.setAttribute('aria-current', k === key ? 'true' : 'false');
+    });
+  }
+  function setDocTitle(m) {
+    var no = m.matchNo || (parseIdentity() || {}).matchNo;
+    var c1 = m.abbr1 || TEAM_CODE[cleanTeam(m.team1)] || cleanTeam(m.team1);
+    var c2 = m.abbr2 || TEAM_CODE[cleanTeam(m.team2)] || cleanTeam(m.team2);
+    if (m.status === 'live') {
+      /* Cricinfo live title: "KAG 55/5 (11 ov, Rashid Khan 7*, Dushan Hemantha 4*,
+         Fabian Allen 1/4, SPR vs KAG live score, 24th Match, Tribhuvan University
+         International Cricket Ground, Kirtipur, November 13, 2026". */
+      var bat = battingSide(m);
+      if (!bat || !bat.score) return;
+      var batCode = bat.code || TEAM_CODE[cleanTeam(bat.team)] || cleanTeam(bat.team);
+      var otherCode = (cleanTeam(bat.team) === cleanTeam(m.team1)) ? c2 : c1;
+      var title = batCode + ' ' + bat.score;
+      var openParen = false;
+      if (bat.overs) { title += ' (' + bat.overs + ' ov'; openParen = true; }
+      var live = m.live || {};
+      var inner = [];
+      (live.batters || []).slice(0, 2).forEach(function (b) {
+        if (b && b.name) inner.push(b.name + ' ' + (b.runs || 0) + '*');
+      });
+      var bowl = (live.bowlers || [])[0];
+      if (bowl && bowl.name) inner.push(bowl.name + ' ' + (bowl.wickets || 0) + '/' + (bowl.runs || 0));
+      if (inner.length) title += ', ' + inner.join(', ');
+      title += ', ' + batCode + ' vs ' + otherCode + ' live score';
+      if (no) title += ', ' + ordinal(no) + ' Match';
+      var lg = (parseIdentity() || {}).league;
+      if (lg === 'npl') title += ', ' + NPL_VENUE;
+      var d = feedDateLong(m.date);
+      if (d) title += ', ' + d;
+      if (openParen) title += ')';
+      document.title = title;
+    } else if (m.status === 'result') {
+      var s1 = TEAM_SHORT[cleanTeam(m.team1)] || cleanTeam(m.team1);
+      var s2 = TEAM_SHORT[cleanTeam(m.team2)] || cleanTeam(m.team2);
+      if (no) document.title = s1 + ' vs ' + s2 + ' NPL Match ' + no + ' — Scorecard & Result';
+      /* Meta description + JSON-LD name/description -> result-form (best effort). */
+      try {
+        var win = /^(.+?)\s+won by\s+(.+)/i.exec(cleanTeam(m.statusText || ''));
+        if (win && no) {
+          var desc = win[1] + ' won by ' + win[2] + ' in Match ' + no +
+            ' of the Nepal Premier League at Kirtipur. Full scorecard, ball-by-ball commentary and points table.';
+          var md = document.querySelector('meta[name="description"]');
+          if (md) md.setAttribute('content', desc);
+          var od = document.querySelector('meta[property="og:description"]');
+          if (od) od.setAttribute('content', desc);
+          var td = document.querySelector('meta[name="twitter:description"]');
+          if (td) td.setAttribute('content', desc);
+          document.querySelectorAll('script[type="application/ld+json"]').forEach(function (sc) {
+            try {
+              var j = JSON.parse(sc.textContent || '');
+              if (j && typeof j.name === 'string' && /Preview/.test(j.name)) {
+                j.name = document.title;
+                if (typeof j.description === 'string') j.description = desc;
+                sc.textContent = JSON.stringify(j);
+              }
+            } catch (e2) { /* leave that block alone */ }
+          });
+        }
+      } catch (e) { /* meta/JSON-LD must never break the page */ }
+    }
+  }
+  function setResultH1(m) {
+    /* "[Winner] [score] vs [Loser] [score] — Match [N] Result", winner in the accent span. */
+    var h1 = document.querySelector('.match-head h1') || document.querySelector('.hero h1');
+    if (!h1 || !m.statusText || !m.score1 || !m.score2) return;
+    var win = /^(.+?)\s+won by/i.exec(cleanTeam(m.statusText));
+    if (!win) return;
+    var wname = win[1].trim();
+    var no = m.matchNo || (parseIdentity() || {}).matchNo;
+    var t1 = cleanTeam(m.team1), t2 = cleanTeam(m.team2);
+    var wscore, lname, lscore;
+    if (wname === t1) { wscore = m.score1; lname = t2; lscore = m.score2; }
+    else if (wname === t2) { wscore = m.score2; lname = t1; lscore = m.score1; }
+    else return;
+    h1.innerHTML = '<span class="accent">' + esc(wname) + ' ' + esc(wscore) + '</span> vs ' +
+      esc(lname) + ' ' + esc(lscore) + ' — Match ' + (no || '') + ' Result';
+  }
+
   function render(m, fetchedAt, names) {
     ensureCss();
     /* The compact match header replaced the hero section on 2026-11-12;
@@ -735,6 +938,18 @@
         } else if (m.status === 'result') {
           chipEl.textContent = 'Result';
           chipEl.classList.add('slp-live-chip');
+        }
+      }
+      /* The M24 template's status badge (.mh-live-badge in #mh-live) — the
+         .hero-chip above does not exist on it, so the badge never moved. */
+      var badgeEl = hero.querySelector('.mh-live-badge');
+      if (badgeEl) {
+        if (m.status === 'live') {
+          badgeEl.innerHTML = '<span class="live-dot" aria-hidden="true"></span>LIVE';
+          badgeEl.classList.add('slp-live-chip');
+        } else if (m.status === 'result') {
+          badgeEl.textContent = 'Result';
+          badgeEl.classList.add('slp-live-chip');
         }
       }
       /* The live score block in the match header (ids set by the page):
@@ -873,6 +1088,21 @@
         if (statsEl) statsEl.innerHTML = statsHtml(m, fetchedAt);
       } catch (e) { /* stats must never break the rest */ }
     }
+    /* State-driven default tab + document.title + H1 (user order 2026-11-13).
+       Live -> open the Live tab + live-score title. Result -> open the Scorecard
+       tab + result title + result H1. Only on a status change, and never after
+       the user has picked a tab. */
+    try {
+      if (m.status !== lastStatus) {
+        /* The tab SET itself changes with the state (upcoming/live/result) —
+           show this state's tabs, hide the others, then open the default. */
+        applyStateTabs(m.status);
+        if (!userPickedTab) switchTab(STATE_DEFAULT[m.status] || 'fixture');
+      }
+      setDocTitle(m);
+      if (m.status === 'result') setResultH1(m);
+    } catch (e) { /* title/tab must never break the page */ }
+    lastStatus = m.status;
   }
 
   function loadMatch(league, id) {
@@ -907,6 +1137,10 @@
     var ident = parseIdentity();
     if (!ident) return;
     if (isBaked()) return; /* finished page: the bake owns it */
+    /* The user picking a tab opts out of the automatic tab switch. */
+    document.querySelectorAll('.slp-tab').forEach(function (tb) {
+      tb.addEventListener('click', function () { userPickedTab = true; });
+    });
     var id = ident.league + '-' + ident.season + '-m' + ident.matchNo;
     var names = pageTeamNames();
     function schedule(delay) {
@@ -939,6 +1173,12 @@
   /* Test hook: lets a harness call the pure renderers with a fake feed
      match. Harmless in production. */
   window.sialtvLiveTab = {
+    setDocTitle: setDocTitle,
+    setResultH1: setResultH1,
+    switchTab: switchTab,
+    applyStateTabs: applyStateTabs,
+    STATE_TABS: STATE_TABS,
+    battingSide: battingSide,
     liveTabHtml: liveTabHtml,
     tablesHtml: tablesHtml,
     commentaryHtml: commentaryHtml,
