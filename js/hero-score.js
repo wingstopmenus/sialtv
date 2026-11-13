@@ -30,12 +30,34 @@
   function crrOf(m) {
     var live = m.live || null;
     if (live && live.crr) return live.crr;
-    var runs = parseInt(String(m.score1 || '0').split('/')[0], 10);
-    var ov = String(m.overs1 || '');
-    var parts = ov.split('.');
-    var o = parseInt(parts[0] || '0', 10) + (parseInt(parts[1] || '0', 10) / 6);
-    if (!runs || !o) return '';
-    return (runs / o).toFixed(2);
+    /* The batting side is the one with an open innings: the side with
+       a score while the other has none (first innings — M24: team1
+       fielded, team2 batting), else the side batting second while the
+       first innings is complete. score1 alone is wrong when team1
+       fields: it returns '' and the CRR goes missing. */
+    var s = '', o = '';
+    if (m.score2 && !m.score1) { s = m.score2; o = m.overs2; }
+    else if (m.score1 && !m.score2) { s = m.score1; o = m.overs1; }
+    else if (m.score1 && m.score2) {
+      var w2 = /^(\d+)\/(\d+)/.exec(String(m.score2));
+      if (w2 && parseInt(w2[2], 10) >= 10) { s = m.score1; o = m.overs1; }
+      else { s = m.score2; o = m.overs2; }
+    }
+    if (!s || !o) return '';
+    var runs = parseInt(String(s).split('/')[0], 10);
+    var parts = String(o).split('.');
+    var ov = parseInt(parts[0] || '0', 10) + (parseInt(parts[1] || '0', 10) / 6);
+    if (!runs || !ov) return '';
+    return (runs / ov).toFixed(2);
+  }
+
+  /* A side with no score yet (won the toss and fielded) reads
+     "Yet to bat" — never a blank slot or a dangling "( ov)". Same
+     pattern as sticky-bar.js sideLine(). */
+  function sideScore(name, score, overs) {
+    var s = shortName(name);
+    if (!score) return s + ' Yet to bat';
+    return s + ' ' + esc(score) + (overs ? ' (' + esc(overs) + ' ov)' : '');
   }
 
   /* The feed's statusText carries the league suffix on every team
@@ -52,7 +74,7 @@
     if (m) {
       var label = p.live ? 'Live now' : 'Latest result · Match ' + m.matchNo;
       html += '<p class="lead-kicker">' + (p.live ? '<span class="live-dot" aria-hidden="true"></span>' : '') + esc(label) + '</p>';
-      html += '<h3 class="lead-head"><a href="' + matchUrl(league, m.matchNo) + '">' + esc(shortName(m.team1)) + ' ' + esc(m.score1 || '') + (m.overs1 ? ' (' + esc(m.overs1) + ' ov)' : '') + ' vs ' + esc(shortName(m.team2)) + ' ' + esc(m.score2 || '') + (m.overs2 ? ' (' + esc(m.overs2) + ' ov)' : '') + '</a></h3>';
+      html += '<h3 class="lead-head"><a href="' + matchUrl(league, m.matchNo) + '">' + sideScore(m.team1, m.score1, m.overs1) + ' vs ' + sideScore(m.team2, m.score2, m.overs2) + '</a></h3>';
       html += '<p class="lead-score">' + esc(cleanStatus(m.statusText)) + '</p>';
       if (p.live && m.live) {
         var bits = [];
