@@ -2449,6 +2449,7 @@ body.st-inner nav.series-secnav { background: var(--st-surface); border-bottom: 
 .secnav-row { display: flex; align-items: center; gap: 1rem; min-height: 3.25rem; padding-block: 0.35rem; flex-wrap: wrap; }
 .secnav-title-wrap { position: relative; flex-shrink: 0; }
 .secnav-title { font-size: 1.25rem; font-weight: 800; letter-spacing: -0.02em; margin: 0; line-height: 1.2; }
+body.st-inner nav.series-secnav .secnav-title { font-size: 1.05rem; }
 .secnav-switch { all: unset; cursor: pointer; display: inline-flex; align-items: center; gap: 0.35rem; color: var(--st-ink); font: inherit; }
 .secnav-switch:focus-visible { outline: 2px solid var(--st-rose); outline-offset: 3px; border-radius: 0.35rem; }
 .secnav-caret { color: var(--st-mute); font-size: 0.85em; }
