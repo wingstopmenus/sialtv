@@ -2779,3 +2779,23 @@ body.st-inner.league-npl .player-centre .table-scroll th,
 body.st-inner.league-npl .player-centre .table-scroll td { padding: .4rem .4rem; }
 /* VERDICT 2026-11-14 (player pages): tighten the empty grey space below the content. */
 body.st-inner.league-npl footer.st-colophon { margin-top: 1.5rem; }
+/* ---------- Points-table layout fix 2 — 2026-11-14 (browser verdict 01:33 PKT) ----------
+   Root causes (live HTML/CSS se verify):
+   - FAIL 1 table 82%: .rx-pts display:block tha (document fallback body:not(.st-home)
+     table, line 1070: display:block + overflow-x:auto). width:100% ke bawajood
+     anonymous inner table content-sized rehta tha (~950px). Desktop par display:table
+     wapas lao; mobile (<=980px) par block+scroll rehne do (wahan scroll hi chahiye).
+   - FAIL 2 rows ~51px: cell padding 0.55rem tha; 0.4rem karo (target ~45px).
+   - FAIL 3 right empty column: --st-shell 1160px cap tha. Points-table pages par
+     shell 1600px karo (body class pts-wide, desktop only). Masthead/strip/footer
+     .wrap/.st-shell se aligned rehte hain, is liye dono widen karo.
+   - FAIL 4 strip arrow detached: .st-strip-view padding-right/left 3.25rem lane mein
+     arrow akela tairta tha. Padding hatao — arrow track ke andar overlap karega,
+     last card ke edge ko chhoo kar (prev arrow bhi left edge par). */
+@media (min-width: 981px) {
+  body.st-inner .rx-pts { display: table; }
+  body.st-inner.pts-wide .wrap,
+  body.st-inner.pts-wide .st-shell { width: min(1600px, calc(100% - 2.5rem)); }
+}
+body.st-inner .rx-pts th, body.st-inner .rx-pts td { padding: 0.4rem 0.5rem; }
+.st-strip-view { padding-right: 0; padding-left: 0; }
