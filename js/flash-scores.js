@@ -432,13 +432,20 @@
     if (bat) return bat.team + ' ' + bat.score + (bat.overs ? ' (' + bat.overs + ' ov)' : '');
     return cleanStatus(m.statusText) || 'Live now';
   }
-  function refreshFixtures(data) {
+  function refreshFixtures(data, league) {
+    /* League scoping: match numbers repeat across leagues (NPL M1 and
+       ILT20 M1 are both "match-1/"), so a row is only touched by its
+       own league's feed. Rows without data-league are the NPL hub's
+       (they predate the attribute) — NPL feed only. */
     var lists = document.querySelectorAll('#fxFixtures, #fxResults');
     if (!lists.length || !data || !data.matches) return;
     var byNo = {};
     data.matches.forEach(function (m) { byNo[m.matchNo] = m; });
     lists.forEach(function (list) {
       list.querySelectorAll('li a[href*="/match-"]').forEach(function (a) {
+        var li0 = a.closest('li');
+        var rowLeague = li0 ? li0.getAttribute('data-league') : null;
+        if (rowLeague ? rowLeague !== league : league !== 'npl') return;
         var mm = (a.getAttribute('href') || '').match(/match-(\d+)\//);
         if (!mm) return;
         var m = byNo[parseInt(mm[1], 10)];
@@ -449,7 +456,15 @@
           var side = rowSide(span, m, i);
           var sc = side === 0 ? m.score1 : m.score2;
           var ov = side === 0 ? m.overs1 : m.overs2;
-          if (!sc) { var b0 = span.querySelector('b'); if (b0) b0.textContent = ''; return; }
+          if (!sc) {
+            var b0 = span.querySelector('b');
+            if (b0) {
+              /* Live, other side batting: this side has not batted yet. */
+              var other = side === 0 ? m.score2 : m.score1;
+              b0.textContent = (m.status === 'live' && other) ? 'Yet to bat' : '';
+            }
+            return;
+          }
           var txt = (ov ? '(' + ov + ' ov) ' : '') + sc;
           var b = span.querySelector('b');
           if (!b) {
@@ -715,7 +730,7 @@
         window.sialtvScores(lg).then(function (data) {
           if (!data || !data.matches || !data.matches.length) return;
           refreshFlash(group, data, lg);
-          refreshFixtures(data);
+          refreshFixtures(data, lg);
           if (lg === 'npl') refreshHero(data);
         }).catch(function () {});
       });

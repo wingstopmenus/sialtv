@@ -2502,3 +2502,21 @@ body.hub-cricinfo .st-strip .wrap { width: min(var(--hub-wide), calc(100% - 2.5r
 .news-related a { font-weight: 700; color: var(--st-ink); text-decoration: none; }
 .news-related a:hover { color: var(--st-rose-deep); }
 .news-article .updated { color: var(--st-mute); font-size: 0.88rem; margin-top: 1.5rem; }
+
+/* Hub rebuild (ILT20/APL, 2026-11-13): Teams grid overflow fix.
+   The APL .teams grid (1fr 1fr) overflowed by 28px at 1280px — the
+   tracks' min-content minimum forced them wider than the container.
+   minmax(0, 1fr) + .team min-width: 0 lets both columns shrink.
+   Scoped to min-width: 641px: below that the existing
+   @media (max-width: 640px) 1fr rule must win (single column on
+   phones) — an unscoped rule here overrode it and broke 390px. */
+@media (min-width: 641px) {
+  body.hub-cricinfo #squads .teams { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+body.hub-cricinfo #squads .team { min-width: 0; }
+/* Mobile secondary nav: the league name ("Afghanistan Premier League
+   2026–27") is 375px at 1.25rem — wider than the 350px hub on a 390px
+   phone (5px page overflow). Shrink it so it fits. */
+@media (max-width: 640px) {
+  body.hub-cricinfo .secnav-title { font-size: 1.05rem; }
+}
