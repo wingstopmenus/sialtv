@@ -16,7 +16,7 @@
 <meta name="twitter:description" content="NPL, ILT20 and APL schedules, live scores, points tables, teams and where to watch — one hub for every league SialTV covers.">
 <meta name="theme-color" content="#090811">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebSite","name":"SialTV","url":"https://sialtv.com/","description":"NPL, ILT20 and APL schedules, live scores, points tables, teams and where to watch — one hub for every league SialTV covers.","datePublished":"2026-11-10T06:07:00Z","dateModified":"2026-11-13T10:52:00Z"}
+{"@context":"https://schema.org","@type":"WebSite","name":"SialTV","url":"https://sialtv.com/","description":"NPL, ILT20 and APL schedules, live scores, points tables, teams and where to watch — one hub for every league SialTV covers.","datePublished":"2026-11-10T06:07:00Z","dateModified":"2026-11-13T10:59:00Z"}
 </script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Organization","name":"SialTV","url":"https://sialtv.com/","@id":"https://sialtv.com/#organization","email":"contact@sialtv.com"}
@@ -44,6 +44,18 @@
       <a href="/ilt20/">ILT20</a>
       <a href="/apl/">APL</a>
     </nav>
+    <div class="st-search" data-search>
+      <button class="st-search__toggle" type="button" aria-expanded="false" aria-controls="st-search-box" aria-label="Search" data-search-toggle>
+        <svg class="st-search__icon-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <svg class="st-search__icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+      <div class="st-search__box" id="st-search-box">
+        <label class="st-search__label" for="st-search-input">Search players, teams and matches</label>
+        <svg class="st-search__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input id="st-search-input" class="st-search__input" type="search" data-search-input placeholder="Search players, teams, matches&hellip;" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="st-search-results" aria-autocomplete="list">
+        <ul id="st-search-results" class="st-search__results" data-search-results role="listbox" hidden></ul>
+      </div>
+    </div>
     <a class="st-action" href="/live-scores/">Live scores</a>
     <button class="st-burger" type="button" aria-expanded="false" aria-controls="st-drawer" aria-label="Open menu">
       <span></span><span></span><span></span>
@@ -303,57 +315,56 @@
 <main id="main">
   <section class="st-block" id="leagues" aria-labelledby="st-leagues-title">
     <div class="st-shell">
-      <header class="st-block__head">
-        <p class="st-eyebrow">Leagues</p>
-        <h2 id="st-leagues-title">Choose a <em class="st-emph">league.</em></h2>
+      <header class="st-block__head st-block__head--left">
+        <h2 id="st-leagues-title">Leagues</h2>
         <p>Pick a league to open its hub — schedule, points table, teams, results and where to watch. Dates and match counts come from each league’s own page on this site.</p>
       </header>
       <div class="st-leagues">
         <a class="st-league" href="/npl/" style="--st-hue:#c81e3a">
-          <div class="st-league__art" data-code="NPL">
-            <span class="st-league__badge">M25 tonight</span>
-            <span class="st-league__code">NPL</span>
+          <div class="st-league__top">
+            <span class="st-league__tile" aria-hidden="true">NPL</span>
+            <div class="st-league__head">
+              <h3>Nepal Premier League</h3>
+              <p class="st-league__meta">Season 3, 2026 · 26 Oct – 21 Nov · Kirtipur</p>
+              <span class="st-league__badge">M25 tonight</span>
+            </div>
           </div>
-          <div class="st-league__body">
-            <h3>Nepal Premier League</h3>
-            <p class="st-league__meta">Season 3, 2026 · 26 Oct – 21 Nov · Kirtipur</p>
-            <ul class="st-league__facts">
-              <li>8 teams</li>
-              <li>32 matches</li>
-            </ul>
-            <span class="st-league__go">Open the hub <span aria-hidden="true">→</span></span>
-          </div>
+          <ul class="st-league__facts">
+            <li>8 teams</li>
+            <li>32 matches</li>
+          </ul>
+          <span class="st-league__go">Open the hub <span aria-hidden="true">→</span></span>
         </a>
         <a class="st-league" href="/ilt20/" style="--st-hue:#0e7490">
-          <div class="st-league__art" data-code="ILT20">
-            <span class="st-league__badge">Starts 21 Nov</span>
-            <span class="st-league__code">ILT20</span>
+          <div class="st-league__top">
+            <span class="st-league__tile" aria-hidden="true">ILT20</span>
+            <div class="st-league__head">
+              <h3>ILT20</h3>
+              <p class="st-league__meta">Season 5 · 21 Nov – 20 Dec 2026 · UAE</p>
+              <span class="st-league__badge">Starts 21 Nov</span>
+            </div>
           </div>
-          <div class="st-league__body">
-            <h3>ILT20</h3>
-            <p class="st-league__meta">Season 5 · 21 Nov – 20 Dec 2026 · UAE</p>
-            <ul class="st-league__facts">
-              <li>6 teams</li>
-              <li>34 matches</li>
-              <li>Dubai, Sharjah, Abu Dhabi</li>
-            </ul>
-            <span class="st-league__go">Open the hub <span aria-hidden="true">→</span></span>
-          </div>
+          <ul class="st-league__facts">
+            <li>6 teams</li>
+            <li>34 matches</li>
+            <li>Dubai, Sharjah, Abu Dhabi</li>
+          </ul>
+          <span class="st-league__go">Open the hub <span aria-hidden="true">→</span></span>
         </a>
         <a class="st-league" href="/apl/" style="--st-hue:#c27803">
-          <div class="st-league__art" data-code="APL">
-            <span class="st-league__badge">Starts 27 Dec</span>
-            <span class="st-league__code">APL</span>
+          <div class="st-league__top">
+            <span class="st-league__tile" aria-hidden="true">APL</span>
+            <div class="st-league__head">
+              <h3>Afghanistan Premier League</h3>
+              <p class="st-league__meta">2026-27 · first ball 27 December 2026 · UAE</p>
+              <span class="st-league__badge">Starts 27 Dec</span>
+            </div>
           </div>
-          <div class="st-league__body">
-            <h3>Afghanistan Premier League</h3>
-            <p class="st-league__meta">2026-27 · first ball 27 December 2026 · UAE</p>
-            <ul class="st-league__facts">
-              <li>5 teams</li>
-              <li>24 matches</li>
-            </ul>
-            <span class="st-league__go">Open the hub <span aria-hidden="true">→</span></span>
-          </div>
+          <ul class="st-league__facts">
+            <li>5 teams</li>
+            <li>24 matches</li>
+          </ul>
+          <span class="st-league__go">Open the hub <span aria-hidden="true">→</span></span>
         </a>
       </div>
     </div>
@@ -362,8 +373,7 @@
   <section class="st-block st-block--soft" aria-labelledby="st-npl-title">
     <div class="st-shell">
       <header class="st-block__head st-block__head--left">
-        <p class="st-eyebrow">Nepal Premier League</p>
-        <h2 id="st-npl-title">Follow the <em class="st-emph">NPL.</em></h2>
+        <h2 id="st-npl-title">Nepal Premier League</h2>
         <p>Season 3 is being played at the TU International Cricket Ground in Kirtipur. Open a match page, the table, or today’s live scores — figures on those pages are the ones to trust if a result has just changed.</p>
       </header>
       <div class="st-spot">
@@ -418,9 +428,8 @@
 
   <section class="st-block" aria-labelledby="st-jump-title">
     <div class="st-shell">
-      <header class="st-block__head">
-        <p class="st-eyebrow">Jump in</p>
-        <h2 id="st-jump-title">Open a <em class="st-emph">page.</em></h2>
+      <header class="st-block__head st-block__head--left">
+        <h2 id="st-jump-title">Quick links</h2>
         <p>Schedules for every league SialTV covers, plus the NPL’s results, teams, players, stats and tickets.</p>
       </header>
       <div class="st-jumps">
@@ -460,8 +469,7 @@
     <div class="st-shell">
       <div class="st-about">
         <div class="st-about__copy">
-          <p class="st-eyebrow">About SialTV</p>
-          <h2 id="st-about-title">An independent hub for <em class="st-emph">league cricket.</em></h2>
+          <h2 id="st-about-title">About SialTV</h2>
           <p>SialTV is an independent informational website for cricket league schedules, live scores, points tables and where to watch. It is not affiliated with or endorsed by any league, club, board or federation. The site never links to pirated streams or betting content.</p>
           <p>Coverage is written by <a href="/author/asad-sial/">Asad Sial</a>, <a href="/author/saleem-sial/">Saleem Sial</a>, <a href="/author/arshad-sial/">Arshad Sial</a>, <a href="/author/shakir-ali/">Shakir Ali</a> and <a href="/author/waseem-sial/">Waseem Sial</a>. See all <a href="/authors/">authors</a>. <a href="/about/">More about SialTV</a> · <a href="/contact/">Contact us</a> if you spot a mistake.</p>
         </div>
@@ -568,5 +576,6 @@
 </script>
 <script src="/js/live-scores.js"></script>
 <script src="/js/flash-scores.js"></script>
+<script src="/js/search.js"></script>
 </body>
 </html>
