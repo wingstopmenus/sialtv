@@ -1,14 +1,20 @@
 /* SialTV home leagues: hide a league the day after its final, and move the
    spotlight to the next league. Static site, so this runs on page load.
-   The strip's own LEAGUE_END rule (flash-scores.js, final + 3 days) is
-   separate and untouched. */
+   Card-hide and spotlight-switch are separate rules: a card hides the day
+   after its final, but the spotlight moves earlier — ILT20 from 19 Nov 2026
+   (two days before its opener), APL from 21 Dec 2026 (the day after the
+   ILT20 final). The strip's own LEAGUE_END rule (flash-scores.js, final +
+   3 days) is separate and untouched. */
 (function () {
   'use strict';
 
-  /* Final day per league (verified). A card hides and the spotlight moves
-     once the day after the final begins (local date). */
+  /* Final day per league (verified). A card hides once the day after the
+     final begins (local date). */
   var LEAGUE_END = { npl: '2026-11-21', ilt20: '2026-12-20', apl: '2027-01-20' };
-  var ORDER = ['npl', 'ilt20', 'apl'];
+  /* First day the spotlight shows the next league (verified dates). ILT20
+     starts 21 Nov, so its coverage leads from 19 Nov even while NPL still
+     plays; APL leads from the day after the ILT20 final. */
+  var SPOTLIGHT_FROM = { ilt20: '2026-11-19', apl: '2026-12-21' };
 
   var ICONS = {
     calendar: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>',
@@ -56,11 +62,12 @@
     var hide = new Date(end.getFullYear(), end.getMonth(), end.getDate() + 1);
     return startOfToday() >= hide;
   }
-  function activeLeague() {
-    for (var i = 0; i < ORDER.length; i++) {
-      if (!isEnded(ORDER[i])) return ORDER[i];
-    }
-    return null;
+  function spotlightLeague() {
+    if (isEnded('apl')) return null;
+    var today = startOfToday();
+    if (today >= parseDate(SPOTLIGHT_FROM.apl)) return 'apl';
+    if (today >= parseDate(SPOTLIGHT_FROM.ilt20)) return 'ilt20';
+    return 'npl';
   }
   function renderSpot(lg) {
     var d = SPOT[lg];
@@ -99,7 +106,7 @@
     }
     var spot = document.getElementById('home-spotlight');
     if (!spot) return;
-    var active = activeLeague();
+    var active = spotlightLeague();
     if (!active) {
       spot.classList.add('is-ended');
       return;
