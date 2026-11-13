@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='utf-8'?>
 <ns0:urlset xmlns:ns0="http://www.sitemaps.org/schemas/sitemap/0.9">
   <ns0:url><ns0:loc>https://sialtv.com/</ns0:loc>
-    <ns0:lastmod>2026-11-13T17:30:00Z</ns0:lastmod><ns0:changefreq>daily</ns0:changefreq><ns0:priority>1.0</ns0:priority></ns0:url>
+    <ns0:lastmod>2026-11-13T17:50:00Z</ns0:lastmod><ns0:changefreq>daily</ns0:changefreq><ns0:priority>1.0</ns0:priority></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/live-scores/</ns0:loc>
-    <ns0:lastmod>2026-11-13T17:45:00Z</ns0:lastmod><ns0:changefreq>daily</ns0:changefreq><ns0:priority>0.9</ns0:priority></ns0:url>
+    <ns0:lastmod>2026-11-13T17:51:00Z</ns0:lastmod><ns0:changefreq>daily</ns0:changefreq><ns0:priority>0.9</ns0:priority></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/</ns0:loc>
     <ns0:lastmod>2026-11-13T17:46:00Z</ns0:lastmod><ns0:changefreq>daily</ns0:changefreq><ns0:priority>0.9</ns0:priority></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/players/</ns0:loc>

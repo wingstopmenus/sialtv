@@ -15,6 +15,7 @@
 
   var wrap = input.closest('[data-search]');
   var toggle = wrap ? wrap.querySelector('[data-search-toggle]') : null;
+  var box = wrap ? wrap.querySelector('.st-search__box') : null;
 
   var indexPromise = null;
   var items = null;
@@ -105,6 +106,7 @@
   }
 
   function close() {
+    if (box) box.hidden = true;
     list.hidden = true;
     list.innerHTML = '';
     active = -1;
@@ -118,6 +120,7 @@
   if (toggle && wrap) {
     toggle.addEventListener('click', function () {
       var open = wrap.classList.toggle('st-search--open');
+      if (box) box.hidden = !open;
       toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
       document.body.classList.remove('st-nav-open');
       if (open) { loadIndex(); input.focus(); }
