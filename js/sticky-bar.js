@@ -58,6 +58,14 @@
     return bar;
   }
 
+  /* A side with no score yet (won the toss and fielded) reads
+     "yet to bat" — never a dangling "( ov)" with nothing in it. */
+  function sideLine(name, score, overs) {
+    var s = shortName(name);
+    if (!score) return s + ' yet to bat';
+    return s + ' ' + score + (overs ? ' (' + overs + ' ov)' : '');
+  }
+
   /* showNext: pages with data-show-next="0" on <body> (NPL hub + live-scores)
      hide the Next line; everywhere else the bar is unchanged. Same guard
      pattern as live-strip.js. */
@@ -66,8 +74,8 @@
     var link = ' · <a href="/' + league + '/live-scores/" style="color:#fff;font-weight:700">Live scores</a>';
     if (p.live) {
       var m = p.live;
-      var line = 'LIVE: ' + shortName(m.team1) + ' ' + (m.score1 || '') + ' (' + (m.overs1 || '') + ' ov)';
-      if (m.score2) line += ' vs ' + shortName(m.team2) + ' ' + m.score2 + ' (' + (m.overs2 || '') + ' ov)';
+      var line = 'LIVE: ' + sideLine(m.team1, m.score1, m.overs1);
+      if (m.score2) line += ' vs ' + sideLine(m.team2, m.score2, m.overs2);
       var crr = crrOf(m);
       if (crr) line += ' · CRR ' + crr;
       if (m.toss) line += ' · ' + m.toss;

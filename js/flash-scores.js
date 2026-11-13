@@ -254,12 +254,22 @@
     if (isLive) {
       html += '<span class="st-panel__kicker"><span class="live-dot" aria-hidden="true"></span>Live now</span>';
       html += '<strong>' + heroEsc(t1) + ' vs ' + heroEsc(t2) + '</strong>';
-      var status = (m.score1 || '') + (m.overs1 ? ' (' + heroEsc(m.overs1) + ' ov)' : '') +
-        (m.score2 ? ' &middot; ' + heroEsc(m.score2) + (m.overs2 ? ' (' + heroEsc(m.overs2) + ' ov)' : '') : '');
-      html += '<p>' + heroEsc(status || m.statusText || '') + '</p>';
+      /* Each side's score is escaped as it is built, then the sides
+         are joined with a real "·" — the old code built "&middot;"
+         into the string and then escaped the whole line, so the
+         entity printed literally ("&middot; 8/3 (2.2 ov)"). A side
+         with no score yet (won the toss and fielded) is left out,
+         so the line never starts with a dangling "·". */
+      var parts = [];
+      if (m.score1) parts.push(heroEsc(m.score1) + (m.overs1 ? ' (' + heroEsc(m.overs1) + ' ov)' : ''));
+      if (m.score2) parts.push(heroEsc(m.score2) + (m.overs2 ? ' (' + heroEsc(m.overs2) + ' ov)' : ''));
+      var status = parts.join(' \u00b7 ');
+      html += '<p>' + (status || heroEsc(m.statusText || '')) + '</p>';
       html += '<div class="st-panel__scores">';
-      html += '<span><small>' + heroEsc(t1) + '</small><b>' + heroEsc(m.score1 || '\u2014') + '</b></span>';
-      html += '<span><small>' + heroEsc(t2) + '</small><b>' + heroEsc(m.score2 || '\u2014') + '</b></span>';
+      /* A side that has not batted yet reads "Yet to bat" — never a
+         bare "—" that looks like a broken score. */
+      html += '<span><small>' + heroEsc(t1) + '</small><b>' + heroEsc(m.score1 || 'Yet to bat') + '</b></span>';
+      html += '<span><small>' + heroEsc(t2) + '</small><b>' + heroEsc(m.score2 || 'Yet to bat') + '</b></span>';
       html += '</div>';
       html += '<span class="st-panel__link">Live scorecard <span aria-hidden="true">\u2192</span></span>';
     } else {
@@ -359,8 +369,8 @@
       var stand = panel.querySelector('.lead-stand');
       if (stand) {
         if (m.status === 'live') {
-          stand.textContent = shortName(m.team2) + ' ' + scoreText(m.score2, m.overs2)
-            + ' · ' + shortName(m.team1) + ' ' + scoreText(m.score1, m.overs1)
+          stand.textContent = shortName(m.team2) + ' ' + (scoreText(m.score2, m.overs2) || 'yet to bat')
+            + ' · ' + shortName(m.team1) + ' ' + (scoreText(m.score1, m.overs1) || 'yet to bat')
             + ' — ' + liveLine(m);
         } else if (m.status === 'result') {
           stand.textContent = cleanStatus(m.statusText) || '';
