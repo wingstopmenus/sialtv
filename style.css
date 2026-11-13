@@ -2753,3 +2753,29 @@ body.st-inner .rx-pts .rx-teamcell a, body.st-inner .secnav-drop a, body.st-inne
 .league-switch .secnav-switch { border: 1px solid var(--st-line); background: var(--st-surface); border-radius: 0.65rem; padding: 0.5rem 0.8rem; font-weight: 700; font-size: 0.95rem; color: var(--st-ink); }
 .league-switch .secnav-switch:hover { background: var(--st-bg-soft); }
 .league-switch .secnav-title-wrap:hover:not(.secnav-closed) .secnav-drop, .league-switch .secnav-title-wrap:focus-within:not(.secnav-closed) .secnav-drop, .league-switch .secnav-title-wrap.secnav-open .secnav-drop { position: static; display: block; margin-top: 0.5rem; box-shadow: none; }
+/* RESET 2026-11-13: profile photo = square left block, flush with the dark card.
+   Fixed 160px photo column (grid auto-column + aspect-ratio is UNSTABLE: Chrome
+   resolves the width/height feedback loop to a 249px overflow on narrow cards).
+   Text is bounded so it never exceeds 160px: name max 2 lines (longest name
+   23 chars fits 2 lines at 1.7rem desktop / 1.25rem mobile), summary 0.875rem
+   (longest 29 chars = 1 line desktop, 2 lines mobile), strip 1 line.
+   Scoped league-npl so it beats the old 72px-circle rules (0,2,2). */
+body.st-inner.league-npl .profile-card { display: grid; grid-template-columns: 160px minmax(0, 1fr); align-items: stretch; padding: 0; overflow: hidden; }
+body.st-inner.league-npl .profile-card .pc-photo-wrap { width: 160px; height: 160px; }
+body.st-inner.league-npl .profile-card .pc-photo-wrap .pc-photo { width: 100%; height: 100%; border-radius: 0; object-fit: cover; display: block; }
+body.st-inner.league-npl .profile-card .pc-photo-wrap .init.big { width: 100%; height: 100%; border-radius: 0; background: var(--st-rose); color: #fff; font-size: 2rem; font-weight: 800; display: flex; align-items: center; justify-content: center; margin: 0; }
+body.st-inner.league-npl .profile-card .pc-text { padding: 1.25rem 1.2rem; min-width: 0; display: flex; flex-direction: column; justify-content: center; }
+body.st-inner.league-npl .profile-card .pc-name { margin: 0 0 0.35rem; }
+body.st-inner.league-npl .profile-card .pc-summary { font-size: 0.875rem; line-height: 1.5; }
+@media (max-width: 640px) {
+  body.st-inner.league-npl .profile-card .pc-name { font-size: 1.25rem; }
+  body.st-inner.league-npl .profile-card .pc-text { padding: 1rem; }
+}
+/* VERDICT 2026-11-14 (player pages): bowling/batting stats tables overflow — the
+   14/15-column tables are a few px too wide for the centre column and the last
+   column (10W) is cut. Narrow the player-centre tables so they fit without scrolling. */
+body.st-inner.league-npl .player-centre .table-scroll table { font-size: .85rem; }
+body.st-inner.league-npl .player-centre .table-scroll th,
+body.st-inner.league-npl .player-centre .table-scroll td { padding: .4rem .4rem; }
+/* VERDICT 2026-11-14 (player pages): tighten the empty grey space below the content. */
+body.st-inner.league-npl footer.st-colophon { margin-top: 1.5rem; }
