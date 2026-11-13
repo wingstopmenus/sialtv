@@ -213,13 +213,19 @@
          the side with the open innings — same rule as statsRow. */
       var crr = live.crr || (function () {
         function w(s) { var x = /^(\d+)\/(\d+)/.exec(s || ''); return x ? parseInt(x[2], 10) : -1; }
-        if (w(p.live.score2) >= 10) return rateOf(p.live.score1, p.live.overs1);
-        if (w(p.live.score1) >= 10) return rateOf(p.live.score2, p.live.overs2);
-        /* Default was rateOf(score1): '' when team1 fields first (M24).
-           The batting side is the one with a score — same rule as
-           hero-score.js crrOf(). */
-        if (p.live.score2) return rateOf(p.live.score2, p.live.overs2);
-        return rateOf(p.live.score1, p.live.overs1);
+        function balls(o) { var q = String(o || '').split('.'); return (parseInt(q[0] || '0', 10) * 6) + (parseInt(q[1] || '0', 10) || 0); }
+        var m = p.live;
+        /* Batting side = open innings: a score while the other has
+           none, else the side with fewer overs (the other innings is
+           complete) — same rule as flash-scores.js crrOf(). The old
+           default missed the chase after a completed 20-over innings
+           (M24: SPR 125/6 in 20 ov, KAG chasing 12/2 in 1.3 ov). */
+        if (m.score2 && !m.score1) return rateOf(m.score2, m.overs2);
+        if (m.score1 && !m.score2) return rateOf(m.score1, m.overs1);
+        if (w(m.score2) >= 10) return rateOf(m.score1, m.overs1);
+        if (w(m.score1) >= 10) return rateOf(m.score2, m.overs2);
+        if (balls(m.overs1) > balls(m.overs2)) return rateOf(m.score2, m.overs2);
+        return rateOf(m.score1, m.overs1);
       })();
       if (crr) line += ' · CRR ' + esc(crr);
       return { left: '<span class="slp-live"><b><span class="live-dot" aria-hidden="true"></span>LIVE</b></span> · ' + line, right: right };

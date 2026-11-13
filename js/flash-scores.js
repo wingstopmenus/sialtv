@@ -53,16 +53,22 @@
     if (live && live.crr) return live.crr;
     /* The batting side is the one with an open innings: the side with
        a score while the other has none (first innings — M24: team1
-       fielded, team2 batting), else the side batting second while the
-       first innings is complete. score1 alone is wrong when team1
-       fields: it returns '' and the CRR goes missing. */
+       fielded, team2 batting), else the side whose innings is still
+       open. An innings ends at 10 wickets or when its overs run out,
+       so with both scores present the batting side is the one with
+       fewer overs — the 10-wicket-only check missed the chase after
+       a completed 20-over innings (M24: SPR 125/6 in 20 ov, KAG
+       chasing 12/2 in 1.3 ov — CRR 8.00, not SPR's 6.25). */
+    function wkts(s) { var x = /^(\d+)\/(\d+)/.exec(String(s || '')); return x ? parseInt(x[2], 10) : -1; }
+    function balls(o) { var p = String(o || '').split('.'); return (parseInt(p[0] || '0', 10) * 6) + (parseInt(p[1] || '0', 10) || 0); }
     var s = '', o = '';
     if (m.score2 && !m.score1) { s = m.score2; o = m.overs2; }
     else if (m.score1 && !m.score2) { s = m.score1; o = m.overs1; }
     else if (m.score1 && m.score2) {
-      var w2 = /^(\d+)\/(\d+)/.exec(String(m.score2));
-      if (w2 && parseInt(w2[2], 10) >= 10) { s = m.score1; o = m.overs1; }
-      else { s = m.score2; o = m.overs2; }
+      if (wkts(m.score2) >= 10) { s = m.score1; o = m.overs1; }
+      else if (wkts(m.score1) >= 10) { s = m.score2; o = m.overs2; }
+      else if (balls(m.overs1) > balls(m.overs2)) { s = m.score2; o = m.overs2; }
+      else { s = m.score1; o = m.overs1; }
     }
     if (!s || !o) return '';
     var runs = parseInt(String(s).split('/')[0], 10);
@@ -193,6 +199,22 @@
     if (card.getAttribute('data-kind') === 'upcoming') return 1;
     return 2;
   }
+  /* NPL evening matches start 5:00 PM NST (CAN revision, 20 Oct 2026) —
+     the baked strip cards (and ESPN) still carry the old 4:30 PM NST,
+     and the feed carries no kickoff time for upcoming matches, so the
+     strip corrects the baked line + countdown on load. The baked HTML
+     itself is the times batch's to fix. */
+  function fixEveningTime(card) {
+    var result = card.querySelector('.sc-result');
+    if (!result || result.textContent.indexOf('4:30 PM NST') === -1) return;
+    result.textContent = result.textContent.replace('4:30 PM NST', '5:00 PM NST');
+    var cd = card.querySelector('.sc-countdown[data-kickoff]');
+    if (cd) {
+      var k = cd.getAttribute('data-kickoff') || '';
+      if (k.indexOf('T10:45:00Z') !== -1) cd.setAttribute('data-kickoff', k.replace('T10:45:00Z', 'T11:15:00Z'));
+    }
+  }
+
   function reorderStripTracks(container) {
     var strip = container && container.closest ? container.closest('.st-strip') : null;
     var tracks = [];
@@ -339,9 +361,11 @@
       if (result) {
         /* Upcoming: the baked line carries the date, time and venue —
            the feed's statusText for an upcoming match is either the
-           same line or a bare "Upcoming", so it stays put. */
+           same line or a bare "Upcoming", so it stays put — except
+           the NPL evening time (fixEveningTime below). */
         if (m.status === 'live') result.textContent = liveLine(m);
         else if (m.status === 'result') result.textContent = cleanStatus(m.statusText) || result.textContent;
+        else if (m.status === 'upcoming') fixEveningTime(card);
         result.classList.toggle('upcoming', m.status === 'upcoming');
       }
       setLoser(card, m);
@@ -352,6 +376,10 @@
     });
     recountPills(carousel);
     reorderStripTracks(carousel);
+    /* The countdown text reads data-kickoff — fixEveningTime may have
+       just moved it, so re-render the countdowns now, not at the next
+       60-second tick. */
+    stripCountdowns();
   }
 
   /* Match Coverage panels (homepage): a panel carries
