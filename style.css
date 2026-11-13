@@ -1539,7 +1539,25 @@ body.st-inner .team-body p:first-of-type { font-weight: 700; color: var(--st-ros
 /* Live-scores page — flash row of score cards. */
 body.st-inner .slp-flash { display: flex; gap: 0.85rem; overflow-x: auto; padding-bottom: 0.75rem; margin-bottom: 1.25rem; }
 body.st-inner .slp-flash .score-card { flex: 0 0 20rem; min-width: 0; }
+
+/* Live-scores flash row — desktop fix (2026-11-13): above 980px the grid
+   is two columns and the main column is 728px, but three 20rem cards
+   total 987px, so the third card was cut to a 60px sliver beside the
+   sidebar. Let the cards share the column equally instead, so all three
+   are fully visible with no scrolling. Below 980px (single column) the
+   row stays a scrollable carousel with fixed-width cards. */
+@media (min-width: 981px) {
+  body.st-inner .slp-flash { overflow-x: visible; }
+  body.st-inner .slp-flash .score-card { flex: 1 1 0; }
+}
 body.st-inner .slp-flash img.team-logo { width: 1.6rem; height: 1.6rem; }
+
+/* Flash cards share the main column, so a full team name plus a full
+   score (with overs) no longer fits one row — the score ran under the
+   next card / sidebar. Let it wrap to its own line, right-aligned,
+   instead of overflowing. */
+body.st-inner .slp-flash .sc-row { flex-wrap: wrap; }
+body.st-inner .slp-flash .sc-score { margin-left: auto; }
 
 /* Live-scores page — match-centre tabs. */
 body.st-inner .slp-tabs { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0 0 1.25rem; }

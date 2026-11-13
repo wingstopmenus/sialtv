@@ -96,17 +96,28 @@
     return season ? '/' + league + '/matches/' + season + '/match-' + matchNo + '/' : '/' + league + '/results/';
   }
 
+  /* Team names from the feed carry a league tag ("Kathmandu Gorkhas
+     (NPL)") and spell the Royals "Sudurpaschim"; the site displays plain
+     names, "Sudur Paschim Royals" with a space. */
+  function teamName(s) {
+    return String(s == null ? '' : s).replace(/\s*\((NPL|ILT20|APL|SA20|BBL|PSL)\)/g, '').replace(/Sudurpaschim/g, 'Sudur Paschim');
+  }
+  /* Overs of "0" (or "0.0") with no score yet is not a real innings —
+     treat it as no overs, so the side shows "yet to bat" instead of a
+     blank score followed by "(0 ov)". */
+  function hasOvers(o) { return !!o && o !== '0' && o !== '0.0'; }
+
   function scoreLine(m) {
     if (!m) return '';
-    if (m.status === 'upcoming') return esc(m.team1) + ' vs ' + esc(m.team2);
+    if (m.status === 'upcoming') return esc(teamName(m.team1)) + ' vs ' + esc(teamName(m.team2));
     /* A team that has not batted yet shows "yet to bat", never a bare
        name and never "( ov)" — same as the strip and the hero. */
-    var a = esc(m.team1) + ' ' + esc(m.score1 || '');
-    if (m.overs1) a += ' <span>(' + esc(m.overs1) + ' ov)</span>';
-    else if (m.status === 'live' && !m.score1 && m.score2) a = esc(m.team1) + ' yet to bat';
-    var b = esc(m.team2) + ' ' + esc(m.score2 || '');
-    if (m.overs2) b += ' <span>(' + esc(m.overs2) + ' ov)</span>';
-    else if (m.status === 'live' && !m.score2 && m.score1) b = esc(m.team2) + ' yet to bat';
+    var a = esc(teamName(m.team1)) + ' ' + esc(m.score1 || '');
+    if (hasOvers(m.overs1)) a += ' <span>(' + esc(m.overs1) + ' ov)</span>';
+    else if (m.status === 'live' && !m.score1 && m.score2) a = esc(teamName(m.team1)) + ' yet to bat';
+    var b = esc(teamName(m.team2)) + ' ' + esc(m.score2 || '');
+    if (hasOvers(m.overs2)) b += ' <span>(' + esc(m.overs2) + ' ov)</span>';
+    else if (m.status === 'live' && !m.score2 && m.score1) b = esc(teamName(m.team2)) + ' yet to bat';
     return a + '<br>' + b;
   }
 
@@ -133,7 +144,7 @@
     var html = '<div class="today">';
     html += '<p class="today-label">' + esc(label) + ' &middot; Match ' + m.matchNo + ' &middot; ' + esc(fmtDate(m.date)) + '</p>';
     html += '<strong><a href="' + matchUrl(league, m.matchNo) + '">' + scoreLine(m) + '</a></strong>';
-    html += '<p>' + esc(m.statusText || '') + (m.venue ? ' at ' + esc(m.venue) : '') + '.</p>';
+    html += '<p>' + esc(teamName(m.statusText || '')) + (m.venue ? ' at ' + esc(m.venue) : '') + '.</p>';
     if (m.status === 'result') html += performersLine(m);
     if (m.toss) html += '<p class="note">' + esc(m.toss) + '</p>';
     html += '</div>';
@@ -141,7 +152,7 @@
   }
 
   function resultItem(m, league) {
-    return '<li><a href="' + matchUrl(league, m.matchNo) + '"><b>Match ' + m.matchNo + ': ' + esc(m.team1) + ' ' + esc(m.score1 || '') + ' vs ' + esc(m.team2) + ' ' + esc(m.score2 || '') + '</b><span>' + esc(m.statusText || '') + ' &middot; ' + esc(fmtDate(m.date)) + '</span></a></li>';
+    return '<li><a href="' + matchUrl(league, m.matchNo) + '"><b>Match ' + m.matchNo + ': ' + esc(teamName(m.team1)) + ' ' + esc(m.score1 || '') + ' vs ' + esc(teamName(m.team2)) + ' ' + esc(m.score2 || '') + '</b><span>' + esc(teamName(m.statusText || '')) + ' &middot; ' + esc(fmtDate(m.date)) + '</span></a></li>';
   }
 
   /* ---- tabs (Summary / Scorecard / Overs) ---- */
