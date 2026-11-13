@@ -2724,3 +2724,8 @@ body.st-inner .ls-desc { color: var(--st-ink-2); font-size: 0.95rem; margin: 1.5
 body.st-inner .ls-results .rx-date-group:last-child { margin-bottom: 0; }
 body.st-inner .rx-res-box[hidden] { display: none; }
 body.st-inner .rx-date-group[hidden] { display: none; }
+
+/* Player details grid (NPL) — mirrors the ILT20-scoped rule. */
+body.st-inner.league-npl .details-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem 1.5rem; margin: 0; }
+body.st-inner.league-npl .details-grid dt { font-size: 0.75rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--st-mute); margin-bottom: 0.125rem; }
+body.st-inner.league-npl .details-grid dd { margin: 0; font-size: 0.9375rem; color: var(--st-ink); }
