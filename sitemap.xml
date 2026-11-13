@@ -5,7 +5,7 @@
   <ns0:url><ns0:loc>https://sialtv.com/live-scores/</ns0:loc>
     <ns0:lastmod>2026-11-13T04:00:02Z</ns0:lastmod><ns0:changefreq>daily</ns0:changefreq><ns0:priority>0.9</ns0:priority></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/</ns0:loc>
-    <ns0:lastmod>2026-11-13T07:55:00Z</ns0:lastmod><ns0:changefreq>daily</ns0:changefreq><ns0:priority>0.9</ns0:priority></ns0:url>
+    <ns0:lastmod>2026-11-13T08:11:23Z</ns0:lastmod><ns0:changefreq>daily</ns0:changefreq><ns0:priority>0.9</ns0:priority></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/players/</ns0:loc>
     <ns0:lastmod>2026-11-12T21:07:57Z</ns0:lastmod><ns0:changefreq>daily</ns0:changefreq><ns0:priority>0.8</ns0:priority></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/tickets/</ns0:loc>
@@ -13,7 +13,7 @@
   <ns0:url><ns0:loc>https://sialtv.com/npl/stats/</ns0:loc>
     <ns0:lastmod>2026-11-13T03:05:08Z</ns0:lastmod><ns0:changefreq>daily</ns0:changefreq><ns0:priority>0.8</ns0:priority></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/schedule/</ns0:loc>
-    <ns0:lastmod>2026-11-13T03:05:03Z</ns0:lastmod><ns0:changefreq>daily</ns0:changefreq><ns0:priority>0.8</ns0:priority></ns0:url>
+    <ns0:lastmod>2026-11-13T03:06:02Z</ns0:lastmod><ns0:changefreq>daily</ns0:changefreq><ns0:priority>0.8</ns0:priority></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/points-table/</ns0:loc>
     <ns0:lastmod>2026-11-13T03:05:05Z</ns0:lastmod><ns0:changefreq>daily</ns0:changefreq><ns0:priority>0.8</ns0:priority></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/results/</ns0:loc>
@@ -516,13 +516,13 @@
   <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-19/</ns0:loc><ns0:lastmod>2026-11-13T02:07:18Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-20/</ns0:loc><ns0:lastmod>2026-11-13T02:07:19Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-21/</ns0:loc><ns0:lastmod>2026-11-13T02:07:20Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-22/</ns0:loc><ns0:lastmod>2026-11-13T03:05:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-23/</ns0:loc><ns0:lastmod>2026-11-13T03:05:01Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-22/</ns0:loc><ns0:lastmod>2026-11-13T03:06:01Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-23/</ns0:loc><ns0:lastmod>2026-11-13T03:06:03Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-24/</ns0:loc><ns0:lastmod>2026-11-13T07:15:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-25/</ns0:loc><ns0:lastmod>2026-11-13T02:07:24Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-26/</ns0:loc><ns0:lastmod>2026-11-13T02:07:25Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-25/</ns0:loc><ns0:lastmod>2026-11-13T03:06:04Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-26/</ns0:loc><ns0:lastmod>2026-11-13T03:06:05Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-27/</ns0:loc><ns0:lastmod>2026-11-13T02:07:26Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-28/</ns0:loc><ns0:lastmod>2026-11-13T02:07:27Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-28/</ns0:loc><ns0:lastmod>2026-11-13T03:06:06Z</ns0:lastmod></ns0:url>
 <ns0:url><ns0:loc>https://sialtv.com/apl/</ns0:loc>
     <ns0:lastmod>2026-11-13T01:00:00Z</ns0:lastmod></ns0:url>
 <ns0:url><ns0:loc>https://sialtv.com/apl/live-scores/</ns0:loc><ns0:lastmod>2026-11-13T01:00:01Z</ns0:lastmod></ns0:url>
