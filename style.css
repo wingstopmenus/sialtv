@@ -1536,10 +1536,16 @@ body.st-inner .slp-flash .score-card { flex: 0 0 20rem; min-width: 0; }
    total 987px, so the third card was cut to a 60px sliver beside the
    sidebar. Let the cards share the column equally instead, so all three
    are fully visible with no scrolling. Below 980px (single column) the
-   row stays a scrollable carousel with fixed-width cards. */
+   row stays a scrollable carousel with fixed-width cards. Strip tracks
+   (.st-strip-track) also carry .slp-flash — excluded above, they stay
+   scrollable (2026-11-13). */
 @media (min-width: 981px) {
-  body.st-inner .slp-flash { overflow-x: visible; }
-  body.st-inner .slp-flash .score-card { flex: 1 1 0; }
+  /* Strip tracks carry .slp-flash too (it wires their poll updates) —
+     but they are scrollable carousels, not the 3-card flash row: keep
+     their overflow-x: auto, or their cards spill the page wide
+     (2026-11-13, NPL filter click -> 2200px document width). */
+  body.st-inner .slp-flash:not(.st-strip-track) { overflow-x: visible; }
+  body.st-inner .slp-flash:not(.st-strip-track) .score-card { flex: 1 1 0; }
 }
 body.st-inner .slp-flash img.team-logo { width: 1.6rem; height: 1.6rem; }
 
