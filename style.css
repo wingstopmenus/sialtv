@@ -356,6 +356,56 @@ body.st-nav-open .st-burger span:nth-child(3) { transform: translateY(-0.44rem) 
     linear-gradient(180deg, rgba(28, 22, 52, 0.4), rgba(18, 14, 34, 0.75)),
     rgba(18, 14, 34, 0.7);
 }
+/* Hero slider (2026-11-13): two-match days show both of today's matches.
+   The wrapper takes the featured panel's grid slot; slides keep the
+   featured panel's own look. */
+.st-hero-slider {
+  grid-column: 1 / -1;
+  order: 1;
+  position: relative;
+  overflow: hidden;
+  border-radius: 1.35rem;
+  min-width: 0;
+}
+.st-hero-track {
+  display: flex;
+  transition: transform 0.35s ease;
+}
+.st-hero-slide {
+  flex: 0 0 100%;
+  min-width: 0;
+}
+.st-hero-nav {
+  position: absolute;
+  top: 0.9rem;
+  right: 0.9rem;
+  display: flex;
+  gap: 0.4rem;
+  z-index: 2;
+}
+.st-hero-arrow {
+  width: 1.9rem;
+  height: 1.9rem;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(18, 14, 34, 0.55);
+  color: #fff;
+  font-size: 1.05rem;
+  line-height: 1;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  padding: 0;
+}
+.st-hero-arrow:hover {
+  border-color: rgba(251, 113, 133, 0.6);
+}
+@media (prefers-reduced-motion: reduce) {
+  .st-hero-track {
+    transition: none;
+  }
+}
+
 .st-panel__kicker {
   display: inline-flex;
   align-self: flex-start;
