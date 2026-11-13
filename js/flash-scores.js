@@ -723,7 +723,10 @@
             }
             return;
           }
-          var txt = (ov ? '(' + ov + ' ov) ' : '') + sc;
+          /* Results rows show the score only (no "(20 ov) " prefix) — the
+             baked Results format. Live rows keep the over: it is the
+             current over. */
+          var txt = (m.status === 'result' || !ov) ? sc : '(' + ov + ' ov) ' + sc;
           var b = span.querySelector('b');
           if (!b) {
             b = document.createElement('b');
@@ -737,7 +740,19 @@
           var target = st.querySelector('strong') || st;
           target.textContent = fixtureStatus(m);
         }
-        if (m.status === 'live' && li && !li.classList.contains('fx-live-item')) {
+        if (m.status === 'result') {
+          /* A finished match belongs in Results, not Fixtures: move the
+             row to #fxResults (prepended, so newest results stay first)
+             and drop the LIVE badge. Idempotent: once moved, the row's
+             parent is #fxResults and this block is a no-op. */
+          var liveBadge = a.querySelector('.fx-live-badge');
+          if (liveBadge) liveBadge.remove();
+          if (li) li.classList.remove('fx-live-item');
+          var resList = document.getElementById('fxResults');
+          if (resList && li && li.parentNode !== resList) {
+            resList.insertBefore(li, resList.firstChild);
+          }
+        } else if (m.status === 'live' && li && !li.classList.contains('fx-live-item')) {
           li.classList.add('fx-live-item');
           if (!a.querySelector('.fx-live-badge')) {
             var badge = document.createElement('span');
