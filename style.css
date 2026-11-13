@@ -306,7 +306,7 @@ body.st-nav-open .st-burger span:nth-child(3) { transform: translateY(-0.44rem) 
     linear-gradient(165deg, #090811 0%, #141022 48%, #1a1020 100%);
   color: #fff;
   overflow: hidden;
-  padding: 4.75rem 0 6.5rem;
+  padding: 4.75rem 0 4rem;
 }
 .st-splash::before {
   content: "";
@@ -512,7 +512,7 @@ body.st-nav-open .st-burger span:nth-child(3) { transform: translateY(-0.44rem) 
 .st-proof {
   position: relative;
   z-index: 3;
-  margin-top: -2.75rem;
+  margin-top: 2rem;
   margin-bottom: 1rem;
 }
 .st-proof__row {
@@ -1015,7 +1015,7 @@ body.st-nav-open .st-burger span:nth-child(3) { transform: translateY(-0.44rem) 
   .st-panel--stat { grid-column: auto; grid-row: auto; order: 2; }
   .st-panel--next { grid-column: auto; grid-row: auto; order: 3; }
   .st-leagues { grid-template-columns: repeat(2, 1fr); }
-  .st-splash { padding: 3.25rem 0 5.5rem; }
+  .st-splash { padding: 3.25rem 0 4rem; }
   .st-splash h1 { max-width: none; }
 }
 
@@ -1299,7 +1299,7 @@ body.st-inner .lead-links { margin: 0; }
 body.st-inner .lead-links a { color: var(--st-rose-deep); font-weight: 650; }
 
 /* Hub grid + rails + side cards. */
-body.st-inner .hub-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; align-items: start; }
+body.st-inner .hub-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; align-items: start; margin-bottom: 2.25rem; }
 body.st-inner .hub-rail { display: flex; flex-direction: column; gap: 1.25rem; min-width: 0; }
 body.st-inner .hub-centre { min-width: 0; }
 body.st-inner .side-card ul { margin: 0; padding: 0; list-style: none; }
@@ -1837,6 +1837,9 @@ body.st-inner .faq-item p { margin: 0.6rem 0 0; color: var(--st-ink-2); }
    body.st-home and the live-scores pages use the old chrome, so the strip
    carries its own card styles instead of relying on the inner-page rules. */
 .st-strip { background: var(--st-bg, #f5f3fb); border-bottom: 1px solid var(--st-line, #e3dff0); padding: 0.8rem 0 0.95rem; }
+/* Fix 7 (2026-11-13): the NPL hub strip now sits below the hero — give it the
+   same 2.25rem section rhythm below it so Match Coverage is clearly separated. */
+body.league-npl .st-strip { margin-bottom: 2.25rem; }
 .st-strip-pills { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 0.75rem; }
 .st-strip-pill { background: var(--st-surface, #fff); border: 1px solid var(--st-line, #e3dff0); color: var(--st-ink-2, #3b4258); font-weight: 650; font-size: 0.85rem; padding: 0.45rem 0.85rem; border-radius: 999px; cursor: pointer; font-family: inherit; }
 .st-strip-pill:hover { background: var(--st-bg-soft, #eceaf6); color: var(--st-ink, #0c1022); }
