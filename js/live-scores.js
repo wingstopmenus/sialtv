@@ -99,10 +99,14 @@
   function scoreLine(m) {
     if (!m) return '';
     if (m.status === 'upcoming') return esc(m.team1) + ' vs ' + esc(m.team2);
+    /* A team that has not batted yet shows "yet to bat", never a bare
+       name and never "( ov)" — same as the strip and the hero. */
     var a = esc(m.team1) + ' ' + esc(m.score1 || '');
     if (m.overs1) a += ' <span>(' + esc(m.overs1) + ' ov)</span>';
+    else if (m.status === 'live' && !m.score1 && m.score2) a = esc(m.team1) + ' yet to bat';
     var b = esc(m.team2) + ' ' + esc(m.score2 || '');
     if (m.overs2) b += ' <span>(' + esc(m.overs2) + ' ov)</span>';
+    else if (m.status === 'live' && !m.score2 && m.score1) b = esc(m.team2) + ' yet to bat';
     return a + '<br>' + b;
   }
 
