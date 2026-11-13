@@ -607,6 +607,89 @@
     return html;
   }
 
+  /* Worm chart (M24 fix2, 2026-11-13): the sidebar worm is baked HTML.
+     On every poll, re-render it from the feed so it follows the match:
+     innings 1 uses the baked series (data-worm-series) sliced to the
+     completed overs; the chase (score1 set) derives its series from the
+     endpoint's overTimeline + the current total. Only overs the feed
+     actually reports are plotted — nothing is invented. Same SVG
+     geometry as the bake (560x180, 25px/over, 130/maxRuns). */
+  var wormLastKey = '';
+  function wormSvg(points, team, score, overs, maxRuns) {
+    var scale = 130 / maxRuns;
+    var X = function (o) { return 40 + o * 25; };
+    var Y = function (r) { return 150 - r * scale; };
+    var f = function (n) { return (Math.round(n * 100) / 100).toString(); };
+    var h = '<svg viewBox="0 0 560 180" width="100%" role="img" aria-label="Worm chart: ' + esc(team) + ' runs by over">';
+    var o, r;
+    for (o = 0; o <= 20; o += 5) {
+      h += '<line x1="' + f(X(o)) + '" y1="20" x2="' + f(X(o)) + '" y2="150" stroke="#e8e4f2"/>';
+      h += '<text x="' + f(X(o)) + '" y="168" font-size="11" text-anchor="middle" fill="#666">' + o + '</text>';
+    }
+    for (r = 0; r <= maxRuns; r += 25) {
+      h += '<line x1="40" y1="' + f(Y(r)) + '" x2="540" y2="' + f(Y(r)) + '" stroke="#f0edf7"/>';
+      h += '<text x="34" y="' + f(Y(r) + 4) + '" font-size="11" text-anchor="end" fill="#666">' + r + '</text>';
+    }
+    h += '<polyline points="' + points.map(function (p) { return f(X(p[0])) + ',' + f(Y(p[1])); }).join(' ') + '" fill="none" stroke="#c92a1e" stroke-width="2.5"/>';
+    points.forEach(function (p) {
+      h += '<circle cx="' + f(X(p[0])) + '" cy="' + f(Y(p[1])) + '" r="4" fill="#c92a1e"/>';
+    });
+    h += '<text x="40" y="14" font-size="12" font-weight="700" fill="#0f1014">' + esc(team) + ' — ' + esc(score) + ' (' + esc(overs) + ' ov)</text></svg>';
+    return h;
+  }
+  function parseScoreRuns(s) {
+    if (!s) return null;
+    var mm = /^(\d+)\/(\d+)/.exec(String(s).trim());
+    return mm ? { runs: parseInt(mm[1], 10), wkts: parseInt(mm[2], 10) } : null;
+  }
+  function overNo(label) {
+    var mm = /(\d+)/.exec(String(label || ''));
+    return mm ? parseInt(mm[1], 10) : null;
+  }
+  function renderWorm(m) {
+    var wrap = document.getElementById('worm-chart');
+    if (!wrap) return;
+    var team, score, overs, points, maxRuns;
+    var baked = null;
+    try { baked = JSON.parse(wrap.getAttribute('data-worm-series') || 'null'); } catch (e) { baked = null; }
+    var bakedTeam = wrap.getAttribute('data-worm-team') || '';
+    if (m.score1) {
+      var tot = parseScoreRuns(m.score1);
+      if (!tot) return;
+      var tl = (m.overTimeline || []).slice().sort(function (a, b) { return overNo(a.label) - overNo(b.label); });
+      var oversDone = Math.floor(parseFloat(m.overs1) || 0);
+      points = [];
+      var later = 0;
+      for (var i = tl.length - 1; i >= 0; i--) {
+        var n = overNo(tl[i].label);
+        if (n == null) continue;
+        points.unshift([n, tot.runs - later]);
+        later += (tl[i].runs || 0);
+      }
+      if (!points.length) points = [[oversDone, tot.runs]];
+      team = m.team1 || bakedTeam;
+      score = m.score1;
+      overs = m.overs1 || String(oversDone);
+      maxRuns = Math.max(125, Math.ceil(tot.runs / 25) * 25);
+    } else {
+      if (!baked || !baked.length) return;
+      var done = Math.floor(parseFloat(m.overs2) || 0);
+      if (done > baked.length - 1) done = baked.length - 1;
+      points = [];
+      for (var o = 0; o <= done; o++) points.push([o, baked[o]]);
+      team = bakedTeam;
+      score = m.score2 || String(baked[baked.length - 1]);
+      overs = m.overs2 || String(done);
+      maxRuns = 125;
+    }
+    var key = team + '|' + score + '|' + overs + '|' + points.length + '|' + (points.length ? points[points.length - 1][1] : 0);
+    if (key === wormLastKey) return;
+    wormLastKey = key;
+    wrap.innerHTML = wormSvg(points, team, score, overs, maxRuns);
+    var note = document.getElementById('worm-note');
+    if (note) note.textContent = 'Runs by over — ' + team + ' innings.';
+  }
+
   function render(m, fetchedAt, names) {
     ensureCss();
     /* The compact match header replaced the hero section on 2026-11-12;
@@ -645,19 +728,33 @@
         var crr = crrFromInnings(m);
         if (crr) setText('mh-crr', 'Current RR: ' + crr);
       }
-      if (!scoreLineEl) {
-        scoreLineEl = document.createElement('p');
-        scoreLineEl.className = 'slp-live-score';
-        /* The intro paragraph is the <p> right after the h1 — not the
-           crumbs (the match-head's first <p>), which sits above the h1. */
-        var h1 = hero.querySelector('h1');
-        var intro = (h1 && h1.nextElementSibling && h1.nextElementSibling.tagName === 'P')
-          ? h1.nextElementSibling : null;
-        if (intro) intro.parentNode.insertBefore(scoreLineEl, intro.nextSibling);
-        else hero.appendChild(scoreLineEl);
+      /* M24 fix2 (2026-11-13): a page with a #mh-live score block already
+         shows the live score (the spans above), so the separate
+         .slp-live-score line would duplicate it as plain text with no
+         card. Skip the line there and put the updated time inside the
+         .mh-live block instead. Pages without #mh-live keep the line
+         exactly as before. */
+      if (document.getElementById('mh-live')) {
+        if (scoreLineEl && scoreLineEl.parentNode) scoreLineEl.parentNode.removeChild(scoreLineEl);
+        scoreLineEl = null;
+        var updEl = document.getElementById('mh-updated');
+        if (updEl) { var u2 = fmtUpdated(fetchedAt); updEl.textContent = u2 ? ' · ' + u2 : ''; }
+      } else {
+        if (!scoreLineEl) {
+          scoreLineEl = document.createElement('p');
+          scoreLineEl.className = 'slp-live-score';
+          /* The intro paragraph is the <p> right after the h1 — not the
+             crumbs (the match-head's first <p>), which sits above the h1. */
+          var h1 = hero.querySelector('h1');
+          var intro = (h1 && h1.nextElementSibling && h1.nextElementSibling.tagName === 'P')
+            ? h1.nextElementSibling : null;
+          if (intro) intro.parentNode.insertBefore(scoreLineEl, intro.nextSibling);
+          else hero.appendChild(scoreLineEl);
+        }
+        scoreLineEl.innerHTML = scoreLineHtml(m, names, fetchedAt);
       }
-      scoreLineEl.innerHTML = scoreLineHtml(m, names, fetchedAt);
     }
+    renderWorm(m);
     var sc = document.getElementById('scorecard');
     if (sc) {
       if (!scorecardEl) {
@@ -828,7 +925,8 @@
     crrFromInnings: crrFromInnings,
     partnershipFromLive: partnershipFromLive,
     fowFromCommentary: fowFromCommentary,
-    extrasFromFeed: extrasFromFeed
+    extrasFromFeed: extrasFromFeed,
+    wormSvg: wormSvg
   };
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);

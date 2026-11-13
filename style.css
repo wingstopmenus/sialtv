@@ -2285,7 +2285,7 @@ body.st-inner .st-strip .sc-links a { flex: none; }
 
 /* M24 live match page (2026-11-13): live score block in the match header,
    ball chips, worm chart. Scoped to body.st-inner so no other page changes. */
-body.st-inner .mh-live { margin: 1rem 0 0; padding: 1rem 1.1rem; background: var(--st-surface); border: 1px solid var(--st-line); border-radius: 0.9rem; }
+body.st-inner .mh-live { margin: 1rem 0 0; padding: 1rem 1.1rem; background: var(--st-surface); border: 1px solid #d8d2ea; border-radius: 0.9rem; box-shadow: var(--st-shadow-sm); }
 body.st-inner .mh-live-line { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem; margin: 0 0 0.55rem; font-size: 0.95rem; color: var(--st-ink-2); }
 body.st-inner .mh-live-badge { display: inline-flex; align-items: center; gap: 0.4rem; background: var(--st-rose); color: #fff; font-weight: 800; font-size: 0.8rem; letter-spacing: 0.04em; padding: 0.25rem 0.6rem; border-radius: 999px; }
 body.st-inner .mh-live-badge .live-dot { background: #fff; }
