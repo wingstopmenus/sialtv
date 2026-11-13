@@ -2438,8 +2438,11 @@ body.hub-cricinfo .st-masthead .st-shell,
 body.hub-cricinfo .st-colophon .st-shell { width: min(var(--hub-wide), calc(100% - 2.5rem)); }
 body.hub-cricinfo .st-strip .wrap { width: min(var(--hub-wide), calc(100% - 2.5rem)); }
 
-/* Secondary nav: league name (H1) left + dropdown + divider + links */
-.series-secnav { background: var(--st-surface); border-bottom: 1px solid var(--st-line); }
+/* Secondary nav: league name (H1) left + dropdown + divider + links.
+   Scoped to body.st-inner: the document fallback (body:not(.st-home) a
+   and body:not(.st-home) nav) outranks bare .secnav-* selectors and was
+   painting every link rose-red with a fallback margin. */
+body.st-inner nav.series-secnav { background: var(--st-surface); border-bottom: 1px solid var(--st-line); margin: 0; }
 .secnav-row { display: flex; align-items: center; gap: 1rem; min-height: 3.25rem; padding-block: 0.35rem; flex-wrap: wrap; }
 .secnav-title-wrap { position: relative; flex-shrink: 0; }
 .secnav-title { font-size: 1.25rem; font-weight: 800; letter-spacing: -0.02em; margin: 0; line-height: 1.2; }
@@ -2448,13 +2451,13 @@ body.hub-cricinfo .st-strip .wrap { width: min(var(--hub-wide), calc(100% - 2.5r
 .secnav-caret { color: var(--st-mute); font-size: 0.85em; }
 .secnav-drop { position: absolute; top: calc(100% + 0.5rem); left: 0; z-index: 40; display: none; min-width: 19rem; background: var(--st-surface); border: 1px solid var(--st-line); border-radius: 0.9rem; box-shadow: var(--st-shadow); padding: 0.4rem; }
 .secnav-title-wrap:hover .secnav-drop, .secnav-title-wrap:focus-within .secnav-drop { display: block; }
-.secnav-drop a { display: block; padding: 0.55rem 0.75rem; border-radius: 0.6rem; color: var(--st-ink-2); font-weight: 600; font-size: 0.92rem; text-decoration: none; }
-.secnav-drop a:hover { background: var(--st-bg-soft); color: var(--st-ink); }
+body.st-inner .secnav-drop a { display: block; padding: 0.55rem 0.75rem; border-radius: 0.6rem; color: var(--st-ink-2); font-weight: 600; font-size: 0.92rem; text-decoration: none; }
+body.st-inner .secnav-drop a:hover { background: var(--st-bg-soft); color: var(--st-ink); }
 .secnav-div { width: 1px; align-self: stretch; background: var(--st-line); flex-shrink: 0; }
 .secnav-links { display: flex; align-items: center; gap: 0.15rem; flex-wrap: wrap; min-width: 0; }
-.secnav-links a { color: var(--st-ink-2); font-weight: 600; font-size: 0.93rem; padding: 0.45rem 0.65rem; border-radius: 0.65rem; text-decoration: none; white-space: nowrap; }
-.secnav-links a:hover { background: var(--st-bg-soft); color: var(--st-ink); }
-.secnav-links a[aria-current="page"] { color: var(--st-rose-deep); background: var(--st-rose-soft); }
+body.st-inner .secnav-links a { color: var(--st-ink-2); font-weight: 600; font-size: 0.93rem; padding: 0.45rem 0.65rem; border-radius: 0.65rem; text-decoration: none; white-space: nowrap; }
+body.st-inner .secnav-links a:hover { background: var(--st-bg-soft); color: var(--st-ink); }
+body.st-inner .secnav-links a[aria-current="page"] { color: var(--st-rose-deep); background: var(--st-rose-soft); }
 
 /* Breadcrumb + updated stamp */
 .hub-crumbs { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; flex-wrap: wrap; padding: 1rem 0 0.25rem; }
