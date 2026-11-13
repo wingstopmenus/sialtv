@@ -2196,3 +2196,37 @@ body.st-inner .st-strip .sc-links { margin-top: 0.3rem; padding-top: 0.3rem; }
    the auto Player column stayed content-sized and left a ~150-240px
    gap; width:100% on the first column fills it at every viewport.) */
 #records .t-nums th:first-child, #records .t-nums td:first-child { width: 100%; }
+
+/* ---------- Layout fix 5 (2026-11-13): Cricinfo exact-match card top ----------
+   The strip card top is now ONE line: a small status label (left) + the
+   match info (right) — like Cricinfo (red dot + LIVE / "1st Test •
+   Rawalpindi"). The full-width status bar is gone. Links go dark like
+   Cricinfo's "Schedule". Spacing re-tuned so the card stays ~200-220px. */
+.st-strip .sc-top { display: flex; align-items: baseline; justify-content: space-between; gap: 0.75rem; margin-bottom: 0.5rem; }
+body.st-inner .st-strip .sc-top { display: flex; align-items: baseline; justify-content: space-between; gap: 0.75rem; margin-bottom: 0.5rem; }
+.st-strip .sc-top .sc-label { flex: none; display: inline-flex; align-items: center; gap: 0.35rem; background: none; padding: 0; border-radius: 0; margin: 0; font-size: 0.75rem; color: #1a1a2e; }
+.st-strip .sc-top .sc-label.upcoming { background: none; color: #64748b; }
+.st-strip .score-card[data-kind="result"] .sc-top .sc-label { color: var(--st-rose, #e11d48); }
+.st-strip .score-card[data-kind="live"] .sc-top .sc-label::before,
+.st-strip .sc-top .sc-label.live::before { content: ""; width: 0.5rem; height: 0.5rem; border-radius: 50%; background: var(--st-rose, #e11d48); flex: none; }
+.st-strip .sc-top .sc-match { flex: 1 1 auto; min-width: 0; margin: 0; text-align: right; font-size: 0.85rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+body.st-inner .st-strip .sc-top .sc-label { flex: none; display: inline-flex; align-items: center; gap: 0.35rem; background: none; padding: 0; border-radius: 0; margin: 0; font-size: 0.75rem; color: #1a1a2e; }
+body.st-inner .st-strip .sc-top .sc-label.upcoming { background: none; color: #64748b; }
+body.st-inner .st-strip .score-card[data-kind="result"] .sc-top .sc-label { color: var(--st-rose, #e11d48); }
+body.st-inner .st-strip .score-card[data-kind="live"] .sc-top .sc-label::before,
+body.st-inner .st-strip .sc-top .sc-label.live::before { content: ""; width: 0.5rem; height: 0.5rem; border-radius: 50%; background: var(--st-rose, #e11d48); flex: none; }
+body.st-inner .st-strip .sc-top .sc-match { flex: 1 1 auto; min-width: 0; margin: 0; text-align: right; font-size: 0.85rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+/* Links dark, like Cricinfo's Schedule. */
+.st-strip .sc-links a { color: #111827; }
+body.st-inner .st-strip .sc-links a { color: #111827; }
+/* Spacing re-tuned for the one-line top (card stays ~200-220px). */
+.st-strip .score-card { padding: 0.8rem 0.95rem; }
+body.st-inner .st-strip .score-card { padding: 0.8rem 0.95rem; }
+.st-strip .sc-team img.team-logo { width: 1.75rem; height: 1.75rem; }
+body.st-inner .st-strip .sc-team img.team-logo { width: 1.75rem; height: 1.75rem; }
+.st-strip .sc-row { padding: 0.28rem 0; }
+body.st-inner .st-strip .sc-row { padding: 0.28rem 0; }
+.st-strip .sc-result { margin-top: 0.4rem; }
+body.st-inner .st-strip .sc-result { margin-top: 0.4rem; }
+.st-strip .sc-links { margin-top: 0.45rem; padding-top: 0.45rem; }
+body.st-inner .st-strip .sc-links { margin-top: 0.45rem; padding-top: 0.45rem; }

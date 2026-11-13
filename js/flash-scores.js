@@ -137,10 +137,10 @@
 
   function cardHtml(m, league) {
     var kind = m.status === 'live' ? 'live' : (m.status === 'result' ? 'result' : 'upcoming');
-    var label = m.status === 'live' ? 'Live now' : (m.status === 'result' ? 'Result' : 'Upcoming');
+    var label = m.status === 'live' ? 'Live' : (m.status === 'result' ? 'Result' : 'Upcoming');
     var html = '<a class="score-card" data-kind="' + kind + '" data-match-no="' + m.matchNo + '" data-league="' + esc(league) + '" href="' + matchUrl(league, m.matchNo) + '">';
-    html += '<p class="sc-label' + (kind === 'upcoming' ? ' upcoming' : '') + '">' + label + '</p>';
-    html += '<p class="sc-match">Match ' + m.matchNo + ' &middot; ' + esc(VENUE[league] || 'Kirtipur') + '</p>';
+    html += '<div class="sc-top"><p class="sc-label' + (kind === 'upcoming' ? ' upcoming' : kind === 'live' ? ' live' : '') + '">' + label + '</p>';
+    html += '<p class="sc-match">Match ' + m.matchNo + ' &middot; ' + esc(VENUE[league] || 'Kirtipur') + '</p></div>';
     html += '<p class="sc-row"><span class="sc-team">' + chip(m.team1) + esc(m.team1) + '</span><span class="sc-score">' + esc(m.score1 || '') + (m.overs1 ? ' (' + esc(m.overs1) + ' ov)' : '') + '</span></p>';
     html += '<p class="sc-row"><span class="sc-team">' + chip(m.team2) + esc(m.team2) + '</span><span class="sc-score">' + esc(m.score2 || '') + (m.overs2 ? ' (' + esc(m.overs2) + ' ov)' : '') + '</span></p>';
     html += '<p class="sc-result' + (kind === 'upcoming' ? ' upcoming' : '') + '">' + esc(m.status === 'live' ? liveLine(m) : (m.statusText || '')) + '</p></a>';
@@ -181,8 +181,9 @@
       var result = card.querySelector('.sc-result');
       var rows = card.querySelectorAll('.sc-row');
       if (label) {
-        label.textContent = m.status === 'live' ? 'Live now' : (m.status === 'result' ? 'Result' : 'Upcoming');
+        label.textContent = m.status === 'live' ? 'Live' : (m.status === 'result' ? 'Result' : 'Upcoming');
         label.classList.toggle('upcoming', m.status === 'upcoming');
+        label.classList.toggle('live', m.status === 'live');
       }
       /* Upcoming cards are baked without .sc-score spans, so a live
          score would have nowhere to go — create the span the first
