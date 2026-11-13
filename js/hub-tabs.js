@@ -29,13 +29,13 @@
    closes. The dropdown is CSS-opened on :hover / :focus-within, so an
    explicit close also sets .secnav-closed (suppresses the CSS open) and
    blurs the button; mouseleave clears .secnav-closed so hover works
-   again. Shared by all three hubs (same markup, same file). */
+   again. Binds ALL .secnav-title-wrap on the page — hubs have 1, the
+   points-table pages have 2 (secnav + league switcher). */
 (function () {
   'use strict';
-  function bind() {
-    var wrap = document.querySelector('.secnav-title-wrap');
-    var btn = document.querySelector('.secnav-switch');
-    if (!wrap || !btn) return;
+  function bindOne(wrap) {
+    var btn = wrap.querySelector('.secnav-switch');
+    if (!btn) return;
     btn.setAttribute('aria-expanded', 'false');
     function close() {
       wrap.classList.remove('secnav-open');
@@ -60,6 +60,11 @@
       if (!wrap.contains(e.target) && wrap.classList.contains('secnav-open')) close();
     });
     wrap.addEventListener('mouseleave', function () { wrap.classList.remove('secnav-closed'); });
+  }
+  function bind() {
+    var wraps = document.querySelectorAll('.secnav-title-wrap');
+    if (!wraps.length) return;
+    wraps.forEach(bindOne);
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bind);
   else bind();

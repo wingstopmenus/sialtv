@@ -2727,3 +2727,29 @@ body.st-inner .rx-date-group[hidden] { display: none; }
 body.st-inner.league-npl .details-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem 1.5rem; margin: 0; }
 body.st-inner.league-npl .details-grid dt { font-size: 0.75rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--st-mute); margin-bottom: 0.125rem; }
 body.st-inner.league-npl .details-grid dd { margin: 0; font-size: 0.9375rem; color: var(--st-ink); }
+/* ---------- Points-table layout fix — 2026-11-14 (browser verdict 00:29–00:33 PKT) ----------
+   Root causes (live HTML/CSS se verify):
+   - .rx-pts had no width rule: 13-col table sized to content (~59% of wrap).
+   - NPL/APL table logos had no size rule (1.75rem rule covers .t-pts/.t-nums only;
+     ILT20 compact hai apne league-scoped 32px rule se). Logos intrinsic 73-96px.
+   - .rx-legend grid rule exists ONLY for .league-ilt20: NPL/APL legend spans plain
+     inline, no gap — run-on paragraph.
+   - League switcher reuses .secnav-switch outside secnav (plain text lagta hai); its
+     .secnav-drop absolute hai, H2 + intro + table header overlay karta hai; pages
+     hub-tabs.js load nahi karte, is liye Escape/re-click/click-outside nahi tha.
+   - Arrow: VERIFIED 2026-11-14 — arrow buttons (.st-strip-arrow) are direct children
+     of .st-strip-view, which ALREADY has position: relative (live style.css line
+     1861). No arrow rule added; detached look needs a real-browser check.
+   - Live HTML word spaces byte-correct hain; word-spacing neeche insurance hai. */
+body.st-inner .rx-pts { width: 100%; }
+body.st-inner .rx-pts img.tl-table { width: 1.75rem; height: 1.75rem; }
+body.st-inner .rx-legend { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.25rem 1.5rem; font-size: 0.875rem; color: var(--st-ink-2); margin: 0.875rem 0 0; }
+body.st-inner .rx-legend b { color: var(--st-ink); }
+@media (max-width: 980px) {
+  body.st-inner .rx-legend { grid-template-columns: 1fr 1fr; }
+}
+body.st-inner .rx-pts .rx-teamcell a, body.st-inner .secnav-drop a, body.st-inner .secnav-switch, body.st-inner .lead { word-spacing: 0.12em; }
+.league-switch { margin: 0 0 1rem; }
+.league-switch .secnav-switch { border: 1px solid var(--st-line); background: var(--st-surface); border-radius: 0.65rem; padding: 0.5rem 0.8rem; font-weight: 700; font-size: 0.95rem; color: var(--st-ink); }
+.league-switch .secnav-switch:hover { background: var(--st-bg-soft); }
+.league-switch .secnav-title-wrap:hover:not(.secnav-closed) .secnav-drop, .league-switch .secnav-title-wrap:focus-within:not(.secnav-closed) .secnav-drop, .league-switch .secnav-title-wrap.secnav-open .secnav-drop { position: static; display: block; margin-top: 0.5rem; box-shadow: none; }
