@@ -1,5 +1,5 @@
 {
- "fetchedAt": "2026-11-13T03:05:07Z",
+ "fetchedAt": "2026-11-13T17:06:37Z",
  "source": "crictracker",
  "series": "Nepal Premier League 2026",
  "matches": [
@@ -196,6 +196,142 @@
         "wickets": 4,
         "runs": 12,
         "overs": "4"
+       }
+      ]
+     }
+    ]
+   },
+   "commentary": [],
+   "overTimeline": [],
+   "live": null
+  },
+  {
+   "id": "npl-2026-m24",
+   "espnEventId": 1558605,
+   "matchNo": 24,
+   "matchDesc": "Match 24",
+   "series_name": "Nepal Premier League 2026",
+   "team1": "Kathmandu Gorkhas",
+   "team2": "Sudurpaschim Royals",
+   "abbr1": "KAG",
+   "abbr2": "SPR",
+   "status": "result",
+   "statusText": "Sudurpaschim Royals won by 7 runs",
+   "toss": null,
+   "score1": "118/7",
+   "score2": "125/6",
+   "overs1": "20",
+   "overs2": "20",
+   "venue": "Tribhuvan University International Cricket Ground, Kirtipur",
+   "date": "2026-11-13",
+   "kickoffIso": "2026-11-13T12:30:00+05:45",
+   "scorecard": {
+    "innings": [
+     {
+      "team": "Sudurpaschim Royals",
+      "total": "125/6",
+      "overs": "20",
+      "batting": [
+       {
+        "name": "Dipendra Singh Airee",
+        "runs": 60,
+        "balls": 55
+       }
+      ],
+      "bowling": [
+       {
+        "name": "Jahandad Khan",
+        "wickets": 3,
+        "runs": 22,
+        "overs": "4"
+       }
+      ]
+     },
+     {
+      "team": "Kathmandu Gorkhas",
+      "total": "118/7",
+      "overs": "20",
+      "batting": [
+       {
+        "name": "Rashid Khan",
+        "runs": 35,
+        "balls": 31
+       }
+      ],
+      "bowling": [
+       {
+        "name": "Anil Kharel",
+        "wickets": 2,
+        "runs": 18,
+        "overs": "4"
+       }
+      ]
+     }
+    ]
+   },
+   "commentary": [],
+   "overTimeline": [],
+   "live": null
+  },
+  {
+   "id": "npl-2026-m25",
+   "espnEventId": 1558606,
+   "matchNo": 25,
+   "matchDesc": "Match 25",
+   "series_name": "Nepal Premier League 2026",
+   "team1": "Janakpur Bolts",
+   "team2": "Chitwan Rhinos",
+   "abbr1": "JAB",
+   "abbr2": "CHR",
+   "status": "result",
+   "statusText": "Chitwan Rhinos won by 4 wickets",
+   "toss": null,
+   "score1": "88/9",
+   "score2": "92/6",
+   "overs1": "20",
+   "overs2": "17.2",
+   "venue": "Tribhuvan University International Cricket Ground, Kirtipur",
+   "date": "2026-11-13",
+   "kickoffIso": "2026-11-13T17:00:00+05:45",
+   "scorecard": {
+    "innings": [
+     {
+      "team": "Janakpur Bolts",
+      "total": "88/9",
+      "overs": "20",
+      "batting": [
+       {
+        "name": "Harmeet Singh",
+        "runs": 25,
+        "balls": 25
+       }
+      ],
+      "bowling": [
+       {
+        "name": "Ranjit Kumar",
+        "wickets": 3,
+        "runs": 2,
+        "overs": "3"
+       }
+      ]
+     },
+     {
+      "team": "Chitwan Rhinos",
+      "total": "92/6",
+      "overs": "17.2",
+      "batting": [
+       {
+        "name": "Dawid Malan",
+        "runs": 35,
+        "balls": 39
+       }
+      ],
+      "bowling": [
+       {
+        "name": "Rahul Yadav",
+        "wickets": 3,
+        "runs": 19,
+        "overs": "3"
        }
       ]
      }
