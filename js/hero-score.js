@@ -32,16 +32,22 @@
     if (live && live.crr) return live.crr;
     /* The batting side is the one with an open innings: the side with
        a score while the other has none (first innings — M24: team1
-       fielded, team2 batting), else the side batting second while the
-       first innings is complete. score1 alone is wrong when team1
-       fields: it returns '' and the CRR goes missing. */
+       fielded, team2 batting), else the side whose innings is still
+       open. An innings ends at 10 wickets or when its overs run out,
+       so with both scores present the batting side is the one with
+       fewer overs — the 10-wicket-only check missed the chase after
+       a completed 20-over innings (M24: SPR 125/6 in 20 ov, KAG
+       chasing 22/2 in 3.2 ov — CRR is KAG's, not SPR's 6.25). */
+    function wkts(s) { var x = /^(\d+)\/(\d+)/.exec(String(s || '')); return x ? parseInt(x[2], 10) : -1; }
+    function balls(o) { var p = String(o || '').split('.'); return (parseInt(p[0] || '0', 10) * 6) + (parseInt(p[1] || '0', 10) || 0); }
     var s = '', o = '';
     if (m.score2 && !m.score1) { s = m.score2; o = m.overs2; }
     else if (m.score1 && !m.score2) { s = m.score1; o = m.overs1; }
     else if (m.score1 && m.score2) {
-      var w2 = /^(\d+)\/(\d+)/.exec(String(m.score2));
-      if (w2 && parseInt(w2[2], 10) >= 10) { s = m.score1; o = m.overs1; }
-      else { s = m.score2; o = m.overs2; }
+      if (wkts(m.score2) >= 10) { s = m.score1; o = m.overs1; }
+      else if (wkts(m.score1) >= 10) { s = m.score2; o = m.overs2; }
+      else if (balls(m.overs1) > balls(m.overs2)) { s = m.score2; o = m.overs2; }
+      else { s = m.score1; o = m.overs1; }
     }
     if (!s || !o) return '';
     var runs = parseInt(String(s).split('/')[0], 10);
