@@ -140,6 +140,8 @@ body.st-home ul { margin: 0; padding: 0; list-style: none; }
   80% { box-shadow: 0 0 0 0.45rem rgba(255, 255, 255, 0); }
   100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
 }
+/* Result label (no live match): same rose pill, no pulsing dot. */
+.st-announce__live--result::before { display: none; }
 .st-announce a {
   color: #fff;
   font-weight: 700;
@@ -606,7 +608,8 @@ body.st-nav-open .st-burger span:nth-child(3) { transform: translateY(-0.44rem) 
   background: var(--st-surface);
   border-radius: 1.45rem;
   overflow: hidden;
-  border: 1px solid #fff;
+  border: 1px solid var(--st-line);
+  border-top: 3px solid var(--st-hue);
   box-shadow: var(--st-shadow-sm);
   transition: transform var(--st-ease), box-shadow var(--st-ease);
   min-height: 100%;
@@ -619,7 +622,7 @@ body.st-nav-open .st-burger span:nth-child(3) { transform: translateY(-0.44rem) 
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  min-height: 10.5rem;
+  min-height: 9rem;
   padding: 1.3rem 1.35rem 1.2rem;
   color: #fff;
   background:
@@ -634,7 +637,7 @@ body.st-nav-open .st-burger span:nth-child(3) { transform: translateY(-0.44rem) 
   position: absolute;
   right: -0.2rem;
   bottom: -0.85rem;
-  font-size: 5.4rem;
+  font-size: 4.8rem;
   font-weight: 800;
   letter-spacing: -0.07em;
   opacity: 0.1;
@@ -758,7 +761,7 @@ body.st-nav-open .st-burger span:nth-child(3) { transform: translateY(-0.44rem) 
   border-radius: 1.6rem;
   padding: 0.6rem;
   box-shadow: var(--st-shadow-sm);
-  border: 1px solid #fff;
+  border: 1px solid var(--st-line);
   display: flex;
   flex-direction: column;
 }
@@ -835,7 +838,7 @@ body.st-nav-open .st-burger span:nth-child(3) { transform: translateY(-0.44rem) 
   border-radius: 1.35rem;
   padding: 1.35rem 1.4rem 1.45rem;
   box-shadow: var(--st-shadow-sm);
-  border: 1px solid #fff;
+  border: 1px solid var(--st-line);
 }
 .st-jump h3 {
   font-size: 0.95rem;
@@ -874,7 +877,7 @@ body.st-nav-open .st-burger span:nth-child(3) { transform: translateY(-0.44rem) 
   border-radius: 1.8rem;
   padding: 2.4rem 2.5rem;
   box-shadow: var(--st-shadow-sm);
-  border: 1px solid #fff;
+  border: 1px solid var(--st-line);
   position: relative;
   overflow: hidden;
 }
@@ -885,7 +888,7 @@ body.st-nav-open .st-burger span:nth-child(3) { transform: translateY(-0.44rem) 
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(90deg, var(--st-rose), #7c3aed, var(--st-rose-glow));
+  background: linear-gradient(90deg, var(--st-rose), var(--st-rose-deep), var(--st-rose-glow));
 }
 .st-about__copy h2 { font-size: clamp(1.7rem, 3vw, 2.35rem); margin-bottom: 1rem; }
 .st-about__copy h2 .st-emph { color: var(--st-rose); }
@@ -2282,6 +2285,42 @@ body.st-inner .st-strip .sc-links .sc-countdown {
   text-align: right;
 }
 body.st-inner .st-strip .sc-links a { flex: none; }
+
+/* ---------- Homepage fix (2026-11-13): mobile strip ----------
+   Measured BEFORE at 390px: the card was 262px wide (67% of the
+   viewport) — the 3.25rem arrow gutters on BOTH sides ate 104px even
+   though the prev arrow is hidden at scroll start, and the countdown
+   ("Match starts in …") truncated to an ellipsis on the links line.
+   Fix (<=640px only, shared strip so hubs/live-scores get it too):
+   drop the gutters, hide both arrows (swipe is the mobile interaction;
+   the JS toggles display via inline style, '' clears to this rule),
+   one card + a peek of the next so the strip reads as scrollable,
+   and the countdown drops to its own full-width line so it never
+   truncates. Desktop (3 whole cards + arrows) is untouched. */
+@media (max-width: 640px) {
+  .st-strip-view { padding-left: 0; padding-right: 0; }
+  .st-strip-arrow { display: none; }
+  .st-strip-track .score-card { flex: 0 0 88%; }
+  body.st-inner .st-strip-track .score-card { flex: 0 0 88%; }
+  .st-strip .sc-links { flex-wrap: wrap; }
+  body.st-inner .st-strip .sc-links { flex-wrap: wrap; }
+  .st-strip .sc-links .sc-countdown {
+    flex: 1 1 100%;
+    margin: 0.35rem 0 0;
+    text-align: left;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+  }
+  body.st-inner .st-strip .sc-links .sc-countdown {
+    flex: 1 1 100%;
+    margin: 0.35rem 0 0;
+    text-align: left;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+  }
+}
 
 /* Hero match (2026-11-13) — the countdown line under the next-match panel.
    Same tone as the panel paragraph; the link is pushed to the bottom by
