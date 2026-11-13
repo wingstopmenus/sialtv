@@ -92,6 +92,16 @@
       for (var c = 0; c < chips.length; c++) {
         if (/^\s*result\s*$/i.test(chips[c].textContent || '')) return true;
       }
+      /* The .mh-live card (M24 template) carries the state in its badge:
+         "Result" for a finished match, "Match yet to begin" for an upcoming
+         one, "LIVE" while it is live. A finished page whose H1 is locked
+         as "Preview" (M24/M25) or "Team1 vs Team2 — Nth Match" (M8-M14)
+         has no other baked marker, so without this the live module would
+         overwrite the baked scorecard with the endpoint's live snapshot. */
+      var badges = hero.querySelectorAll('.mh-live-badge');
+      for (var b = 0; b < badges.length; b++) {
+        if (/^\s*result\s*$/i.test(badges[b].textContent || '')) return true;
+      }
     }
     return false;
   }
