@@ -51,12 +51,25 @@
   function crrOf(m) {
     var live = m.live || null;
     if (live && live.crr) return live.crr;
-    var runs = parseInt(String(m.score1 || '0').split('/')[0], 10);
-    var ov = String(m.overs1 || '');
-    var parts = ov.split('.');
-    var o = parseInt(parts[0] || '0', 10) + (parseInt(parts[1] || '0', 10) / 6);
-    if (!runs || !o) return '';
-    return (runs / o).toFixed(2);
+    /* The batting side is the one with an open innings: the side with
+       a score while the other has none (first innings — M24: team1
+       fielded, team2 batting), else the side batting second while the
+       first innings is complete. score1 alone is wrong when team1
+       fields: it returns '' and the CRR goes missing. */
+    var s = '', o = '';
+    if (m.score2 && !m.score1) { s = m.score2; o = m.overs2; }
+    else if (m.score1 && !m.score2) { s = m.score1; o = m.overs1; }
+    else if (m.score1 && m.score2) {
+      var w2 = /^(\d+)\/(\d+)/.exec(String(m.score2));
+      if (w2 && parseInt(w2[2], 10) >= 10) { s = m.score1; o = m.overs1; }
+      else { s = m.score2; o = m.overs2; }
+    }
+    if (!s || !o) return '';
+    var runs = parseInt(String(s).split('/')[0], 10);
+    var parts = String(o).split('.');
+    var ov = parseInt(parts[0] || '0', 10) + (parseInt(parts[1] || '0', 10) / 6);
+    if (!runs || !ov) return '';
+    return (runs / ov).toFixed(2);
   }
 
   function shortName(name) {
@@ -601,3 +614,4 @@
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
   else boot();
 })();
+

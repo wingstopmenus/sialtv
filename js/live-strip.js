@@ -182,6 +182,15 @@
     return String(name || '').replace(/\s*\([^)]*\)\s*$/, '').trim();
   }
 
+  /* A side with no score yet (won the toss and fielded) reads
+     "Yet to bat" — never a blank "( ov)" slot. Same pattern as
+     sticky-bar.js sideLine() / hero-score.js sideScore(). */
+  function stripScore(abbr, name, score, overs) {
+    var s = esc(abbr || name);
+    if (!score) return s + ' Yet to bat';
+    return s + ' ' + esc(score) + (overs ? ' (' + esc(overs) + ' ov)' : '');
+  }
+
   function stripHtml(p, showNext) {
     var m = p.live || p.latest;
     var right = '';
@@ -190,8 +199,8 @@
       var live = p.live.live || {};
       var bats = (live.batters || []).map(function (b) { return esc(b.name) + ' ' + esc(b.runs) + (b.striker ? '*' : ''); }).join(', ');
       var bowl = (live.bowlers || [])[0];
-      var line = '<span class="slp-strip-score">' + esc(p.live.abbr1 || p.live.team1) + ' ' + esc(p.live.score1 || '') + ' (' + esc(p.live.overs1 || '') + ' ov)</span>';
-      if (p.live.score2) line += ' vs <span class="slp-strip-score">' + esc(p.live.abbr2 || p.live.team2) + ' ' + esc(p.live.score2) + ' (' + esc(p.live.overs2 || '') + ' ov)</span>';
+      var line = '<span class="slp-strip-score">' + stripScore(p.live.abbr1, p.live.team1, p.live.score1, p.live.overs1) + '</span>';
+      if (p.live.score2) line += ' vs <span class="slp-strip-score">' + stripScore(p.live.abbr2, p.live.team2, p.live.score2, p.live.overs2) + '</span>';
       if (bats) line += ' · ' + bats;
       /* The feed often carries the bowler with no overs/runs/wickets
          yet — a "0/0" would look broken, so the bowler is shown only
@@ -206,6 +215,10 @@
         function w(s) { var x = /^(\d+)\/(\d+)/.exec(s || ''); return x ? parseInt(x[2], 10) : -1; }
         if (w(p.live.score2) >= 10) return rateOf(p.live.score1, p.live.overs1);
         if (w(p.live.score1) >= 10) return rateOf(p.live.score2, p.live.overs2);
+        /* Default was rateOf(score1): '' when team1 fields first (M24).
+           The batting side is the one with a score — same rule as
+           hero-score.js crrOf(). */
+        if (p.live.score2) return rateOf(p.live.score2, p.live.overs2);
         return rateOf(p.live.score1, p.live.overs1);
       })();
       if (crr) line += ' · CRR ' + esc(crr);
@@ -248,3 +261,4 @@
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
   else boot();
 })();
+
