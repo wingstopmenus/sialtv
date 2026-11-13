@@ -1,17 +1,17 @@
 <?xml version='1.0' encoding='utf-8'?>
 <ns0:urlset xmlns:ns0="http://www.sitemaps.org/schemas/sitemap/0.9">
   <ns0:url><ns0:loc>https://sialtv.com/</ns0:loc>
-    <ns0:lastmod>2026-11-13T03:05:06Z</ns0:lastmod><ns0:changefreq>daily</ns0:changefreq><ns0:priority>1.0</ns0:priority></ns0:url>
+    <ns0:lastmod>2026-11-13T03:05:10Z</ns0:lastmod><ns0:changefreq>daily</ns0:changefreq><ns0:priority>1.0</ns0:priority></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/live-scores/</ns0:loc>
-    <ns0:lastmod>2026-11-13T02:10:02Z</ns0:lastmod><ns0:changefreq>daily</ns0:changefreq><ns0:priority>0.9</ns0:priority></ns0:url>
+    <ns0:lastmod>2026-11-13T03:05:11Z</ns0:lastmod><ns0:changefreq>daily</ns0:changefreq><ns0:priority>0.9</ns0:priority></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/</ns0:loc>
-    <ns0:lastmod>2026-11-13T03:05:02Z</ns0:lastmod><ns0:changefreq>daily</ns0:changefreq><ns0:priority>0.9</ns0:priority></ns0:url>
+    <ns0:lastmod>2026-11-13T03:05:09Z</ns0:lastmod><ns0:changefreq>daily</ns0:changefreq><ns0:priority>0.9</ns0:priority></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/players/</ns0:loc>
     <ns0:lastmod>2026-11-12T21:07:57Z</ns0:lastmod><ns0:changefreq>daily</ns0:changefreq><ns0:priority>0.8</ns0:priority></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/tickets/</ns0:loc>
     <ns0:lastmod>2026-11-12T21:08:07Z</ns0:lastmod><ns0:changefreq>daily</ns0:changefreq><ns0:priority>0.8</ns0:priority></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/stats/</ns0:loc>
-    <ns0:lastmod>2026-11-13T00:25:01Z</ns0:lastmod><ns0:changefreq>daily</ns0:changefreq><ns0:priority>0.8</ns0:priority></ns0:url>
+    <ns0:lastmod>2026-11-13T03:05:08Z</ns0:lastmod><ns0:changefreq>daily</ns0:changefreq><ns0:priority>0.8</ns0:priority></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/schedule/</ns0:loc>
     <ns0:lastmod>2026-11-13T03:05:03Z</ns0:lastmod><ns0:changefreq>daily</ns0:changefreq><ns0:priority>0.8</ns0:priority></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/points-table/</ns0:loc>
@@ -53,7 +53,7 @@
   <ns0:url><ns0:loc>https://sialtv.com/npl/teams/</ns0:loc>
     <ns0:lastmod>2026-11-13T02:02:10Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/live-scores/</ns0:loc>
-    <ns0:lastmod>2026-11-13T02:10:03Z</ns0:lastmod></ns0:url>
+    <ns0:lastmod>2026-11-13T03:05:12Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/players/aakash-tripathi/</ns0:loc>
     <ns0:lastmod>2026-11-13T02:00:08Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/players/aarif-sheikh/</ns0:loc>
