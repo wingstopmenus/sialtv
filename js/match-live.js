@@ -5,19 +5,34 @@
 
    What it does, and only while the match is actually on:
    - match-head status chip: "Match yet to begin" -> LIVE (red dot) -> Result
-   - a live score line under the match-head intro (scores + chase/result line)
-   - the Scorecard tab: the "Match yet to begin" note becomes live
-     batting/bowling tables from the feed, in the same markup as the
-     baked scorecard (Batter/Dismissal/R/B/4s/6s/SR, Bowler/O/M/R/W/Econ).
+   - the match-head live score block (team scores, toss, current run rate)
+   - the Scorecard tab: live batting/bowling tables from the feed, in the
+     same markup as the baked scorecard (Batter/Dismissal/R/B/4s/6s/SR,
+     Bowler/O/M/R/W/Econ), plus extras, total and fall of wickets
+     (derived from the feed's ball-by-ball — never invented).
+   - the Live tab: current batters/bowlers, last wicket, recent overs
+     with ball chips, and a Match Centre (recent balls) with a link to
+     the full Commentary tab.
+   - the Commentary tab: the full ball-by-ball from the feed.
+   - the Overs tab: over-by-over summary with ball chips.
+   - the Live Stats tab: current run rate, partnership, last five balls,
+     projected score and powerplay.
+
+   The endpoint's live block is the primary source. Where it is thin,
+   the scorecard and the ball-by-ball (both carried by the same feed)
+   are the fallback — the figures are never invented, only derived
+   from feed data that is already on the page.
 
    GOLDEN RULE: a baked result is never touched. If the page already
-   shows a result (match-head "X beat Y by Z runs", or a baked scorecard with
-   "Fall of wickets"), this module does nothing at all — no fetch, no
-   poll. The match-day bake owns the finished page. Likewise the
-   Summary tab is never touched: it is generated at bake time by
-   tools/generate-match-summary.py, and on a live page it does not
-   exist yet. When the feed says the match is over, the module shows
-   the final state once and stops polling; the bake replaces the page.
+   shows a result (the H1 says "X beat Y by Z runs", or the match-head
+   carries a Result chip), this module does nothing at all — no fetch,
+   no poll. The match-day bake owns the finished page. A live
+   scorecard that already shows fall of wickets is NOT a baked result
+   (a live match has wickets too). Likewise the Summary tab is never
+   touched: it is generated at bake time, and on a live page it holds
+   the pre-match preview. When the feed says the match is over, the
+   module shows the final state once and stops polling; the bake
+   replaces the page.
 
    Polling: every 30 seconds while live or near kickoff; every 5 minutes
    while the match is still upcoming and kickoff is more than 15 minutes
@@ -36,6 +51,9 @@
   var scoreLineEl = null;
   var scorecardEl = null;
   var liveTabEl = null;
+  var commentaryEl = null;
+  var oversEl = null;
+  var statsEl = null;
   var chipEl = null;
 
   function esc(s) {
@@ -61,16 +79,20 @@
     return { league: league, season: SEASON[league], matchNo: parseInt(m[3], 10) };
   }
 
-  /* A baked result page: match-head result line, or a baked scorecard with
-     fall of wickets. Either one means the bake owns this page.
-     (The '.hero h1' fallback covers pages whose hero has not been removed
-     yet - SA20/BBL off-site pages and any not-yet-rebuilt match page.) */
+  /* A baked result page: the H1 says who won ("X beat Y by Z runs"), or
+     the match-head carries a Result chip. A live scorecard showing fall
+     of wickets does NOT mean baked — a live match has wickets too. */
   function isBaked() {
     var h1 = document.querySelector('.match-head h1') ||
       document.querySelector('.hero h1');
     if (h1 && /beat|won by|tied|no result|abandoned/i.test(h1.textContent || '')) return true;
-    var sc = document.getElementById('scorecard');
-    if (sc && /Fall of wickets/i.test(sc.textContent || '')) return true;
+    var hero = document.querySelector('.match-head') || document.querySelector('.hero');
+    if (hero) {
+      var chips = hero.querySelectorAll('.hero-chip');
+      for (var c = 0; c < chips.length; c++) {
+        if (/^\s*result\s*$/i.test(chips[c].textContent || '')) return true;
+      }
+    }
     return false;
   }
 
@@ -97,7 +119,9 @@
       '.slp-live-score small{display:block;font-weight:400;font-size:14px;color:#666;margin-top:4px}',
       '.slp-live-chip{background:#c92a1e!important;border-color:#c92a1e!important;color:#fff!important}',
       '.slp-ball{display:inline-block;min-width:22px;text-align:center;padding:2px 6px;margin:0 3px 3px 0;border:1px solid #e0e0e0;border-radius:999px;font-weight:700;font-size:13px}',
-      '.slp-ball-w{background:#c92a1e;border-color:#c92a1e;color:#fff}'
+      '.slp-ball-w{background:#c92a1e;border-color:#c92a1e;color:#fff}',
+      '.slp-ball-6{background:#0f5132;border-color:#0f5132;color:#fff}',
+      '.slp-ball-4{background:#1d4ed8;border-color:#1d4ed8;color:#fff}'
     ].join('');
     document.head.appendChild(s);
   }
@@ -110,6 +134,12 @@
       var mm = String(d.getUTCMinutes()).padStart(2, '0');
       return 'Updated ' + hh + ':' + mm + ' UTC';
     } catch (e) { return ''; }
+  }
+
+  function ballsFromOvers(ov) {
+    var m = /^(\d+)(?:\.(\d))?$/.exec(String(ov || '').trim());
+    if (!m) return 0;
+    return parseInt(m[1], 10) * 6 + parseInt(m[2] || '0', 10);
   }
 
   function sideScore(name, score, overs) {
@@ -145,7 +175,7 @@
 
   function bowlRows(bowlers) {
     return (bowlers || []).map(function (b) {
-      return '<tr><td>' + esc(b.name) + '</td>' +
+      return '<tr><td>' + esc(b.name) + (b.current ? ' *' : '') + '</td>' +
         '<td>' + esc(b.overs == null ? '' : b.overs) + '</td>' +
         '<td>' + esc(b.maidens == null ? '' : b.maidens) + '</td>' +
         '<td>' + esc(b.runs) + '</td><td>' + esc(b.wickets) + '</td>' +
@@ -153,20 +183,8 @@
     }).join('');
   }
 
-  /* Live tab: CRR and partnership are ARITHMETIC on feed data the
-     endpoint already carries — the feed's live.crr / live.partnership
-     fields are empty strings, so they are computed here and never
-     invented. CRR = current innings runs * 6 / balls bowled.
-     Partnership = the two batters at the crease, runs + balls each
-     (their combined runs with the bat; extras during the stand are
-     not in the feed, so the figure is the pair's batting runs). */
-  function ballsFromOvers(ov) {
-    var m = /^(\d+)(?:\.(\d))?$/.exec(String(ov || '').trim());
-    if (!m) return 0;
-    return parseInt(m[1], 10) * 6 + parseInt(m[2] || '0', 10);
-  }
-
-  function crrFromInnings(m) {
+  /* The innings with a batter at the crease (the innings in progress). */
+  function battingInnings(m) {
     var inns = (m.scorecard && m.scorecard.innings) || [];
     var g = null, i, j;
     for (i = 0; i < inns.length; i++) {
@@ -177,11 +195,39 @@
       if (g) break;
     }
     if (!g && inns.length) g = inns[inns.length - 1];
+    return g;
+  }
+
+  /* The innings with bowling figures (the fielding side's innings). */
+  function bowlingInnings(m) {
+    var inns = (m.scorecard && m.scorecard.innings) || [];
+    for (var i = 0; i < inns.length; i++) {
+      if ((inns[i].bowling || []).length) return inns[i];
+    }
+    return null;
+  }
+
+  /* CRR = current innings runs * 6 / balls bowled. The header score
+     (team score + overs) is authoritative — it includes extras, which
+     the batting sum misses. Falls back to the innings total. */
+  function crrFromInnings(m) {
+    var g = battingInnings(m);
     if (!g) return '';
-    var runs = 0;
-    var tm = /^(\d+)\//.exec(String(g.total || ''));
-    if (tm) runs = parseInt(tm[1], 10);
-    var balls = ballsFromOvers(g.overs);
+    var runs = 0, balls = 0;
+    var team = String(g.team || '');
+    var hdr = null;
+    if (team && m.team1 && team.indexOf(m.team1) !== -1 && m.score1) hdr = [m.score1, m.overs1];
+    else if (team && m.team2 && team.indexOf(m.team2) !== -1 && m.score2) hdr = [m.score2, m.overs2];
+    if (hdr) {
+      var tm = /^(\d+)\//.exec(String(hdr[0]));
+      if (tm) runs = parseInt(tm[1], 10);
+      balls = ballsFromOvers(hdr[1]);
+    }
+    if (!runs || !balls) {
+      var tm2 = /^(\d+)\//.exec(String(g.total || ''));
+      if (tm2) runs = parseInt(tm2[1], 10);
+      balls = ballsFromOvers(g.overs);
+    }
     if (!balls || !runs) return '';
     return (runs * 6 / balls).toFixed(2);
   }
@@ -197,16 +243,198 @@
     return { runs: runs, balls: balls };
   }
 
+  /* Bowlers for the Live tab. The endpoint's live bowlers carry the
+     figures; if they are empty (an older feed), the scorecard's bowling
+     table — the same feed, correctly parsed — is the fallback. The
+     bowler with the most balls bowled is the one bowling now. */
+  function bowlersForLive(m) {
+    var live = m.live || {};
+    var bowls = live.bowlers || [];
+    var usable = bowls.filter(function (b) {
+      return (b.overs !== '' && b.overs != null) || parseInt(b.wickets || '0', 10) > 0 || parseInt(b.runs || '0', 10) > 0;
+    });
+    if (usable.length) return usable;
+    var g = bowlingInnings(m);
+    if (!g || !(g.bowling || []).length) return bowls;
+    var rows = (g.bowling || []).slice();
+    var best = null, bestBalls = -1;
+    rows.forEach(function (b) {
+      var n = ballsFromOvers(b.overs);
+      if (n > bestBalls) { bestBalls = n; best = b; }
+    });
+    return rows.map(function (b) {
+      return { name: b.name, overs: b.overs, maidens: b.maidens, runs: b.runs, wickets: b.wickets, econ: b.econ, current: b === best };
+    });
+  }
+
+  /* Fall of wickets, derived from the ball-by-ball: walk the balls in
+     order, accumulate the runs, and note the score each time a wicket
+     falls. Never invented — every entry comes from a feed ball. */
+  function fowFromCommentary(m) {
+    var balls = (m.commentary || []).slice().reverse();
+    var out = [];
+    var runs = 0, wkts = 0;
+    var g = battingInnings(m);
+    var batByName = {};
+    (g && g.batting || []).forEach(function (b) { batByName[String(b.name).toLowerCase()] = b; });
+    balls.forEach(function (b) {
+      runs += parseInt(b.runs || '0', 10);
+      var dism = String(b.dismissal || '').trim();
+      if (dism) {
+        wkts++;
+        var row = batByName[String(b.batsman || '').toLowerCase()] || null;
+        out.push({
+          name: b.batsman || '',
+          runs: row ? row.runs : '',
+          balls: row ? row.balls : '',
+          dismissal: dism,
+          score: runs + '/' + wkts,
+          over: b.over || ''
+        });
+      }
+    });
+    return out;
+  }
+
+  /* The last wicket. Prefers the endpoint's live.lastWicket; falls back
+     to the most recent dismissal in the ball-by-ball, then to the last
+     dismissed batter in the scorecard. */
+  function lastWicketForLive(m) {
+    var live = m.live || {};
+    if (live.lastWicket && live.lastWicket.name) return live.lastWicket;
+    var fow = fowFromCommentary(m);
+    if (fow.length) {
+      var last = fow[fow.length - 1];
+      return { name: last.name, runs: last.runs, balls: last.balls, dismissal: last.dismissal, fow: last.score, over: last.over };
+    }
+    var g = battingInnings(m);
+    var dismissed = ((g && g.batting) || []).filter(function (b) {
+      return String(b.dismissal || '').toLowerCase() !== 'not out';
+    });
+    if (!dismissed.length) return null;
+    var d = dismissed[dismissed.length - 1];
+    return { name: d.name, runs: d.runs, balls: d.balls, dismissal: d.dismissal, fow: '', over: '' };
+  }
+
+  /* Extras, derived from the feed: the team total minus the batting sum
+     is the extras total; the wide / no-ball / bye split comes from the
+     ball-by-ball short text. */
+  function extrasFromFeed(m) {
+    var g = battingInnings(m);
+    if (!g) return null;
+    var team = String(g.team || '');
+    var hdr = null;
+    if (team && m.team1 && team.indexOf(m.team1) !== -1 && m.score1) hdr = m.score1;
+    else if (team && m.team2 && team.indexOf(m.team2) !== -1 && m.score2) hdr = m.score2;
+    var tm = /^(\d+)\//.exec(String(hdr || g.total || ''));
+    if (!tm) return null;
+    var total = parseInt(tm[1], 10);
+    var batRuns = 0;
+    (g.batting || []).forEach(function (b) { batRuns += parseInt(b.runs || '0', 10); });
+    var extras = total - batRuns;
+    if (extras <= 0) return { total: 0, parts: [] };
+    var w = 0, nb = 0, b = 0, lb = 0;
+    (m.commentary || []).forEach(function (cb) {
+      var s = String(cb.short || '').toLowerCase();
+      if (s.indexOf('wide') !== -1) w += parseInt(cb.runs || '0', 10) || 1;
+      else if (s.indexOf('no ball') !== -1) nb += parseInt(cb.runs || '0', 10) || 1;
+      else if (s.indexOf('leg bye') !== -1) lb += parseInt(cb.runs || '0', 10) || 0;
+      else if (s.indexOf('bye') !== -1) b += parseInt(cb.runs || '0', 10) || 0;
+    });
+    var parts = [];
+    if (b) parts.push('b ' + b);
+    if (lb) parts.push('lb ' + lb);
+    if (w) parts.push('w ' + w);
+    if (nb) parts.push('nb ' + nb);
+    return { total: extras, parts: parts };
+  }
+
+  /* One ball chip: W (red), 6 (green), 4 (blue), wide "1w", no-ball
+     "1nb", a run, or a dot. */
+  function ballChip(t) {
+    var s = String(t);
+    if (s === 'W') return '<span class="slp-ball slp-ball-w">W</span>';
+    if (s === '6') return '<span class="slp-ball slp-ball-6">6</span>';
+    if (s === '4') return '<span class="slp-ball slp-ball-4">4</span>';
+    if (s === '0') return '<span class="slp-ball">&bull;</span>';
+    return '<span class="slp-ball">' + esc(s) + '</span>';
+  }
+
+  function oversChipsHtml(overs) {
+    if (!overs || !overs.length) return '';
+    var html = '<h3>Recent overs</h3>';
+    overs.forEach(function (o) {
+      var toks = (o.tokens || []).map(ballChip).join('');
+      html += '<p><b>' + esc(o.label || '') + ':</b> ' + toks + ' <span>&middot; ' + esc(String(o.runs)) + '/' + esc(String(o.wickets)) + (o.bowler ? ' &middot; ' + esc(o.bowler) : '') + '</span></p>';
+    });
+    return html;
+  }
+
+  /* Match Centre: the most recent balls, most recent first, with the
+     ball label, the feed's short text and the dismissal line on a
+     wicket. Limited to the last 12 balls so the Live tab stays short. */
+  function matchCentreHtml(m, limit) {
+    var balls = m.commentary || [];
+    if (!balls.length) return '';
+    var rows = balls.slice(0, limit || 12).map(function (b) {
+      var chip = '';
+      var dism = String(b.dismissal || '').trim();
+      if (dism) chip = ballChip('W');
+      else if (String(b.short || '').toLowerCase().indexOf('wide') !== -1) chip = ballChip((parseInt(b.runs || '0', 10) || 1) + 'w');
+      else if (String(b.short || '').toLowerCase().indexOf('no ball') !== -1) chip = ballChip((parseInt(b.runs || '0', 10) || 1) + 'nb');
+      else chip = ballChip(String(b.runs == null ? '0' : b.runs));
+      var line = '<b>' + esc(b.over || '') + '</b> ' + chip + ' ' + esc(b.short || b.text || '');
+      if (dism) line += '<br><span>' + esc(dism) + '</span>';
+      return '<p>' + line + '</p>';
+    }).join('');
+    return '<h3>Match Centre</h3>' + rows +
+      '<p><a href="#commentary" data-slp-goto="commentary">Read Full Commentary &rsaquo;</a></p>';
+  }
+
+  /* Merge new balls into the baked Commentary tab: prepend only the balls
+     that are not already on the page (keyed by over + short text). The
+     feed's commentary is a rolling window, so replacing the whole list
+     would drop early balls. New balls go in most-recent-first order. */
+  function mergeCommentary(m, container) {
+    var balls = m.commentary || [];
+    if (!balls.length) return;
+    var seen = {};
+    var ps = container.querySelectorAll('[data-ball]');
+    for (var i = 0; i < ps.length; i++) seen[ps[i].getAttribute('data-ball')] = true;
+    var h3 = container.querySelector('h3');
+    if (!h3) return;
+    var fresh = [];
+    for (var j = balls.length - 1; j >= 0; j--) {
+      var b = balls[j];
+      var key = (b.over || '') + '|' + (b.short || '');
+      if (!seen[key]) fresh.push(b);
+    }
+    fresh.forEach(function (b) {
+      var dism = String(b.dismissal || '').trim();
+      var chip = '';
+      if (dism) chip = ballChip('W');
+      else if (String(b.short || '').toLowerCase().indexOf('wide') !== -1) chip = ballChip((parseInt(b.runs || '0', 10) || 1) + 'w');
+      else if (String(b.short || '').toLowerCase().indexOf('no ball') !== -1) chip = ballChip((parseInt(b.runs || '0', 10) || 1) + 'nb');
+      else chip = ballChip(String(b.runs == null ? '0' : b.runs));
+      var p = document.createElement('p');
+      p.setAttribute('data-ball', (b.over || '') + '|' + (b.short || ''));
+      var line = '<b>' + esc(b.over || '') + '</b> ' + chip + ' ' + esc(b.text || b.short || '');
+      if (dism) line += '<br><span>' + esc(dism) + '</span>';
+      p.innerHTML = line;
+      h3.parentNode.insertBefore(p, h3.nextSibling);
+    });
+  }
+
   /* Live tab body, in the baked scorecard's own markup (.t-nums,
      .table-scroll, h3). What the feed does NOT carry is omitted, not
      faked: no career columns (Mat/Runs/HS/Ave, Mat/Wkts/BBI/Ave), no
      "This bowler" / "Last 10 ov" / "This spell" / 0s-4s-6s columns,
-     no wagon wheel or pitch maps (no data), no commentary feed. */
+     no wagon wheel or pitch maps (no data). */
   function liveTabHtml(m, fetchedAt) {
     var live = m.live || {};
     var bats = live.batters || [];
-    var bowls = live.bowlers || [];
-    var overs = live.recentOvers || [];
+    var bowls = bowlersForLive(m);
+    var overs = live.recentOvers || m.overTimeline || [];
     if (m.status === 'upcoming' || (!bats.length && !bowls.length && !overs.length)) {
       return '<p class="slp-live-note">Match yet to begin. Live updates appear here once the match starts.</p>';
     }
@@ -217,11 +445,12 @@
     if (m.score2) scoreBits.push(esc(m.team2 || '') + ' ' + esc(m.score2) + (m.overs2 ? ' (' + esc(m.overs2) + ' ov)' : ''));
     if (scoreBits.length) html += '<p><strong>' + scoreBits.join(' &middot; ') + '</strong></p>';
     var meta = [];
-    if (crr) meta.push('CRR ' + esc(crr));
+    if (crr) meta.push('Current RR: ' + esc(crr));
     if (live.lastOver) meta.push('Last over: ' + esc(live.lastOver));
+    if (m.toss) meta.push(esc(m.toss));
     if (meta.length) html += '<p>' + meta.join(' &middot; ') + '</p>';
     if (bats.length) {
-      html += '<h3>Current batters</h3><div class="table-scroll"><table class="t-nums"><thead><tr><th>Batter</th><th>R</th><th>B</th><th>4s</th><th>6s</th><th>SR</th></tr></thead><tbody>';
+      html += '<h3>Batters</h3><div class="table-scroll"><table class="t-nums"><thead><tr><th>Batter</th><th>R</th><th>B</th><th>4s</th><th>6s</th><th>SR</th></tr></thead><tbody>';
       html += bats.map(function (b) {
         return '<tr><td>' + esc(b.name) + (b.striker ? ' *' : '') + '</td><td>' + esc(b.runs) + '</td><td>' + esc(b.balls) + '</td><td>' + esc(b.fours == null ? '' : b.fours) + '</td><td>' + esc(b.sixes == null ? '' : b.sixes) + '</td><td>' + esc(b.sr == null ? '' : b.sr) + '</td></tr>';
       }).join('');
@@ -232,47 +461,58 @@
       }
     }
     if (bowls.length) {
-      html += '<h3>Current bowlers</h3><div class="table-scroll"><table class="t-nums"><thead><tr><th>Bowler</th><th>O</th><th>M</th><th>R</th><th>W</th><th>Econ</th></tr></thead><tbody>';
+      html += '<h3>Bowlers</h3><div class="table-scroll"><table class="t-nums"><thead><tr><th>Bowler</th><th>O</th><th>M</th><th>R</th><th>W</th><th>Econ</th></tr></thead><tbody>';
       html += bowls.map(function (b) {
         return '<tr><td>' + esc(b.name) + (b.current ? ' *' : '') + '</td><td>' + esc(b.overs == null ? '' : b.overs) + '</td><td>' + esc(b.maidens == null ? '' : b.maidens) + '</td><td>' + esc(b.runs) + '</td><td>' + esc(b.wickets) + '</td><td>' + esc(b.econ == null ? '' : b.econ) + '</td></tr>';
       }).join('');
       html += '</tbody></table></div><p class="note">* At the crease / bowling now.</p>';
     }
-    if (live.lastWicket) {
-      var lw = live.lastWicket;
-      html += '<p><b>Last wicket:</b> ' + esc(lw.name) + ' ' + esc(lw.runs) + ' (' + esc(lw.balls) + ') — ' + esc(lw.dismissal || '') + (lw.over ? ', over ' + esc(lw.over) : '') + '</p>';
+    var lw = lastWicketForLive(m);
+    if (lw) {
+      html += '<p><b>Last wicket:</b> ' + esc(lw.name) + ' ' + esc(lw.runs) + ' (' + esc(lw.balls) + ') — ' + esc(lw.dismissal || '') + (lw.fow ? ', ' + esc(lw.fow) : '') + (lw.over ? ' (' + esc(lw.over) + ' ov)' : '') + '</p>';
     }
-    if (overs.length) {
-      html += '<h3>Recent overs</h3>';
-      overs.forEach(function (o) {
-        var toks = (o.tokens || []).map(function (t) {
-          var w = String(t) === 'W';
-          return '<span class="slp-ball' + (w ? ' slp-ball-w' : '') + '">' + esc(w ? 'W' : (String(t) === '0' ? '•' : t)) + '</span>';
-        }).join('');
-        html += '<p><b>' + esc(o.label || '') + ':</b> ' + toks + ' <span>&middot; ' + esc(String(o.runs)) + '/' + esc(String(o.wickets)) + (o.bowler ? ' &middot; ' + esc(o.bowler) : '') + '</span></p>';
-      });
-    }
+    html += oversChipsHtml(overs);
+    html += matchCentreHtml(m, 12);
     var upd = fmtUpdated(fetchedAt);
-    html += '<p class="note">Live score' + (upd ? ' — ' + upd : '') + '. The full scorecard appears here after the match.</p>';
+    html += '<p class="note">Live score' + (upd ? ' — ' + upd : '') + '. The full scorecard is on the Scorecard tab.</p>';
     return html;
   }
 
-  /* Live innings tables in the baked scorecard's own markup. The feed
-     carries no wides/no-balls or extras, so those columns are omitted
-     rather than invented — the bake adds the full table afterwards. */
+  /* Scorecard tab: live batting/bowling tables in the baked scorecard's
+     own markup, plus extras, total and fall of wickets — all derived
+     from the feed, never invented. */
   function tablesHtml(m, fetchedAt) {
     var inns = (m.scorecard && m.scorecard.innings) || [];
     if (!inns.length) return '<p>Match in progress — the scorecard will appear here shortly.</p>';
     var html = '';
+    var fow = fowFromCommentary(m);
     inns.forEach(function (g) {
-      html += '<h3>' + esc(g.team) + ' — ' + esc(g.total || '') + (g.overs ? ' (' + esc(g.overs) + ' ov)' : '') + '</h3>';
-      if (g.batting && g.batting.length) {
+      var hasBat = (g.batting || []).length > 0;
+      var hasBowl = (g.bowling || []).length > 0;
+      if (!hasBat && !hasBowl) return;
+      var team = String(g.team || '');
+      var hdr = null;
+      if (team && m.team1 && team.indexOf(m.team1) !== -1 && m.score1) hdr = [m.score1, m.overs1];
+      else if (team && m.team2 && team.indexOf(m.team2) !== -1 && m.score2) hdr = [m.score2, m.overs2];
+      var total = hdr ? hdr[0] : (g.total || '');
+      var overs = hdr ? hdr[1] : (g.overs || '');
+      html += '<h3>' + esc(team) + ' — ' + esc(total) + (overs ? ' (' + esc(overs) + ' ov)' : '') + '</h3>';
+      if (hasBat) {
         html += '<div class="table-scroll"><table class="t-nums"><thead><tr><th>Batter</th><th>Dismissal</th><th>R</th><th>B</th><th>4s</th><th>6s</th><th>SR</th></tr></thead><tbody>';
         html += batRows(g.batting);
         html += '</tbody></table></div>';
-        html += '<p><b>Total:</b> ' + esc(g.total || '') + (g.overs ? ' (' + esc(g.overs) + ' overs)' : '') + '</p>';
+        var ex = extrasFromFeed(m);
+        if (ex && ex.total > 0) {
+          html += '<p><b>Extras:</b> ' + ex.total + (ex.parts.length ? ' (' + ex.parts.join(', ') + ')' : '') + '</p>';
+        }
+        html += '<p><b>Total:</b> ' + esc(total) + (overs ? ' (' + esc(overs) + ' overs)' : '') + '</p>';
+        if (fow.length) {
+          html += '<p><b>Fall of wickets:</b> ' + fow.map(function (w) {
+            return esc(w.score) + ' (' + esc(w.name) + ', ' + esc(w.over) + ' ov)';
+          }).join(', ') + '</p>';
+        }
       }
-      if (g.bowling && g.bowling.length) {
+      if (hasBowl) {
         html += '<div class="table-scroll"><table class="t-nums"><thead><tr><th>Bowler</th><th>O</th><th>M</th><th>R</th><th>W</th><th>Econ</th></tr></thead><tbody>';
         html += bowlRows(g.bowling);
         html += '</tbody></table></div>';
@@ -283,6 +523,87 @@
     });
     var upd = fmtUpdated(fetchedAt);
     html += '<p class="note">Live score' + (upd ? ' — ' + upd : '') + '. The full scorecard appears here after the match.</p>';
+    return html;
+  }
+
+  /* Commentary tab: the full ball-by-ball, most recent first. */
+  function commentaryHtml(m, fetchedAt) {
+    var balls = m.commentary || [];
+    if (!balls.length) return '<p class="slp-live-note">No ball-by-ball commentary yet. It appears here once the match starts.</p>';
+    var html = '<h3>Ball by ball</h3>';
+    html += balls.map(function (b) {
+      var dism = String(b.dismissal || '').trim();
+      var chip = '';
+      if (dism) chip = ballChip('W');
+      else if (String(b.short || '').toLowerCase().indexOf('wide') !== -1) chip = ballChip((parseInt(b.runs || '0', 10) || 1) + 'w');
+      else if (String(b.short || '').toLowerCase().indexOf('no ball') !== -1) chip = ballChip((parseInt(b.runs || '0', 10) || 1) + 'nb');
+      else chip = ballChip(String(b.runs == null ? '0' : b.runs));
+      var line = '<p><b>' + esc(b.over || '') + '</b> ' + chip + ' ' + esc(b.text || b.short || '');
+      if (dism) line += '<br><span>' + esc(dism) + '</span>';
+      return line + '</p>';
+    }).join('');
+    var upd = fmtUpdated(fetchedAt);
+    html += '<p class="note">Live commentary' + (upd ? ' — ' + upd : '') + '.</p>';
+    return html;
+  }
+
+  /* Overs tab: over-by-over summary with ball chips. */
+  function oversHtml(m, fetchedAt) {
+    var overs = (m.live && m.live.recentOvers) || m.overTimeline || [];
+    if (!overs.length) return '<p class="slp-live-note">No overs yet. The over-by-over summary appears here once the match starts.</p>';
+    var html = '<h3>Over by over</h3>';
+    html += overs.map(function (o) {
+      var toks = (o.tokens || []).map(ballChip).join('');
+      return '<p><b>' + esc(o.label || '') + ':</b> ' + toks + ' <span>&middot; ' + esc(String(o.runs)) + '/' + esc(String(o.wickets)) + (o.bowler ? ' &middot; ' + esc(o.bowler) : '') + '</span></p>';
+    }).join('');
+    var upd = fmtUpdated(fetchedAt);
+    html += '<p class="note">Live overs' + (upd ? ' — ' + upd : '') + '.</p>';
+    return html;
+  }
+
+  /* Live Stats tab: run rate, partnership, last five balls, projected
+     score and powerplay — all arithmetic on feed data, never invented. */
+  function statsHtml(m, fetchedAt) {
+    var live = m.live || {};
+    var bats = live.batters || [];
+    if (m.status === 'upcoming' || !bats.length) {
+      return '<p class="slp-live-note">Live stats appear here once the match starts.</p>';
+    }
+    var crr = crrFromInnings(m);
+    var g = battingInnings(m);
+    var balls = g ? ballsFromOvers(g.overs) : 0;
+    var html = '<h3>Live stats</h3>';
+    var rows = [];
+    if (crr) rows.push(['Current run rate', crr]);
+    var pship = partnershipFromLive(live);
+    if (pship) rows.push(['Partnership', pship.runs + ' runs (' + pship.balls + ' balls)']);
+    var allBalls = (m.commentary || []).slice().reverse();
+    if (allBalls.length) {
+      var last5 = allBalls.slice(-5).map(function (b) {
+        var dism = String(b.dismissal || '').trim();
+        if (dism) return 'W';
+        if (String(b.short || '').toLowerCase().indexOf('wide') !== -1) return (parseInt(b.runs || '0', 10) || 1) + 'w';
+        if (String(b.short || '').toLowerCase().indexOf('no ball') !== -1) return (parseInt(b.runs || '0', 10) || 1) + 'nb';
+        return String(b.runs == null ? '0' : b.runs);
+      });
+      rows.push(['Last 5 balls', last5.map(function (t) { return t === '0' ? '•' : t; }).join(' ')]);
+    }
+    if (crr && balls > 0 && balls < 120) {
+      var rem = 120 - balls;
+      var proj = Math.round(parseFloat(crr) * 20);
+      rows.push(['Projected score', proj + ' (at the current run rate, 20 overs)']);
+    }
+    if (balls > 0 && balls <= 36 && allBalls.length) {
+      var ppRuns = 0;
+      allBalls.slice(0, 36).forEach(function (b) { ppRuns += parseInt(b.runs || '0', 10); });
+      rows.push(['Powerplay', 'Mandatory, overs 0.1–6 — ' + ppRuns + ' runs so far']);
+    }
+    if (!rows.length) return '<p class="slp-live-note">Live stats appear here once the match starts.</p>';
+    html += '<div class="table-scroll"><table><tbody>' + rows.map(function (r) {
+      return '<tr><td>' + esc(r[0]) + '</td><td>' + esc(r[1]) + '</td></tr>';
+    }).join('') + '</tbody></table></div>';
+    var upd = fmtUpdated(fetchedAt);
+    html += '<p class="note">Live stats' + (upd ? ' — ' + upd : '') + '.</p>';
     return html;
   }
 
@@ -311,6 +632,19 @@
           chipEl.classList.add('slp-live-chip');
         }
       }
+      /* The live score block in the match header (ids set by the page):
+         team scores, toss and current run rate. */
+      var setText = function (id, txt) {
+        var el = document.getElementById(id);
+        if (el) el.textContent = txt;
+      };
+      if (m.status === 'live' || m.status === 'result') {
+        if (m.score2) setText('mh-score-bat', (m.team2 || '') + ' ' + m.score2 + (m.overs2 ? ' (' + m.overs2 + ' ov)' : ''));
+        if (m.score1) setText('mh-score-field', (m.team1 || '') + ' ' + m.score1 + (m.overs1 ? ' (' + m.overs1 + ' ov)' : ''));
+        if (m.toss) setText('mh-toss', m.toss);
+        var crr = crrFromInnings(m);
+        if (crr) setText('mh-crr', 'Current RR: ' + crr);
+      }
       if (!scoreLineEl) {
         scoreLineEl = document.createElement('p');
         scoreLineEl.className = 'slp-live-score';
@@ -327,15 +661,18 @@
     var sc = document.getElementById('scorecard');
     if (sc) {
       if (!scorecardEl) {
-        var ph = null;
-        var ps = sc.querySelectorAll('p');
-        for (var i = 0; i < ps.length; i++) {
-          if (/Match yet to begin/i.test(ps[i].textContent || '')) { ph = ps[i]; break; }
-        }
-        if (ph) {
-          scorecardEl = document.createElement('div');
-          scorecardEl.setAttribute('data-slp-live-scorecard', 'true');
-          ph.parentNode.replaceChild(scorecardEl, ph);
+        scorecardEl = sc.querySelector('[data-slp-live-scorecard]');
+        if (!scorecardEl) {
+          var ph = null;
+          var ps = sc.querySelectorAll('p');
+          for (var i = 0; i < ps.length; i++) {
+            if (/Match yet to begin/i.test(ps[i].textContent || '')) { ph = ps[i]; break; }
+          }
+          if (ph) {
+            scorecardEl = document.createElement('div');
+            scorecardEl.setAttribute('data-slp-live-scorecard', 'true');
+            ph.parentNode.replaceChild(scorecardEl, ph);
+          }
         }
       }
       if (scorecardEl) scorecardEl.innerHTML = tablesHtml(m, fetchedAt);
@@ -348,15 +685,74 @@
     if (lv) {
       try {
         if (!liveTabEl) {
-          var note = lv.querySelector('.slp-live-note');
-          if (note) {
-            liveTabEl = document.createElement('div');
-            liveTabEl.setAttribute('data-slp-live-tab', 'true');
-            note.parentNode.replaceChild(liveTabEl, note);
+          liveTabEl = lv.querySelector('[data-slp-live-tab]');
+          if (!liveTabEl) {
+            var note = lv.querySelector('.slp-live-note');
+            if (note) {
+              liveTabEl = document.createElement('div');
+              liveTabEl.setAttribute('data-slp-live-tab', 'true');
+              note.parentNode.replaceChild(liveTabEl, note);
+            }
           }
         }
         if (liveTabEl) liveTabEl.innerHTML = liveTabHtml(m, fetchedAt);
       } catch (e) { /* live tab must never break match-head/scorecard */ }
+    }
+    /* Commentary tab. */
+    var cm = document.getElementById('commentary');
+    if (cm) {
+      try {
+        if (!commentaryEl) {
+          commentaryEl = cm.querySelector('[data-slp-live-commentary]');
+          if (!commentaryEl) {
+            var cnote = cm.querySelector('.slp-live-note');
+            if (cnote) {
+              commentaryEl = document.createElement('div');
+              commentaryEl.setAttribute('data-slp-live-commentary', 'true');
+              cnote.parentNode.replaceChild(commentaryEl, cnote);
+            }
+          }
+        }
+        /* Merge only: prepend new balls, never replace the baked list
+           (the feed's commentary is a rolling window). */
+        if (commentaryEl) mergeCommentary(m, commentaryEl);
+      } catch (e) { /* commentary must never break the rest */ }
+    }
+    /* Overs tab. */
+    var ov = document.getElementById('overs');
+    if (ov) {
+      try {
+        if (!oversEl) {
+          oversEl = ov.querySelector('[data-slp-live-overs]');
+          if (!oversEl) {
+            var onote = ov.querySelector('.slp-live-note');
+            if (onote) {
+              oversEl = document.createElement('div');
+              oversEl.setAttribute('data-slp-live-overs', 'true');
+              onote.parentNode.replaceChild(oversEl, onote);
+            }
+          }
+        }
+        if (oversEl) oversEl.innerHTML = oversHtml(m, fetchedAt);
+      } catch (e) { /* overs must never break the rest */ }
+    }
+    /* Live Stats tab. */
+    var st = document.getElementById('livestats');
+    if (st) {
+      try {
+        if (!statsEl) {
+          statsEl = st.querySelector('[data-slp-live-stats]');
+          if (!statsEl) {
+            var snote = st.querySelector('.slp-live-note');
+            if (snote) {
+              statsEl = document.createElement('div');
+              statsEl.setAttribute('data-slp-live-stats', 'true');
+              snote.parentNode.replaceChild(statsEl, snote);
+            }
+          }
+        }
+        if (statsEl) statsEl.innerHTML = statsHtml(m, fetchedAt);
+      } catch (e) { /* stats must never break the rest */ }
     }
   }
 
@@ -421,12 +817,18 @@
     document.addEventListener('visibilitychange', function () { if (!document.hidden) tick(); });
   }
 
-  /* Test hook: lets a harness call the pure Live-tab renderer with a
-     fake feed match. Harmless in production. */
+  /* Test hook: lets a harness call the pure renderers with a fake feed
+     match. Harmless in production. */
   window.sialtvLiveTab = {
     liveTabHtml: liveTabHtml,
+    tablesHtml: tablesHtml,
+    commentaryHtml: commentaryHtml,
+    oversHtml: oversHtml,
+    statsHtml: statsHtml,
     crrFromInnings: crrFromInnings,
-    partnershipFromLive: partnershipFromLive
+    partnershipFromLive: partnershipFromLive,
+    fowFromCommentary: fowFromCommentary,
+    extrasFromFeed: extrasFromFeed
   };
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);

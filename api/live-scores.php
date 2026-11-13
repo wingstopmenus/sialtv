@@ -743,15 +743,9 @@ function sialtv_sync_totals(array $innings, string $name1, string $score1, strin
         if (!is_array($pair) || !preg_match('/^(\d+)\/(\d+)/', (string) $pair[0], $sm)) {
             continue;
         }
-        $runs = 0;
-        $wkts = 0;
-        foreach (($inn['batting'] ?? []) as $b) {
-            $runs += (int) ($b['runs'] ?? 0);
-            if (strtolower((string) ($b['dismissal'] ?? '')) !== 'not out') {
-                $wkts++;
-            }
-        }
-        $innings[$i]['total'] = $runs . '/' . $wkts;
+        /* The header score is authoritative — it includes extras
+           (wides/no-balls), which the batting sum misses. */
+        $innings[$i]['total'] = (string) $pair[0];
         if ($pair[1] !== '') {
             $innings[$i]['overs'] = $pair[1];
         }
@@ -839,6 +833,14 @@ function sialtv_map_live($headerComp, array $innings, array $summary = null): ?a
                     }
                 }
             }
+            /* The commentary bowler also carries the figures directly
+               (overs/maidens/conceded/wickets) — the linescores above
+               are empty for live balls, so fill from those fields. */
+            foreach (['overs', 'maidens', 'conceded', 'wickets'] as $k) {
+                if (($nums[$k] ?? '') === '' && isset($bow[$k])) {
+                    $nums[$k] = (string) $bow[$k];
+                }
+            }
             $bowlers[] = [
                 'name' => $bname,
                 'overs' => (string) ($nums['overs'] ?? ''),
@@ -867,14 +869,22 @@ function sialtv_map_live($headerComp, array $innings, array $summary = null): ?a
             }
             /* One token per ball: W for a wicket, otherwise the runs
                off that ball. Never prose — the feed's ball text can be
-               a whole sentence. */
+               a whole sentence. The runs live in 'scoreValue' (the
+               feed has no 'runs' on a ball); a wide is "1w", a
+               no-ball is "1nb". */
+            $ballRuns = (int) ($b2['scoreValue'] ?? $b2['runs'] ?? 0);
+            $ballShort = strtolower((string) ($b2['shortText'] ?? ''));
             if (!empty($b2['dismissal']['dismissal'])) {
                 $tokens[] = 'W';
                 $wkts++;
+            } elseif (strpos($ballShort, 'wide') !== false) {
+                $tokens[] = $ballRuns . 'w';
+            } elseif (strpos($ballShort, 'no ball') !== false) {
+                $tokens[] = $ballRuns . 'nb';
             } else {
-                $tokens[] = (string) ((int) ($b2['runs'] ?? 0));
+                $tokens[] = (string) $ballRuns;
             }
-            $runs += (int) ($b2['runs'] ?? 0);
+            $runs += $ballRuns;
         }
         $recentOvers[] = [
             'label' => 'Over ' . $overNo,
@@ -903,16 +913,24 @@ function sialtv_map_live($headerComp, array $innings, array $summary = null): ?a
         'lastWicket' => null,
         'recentOvers' => $recentOvers,
     ];
-    if (is_array($last) && !empty($last['dismissal']['dismissal'])) {
-        $d = $last['dismissal'];
-        $out['lastWicket'] = [
-            'name' => (string) ($last['batsman']['athlete']['displayName'] ?? ''),
-            'runs' => (string) ($last['batsman']['runs'] ?? ''),
-            'balls' => (string) ($last['batsman']['ballsFaced'] ?? ''),
-            'dismissal' => (string) ($d['text'] ?? $d['dismissal'] ?? ''),
-            'fow' => '',
-            'over' => (string) ($last['over']['number'] ?? ''),
-        ];
+    /* The last wicket is the most recent ball with a dismissal — not
+       necessarily the latest ball (the latest ball is usually a dot). */
+    if (is_array($last)) {
+        foreach ($balls as $wb) {
+            if (!is_array($wb) || empty($wb['dismissal']['dismissal'])) {
+                continue;
+            }
+            $d = $wb['dismissal'];
+            $out['lastWicket'] = [
+                'name' => (string) ($wb['batsman']['athlete']['displayName'] ?? ''),
+                'runs' => (string) ($wb['batsman']['runs'] ?? ''),
+                'balls' => (string) ($wb['batsman']['ballsFaced'] ?? ''),
+                'dismissal' => (string) ($d['text'] ?? $d['dismissal'] ?? ''),
+                'fow' => (string) ($wb['homeScore'] ?? ''),
+                'over' => (string) ($wb['over']['actual'] ?? $wb['over']['number'] ?? ''),
+            ];
+            break;
+        }
     }
     return $out;
 }
@@ -1008,6 +1026,32 @@ function sialtv_normalise_event(array $event, array $comp, ?array $summary, stri
         $innings = sialtv_sync_totals($innings, $name1, $score1, $overs1, $name2, $score2, $overs2);
         $live = sialtv_map_live($headerComp, $innings, $summary);
         $overs = $live['recentOvers'] ?? [];
+        /* Ball-by-ball commentary from the feed (most recent first),
+           for the match page's Commentary tab. */
+        if (is_array($headerComp) && is_array($headerComp['commentaries'] ?? null)) {
+            $cballs = [];
+            foreach ($headerComp['commentaries'] as $cb) {
+                if (is_array($cb)) {
+                    $cballs[] = $cb;
+                }
+            }
+            usort($cballs, static fn($a, $b) => ((int) ($b['sequence'] ?? 0)) <=> ((int) ($a['sequence'] ?? 0)));
+            foreach ($cballs as $cb) {
+                $ctext = trim((string) ($cb['text'] ?? ''));
+                if ($ctext === '') {
+                    $ctext = (string) ($cb['shortText'] ?? '');
+                }
+                $commentary[] = [
+                    'over' => (string) ($cb['over']['actual'] ?? ''),
+                    'short' => (string) ($cb['shortText'] ?? ''),
+                    'text' => $ctext,
+                    'runs' => (int) ($cb['scoreValue'] ?? 0),
+                    'dismissal' => (string) ($cb['dismissal']['text'] ?? ''),
+                    'bowler' => (string) ($cb['bowler']['athlete']['displayName'] ?? ''),
+                    'batsman' => (string) ($cb['batsman']['athlete']['displayName'] ?? ''),
+                ];
+            }
+        }
         if (is_array($headerComp)) {
             $hs = trim((string) ($headerComp['status']['summary'] ?? ''));
             if ($toss === '' && preg_match('/\btoss\b/i', $hs)) {

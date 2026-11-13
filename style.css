@@ -2282,3 +2282,27 @@ body.st-inner .st-strip .sc-links a { flex: none; }
   margin-right: 0.35rem;
   align-self: center;
 }
+
+/* M24 live match page (2026-11-13): live score block in the match header,
+   ball chips, worm chart. Scoped to body.st-inner so no other page changes. */
+body.st-inner .mh-live { margin: 1rem 0 0; padding: 1rem 1.1rem; background: var(--st-surface); border: 1px solid var(--st-line); border-radius: 0.9rem; }
+body.st-inner .mh-live-line { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem; margin: 0 0 0.55rem; font-size: 0.95rem; color: var(--st-ink-2); }
+body.st-inner .mh-live-badge { display: inline-flex; align-items: center; gap: 0.4rem; background: var(--st-rose); color: #fff; font-weight: 800; font-size: 0.8rem; letter-spacing: 0.04em; padding: 0.25rem 0.6rem; border-radius: 999px; }
+body.st-inner .mh-live-badge .live-dot { background: #fff; }
+body.st-inner .mh-live-nav { margin: 0 0 0.7rem; font-size: 0.9rem; }
+body.st-inner .mh-live-nav a { color: var(--st-ink-2); text-decoration: none; font-weight: 650; }
+body.st-inner .mh-live-nav a:hover { color: var(--st-rose); }
+body.st-inner .mh-live-team { margin: 0.15rem 0; font-size: 1.05rem; font-weight: 650; color: var(--st-ink); }
+body.st-inner .mh-live-team strong { font-weight: 800; }
+body.st-inner .mh-live-meta { margin: 0.55rem 0 0; font-size: 0.92rem; color: var(--st-ink-2); }
+body.st-inner .slp-live-chip { background: #c92a1e !important; border-color: #c92a1e !important; color: #fff !important; padding: 0.3rem 0.7rem; border-radius: 999px; font-weight: 800; font-size: 0.8rem; letter-spacing: 0.04em; }
+body.st-inner .slp-live-chip::before { display: none; }
+body.st-inner .slp-live-chip .live-dot { background: #fff; }
+/* Ball chips (baked HTML + live JS use the same classes). */
+body.st-inner .slp-ball { display: inline-block; min-width: 22px; text-align: center; padding: 2px 6px; margin: 0 3px 3px 0; border: 1px solid #e0e0e0; border-radius: 999px; font-weight: 700; font-size: 13px; }
+body.st-inner .slp-ball-w { background: #c92a1e; border-color: #c92a1e; color: #fff; }
+body.st-inner .slp-ball-6 { background: #0f5132; border-color: #0f5132; color: #fff; }
+body.st-inner .slp-ball-4 { background: #1d4ed8; border-color: #1d4ed8; color: #fff; }
+/* Worm chart in the sidebar. */
+body.st-inner .side-card svg { display: block; max-width: 100%; height: auto; }
+body.st-inner .side-card .note { margin-top: 0.5rem; }
