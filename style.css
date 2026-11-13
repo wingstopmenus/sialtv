@@ -1994,9 +1994,6 @@ body.st-inner.league-ilt20 .carousel-wrap { position: relative; }
 body.st-inner.league-ilt20 .car-btn { position: absolute; top: 50%; transform: translateY(-50%); border-radius: 50%; background: #fff; border: 1px solid var(--st-line); color: var(--st-ink); font-size: 1.125rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; box-shadow: var(--st-shadow-sm); z-index: 1; }
 body.st-inner.league-ilt20 .car-btn.prev { left: -8px; }
 body.st-inner.league-ilt20 .car-btn.next { right: -8px; }
-body.st-inner.league-ilt20 .fx-pills { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
-body.st-inner.league-ilt20 .fx-pill { display: inline-block; padding: 0.5625rem 1rem; border: 1px solid var(--st-line); border-radius: 999px; background: var(--st-surface); font-size: 0.875rem; font-weight: 700; color: var(--st-ink); cursor: pointer; text-decoration: none; }
-body.st-inner.league-ilt20 .fx-pill:hover { border-color: var(--st-rose-deep); color: var(--st-rose-deep); text-decoration: none; }
 /* .hub-hero-img uses the live rule (NPL hub redesign); not re-added. */
 /* .today-label uses the live rule (NPL player batch); not re-added. */
 
