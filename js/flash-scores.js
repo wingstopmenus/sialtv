@@ -164,6 +164,53 @@
     if (cards.length) root.innerHTML = cards.map(function (m) { return cardHtml(m, league); }).join('');
   }
 
+
+  /* Layout fix 6 (2026-11-13): keep the strip ordered LIVE -> UPCOMING ->
+     RESULTS after a feed update. A status flip (upcoming -> live, or live ->
+     result) changes a card's label; without a re-sort the flipped card would
+     stay in the wrong section. Stable sort: within a kind the baked order
+     (upcoming soonest-first, results newest-first) is preserved. Only moves
+     nodes when the order actually changed; scrollLeft resets to 0 only then. */
+  function kindRank(card) {
+    var lab = card.querySelector('.sc-label');
+    var t = (lab ? (lab.textContent || '') : '').trim().toLowerCase();
+    if (lab && (lab.classList.contains('live') || t.indexOf('live') === 0)) return 0;
+    if (lab && (lab.classList.contains('upcoming') || t.indexOf('upcoming') === 0)) return 1;
+    if (card.getAttribute('data-kind') === 'live') return 0;
+    if (card.getAttribute('data-kind') === 'upcoming') return 1;
+    return 2;
+  }
+  function reorderStripTracks(container) {
+    var strip = container && container.closest ? container.closest('.st-strip') : null;
+    var tracks = [];
+    if (strip) {
+      tracks = Array.prototype.slice.call(strip.querySelectorAll('.st-strip-track'));
+    } else if (container && container.classList && container.classList.contains('st-strip-track')) {
+      tracks = [container];
+    }
+    var moved = [];
+    tracks.forEach(function (track) {
+      var cards = Array.prototype.slice.call(track.querySelectorAll('.score-card'));
+      if (cards.length < 2) return;
+      var ranked = cards.map(function (c, i) { return { c: c, r: kindRank(c), i: i }; });
+      var sorted = ranked.slice().sort(function (a, b) {
+        return (a.r - b.r) || (a.i - b.i);
+      });
+      var changed = sorted.some(function (s, k) { return s.c !== cards[k]; });
+      if (!changed) return;
+      sorted.forEach(function (s) { track.appendChild(s.c); });
+      moved.push(track);
+    });
+    /* Reset the TRACK's scroll (the track is the scrollable element, not the
+       .st-strip-view wrapper) so the new first card (the live match) is
+       visible. Instant, not smooth, so the snap does not land mid-card. */
+    moved.forEach(function (track) {
+      if (track.scrollTo) track.scrollTo({ left: 0, behavior: 'instant' });
+      else track.scrollLeft = 0;
+    });
+    return moved.length > 0;
+  }
+
   function refreshCarousel(carousel, data) {
     var byNo = {};
     (data.matches || []).forEach(function (m) { byNo[m.matchNo] = m; });
@@ -215,6 +262,7 @@
       card.setAttribute('data-kind', m.status === 'result' ? 'result' : 'upcoming');
     });
     recountPills(carousel);
+    reorderStripTracks(carousel);
   }
 
   /* Match Coverage panels (homepage): a panel carries
