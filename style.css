@@ -2306,3 +2306,82 @@ body.st-inner .slp-ball-4 { background: #1d4ed8; border-color: #1d4ed8; color: #
 /* Worm chart in the sidebar. */
 body.st-inner .side-card svg { display: block; max-width: 100%; height: auto; }
 body.st-inner .side-card .note { margin-top: 0.5rem; }
+
+/* ============ NPL hub beautify — 2026-11-13 ============
+   Sequence SET (already correct in repo, not changed here):
+   masthead -> strip -> series-nav -> page-head -> Match Coverage.
+   Section-by-section polish, CSS only, hub-scoped (body.league-npl).
+   No facts, no headings, no order changed. */
+
+/* --- Page-head: tighter rhythm, tighter H1 tracking. --- */
+body.league-npl .page-head { padding: 2rem 0 1.25rem; }
+body.league-npl .page-head h1 { letter-spacing: -0.03em; }
+body.league-npl .page-head .updated { margin-top: 0.25rem; color: var(--st-mute); font-size: 0.88rem; }
+
+/* --- Match Coverage: rose top accent on the live card; cleaner footer row. --- */
+body.league-npl .hub-coverage .today { border-top: 3px solid var(--st-rose); padding: 1.4rem 1.6rem; }
+body.league-npl .hub-coverage .today .lead-head { line-height: 1.25; margin-bottom: 0.6rem; }
+body.league-npl .hub-coverage .today .lead-score,
+body.league-npl .hub-coverage .today .lead-stand { line-height: 1.55; }
+body.league-npl .hub-coverage .today .lead-links { border-top: 1px solid var(--st-line); padding-top: 0.75rem; margin-top: 0.75rem; }
+body.league-npl .hub-coverage .note { margin-top: 0.75rem; }
+
+/* --- Scores: roomier tabs; vertically centre the result card (no empty bottom). --- */
+body.league-npl .scores-sec .hub-tabs { gap: 0.5rem; margin-bottom: 1rem; }
+body.league-npl .scores-sec .hub-tab { padding: 0.55rem 0.95rem; }
+body.league-npl .scores-sec .mc-panel > .score-card { display: flex; flex-direction: column; justify-content: center; }
+body.league-npl .scores-sec .mc-panel .mc-links a { padding: 0.65rem 0.9rem; }
+
+/* --- Hub grid: fixtures/results as clean list rows (not stacked cards) — balances the 3 columns. --- */
+body.league-npl .hub-grid #fxFixtures li,
+body.league-npl .hub-grid #fxResults li {
+  background: transparent; border: 0; border-radius: 0; box-shadow: none;
+  padding: 0.7rem 0; margin-bottom: 0; border-top: 1px solid var(--st-line);
+}
+body.league-npl .hub-grid #fxFixtures li:first-child,
+body.league-npl .hub-grid #fxResults li:first-child { border-top: 0; }
+body.league-npl .hub-grid #fxFixtures li > a,
+body.league-npl .hub-grid #fxResults li > a { display: block; }
+body.league-npl .hub-grid #fxFixtures .fx-team,
+body.league-npl .hub-grid #fxResults .fx-team { display: inline-flex; margin: 0.15rem 0; }
+body.league-npl .hub-grid #fxFixtures .fx-team + .fx-team::before,
+body.league-npl .hub-grid #fxResults .fx-team + .fx-team::before {
+  content: "vs"; color: var(--st-mute); font-weight: 600; margin-right: 0.45rem;
+}
+
+/* --- Side cards: consistent heading + row rhythm. --- */
+body.league-npl .hub-grid .side-card h3 { font-size: 1.05rem; font-weight: 800; letter-spacing: -0.01em; margin: 0 0 0.75rem; }
+body.league-npl .hub-grid .side-card li { padding: 0.8rem 0; }
+body.league-npl .hub-grid .side-card li:has(.tp-main) { gap: 0.9rem; }
+body.league-npl .hub-grid .side-card .tp-fig { font-size: 1.5rem; }
+
+/* --- Points table (centre): roomier cells. --- */
+body.league-npl .hub-centre .t-nums th,
+body.league-npl .hub-centre .t-nums td { padding: 0.55rem 0.5rem; }
+
+/* --- Records: tighten the two stat tables so every column (incl. 50s) fits; season-records list breathing room. --- */
+body.league-npl #records .t-nums { font-size: 0.85rem; }
+body.league-npl #records .t-nums th,
+body.league-npl #records .t-nums td { padding: 0.4rem 0.3rem; }
+body.league-npl #records > ul li { line-height: 1.6; margin-bottom: 0.5rem; }
+body.league-npl #records .records-col h3 { letter-spacing: -0.01em; }
+
+/* --- Teams: readable squad lists, gentle hover lift. --- */
+body.league-npl #squads .team { padding: 1.25rem 1.4rem; transition: transform 0.15s ease, box-shadow 0.15s ease; }
+body.league-npl #squads .team:hover { transform: translateY(-2px); box-shadow: 0 14px 30px -14px rgba(16,12,42,0.22); }
+body.league-npl #squads .team-body p { line-height: 1.65; font-size: 0.95rem; }
+
+/* --- Playoffs: clearer boxes. --- */
+body.league-npl #playoffs li { padding: 1rem 1.1rem; }
+body.league-npl #playoffs li b { font-size: 1rem; }
+
+/* --- Venue / Where to Watch: roomier prose + table cells. --- */
+body.league-npl #venue p { line-height: 1.7; }
+body.league-npl #where-to-watch .t-nums th,
+body.league-npl #where-to-watch .t-nums td { padding: 0.65rem 0.75rem; }
+
+/* --- FAQ: roomier items, hover on the question. --- */
+body.league-npl #faq .faq-item { padding: 1rem 1.2rem; }
+body.league-npl #faq .faq-item summary { font-size: 1rem; }
+body.league-npl #faq .faq-item summary:hover { color: var(--st-rose-deep); }
+body.league-npl #faq .faq-item p { line-height: 1.65; }
