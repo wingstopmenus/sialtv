@@ -2520,3 +2520,33 @@ body.hub-cricinfo #squads .team { min-width: 0; }
 @media (max-width: 640px) {
   body.hub-cricinfo .secnav-title { font-size: 1.05rem; }
 }
+
+/* ---------- NPL hub fixes2 — 2026-11-13 ---------- */
+/* Points table + Records tables: the site-wide base rule makes every table
+   display:block, so the inner table shrink-wraps to content (~235px) inside
+   a full-width element — the header visibly stops short of the card edge.
+   Restore real table layout on the hub so tables span the full width. */
+body.league-npl .hub3-right .table-scroll table.t-pts,
+body.league-npl #records .records-grid table.t-nums { display: table; width: 100%; }
+/* Records & Stats tables: card presentation, same facts. */
+body.league-npl #records .records-col { background: var(--st-surface); border: 1px solid var(--st-line); border-radius: var(--st-radius-sm); padding: 1rem 1.1rem; box-shadow: var(--st-shadow-sm); }
+body.league-npl #records .records-col h3 { margin: 0 0 0.6rem; font-size: 1.05rem; }
+body.league-npl #records .records-grid .t-nums tbody tr:hover { background: var(--st-bg-soft); }
+body.league-npl #records .records-grid .t-nums td:nth-child(4) { font-weight: 800; }
+/* Season records: styled cards, not a plain bullet list. */
+body.league-npl #records .season-records { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.75rem; margin: 0 0 0.75rem; }
+@media (max-width: 700px) { body.league-npl #records .season-records { grid-template-columns: 1fr; } }
+body.league-npl #records .sr-item { background: var(--st-surface); border: 1px solid var(--st-line); border-left: 3px solid var(--st-rose); border-radius: 0.7rem; padding: 0.8rem 1rem; }
+body.league-npl #records .sr-label { display: block; font-size: 0.78rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; color: var(--st-rose-deep); margin-bottom: 0.25rem; }
+body.league-npl #records .sr-value { display: block; line-height: 1.5; }
+/* FAQ: numbered accordion cards with a chevron. Same questions/answers. */
+body.league-npl #faq { counter-reset: faq; }
+body.league-npl #faq .faq-item { position: relative; padding: 1rem 1.2rem 1rem 3.25rem; }
+body.league-npl #faq .faq-item::before { counter-increment: faq; content: counter(faq); position: absolute; left: 1.1rem; top: 0.95rem; width: 1.6rem; height: 1.6rem; border-radius: 50%; background: var(--st-rose); color: #fff; font-size: 0.85rem; font-weight: 800; display: flex; align-items: center; justify-content: center; }
+body.league-npl #faq .faq-item summary { list-style: none; padding-right: 1.5rem; }
+body.league-npl #faq .faq-item summary::-webkit-details-marker { display: none; }
+body.league-npl #faq .faq-item summary::after { content: "+"; position: absolute; right: 1.1rem; top: 0.9rem; font-size: 1.25rem; font-weight: 700; color: var(--st-rose-deep); line-height: 1; }
+body.league-npl #faq .faq-item[open] summary::after { content: "\2013"; }
+body.league-npl #faq .faq-item[open] { border-color: var(--st-rose); }
+/* Section spacing: ~20px between the hub's full-width sections. */
+body.league-npl #records, body.league-npl #squads, body.league-npl #venue, body.league-npl #where-to-watch, body.league-npl #faq { margin-bottom: 1.25rem; }

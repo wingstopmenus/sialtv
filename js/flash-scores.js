@@ -713,8 +713,57 @@
     });
   }
 
+
+  /* Fixtures / Results segmented tabs (hub #fxFixtures / #fxResults):
+     the buttons shipped with no click handler at all, so Results never
+     showed. Toggle aria-pressed + the lists' hidden state. */
+  function initFxSeg() {
+    var btns = document.querySelectorAll('.fx-seg-btn[data-fx]');
+    if (!btns.length) return;
+    btns.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var which = btn.getAttribute('data-fx');
+        btns.forEach(function (b) { b.setAttribute('aria-pressed', b === btn ? 'true' : 'false'); });
+        var fx = document.getElementById('fxFixtures');
+        var res = document.getElementById('fxResults');
+        if (fx) fx.hidden = which !== 'fixtures';
+        if (res) res.hidden = which !== 'results';
+      });
+    });
+  }
+
+  /* Feed fetch with a short retry: one transient failure (slow ESPN
+     upstream, edge hiccup) used to swallow the whole 30s poll silently
+     — strip + fixture rows stayed on their baked snapshot while
+     Match Coverage / ticker (separate files, separate polls) moved on.
+     NOTE: window.sialtvScores never rejects — on failure it resolves
+     with the static fallback, which is EMPTY when that file is missing
+     or has no matches. So an empty result is retried too, not just a
+     rejection. Retry delay is 12s: sialtvScores caches its promise for
+     10s, so a faster retry would just get the same cached empty data. */
+  function loadLeague(lg, onData) {
+    var tries = 0;
+    function attempt() {
+      window.sialtvScores(lg).then(function (data) {
+        if (!data || !data.matches || !data.matches.length) {
+          tries++;
+          if (window.console && console.warn) console.warn('[flash-scores] feed ' + lg + ' empty (try ' + tries + ')');
+          if (tries < 3) setTimeout(attempt, 12000);
+          return;
+        }
+        onData(data);
+      }).catch(function (err) {
+        tries++;
+        if (window.console && console.warn) console.warn('[flash-scores] feed ' + lg + ' failed (try ' + tries + '):', err);
+        if (tries < 3) setTimeout(attempt, 12000);
+      });
+    }
+    attempt();
+  }
+
   function boot() {
     initStrip();
+    initFxSeg();
     if (!window.sialtvScores) return;
     var flash = document.getElementById('sialtvFlash');
     var carousel = document.getElementById('scoreCarousel');
@@ -727,12 +776,12 @@
       var lg = group.getAttribute('data-league');
       loaders.push(function () {
         if (document.hidden) return;
-        window.sialtvScores(lg).then(function (data) {
-          if (!data || !data.matches || !data.matches.length) return;
-          refreshFlash(group, data, lg);
-          refreshFixtures(data, lg);
-          if (lg === 'npl') refreshHero(data);
-        }).catch(function () {});
+        /* Each updater isolated: a throw in one must not kill the others. */
+        loadLeague(lg, function (data) {
+          try { refreshFlash(group, data, lg); } catch (e) { if (window.console && console.warn) console.warn('[flash-scores] refreshFlash failed:', e); }
+          try { refreshFixtures(data, lg); } catch (e) { if (window.console && console.warn) console.warn('[flash-scores] refreshFixtures failed:', e); }
+          if (lg === 'npl') { try { refreshHero(data); } catch (e) { if (window.console && console.warn) console.warn('[flash-scores] refreshHero failed:', e); } }
+        });
       });
     });
     if (flash || carousel) {
