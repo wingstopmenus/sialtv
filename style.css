@@ -2796,6 +2796,23 @@ body.st-inner.league-npl footer.st-colophon { margin-top: 1.5rem; }
   body.st-inner .rx-pts { display: table; }
   body.st-inner.pts-wide .wrap,
   body.st-inner.pts-wide .st-shell { width: min(1600px, calc(100% - 2.5rem)); }
+  body.st-inner.pts-wide nav.series-secnav .secnav-row { width: min(1600px, calc(100% - 2.5rem)) !important; }
 }
-body.st-inner .rx-pts th, body.st-inner .rx-pts td { padding: 0.4rem 0.5rem; }
+body.st-inner .rx-pts th, body.st-inner .rx-pts td { padding: 0.3rem 0.5rem; }
 .st-strip-view { padding-right: 0; padding-left: 0; }
+
+/* NPL schedule page: narrower sticky sidebar + no-wrap pre-scores (2026-11-14) */
+@media (min-width: 981px) {
+  body.page-npl-schedule .home-grid { grid-template-columns: minmax(0, 1fr) 320px; }
+  body.page-npl-schedule .home-side { position: sticky; top: 5.5rem; }
+}
+body.page-npl-schedule .rx-tpre { white-space: nowrap; }
+body.page-npl-schedule .rx-res-desc { text-wrap: balance; }
+
+/* Team-name short/long forms (reusable; mobile tables show 3-letter codes) */
+.tm-short { display: none; }
+@media (max-width: 640px) {
+  .tm-full { display: none; }
+  .tm-short { display: inline; }
+  body.page-npl-schedule .rx-tname { display: none; }
+}
