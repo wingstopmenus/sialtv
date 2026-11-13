@@ -155,18 +155,117 @@
   var LEAGUE_TAG = { npl: 'NPL', ilt20: 'ILT20', apl: 'APL', sa20: 'SA20', bbl: 'BBL', psl: 'PSL' };
   function leagueTag(league) { return LEAGUE_TAG[league] || String(league || '').toUpperCase(); }
 
-  function resultItem(m, league) {
-    var tag = leagueTag(league);
-    function side(team, score, overs) {
-      var s = esc(teamName(team)) + ' (' + tag + ') ' + esc(score || '');
-      if (hasOvers(overs)) s += ' (' + esc(overs) + ' ov)';
-      return s;
+  /* ---- results cards (.rx-res-card, shared with the results page) ---- */
+  function ordinal(n) {
+    n = parseInt(n, 10) || 0;
+    var s = ['th', 'st', 'nd', 'rd'], v = n % 100;
+    return n + (s[(v - 20) % 10] || s[v] || s[0]);
+  }
+  function fmtDateLong(iso) {
+    if (!iso) return '';
+    try {
+      return new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Kathmandu', weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(iso + 'T00:00:00Z'));
+    } catch (e) { return iso; }
+  }
+  /* Date pill, identical to the baked pills: "Fri, 13 Nov" (Intl's
+     en-GB short form has no comma, so the comma is added here). */
+  function fmtHead(iso) {
+    if (!iso) return '';
+    try {
+      var d = new Date(iso + 'T00:00:00Z');
+      var wd = new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Kathmandu', weekday: 'short' }).format(d);
+      var dm = new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Kathmandu', day: 'numeric', month: 'short' }).format(d);
+      return wd + ', ' + dm;
+    } catch (e) { return iso; }
+  }
+  function venueShort(v) {
+    v = String(v || '');
+    if (/Kirtipur/i.test(v)) return 'Kirtipur';
+    if (/Abu Dhabi/i.test(v)) return 'Abu Dhabi';
+    if (/Dubai/i.test(v)) return 'Dubai';
+    if (/Sharjah/i.test(v)) return 'Sharjah';
+    return v;
+  }
+  /* Team logo from the map (keys use feed spelling, e.g. "Sudurpaschim
+     Royals"); the img carries no alt, so one is added here. Falls back to
+     the 3-letter code chip used by the baked cards. */
+  function logoImg(team) {
+    var key = teamName(team);
+    if (window.sialtvTeamLogos && window.sialtvTeamLogos[key]) {
+      return window.sialtvTeamLogos[key].replace('<img ', '<img alt="' + esc(key) + ' logo" ');
     }
-    return '<li class="ls-row"><a href="' + matchUrl(league, m.matchNo) + '">' +
-      '<span class="ls-row-teams">' + side(m.team1, m.score1, m.overs1) + ' vs ' + side(m.team2, m.score2, m.overs2) + '</span>' +
-      '<span class="ls-row-meta">Match ' + m.matchNo + ' &middot; ' + esc(tag) + ' &middot; ' + esc(fmtDate(m.date)) + (m.venue ? ' &middot; ' + esc(m.venue) : '') + '</span>' +
-      '<span class="ls-row-status">' + esc(teamName(m.statusText || '')) + '</span>' +
-      '</a></li>';
+    return '';
+  }
+  /* Which side won, from the result line "X won by ...": 0 = team1,
+     1 = team2, -1 = unknown. */
+  function winnerSide(m) {
+    var mm = /^(.+?) won by/.exec(teamName(m.statusText || ''));
+    if (!mm) return -1;
+    var w = mm[1].trim();
+    if (w === teamName(m.team1)) return 0;
+    if (w === teamName(m.team2)) return 1;
+    return -1;
+  }
+  var LEAGUE_NAMES = { npl: 'Nepal Premier League', ilt20: 'ILT20', apl: 'Afghanistan Premier League' };
+  var LEAGUE_HEADS = { npl: 'Nepal Premier League 2026', ilt20: 'ILT20 2026-27', apl: 'Afghanistan Premier League 2026-27' };
+  function dateGroupHtml(iso, league, cardsHtml) {
+    var head = LEAGUE_HEADS[league] || LEAGUE_NAMES[league] || leagueTag(league);
+    return '<div class="rx-date-group" id="date-' + esc(iso) + '" data-date="' + esc(iso) + '">' +
+      '<div class="rx-date-pill"><span>' + esc(fmtHead(iso)) + '</span></div>' +
+      '<div class="rx-res-box" data-league="' + esc(league) + '">' +
+      '<div class="rx-res-boxhead"><b><a href="/' + esc(league) + '/">' + esc(head) + '</a> &rsaquo;</b>' +
+      '<a href="/' + esc(league) + '/">See all</a></div>' +
+      '<div class="rx-res-grid">' + cardsHtml + '</div></div></div>';
+  }
+
+  /* One result card, identical in structure to the baked cards on the
+     live-scores and results pages: status pill, match-info line, two team
+     rows (winner first), result line, links. The target goes on the
+     chaser's row and is always first-innings runs + 1. */
+  function resultItem(m, league) {
+    var href = matchUrl(league, m.matchNo);
+    var seriesName = LEAGUE_NAMES[league] || leagueTag(league);
+    var desc = ordinal(m.matchNo) + ' Match, ' + esc(venueShort(m.venue)) + ', ' + esc(fmtDateLong(m.date)) +
+      ' &middot; <a href="/' + esc(league) + '/">' + esc(seriesName) + '</a>';
+    /* Batting order comes from scorecard.innings — the feed's team1 /
+       team2 order is NOT batting order (M22: team1 is the chaser BIK;
+       M24: team1 is the chaser KAG). Fall back to team1 first. */
+    var inn = (m.scorecard && m.scorecard.innings) || [];
+    var firstIdx = 0;
+    if (inn.length && teamName(inn[0].team) === teamName(m.team2)) firstIdx = 1;
+    var firstTeam = firstIdx === 0 ? m.team1 : m.team2;
+    var firstAbbr = firstIdx === 0 ? m.abbr1 : m.abbr2;
+    var firstScore = firstIdx === 0 ? m.score1 : m.score2;
+    var firstOvers = firstIdx === 0 ? m.overs1 : m.overs2;
+    var chTeam = firstIdx === 0 ? m.team2 : m.team1;
+    var chAbbr = firstIdx === 0 ? m.abbr2 : m.abbr1;
+    var chScore = firstIdx === 0 ? m.score2 : m.score1;
+    var chOvers = firstIdx === 0 ? m.overs2 : m.overs1;
+    var firstRuns = parseInt(String(firstScore || '').split('/')[0], 10) || 0;
+    var maxov = (firstOvers === '5' || firstOvers === '5.0') ? '5' : '20';
+    var preFirst = '(' + esc(firstOvers || '') + ' ov)';
+    var preCh = '(' + esc(chOvers || '') + '/' + maxov + ' ov, T:' + (firstRuns + 1) + ')';
+    var w = winnerSide(m);
+    var winnerIsFirst = (w === 0 && firstIdx === 0) || (w === 1 && firstIdx === 1);
+    function row(team, abbr, pre, score, loser) {
+      var img = logoImg(team);
+      var chip = img || '<span class="ls-code" aria-hidden="true">' + esc(abbr || '') + '</span>';
+      return '<div class="rx-res-team' + (loser ? ' is-loser' : '') + '">' + chip +
+        '<span class="rx-tname"><b>' + esc(teamName(team)) + '</b></span>' +
+        '<span class="rx-tpre">' + pre + '</span>' +
+        '<span class="rx-tscore">' + esc(score || '') + '</span></div>';
+    }
+    var rowFirst = row(firstTeam, firstAbbr, preFirst, firstScore, w !== -1 && !winnerIsFirst);
+    var rowCh = row(chTeam, chAbbr, preCh, chScore, w !== -1 && winnerIsFirst);
+    var rows = (w === -1 || winnerIsFirst) ? rowFirst + rowCh : rowCh + rowFirst;
+    return '<article class="rx-res-card" data-match-no="' + m.matchNo + '" data-date="' + esc(m.date || '') +
+      '" data-league="' + esc(league) + '">' +
+      '<div class="rx-res-status">RESULT</div>' +
+      '<div class="rx-res-desc">' + desc + '</div>' + rows +
+      '<div class="rx-res-result">' + esc(teamName(m.statusText || '')) + '</div>' +
+      '<div class="rx-res-links"><a href="' + href + '#summary">Summary</a> | ' +
+      '<a href="' + href + '#scorecard">Scorecard</a> | <a href="/' + esc(league) + '/">Series</a></div>' +
+      '</article>';
   }
 
   /* ---- tabs (Summary / Scorecard / Overs) ---- */
@@ -212,16 +311,40 @@
         /* Merge, never shrink: the feed only carries the matches it
            knows about, while the baked list goes further back. Feed
            rows first (fresh), baked rows the feed lacks stay after. */
-        var kept = [];
-        var items = results.querySelectorAll('li');
-        for (var i = 0; i < items.length; i++) {
-          var mm = /Match\s+(\d+)/.exec(items[i].textContent || '');
-          var no = mm ? parseInt(mm[1], 10) : 0;
-          var inFeed = false;
-          for (var j = 0; j < done.length; j++) if (done[j].matchNo === no) inFeed = true;
-          if (!inFeed) kept.push(items[i].outerHTML);
+        /* Merge, never shrink: the feed only carries the matches it
+           knows about, while the baked list goes further back. Feed
+           cards first (fresh), baked cards the feed lacks stay after,
+           regrouped by date so the Results tab keeps its date groups.
+           The signature skips the rebuild when the feed result set is
+           unchanged, so a poll cycle never re-renders identical cards. */
+        var sig = done.map(function (m) { return m.matchNo + ':' + (m.score1 || '') + '-' + (m.score2 || ''); }).join('|');
+        if (results.getAttribute('data-feed-sig') !== sig) {
+          results.setAttribute('data-feed-sig', sig);
+          var kept = [];
+          var cards = results.querySelectorAll('.rx-res-card');
+          for (var i = 0; i < cards.length; i++) {
+            var no = parseInt(cards[i].getAttribute('data-match-no') || '0', 10);
+            var inFeed = false;
+            for (var j = 0; j < done.length; j++) if (done[j].matchNo === no) inFeed = true;
+            if (!inFeed) kept.push(cards[i].outerHTML);
+          }
+          var all = done.map(function (m) { return resultItem(m, league); }).concat(kept);
+          var groups = {};
+          var order = [];
+          all.forEach(function (html) {
+            var dm = /data-date="([^"]+)"/.exec(html);
+            var lm = /data-league="([^"]+)"/.exec(html);
+            var key = (dm ? dm[1] : '') + '|' + (lm ? lm[1] : league);
+            if (!groups[key]) { groups[key] = []; order.push(key); }
+            groups[key].push(html);
+          });
+          var out = '';
+          order.forEach(function (key) {
+            var parts = key.split('|');
+            out += dateGroupHtml(parts[0], parts[1], groups[key].join(''));
+          });
+          results.innerHTML = out;
         }
-        results.innerHTML = done.map(function (m) { return resultItem(m, league); }).join('') + kept.join('');
       }
     }
     var featured = p.live || p.latest;

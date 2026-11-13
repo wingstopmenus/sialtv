@@ -2703,3 +2703,24 @@ body.st-inner .ls-row a { display: block; padding: 0.85rem 0.2rem; }
 body.st-inner .ls-row-teams { display: block; font-weight: 800; }
 body.st-inner .ls-row-meta { display: block; font-size: 0.9rem; color: var(--st-mute); }
 body.st-inner .ls-row-status { display: block; font-size: 0.9rem; }
+/* LS-CRICINFO-TABS — live-scores page tabs, chips, series cards (2026-11-13).
+   Tabs switch the feed (Live / Schedule / Results); chips filter by league;
+   match cards reuse the results page's .rx-res-* classes. */
+body.st-inner .ls-tabs { display: flex; flex-wrap: wrap; gap: 0.25rem 1.5rem; border-bottom: 1px solid var(--st-line); margin: 0 0 1rem; }
+body.st-inner .ls-tab { background: none; border: 0; border-bottom: 2px solid transparent; margin-bottom: -1px; padding: 0.65rem 0.15rem; font: inherit; font-size: 0.95rem; font-weight: 650; color: var(--st-ink-2); cursor: pointer; }
+body.st-inner .ls-tab:hover { color: var(--st-ink); }
+body.st-inner .ls-tab[aria-selected="true"] { color: var(--st-rose-deep); border-bottom-color: var(--st-rose); font-weight: 800; }
+body.st-inner .ls-chips { display: flex; flex-wrap: wrap; gap: 0.45rem; margin-bottom: 1.25rem; }
+body.st-inner .ls-chip { background: var(--st-surface); border: 1px solid var(--st-line); color: var(--st-ink-2); font-weight: 650; font-size: 0.85rem; padding: 0.45rem 0.8rem; border-radius: var(--st-pill); cursor: pointer; }
+body.st-inner .ls-chip[aria-pressed="true"] { background: var(--st-rose); border-color: var(--st-rose); color: #fff; font-weight: 700; }
+body.st-inner .ls-panel[hidden] { display: none; }
+body.st-inner .ls-panel > .rx-res-box:last-of-type { margin-bottom: 1.5rem; }
+body.st-inner .rx-res-status.upcoming { background: var(--st-rose-soft); color: var(--st-rose-deep); }
+body.st-inner .rx-res-team .ls-code { display: inline-flex; align-items: center; justify-content: center; min-width: 1.75rem; height: 1.75rem; padding: 0 0.2rem; flex-shrink: 0; background: var(--st-rose-soft); color: var(--st-rose-deep); font-size: 0.62rem; font-weight: 800; letter-spacing: 0.02em; border-radius: 0.4rem; }
+body.st-inner .rx-res-result.is-upcoming { color: var(--st-mute); font-weight: 600; }
+body.st-inner .rx-res-note { color: var(--st-ink-2); font-size: 0.9rem; margin: 0.6rem 0 0; }
+body.st-inner .ls-empty { background: var(--st-bg-soft); border: 1px solid var(--st-line); border-radius: var(--st-radius-sm); padding: 1rem 1.15rem; color: var(--st-ink-2); }
+body.st-inner .ls-desc { color: var(--st-ink-2); font-size: 0.95rem; margin: 1.5rem 0 0; }
+body.st-inner .ls-results .rx-date-group:last-child { margin-bottom: 0; }
+body.st-inner .rx-res-box[hidden] { display: none; }
+body.st-inner .rx-date-group[hidden] { display: none; }
