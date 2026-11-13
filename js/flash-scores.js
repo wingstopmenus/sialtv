@@ -211,6 +211,72 @@
     return moved.length > 0;
   }
 
+
+  /* Hero match (2026-11-13): the homepage hero panel (#heroMatch) shows the
+     LIVE match if one is live, else the NEXT upcoming match — NEVER a result.
+     It reads the NPL feed (full team names + live scores) and takes the
+     venue/time + kickoff from that match's strip card. Runs on every feed
+     poll, so the hero switches automatically when a match starts/finishes
+     (no cron, no hand update). If the feed has no live/upcoming match the
+     baked panel is left alone. */
+  function heroShortName(name) {
+    return String(name || '').replace(/\s*\([^)]*\)\s*$/, '').trim();
+  }
+  function heroEsc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+    });
+  }
+  function refreshHero(data) {
+    var hero = document.getElementById('heroMatch');
+    if (!hero || !data || !data.matches) return;
+    var league = hero.getAttribute('data-league') || 'npl';
+    var live = null, next = null;
+    (data.matches || []).forEach(function (m) {
+      if (m.status === 'live' && !live) live = m;
+      else if (m.status === 'upcoming' && !next) next = m;
+    });
+    var m = live || next;
+    if (!m) return;
+    var isLive = !!live;
+    var t1 = heroShortName(m.team1), t2 = heroShortName(m.team2);
+    var card = document.querySelector('.st-strip-track[data-strip-group="all"] .score-card[data-league="' + league + '"][data-match-no="' + m.matchNo + '"]');
+    var venueLine = '', kickoff = '';
+    if (card) {
+      var rl = card.querySelector('.sc-result');
+      if (rl) venueLine = (rl.textContent || '').trim();
+      var cd = card.querySelector('.sc-countdown');
+      if (cd) kickoff = cd.getAttribute('data-kickoff') || '';
+      var tl = card.querySelector('.sc-teams');
+      if (tl && tl.getAttribute('href')) hero.setAttribute('href', tl.getAttribute('href'));
+    }
+    var html = '';
+    if (isLive) {
+      html += '<span class="st-panel__kicker"><span class="live-dot" aria-hidden="true"></span>Live now</span>';
+      html += '<strong>' + heroEsc(t1) + ' vs ' + heroEsc(t2) + '</strong>';
+      var status = (m.score1 || '') + (m.overs1 ? ' (' + heroEsc(m.overs1) + ' ov)' : '') +
+        (m.score2 ? ' &middot; ' + heroEsc(m.score2) + (m.overs2 ? ' (' + heroEsc(m.overs2) + ' ov)' : '') : '');
+      html += '<p>' + heroEsc(status || m.statusText || '') + '</p>';
+      html += '<div class="st-panel__scores">';
+      html += '<span><small>' + heroEsc(t1) + '</small><b>' + heroEsc(m.score1 || '\u2014') + '</b></span>';
+      html += '<span><small>' + heroEsc(t2) + '</small><b>' + heroEsc(m.score2 || '\u2014') + '</b></span>';
+      html += '</div>';
+      html += '<span class="st-panel__link">Live scorecard <span aria-hidden="true">\u2192</span></span>';
+    } else {
+      html += '<span class="st-panel__kicker">Next match</span>';
+      html += '<strong>' + heroEsc(t1) + ' vs ' + heroEsc(t2) + '</strong>';
+      html += '<p>' + heroEsc(venueLine || ('Match ' + m.matchNo)) + '</p>';
+      html += '<div class="st-panel__scores">';
+      html += '<span><small>' + heroEsc(t1) + '</small><b>' + heroEsc(m.abbr1 || '') + '</b></span>';
+      html += '<span><small>' + heroEsc(t2) + '</small><b>' + heroEsc(m.abbr2 || '') + '</b></span>';
+      html += '</div>';
+      if (kickoff) html += '<p class="st-panel__countdown" data-kickoff="' + heroEsc(kickoff) + '">Match starts in \u2026</p>';
+      html += '<span class="st-panel__link">Match preview <span aria-hidden="true">\u2192</span></span>';
+    }
+    hero.innerHTML = html;
+    if (kickoff) stripCountdowns();
+  }
+
   function refreshCarousel(carousel, data) {
     var byNo = {};
     (data.matches || []).forEach(function (m) { byNo[m.matchNo] = m; });
@@ -335,7 +401,7 @@
      ("Match starts in X hrs Y mins"). A card whose feed status flips
      away from upcoming hides its countdown line. */
   function stripCountdowns() {
-    document.querySelectorAll('.st-strip [data-kickoff]').forEach(function (el) {
+    document.querySelectorAll('[data-kickoff]').forEach(function (el) {
       var card = el.closest('.score-card');
       if (card && card.getAttribute('data-kind') !== 'upcoming') { el.hidden = true; return; }
       var t = Date.parse(el.getAttribute('data-kickoff'));
@@ -497,6 +563,7 @@
         window.sialtvScores(lg).then(function (data) {
           if (!data || !data.matches || !data.matches.length) return;
           refreshFlash(group, data, lg);
+          if (lg === 'npl') refreshHero(data);
         }).catch(function () {});
       });
     });

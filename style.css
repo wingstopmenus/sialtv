@@ -2262,3 +2262,21 @@ body.st-inner .st-strip .sc-links .sc-countdown {
   text-align: right;
 }
 body.st-inner .st-strip .sc-links a { flex: none; }
+
+/* Hero match (2026-11-13) — the countdown line under the next-match panel.
+   Same tone as the panel paragraph; the link is pushed to the bottom by
+   margin-top:auto on .st-panel__link, so this line sits above it. */
+.st-panel__countdown {
+  color: #e7b8c4;
+  font-weight: 700;
+}
+/* Live dot inside the hero kicker pill (white on the rose pill). */
+.st-panel__kicker .live-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: #fff;
+  display: inline-block;
+  margin-right: 0.35rem;
+  align-self: center;
+}
