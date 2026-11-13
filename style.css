@@ -2614,3 +2614,16 @@ body.league-npl #records, body.league-npl #squads, body.league-npl #venue, body.
     border: 0; box-shadow: none; padding: 0;
   }
 }
+
+/* ---------- Home leagues: logos + auto-hide ---------- */
+.st-league__tile img {
+  width: 88%;
+  height: 88%;
+  object-fit: contain;
+}
+.st-leagues .st-league.is-ended {
+  display: none;
+}
+.st-block.is-ended {
+  display: none;
+}
