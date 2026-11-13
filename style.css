@@ -90,67 +90,12 @@ body.st-home ul { margin: 0; padding: 0; list-style: none; }
   margin-inline: auto;
 }
 
-/* ---------- Announcement ---------- */
-.st-announce {
-  background: var(--st-night);
-  color: #eceaf6;
-  font-size: 0.875rem;
-  font-weight: 550;
-}
-.st-announce .st-shell {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  min-height: 2.65rem;
-  padding-block: 0.45rem;
-}
-.st-announce p {
-  display: flex;
-  align-items: center;
-  gap: 0.7rem;
-  flex-wrap: wrap;
-}
-.st-announce__live {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  background: var(--st-rose);
-  color: #fff;
-  font-size: 0.65rem;
-  font-weight: 800;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  padding: 0.22rem 0.55rem 0.22rem 0.45rem;
-  border-radius: var(--st-pill);
-  line-height: 1;
-  flex-shrink: 0;
-}
-.st-announce__live::before {
-  content: "";
-  width: 0.42rem;
-  height: 0.42rem;
-  border-radius: 50%;
-  background: #fff;
-  box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7);
-  animation: st-pulse 1.8s ease-out infinite;
-}
+/* Live-dot pulse (used by .st-match-strip .live-dot). */
 @keyframes st-pulse {
   0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.65); }
   80% { box-shadow: 0 0 0 0.45rem rgba(255, 255, 255, 0); }
   100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
 }
-/* Result label (no live match): same rose pill, no pulsing dot. */
-.st-announce__live--result::before { display: none; }
-.st-announce a {
-  color: #fff;
-  font-weight: 700;
-  white-space: nowrap;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.3rem;
-}
-.st-announce a:hover { color: var(--st-rose-glow); }
 
 /* ---------- Masthead ---------- */
 .st-masthead {
@@ -1026,7 +971,6 @@ body.st-nav-open .st-burger span:nth-child(3) { transform: translateY(-0.44rem) 
 
 @media (max-width: 640px) {
   .st-shell { width: min(var(--st-shell), calc(100% - 1.5rem)); }
-  .st-announce .st-shell { flex-direction: column; align-items: flex-start; gap: 0.35rem; }
   .st-leagues,
   .st-jumps { grid-template-columns: 1fr; }
   .st-block { padding: 3.5rem 0 3rem; }
