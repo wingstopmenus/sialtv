@@ -790,7 +790,7 @@
   var STATE_TABS = {
     upcoming: ['fixture', 'stats', 'squads', 'table'],
     live: ['live', 'scorecard', 'commentary', 'livestats', 'overs', 'playingxi', 'table'],
-    result: ['fixture', 'scorecard', 'commentary', 'stats', 'overs', 'news']
+    result: ['fixture', 'scorecard', 'commentary', 'stats', 'overs', 'table']
   };
   var STATE_DEFAULT = { upcoming: 'fixture', live: 'live', result: 'scorecard' };
   function tabStates(el) {
