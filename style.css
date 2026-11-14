@@ -2795,8 +2795,8 @@ body.st-inner.league-npl footer.st-colophon { margin-top: 1.5rem; }
 @media (min-width: 981px) {
   body.st-inner .rx-pts { display: table; }
   body.st-inner.pts-wide .wrap,
-  body.st-inner.pts-wide .st-shell { width: min(1600px, calc(100% - 2.5rem)); }
-  body.st-inner.pts-wide nav.series-secnav .secnav-row { width: min(1600px, calc(100% - 2.5rem)) !important; }
+  body.st-inner.pts-wide .st-shell { width: min(1320px, calc(100% - 2.5rem)); }
+  body.st-inner.pts-wide nav.series-secnav .secnav-row { width: min(1320px, calc(100% - 2.5rem)) !important; }
 }
 body.st-inner .rx-pts th, body.st-inner .rx-pts td { padding: 0.3rem 0.5rem; }
 .st-strip-view { padding-right: 0; padding-left: 0; }
