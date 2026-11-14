@@ -1,0 +1,50 @@
+/* Team pages — Cricinfo structure, sialtv theme. NO Cricinfo blue anywhere.
+   Scoped to .tm2- only. Reuses .side-card / .tp-list / .fx-* / .st-block__head
+   from /style.css. Lavender #f5f3fb, rose #e11d48, night #090811. */
+
+/* Header card — mirrors the player-profile dark card */
+.tm2-hero{display:flex;gap:1.25rem;align-items:center;background:#090811;color:#f5f3fb;
+  border-radius:14px;padding:1.25rem 1.5rem;margin:0 0 1.25rem}
+.tm2-logo{width:96px;height:96px;flex:0 0 96px;border-radius:12px;background:#fff;
+  object-fit:contain;padding:6px}
+.tm2-hero h1{color:#fff;font-size:1.9rem;line-height:1.15;margin:0 0 .35rem}
+.tm2-hero-meta{margin:0 0 .3rem;color:#c8c4d6;font-weight:700;letter-spacing:.02em}
+.tm2-hero-facts{margin:0;color:#c8c4d6;font-size:.95rem}
+.tm2-hero-facts b{color:#fff}
+
+/* Section heads — rose underline, same as stats */
+.tm2-sec{margin:1.5rem 0 .75rem;padding-bottom:.4rem;border-bottom:2px solid #e11d48}
+.tm2-sec h2{margin:0}
+
+/* Squad cards */
+.tm2-squad-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:.6rem}
+.tm2-player{display:flex;align-items:center;gap:.7rem;background:#fff;border:1px solid rgba(227,223,240,.9);
+  border-radius:10px;padding:.6rem .75rem;text-decoration:none;color:#090811}
+a.tm2-player:hover{border-color:#e11d48}
+.tm2-player.tm2-no-page{color:#090811}
+.tm2-avatar{flex:0 0 40px;width:40px;height:40px;border-radius:50%;background:#f5f3fb;color:#e11d48;
+  font-weight:800;display:flex;align-items:center;justify-content:center;font-size:.85rem}
+.tm2-pname{font-weight:700;line-height:1.25;display:block}
+.tm2-prole{color:#5b5a6b;font-size:.85rem;display:block}
+
+/* Live badge in fixtures */
+.tm2-live{color:#e11d48;font-weight:800}
+
+/* Points mini table */
+.tm2-mini{width:100%;border-collapse:collapse;font-size:.92rem}
+.tm2-mini th{background:#f5f3fb;text-align:left;padding:.4rem .5rem;border-bottom:1px solid rgba(227,223,240,.9)}
+.tm2-mini td{padding:.4rem .5rem;border-bottom:1px solid rgba(227,223,240,.6)}
+.tm2-mini tr.tm2-own td{background:#f5f3fb;font-weight:700}
+.tm2-mini td.tm2-num,.tm2-mini th.tm2-num{text-align:right}
+
+/* Coverage links */
+.tm2-cover{margin:0;padding:0;list-style:none}
+.tm2-cover li{padding:.4rem 0;border-top:1px solid rgba(227,223,240,.85)}
+.tm2-cover li:first-child{border-top:0}
+
+@media (max-width:640px){
+  .tm2-hero{flex-direction:row;padding:1rem;gap:.9rem}
+  .tm2-logo{width:72px;height:72px;flex-basis:72px}
+  .tm2-hero h1{font-size:1.45rem}
+  .tm2-squad-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}
+}
