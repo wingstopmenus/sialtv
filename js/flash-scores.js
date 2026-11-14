@@ -723,6 +723,23 @@
             }
             return;
           }
+          /* Baked result rows already carry both scores in their text
+             ("LUL 168/6 beat BIK 166/4 by 4 wickets") — an injected <b>
+             would duplicate one of them on its own line (M26 stray
+             "166/4", 2026-11-14). Skip the injection, and drop a <b> an
+             earlier poll added before the row was baked as a result.
+             Rows that started as fixtures ("LUL vs BIK") keep their
+             <b>: it is their only score. Text nodes only — the <b>
+             itself is excluded from the check. */
+          var bakedTxt = '';
+          for (var n = 0; n < span.childNodes.length; n++) {
+            if (span.childNodes[n].nodeType === 3) bakedTxt += span.childNodes[n].textContent;
+          }
+          if (bakedTxt.indexOf(sc) !== -1) {
+            var oldB = span.querySelector('b');
+            if (oldB) oldB.remove();
+            return;
+          }
           /* Results rows show the score only (no "(20 ov) " prefix) — the
              baked Results format. Live rows keep the over: it is the
              current over. */

@@ -122,3 +122,23 @@ body.league-npl .st-block__head { margin: 0 0 1rem; }
 /* Hero text must shrink on narrow screens (row layout, no min-width). */
 .tm2-hero-text { min-width: 0; }
 .tm2-hero h1 { overflow-wrap: break-word; }
+
+/* ---- Width fix 2026-11-15 (Lumbini layout, browser diagnosis) ----
+   Root cause: team pages are body.league-npl WITHOUT body.st-inner, so
+   the document fallback in /style.css (body:not(.st-home)) caps the
+   whole page at max-width:72rem + side padding, while the hub
+   (body.st-inner.hub-cricinfo) is uncapped and its .hub-wide is
+   min(1320px, 100% - 2.5rem). The team .hub-wide wrapper had no width
+   rule at all. Result (browser-measured): team container ~1,013px vs
+   hub ~1,195px — ~180px narrower, almost all of it in the centre
+   column (~420px vs ~605px); sidebars nearly identical. Fix (this file
+   only — it loads on team pages only): lift the body cap and give
+   .hub-wide / .wrap the hub's width. Body class is NOT changed
+   (standing rule); .hub3 columns are NOT changed (they already match
+   the hub: 300px + 1fr + 320px). With the cap lifted the centre column
+   lands at ~620px, so the narrow-centre wraps (centre heading, "First
+   match" row, Latest dates) should also resolve. The strip fragment's
+   inner .wrap gets the same width (hub strip rule, style.css:2454). */
+body.league-npl { margin: 0; max-width: none; padding: 0; }
+body.league-npl .hub-wide,
+body.league-npl .wrap { width: min(var(--hub-wide), calc(100% - 2.5rem)); margin-inline: auto; }

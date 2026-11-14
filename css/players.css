@@ -53,3 +53,30 @@
 
 /* Hub: team sections grid. */
 .pl-team-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); gap: .75rem; }
+
+/* Hub sidebar: 280px rail on desktop (schedule/stats pattern is
+   minmax(0, 1fr) 320px; the players hub is narrower still). Profiles do not
+   use .home-grid (verified in profile-template.html + chrome-top-profile.html)
+   and players.css loads only on the hub + profiles, so this plain rule only
+   affects the hub. The min-width keeps the <=980px stacked mobile layout
+   untouched (grid 1fr, sidebar below content). Sticky rail, same as
+   schedule/stats pages. */
+@media (min-width: 981px) {
+  body.st-inner .home-grid { grid-template-columns: minmax(0, 1fr) 280px; }
+  body.st-inner .home-side { position: sticky; top: 5.5rem; }
+}
+
+/* Side cards: style.css gives .side-card only a border — no background,
+   padding, radius or shadow — so on mobile (and desktop) they read as plain
+   boxes. Same component on hub + profiles, so one rule fixes both. */
+body.st-inner .side-card { background: #fff; border-radius: var(--st-radius-sm); padding: 1rem 1.15rem; box-shadow: var(--st-shadow-sm); }
+
+/* Hub nav card ("On this page"): team rows with logo + code chip (team-rail
+   pattern). The flex rule beats style.css `.side-card li > a { display:
+   block }` on specificity. Logo reuses .team-logo, so Pokhara's pale-gold
+   mark keeps its dark chip from style.css. */
+body.st-inner .side-card li.pl-nav-team > a { display: flex; align-items: center; gap: .6rem; font-weight: 700; }
+body.st-inner .side-card li.pl-nav-team > a:hover { color: var(--st-rose-deep); }
+.pl-nav-logo { width: 2rem; height: 1.75rem; object-fit: contain; flex: none; }
+.pl-nav-name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pl-nav-code { margin-left: auto; flex: none; font-size: .72rem; font-weight: 800; letter-spacing: .05em; color: #090811; background: #f5f3fb; border: 1px solid var(--st-line); border-radius: 999px; padding: .15rem .5rem; }
