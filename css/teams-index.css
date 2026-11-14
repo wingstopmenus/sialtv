@@ -13,14 +13,17 @@
      page. Stats/players pin because their content columns are far taller
      than their sidebars. Cap the rail to the viewport (minus the sticky
      header + a bottom gap) and let it scroll internally: the rail now pins
-     at top:5.5rem for ~836px of page scroll and all four cards stay
-     reachable via the rail's own thin scrollbar. Desktop only (<=980px
+     at top:5.5rem for ~836px of page scroll and all three cards stay
+     reachable via the rail's own scroll (scrollbar hidden, 2026-11-15). Desktop only (<=980px
      the rail stacks below the content, uncapped). */
   body.page-npl-teams .home-side {
     max-height: calc(100vh - 5.5rem - 1rem);
     overflow-y: auto;
-    scrollbar-width: thin;
+    scrollbar-width: none;
   }
+  /* Visible scrollbar hidden (user order 2026-11-15) — rail still scrolls
+     internally (wheel/touch), pinning unchanged. */
+  body.page-npl-teams .home-side::-webkit-scrollbar { display: none; }
 }
 /* Points mini stays readable inside the 300px rail. */
 body.page-npl-teams .home-side .pts-mini th,
@@ -58,7 +61,7 @@ body.page-npl-teams .u-mt-10 { margin-top: 10px; }
   }
   body.page-npl-teams .team-body > b { font-size: 1.2rem; }
   body.page-npl-teams .team-body > b a:hover { color: var(--st-rose-deep); }
-  /* Rose rule under the "Teams" heading — echoes the sidebar coverage card. */
+  /* Rose rule under the "Teams" heading — echoes the sidebar cards. */
   body.page-npl-teams #teams .st-block__head h2::after {
     content: "";
     display: block;
@@ -95,7 +98,9 @@ body.page-npl-teams #points-table .t-pts tbody tr:nth-child(4) td {
    splitting mid-phrase in the 300px rail. --- */
 body.page-npl-teams .home-side .side-card li:has(.tp-main) { gap: 0.7rem; }
 body.page-npl-teams .home-side .tp-photo { width: 44px; height: 44px; }
-body.page-npl-teams .home-side .tp-sub { font-size: 0.82rem; line-height: 1.4; }
+/* Leader-row wrap fix (2026-11-15, measured): "Innings: 7 · Average: 34.57" is 162px at .82rem but only 160.1px fits
+   (44px photo + 2x .7rem gaps + 34.7px figure in the 300px rail) — 1.9px short, so it split. At .78rem the text is ~154px. */
+body.page-npl-teams .home-side .tp-sub { font-size: 0.78rem; line-height: 1.4; }
 body.page-npl-teams .home-side .tp-fig { font-size: 1.25rem; }
 
 /* Reduced motion: hover lift off, everything else static. */
