@@ -2760,6 +2760,23 @@ body.st-inner .rx-legend b { color: var(--st-ink); }
 @media (max-width: 980px) {
   body.st-inner .rx-legend { grid-template-columns: 1fr 1fr; }
 }
+
+/* ---------- Points-table beautify — 2026-11-14 ----------
+   - Footnote: general-scope rule (an ILT20-only .rx-footnote rule existed; NPL/APL footnote was unstyled).
+   - Legend: card presentation + "Legend" heading (full row) + form pills W/L/A (same colours as the table's form pills) + Form item spans the full row.
+   - Mobile (<=640px): legend goes 1 column; For/Against/Form items hide (those columns are hidden on mobile too). */
+body.st-inner .rx-footnote { color: var(--st-mute); font-size: 0.875rem; margin: 0.875rem 0 0; }
+body.st-inner .rx-legend { background: var(--st-surface); border: 1px solid var(--st-line); border-radius: var(--st-radius-sm); padding: 0.9rem 1.1rem; box-shadow: var(--st-shadow-sm); }
+body.st-inner .rx-legend h3 { grid-column: 1 / -1; margin: 0 0 0.6rem; font-size: 0.95rem; }
+body.st-inner .rx-legend .rx-leg-form { grid-column: 1 / -1; }
+body.st-inner .rx-legend .rx-fc { display: inline-flex; align-items: center; justify-content: center; width: 1.5rem; height: 1.5rem; border-radius: 50%; font-size: 0.75rem; font-weight: 800; flex-shrink: 0; vertical-align: -0.35rem; margin: 0 0.1rem; }
+body.st-inner .rx-legend .rx-fc-w { background: #dcfce7; color: #166534; }
+body.st-inner .rx-legend .rx-fc-l { background: #fee2e2; color: #991b1b; }
+body.st-inner .rx-legend .rx-fc-a { background: #e0e7ff; color: #3730a3; }
+@media (max-width: 640px) {
+  body.st-inner .rx-legend { grid-template-columns: 1fr; }
+  body.st-inner .rx-legend .rx-leg-hide-m { display: none; }
+}
 body.st-inner .rx-pts .rx-teamcell a, body.st-inner .secnav-drop a, body.st-inner .secnav-switch, body.st-inner .lead { word-spacing: 0.12em; }
 .league-switch { margin: 0 0 1rem; }
 .league-switch .secnav-switch { border: 1px solid var(--st-line); background: var(--st-surface); border-radius: 0.65rem; padding: 0.5rem 0.8rem; font-weight: 700; font-size: 0.95rem; color: var(--st-ink); }
@@ -2831,6 +2848,8 @@ body.page-npl-schedule .rx-res-desc { text-wrap: balance; }
   .pts-for, .pts-against { display: none; }
   /* Points tables: hide Series Form/Next columns on mobile too (2026-11-14). */
   .pts-form, .pts-next { display: none; }
+  /* Points tables: with 4 columns hidden the 9 remaining columns fit — restore real table layout so the table spans full width instead of shrink-wrapping to content (2026-11-14). Desktop already does this at >=981px (fix 2); 641-980px keeps block+scroll for the full 13 columns. */
+  body.st-inner .rx-pts { display: table; width: 100%; }
 }
 /* FIX2 2026-11-14 (stats page): sidebar ~320px on desktop (was ~36% of the
    container, ~420px). Page-scoped like the schedule page; min-width keeps the

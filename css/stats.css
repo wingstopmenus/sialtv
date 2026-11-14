@@ -167,3 +167,19 @@ body.page-npl-stats .sts-table .sts-note { color: #6b6580; font-size: .82rem; ma
   body.page-npl-stats .rx-perf-grid { grid-template-columns: 1fr; }
   body.page-npl-stats .home-main section { margin-bottom: 2rem; }
 }
+
+/* --- Beautify 2026-11-14: "yet to" comma runs as chips --- */
+body.page-npl-stats details.rx-zero ul.rx-zero-chips { list-style: none; margin: .6rem 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: .45rem; }
+body.page-npl-stats details.rx-zero ul.rx-zero-chips li { background: #f5f3fb; border: 1px solid #e4ddf3; color: #090811; border-radius: 999px; padding: .3rem .7rem; font-size: .85rem; line-height: 1.4; }
+body.page-npl-stats details.rx-zero ul.rx-zero-chips li span { color: #6b6580; }
+
+/* --- Beautify 2026-11-14: Top Performances photos (same 2.5rem circle as the monogram) --- */
+body.page-npl-stats .rx-perf-row img.rx-perf-photo { width: 2.5rem; height: 2.5rem; border-radius: 50%; object-fit: cover; flex: none; border: 1px solid #e4ddf3; }
+
+/* --- Beautify 2026-11-14: real table layout. The site-wide base rule makes every table
+   display:block, so the inner table shrink-wraps to content and leaves empty space on the
+   right (same pattern as the hub fixes2 fix). Restore real table layout so stats tables
+   span the full content column on desktop and mobile. Team stats keeps a min-width so
+   its 10 columns scroll inside .table-scroll on phones instead of squeezing. --- */
+body.page-npl-stats .rx-stat-table table, body.page-npl-stats #records table { display: table; }
+body.page-npl-stats #team-stats table { display: table; min-width: 34rem; }
