@@ -17,7 +17,7 @@
 <meta name="twitter:description" content="Dipendra Singh Airee captains Sudur Paschim Royals in NPL 2026 — 150 runs in 7 matches, best 60, strike rate 109.49. Stats, matches and profile.">
 <meta name="theme-color" content="#090811">
 <script type="application/ld+json">
-{"@context": "https://schema.org", "@type": "WebPage", "name": "Dipendra Singh Airee — NPL 2026 Stats, Sudur Paschim Royals", "url": "https://sialtv.com/npl/players/dipendra-singh-airee/", "description": "Dipendra Singh Airee captains Sudur Paschim Royals in NPL 2026 — 150 runs in 7 matches, best 60, strike rate 109.49. Stats, matches and profile.", "dateModified": "2026-11-14T17:47:00Z"}
+{"@context": "https://schema.org", "@type": "WebPage", "name": "Dipendra Singh Airee — NPL 2026 Stats, Sudur Paschim Royals", "url": "https://sialtv.com/npl/players/dipendra-singh-airee/", "description": "Dipendra Singh Airee captains Sudur Paschim Royals in NPL 2026 — 150 runs in 7 matches, best 60, strike rate 109.49. Stats, matches and profile.", "dateModified": "2026-11-14T18:08:00Z"}
 </script>
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "SialTV", "item": "https://sialtv.com/"}, {"@type": "ListItem", "position": 2, "name": "Nepal Premier League", "item": "https://sialtv.com/npl/"}, {"@type": "ListItem", "position": 3, "name": "NPL 2026 Teams", "item": "https://sialtv.com/npl/teams/"}, {"@type": "ListItem", "position": 4, "name": "Dipendra Singh Airee", "item": "https://sialtv.com/npl/players/dipendra-singh-airee/"}]}
@@ -42,7 +42,7 @@
           <span class="st-wordmark__text">Sial<em>TV</em></span>
         </a>
     <div class="st-menu" role="navigation" aria-label="Leagues">
-      <a href="/npl/" aria-current="page">NPL</a>
+      <a href="/npl/">NPL</a>
       <a href="/ilt20/">ILT20</a>
       <a href="/apl/">APL</a>
     </div>
@@ -83,6 +83,8 @@
       if (p === sections[i][0] || p.indexOf(sections[i][0]) === 0) {
         var a = document.querySelector('.st-menu a[href="' + sections[i][1] + '"]');
         if (a) a.setAttribute('aria-current', 'page');
+        var d = document.querySelector('.st-drawer nav a[href="' + sections[i][1] + '"]');
+        if (d) d.setAttribute('aria-current', 'page');
         break;
       }
     }

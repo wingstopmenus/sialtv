@@ -167,6 +167,11 @@ body.st-home ul { margin: 0; padding: 0; list-style: none; }
    Base color var(--st-ink-2) == #3b4258, the old inline value. */
 .st-masthead .st-menu a { color: var(--st-ink-2); text-decoration: none; }
 .st-masthead .st-menu a[aria-current="page"] { color: var(--st-rose-deep); background: var(--st-rose-soft); }
+/* Drawer current-league highlight (Phase 2): same pattern as the menu.
+   Base #0c1022 == the old inline drawer-link value; (0,2,2)/(0,3,2)
+   beat the body:not(.st-home) fallback (0,1,2). */
+.st-masthead .st-drawer nav a { color: #0c1022; text-decoration: none; }
+.st-masthead .st-drawer nav a[aria-current="page"] { color: var(--st-rose-deep); background: var(--st-rose-soft); }
 
 .st-action {
   display: inline-flex;

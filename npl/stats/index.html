@@ -17,7 +17,7 @@
 <meta name="twitter:description" content="Take a look at all the Nepal Premier League 2026/27 Statistics. Discover NPL Statistics on player records, team performances, and more on ESPNcricninfo">
 <meta name="theme-color" content="#090811">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","name":"Nepal Premier League 2026/27 Statistics","url":"https://sialtv.com/npl/stats/","description":"Take a look at all the Nepal Premier League 2026/27 Statistics. Discover NPL Statistics on player records, team performances, and more on ESPNcricninfo","datePublished":"2026-11-11T05:18:00Z","dateModified": "2026-11-14T17:48:00Z"}
+{"@context":"https://schema.org","@type":"WebPage","name":"Nepal Premier League 2026/27 Statistics","url":"https://sialtv.com/npl/stats/","description":"Take a look at all the Nepal Premier League 2026/27 Statistics. Discover NPL Statistics on player records, team performances, and more on ESPNcricninfo","datePublished":"2026-11-11T05:18:00Z","dateModified": "2026-11-14T18:09:00Z"}
 </script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"SialTV","item":"https://sialtv.com/"},{"@type":"ListItem","position":2,"name":"Nepal Premier League","item":"https://sialtv.com/npl/"},{"@type":"ListItem","position":3,"name":"NPL 2026 Stats","item":"https://sialtv.com/npl/stats/"}]}
@@ -37,7 +37,7 @@
           <span class="st-wordmark__text">Sial<em>TV</em></span>
         </a>
     <div class="st-menu" role="navigation" aria-label="Leagues">
-      <a href="/npl/" aria-current="page">NPL</a>
+      <a href="/npl/">NPL</a>
       <a href="/ilt20/">ILT20</a>
       <a href="/apl/">APL</a>
     </div>
@@ -78,6 +78,8 @@
       if (p === sections[i][0] || p.indexOf(sections[i][0]) === 0) {
         var a = document.querySelector('.st-menu a[href="' + sections[i][1] + '"]');
         if (a) a.setAttribute('aria-current', 'page');
+        var d = document.querySelector('.st-drawer nav a[href="' + sections[i][1] + '"]');
+        if (d) d.setAttribute('aria-current', 'page');
         break;
       }
     }
