@@ -1,0 +1,55 @@
+/* Players — NPL profiles + players hub. Scoped .pl- classes only.
+   Site theme: Plus Jakarta Sans, lavender #f5f3fb, rose #e11d48, night #090811.
+   NO Cricinfo blue anywhere. Loaded after /style.css on player pages + hub.
+   Most player styling already lives in style.css (.profile-card grid,
+   .ptabs pills, .details-grid, .player-list, .side-card); this file adds
+   only what style.css does not cover. */
+
+/* Career + tournament stats tables: pale lavender header, rose row links. */
+.pl-stats thead th {
+  background: #f5f3fb;
+  color: #090811;
+  font-size: .78rem;
+  letter-spacing: .02em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.pl-stats tbody td { white-space: nowrap; }
+.pl-stats tbody td:first-child { font-weight: 700; }
+.pl-stats tbody tr:nth-child(even) td { background: #fbfaff; }
+
+/* Match tables: team names — full on desktop, 3-letter code on mobile. */
+.pl-match-teams .tm-full { display: inline; }
+.pl-match-teams .tm-short { display: none; }
+@media (max-width: 640px) {
+  .pl-match-teams .tm-full { display: none; }
+  .pl-match-teams .tm-short { display: inline; }
+}
+
+/* Profile card on narrow screens: smaller square photo, text stays right. */
+@media (max-width: 640px) {
+  body.st-inner .profile-card { grid-template-columns: 104px minmax(0, 1fr); }
+  body.st-inner .profile-card .pc-photo-wrap { width: 104px; height: 104px; }
+  body.st-inner .profile-card .pc-text { padding: .85rem .9rem; }
+  body.st-inner .profile-card .pc-name { font-size: 1.05rem; }
+}
+
+/* Hub: player cards — photo left, name + role + statline right. */
+.pl-hub-card { display: flex; gap: .75rem; align-items: center; padding: .6rem .75rem; border: 1px solid var(--st-line); border-radius: .75rem; background: #fff; }
+.pl-hub-card .pl-hub-photo { flex: none; width: 72px; height: 72px; border-radius: .5rem; overflow: hidden; }
+.pl-hub-card .pl-hub-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.pl-hub-card .pl-hub-photo .pl-hub-init { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: #090811; color: #fff; font-weight: 800; font-size: 1.25rem; }
+.pl-hub-card .pl-hub-body { min-width: 0; }
+.pl-hub-card .pl-hub-body > a { color: var(--st-ink); font-weight: 700; }
+.pl-hub-card .pl-hub-body > a:hover { color: var(--st-rose-deep); }
+.pl-hub-role { display: block; font-size: .85rem; color: #5b6070; }
+.pl-hub-stats { display: block; font-size: .85rem; }
+
+/* Hub: team filter chips + search (moved out of inline styles). */
+.pl-filter { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; margin: 1rem 0 .25rem; }
+.pl-chip { padding: .45rem .8rem; border: 1px solid var(--st-line); border-radius: 999px; background: #fff; color: #0c1022; font-weight: 700; cursor: pointer; }
+.pl-chip[aria-current="true"] { background: #e11d48; border-color: #e11d48; color: #fff; }
+.pl-search { flex: 1 1 12rem; min-width: 10rem; padding: .5rem .8rem; border: 1px solid var(--st-line); border-radius: .6rem; }
+
+/* Hub: team sections grid. */
+.pl-team-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); gap: .75rem; }
