@@ -2827,6 +2827,8 @@ body.page-npl-schedule .rx-res-desc { text-wrap: balance; }
   .tm-full { display: none; }
   .tm-short { display: inline; }
   body.page-npl-schedule .rx-tname { display: none; }
+  /* Points tables: hide For/Against columns on mobile (2026-11-14). */
+  .pts-for, .pts-against { display: none; }
 }
 /* FIX2 2026-11-14 (stats page): sidebar ~320px on desktop (was ~36% of the
    container, ~420px). Page-scoped like the schedule page; min-width keeps the
