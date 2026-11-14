@@ -16,7 +16,7 @@
 <meta name="twitter:description" content="Desert Vipers face Dubai Capitals in Match 21 at Dubai on 6 December. A final rematch, squads and stakes — read the preview.">
 <meta name="theme-color" content="#090811">
 <script type="application/ld+json">
-{"@context": "https://schema.org", "@type": "WebPage", "name": "Desert Vipers vs Dubai Capitals ILT20 Match 21 — Preview", "url": "https://sialtv.com/ilt20/matches/2026-27/match-21/", "description": "Desert Vipers face Dubai Capitals in Match 21 at Dubai on 6 December. A final rematch, squads and stakes — read the preview.", "datePublished": "2026-11-12T01:24:00Z", "dateModified": "2026-11-14T03:26:00Z"}
+{"@context": "https://schema.org", "@type": "WebPage", "name": "Desert Vipers vs Dubai Capitals ILT20 Match 21 — Preview", "url": "https://sialtv.com/ilt20/matches/2026-27/match-21/", "description": "Desert Vipers face Dubai Capitals in Match 21 at Dubai on 6 December. A final rematch, squads and stakes — read the preview.", "datePublished": "2026-11-12T01:24:00Z", "dateModified": "2026-11-14T22:14:00Z"}
 </script>
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "SialTV", "item": "https://sialtv.com/"}, {"@type": "ListItem", "position": 2, "name": "ILT20", "item": "https://sialtv.com/ilt20/"}, {"@type": "ListItem", "position": 3, "name": "Matches", "item": "https://sialtv.com/ilt20/results/"}, {"@type": "ListItem", "position": 4, "name": "Match 21", "item": "https://sialtv.com/ilt20/matches/2026-27/match-21/"}]}
@@ -34,7 +34,7 @@
       <span class="t-time">Evening &middot; Sat 21 Nov 2026</span>
     </div>
   </div>
-<header class="st-masthead" style="border-bottom:1px solid rgba(227,223,240,.85);padding-bottom:0;margin-bottom:0">
+<div id="mastheadMount"><header class="st-masthead" style="border-bottom:1px solid rgba(227,223,240,.85);padding-bottom:0;margin-bottom:0">
   <div class="st-shell st-masthead__row">
     <a class="st-wordmark" href="/" aria-label="SialTV home" style="color:#0c1022;text-decoration:none">
           <span class="st-wordmark__mark" aria-hidden="true">
@@ -43,28 +43,71 @@
           <span class="st-wordmark__text">Sial<em>TV</em></span>
         </a>
     <div class="st-menu" role="navigation" aria-label="Leagues">
-      <a href="/npl/" style="color:#3b4258;text-decoration:none">NPL</a>
-      <a href="/ilt20/" style="color:#3b4258;text-decoration:none">ILT20</a>
-      <a href="/apl/" style="color:#3b4258;text-decoration:none">APL</a>
+      <a href="/npl/">NPL</a>
+      <a href="/ilt20/">ILT20</a>
+      <a href="/apl/">APL</a>
     </div>
     <a class="st-action" href="/live-scores/">Live scores</a>
-    <button class="st-burger" type="button" aria-expanded="false" aria-controls="st-drawer" aria-label="Open menu">
-      <span></span><span></span><span></span>
-    </button>
   </div>
-  <div class="st-drawer" id="st-drawer">
-    <div class="st-shell">
-      <nav aria-label="Leagues (mobile)" style="gap:0;margin:0">
-        <a href="/npl/" style="color:#0c1022;text-decoration:none">Nepal Premier League</a>
-        <a href="/ilt20/" style="color:#0c1022;text-decoration:none">ILT20</a>
-        <a href="/apl/" style="color:#0c1022;text-decoration:none">Afghanistan Premier League</a>
-        <a href="/series/" style="color:#0c1022;text-decoration:none">All series</a>
-        <a href="/about/" style="color:#0c1022;text-decoration:none">About SialTV</a>
-      </nav>
-      <a class="st-action st-action--block" href="/live-scores/">Live scores</a>
-    </div>
-  </div>
-</header>
+</header></div>
+<script>
+(function () {
+  var mount = document.getElementById('mastheadMount');
+  if (!mount) return;
+  function loadScript(src, next) {
+    var s = document.createElement('script');
+    s.src = src;
+    s.onload = function () { if (next) next(); };
+    s.onerror = function () { if (next) next(); };
+    document.body.appendChild(s);
+  }
+  function wireBurger() {
+    var btn = document.querySelector('.st-burger');
+    var drawer = document.getElementById('st-drawer');
+    if (!btn || !drawer) return;
+    function set(open) {
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+      document.body.classList.toggle('st-nav-open', open);
+    }
+    btn.addEventListener('click', function () {
+      set(btn.getAttribute('aria-expanded') !== 'true');
+    });
+    drawer.querySelectorAll('a').forEach(function (a) {
+      a.addEventListener('click', function () { set(false); });
+    });
+  }
+  function markCurrent() {
+    var p = window.location.pathname;
+    var sections = [['/npl/', '/npl/'], ['/ilt20/', '/ilt20/'], ['/apl/', '/apl/']];
+    for (var i = 0; i < sections.length; i++) {
+      if (p === sections[i][0] || p.indexOf(sections[i][0]) === 0) {
+        var a = document.querySelector('.st-menu a[href="' + sections[i][1] + '"]');
+        if (a) a.setAttribute('aria-current', 'page');
+        var d = document.querySelector('.st-drawer nav a[href="' + sections[i][1] + '"]');
+        if (d) d.setAttribute('aria-current', 'page');
+        break;
+      }
+    }
+  }
+  function inject(html) {
+    mount.outerHTML = html;
+    wireBurger();
+    markCurrent();
+    loadScript('/js/search.js');
+  }
+  function load(attempt) {
+    fetch('/fragments/masthead.html', { credentials: 'same-origin' })
+      .then(function (r) { if (!r.ok) throw new Error('masthead ' + r.status); return r.text(); })
+      .then(inject)
+      .catch(function () {
+        if (attempt < 2) { setTimeout(function () { load(attempt + 1); }, 600); }
+        /* else: keep the skeleton header — wordmark + league links, a working header */
+      });
+  }
+  load(1);
+})();
+</script>
   <!--__PH657__-->
 
 <nav class="series-nav" aria-label="ILT20 sections">
@@ -83,7 +126,6 @@
 <div class="wrap">
 <div class="match-head">
     <p class="crumbs"><a href="/">SialTV</a> / <a href="/ilt20/">ILT20</a> / <a href="/ilt20/results/">Matches</a> / Match 21</p>
-    <p class="eyebrow">DP World ILT20 &middot; Season 5 &middot; 21st Match</p>
     <p class="hero-logos"><img class="team-logo tl-match" src="data:image/webp;base64,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" alt="Desert Vipers logo" width="96" height="96"><span class="hero-vs">vs</span><img class="team-logo tl-match" src="data:image/webp;base64,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" alt="Dubai Capitals logo" width="96" height="96"></p>
     <h1>Desert Vipers vs Dubai Capitals — Match 21 Preview</h1>
     <p class="match-status">Sunday, 6 December 2026 — evening session at Dubai International Stadium, Dubai</p>
@@ -293,26 +335,6 @@
 </script>
 <script src="/js/live-scores.js" defer></script>
 <script src="/js/match-live.js" defer></script>
-<script>
-(function () {
-  var btn = document.querySelector(".st-burger");
-  var drawer = document.getElementById("st-drawer");
-  if (!btn || !drawer) return;
-  function set(open) {
-    btn.setAttribute("aria-expanded", open ? "true" : "false");
-    btn.setAttribute("aria-label", open ? "Close menu" : "Open menu");
-    document.body.classList.toggle("st-nav-open", open);
-  }
-  btn.addEventListener("click", function () {
-    set(btn.getAttribute("aria-expanded") !== "true");
-  });
-  drawer.querySelectorAll("a").forEach(function (a) {
-    a.addEventListener("click", function () { set(false); });
-  });
-  document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape") set(false);
-  });
-})();
-</script>
+
 </body>
 </html>

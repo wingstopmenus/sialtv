@@ -16,7 +16,7 @@
 <meta name="twitter:description" content="Sharjah Warriorz host defending champions Desert Vipers in Sharjah on 23 November. Captains, players to watch and a one-sided head-to-head — read the preview.">
 <meta name="theme-color" content="#090811">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","name":"Warriorz vs Vipers ILT20 Match 4 \u2014 Preview","url":"https://sialtv.com/ilt20/matches/2026-27/match-4/","description":"Sharjah Warriorz host defending champions Desert Vipers in Sharjah on 23 November. Captains, players to watch and a one-sided head-to-head — read the preview.","datePublished": "2026-11-12T01:07:00Z","dateModified": "2026-11-14T03:09:00Z"}
+{"@context":"https://schema.org","@type":"WebPage","name":"Warriorz vs Vipers ILT20 Match 4 \u2014 Preview","url":"https://sialtv.com/ilt20/matches/2026-27/match-4/","description":"Sharjah Warriorz host defending champions Desert Vipers in Sharjah on 23 November. Captains, players to watch and a one-sided head-to-head — read the preview.","datePublished": "2026-11-12T01:07:00Z","dateModified": "2026-11-14T22:29:00Z"}
 </script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"SialTV","item":"https://sialtv.com/"},{"@type":"ListItem","position":2,"name":"ILT20","item":"https://sialtv.com/ilt20/"},{"@type":"ListItem","position":3,"name":"Matches","item":"https://sialtv.com/ilt20/results/"},{"@type":"ListItem","position":4,"name":"Match 4","item":"https://sialtv.com/ilt20/matches/2026-27/match-4/"}]}
@@ -34,7 +34,7 @@
       <span class="t-time">Evening &middot; Sat 21 Nov 2026</span>
     </div>
   </div>
-<header class="st-masthead" style="border-bottom:1px solid rgba(227,223,240,.85);padding-bottom:0;margin-bottom:0">
+<div id="mastheadMount"><header class="st-masthead" style="border-bottom:1px solid rgba(227,223,240,.85);padding-bottom:0;margin-bottom:0">
   <div class="st-shell st-masthead__row">
     <a class="st-wordmark" href="/" aria-label="SialTV home" style="color:#0c1022;text-decoration:none">
           <span class="st-wordmark__mark" aria-hidden="true">
@@ -43,28 +43,71 @@
           <span class="st-wordmark__text">Sial<em>TV</em></span>
         </a>
     <div class="st-menu" role="navigation" aria-label="Leagues">
-      <a href="/npl/" style="color:#3b4258;text-decoration:none">NPL</a>
-      <a href="/ilt20/" style="color:#3b4258;text-decoration:none">ILT20</a>
-      <a href="/apl/" style="color:#3b4258;text-decoration:none">APL</a>
+      <a href="/npl/">NPL</a>
+      <a href="/ilt20/">ILT20</a>
+      <a href="/apl/">APL</a>
     </div>
     <a class="st-action" href="/live-scores/">Live scores</a>
-    <button class="st-burger" type="button" aria-expanded="false" aria-controls="st-drawer" aria-label="Open menu">
-      <span></span><span></span><span></span>
-    </button>
   </div>
-  <div class="st-drawer" id="st-drawer">
-    <div class="st-shell">
-      <nav aria-label="Leagues (mobile)" style="gap:0;margin:0">
-        <a href="/npl/" style="color:#0c1022;text-decoration:none">Nepal Premier League</a>
-        <a href="/ilt20/" style="color:#0c1022;text-decoration:none">ILT20</a>
-        <a href="/apl/" style="color:#0c1022;text-decoration:none">Afghanistan Premier League</a>
-        <a href="/series/" style="color:#0c1022;text-decoration:none">All series</a>
-        <a href="/about/" style="color:#0c1022;text-decoration:none">About SialTV</a>
-      </nav>
-      <a class="st-action st-action--block" href="/live-scores/">Live scores</a>
-    </div>
-  </div>
-</header>
+</header></div>
+<script>
+(function () {
+  var mount = document.getElementById('mastheadMount');
+  if (!mount) return;
+  function loadScript(src, next) {
+    var s = document.createElement('script');
+    s.src = src;
+    s.onload = function () { if (next) next(); };
+    s.onerror = function () { if (next) next(); };
+    document.body.appendChild(s);
+  }
+  function wireBurger() {
+    var btn = document.querySelector('.st-burger');
+    var drawer = document.getElementById('st-drawer');
+    if (!btn || !drawer) return;
+    function set(open) {
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+      document.body.classList.toggle('st-nav-open', open);
+    }
+    btn.addEventListener('click', function () {
+      set(btn.getAttribute('aria-expanded') !== 'true');
+    });
+    drawer.querySelectorAll('a').forEach(function (a) {
+      a.addEventListener('click', function () { set(false); });
+    });
+  }
+  function markCurrent() {
+    var p = window.location.pathname;
+    var sections = [['/npl/', '/npl/'], ['/ilt20/', '/ilt20/'], ['/apl/', '/apl/']];
+    for (var i = 0; i < sections.length; i++) {
+      if (p === sections[i][0] || p.indexOf(sections[i][0]) === 0) {
+        var a = document.querySelector('.st-menu a[href="' + sections[i][1] + '"]');
+        if (a) a.setAttribute('aria-current', 'page');
+        var d = document.querySelector('.st-drawer nav a[href="' + sections[i][1] + '"]');
+        if (d) d.setAttribute('aria-current', 'page');
+        break;
+      }
+    }
+  }
+  function inject(html) {
+    mount.outerHTML = html;
+    wireBurger();
+    markCurrent();
+    loadScript('/js/search.js');
+  }
+  function load(attempt) {
+    fetch('/fragments/masthead.html', { credentials: 'same-origin' })
+      .then(function (r) { if (!r.ok) throw new Error('masthead ' + r.status); return r.text(); })
+      .then(inject)
+      .catch(function () {
+        if (attempt < 2) { setTimeout(function () { load(attempt + 1); }, 600); }
+        /* else: keep the skeleton header — wordmark + league links, a working header */
+      });
+  }
+  load(1);
+})();
+</script>
   <!--__PH470__-->
 
 <nav class="series-nav" aria-label="ILT20 sections">
@@ -83,7 +126,6 @@
 <div class="wrap">
 <div class="match-head">
     <p class="crumbs"><a href="/">SialTV</a> / <a href="/ilt20/">ILT20</a> / <a href="/ilt20/results/">Matches</a> / Match 4</p>
-    <p class="eyebrow">DP World ILT20 &middot; Season 5 &middot; 4th Match</p>
     <p class="hero-logos"><img class="team-logo tl-match" src="data:image/webp;base64,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" alt="Sharjah Warriorz logo" width="96" height="96"><span class="hero-vs">vs</span><img class="team-logo tl-match" src="data:image/webp;base64,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" alt="Desert Vipers logo" width="96" height="96"></p>
     <h1>Sharjah Warriorz vs Desert Vipers — Match 4 Preview</h1>
     <p class="match-status">Monday, 23 November 2026 — evening session, Sharjah</p>
@@ -289,26 +331,6 @@
 </script>
 <script src="/js/live-scores.js" defer></script>
 <script src="/js/match-live.js" defer></script>
-<script>
-(function () {
-  var btn = document.querySelector(".st-burger");
-  var drawer = document.getElementById("st-drawer");
-  if (!btn || !drawer) return;
-  function set(open) {
-    btn.setAttribute("aria-expanded", open ? "true" : "false");
-    btn.setAttribute("aria-label", open ? "Close menu" : "Open menu");
-    document.body.classList.toggle("st-nav-open", open);
-  }
-  btn.addEventListener("click", function () {
-    set(btn.getAttribute("aria-expanded") !== "true");
-  });
-  drawer.querySelectorAll("a").forEach(function (a) {
-    a.addEventListener("click", function () { set(false); });
-  });
-  document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape") set(false);
-  });
-})();
-</script>
+
 </body>
 </html>
