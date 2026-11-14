@@ -142,3 +142,166 @@ body.league-npl .st-block__head { margin: 0 0 1rem; }
 body.league-npl { margin: 0; max-width: none; padding: 0; }
 body.league-npl .hub-wide,
 body.league-npl .wrap { width: min(var(--hub-wide), calc(100% - 2.5rem)); margin-inline: auto; }
+
+/* ---- Layout + beautify 2026-11-15 (browser audit 02:27 PKT, user order) ----
+   All 8 team pages, one template. Measured baseline (headless Chromium +
+   real Plus Jakarta Sans, 1566x1080, live Lumbini): body Archivo/white,
+   .hub-wide 1320px (the browser's ~1180px was a screenshot-scaling
+   artifact — computed width IS 1320, no width fix needed), centre 660px,
+   H2 50.4px/2 lines, hero right gap 562px, 5/7 result lines wrap, 5 squad
+   names wrap (85px vs 64px rows), 0 tp avatars, mini full names, side-card
+   tops cycling rose/teal/night, crumbs ink-2, voids left 306 / right 145 /
+   centre 80px, no horizontal overflow. Theme tokens only. */
+
+/* (1) THEME — team pages are body.league-npl, NOT body.st-inner, so the
+   document fallback (body:not(.st-home): Archivo, white bg, #171923)
+   wins. Mirror the body.st-inner rule here: same declarations, same
+   specificity (0,1,1) — this file loads after /style.css, so it wins.
+   Both fonts are already linked in <head>. */
+body.league-npl {
+  font-family: var(--st-font);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  color: var(--st-ink);
+  background: var(--st-bg);
+}
+body.league-npl a { color: var(--st-rose-deep); text-decoration: none; }
+body.league-npl a:hover { text-decoration: underline; }
+/* Squad card names stay ink (the blanket link rule above would rose them). */
+a.tm2-player { color: #090811; }
+
+/* (2) Breadcrumb links rose, like st-inner pages (was ink-2 grey via
+   .hub-crumbs .crumbs a, which beats the blanket link rule). */
+body.league-npl .hub-crumbs .crumbs a { color: var(--st-rose-deep); }
+
+/* (3) Section heads — st-inner size, not the homepage hero size
+   (.st-block__head h2 was clamp(1.9rem,4.2vw,3.15rem) = 50.4px here, so
+   "Lumbini Lions News & Matches" orphan-wrapped). Rose bar, teams pattern. */
+body.league-npl .st-block__head h2 {
+  font-size: clamp(1.35rem, 2.5vw, 1.75rem);
+  line-height: 1.2;
+  margin: 0;
+}
+body.league-npl .st-block__head h2::after {
+  content: ""; display: block; width: 2.75rem; height: 3px;
+  background: var(--st-rose); border-radius: 2px; margin-top: .5rem;
+}
+
+/* (4) Side cards: ONE rose top border. The .st-jump nth-child rules cycle
+   rose/teal/night (info card + Top Wicket Takers were teal #0e7490,
+   Points mini night). This beats them (0,2,1 vs 0,2,0). */
+body.league-npl .side-card { border-top: 3px solid var(--st-rose); }
+
+/* (5) Grid rebalance (desktop only): left rail 300 -> 320px so fixture
+   result lines fit on one line; right rail 320 -> 300px; centre stays
+   660px. Breakpoints below 981px untouched (hub 2-col / 1-col rules). */
+@media (min-width: 981px) {
+  body.league-npl .hub3 { grid-template-columns: 320px minmax(0, 1fr) 320px; }
+}
+
+/* (6) Fixture result lines: ink (not link-rose), slightly smaller,
+   pretty-wrapped so no single-word orphan ("by 4 / wickets"). Hover rose. */
+body.league-npl .fx-team {
+  color: var(--st-ink);
+  font-size: .92rem;
+  text-wrap: pretty;
+}
+body.league-npl #fxResults a:hover .fx-team,
+body.league-npl #fxFixtures a:hover .fx-team { color: var(--st-rose-deep); }
+
+/* (7) Squad: 2-across (was 3-across ~214px cards, 5 long names wrapped to
+   2 lines and rows went uneven 85px vs 64px). At 250px min the longest
+   name ("Shadley van Schalkwyk") fits on one line; rows stay even.
+   Odd squads (KAY 19, POA 21, SPR 19, KAG 25) would leave one empty slot
+   in the last row — the last card spans full width instead. Hover lift,
+   players-page pattern, with a reduced-motion guard. */
+.tm2-squad-grid { grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); }
+.tm2-player {
+  min-height: 4.1rem; /* cards with a role line are 65px, without 61px — one
+    height keeps every grid row exactly even */
+  transition: transform var(--st-ease), box-shadow var(--st-ease), border-color var(--st-ease);
+}
+a.tm2-player:hover, span.tm2-player:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--st-shadow-sm);
+  border-color: rgba(225, 29, 72, .35);
+}
+.tm2-squad-grid > :last-child:nth-child(odd) { grid-column: 1 / -1; }
+@media (prefers-reduced-motion: reduce) {
+  a.tm2-player:hover, span.tm2-player:hover { transform: none; }
+}
+
+/* (8) Top-performer avatars: the right-rail Top Run Scorers / Top Wicket
+   Takers rows had no photo or initials (sparse vs the same lists on the
+   Teams index / Stats / home). Same lavender initials avatar as squad
+   cards; build.py inserts it (see step 12). */
+.tm2-tp-avatar { flex: 0 0 36px; width: 36px; height: 36px; font-size: .78rem; }
+
+/* (9) Points mini, Stats-sidebar style: logo + 3-letter code (was full
+   names squeezing P/W/Pts), full columns Team | M | W | L | Pts | NRR,
+   night header (stats beautify pattern), rose-tint own row + hover. */
+.tm2-mini th { background: #090811; color: #fff; }
+.tm2-mini td, .tm2-mini th { padding: .35rem .4rem; font-size: .88rem; }
+.tm2-mini td.tm2-num, .tm2-mini th.tm2-num {
+  text-align: right; font-variant-numeric: tabular-nums;
+}
+.tm2-mini tr.tm2-own td { background: #fdf0f3; font-weight: 700; }
+.tm2-mini tbody tr:hover td { background: #fdf0f3; }
+.tm2-mini img.team-logo {
+  width: 1.5rem; height: 1.5rem; object-fit: contain;
+  vertical-align: -.35rem; margin-right: .3rem;
+}
+.tm2-mini img.team-logo[alt*="Pokhara"] {
+  background: var(--st-night-2); border-radius: .4rem;
+  padding: .15rem .25rem; box-sizing: border-box;
+}
+
+/* (10) "Full NPL Coverage": rose links, like the other sidebar blocks
+   (was a plain list of dark links under the fallback). */
+body.league-npl .tm2-cover a {
+  color: var(--st-rose-deep); text-decoration: none; font-weight: 600;
+}
+body.league-npl .tm2-cover a:hover { text-decoration: underline; }
+
+/* (11) Centre h3 hierarchy: History / Featured / Latest were ~24px,
+   barely below the 28px h2. Now a clear step down. */
+body.league-npl .hub3-center h3 {
+  font-size: 1.12rem; font-weight: 800; letter-spacing: -0.01em;
+  margin: 1.4rem 0 .5rem;
+}
+
+/* (12) Hero season summary (build.py header_card): fills the ~562px empty
+   black space on the right of the header card with the team's real
+   record — Points / W-L / NRR, all from the points table already on the
+   page. Hidden below 981px (the info card below carries the same facts). */
+.tm2-hero-text { flex: 1; }
+.tm2-hero-stats {
+  margin-left: auto; display: flex; gap: 1.75rem; align-items: center;
+  padding-left: 1.75rem; border-left: 1px solid rgba(245, 243, 251, .18);
+}
+.tm2-hero-stat { text-align: right; }
+.tm2-hero-stat b {
+  display: block; font-size: 1.5rem; line-height: 1.1; color: #fff;
+  font-variant-numeric: tabular-nums;
+}
+.tm2-hero-stat span {
+  font-size: .72rem; font-weight: 800; letter-spacing: .09em;
+  text-transform: uppercase; color: #c8c4d6;
+}
+@media (max-width: 980px) {
+  .tm2-hero-stats { display: none; }
+}
+
+/* (13) Left rail pins while scrolling (schedule/stats sidebar pattern):
+   .hub3 uses align-items: start, so .hub3-left is only as tall as the
+   rail — sticky would have zero range. Stretch the left column to the
+   row height, then stick the rail at the masthead's height (5.5rem).
+   Stick range is 173-1017px depending on the team (rail 880-1570px vs
+   row 1721-1913px); at full scroll the rail's bottom meets the row
+   bottom, so the void below it disappears in the scrolled state.
+   Desktop only — below 981px the grid collapses and the rail flows
+   normally. Right rail untouched (its 4 cards already fill the row). */
+@media (min-width: 981px) {
+  body.league-npl .hub3-left { align-self: stretch; }
+  body.league-npl .hub-rail-l { position: sticky; top: 5.5rem; }
+}
