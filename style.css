@@ -2666,7 +2666,7 @@ body.league-npl #records, body.league-npl #squads, body.league-npl #venue, body.
 
 @media (max-width: 980px) {
   .st-search { margin-left: auto; }
-  .st-masthead__row > .st-burger { margin-left: 0; }
+  .st-search ~ .st-burger { margin-left: 0; }
 }
 
 /* ---------- Home leagues: logos + auto-hide ---------- */
