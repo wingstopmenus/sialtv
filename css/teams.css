@@ -428,3 +428,22 @@ body.league-npl .tp-fig { font-size: 1.35rem; }
 .tm2-mini td:first-child a { color: var(--st-ink); }
 body.league-npl .side-card .see-all { font-size: .78rem; font-weight: 700; color: var(--st-rose-deep); float: right; }
 body.league-npl .note { color: var(--st-mute); font-size: .8rem; margin: 1rem 0 0; line-height: 1.5; }
+
+/* ============ FIX-4 (2026-11-15, stamps 04:48-05:02) ============
+   LEFT-rail sidebar cards match the NPL HUB too. Fix-3 covered only
+   the right rail; the user pointed out the left rail is a sidebar
+   too ("ye left waly card to thk hi nhi kiye"). Centre cards
+   (History / Featured / Latest) keep their rose tops — they live in
+   .hub3-center, not .hub3-left. */
+
+/* (1) Left-rail cards: hub frame — thin border only, NO rose top.
+   Specificity (0,3,1) beats rule (4) (0,2,1), same as the Fix-3
+   right-rail override. */
+body.league-npl .hub3-left .side-card { border-top: 1px solid var(--st-line); }
+
+/* (2) "View full stats ›" is a plain rose text link (hub style), not a
+   pill: build.py no longer injects class="tm2-btn" on it. No CSS
+   needed here — a plain <a> in .side-card renders rose like the
+   "Fixtures and Results ›" link and the Fix-3 right-sidebar
+   "View full list ›" links. (.tm2-btn rule kept: --check requires
+   the selector to exist in this file.) */
