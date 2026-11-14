@@ -2816,3 +2816,16 @@ body.page-npl-schedule .rx-res-desc { text-wrap: balance; }
   .tm-short { display: inline; }
   body.page-npl-schedule .rx-tname { display: none; }
 }
+/* FIX2 2026-11-14 (stats page): sidebar ~320px on desktop (was ~36% of the
+   container, ~420px). Page-scoped like the schedule page; min-width keeps the
+   <=980px stacked mobile layout untouched (grid 1fr, sidebar below content). */
+@media (min-width: 981px) {
+  body.page-npl-stats .home-grid { grid-template-columns: minmax(0, 1fr) 320px; }
+  body.page-npl-stats .home-side { position: sticky; top: 5.5rem; }
+}
+/* FIX2 2026-11-14 (stats page): "More NPL coverage" as 2-col link cards
+   (teams-page pattern). 1 col on narrow screens. */
+body.page-npl-stats #more .records-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+@media (max-width: 640px) {
+  body.page-npl-stats #more .records-grid { grid-template-columns: 1fr; }
+}

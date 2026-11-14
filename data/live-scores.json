@@ -9,12 +9,12 @@
    "matchNo": 21,
    "matchDesc": "Match 21",
    "series_name": "Nepal Premier League 2026",
-   "team1": "Sudurpaschim Royals",
+   "team1": "Sudur Paschim Royals",
    "team2": "Janakpur Bolts",
    "abbr1": "SPR",
    "abbr2": "JAB",
    "status": "result",
-   "statusText": "Sudurpaschim Royals won by 27 runs",
+   "statusText": "Sudur Paschim Royals won by 27 runs",
    "score1": "120/9",
    "score2": "93",
    "overs1": "20",
@@ -25,7 +25,7 @@
    "scorecard": {
     "innings": [
      {
-      "team": "Sudurpaschim Royals",
+      "team": "Sudur Paschim Royals",
       "total": "120/9",
       "overs": "20",
       "batting": [
@@ -212,11 +212,11 @@
    "matchDesc": "Match 24",
    "series_name": "Nepal Premier League 2026",
    "team1": "Kathmandu Gorkhas",
-   "team2": "Sudurpaschim Royals",
+   "team2": "Sudur Paschim Royals",
    "abbr1": "KAG",
    "abbr2": "SPR",
    "status": "result",
-   "statusText": "Sudurpaschim Royals won by 7 runs",
+   "statusText": "Sudur Paschim Royals won by 7 runs",
    "toss": null,
    "score1": "118/7",
    "score2": "125/6",
@@ -228,7 +228,7 @@
    "scorecard": {
     "innings": [
      {
-      "team": "Sudurpaschim Royals",
+      "team": "Sudur Paschim Royals",
       "total": "125/6",
       "overs": "20",
       "batting": [
