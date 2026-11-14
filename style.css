@@ -161,6 +161,12 @@ body.st-home ul { margin: 0; padding: 0; list-style: none; }
   transition: background var(--st-ease), color var(--st-ease);
 }
 .st-menu a:hover { background: var(--st-bg-soft); color: var(--st-ink); }
+/* Masthead current-league highlight (pilot fix 2026-11-14): the loader
+   sets aria-current="page" on the matching league link; (0,2,1) beats
+   the body:not(.st-home) fallback (0,1,2) that forced inline styles.
+   Base color var(--st-ink-2) == #3b4258, the old inline value. */
+.st-masthead .st-menu a { color: var(--st-ink-2); text-decoration: none; }
+.st-masthead .st-menu a[aria-current="page"] { color: var(--st-rose-deep); background: var(--st-rose-soft); }
 
 .st-action {
   display: inline-flex;

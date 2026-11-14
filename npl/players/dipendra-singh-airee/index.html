@@ -17,7 +17,7 @@
 <meta name="twitter:description" content="Dipendra Singh Airee captains Sudur Paschim Royals in NPL 2026 — 150 runs in 7 matches, best 60, strike rate 109.49. Stats, matches and profile.">
 <meta name="theme-color" content="#090811">
 <script type="application/ld+json">
-{"@context": "https://schema.org", "@type": "WebPage", "name": "Dipendra Singh Airee — NPL 2026 Stats, Sudur Paschim Royals", "url": "https://sialtv.com/npl/players/dipendra-singh-airee/", "description": "Dipendra Singh Airee captains Sudur Paschim Royals in NPL 2026 — 150 runs in 7 matches, best 60, strike rate 109.49. Stats, matches and profile.", "dateModified": "2026-11-14T17:13:00Z"}
+{"@context": "https://schema.org", "@type": "WebPage", "name": "Dipendra Singh Airee — NPL 2026 Stats, Sudur Paschim Royals", "url": "https://sialtv.com/npl/players/dipendra-singh-airee/", "description": "Dipendra Singh Airee captains Sudur Paschim Royals in NPL 2026 — 150 runs in 7 matches, best 60, strike rate 109.49. Stats, matches and profile.", "dateModified": "2026-11-14T17:47:00Z"}
 </script>
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "SialTV", "item": "https://sialtv.com/"}, {"@type": "ListItem", "position": 2, "name": "Nepal Premier League", "item": "https://sialtv.com/npl/"}, {"@type": "ListItem", "position": 3, "name": "NPL 2026 Teams", "item": "https://sialtv.com/npl/teams/"}, {"@type": "ListItem", "position": 4, "name": "Dipendra Singh Airee", "item": "https://sialtv.com/npl/players/dipendra-singh-airee/"}]}
@@ -33,7 +33,22 @@
 </head>
 <body class="league-npl st-inner" data-css="p3">
 <a class="st-skip" href="#main">Skip to content</a>
-<div id="mastheadMount"></div>
+<div id="mastheadMount"><header class="st-masthead" style="border-bottom:1px solid rgba(227,223,240,.85);padding-bottom:0;margin-bottom:0">
+  <div class="st-shell st-masthead__row">
+    <a class="st-wordmark" href="/" aria-label="SialTV home" style="color:#0c1022;text-decoration:none">
+          <span class="st-wordmark__mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="13" rx="2"/><path d="M8 21h8M12 18v3"/></svg>
+          </span>
+          <span class="st-wordmark__text">Sial<em>TV</em></span>
+        </a>
+    <div class="st-menu" role="navigation" aria-label="Leagues">
+      <a href="/npl/" aria-current="page">NPL</a>
+      <a href="/ilt20/">ILT20</a>
+      <a href="/apl/">APL</a>
+    </div>
+    <a class="st-action" href="/live-scores/">Live scores</a>
+  </div>
+</header></div>
 <script>
 (function () {
   var mount = document.getElementById('mastheadMount');
@@ -72,15 +87,22 @@
       }
     }
   }
-  fetch('/fragments/masthead.html', { credentials: 'same-origin' })
-    .then(function (r) { if (!r.ok) throw new Error('masthead ' + r.status); return r.text(); })
-    .then(function (html) {
-      mount.outerHTML = html;
-      wireBurger();
-      markCurrent();
-      loadScript('/js/search.js');
-    })
-    .catch(function () { if (mount && mount.parentNode) mount.parentNode.removeChild(mount); });
+  function inject(html) {
+    mount.outerHTML = html;
+    wireBurger();
+    markCurrent();
+    loadScript('/js/search.js');
+  }
+  function load(attempt) {
+    fetch('/fragments/masthead.html', { credentials: 'same-origin' })
+      .then(function (r) { if (!r.ok) throw new Error('masthead ' + r.status); return r.text(); })
+      .then(inject)
+      .catch(function () {
+        if (attempt < 2) { setTimeout(function () { load(attempt + 1); }, 600); }
+        /* else: keep the skeleton header — wordmark + league links, a working header */
+      });
+  }
+  load(1);
 })();
 </script>
   
