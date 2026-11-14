@@ -193,3 +193,148 @@ body.page-npl-stats #team-stats table { display: table; min-width: 34rem; }
 body.page-npl-stats .sts-table .pts-mini th,
 body.page-npl-stats .sts-table .pts-mini td { padding: 0.5rem 0.35rem; }
 body.page-npl-stats .sts-table .pts-mini td:first-child { gap: 0.4rem; }
+
+/* --- Content tables beautify (2026-11-15): night headers, card frame,
+   right-aligned numbers, headline-stat emphasis, rose-tint hover.
+   Sidebar untouched (its .pts-mini keeps its own rules). Mobile scroll
+   (.table-scroll overflow-x:auto, style.css) intact — no overflow rule
+   touched here. Theme tokens only: lavender #f5f3fb, rose #e11d48,
+   night #090811. No Cricinfo blue. --- */
+
+/* Table as a card: white, bordered, rounded corners. Applies to the 12
+   full-season tables + their 12 "See all" tables + Team stats + Season
+   records (all inside .rx-stat-table / #team-stats / #records). */
+body.page-npl-stats .rx-stat-table table,
+body.page-npl-stats #team-stats table,
+body.page-npl-stats #records table {
+  background: #fff;
+  border: 1px solid #e4ddf3;
+  border-radius: 12px;
+  border-collapse: separate;
+  border-spacing: 0;
+  overflow: hidden;
+}
+
+/* Night header, white uppercase text, rose rule underneath. Sortable
+   headers keep cursor:pointer (earlier rule); the sort arrow (.rx-arrow,
+   added by the inline sort script) reads rose on night. */
+body.page-npl-stats .rx-stat-table thead th,
+body.page-npl-stats #team-stats thead th,
+body.page-npl-stats #records thead th {
+  background: #090811;
+  color: #fff;
+  text-transform: uppercase;
+  font-size: .78rem;
+  letter-spacing: .05em;
+  padding: .7rem .75rem;
+  border-bottom: 2px solid #e11d48;
+}
+body.page-npl-stats .rx-stat-table thead th .rx-arrow,
+body.page-npl-stats #team-stats thead th .rx-arrow {
+  color: #e11d48;
+  margin-left: .3rem;
+  font-size: .7rem;
+}
+/* Rounded table corners (border-collapse:separate needs the corner cells). */
+body.page-npl-stats .rx-stat-table thead th:first-child,
+body.page-npl-stats #team-stats thead th:first-child,
+body.page-npl-stats #records thead th:first-child { border-top-left-radius: 11px; }
+body.page-npl-stats .rx-stat-table thead th:last-child,
+body.page-npl-stats #team-stats thead th:last-child,
+body.page-npl-stats #records thead th:last-child { border-top-right-radius: 11px; }
+body.page-npl-stats .rx-stat-table tbody tr:last-child td:first-child,
+body.page-npl-stats #team-stats tbody tr:last-child td:first-child,
+body.page-npl-stats #records tbody tr:last-child td:first-child { border-bottom-left-radius: 11px; }
+body.page-npl-stats .rx-stat-table tbody tr:last-child td:last-child,
+body.page-npl-stats #team-stats tbody tr:last-child td:last-child,
+body.page-npl-stats #records tbody tr:last-child td:last-child { border-bottom-right-radius: 11px; }
+
+/* Body cells: roomier padding, hairline row separators (kept). */
+body.page-npl-stats .rx-stat-table tbody td,
+body.page-npl-stats #team-stats tbody td,
+body.page-npl-stats #records tbody td {
+  padding: .6rem .75rem;
+  border-bottom: 1px solid #efeaf9;
+}
+/* Zebra (kept) + rose-tint hover (was lavender). Records gains zebra/hover
+   for the first time — it had neither. */
+body.page-npl-stats #records tbody tr:nth-child(even) { background: #faf9fd; }
+body.page-npl-stats .rx-stat-table tbody tr:hover,
+body.page-npl-stats #team-stats tbody tr:hover,
+body.page-npl-stats #records tbody tr:hover { background: #fdf0f3; }
+
+/* First column (player / team / record name): semibold night even when the
+   name has no profile link (e.g. Dawid Malan, D'Arcy Short). */
+body.page-npl-stats .rx-stat-table tbody td:first-child,
+body.page-npl-stats #team-stats tbody td:first-child,
+body.page-npl-stats #records tbody td:first-child {
+  font-weight: 600;
+  color: #090811;
+}
+
+/* Numbers right-aligned (first column stays left). Records is all text,
+   so it is excluded from right-alignment. */
+body.page-npl-stats .rx-stat-table th:not(:first-child),
+body.page-npl-stats .rx-stat-table td:not(:first-child),
+body.page-npl-stats #team-stats th:not(:first-child),
+body.page-npl-stats #team-stats td:not(:first-child) { text-align: right; }
+/* Text columns back to left: "Match" (trailing col) and "Result". */
+body.page-npl-stats #high-scores th:last-child,
+body.page-npl-stats #high-scores td:last-child,
+body.page-npl-stats #best-bowling th:last-child,
+body.page-npl-stats #best-bowling td:last-child,
+body.page-npl-stats #fastest-50 th:last-child,
+body.page-npl-stats #fastest-50 td:last-child,
+body.page-npl-stats #high-team-totals th:nth-child(5),
+body.page-npl-stats #high-team-totals td:nth-child(5),
+body.page-npl-stats #high-team-totals th:nth-child(6),
+body.page-npl-stats #high-team-totals td:nth-child(6) { text-align: left; }
+
+/* Headline stat of each table, extra-bold night: the number the table is
+   about (Runs, Wkts, Score, Ct, SR, 6s, 4s, 50s, Balls, Ducks, Pts). */
+body.page-npl-stats #most-runs td:nth-child(3),
+body.page-npl-stats #most-wickets td:nth-child(3),
+body.page-npl-stats #high-scores td:nth-child(2),
+body.page-npl-stats #best-bowling td:nth-child(4),
+body.page-npl-stats #high-team-totals td:nth-child(2),
+body.page-npl-stats #most-catches td:nth-child(3),
+body.page-npl-stats #strike-rates td:nth-child(5),
+body.page-npl-stats #most-sixes td:nth-child(3),
+body.page-npl-stats #most-fours td:nth-child(3),
+body.page-npl-stats #fifties td:nth-child(2),
+body.page-npl-stats #fastest-50 td:nth-child(3),
+body.page-npl-stats #most-ducks td:nth-child(2),
+body.page-npl-stats #team-stats td:nth-child(7) {
+  font-weight: 800;
+  color: #090811;
+}
+
+/* Section headings consistency: each full-season table's h3 gets the same
+   rose left bar as the teams page's top-four cards. */
+body.page-npl-stats .rx-stat-table h3 {
+  border-left: 3px solid #e11d48;
+  padding-left: .6rem;
+}
+
+/* "See all N players" summary: same rose bold treatment as the "yet to"
+   (rx-zero) summary above it. */
+body.page-npl-stats details.rx-more summary {
+  cursor: pointer;
+  color: #e11d48;
+  font-weight: 700;
+  margin-top: .6rem;
+}
+
+/* Top Performances cards: same hover lift as the teams cards
+   (translate + shadow), with a reduced-motion guard. */
+body.page-npl-stats .rx-perf-card {
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+body.page-npl-stats .rx-perf-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px rgba(9, 8, 17, .10);
+}
+@media (prefers-reduced-motion: reduce) {
+  body.page-npl-stats .rx-perf-card { transition: none; }
+  body.page-npl-stats .rx-perf-card:hover { transform: none; }
+}
