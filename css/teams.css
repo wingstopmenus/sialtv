@@ -106,12 +106,15 @@ body.league-npl .tm2-detail-row dd a { color: var(--st-rose-deep); text-decorati
 .tm2-stat-row dd { margin: .1rem 0 0; font-weight: 700; }
 body.league-npl .tm2-stat-row dd a { color: var(--st-rose-deep); text-decoration: none; }
 
-/* (6) Squad sits inside the 3-col grid (cols 1-2) instead of below it,
-   so it starts right under the centre column instead of under the
-   tallest (right) rail — kills the ~200px dead band above the heading. */
-.tm2-squad-span { grid-column: 1 / 3; min-width: 0; }
-@media (max-width: 1199px) { .tm2-squad-span { grid-column: 1 / -1; } }
-@media (max-width: 899px) { .tm2-squad-span { grid-column: auto; } }
+/* (6) ROUND 2 — Squad is a flex child of .hub3-center (last child),
+   NOT a grid item in row 2 of .hub3. Row 1's height is set by the
+   tallest column (the right rail), so a row-2 squad waited below the
+   rail's bottom and left a ~500-650px blank stretch in the main column.
+   Inside the centre flex column (display:flex; flex-direction:column;
+   gap:1.25rem in style.css) the squad's top is exactly the bottom of
+   the last centre card + the column gap, whatever the rail's height —
+   the blank stretch is structurally impossible. No rule needed here;
+   the old .tm2-squad-span grid-column rules are deleted. */
 
 /* Section heads match the st-inner spacing (was 2.75rem bottom margin). */
 body.league-npl .st-block__head { margin: 0 0 1rem; }
