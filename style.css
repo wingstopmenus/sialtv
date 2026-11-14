@@ -26,6 +26,7 @@
   --st-radius-sm: 1.1rem;
   --st-pill: 999px;
   --st-shell: 1160px;
+  --hub-wide: 1320px;
   --st-font: "Plus Jakarta Sans", "Segoe UI", ui-sans-serif, system-ui, sans-serif;
   --st-ease: 180ms cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -86,7 +87,7 @@ body.st-home ul { margin: 0; padding: 0; list-style: none; }
 .st-skip:focus { top: 0.75rem; }
 
 .st-shell {
-  width: min(var(--st-shell), calc(100% - 2.5rem));
+  width: min(var(--hub-wide), calc(100% - 2.5rem));
   margin-inline: auto;
 }
 
@@ -1014,7 +1015,7 @@ body.st-home .st-block__head--left p { font-size: 1rem; max-width: 46rem; }
 }
 
 @media (max-width: 640px) {
-  .st-shell { width: min(var(--st-shell), calc(100% - 1.5rem)); }
+  .st-shell { width: min(var(--hub-wide), calc(100% - 1.5rem)); }
   .st-leagues,
   .st-jumps { grid-template-columns: 1fr; }
   .st-block { padding: 2.5rem 0 2.25rem; }
@@ -1108,7 +1109,7 @@ body.st-inner {
 body.st-inner a { color: var(--st-rose-deep); text-decoration: none; }
 body.st-inner a:hover { text-decoration: underline; }
 body.st-inner .wrap {
-  width: min(var(--st-shell), calc(100% - 2.5rem));
+  width: min(var(--hub-wide), calc(100% - 2.5rem));
   margin-inline: auto;
 }
 body.st-inner .live-dot {
@@ -1339,7 +1340,7 @@ body.st-inner tbody tr:hover { background: var(--st-bg); }
   .st-match-strip .wrap { flex-direction: column; align-items: flex-start; gap: 0.35rem; }
 }
 @media (max-width: 640px) {
-  body.st-inner .wrap { width: min(var(--st-shell), calc(100% - 1.5rem)); }
+  body.st-inner .wrap { width: min(var(--hub-wide), calc(100% - 1.5rem)); }
   body.st-inner .page-head { padding: 1.75rem 0 1.25rem; }
 }
 
