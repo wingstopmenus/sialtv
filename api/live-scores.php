@@ -708,6 +708,8 @@ function sialtv_map_innings(array $summary, string $name1, string $name2): array
                             'maidens' => (string) ($nums['maidens'] ?? '0'),
                             'runs' => (string) ($nums['conceded'] ?? '0'),
                             'wickets' => (string) $wkts,
+                            'wides' => (string) ($nums['wides'] ?? '0'),
+                            'noballs' => (string) ($nums['noballs'] ?? '0'),
                             'econ' => sialtv_economy($overs, (float) ($nums['conceded'] ?? 0)),
                         ];
                     }

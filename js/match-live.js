@@ -195,7 +195,9 @@
         '<td>' + esc(b.overs == null ? '' : b.overs) + '</td>' +
         '<td>' + esc(b.maidens == null ? '' : b.maidens) + '</td>' +
         '<td>' + esc(b.runs) + '</td><td>' + esc(b.wickets) + '</td>' +
-        '<td>' + esc(b.econ == null ? '' : b.econ) + '</td></tr>';
+        '<td>' + esc(b.econ == null ? '' : b.econ) + '</td>' +
+        '<td>' + esc(b.wides == null ? '' : b.wides) + '</td>' +
+        '<td>' + esc(b.noballs == null ? '' : b.noballs) + '</td></tr>';
     }).join('');
   }
 
@@ -485,9 +487,9 @@
       html += '</tbody></table></div>';
     }
     if (bowls.length) {
-      html += '<h3>Bowlers</h3><div class="table-scroll"><table class="t-nums"><thead><tr><th>Bowler</th><th>O</th><th>M</th><th>R</th><th>W</th><th>Econ</th></tr></thead><tbody>';
+      html += '<h3>Bowlers</h3><div class="table-scroll"><table class="t-nums"><thead><tr><th>Bowler</th><th>O</th><th>M</th><th>R</th><th>W</th><th>Econ</th><th>WD</th><th>NB</th></tr></thead><tbody>';
       html += bowls.map(function (b) {
-        return '<tr><td>' + esc(b.name) + (b.current ? ' *' : '') + '</td><td>' + esc(b.overs == null ? '' : b.overs) + '</td><td>' + esc(b.maidens == null ? '' : b.maidens) + '</td><td>' + esc(b.runs) + '</td><td>' + esc(b.wickets) + '</td><td>' + esc(b.econ == null ? '' : b.econ) + '</td></tr>';
+        return '<tr><td>' + esc(b.name) + (b.current ? ' *' : '') + '</td><td>' + esc(b.overs == null ? '' : b.overs) + '</td><td>' + esc(b.maidens == null ? '' : b.maidens) + '</td><td>' + esc(b.runs) + '</td><td>' + esc(b.wickets) + '</td><td>' + esc(b.econ == null ? '' : b.econ) + '</td><td>' + esc(b.wides == null ? '' : b.wides) + '</td><td>' + esc(b.noballs == null ? '' : b.noballs) + '</td></tr>';
       }).join('');
       html += '</tbody></table></div><p class="note">* At the crease / bowling now.</p>';
     }
@@ -553,7 +555,7 @@
         }
       }
       if (hasBowl) {
-        html += '<div class="table-scroll"><table class="t-nums"><thead><tr><th>Bowler</th><th>O</th><th>M</th><th>R</th><th>W</th><th>Econ</th></tr></thead><tbody>';
+        html += '<div class="table-scroll"><table class="t-nums"><thead><tr><th>Bowler</th><th>O</th><th>M</th><th>R</th><th>W</th><th>Econ</th><th>WD</th><th>NB</th></tr></thead><tbody>';
         html += bowlRows(g.bowling);
         html += '</tbody></table></div>';
       }
@@ -777,16 +779,18 @@
     }
     return null;
   }
-  /* Tab SET per state (user screenshots, 2026-11-13): the tabs themselves change
-     with the state, not just the active one. Upcoming: Summary | Stats | Squads |
-     Table. Live: Live | Scorecard | Commentary | Live Stats | News | Playing XI.
-     Result: Summary | Scorecard | MVP | Commentary | Stats | Overs | News.
-     Each tab link + panel carries data-states="..." in the baked HTML; a tab
-     with no data-states is treated as always visible (backward compatible). */
+  /* Tab SET per state (user screenshots, 2026-11-13; live/result corrected
+     2026-11-14): the tabs themselves change with the state, not just the active
+     one. Upcoming: Summary | Stats | Squads | Table. Live: Live | Scorecard |
+     Commentary | Live Stats | Overs | Playing XI | Table (T20: NO News tab;
+     Overs + Table are VISIBLE live). Result: Summary | Scorecard | Commentary |
+     Stats | Overs | News. Each tab link + panel carries data-states="..." in
+     the baked HTML; a tab with no data-states is treated as always visible
+     (backward compatible). */
   var STATE_TABS = {
     upcoming: ['fixture', 'stats', 'squads', 'table'],
-    live: ['live', 'scorecard', 'commentary', 'livestats', 'news', 'playingxi'],
-    result: ['fixture', 'scorecard', 'mvp', 'commentary', 'stats', 'overs', 'news']
+    live: ['live', 'scorecard', 'commentary', 'livestats', 'overs', 'playingxi', 'table'],
+    result: ['fixture', 'scorecard', 'commentary', 'stats', 'overs', 'news']
   };
   var STATE_DEFAULT = { upcoming: 'fixture', live: 'live', result: 'scorecard' };
   function tabStates(el) {
