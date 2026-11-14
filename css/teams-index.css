@@ -29,3 +29,77 @@ body.page-npl-teams .home-side .pts-mini td:first-child { gap: 0.4rem; }
 /* .u-mt-10 is only defined for league-ilt20 in style.css; the hub cards
    using it need the same 10px top margin here. */
 body.page-npl-teams .u-mt-10 { margin-top: 10px; }
+
+/* BEAUTIFY (2026-11-15, stamp 03:53) — teams index polish, user order image-94.
+   Design: Hallmark floor gates + Impeccable slop check + Taste bar applied.
+   Theme only: lavender #f5f3fb, rose #e11d48 / rose-deep #be123c, night #090811,
+   Plus Jakarta Sans. No Cricinfo blue, no new colour, no new text, no new
+   sections. Sticky-fix block above is UNTOUCHED (max-height + overflow-y). */
+
+/* --- Team cards: air, hierarchy, hover (desktop, >=981px) --- */
+@media (min-width: 981px) {
+  body.page-npl-teams .team {
+    padding: 1.25rem 1.4rem;
+    margin-bottom: 1rem;
+    gap: 1.15rem;
+    transition: transform var(--st-ease), box-shadow var(--st-ease), border-color var(--st-ease);
+  }
+  body.page-npl-teams .team:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--st-shadow);
+    border-color: #d9d3ea;
+  }
+  /* Logo as a soft tile so the eight crests read as one set (Pokhara keeps
+     its night chip from style.css — excluded here, its pale gold needs dark). */
+  body.page-npl-teams .team img.tl-tile:not([alt*="Pokhara"]) {
+    background: var(--st-bg-soft);
+    padding: 0.45rem;
+    box-sizing: border-box;
+  }
+  body.page-npl-teams .team-body > b { font-size: 1.2rem; }
+  body.page-npl-teams .team-body > b a:hover { color: var(--st-rose-deep); }
+  /* Rose rule under the "Teams" heading — echoes the sidebar coverage card. */
+  body.page-npl-teams #teams .st-block__head h2::after {
+    content: "";
+    display: block;
+    width: 3rem;
+    height: 3px;
+    background: var(--st-rose);
+    border-radius: 2px;
+    margin-top: 0.5rem;
+  }
+}
+
+/* --- Team cards: footer rhythm + top-four accent (all widths) --- */
+body.page-npl-teams .team-body p:last-of-type {
+  border-top: 1px solid var(--st-line);
+  padding-top: 0.55rem;
+  margin-top: 0.55rem;
+}
+/* Playoff cut: the top four reach the playoffs (sidebar footnote). Quiet rose
+   left bar on the four cards above the cut — no new text, rank line already
+   states the position. */
+body.page-npl-teams .team.tm-top4 { border-left: 3px solid var(--st-rose); }
+
+/* --- Sidebar: one rose top accent per card (the base .st-jump rainbow
+   top borders are dead on st-inner pages — the later border shorthand wipes
+   them; this restores the intended accent, uniformly rose, on-theme). --- */
+body.page-npl-teams .home-side .side-card { border-top: 3px solid var(--st-rose); }
+
+/* --- Points mini: playoff cut line under row 4 (top four qualify). --- */
+body.page-npl-teams #points-table .t-pts tbody tr:nth-child(4) td {
+  border-bottom: 2px solid var(--st-rose);
+}
+
+/* --- Leader rows: tighter rhythm so "Innings: 7 · Average: 34.57" stops
+   splitting mid-phrase in the 300px rail. --- */
+body.page-npl-teams .home-side .side-card li:has(.tp-main) { gap: 0.7rem; }
+body.page-npl-teams .home-side .tp-photo { width: 44px; height: 44px; }
+body.page-npl-teams .home-side .tp-sub { font-size: 0.82rem; line-height: 1.4; }
+body.page-npl-teams .home-side .tp-fig { font-size: 1.25rem; }
+
+/* Reduced motion: hover lift off, everything else static. */
+@media (prefers-reduced-motion: reduce) {
+  body.page-npl-teams .team { transition: none; }
+  body.page-npl-teams .team:hover { transform: none; }
+}
