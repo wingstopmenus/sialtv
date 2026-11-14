@@ -35,24 +35,39 @@
 }
 
 /* Hub: player cards — photo left, name + role + statline right. */
-.pl-hub-card { display: flex; gap: .75rem; align-items: center; padding: .6rem .75rem; border: 1px solid var(--st-line); border-radius: .75rem; background: #fff; }
-.pl-hub-card .pl-hub-photo { flex: none; width: 72px; height: 72px; border-radius: .5rem; overflow: hidden; }
+.pl-hub-card { display: flex; gap: .75rem; align-items: center; padding: .75rem .9rem; border: 1px solid var(--st-line); border-radius: .75rem; background: #fff; transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease; }
+.pl-hub-card:hover { transform: translateY(-3px); box-shadow: var(--st-shadow-sm); border-color: rgba(225,29,72,.35); }
+.pl-hub-card .pl-hub-photo { flex: none; width: 80px; height: 80px; border-radius: .5rem; overflow: hidden; border: 1px solid var(--st-line); background: #f5f3fb; }
 .pl-hub-card .pl-hub-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .pl-hub-card .pl-hub-photo .pl-hub-init { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: #090811; color: #fff; font-weight: 800; font-size: 1.25rem; }
 .pl-hub-card .pl-hub-body { min-width: 0; }
 .pl-hub-card .pl-hub-body > a { color: var(--st-ink); font-weight: 700; }
-.pl-hub-card .pl-hub-body > a:hover { color: var(--st-rose-deep); }
+.pl-hub-card .pl-hub-body > a:hover { color: var(--st-rose-deep); text-decoration: underline; }
 .pl-hub-role { display: block; font-size: .85rem; color: #5b6070; }
-.pl-hub-stats { display: block; font-size: .85rem; }
+.pl-hub-stats { display: block; font-size: .85rem; font-weight: 600; color: var(--st-ink-2); }
 
 /* Hub: team filter chips + search (moved out of inline styles). */
 .pl-filter { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; margin: 1rem 0 .25rem; }
-.pl-chip { padding: .45rem .8rem; border: 1px solid var(--st-line); border-radius: 999px; background: #fff; color: #0c1022; font-weight: 700; cursor: pointer; }
+.pl-chip { padding: .45rem .8rem; border: 1px solid var(--st-line); border-radius: 999px; background: #fff; color: #0c1022; font-weight: 700; cursor: pointer; transition: background .15s ease, color .15s ease, border-color .15s ease; }
+.pl-chip:hover { border-color: var(--st-rose); color: var(--st-rose-deep); }
 .pl-chip[aria-current="true"] { background: #e11d48; border-color: #e11d48; color: #fff; }
 .pl-search { flex: 1 1 12rem; min-width: 10rem; padding: .5rem .8rem; border: 1px solid var(--st-line); border-radius: .6rem; }
 
 /* Hub: team sections grid. */
 .pl-team-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); gap: .75rem; }
+
+/* 3 players per row on desktop (user order 2026-11-15, image-97) — was
+   auto-fill 4 per row at 15rem min. Tablet 2, phone 1. Wider cards
+   (325px at the 1000px main column) also cut name wrapping. */
+@media (min-width: 981px) {
+  .pl-team-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (min-width: 641px) and (max-width: 980px) {
+  .pl-team-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 640px) {
+  .pl-team-grid { grid-template-columns: minmax(0, 1fr); }
+}
 
 /* Hub sidebar: 300px rail on desktop (user order 2026-11-14).
    MEASURED live rule (cascade, 2026-11-15): the old rule WAS a fixed 280px
@@ -73,7 +88,7 @@
 /* Side cards: style.css gives .side-card only a border — no background,
    padding, radius or shadow — so on mobile (and desktop) they read as plain
    boxes. Same component on hub + profiles, so one rule fixes both. */
-body.st-inner .side-card { background: #fff; border-radius: var(--st-radius-sm); padding: 1rem 1.15rem; box-shadow: var(--st-shadow-sm); }
+body.st-inner .side-card { background: #fff; border-radius: var(--st-radius-sm); padding: 1rem 1.15rem; box-shadow: var(--st-shadow-sm); border-top: 3px solid var(--st-rose); }
 
 /* Hub nav card ("On this page"): team rows with logo + code chip (team-rail
    pattern). The flex rule beats style.css `.side-card li > a { display:
@@ -94,3 +109,35 @@ body.st-inner .side-card li.pl-nav-team > a:hover { color: var(--st-rose-deep); 
 .pl-nav-logo { width: 1.6rem; height: 1.4rem; object-fit: contain; flex: none; }
 .pl-nav-name { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 1rem; }
 .pl-nav-code { margin-left: auto; flex: none; font-size: .72rem; font-weight: 800; letter-spacing: .05em; color: #090811; background: #f5f3fb; border: 1px solid var(--st-line); border-radius: 999px; padding: .15rem .4rem; }
+
+/* Players hub beautify — 2026-11-15 (user order, image-97). Theme tokens only,
+   no new colours, no new sections, no text changes. */
+
+/* Section headings: rose bar under every h2 (teams-page pattern). */
+body.page-npl-players .home-main .st-block__head h2::after { content: ""; display: block; width: 2.75rem; height: 3px; background: var(--st-rose); border-radius: 2px; margin-top: .5rem; }
+
+/* Team sections: clearer rhythm between squads. */
+body.page-npl-players section[data-team-section] { margin-top: 2rem; }
+
+/* Intro: first paragraph as a lead (text unchanged). */
+body.page-npl-players section#top > p:first-of-type { font-size: 1.1rem; line-height: 1.7; }
+
+/* Filter row: the real classes are .player-filter / #playerSearch
+   (.pl-filter / .pl-search above are unused — the hub uses these). */
+body.page-npl-players .player-filter { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; margin: 1.25rem 0 .5rem; }
+body.page-npl-players #playerSearch { flex: 1 1 12rem; min-width: 10rem; padding: .55rem .85rem; border: 1px solid var(--st-line); border-radius: .6rem; background: #fff; font: inherit; color: var(--st-ink); }
+body.page-npl-players #playerSearch:focus { outline: none; border-color: var(--st-rose); box-shadow: 0 0 0 3px rgba(225,29,72,.15); }
+
+/* Sidebar: heading + leader/caption hierarchy. */
+body.st-inner .side-card h3 { font-size: 1.05rem; font-weight: 800; letter-spacing: -0.01em; margin: 0 0 .5rem; }
+body.st-inner .side-card li > span { color: var(--st-mute); font-size: .85rem; }
+
+/* "Full squad…" footer line: divider above it. */
+body.page-npl-players section[data-team-section] > p.note { border-top: 1px solid var(--st-line); padding-top: .8rem; }
+
+/* Reduced motion: no lift, no chip transition. */
+@media (prefers-reduced-motion: reduce) {
+  .pl-hub-card { transition: none; }
+  .pl-hub-card:hover { transform: none; }
+  .pl-chip { transition: none; }
+}
