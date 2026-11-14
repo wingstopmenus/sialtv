@@ -1,11 +1,13 @@
 /* Teams index page (/npl/teams) — scoped sidebar + grid. Added 2026-11-14.
    The base .home-grid split (1.5fr / 0.85fr) gave the sidebar ~36% of the
-   shell (~430px at 1320px). The rail is now 280px and the content takes
+   shell (~430px at 1320px). The rail is now 300px and the content takes
    the rest, matching the schedule/stats pages' rail pattern. */
 @media (min-width: 981px) {
-  body.page-npl-teams .home-grid { grid-template-columns: minmax(0, 1fr) 280px; }
+  body.page-npl-teams .home-grid { grid-template-columns: minmax(0, 1fr) 300px; }
+  /* Sticky rail — same mechanism as schedule/stats/players sidebars. */
+  body.page-npl-teams .home-side { position: sticky; top: 5.5rem; align-self: start; }
 }
-/* Points mini stays readable inside the 280px rail. */
+/* Points mini stays readable inside the 300px rail. */
 body.page-npl-teams .home-side .pts-mini th,
 body.page-npl-teams .home-side .pts-mini td { padding: 0.5rem 0.35rem; }
 body.page-npl-teams .home-side .pts-mini td:first-child { gap: 0.4rem; }
