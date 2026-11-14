@@ -69,26 +69,25 @@
   .pl-team-grid { grid-template-columns: minmax(0, 1fr); }
 }
 
-/* Hub sidebar: 300px rail on desktop (user order 2026-11-14).
-   MEASURED live rule (cascade, 2026-11-15): the old rule WAS a fixed 280px
-   track at >=981px — players.css `body.st-inner .home-grid` (0,2,1) beats
-   style.css base `1.5fr/0.85fr` (0,1,0); the `1fr` rule is max-width:980px
-   only; schedule/stats 320px rules are page-scoped. The rule is re-scoped
-   to body.page-npl-players (0,3,1, same pattern as teams-index) so 300px
-   holds at every desktop width (1576px and 1920px alike). Profiles do not
-   use .home-grid (verified: live lokesh-bam profile has 0x home-grid), so
-   this only affects the hub. The min-width keeps the <=980px stacked mobile
-   layout untouched (grid 1fr, sidebar below content). Sticky rail, same as
-   schedule/stats pages. */
+/* Hub sidebar: 320px rail on desktop — FIX-3 (2026-11-15) matches the NPL hub
+   (.hub3 right rail = 320px). Was 300px (user order 2026-11-14, for the old
+   text sidebar). MEASURED (Playwright, 1280px): at 300px the new hub-style TP
+   rows wrap — line 2 ("Innings: 7 · Average: 13.17") breaks to 2 lines on
+   5 of 6 rows (mainW 148–161px), rows 114–115px vs the hub's 94–96px. At
+   320px the same rows measure mainW 160–168px, no wrap, rows 94–96px — the
+   hub exactly. Nav rows only gain slack at 320px (SPR 241.7px vs 283.2px
+   available). Profiles do not use .home-grid, so this only affects the hub.
+   The min-width keeps the <=980px stacked mobile layout untouched (grid 1fr,
+   sidebar below content). Sticky rail, same as schedule/stats pages. */
 @media (min-width: 981px) {
-  body.st-inner.page-npl-players .home-grid { grid-template-columns: minmax(0, 1fr) 300px; }
+  body.st-inner.page-npl-players .home-grid { grid-template-columns: minmax(0, 1fr) 320px; }
   body.st-inner .home-side { position: sticky; top: 5.5rem; }
 }
 
 /* Side cards: style.css gives .side-card only a border — no background,
    padding, radius or shadow — so on mobile (and desktop) they read as plain
    boxes. Same component on hub + profiles, so one rule fixes both. */
-body.st-inner .side-card { background: #fff; border-radius: var(--st-radius-sm); padding: 1rem 1.15rem; box-shadow: var(--st-shadow-sm); border-top: 3px solid var(--st-rose); }
+body.st-inner .side-card { background: #fff; border-radius: var(--st-radius-sm); padding: 1rem 1.15rem; box-shadow: var(--st-shadow-sm); }
 
 /* Hub nav card ("On this page"): team rows with logo + code chip (team-rail
    pattern). The flex rule beats style.css `.side-card li > a { display:

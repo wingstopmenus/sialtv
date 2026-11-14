@@ -84,10 +84,6 @@ body.page-npl-teams .team-body p:last-of-type {
    states the position. */
 body.page-npl-teams .team.tm-top4 { border-left: 3px solid var(--st-rose); }
 
-/* --- Sidebar: one rose top accent per card (the base .st-jump rainbow
-   top borders are dead on st-inner pages — the later border shorthand wipes
-   them; this restores the intended accent, uniformly rose, on-theme). --- */
-body.page-npl-teams .home-side .side-card { border-top: 3px solid var(--st-rose); }
 
 /* --- Points mini: playoff cut line under row 4 (top four qualify). --- */
 body.page-npl-teams #points-table .t-pts tbody tr:nth-child(4) td {

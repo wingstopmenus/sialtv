@@ -182,11 +182,12 @@ body.page-npl-stats .rx-perf-row img.rx-perf-photo { width: 2.5rem; height: 2.5r
 body.page-npl-stats .rx-stat-table table, body.page-npl-stats #records table { display: table; }
 body.page-npl-stats #team-stats table { display: table; min-width: 34rem; }
 
-/* --- Sidebar 300px (2026-11-15): base 320px rule is in style.css (shared file — do not
-   touch); this scoped override wins because stats.css loads after style.css. The
-   ≤980px stacked mobile layout is untouched (this rule is ≥981px only). --- */
+/* --- Sidebar rail 320px (FIX-3 2026-11-15): matches the hub right rail
+   (.hub3 = 300px minmax(0,1fr) 320px). style.css .home-grid is 1.5fr/0.85fr,
+   so the width is set here; stats.css loads after style.css. The ≤980px
+   stacked mobile layout is untouched (this rule is ≥981px only). --- */
 @media (min-width: 981px) {
-  body.page-npl-stats .home-grid { grid-template-columns: minmax(0, 1fr) 300px; }
+  body.page-npl-stats .home-grid { grid-template-columns: minmax(0, 1fr) 320px; }
 }
 /* --- Sidebar mini as teams mini (2026-11-15): same .t-pts pts-mini table (logos/codes +
    M/W/L/PTS/NRR). Rail padding mirrors the teams rail so 6 columns fit the 300px rail. --- */
@@ -338,3 +339,27 @@ body.page-npl-stats .rx-perf-card:hover {
   body.page-npl-stats .rx-perf-card { transition: none; }
   body.page-npl-stats .rx-perf-card:hover { transform: none; }
 }
+
+/* --- FIX-3 (2026-11-15): sidebar cards match the NPL hub right rail
+   (https://sialtv.com/npl/ — .side-card / .tp-list / .t-pts). The hub
+   classes come from /style.css; these scoped rules only resolve conflicts
+   with the older .sts-* sidebar rules. No red top border: the
+   body.st-inner .side-card border shorthand (0,2,1) beats .st-jump's 3px
+   rose top border (0,1,0) and its nth-child colours (0,2,0). --- */
+
+/* Nav card keeps its 2-column link grid (the hub has no nav card). */
+body.page-npl-stats .side-card.sts-nav ul { display: grid; grid-template-columns: 1fr 1fr; gap: 0 .9rem; }
+body.page-npl-stats .side-card.sts-nav li { font-size: .92rem; }
+/* League line under the nav heading: hub-style muted, normal case. */
+body.page-npl-stats .side-card .sts-league { color: #667085; font-size: .9rem; margin: 0 0 .6rem; }
+/* Sidebar links keep the live weight; sub-lines keep the live grey. */
+body.page-npl-stats .side-card li > a { font-weight: 600; }
+body.page-npl-stats .side-card li > span { color: #6b6580; font-size: .83rem; line-height: 1.4; }
+/* Points mini: hub rows — no hairline separators, no lavender header
+   underline (the rose thead bar comes from /style.css .t-pts). Cell padding
+   is governed by the style.css #points-table ID rules (0.45rem 0.35rem) on
+   both pages — identical by construction, so no padding override here. */
+body.page-npl-stats .sts-table .pts-mini thead th { border-bottom: 0; }
+body.page-npl-stats .sts-table .pts-mini td { border-bottom: 0; }
+/* Hub footnote under the points table (same mute grey as the hub). */
+body.page-npl-stats .side-card .note { color: #667085; }

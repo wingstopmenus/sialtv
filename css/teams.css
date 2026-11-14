@@ -386,3 +386,45 @@ body.league-npl .tm2-stat-row dd a, body.league-npl .tm2-detail-row dd a { color
 @media (max-width: 980px) {
   .tm2-hero-form { display: none; }
 }
+
+/* ============ FIX-3 (2026-11-15, stamps 04:32-04:46) ============
+   Sidebar cards match the NPL HUB (https://sialtv.com/npl/):
+   no rose top border, hub TP rows (48px photo/crest/initials, 2
+   sub-lines, black bold names, plain View-full links), hub points
+   mini (rose thead, uppercase, FULL TABLE header link, black codes,
+   no pink own-row, footnote, no bottom button), hub card order,
+   hub grid 300/1fr/320. Centre cards + left rail untouched. */
+
+/* (1) Right-rail cards: hub frame — thin border only, NO rose top.
+   .st-jump already gives the 1px border/radius/shadow; this overrides
+   the blanket rose top (rule 4) for the right rail only. Specificity
+   (0,3,1) beats rule (4) (0,2,1). */
+body.league-npl .hub3-right .side-card { border-top: 1px solid var(--st-line); }
+
+/* (7) Grid = hub: 300px left / 1fr centre / 320px right (was 320/640/320).
+   Centre lands at 660px like the hub, so the 2-across 315px squad cards
+   (640px) and fixture lines still fit; left rail returns to the 300px
+   its detail rows were designed for. Desktop only. */
+@media (min-width: 981px) {
+  body.league-npl .hub3 { grid-template-columns: 300px minmax(0, 1fr) 320px; }
+}
+
+/* (2/3) TP rows, hub values (style.css .tp-*, st-inner scoped — mirrored
+   here for body.league-npl). Photo 48px; initials disc pale lavender
+   (hub .tp-initials), NOT the black squad disc. Names black bold. */
+body.league-npl .tp-photo { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; flex-shrink: 0; }
+body.league-npl .tp-photo.tp-initials { display: inline-flex; align-items: center; justify-content: center; background: var(--st-bg-soft); color: var(--st-ink-2); font-weight: 800; font-size: .95rem; }
+body.league-npl .tp-main .tp-name { font-weight: 750; color: var(--st-ink); }
+body.league-npl .tp-sub { font-size: .85rem; line-height: 1.45; }
+body.league-npl .tp-fig { font-size: 1.35rem; }
+
+/* (5) Points mini, hub values: rose thead (uppercase), black bold codes,
+   zebra rows, 24px logos, footnote, FULL TABLE header link. */
+.tm2-mini th { background: var(--st-rose); color: #fff; text-transform: uppercase; }
+.tm2-mini tr.tm2-own td { background: transparent; }
+.tm2-mini tbody tr:nth-child(even) { background: var(--st-bg-soft); }
+.tm2-mini img.team-logo { width: 1.5rem; height: 1.5rem; }
+.tm2-mini td:first-child { font-weight: 700; }
+.tm2-mini td:first-child a { color: var(--st-ink); }
+body.league-npl .side-card .see-all { font-size: .78rem; font-weight: 700; color: var(--st-rose-deep); float: right; }
+body.league-npl .note { color: var(--st-mute); font-size: .8rem; margin: 1rem 0 0; line-height: 1.5; }
