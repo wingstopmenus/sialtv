@@ -70,6 +70,8 @@ body.page-npl-stats .rx-stat-table tbody tr:nth-child(even) { background: #faf9f
 body.page-npl-stats .rx-stat-table tbody tr:hover { background: #f5f3fb; }
 body.page-npl-stats .rx-stat-table td a { color: #090811; font-weight: 600; }
 body.page-npl-stats .rx-stat-table td a:hover { color: #e11d48; }
+body.page-npl-stats #team-stats td a { color: #090811; font-weight: 600; }
+body.page-npl-stats #team-stats td a:hover { color: #e11d48; }
 body.page-npl-stats .rx-table-note { color: #6b6580; font-size: .85rem; margin: 0 0 .5rem; }
 body.page-npl-stats details.rx-zero { margin: .5rem 0 0; }
 body.page-npl-stats details.rx-zero summary { cursor: pointer; color: #e11d48; font-weight: 700; }
