@@ -48,3 +48,74 @@ a.tm2-player:hover{border-color:#e11d48}
   .tm2-hero h1{font-size:1.45rem}
   .tm2-squad-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}
 }
+
+/* ---- Layout fix 2026-11-14 (browser audit, desktop 1919px) ----
+   Root cause (all defects): team pages are body.league-npl, NOT
+   body.st-inner, so every body.st-inner-scoped rule in /style.css
+   (secnav links, side-card lists, .tp-*, .fx-*, link colour/decoration)
+   never applies — the document fallback (body:not(.st-home), 0,1,2)
+   wins instead: underlined links, no list spacing, no flex rows.
+   These rules carry the st-inner behaviour over to team pages only
+   (this file loads only on team pages). body.league-npl selectors
+   (0,2,x) beat the fallback (0,1,2). No masthead/fragment rules here. */
+
+/* (1) Secondary nav links: padding + current pill, like st-inner pages.
+   Was one continuous underlined string (no padding, UA underline). */
+body.league-npl .secnav-links a { color: var(--st-ink-2); font-weight: 600; font-size: 0.93rem; padding: 0.45rem 0.65rem; border-radius: 0.65rem; text-decoration: none; white-space: nowrap; }
+body.league-npl .secnav-links a:hover { background: var(--st-bg-soft); color: var(--st-ink); }
+body.league-npl .secnav-links a[aria-current="page"] { color: var(--st-rose-deep); background: var(--st-rose-soft); }
+body.league-npl .secnav-drop a { display: block; padding: 0.55rem 0.75rem; border-radius: 0.6rem; color: var(--st-ink-2); font-weight: 600; font-size: 0.92rem; text-decoration: none; }
+body.league-npl .secnav-drop a:hover { background: var(--st-bg-soft); color: var(--st-ink); }
+
+/* (2) Side-card lists: reset (team pages had UA bullets + 40px indent),
+   separators, and the top-performer flex rows — totals sit right-aligned
+   inline (margin-left:auto) instead of dropping to their own line. */
+body.league-npl .side-card ul { margin: 0; padding: 0; list-style: none; }
+body.league-npl .side-card li { padding: 0.7rem 0; border-top: 1px solid var(--st-line); }
+body.league-npl .side-card li:first-child { border-top: 0; }
+body.league-npl .side-card li > a { display: block; color: var(--st-ink); text-decoration: none; }
+body.league-npl .side-card li:has(.tp-main) { display: flex; align-items: center; gap: 0.85rem; }
+body.league-npl .tp-main { display: flex; flex-direction: column; gap: 0.15rem; min-width: 0; }
+body.league-npl .tp-main a { color: var(--st-rose-deep); text-decoration: none; }
+body.league-npl .tp-sub { color: var(--st-mute); font-size: 0.85rem; line-height: 1.45; }
+body.league-npl .tp-fig { margin-left: auto; font-size: 1.5rem; font-weight: 800; font-variant-numeric: tabular-nums; }
+
+/* (3) Fixtures/results: date/desc on their own lines, team line flex
+   (wrap allowed) so the JS-injected live score <b> (margin-left:auto,
+   nowrap, global rule) sits right-aligned instead of orphaned. */
+body.league-npl .fx-seg { display: flex; gap: 0.4rem; margin-bottom: 1rem; }
+body.league-npl .fx-seg-btn { flex: 1; background: var(--st-bg); border: 1px solid var(--st-line); color: var(--st-ink-2); font-weight: 650; font-size: 0.9rem; padding: 0.55rem 0.75rem; border-radius: 0.7rem; cursor: pointer; }
+body.league-npl .fx-seg-btn:hover { background: var(--st-bg-soft); }
+body.league-npl .fx-seg-btn[aria-pressed="true"] { background: var(--st-rose); border-color: var(--st-rose); color: #fff; font-weight: 700; }
+body.league-npl .fx-date { display: block; color: var(--st-rose-deep); font-size: 0.78rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; }
+body.league-npl .fx-desc { display: block; color: var(--st-mute); font-size: 0.85rem; }
+body.league-npl .fx-team { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; font-weight: 700; font-size: 0.95rem; }
+body.league-npl .fx-status { display: block; color: var(--st-mute); font-size: 0.85rem; margin-top: 0.25rem; }
+
+/* (4) Detail rows: labels never wrap; values right-aligned, wrap cleanly.
+   Stats card (narrow 300px left rail) stacks label over value so
+   nothing wraps there at all. (build.py step 8 converts the 11 inline
+   rows per page to these classes; the 300px rail is NOT widened — that
+   would steal from the centre column and break its "First match" row.) */
+.tm2-detail-row { display: flex; justify-content: space-between; gap: 1rem; padding: .45rem 0; border-top: 1px solid rgba(227,223,240,.85); }
+.tm2-detail-row dt { color: #5b5a6b; flex: 0 0 auto; white-space: nowrap; }
+.tm2-detail-row dd { margin: 0; font-weight: 600; text-align: right; min-width: 0; overflow-wrap: break-word; }
+body.league-npl .tm2-detail-row dd a { color: var(--st-rose-deep); text-decoration: none; }
+.tm2-stat-row { padding: .5rem 0; border-top: 1px solid rgba(227,223,240,.85); }
+.tm2-stat-row dt { color: #5b5a6b; font-size: .82rem; font-weight: 700; letter-spacing: .02em; }
+.tm2-stat-row dd { margin: .1rem 0 0; font-weight: 700; }
+body.league-npl .tm2-stat-row dd a { color: var(--st-rose-deep); text-decoration: none; }
+
+/* (6) Squad sits inside the 3-col grid (cols 1-2) instead of below it,
+   so it starts right under the centre column instead of under the
+   tallest (right) rail — kills the ~200px dead band above the heading. */
+.tm2-squad-span { grid-column: 1 / 3; min-width: 0; }
+@media (max-width: 1199px) { .tm2-squad-span { grid-column: 1 / -1; } }
+@media (max-width: 899px) { .tm2-squad-span { grid-column: auto; } }
+
+/* Section heads match the st-inner spacing (was 2.75rem bottom margin). */
+body.league-npl .st-block__head { margin: 0 0 1rem; }
+
+/* Hero text must shrink on narrow screens (row layout, no min-width). */
+.tm2-hero-text { min-width: 0; }
+.tm2-hero h1 { overflow-wrap: break-word; }

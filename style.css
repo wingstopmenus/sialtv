@@ -2841,3 +2841,15 @@ body.page-npl-stats #more .records-grid { display: grid; grid-template-columns: 
 @media (max-width: 640px) {
   body.page-npl-stats #more .records-grid { grid-template-columns: 1fr; }
 }
+
+/* ---------- Team pages layout fix 2026-11-14 (browser audit) ----------
+   Strip next-arrow overlapped the last visible card's right edge/border:
+   at desktop .st-strip-view AND .st-strip-track both have 0 right padding
+   (the FAIL-4 fix removed the view gutters), so the 40px absolute arrow
+   sits on the last card. Give the TRACK a right lane (inside the scroll
+   area) so the last card ends clear of the arrow; the arrow stays visually
+   attached to the cards — no detached gutter (the FAIL-4 complaint).
+   Desktop/tablet only: mobile hides the arrows and needs no lane. */
+@media (min-width: 641px) {
+  .st-strip-track { padding-right: 3.25rem; }
+}
