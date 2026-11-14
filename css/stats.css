@@ -1,0 +1,169 @@
+/* NPL stats page — Cricinfo structure, sialtv theme.
+   Palette (locked, user order 2026-11-14): lavender #f5f3fb, rose #e11d48,
+   night #090811. No Cricinfo brand colour anywhere — not on tabs, accents,
+   sidebar, strip or nav. Scoped to body.page-npl-stats (.sts-). */
+
+/* --- content rhythm + section heads --- */
+body.page-npl-stats .home-main section { margin-bottom: 2.5rem; }
+body.page-npl-stats .home-main section:last-child { margin-bottom: 0; }
+body.page-npl-stats .st-block__head { margin-bottom: 1rem; }
+body.page-npl-stats .st-block__head h2 {
+  color: #090811;
+  font-size: 1.5rem;
+  line-height: 1.25;
+  margin: 0;
+  padding-bottom: .45rem;
+  border-bottom: 3px solid #e11d48;
+  display: inline-block;
+}
+body.page-npl-stats .rx-viewall { margin: .6rem 0 0; }
+body.page-npl-stats .rx-viewall a { color: #e11d48; font-weight: 700; }
+
+/* --- Top performances cards --- */
+body.page-npl-stats .rx-perf-grid { gap: 1rem; }
+body.page-npl-stats .rx-perf-card {
+  border-top: 3px solid #e11d48;
+  background: #fff;
+}
+body.page-npl-stats .rx-perf-card h3 { color: #090811; }
+body.page-npl-stats .rx-perf-card .rx-perf-note { color: #6b6580; font-size: .85rem; margin: 0 0 .25rem; }
+body.page-npl-stats .rx-perf-row .rx-ava {
+  background: #f5f3fb;
+  color: #090811;
+  border: 1px solid #e4ddf3;
+  border-radius: 50%;
+  width: 2.5rem;
+  height: 2.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: .85rem;
+  flex: none;
+}
+body.page-npl-stats .rx-perf-row .rx-perf-fig { color: #e11d48; }
+body.page-npl-stats .rx-perf-foot a { color: #e11d48; }
+
+/* --- Full season tables --- */
+body.page-npl-stats .rx-stat-table { margin: 0 0 1.75rem; }
+body.page-npl-stats .rx-stat-table h3 {
+  color: #090811;
+  font-size: 1.2rem;
+  margin: 0 0 .6rem;
+}
+body.page-npl-stats .rx-stat-table table { width: 100%; border-collapse: collapse; }
+body.page-npl-stats .rx-stat-table thead th {
+  background: #f5f3fb;
+  color: #090811;
+  text-align: left;
+  padding: .6rem .7rem;
+  border-bottom: 2px solid #e4ddf3;
+  white-space: nowrap;
+}
+body.page-npl-stats .rx-stat-table thead th[data-sort] { cursor: pointer; }
+body.page-npl-stats .rx-stat-table tbody td {
+  padding: .55rem .7rem;
+  border-bottom: 1px solid #efeaf9;
+  font-variant-numeric: tabular-nums;
+}
+body.page-npl-stats .rx-stat-table tbody tr:nth-child(even) { background: #faf9fd; }
+body.page-npl-stats .rx-stat-table tbody tr:hover { background: #f5f3fb; }
+body.page-npl-stats .rx-stat-table td a { color: #090811; font-weight: 600; }
+body.page-npl-stats .rx-stat-table td a:hover { color: #e11d48; }
+body.page-npl-stats .rx-table-note { color: #6b6580; font-size: .85rem; margin: 0 0 .5rem; }
+body.page-npl-stats details.rx-zero { margin: .5rem 0 0; }
+body.page-npl-stats details.rx-zero summary { cursor: pointer; color: #e11d48; font-weight: 700; }
+
+/* --- Team stats + Season records --- */
+body.page-npl-stats #team-stats table { width: 100%; border-collapse: collapse; }
+body.page-npl-stats #team-stats thead th {
+  background: #f5f3fb;
+  color: #090811;
+  text-align: left;
+  padding: .6rem .7rem;
+  border-bottom: 2px solid #e4ddf3;
+}
+body.page-npl-stats #team-stats tbody td { padding: .55rem .7rem; border-bottom: 1px solid #efeaf9; font-variant-numeric: tabular-nums; }
+body.page-npl-stats #team-stats tbody tr:nth-child(even) { background: #faf9fd; }
+body.page-npl-stats #records table { width: 100%; border-collapse: collapse; }
+body.page-npl-stats #records thead th {
+  background: #f5f3fb;
+  color: #090811;
+  text-align: left;
+  padding: .6rem .7rem;
+  border-bottom: 2px solid #e4ddf3;
+}
+body.page-npl-stats #records tbody td { padding: .6rem .7rem; border-bottom: 1px solid #efeaf9; }
+body.page-npl-stats #records tbody td a { color: #090811; font-weight: 600; }
+body.page-npl-stats #records tbody td a:hover { color: #e11d48; }
+body.page-npl-stats .note { color: #6b6580; }
+
+/* --- More NPL coverage link cards --- */
+body.page-npl-stats #more .records-grid a { color: #090811; }
+body.page-npl-stats #more .records-grid a:hover { color: #e11d48; }
+
+/* --- Sidebar rail (320px, sticky — width set in style.css) --- */
+body.page-npl-stats .sts-card {
+  background: #fff;
+  border: 1px solid #e4ddf3;
+  border-radius: 12px;
+  padding: 1rem 1.1rem;
+}
+body.page-npl-stats .sts-card h3 {
+  font-size: .92rem;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: #090811;
+  margin: 0 0 .25rem;
+}
+body.page-npl-stats .sts-card h3 .sts-seeall {
+  float: right;
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: .82rem;
+  font-weight: 700;
+  color: #e11d48;
+}
+body.page-npl-stats .sts-card .sts-league {
+  color: #6b6580;
+  font-size: .8rem;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  margin: 0 0 .6rem;
+}
+body.page-npl-stats .sts-card ul { list-style: none; margin: 0; padding: 0; }
+body.page-npl-stats .sts-card li { padding: .32rem 0; border-top: 1px solid #f0ebfa; }
+body.page-npl-stats .sts-card li:first-child { border-top: 0; }
+body.page-npl-stats .sts-card li a { color: #090811; font-weight: 600; text-decoration: none; }
+body.page-npl-stats .sts-card li a:hover { color: #e11d48; }
+body.page-npl-stats .sts-card li span { display: block; color: #6b6580; font-size: .83rem; line-height: 1.4; }
+body.page-npl-stats .sts-nav ul { display: grid; grid-template-columns: 1fr 1fr; gap: 0 .9rem; }
+body.page-npl-stats .sts-nav li { font-size: .92rem; }
+
+/* mini points table */
+body.page-npl-stats .sts-table table { width: 100%; border-collapse: collapse; font-size: .88rem; }
+body.page-npl-stats .sts-table th {
+  text-align: left;
+  color: #6b6580;
+  font-size: .78rem;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  padding: .35rem .3rem;
+  border-bottom: 2px solid #e4ddf3;
+}
+body.page-npl-stats .sts-table th:nth-child(n+2),
+body.page-npl-stats .sts-table td:nth-child(n+2) { text-align: right; }
+body.page-npl-stats .sts-table td { padding: .42rem .3rem; border-bottom: 1px solid #f0ebfa; font-variant-numeric: tabular-nums; }
+body.page-npl-stats .sts-table td:first-child { font-weight: 700; color: #090811; }
+body.page-npl-stats .sts-table tr:nth-child(-n+4) td:first-child { border-left: 3px solid #e11d48; padding-left: .5rem; }
+body.page-npl-stats .sts-table .sts-note { color: #6b6580; font-size: .82rem; margin: .6rem 0 0; }
+
+/* --- narrow screens: rail stacks below content (grid 1fr, style.css) --- */
+@media (max-width: 980px) {
+  body.page-npl-stats .sts-nav ul { grid-template-columns: 1fr 1fr; }
+  body.page-npl-stats .st-block__head h2 { font-size: 1.3rem; }
+}
+@media (max-width: 640px) {
+  body.page-npl-stats .rx-perf-grid { grid-template-columns: 1fr; }
+  body.page-npl-stats .home-main section { margin-bottom: 2rem; }
+}
