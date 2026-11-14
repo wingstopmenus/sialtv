@@ -1,0 +1,14 @@
+/* Teams index page (/npl/teams) — scoped sidebar + grid. Added 2026-11-14.
+   The base .home-grid split (1.5fr / 0.85fr) gave the sidebar ~36% of the
+   shell (~430px at 1320px). The rail is now 280px and the content takes
+   the rest, matching the schedule/stats pages' rail pattern. */
+@media (min-width: 981px) {
+  body.page-npl-teams .home-grid { grid-template-columns: minmax(0, 1fr) 280px; }
+}
+/* Points mini stays readable inside the 280px rail. */
+body.page-npl-teams .home-side .pts-mini th,
+body.page-npl-teams .home-side .pts-mini td { padding: 0.5rem 0.35rem; }
+body.page-npl-teams .home-side .pts-mini td:first-child { gap: 0.4rem; }
+/* .u-mt-10 is only defined for league-ilt20 in style.css; the hub cards
+   using it need the same 10px top margin here. */
+body.page-npl-teams .u-mt-10 { margin-top: 10px; }
