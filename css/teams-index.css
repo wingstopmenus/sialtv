@@ -6,6 +6,21 @@
   body.page-npl-teams .home-grid { grid-template-columns: minmax(0, 1fr) 300px; }
   /* Sticky rail — same mechanism as schedule/stats/players sidebars. */
   body.page-npl-teams .home-side { position: sticky; top: 5.5rem; align-self: start; }
+  /* STICKY FIX (2026-11-15, browser-proven): the sidebar is 2036px tall but
+     the content column is only ~1828px, so the grid row height equals the
+     sidebar height and the sticky stick-range is ZERO (gridHeight -
+     asideHeight = 0) — the rail can never pin and scrolls away with the
+     page. Stats/players pin because their content columns are far taller
+     than their sidebars. Cap the rail to the viewport (minus the sticky
+     header + a bottom gap) and let it scroll internally: the rail now pins
+     at top:5.5rem for ~836px of page scroll and all four cards stay
+     reachable via the rail's own thin scrollbar. Desktop only (<=980px
+     the rail stacks below the content, uncapped). */
+  body.page-npl-teams .home-side {
+    max-height: calc(100vh - 5.5rem - 1rem);
+    overflow-y: auto;
+    scrollbar-width: thin;
+  }
 }
 /* Points mini stays readable inside the 300px rail. */
 body.page-npl-teams .home-side .pts-mini th,
