@@ -71,7 +71,7 @@ body.league-npl .secnav-drop a:hover { background: var(--st-bg-soft); color: var
    st-inner), so style.css's st-inner-scoped secnav rules never apply —
    the league title rendered 1.25rem (hub 1.05rem) and the nav had no white
    surface/border. (FIX-8, 2026-11-15.) */
-body.league-npl nav.series-secnav { background: var(--st-surface); border-bottom: 1px solid var(--st-line); }
+body.league-npl nav.series-secnav { background: var(--st-surface); border-bottom: 1px solid var(--st-line); margin: 0; }
 body.league-npl nav.series-secnav .secnav-title { font-size: 1.05rem; }
 
 /* (2) Side-card lists: reset (team pages had UA bullets + 40px indent),
