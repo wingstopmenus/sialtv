@@ -143,3 +143,39 @@
     if (!e.target.closest('[data-search]')) close();
   });
 })();
+
+/* Back-to-top floating button (2026-11-15) — site-wide, fragment route.
+   The masthead fragment carries <button id="st-to-top">; this IIFE wires
+   it. It runs after inject(), so the button already exists. Separate IIFE
+   on purpose: the search IIFE above returns early when there is no search
+   input, and this must not depend on it. No-op when the button is absent
+   (fragment fetch failed -> skeleton header, no dead button).
+   Shows past 400px, smooth-scrolls to top (instant when the user prefers
+   reduced motion — the site's html { scroll-behavior: smooth } already
+   flips to auto under prefers-reduced-motion, and we match it here). */
+(function () {
+  'use strict';
+
+  var btn = document.getElementById('st-to-top');
+  if (!btn) return;
+
+  var SHOW_AFTER = 400;
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var ticking = false;
+
+  function update() {
+    ticking = false;
+    var y = window.scrollY || window.pageYOffset || 0;
+    btn.classList.toggle('is-visible', y > SHOW_AFTER);
+  }
+
+  function onScroll() {
+    if (!ticking) { ticking = true; requestAnimationFrame(update); }
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  btn.addEventListener('click', function () {
+    window.scrollTo({ top: 0, behavior: reduced ? 'auto' : 'smooth' });
+  });
+  update();
+})();

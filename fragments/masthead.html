@@ -40,5 +40,14 @@
     </div>
   </div>
 </header>
+<!-- Back-to-top (2026-11-15, site-wide): sibling of the header, NOT inside it,
+     so no transformed/filtered ancestor breaks its position:fixed. The
+     #mastheadMount loader replaces the mount with this header + button
+     (outerHTML takes all top-level nodes). Behaviour in /js/search.js.
+     Match pages without the fragment loader (match-27/28) get the same
+     button from /js/match-live.js instead. -->
+<button id="st-to-top" class="st-to-top" type="button" aria-label="Back to top">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+</button>
 
 

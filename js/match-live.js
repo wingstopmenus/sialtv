@@ -1449,3 +1449,47 @@
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
   else boot();
 })();
+
+/* Back-to-top floating button (2026-11-15) — match-page route.
+   Match pages built WITHOUT the masthead fragment loader (NPL match-27
+   and match-28; the fragment reaches 469/471 sitemap pages, these two do
+   not) get the button here instead: this file already loads on every
+   match page (defer). Guard first: pages WITH #mastheadMount get the
+   button from the fragment + /js/search.js, so this creates nothing there
+   (no duplicates, no timing race with the async fragment fetch). Same
+   markup, id, class and behaviour as the fragment route; styling is the
+   shared .st-to-top rule in /style.css, which every page links. */
+(function () {
+  'use strict';
+
+  if (document.getElementById('mastheadMount')) return;
+  if (document.getElementById('st-to-top')) return;
+
+  var btn = document.createElement('button');
+  btn.id = 'st-to-top';
+  btn.className = 'st-to-top';
+  btn.type = 'button';
+  btn.setAttribute('aria-label', 'Back to top');
+  btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>';
+  document.body.appendChild(btn);
+
+  var SHOW_AFTER = 400;
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var ticking = false;
+
+  function update() {
+    ticking = false;
+    var y = window.scrollY || window.pageYOffset || 0;
+    btn.classList.toggle('is-visible', y > SHOW_AFTER);
+  }
+
+  function onScroll() {
+    if (!ticking) { ticking = true; requestAnimationFrame(update); }
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  btn.addEventListener('click', function () {
+    window.scrollTo({ top: 0, behavior: reduced ? 'auto' : 'smooth' });
+  });
+  update();
+})();
