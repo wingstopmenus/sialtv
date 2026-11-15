@@ -2818,6 +2818,8 @@ body.st-inner .rx-legend .rx-fc-a { background: #e0e7ff; color: #3730a3; }
   body.st-inner .rx-legend .rx-leg-hide-m { display: none; }
 }
 body.st-inner .rx-pts .rx-teamcell a, body.st-inner .secnav-drop a, body.st-inner .secnav-switch, body.st-inner .lead { word-spacing: 0.12em; }
+/* Word-spacing insurance — 2026-11-16 (homepage: collapsed word spaces on the user's Windows Chrome; HTML spaces byte-correct, Plus Jakarta Sans space glyph healthy at 170-180/1000 upm, no kern/ligature on space, no negative word-spacing in CSS — root cause not reproducible in Linux Chromium; see sialtv-homepage-layout/REPORT.md). The 2026-11-14 insurance covered 4 inner-page selectors only; the homepage had none. 0.12em matches that precedent: it forces a visible gap after every word even if a space glyph renders at ~0 width on some machine, and is small enough that normal rendering just looks a touch airier. This is insurance, NOT the root-cause fix — the root-cause attempt is the static-weights font link on the homepage. */
+body.st-home, body.st-inner { word-spacing: 0.12em; }
 .league-switch { margin: 0 0 1rem; }
 .league-switch .secnav-switch { border: 1px solid var(--st-line); background: var(--st-surface); border-radius: 0.65rem; padding: 0.5rem 0.8rem; font-weight: 700; font-size: 0.95rem; color: var(--st-ink); }
 .league-switch .secnav-switch:hover { background: var(--st-bg-soft); }
