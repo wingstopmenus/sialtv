@@ -58,16 +58,22 @@
   /* Tab sets per state. Panel ids are ci-panel-<key>; tab links carry
      data-ci-panel="<key>". */
   var TABS_BY_STATE = {
-    upcoming: ['summary', 'stats', 'squads', 'table'],
+    upcoming: ['summary', 'scorecard', 'stats', 'squads', 'playingxi', 'table'],
     live: ['live', 'scorecard', 'commentary', 'livestats', 'overs', 'playingxi', 'table'],
     result: ['summary', 'scorecard', 'commentary', 'stats', 'overs', 'table'],
-    abandoned: ['summary', 'stats', 'squads', 'table']
+    abandoned: ['summary', 'scorecard', 'stats', 'squads', 'playingxi', 'table']
   };
   var DEFAULT_TAB = { upcoming: 'summary', live: 'live', result: 'scorecard', abandoned: 'summary' };
 
   var timer = null;
   var seenStatus = '';
   var pickedByUser = false;
+  var commOldest = false;
+  var commPage = 1;
+  var commPeriod = 0;
+  var commDone = false;
+  var commLoading = false;
+  var commObs = null;
 
   function $(sel, root) { return (root || document).querySelector(sel); }
   function $all(sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); }
@@ -180,6 +186,110 @@
             list.hidden = list.getAttribute('data-ci-squad-list') !== show;
           });
         });
+      });
+    });
+  }
+
+  /* ---------- stats chips (All / Head To Head / Players to watch) ---------- */
+
+  function wireStatsChips() {
+    $all('[data-ci-stats-chips]').forEach(function (wrap) {
+      var buttons = $all('[data-ci-stats]', wrap);
+      var panel = wrap.closest('section') || document;
+      buttons.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var show = btn.getAttribute('data-ci-stats');
+          buttons.forEach(function (b) { b.setAttribute('aria-pressed', b === btn ? 'true' : 'false'); });
+          $all('[data-ci-stats-block]', panel).forEach(function (block) {
+            block.hidden = show !== 'all' && block.getAttribute('data-ci-stats-block') !== show;
+          });
+        });
+      });
+    });
+  }
+
+  /* ---------- bowling victim chevrons (baked scorecard) ---------- */
+
+  function wireVictims() {
+    $all('.ci-wvict').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var list = btn.parentNode.querySelector('.ci-wvict-list');
+        if (!list) return;
+        var open = list.hidden;
+        list.hidden = !open;
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+        btn.textContent = open ? '▴' : '▾';
+      });
+    });
+  }
+
+  /* ---------- recent-performance full-form chevron ---------- */
+
+  function wireRecent() {
+    $all('[data-ci-recent]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var row = btn.closest('.ci-recent');
+        var full = row ? row.querySelector('.ci-wl-full') : null;
+        if (!full) return;
+        var open = full.hidden;
+        full.hidden = !open;
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+    });
+  }
+
+  /* ---------- commentary filters (baked + live panels; delegated, so the
+     live panel's filter row — created on the first live render — works) ---------- */
+
+  function wireCommentaryFilters() {
+    document.addEventListener('click', function (ev) {
+      var btn = ev.target.closest ? ev.target.closest('[data-ci-comm-order]') : null;
+      if (!btn) return;
+      var panel = btn.closest('section') || document;
+      var newest = btn.getAttribute('aria-pressed') === 'true';
+      commOldest = newest;
+      btn.setAttribute('aria-pressed', newest ? 'false' : 'true');
+      btn.textContent = newest ? 'Oldest first' : 'Newest first';
+      $all('.ci-comm-group', panel).forEach(function (g) {
+        var list = g.querySelector('.ci-comm');
+        if (list) {
+          var items = $all('li', list);
+          items.reverse().forEach(function (li) { list.appendChild(li); });
+        }
+      });
+      var gs = $all('.ci-comm-group', panel);
+      gs.reverse().forEach(function (g) {
+        if (g.parentNode) g.parentNode.appendChild(g);
+      });
+    });
+    document.addEventListener('change', function (ev) {
+      var sel = ev.target.closest ? ev.target.closest('[data-ci-comm-inn]') : null;
+      if (!sel) return;
+      var panel = sel.closest('section') || document;
+      var want = sel.value;
+      $all('.ci-comm-group', panel).forEach(function (g) {
+        g.hidden = want !== '0' && g.getAttribute('data-ci-inn') !== want;
+      });
+    });
+  }
+
+  /* ---------- share button (Web Share, else copy link) ---------- */
+
+  function wireShare() {
+    $all('[data-ci-share]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var url = location.href;
+        var done = function () {
+          btn.textContent = 'Copied!';
+          setTimeout(function () { btn.textContent = 'Share'; }, 2000);
+        };
+        if (navigator.share) {
+          navigator.share({ title: document.title, url: url }).catch(function () { /* dismissed */ });
+          return;
+        }
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(url).then(done, function () { /* clipboard denied */ });
+        }
       });
     });
   }
@@ -318,6 +428,64 @@
     return String(b.runs == null ? '0' : b.runs);
   }
 
+  /* "Over 36" -> 36; "36.4" -> 36. Never parseInt on the raw label:
+     parseInt("Over 36") is NaN — that was the old renderWorm bug. */
+  function overNum(label) {
+    var m = /(\d+)/.exec(String(label || ''));
+    return m ? parseInt(m[1], 10) : NaN;
+  }
+
+  function isLegalBall(b) {
+    var s = String(b.short || b.text || '').toLowerCase();
+    return s.indexOf('wide') === -1 && s.indexOf('no ball') === -1;
+  }
+
+  function isLegalToken(t) { return !/w$|nb$/.test(String(t)); }
+
+  /* Which innings the feed window belongs to: innings 2 once team 2 has
+     a score, else innings 1. */
+  function currentPeriod(m) { return m.score2 ? 2 : 1; }
+
+  /* The current innings' team / score / overs, by period. Walk-back
+     totals must come from the innings the window belongs to, not from the
+     battingNow heuristic (which is meaningless once a match is decided). */
+  function periodScore(m) {
+    if (currentPeriod(m) === 2) {
+      return { team: m.team2, score: scoreRuns(m.score2), overs: m.overs2 };
+    }
+    return { team: m.team1, score: scoreRuns(m.score1), overs: m.overs1 };
+  }
+
+  /* Dismissal detail box (image-124): the scorecard's dismissal string
+     for the batsman when it resolves (exact name, else a unique surname —
+     the same rule the baked pages use), else the feed's dismissal text. */
+  function wicketBox(m, b) {
+    var dism = String(b.dismissal || '').trim();
+    if (!dism) return '';
+    var name = String(b.batsman || '').trim();
+    var g = inningsInProgress(m);
+    if (g && name) {
+      var bat = g.batting || [], found = null, i;
+      for (i = 0; i < bat.length; i++) {
+        if (bat[i].name === name) { found = bat[i]; break; }
+      }
+      if (!found) {
+        var sur = name.split(' ').slice(-1)[0];
+        var cands = bat.filter(function (x) {
+          return x.name.split(' ').slice(-1)[0] === sur;
+        });
+        if (cands.length === 1) found = cands[0];
+      }
+      if (found) {
+        var d = String(found.dismissal || '').trim();
+        if (d && d.toLowerCase() !== 'not out') {
+          return '<span class="ci-wicket-box">' + esc(found.name) + ' ' + esc(d) + '</span>';
+        }
+      }
+    }
+    return '<span class="ci-wicket-box">' + esc((name ? name + ' ' : '') + dism) + '</span>';
+  }
+
   /* ---------- renderers (endpoint data -> .ci- markup) ---------- */
 
   function headerHtml(m) {
@@ -386,36 +554,312 @@
   }
 
   function stripHtml(overs) {
-    var tokens = [];
+    /* Ball strip with over labels (image-122): the last two overs' tokens,
+       each headed by its over label ("Over 36" — already 1-indexed). */
+    var parts = [];
     (overs || []).slice(0, 2).forEach(function (o) {
-      (o.tokens || []).forEach(function (t) { tokens.push(t); });
+      var toks = (o.tokens || []).map(chipFor).join('');
+      if (!toks) return;
+      parts.push('<span class="ci-strip-over">' + esc(o.label || '') + '</span>' + toks);
     });
-    if (!tokens.length) return '';
-    return '<div class="ci-strip">' + tokens.map(chipFor).join('') +
+    if (!parts.length) return '';
+    return '<div class="ci-strip">' + parts.join(' ') +
       ' <a href="#ci-panel-commentary" data-ci-goto="commentary">See all &rsaquo;</a></div>';
   }
 
-  function centreRows(m, limit) {
-    var balls = (m.commentary || []).slice(0, limit || 12);
-    if (!balls.length) return '';
-    return '<ul class="ci-comm">' + balls.map(function (b) {
-      var dism = String(b.dismissal || '').trim();
-      var line = '<li><span class="ci-over">' + esc(b.over || '') + '</span>' + chipFor(ballToken(b)) +
-        '<span class="ci-comm-text"><span class="ci-comm-head">' + esc(b.short || b.text || '') + '</span>' +
-        (dism ? '<span class="ci-wicket-box">' + esc(dism) + '</span>' : '') + '</span></li>';
-      return line;
-    }).join('') + '</ul>';
+  /* Ball-by-ball, grouped by over, with a Cricinfo-style over summary bar
+     per over (image-124). The feed window is newest-first and covers only
+     the last ~18 balls, so cumulative scores are walked BACK from the
+     current total: the end-state of the newest over is the current total,
+     and each older over's end-state subtracts the balls after it. That is
+     exact for every group in the window. The over's own runs/wickets are
+     shown only when the group is complete (its first ball is X.1 — the
+     over started inside the window) or it is the over in progress; a cut
+     oldest group shows its cumulative score and CRR only, never partial
+     over figures as if they were the whole over.
+     Over numbers: the API 'over' field is the 0-indexed actual label
+     ("36.4" = 37th over), so the display over is label+1; the PHP
+     overTimeline label "Over N" is already 1-indexed.
+     Returns [{key, html}] — key is "period-overNo" for merge dedup. */
+  function commentaryGroups(m, limitBalls, noCum) {
+    var period = currentPeriod(m);
+    var ps = periodScore(m);
+    var balls = (m.commentary || []).slice(0, limitBalls || undefined);
+    if (!balls.length) return [];
+    var chrono = balls.slice().reverse();
+    var groups = {}, order = [];
+    chrono.forEach(function (b) {
+      var ov = overNum(b.over) + 1;
+      if (isNaN(ov)) ov = 0;
+      var k = period + '-' + ov;
+      if (!groups[k]) { groups[k] = { overNo: ov, balls: [] }; order.push(k); }
+      groups[k].balls.push(b);
+    });
+    /* Walk back from the current total (newest group first). */
+    var cumRuns = ps.score ? ps.score.runs : 0;
+    var cumWkts = ps.score ? ps.score.wkts : 0;
+    var cumLegal = ballsOf(ps.overs);
+    var haveTotal = !!ps.score;
+    var live = m.live || {};
+    var batters = live.batters || [];
+    var bowlers = live.bowlers || [];
+    var out = [];
+    for (var gi = order.length - 1; gi >= 0; gi--) {
+      var key = order[gi];
+      var grp = groups[key].balls;
+      var overNo = groups[key].overNo;
+      var runs = 0, wkts = 0, legal = 0;
+      grp.forEach(function (b) {
+        runs += parseInt(b.runs || '0', 10);
+        if (String(b.dismissal || '').trim()) wkts++;
+        if (isLegalBall(b)) legal++;
+      });
+      var firstBall = String((grp[0] || {}).over || '');
+      var startedInWindow = /\.1$/.test(firstBall);
+      var isLatest = gi === order.length - 1;
+      var bar = '';
+      if (overNo > 0 && haveTotal && !noCum) {
+        var crr = cumLegal > 0 ? (cumRuns * 6 / cumLegal) : null;
+        var crrTxt = crr == null ? '' : ', CRR: ' + crr.toFixed(2);
+        var left;
+        if (isLatest || startedInWindow) {
+          left = '<b>OVER ' + overNo + '</b> — ' + runs + ' run' + (runs === 1 ? '' : 's') +
+            (wkts ? ', ' + wkts + ' wicket' + (wkts === 1 ? '' : 's') : '') +
+            ' — ' + esc(ps.team || '') + ' ' + cumRuns + '/' + cumWkts + crrTxt;
+        } else {
+          /* Cut oldest group: cumulative + CRR are exact, the over's own
+             runs are partial — show no runs clause. */
+          left = '<b>OVER ' + overNo + '</b> — ' + esc(ps.team || '') + ' ' +
+            cumRuns + '/' + cumWkts + crrTxt;
+        }
+        var right = [];
+        if (isLatest && batters.length) {
+          var ordered = batters.slice().sort(function (a, b) {
+            return (b.striker ? 1 : 0) - (a.striker ? 1 : 0);
+          });
+          ordered.forEach(function (bt) {
+            right.push(esc(bt.name) + ' ' + (bt.runs || 0) + ' (' + (bt.balls || 0) + ')');
+          });
+          var cur = null;
+          bowlers.forEach(function (bw) { if (bw.current) cur = bw; });
+          if (cur) {
+            right.push(esc(cur.name) + ' ' + (cur.overs == null ? '' : cur.overs) + '-' +
+              (cur.maidens == null ? '' : cur.maidens) + '-' + (cur.runs || 0) + '-' + (cur.wickets || 0));
+          } else if (grp[0].bowler) {
+            right.push(esc(grp[0].bowler));
+          }
+        } else {
+          /* Older overs: batters at the crease by name only, from the
+             balls' batsman field (last two distinct, most recent first;
+             a batter dismissed off the last ball is out, not at the
+             crease). Bowler by name only. */
+          var seen = {}, pair = [];
+          for (var bi = grp.length - 1; bi >= 0; bi--) {
+            var nm = String(grp[bi].batsman || '').trim();
+            if (!nm || seen[nm]) continue;
+            if (bi === grp.length - 1 && String(grp[bi].dismissal || '').trim()) continue;
+            seen[nm] = true;
+            pair.push(nm);
+            if (pair.length === 2) break;
+          }
+          pair.forEach(function (nm) { right.push(esc(nm)); });
+          if (grp[0].bowler) right.push(esc(grp[0].bowler));
+        }
+        bar = '<div class="ci-overbar"><span>' + left + '</span>' +
+          (right.length ? '<span class="ci-overbar-sub">' + right.join(' · ') + '</span>' : '') + '</div>';
+      } else if (noCum && overNo > 0 && (isLatest || startedInWindow) && legal === 6) {
+        /* Appended older pages (infinite scroll): no cumulative exists for
+           them — show the over's own figures only, and only for a complete
+           over. */
+        bar = '<div class="ci-overbar"><span><b>OVER ' + overNo + '</b> — ' + runs +
+          ' run' + (runs === 1 ? '' : 's') +
+          (wkts ? ', ' + wkts + ' wicket' + (wkts === 1 ? '' : 's') : '') +
+          (grp[0].bowler ? ' · ' + esc(grp[0].bowler) : '') + '</span></div>';
+      }
+      var items = (commOldest ? grp.slice() : grp.slice().reverse()).map(function (b) {
+        return '<li data-ci-ball="' + esc((b.over || '') + '|' + (b.short || b.text || '')) + '">' +
+          '<span class="ci-over">' + esc(b.over || '') + '</span>' + chipFor(ballToken(b)) +
+          '<span class="ci-comm-text"><span class="ci-comm-head">' + esc(b.short || b.text || '') + '</span>' +
+          wicketBox(m, b) + '</span></li>';
+      }).join('');
+      out.push({
+        key: key,
+        html: '<div class="ci-comm-group" data-ci-inn="' + period + '" data-ci-over="' + key + '">' +
+          bar + '<ul class="ci-comm">' + items + '</ul></div>'
+      });
+      cumRuns -= runs; cumWkts -= wkts; cumLegal -= legal;
+    }
+    /* Display order: newest first (Cricinfo default), oldest first after
+       the user toggles. `out` was built newest-first. */
+    return commOldest ? out.reverse() : out;
   }
 
-  function overBars(m) {
-    var overs = (m.live && m.live.recentOvers) || m.overTimeline || [];
-    if (!overs.length) return '';
-    return overs.map(function (o) {
-      var toks = (o.tokens || []).map(chipFor).join('');
-      return '<div class="ci-overbar"><span><b>Over ' + esc(o.label || '') + '</b> — ' +
-        esc(String(o.runs)) + ' runs, ' + esc(String(o.wickets)) + ' wicket' +
-        (o.bowler ? ' &middot; ' + esc(o.bowler) : '') + '</span><span>' + toks + '</span></div>';
-    }).join('');
+  function commentaryGroupsHtml(m, limitBalls, noCum) {
+    return commentaryGroups(m, limitBalls, noCum).map(function (g) { return g.html; }).join('');
+  }
+
+  /* Over-by-over table (image-125): cumulative score + CRR per over, walked
+     back from the current total over the last 3 overs in the timeline.
+     Maiden = 0 runs off 6 legal balls (a 0-run partial over is not one). */
+  function overDetailRows(m) {
+    var tl = ((m.live && m.live.recentOvers) || m.overTimeline || []).slice();
+    if (!tl.length) return '';
+    var ps = periodScore(m);
+    var code = TEAM_CODE[cleanName(ps.team)] || cleanName(ps.team);
+    var cumRuns = ps.score ? ps.score.runs : 0;
+    var cumWkts = ps.score ? ps.score.wkts : 0;
+    var cumLegal = ballsOf(ps.overs);
+    var out = [];
+    tl.forEach(function (o) {
+      var n = overNum(o.label);
+      var runs = o.runs || 0, wk = o.wickets || 0, legal = 0;
+      (o.tokens || []).forEach(function (t) { if (isLegalToken(t)) legal++; });
+      var crr = cumLegal > 0 ? (cumRuns * 6 / cumLegal) : null;
+      var maiden = (runs === 0 && legal === 6) ? ' is-maiden' : '';
+      var head = '<b>Over ' + (isNaN(n) ? esc(o.label || '') : n) + '</b>';
+      if (code) head += ' · ' + esc(code);
+      if (o.bowler) head += ' · ' + esc(o.bowler);
+      head += ' — ' + runs + ' run' + (runs === 1 ? '' : 's');
+      if (wk) head += ', ' + wk + ' wicket' + (wk === 1 ? '' : 's');
+      if (ps.score) {
+        head += ' | ' + cumRuns + '/' + cumWkts;
+        if (crr != null) head += ' · CRR ' + crr.toFixed(2);
+      }
+      out.push('<div class="ci-over' + maiden + '"><p class="ci-overhead">' + head + '</p>' +
+        '<p class="ci-ballrow">' + (o.tokens || []).map(chipFor).join('') + '</p></div>');
+      cumRuns -= runs; cumWkts -= wk; cumLegal -= legal;
+    });
+    return out.join('');
+  }
+
+  /* This spell: the current bowler's trailing consecutive overs in the
+     timeline (image-122). The timeline holds only the last 3 overs, so
+     when the run reaches its oldest over AND more overs have been bowled
+     than the timeline covers, the spell is truncated — say so. */
+  function thisSpell(m) {
+    var live = m.live || {};
+    var tl = live.recentOvers || m.overTimeline || [];
+    if (!tl.length) return '';
+    var bowlers = live.bowlers || [], cur = null;
+    bowlers.forEach(function (bw) { if (bw.current) cur = bw; });
+    var name = cur ? cur.name : (tl[0].bowler || '');
+    if (!name) return '';
+    var runs = 0, wkts = 0, maidens = 0, legal = 0, n = 0;
+    var tlLegal = 0;
+    tl.forEach(function (o) {
+      (o.tokens || []).forEach(function (t) { if (isLegalToken(t)) tlLegal++; });
+    });
+    for (var j = 0; j < tl.length; j++) {
+      if ((tl[j].bowler || '') !== name) break;
+      n++;
+      runs += tl[j].runs || 0;
+      wkts += tl[j].wickets || 0;
+      var lg = 0;
+      (tl[j].tokens || []).forEach(function (t) { if (isLegalToken(t)) lg++; });
+      legal += lg;
+      if ((tl[j].runs || 0) === 0 && lg === 6) maidens++;
+    }
+    if (!n) return '';
+    var ps = periodScore(m);
+    var truncated = (n === tl.length) && (ballsOf(ps.overs) > tlLegal);
+    var ov = Math.floor(legal / 6) + '.' + (legal % 6);
+    var s = 'This spell: ' + name + ' ' + ov + '-' + maidens + '-' + runs + '-' + wkts;
+    if (truncated) s += ' (last 3 overs)';
+    return s;
+  }
+
+  /* Group-based merge for the Commentary tab: the feed is a rolling
+     window, so replace the groups it covers (same data-ci-over key) and
+     prepend/append genuinely new groups. Groups the window no longer
+     covers stay put — the panel keeps older overs the window dropped.
+     Baked commentary has no [data-ci-comm-groups] container and is
+     complete, so it is never touched. */
+  function mergeCommentary(slot, m) {
+    if (!slot) return;
+    var container = slot.querySelector('[data-ci-comm-groups]');
+    if (!container) return;
+    var groups = commentaryGroups(m);
+    var existing = {};
+    $all('.ci-comm-group', container).forEach(function (g) {
+      existing[g.getAttribute('data-ci-over')] = g;
+    });
+    var frag = document.createDocumentFragment();
+    var added = 0;
+    groups.forEach(function (grp) {
+      var old = existing[grp.key];
+      if (old) { old.outerHTML = grp.html; return; }
+      var tmp = document.createElement('div');
+      tmp.innerHTML = grp.html;
+      if (tmp.firstChild) { frag.appendChild(tmp.firstChild); added++; }
+    });
+    if (added) {
+      if (commOldest) container.appendChild(frag);
+      else container.insertBefore(frag, container.firstChild);
+    }
+  }
+
+  /* Paginated fetch for infinite scroll: the endpoint reads `page` +
+     `period` — today it ignores them (summary only). The call is still
+     issued with the params so it starts working the day the endpoint
+     supports them, and the dedup below makes it safe meanwhile (same
+     window -> 0 new groups -> advance/stop). */
+  function loadMatchPage(ident, page, period) {
+    return getJson('/api/live-scores.php?league=' + encodeURIComponent(ident.league) +
+      '&page=' + page + '&period=' + period).then(function (data) {
+        var list = (data && data.matches) || [];
+        for (var i = 0; i < list.length; i++) {
+          if (list[i].id === ident.id) return { match: list[i], fetchedAt: data.fetchedAt || '' };
+        }
+        throw new Error('match not in feed');
+      });
+  }
+
+  /* Infinite scroll (image-124: "neechy scroll pe auto next load"): when
+     the sentinel scrolls into view, fetch the next older PBP page and
+     append its groups (deduped by data-ci-over). Pages run period 2 then
+     period 1; a page that adds nothing is exhausted — move on, and stop
+     after period 1. With the current endpoint every fetch returns the
+     same window, so this stops after two empty fetches. No-op while the
+     user views oldest-first (older content is above, not below). */
+  function setupCommScroll(ident, m) {
+    if (commDone || commObs) return;
+    var sentinel = document.querySelector('[data-ci-comm-sentinel]');
+    if (!sentinel || !('IntersectionObserver' in window)) return;
+    if (!commPeriod) { commPeriod = currentPeriod(m); commPage = 2; }
+    commObs = new IntersectionObserver(function (entries) {
+      if (!entries[0].isIntersecting || commLoading || commDone || commOldest) return;
+      commLoading = true;
+      loadMatchPage(ident, commPage, commPeriod).then(function (res) {
+        var container = document.querySelector('[data-ci-comm-groups]');
+        var added = 0;
+        if (container) {
+          var existing = {};
+          $all('.ci-comm-group', container).forEach(function (g) {
+            existing[g.getAttribute('data-ci-over')] = g;
+          });
+          var frag = document.createDocumentFragment();
+          /* Older pages carry no trustworthy cumulative (the walk-back
+             needs the current total), so their overbars show the over's
+             own figures only. */
+          commentaryGroups(res.match, undefined, true).forEach(function (grp) {
+            if (existing[grp.key]) return;
+            var tmp = document.createElement('div');
+            tmp.innerHTML = grp.html;
+            if (tmp.firstChild) { frag.appendChild(tmp.firstChild); added++; }
+          });
+          if (added) container.appendChild(frag);
+        }
+        if (!added) {
+          if (commPeriod === 2) { commPeriod = 1; commPage = 1; }
+          else {
+            commDone = true;
+            if (commObs) commObs.disconnect();
+          }
+        } else { commPage++; }
+        commLoading = false;
+      }).catch(function () { commLoading = false; });
+    }, { rootMargin: '400px' });
+    commObs.observe(sentinel);
   }
 
   function livePanelHtml(m) {
@@ -433,15 +877,31 @@
     var crr = runRate(m);
     if (crr) html += '<p class="ci-meta">Current RR: ' + esc(crr) + '</p>';
     html += battersTable(batters) + bowlersTable(bowlers);
-    var fow = fallOfWickets(m);
+    var spell = thisSpell(m);
+    if (spell) html += '<p class="ci-meta">' + esc(spell) + '</p>';
     if (batters.length >= 2) {
       var r0 = parseInt(batters[0].runs || '0', 10) + parseInt(batters[1].runs || '0', 10);
       var b0 = parseInt(batters[0].balls || '0', 10) + parseInt(batters[1].balls || '0', 10);
-      html += '<p class="ci-meta">Partnership: ' + r0 + ' runs (' + b0 + ' balls) &middot; ' +
-        (fow.length ? 'FOW: ' + esc(fow[fow.length - 1].score) : 'No wicket yet') + '</p>';
+      html += '<p class="ci-meta">Partnership: ' + r0 + ' runs (' + b0 + ' balls)</p>';
+    }
+    /* Last Bat + latest fall of wicket, from the feed's lastWicket. The
+       old window-relative FOW walk printed wrong scores here, and the
+       full fall list is not in the feed — only the latest fall is shown. */
+    var lw = live.lastWicket;
+    if (lw && (lw.name || lw.fow)) {
+      if (lw.name) {
+        html += '<p class="ci-meta">Last Bat: ' + esc(lw.name) +
+          (lw.runs !== '' && lw.runs != null ? ' ' + esc(lw.runs) : '') +
+          (lw.balls !== '' && lw.balls != null ? ' (' + esc(lw.balls) + ')' : '') +
+          (lw.dismissal ? ' — ' + esc(lw.dismissal) : '') + '</p>';
+      }
+      if (lw.fow) {
+        html += '<p class="ci-meta">Fall of wickets: ' + esc(lw.fow) +
+          (lw.name ? ' (' + esc(lw.name) + (lw.over ? ', ' + esc(lw.over) + ' ov' : '') + ')' : '') + '</p>';
+      }
     }
     html += stripHtml(overs);
-    html += '<h2>Match Centre</h2>' + centreRows(m, 12);
+    html += '<h2>Match Centre</h2>' + commentaryGroupsHtml(m, 12);
     html += '<a class="ci-btn-outline" href="#ci-panel-commentary" data-ci-goto="commentary">Read Full Commentary</a>';
     return html;
   }
@@ -449,7 +909,25 @@
   function scorecardHtml(m) {
     var inns = (m.scorecard && m.scorecard.innings) || [];
     if (!inns.length) return '<p class="ci-yet">Match in progress — the scorecard will appear here shortly.</p>';
-    var fow = fallOfWickets(m);
+    /* The feed window covers only the current innings. A full fall-of-
+       wickets walk from it is valid only when the window starts at the
+       innings' first ball ("0.1"); otherwise show the last wicket only.
+       The walk is shown on the innings in progress only — never under
+       the completed innings (its balls are not in the window). */
+    var balls = m.commentary || [];
+    var oldest = balls.length ? balls[balls.length - 1] : null;
+    var fullFow = !!oldest && String(oldest.over || '') === '0.1';
+    var fow = fullFow ? fallOfWickets(m) : [];
+    var fowEntry = null;
+    inns.forEach(function (h) {
+      (h.batting || []).forEach(function (b) { if (b.crease) fowEntry = h; });
+    });
+    if (!fowEntry) {
+      var psTeam = periodScore(m).team;
+      inns.forEach(function (h) {
+        if (h.team === psTeam && (h.batting || []).length) fowEntry = h;
+      });
+    }
     return inns.map(function (g) {
       var bat = g.batting || [], bowl = g.bowling || [];
       if (!bat.length && !bowl.length) return '';
@@ -464,21 +942,59 @@
             var out = String(b.dismissal || '').toLowerCase() === 'not out';
             return '<tr><td class="ci-name">' + esc(b.name) + (b.crease ? ' *' : '') + '</td>' +
               '<td class="ci-dismissal">' + esc(b.dismissal || '') + '</td>' +
-              '<td class="ci-num">' + esc(b.runs) + (out ? '*' : '') + '</td>' +
+              '<td class="ci-num"><b>' + esc(b.runs) + (out ? '*' : '') + '</b></td>' +
               '<td class="ci-num">' + esc(b.balls == null ? '' : b.balls) + '</td>' +
               '<td class="ci-num">' + esc(b.fours == null ? '' : b.fours) + '</td>' +
               '<td class="ci-num">' + esc(b.sixes == null ? '' : b.sixes) + '</td>' +
               '<td class="ci-num">' + esc(b.sr == null ? '' : b.sr) + '</td></tr>';
-          }).join('') +
-          '<tr class="ci-total"><td class="ci-name">Total</td><td></td>' +
-          '<td class="ci-num" colspan="5">' + esc(g.total || '') + '</td></tr>' +
-          '</tbody></table></div>';
-        if (fow.length) {
-          body += '<p class="ci-fow"><b>Fall of wickets:</b> ' + fow.map(function (w) {
-            return esc(w.score) + ' (' + esc(w.name) + ', ' + esc(w.over) + ' ov)';
-          }).join(', ') + '</p>';
+          }).join('');
+        /* Extras: the live innings carry no extras breakdown, so no
+           Extras row — a bare total with no breakdown would mislead. */
+        if (g.total) {
+          var tot = scoreRuns(g.total);
+          var rr = '';
+          if (tot && g.overs && ballsOf(g.overs) > 0) {
+            rr = (tot.runs * 6 / ballsOf(g.overs)).toFixed(2);
+          }
+          var totCell = '';
+          if (g.overs) totCell += esc(g.overs) + ' Ov';
+          if (rr) totCell += ' (RR: ' + rr + ', ' + (tot ? tot.wkts : 0) + ' wkts)';
+          body += '<tr class="ci-total"><td>Total</td><td>' + totCell + '</td>' +
+            '<td class="ci-num"><b>' + (tot ? tot.runs : '') + '</b></td>' +
+            '<td></td><td></td><td></td><td></td></tr>';
         }
-        if (g.yet && g.yet.length) body += '<p class="ci-dnb">Did not bat: ' + g.yet.map(esc).join(', ') + '.</p>';
+        body += '</tbody></table></div>';
+        if (g === fowEntry) {
+          if (fow.length) {
+            body += '<p class="ci-fow"><b>Fall of wickets:</b> ' + fow.map(function (w) {
+              var p = String(w.score || '').split('/');
+              if (p.length !== 2) return esc(w.score);
+              return esc(p[1] + '-' + p[0]) + ' (' + esc(w.name) + ', ' + esc(w.over) + ' ov)';
+            }).join(', ') + '</p>';
+          } else {
+            var lw = (m.live || {}).lastWicket;
+            if (lw && lw.fow) {
+              body += '<p class="ci-fow"><b>Fall of wickets:</b> ' + esc(lw.fow) +
+                (lw.name ? ' (' + esc(lw.name) + (lw.over ? ', ' + esc(lw.over) + ' ov' : '') + ')' : '') + '</p>';
+            }
+          }
+        }
+        if (g.yet && g.yet.length) body += '<p class="ci-dnb"><b>Yet to bat:</b> ' + g.yet.map(esc).join(', ') + '.</p>';
+        /* Fielding XI, one line (image-123): the other side's batting +
+           yet-to-bat names. Omitted when the other side has not batted
+           (its XI is not in the feed). Bowling-only blocks get no line. */
+        var other = null;
+        inns.forEach(function (h) {
+          if (h !== g && h.team !== g.team && (h.batting || []).length) other = h;
+        });
+        if (other) {
+          var xi = (other.batting || []).map(function (b) { return b.name; })
+            .concat(other.yet || []);
+          if (xi.length) {
+            body += '<p class="ci-fieldxi"><b>' + esc(other.team || '') + ' PLAYING XI</b> — ' +
+              xi.map(esc).join(', ') + '</p>';
+          }
+        }
       }
       if (bowl.length) {
         body += '<p class="ci-subhead">Bowling</p><div class="ci-scroll"><table class="ci-table">' +
@@ -486,7 +1002,7 @@
           '<th class="ci-num">R</th><th class="ci-num">W</th><th class="ci-num">Econ</th>' +
           '<th class="ci-num">WD</th><th class="ci-num">NB</th></tr></thead><tbody>' +
           bowl.map(function (b) {
-            return '<tr><td class="ci-name">' + esc(b.name) + (b.current ? ' *' : '') + '</td>' +
+            return '<tr><td class="ci-name">' + esc(b.name) + '</td>' +
               '<td class="ci-num">' + esc(b.overs == null ? '' : b.overs) + '</td>' +
               '<td class="ci-num">' + esc(b.maidens == null ? '' : b.maidens) + '</td>' +
               '<td class="ci-num">' + esc(b.runs) + '</td><td class="ci-num">' + esc(b.wickets) + '</td>' +
@@ -502,13 +1018,19 @@
   function commentaryHtml(m) {
     var balls = m.commentary || [];
     if (!balls.length) return '<p class="ci-yet">No ball-by-ball commentary yet. It appears here once the match starts.</p>';
-    return '<h2>Commentary</h2>' + overBars(m) + centreRows(m, balls.length);
+    var pressed = commOldest ? 'false' : 'true';
+    var label = commOldest ? 'Oldest first' : 'Newest first';
+    return '<h2>Commentary</h2>' +
+      '<p class="ci-filter-row"><button type="button" data-ci-comm-order aria-pressed="' + pressed + '">' + label + '</button></p>' +
+      '<div data-ci-comm-groups>' + commentaryGroupsHtml(m) + '</div>' +
+      '<div data-ci-comm-sentinel></div>';
   }
 
   function oversHtml(m) {
-    var overs = (m.live && m.live.recentOvers) || m.overTimeline || [];
-    if (!overs.length) return '<p class="ci-yet">No overs yet. The over-by-over summary appears here once the match starts.</p>';
-    return '<h2>Overs</h2>' + overBars(m);
+    var rows = overDetailRows(m);
+    if (!rows) return '<p class="ci-yet">No overs yet. The over-by-over summary appears here once the match starts.</p>';
+    return '<h2>Overs</h2><div class="ci-overs-grid">' + rows + '</div>' +
+      '<p class="ci-note">Showing the most recent overs.</p>';
   }
 
   function liveStatsHtml(m) {
@@ -516,6 +1038,30 @@
     var batters = live.batters || [];
     if (m.status === 'upcoming' || !batters.length) {
       return '<p class="ci-yet">Live stats appear here once the match starts.</p>';
+    }
+    var html = '<h2>Live Stats</h2><div class="ci-worm-slot" data-ci-worm></div>';
+    html += battersTable(batters) + bowlersTable(live.bowlers || []);
+    /* Scoring breakdown (image-122): Sixes / Fours / Runs in Boundaries
+       from the in-progress innings' batting sums — only when the feed
+       carries fours/sixes (the static snapshot's reduced innings do not).
+       Power Play / Middle Overs / Dot-ball % are NOT computable live
+       (the timeline holds 3 overs), so they are omitted, never guessed. */
+    var g = inningsInProgress(m);
+    var bat = (g && g.batting) || [];
+    var hasFigs = bat.length > 0 && bat.every(function (x) { return x.fours != null && x.sixes != null; });
+    if (hasFigs) {
+      var fours = 0, sixes = 0;
+      bat.forEach(function (x) {
+        fours += parseInt(x.fours || '0', 10);
+        sixes += parseInt(x.sixes || '0', 10);
+      });
+      html += '<p class="ci-subhead">Scoring Breakdown</p>' +
+        '<p class="ci-breakdown-team"><b>' + esc(g.team || '') + '</b></p>' +
+        '<table class="ci-breakdown"><thead><tr><th>Stat</th><th class="ci-num">Value</th></tr></thead><tbody>' +
+        '<tr><td>Sixes</td><td>' + sixes + '</td></tr>' +
+        '<tr><td>Fours</td><td>' + fours + '</td></tr>' +
+        '<tr><td>Runs in Boundaries</td><td>' + (4 * fours + 6 * sixes) + '</td></tr>' +
+        '</tbody></table>';
     }
     var rows = [];
     var crr = runRate(m);
@@ -530,44 +1076,50 @@
       var last5 = all.slice(-5).map(function (b) { var t = ballToken(b); return t === '0' ? '•' : t; });
       rows.push(['Last 5 balls', last5.join(' ')]);
     }
-    var g = inningsInProgress(m);
     var balls = g ? ballsOf(g.overs) : 0;
     if (crr && balls > 0 && balls < 120) {
       rows.push(['Projected score', String(Math.round(parseFloat(crr) * 20)) + ' (at the current run rate, 20 overs)']);
     }
-    if (!rows.length) return '<p class="ci-yet">Live stats appear here once the match starts.</p>';
-    return '<h2>Live Stats</h2><div class="ci-scroll"><table class="ci-table"><tbody>' +
-      rows.map(function (r) {
-        return '<tr><td class="ci-name">' + esc(r[0]) + '</td><td>' + esc(r[1]) + '</td></tr>';
-      }).join('') + '</tbody></table></div>';
+    if (rows.length) {
+      html += '<div class="ci-scroll"><table class="ci-table"><tbody>' +
+        rows.map(function (r) {
+          return '<tr><td class="ci-name">' + esc(r[0]) + '</td><td>' + esc(r[1]) + '</td></tr>';
+        }).join('') + '</tbody></table></div>';
+    }
+    return html;
   }
 
-  /* Worm: re-draw from the over timeline only when the baked rail worm
-     exists ([data-ci-worm] with a baked first-innings series). Chase
-     overs come from overTimeline + the current total. */
+  /* Worm: re-draw from the over timeline + the current total. The timeline
+     holds only the last 3 overs, so the line starts at its oldest over —
+     never from (0,0), which would fabricate the early trajectory — except
+     when the timeline starts at over 1 (the feed covers from the start).
+     Fills EVERY [data-ci-worm] slot (rail + Live Stats tab). The baked
+     result worm has no data-ci-worm attribute, so it is never touched.
+     Stroke stays #0b5ed7 (the match content area is the Cricinfo-blue
+     exception by design). */
   function renderWorm(m) {
-    var wrap = $('[data-ci-worm]');
-    if (!wrap) return;
-    var bat = battingNow(m);
-    if (!bat) return;
-    var total = scoreRuns(bat.score);
-    if (!total) return;
-    var tl = (m.overTimeline || []).slice().sort(function (a, b) {
-      return (parseInt(a.label, 10) || 0) - (parseInt(b.label, 10) || 0);
-    });
-    var points = [[0, 0]], later = 0;
-    for (var i = tl.length - 1; i >= 0; i--) {
-      var n = parseInt(tl[i].label, 10);
-      if (isNaN(n)) continue;
-      points.unshift([n, total.runs - later]);
+    var wraps = $all('[data-ci-worm]');
+    if (!wraps.length) return;
+    var ps = periodScore(m);
+    if (!ps.team || !ps.score) return;
+    var tl = ((m.live && m.live.recentOvers) || m.overTimeline || []).slice();
+    tl = tl.filter(function (o) { return !isNaN(overNum(o.label)); });
+    tl.sort(function (a, b) { return overNum(a.label) - overNum(b.label); });
+    if (!tl.length) return;
+    var later = 0, cum = {}, i;
+    for (i = tl.length - 1; i >= 0; i--) {
+      cum[overNum(tl[i].label)] = ps.score.runs - later;
       later += (tl[i].runs || 0);
     }
-    if (points.length < 2) points.push([Math.floor(parseFloat(bat.overs) || 0), total.runs]);
-    var maxRuns = Math.max(125, Math.ceil(total.runs / 25) * 25);
+    var points = [];
+    if (overNum(tl[0].label) === 1) points.push([0, 0]);
+    tl.forEach(function (o) { points.push([overNum(o.label), cum[overNum(o.label)]]); });
+    if (points.length < 2) return;
+    var maxRuns = Math.max(125, Math.ceil(ps.score.runs / 25) * 25);
     var X = function (o) { return 40 + o * 25; };
     var Y = function (r) { return 150 - r * (130 / maxRuns); };
     var f = function (n) { return (Math.round(n * 100) / 100).toString(); };
-    var svg = '<svg viewBox="0 0 560 180" width="100%" role="img" aria-label="Worm chart: ' + esc(bat.team) + ' runs by over">';
+    var svg = '<svg viewBox="0 0 560 180" width="100%" role="img" aria-label="Worm chart: ' + esc(ps.team) + ' runs by over">';
     for (var o = 0; o <= 20; o += 5) {
       svg += '<line x1="' + f(X(o)) + '" y1="20" x2="' + f(X(o)) + '" y2="150" stroke="#e8e8e8"/>' +
         '<text x="' + f(X(o)) + '" y="168" font-size="11" text-anchor="middle" fill="#666">' + o + '</text>';
@@ -582,8 +1134,8 @@
       svg += '<circle cx="' + f(X(p[0])) + '" cy="' + f(Y(p[1])) + '" r="4" fill="#0b5ed7"/>';
     });
     svg += '<text x="40" y="14" font-size="12" font-weight="700" fill="#111">' +
-      esc(bat.team) + ' — ' + esc(bat.score) + ' (' + esc(bat.overs || '') + ' ov)</text></svg>';
-    wrap.innerHTML = svg;
+      esc(ps.team) + ' — ' + esc(ps.score.runs + '/' + ps.score.wkts) + ' (' + esc(ps.overs || '') + ' ov)</text></svg>';
+    wraps.forEach(function (wrap) { wrap.innerHTML = svg; });
   }
 
   /* ---------- title / H1 on state change ---------- */
@@ -651,9 +1203,8 @@
 
   /* ---------- one poll render ---------- */
 
-  function render(m, fetchedAt) {
+  function render(m, fetchedAt, ident) {
     headerHtml(m);
-    renderWorm(m);
     function fill(id, html) {
       var panel = document.getElementById('ci-panel-' + id);
       if (!panel) return;
@@ -662,38 +1213,30 @@
     }
     fill('live', livePanelHtml(m));
     fill('scorecard', scorecardHtml(m));
-    /* Commentary merges: the feed is a rolling window, so prepend only
-       balls the page does not already show (keyed by over + text). */
+    /* Commentary: the feed is a rolling window, so the panel is built
+       once (heading + filter + groups + sentinel) and then merged group
+       by group. A baked commentary panel has no container and is
+       complete — it is never touched. */
     var commPanel = document.getElementById('ci-panel-commentary');
     if (commPanel) {
-      var slot = $('[data-ci-live-slot]', commPanel);
-      if (slot) {
-        if (!slot.getAttribute('data-ci-comm-seeded')) {
-          slot.innerHTML = commentaryHtml(m);
-          slot.setAttribute('data-ci-comm-seeded', '1');
-        } else {
-          var seen = {};
-          $all('[data-ci-ball]', slot).forEach(function (li) { seen[li.getAttribute('data-ci-ball')] = true; });
-          var fresh = (m.commentary || []).filter(function (b) {
-            return !seen[(b.over || '') + '|' + (b.short || b.text || '')];
-          });
-          if (fresh.length) {
-            var list = slot.querySelector('.ci-comm');
-            fresh.forEach(function (b) {
-              var li = document.createElement('li');
-              li.setAttribute('data-ci-ball', (b.over || '') + '|' + (b.short || b.text || ''));
-              var dism = String(b.dismissal || '').trim();
-              li.innerHTML = '<span class="ci-over">' + esc(b.over || '') + '</span>' + chipFor(ballToken(b)) +
-                '<span class="ci-comm-text"><span class="ci-comm-head">' + esc(b.short || b.text || '') + '</span>' +
-                (dism ? '<span class="ci-wicket-box">' + esc(dism) + '</span>' : '') + '</span>';
-              if (list) list.insertBefore(li, list.firstChild);
-            });
-          }
-        }
+      if (commPanel.querySelector('[data-ci-comm-groups]')) {
+        mergeCommentary(commPanel, m);
+      } else if (!commPanel.querySelector('.ci-comm-group')) {
+        commPanel.innerHTML = commentaryHtml(m);
+        if (ident) setupCommScroll(ident, m);
       }
     }
     fill('overs', oversHtml(m));
     fill('livestats', liveStatsHtml(m));
+    /* Playing XI: the feed carries no XI. Only fill a panel that is
+       empty (the baked upcoming/abandoned panels already carry the
+       squads + honest note, and are left alone). */
+    var xiPanel = document.getElementById('ci-panel-playingxi');
+    if (xiPanel && !xiPanel.innerHTML.trim()) {
+      xiPanel.innerHTML = '<p class="ci-yet">Playing XIs are announced at the toss.</p>';
+    }
+    /* The worm goes last: the Live Stats fill above (re)creates its slot. */
+    renderWorm(m);
   }
 
   /* ---------- boot / poll loop ---------- */
@@ -704,6 +1247,11 @@
     wireTabs();
     wireSquads();
     wireSubtabs();
+    wireStatsChips();
+    wireVictims();
+    wireRecent();
+    wireCommentaryFilters();
+    wireShare();
     document.addEventListener('click', function (ev) {
       var a = ev.target.closest ? ev.target.closest('a[data-ci-goto]') : null;
       if (!a) return;
@@ -748,7 +1296,7 @@
           schedule(delay);
           return;
         }
-        try { render(m, res.fetchedAt); } catch (e) { /* live render must never break the page */ }
+        try { render(m, res.fetchedAt, ident); } catch (e) { /* live render must never break the page */ }
         if (m.status !== seenStatus) {
           applyTabSet(m.status);
           if (!pickedByUser) openTab(DEFAULT_TAB[m.status] || 'live', { silent: true });
@@ -776,6 +1324,13 @@
     runRate: runRate,
     battingNow: battingNow,
     fallOfWickets: fallOfWickets,
+    overNum: overNum,
+    commentaryGroups: commentaryGroups,
+    commentaryGroupsHtml: commentaryGroupsHtml,
+    overDetailRows: overDetailRows,
+    thisSpell: thisSpell,
+    mergeCommentary: mergeCommentary,
+    setupCommScroll: setupCommScroll,
     livePanelHtml: livePanelHtml,
     scorecardHtml: scorecardHtml,
     commentaryHtml: commentaryHtml,

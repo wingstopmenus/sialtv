@@ -390,3 +390,48 @@
   .ci-tm-full { display: none; }
   .ci-tm-short { display: inline; }
 }
+
+/* ---- Cricinfo-structure stage (2026-11-15): chips, XI, squads, share ---- */
+.ci-table tr.ci-hl td { background: var(--ci-blue-soft); }
+.ci-subtabs:empty { display: none; }
+.ci-potm { font-size: 13px; margin: 8px 0 0; }
+.ci-potm:empty { display: none; }
+.ci-potm span { font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--ci-grey); }
+.ci-pager .is-disabled { color: #9aa0a6; }
+.ci-share { background: #fff; border: 1px solid var(--ci-line); border-radius: 4px; padding: 2px 8px; font-size: 12px; font-weight: 600; color: var(--ci-body); cursor: pointer; margin-left: 8px; font-family: inherit; }
+.ci-share:hover { color: var(--ci-blue); border-color: var(--ci-blue); }
+.ci-chips { display: flex; gap: 8px; flex-wrap: wrap; margin: 0 0 16px; }
+.ci-chips button { padding: 6px 14px; font-size: 13px; font-weight: 600; color: var(--ci-blue); background: #fff; border: 1px solid var(--ci-blue); border-radius: 16px; cursor: pointer; font-family: inherit; }
+.ci-chips button[aria-pressed="true"] { background: var(--ci-blue); color: #fff; }
+.ci-sec-head { font-size: 13px; font-weight: 700; color: var(--ci-ink); margin: 0 0 4px; }
+.ci-recent { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.ci-recent-more { background: none; border: none; color: var(--ci-blue); cursor: pointer; font-size: 16px; line-height: 1; padding: 0 2px; }
+.ci-recent-more[aria-expanded="true"] { transform: rotate(90deg); }
+.ci-ptw-initials { width: 40px; height: 40px; border-radius: 50%; background: #e8e8e8; color: #5f6368; display: inline-flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; flex: none; }
+.ci-squad-sec { border: 1px solid var(--ci-line); margin: 0 0 12px; }
+.ci-squad-sec summary { padding: 8px 12px; background: var(--ci-grey-bar); font-size: 13px; font-weight: 700; color: var(--ci-ink); cursor: pointer; list-style: none; }
+.ci-squad-sec summary::-webkit-details-marker { display: none; }
+.ci-squad-sec summary::after { content: "▾"; float: right; color: var(--ci-grey); }
+.ci-squad-sec:not([open]) summary::after { content: "▸"; }
+.ci-squad-sec .ci-squad-list li { padding-left: 12px; padding-right: 12px; }
+.ci-xi td { white-space: normal; }
+.ci-xi .ci-role { display: block; font-size: 12px; color: var(--ci-grey); }
+.ci-over.is-maiden { background: var(--ci-blue-soft); }
+.ci-wvict { background: none; border: none; color: var(--ci-blue); cursor: pointer; font-size: 12px; padding: 0 2px; line-height: 1; }
+.ci-wvict-list { display: block; font-size: 11px; font-weight: 400; color: var(--ci-grey); }
+.ci-fieldxi { font-size: 12px; color: var(--ci-grey); margin: 8px 0 0; }
+.ci-fieldxi b { color: var(--ci-ink); }
+.ci-filter-row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin: 0 0 12px; }
+.ci-filter-row button { padding: 6px 14px; font-size: 13px; font-weight: 600; color: var(--ci-blue); background: #fff; border: 1px solid var(--ci-blue); border-radius: 16px; cursor: pointer; font-family: inherit; }
+.ci-filter-row button[aria-pressed="true"] { background: var(--ci-blue); color: #fff; }
+.ci-filter-row label { font-size: 13px; color: var(--ci-grey); }
+.ci-filter-row select { font-size: 13px; padding: 5px 8px; border: 1px solid var(--ci-line); border-radius: 4px; background: #fff; font-family: inherit; }
+.ci-overbar { flex-wrap: wrap; }
+.ci-overbar-sub { font-size: 12px; color: var(--ci-grey); }
+.ci-worm-slot:empty { display: none; }
+.ci-worm-slot { margin-bottom: 28px; }
+.ci-manhattan { display: flex; align-items: flex-end; gap: 2px; height: 64px; margin: 8px 0; }
+.ci-manhattan i { flex: 1; background: var(--ci-blue); min-height: 2px; }
+.ci-manhattan i.is-w { background: var(--ci-red); }
+.ci-strip-over { font-size: 12px; font-weight: 700; color: var(--ci-grey); margin-right: 4px; }
+.ci-comm-sentinel { height: 1px; }
