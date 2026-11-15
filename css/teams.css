@@ -67,6 +67,13 @@ body.league-npl .secnav-links a[aria-current="page"] { color: var(--st-rose-deep
 body.league-npl .secnav-drop a { display: block; padding: 0.55rem 0.75rem; border-radius: 0.6rem; color: var(--st-ink-2); font-weight: 600; font-size: 0.92rem; text-decoration: none; }
 body.league-npl .secnav-drop a:hover { background: var(--st-bg-soft); color: var(--st-ink); }
 
+/* (1b) Secondary nav chrome, hub-match: the team body is league-npl (no
+   st-inner), so style.css's st-inner-scoped secnav rules never apply —
+   the league title rendered 1.25rem (hub 1.05rem) and the nav had no white
+   surface/border. (FIX-8, 2026-11-15.) */
+body.league-npl nav.series-secnav { background: var(--st-surface); border-bottom: 1px solid var(--st-line); }
+body.league-npl nav.series-secnav .secnav-title { font-size: 1.05rem; }
+
 /* (2) Side-card lists: reset (team pages had UA bullets + 40px indent),
    separators, and the top-performer flex rows — totals sit right-aligned
    inline (margin-left:auto) instead of dropping to their own line. */
