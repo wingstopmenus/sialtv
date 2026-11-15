@@ -1229,6 +1229,22 @@
   function applyTitle(m, ident) {
     var no = m.matchNo || ident.matchNo;
     if (m.status === 'live') {
+      /* LIVE H1 — same format the builder bakes for a live page
+         (build.py live_h1): fixture order, scores as they stand, one
+         state word. Before this the H1 kept the baked "Preview" text
+         for the whole match: the live title fix (f292bf2c) updated
+         document.title only. A side yet to bat shows no score. This
+         runs BEFORE the title's early return below, so the H1 also
+         flips in the pre-start live window, when no ball has been
+         bowled yet and there is no score for a title. */
+      var h1 = $('[data-ci-h1]');
+      if (h1) {
+        var n1 = cleanName(m.team1), n2 = cleanName(m.team2);
+        var left = n1 + (m.score1 ? ' ' + m.score1 : '');
+        var right = n2 + (m.score2 ? ' ' + m.score2 : '');
+        var h1Text = left + ' vs ' + right + ' — Match ' + (no || '') + ' Live';
+        if (h1.textContent !== h1Text) h1.textContent = h1Text;
+      }
       var bat = battingNow(m);
       if (!bat || !bat.score) return;
       var code = TEAM_CODE[cleanName(bat.team)] || cleanName(bat.team);
@@ -1428,6 +1444,7 @@
     TABS_BY_STATE: TABS_BY_STATE,
     openTab: openTab,
     applyTabSet: applyTabSet,
+    applyTitle: applyTitle,
     runRate: runRate,
     battingNow: battingNow,
     hasStarted: hasStarted,
