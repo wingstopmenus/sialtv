@@ -22,7 +22,7 @@
 <meta name="twitter:description" content="Every cricket series SialTV covers — current, future and recently concluded. NPL, ILT20 and APL fixtures, dates and points tables. Pick a series.">
 <meta name="theme-color" content="#090811">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","name":"Cricket Fixtures — NPL, ILT20 & APL Series","url":"https://sialtv.com/series/","description":"Every cricket series SialTV covers — current, future and recently concluded. NPL, ILT20 and APL fixtures, dates and points tables. Pick a series.","datePublished":"2026-11-12T18:18:31Z","dateModified": "2026-11-15T21:36:00Z"}
+{"@context":"https://schema.org","@type":"WebPage","name":"Cricket Fixtures — NPL, ILT20 & APL Series","url":"https://sialtv.com/series/","description":"Every cricket series SialTV covers — current, future and recently concluded. NPL, ILT20 and APL fixtures, dates and points tables. Pick a series.","datePublished":"2026-11-12T18:18:31Z","dateModified": "2026-11-15T21:45:00Z"}
 </script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"SialTV","item":"https://sialtv.com/"},{"@type":"ListItem","position":2,"name":"Series","item":"https://sialtv.com/series/"}]}
@@ -140,71 +140,38 @@
 <h1>Cricket Fixtures</h1>
 <p>SialTV covers three cricket leagues — the Nepal Premier League, the International League T20 and the Afghanistan Premier League. Pick a league below to open its hub — fixtures and results, points table, teams and where to watch.</p>
 </div>
-<section class="st-block" aria-labelledby="series-leagues-title">
+<div class="fx-seg" role="group" aria-label="Filter series by status" style="flex-wrap:wrap;max-width:36rem;margin:0 0 1.5rem">
+<button class="fx-seg-btn" type="button" data-series-filter="all" aria-pressed="true">All Series</button>
+<button class="fx-seg-btn" type="button" data-series-filter="current" aria-pressed="false">Current</button>
+<button class="fx-seg-btn" type="button" data-series-filter="future" aria-pressed="false">Future Series</button>
+<button class="fx-seg-btn" type="button" data-series-filter="concluded" aria-pressed="false">Recently Concluded</button>
+</div>
+<section class="st-block" aria-labelledby="series-t20-tournaments-title" data-filter-section>
 <div class="st-block__head st-block__head--left">
-<h2 id="series-leagues-title">Leagues</h2>
+<h2 id="series-t20-tournaments-title">T20 Tournaments</h2>
 </div>
-<div class="st-leagues">
-<div class="st-league" data-league="npl" style="--st-hue:#c81e3a">
-<div class="st-league__top">
-<span class="st-league__tile" aria-hidden="true">NPL</span>
-<div class="st-league__head">
-<h3><a href="/npl/">Nepal Premier League</a></h3>
-<p class="st-league__meta">Season 3 · 26 Oct – 21 Nov 2026</p>
-</div>
-</div>
-<ul class="st-league__facts">
-<li>8 teams</li>
-<li>32 matches</li>
-<li>Kirtipur</li>
-</ul>
-<p style="font-size:.9rem;color:var(--st-ink-2);line-height:1.55;margin:0 0 .85rem">League stage done — playoffs 17–21 Nov. Qualifier 1: Lumbini Lions vs Sudur Paschim Royals, Tue 17 Nov, 5:00 PM NST.</p>
-<div class="st-league__foot">
-<span class="st-league__badge">Playoffs</span>
-<span style="font-size:.85rem;font-weight:700"><a href="/npl/schedule/">Fixtures and Results</a> &middot; <a href="/npl/points-table/">Points Table</a> &middot; <a href="/npl/teams/">Teams</a></span>
-</div>
-</div>
-<div class="st-league" data-league="ilt20" style="--st-hue:#0e7490">
-<div class="st-league__top">
-<span class="st-league__tile" aria-hidden="true">ILT20</span>
-<div class="st-league__head">
-<h3><a href="/ilt20/">International League T20</a></h3>
-<p class="st-league__meta">Season 5 · 21 Nov – 20 Dec 2026</p>
-</div>
-</div>
-<ul class="st-league__facts">
-<li>6 teams</li>
-<li>34 matches</li>
-<li>Dubai, Sharjah &amp; Abu Dhabi</li>
-</ul>
-<p style="font-size:.9rem;color:var(--st-ink-2);line-height:1.55;margin:0 0 .85rem">Starts Sat 21 Nov — opener Desert Vipers vs MI Emirates, Dubai, 6:30 PM GST.</p>
-<div class="st-league__foot">
-<span class="st-league__badge">Starts 21 Nov</span>
-<span style="font-size:.85rem;font-weight:700"><a href="/ilt20/schedule/">Fixtures and Results</a> &middot; <a href="/ilt20/points-table/">Points Table</a> &middot; <a href="/ilt20/teams/">Teams</a></span>
-</div>
-</div>
-<div class="st-league" data-league="apl" style="--st-hue:#c27803">
-<div class="st-league__top">
-<span class="st-league__tile" aria-hidden="true">APL</span>
-<div class="st-league__head">
-<h3><a href="/apl/">Afghanistan Premier League</a></h3>
-<p class="st-league__meta">2026–27 · 27 Dec 2026 – 20 Jan 2027</p>
-</div>
-</div>
-<ul class="st-league__facts">
-<li>5 teams</li>
-<li>24 matches</li>
-<li>UAE</li>
-</ul>
-<p style="font-size:.9rem;color:var(--st-ink-2);line-height:1.55;margin:0 0 .85rem">First ball Sun 27 Dec 2026, 5:30 PM AFT — fixtures not yet published by the ACB.</p>
-<div class="st-league__foot">
-<span class="st-league__badge">First ball 27 Dec</span>
-<span style="font-size:.85rem;font-weight:700"><a href="/apl/schedule/">Fixtures and Results</a> &middot; <a href="/apl/points-table/">Points Table</a> &middot; <a href="/apl/teams/">Teams</a></span>
-</div>
-</div>
+<div>
+<article class="series-row" data-status="current" style="border-top:1px solid var(--st-line);padding:1.1rem 0">
+<h3 style="margin:0;font-size:1.15rem"><a href="/npl/">Nepal Premier League</a> <span class="st-league__badge">Playoffs</span></h3>
+<p style="margin:.3rem 0 .45rem;color:var(--st-ink-2);font-size:.92rem">26 Oct – 21 Nov 2026 &middot; Season 3 &middot; 8 teams &middot; 32 matches &middot; Kirtipur</p>
+<p style="margin:0 0 .6rem;font-size:.9rem;color:var(--st-ink-2);line-height:1.55">League stage done — playoffs 17–21 Nov. Qualifier 1: Lumbini Lions vs Sudur Paschim Royals, Tue 17 Nov, 5:00 PM NST.</p>
+<p style="margin:0;font-size:.9rem;font-weight:700"><a href="/npl/schedule/">Fixtures and Results</a> &middot; <a href="/npl/points-table/">Points Table</a> &middot; <a href="/npl/teams/">Teams</a></p>
+</article>
+<article class="series-row" data-status="future" style="border-top:1px solid var(--st-line);padding:1.1rem 0">
+<h3 style="margin:0;font-size:1.15rem"><a href="/ilt20/">International League T20</a> <span class="st-league__badge">Starts 21 Nov</span></h3>
+<p style="margin:.3rem 0 .45rem;color:var(--st-ink-2);font-size:.92rem">21 Nov – 20 Dec 2026 &middot; Season 5 &middot; 6 teams &middot; 34 matches &middot; Dubai, Sharjah &amp; Abu Dhabi</p>
+<p style="margin:0 0 .6rem;font-size:.9rem;color:var(--st-ink-2);line-height:1.55">Starts Sat 21 Nov — opener Desert Vipers vs MI Emirates, Dubai, 6:30 PM GST.</p>
+<p style="margin:0;font-size:.9rem;font-weight:700"><a href="/ilt20/schedule/">Fixtures and Results</a> &middot; <a href="/ilt20/points-table/">Points Table</a> &middot; <a href="/ilt20/teams/">Teams</a></p>
+</article>
+<article class="series-row" data-status="future" style="border-top:1px solid var(--st-line);padding:1.1rem 0">
+<h3 style="margin:0;font-size:1.15rem"><a href="/apl/">Afghanistan Premier League</a> <span class="st-league__badge">First ball 27 Dec</span></h3>
+<p style="margin:.3rem 0 .45rem;color:var(--st-ink-2);font-size:.92rem">27 Dec 2026 – 20 Jan 2027 &middot; 2026–27 &middot; 5 teams &middot; 24 matches &middot; UAE</p>
+<p style="margin:0 0 .6rem;font-size:.9rem;color:var(--st-ink-2);line-height:1.55">First ball Sun 27 Dec 2026, 5:30 PM AFT — fixtures not yet published by the ACB.</p>
+<p style="margin:0;font-size:.9rem;font-weight:700"><a href="/apl/schedule/">Fixtures and Results</a> &middot; <a href="/apl/points-table/">Points Table</a> &middot; <a href="/apl/teams/">Teams</a></p>
+</article>
 </div>
 </section>
-<p>No series has concluded yet — the Nepal Premier League final is on Saturday 21 November 2026.</p>
+<p data-status="concluded" style="margin:1.1rem 0 0;font-size:.95rem;color:var(--st-ink-2)">No series has concluded yet — the Nepal Premier League final is on Saturday 21 November 2026.</p>
 <p>All 19 teams are listed on the <a href="/teams/">Cricket Teams</a> page.</p>
 </div>
 </main>
@@ -254,5 +221,8 @@
     </div>
   </div>
 </footer>
+<script>
+(function(){var b=document.querySelectorAll('[data-series-filter]');if(!b.length)return;function apply(f){b.forEach(function(x){x.setAttribute('aria-pressed',x.getAttribute('data-series-filter')===f?'true':'false');});document.querySelectorAll('[data-status]').forEach(function(el){el.hidden=!(f==='all'||el.getAttribute('data-status')===f);});document.querySelectorAll('[data-filter-section]').forEach(function(s){var any=false;s.querySelectorAll('[data-status]').forEach(function(r){if(!r.hidden)any=true;});s.hidden=!any;});}b.forEach(function(x){x.addEventListener('click',function(){apply(x.getAttribute('data-series-filter'));});});})();
+</script>
 </body>
 </html>
