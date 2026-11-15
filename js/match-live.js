@@ -74,6 +74,8 @@
   var commDone = false;
   var commLoading = false;
   var commObs = null;
+  var lastFeedSig = '';
+  var lastWormSvg = '';
 
   function $(sel, root) { return (root || document).querySelector(sel); }
   function $all(sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); }
@@ -83,6 +85,18 @@
       return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch];
     });
   }
+
+  /* Write-only-on-change: assigning innerHTML/textContent rebuilds the
+     node even when the string is identical, and that rebuild is the
+     visible flash on every poll. The _html cache compares against the
+     string actually written, never the browser's serialisation. */
+  function setText(el, txt) { if (el && el.textContent !== txt) el.textContent = txt; }
+  function setHtml(el, html) { if (el && el._html !== html) { el.innerHTML = html; el._html = html; } }
+  /* classList.add/remove and setAttribute fire a mutation record even
+     when the value does not change, and the same holds for .hidden and
+     for assigning an identical textContent — so every write in a poll
+     path must check first, or an identical poll still churns the DOM. */
+  function setHidden(el, want) { if (el && !!el.hidden !== !!want) el.hidden = want; }
 
   function identity() {
     var body = document.body;
@@ -301,23 +315,39 @@
     return Date.parse(ident.kickoff);
   }
 
+  /* One countdown format for the header clock and the pre-start Live
+     panel, so the first paint and the 60 s tick never disagree. */
+  function countdownStr(kick) {
+    var diff = kick - Date.now();
+    if (diff <= 0) return 'Starting soon';
+    var mins = Math.floor(diff / 60000);
+    var hours = Math.floor(mins / 60);
+    var days = Math.floor(hours / 24);
+    if (days >= 1) return 'Starts in ' + days + (days === 1 ? ' day' : ' days') + ' — ' + new Date(kick).toLocaleString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', hour: 'numeric', minute: '2-digit' });
+    if (hours >= 1) return 'Starts in ' + hours + 'h ' + (mins % 60) + 'm';
+    if (mins >= 1) return 'Starts in ' + mins + ' minutes';
+    return 'Starting soon';
+  }
+
   function renderCountdown(ident) {
     var box = $('[data-ci-countdown]');
     if (!box) return;
     var kick = kickoffMs(ident);
-    if (isNaN(kick)) { box.hidden = true; return; }
+    if (isNaN(kick)) { setHidden(box, true); return; }
     var diff = kick - Date.now();
-    if (diff <= 0) { box.hidden = true; return; }
-    box.hidden = false;
+    /* The pre-start Live panel carries its own countdown line — keep it
+       in step with the header clock on the same 60 s tick. */
+    var pre = $('[data-ci-prestart-countdown]');
+    if (diff <= 0) {
+      setHidden(box, true);
+      if (pre) setText(pre, 'Starting soon');
+      return;
+    }
+    setHidden(box, false);
     var text = $('[data-ci-countdown-text]', box);
-    if (!text) return;
-    var mins = Math.floor(diff / 60000);
-    var hours = Math.floor(mins / 60);
-    var days = Math.floor(hours / 24);
-    if (days >= 1) text.textContent = 'Starts in ' + days + (days === 1 ? ' day' : ' days') + ' — ' + new Date(kick).toLocaleString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', hour: 'numeric', minute: '2-digit' });
-    else if (hours >= 1) text.textContent = 'Starts in ' + hours + 'h ' + (mins % 60) + 'm';
-    else if (mins >= 1) text.textContent = 'Starts in ' + mins + ' minutes';
-    else text.textContent = 'Starting soon';
+    var str = countdownStr(kick);
+    if (text) setText(text, str);
+    if (pre) setText(pre, str);
   }
 
   /* ---------- feed ---------- */
@@ -383,6 +413,20 @@
     var balls = ballsOf(bat.overs);
     if (!runs || !balls) return '';
     return (runs.runs * 6 / balls).toFixed(2);
+  }
+
+  /* Has the first ball been bowled? The endpoint flags a match "live"
+     ~15 min before kickoff, so status alone cannot prove play has
+     started — only a score, a ball or an innings row can. */
+  function hasStarted(m) {
+    if (!m) return false;
+    if (m.score1 || m.score2) return true;
+    if ((m.commentary || []).length) return true;
+    var inns = (m.scorecard && m.scorecard.innings) || [];
+    for (var i = 0; i < inns.length; i++) {
+      if (((inns[i].batting || []).length) || ((inns[i].bowling || []).length)) return true;
+    }
+    return false;
   }
 
   function inningsInProgress(m) {
@@ -493,34 +537,38 @@
     if (status) {
       var dot = $('[data-ci-dot]', status);
       if (m.status === 'live') {
-        status.classList.add('is-live');
-        status.childNodes.forEach(function (n) { if (n.nodeType === 3) n.textContent = ' LIVE'; });
-        if (dot) dot.hidden = false;
+        if (!status.classList.contains('is-live')) status.classList.add('is-live');
+        status.childNodes.forEach(function (n) { if (n.nodeType === 3 && n.textContent !== ' LIVE') n.textContent = ' LIVE'; });
+        setHidden(dot, false);
       } else if (m.status === 'result') {
-        status.classList.remove('is-live');
-        status.childNodes.forEach(function (n) { if (n.nodeType === 3) n.textContent = ' RESULT'; });
-        if (dot) dot.hidden = true;
+        if (status.classList.contains('is-live')) status.classList.remove('is-live');
+        status.childNodes.forEach(function (n) { if (n.nodeType === 3 && n.textContent !== ' RESULT') n.textContent = ' RESULT'; });
+        setHidden(dot, true);
       }
     }
     function setScore(sel, team, score, overs) {
       var el = $(sel);
       if (!el) return;
-      if (!score) { el.innerHTML = '<span class="ci-yet">' + esc(team || '') + ' yet to bat</span>'; return; }
-      el.innerHTML = '<b>' + esc(score) + '</b> <span>' + (overs ? '(' + esc(overs) + ' ov)' : '') + '</span>';
+      if (!score) { setHtml(el, '<span class="ci-yet">' + esc(team || '') + ' yet to bat</span>'); return; }
+      setHtml(el, '<b>' + esc(score) + '</b> <span>' + (overs ? '(' + esc(overs) + ' ov)' : '') + '</span>');
     }
     if (m.status === 'live' || m.status === 'result') {
       setScore('[data-ci-score1]', m.team1, m.score1, m.overs1);
       setScore('[data-ci-score2]', m.team2, m.score2, m.overs2);
     }
     var result = $('[data-ci-result]');
-    if (result && m.statusText) result.textContent = m.statusText;
+    if (result && m.statusText) setText(result, m.statusText);
     var toss = $('[data-ci-toss]');
-    if (toss && m.toss) toss.textContent = m.toss;
+    if (toss && m.toss) setText(toss, m.toss);
     var rr = $('[data-ci-rr]');
     var crr = runRate(m);
-    if (rr && crr) rr.textContent = 'Current RR: ' + crr;
+    if (rr && crr) setText(rr, 'Current RR: ' + crr);
+    /* The countdown stays visible until the first ball is bowled: the
+       endpoint flags the match live ~15 min before kickoff, and hiding
+       it then would leave the pre-start page with no clock at all.
+       renderCountdown manages it from the kickoff time. */
     var cd = $('[data-ci-countdown]');
-    if (cd) cd.hidden = true;
+    if (cd && hasStarted(m)) setHidden(cd, true);
   }
 
   function battersTable(batters) {
@@ -862,13 +910,27 @@
     commObs.observe(sentinel);
   }
 
-  function livePanelHtml(m) {
+  function livePanelHtml(m, ident) {
     var live = m.live || {};
     var batters = live.batters || [];
     var bowlers = live.bowlers || [];
     var overs = live.recentOvers || m.overTimeline || [];
     if (!batters.length && !bowlers.length && !overs.length && m.status === 'upcoming') {
       return '<p class="ci-yet">Match yet to begin. Live updates appear here once the match starts.</p>';
+    }
+    if (m.status === 'live' && !hasStarted(m)) {
+      /* Pre-start live window: the endpoint flags the match live ~15
+         min before kickoff, but no ball has been bowled. Show the toss,
+         a countdown and the first-ball line — never an empty Match
+         Centre. The feed carries no XI, so link to the Playing XI tab
+         (baked) instead of inventing one. */
+      var kick = (ident && ident.kickoff) ? Date.parse(ident.kickoff) : NaN;
+      var cdTxt = isNaN(kick) ? 'Starting soon' : countdownStr(kick);
+      var pre = '';
+      if (m.toss) pre += '<p><strong>' + esc(m.toss) + '</strong></p>';
+      pre += '<p class="ci-meta"><span data-ci-prestart-countdown>' + esc(cdTxt) + '</span> · Live coverage begins at the first ball.</p>';
+      pre += '<p><a class="ci-btn-outline" href="#ci-panel-playingxi" data-ci-goto="playingxi">See Playing XI ›</a></p>';
+      return pre;
     }
     var html = '';
     var bat = battingNow(m);
@@ -908,7 +970,12 @@
 
   function scorecardHtml(m) {
     var inns = (m.scorecard && m.scorecard.innings) || [];
-    if (!inns.length) return '<p class="ci-yet">Match in progress — the scorecard will appear here shortly.</p>';
+    if (!inns.length) {
+      if (m.status === 'live' && !hasStarted(m)) {
+        return '<p class="ci-yet">Match yet to begin. The scorecard appears here once the first ball is bowled.</p>';
+      }
+      return '<p class="ci-yet">Match in progress — the scorecard will appear here shortly.</p>';
+    }
     /* The feed window covers only the current innings. A full fall-of-
        wickets walk from it is valid only when the window starts at the
        innings' first ball ("0.1"); otherwise show the last wicket only.
@@ -1135,6 +1202,8 @@
     });
     svg += '<text x="40" y="14" font-size="12" font-weight="700" fill="#111">' +
       esc(ps.team) + ' — ' + esc(ps.score.runs + '/' + ps.score.wkts) + ' (' + esc(ps.overs || '') + ' ov)</text></svg>';
+    if (svg === lastWormSvg) return;
+    lastWormSvg = svg;
     wraps.forEach(function (wrap) { wrap.innerHTML = svg; });
   }
 
@@ -1181,11 +1250,12 @@
       var d = dateLong(m.date);
       if (d) title += ', ' + d;
       if (bat.overs) title += ')';
-      document.title = title;
+      if (document.title !== title) document.title = title;
     } else if (m.status === 'result') {
       var s1 = TEAM_SHORT[cleanName(m.team1)] || cleanName(m.team1);
       var s2 = TEAM_SHORT[cleanName(m.team2)] || cleanName(m.team2);
-      if (no) document.title = s1 + ' vs ' + s2 + ' NPL Match ' + no + ' — Scorecard & Result';
+      var rTitle = s1 + ' vs ' + s2 + ' NPL Match ' + no + ' — Scorecard & Result';
+      if (no && document.title !== rTitle) document.title = rTitle;
       var h1 = $('[data-ci-h1]');
       var win = /^(.+?)\s+won by/i.exec(cleanName(m.statusText || ''));
       if (h1 && win && m.score1 && m.score2) {
@@ -1195,7 +1265,8 @@
         if (wname === t1) { wscore = m.score1; lname = t2; lscore = m.score2; }
         else if (wname === t2) { wscore = m.score2; lname = t1; lscore = m.score1; }
         if (wscore) {
-          h1.textContent = wname + ' ' + wscore + ' vs ' + lname + ' ' + lscore + ' — Match ' + (no || '') + ' Result';
+          var h1Text = wname + ' ' + wscore + ' vs ' + lname + ' ' + lscore + ' — Match ' + (no || '') + ' Result';
+          if (h1.textContent !== h1Text) h1.textContent = h1Text;
         }
       }
     }
@@ -1208,11 +1279,32 @@
     function fill(id, html) {
       var panel = document.getElementById('ci-panel-' + id);
       if (!panel) return;
-      var slot = $('[data-ci-live-slot]', panel) || panel;
+      var slot = $('[data-ci-live-slot]', panel);
+      if (!slot) {
+        /* Panels without a baked live-slot (scorecard, overs, live
+           stats): build one around the baked content, so a live fill
+           never destroys the baked subtabs or the baked squads note —
+           the first fill swaps the slot's content, not the panel. */
+        slot = document.createElement('div');
+        slot.setAttribute('data-ci-live-slot', '');
+        var subs = panel.querySelector('[data-ci-subtabs]');
+        var nodes = [];
+        Array.prototype.slice.call(panel.childNodes).forEach(function (n) {
+          if (n !== subs) nodes.push(n);
+        });
+        nodes.forEach(function (n) { slot.appendChild(n); });
+        if (subs && subs.nextSibling) panel.insertBefore(slot, subs.nextSibling);
+        else panel.appendChild(slot);
+      }
+      if (slot._html === html) return;
       slot.innerHTML = html;
+      slot._html = html;
     }
-    fill('live', livePanelHtml(m));
-    fill('scorecard', scorecardHtml(m));
+    fill('live', livePanelHtml(m, ident));
+    /* Pre-start: leave the baked scorecard (squads / honest note) in
+       place — the live scorecard has nothing to show yet, and filling
+       it would destroy the baked content. */
+    if (m.status !== 'live' || hasStarted(m)) fill('scorecard', scorecardHtml(m));
     /* Commentary: the feed is a rolling window, so the panel is built
        once (heading + filter + groups + sentinel) and then merged group
        by group. A baked commentary panel has no container and is
@@ -1222,8 +1314,12 @@
       if (commPanel.querySelector('[data-ci-comm-groups]')) {
         mergeCommentary(commPanel, m);
       } else if (!commPanel.querySelector('.ci-comm-group')) {
-        commPanel.innerHTML = commentaryHtml(m);
-        if (ident) setupCommScroll(ident, m);
+        var commHtml = commentaryHtml(m);
+        if (commPanel._html !== commHtml) {
+          commPanel.innerHTML = commHtml;
+          commPanel._html = commHtml;
+          if (ident) setupCommScroll(ident, m);
+        }
       }
     }
     fill('overs', oversHtml(m));
@@ -1296,7 +1392,15 @@
           schedule(delay);
           return;
         }
-        try { render(m, res.fetchedAt, ident); } catch (e) { /* live render must never break the page */ }
+        /* Same feed as last poll: render nothing. Every panel fill
+           rewrites innerHTML, so re-rendering identical data is the
+           visible refresh the user sees every 30 s. The countdown
+           above already ticked; the status block below still runs. */
+        var sig = JSON.stringify(m);
+        if (sig !== lastFeedSig) {
+          lastFeedSig = sig;
+          try { render(m, res.fetchedAt, ident); } catch (e) { /* live render must never break the page */ }
+        }
         if (m.status !== seenStatus) {
           applyTabSet(m.status);
           if (!pickedByUser) openTab(DEFAULT_TAB[m.status] || 'live', { silent: true });
@@ -1323,6 +1427,7 @@
     applyTabSet: applyTabSet,
     runRate: runRate,
     battingNow: battingNow,
+    hasStarted: hasStarted,
     fallOfWickets: fallOfWickets,
     overNum: overNum,
     commentaryGroups: commentaryGroups,

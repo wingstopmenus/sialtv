@@ -96,12 +96,39 @@
   }
   window.sialtvEsc = esc;
 
+  /* Write-only-on-change (same helpers as match-live.js / flash-scores.js):
+     assigning textContent / innerHTML rebuilds the node even when the
+     string is identical, and that rebuild is the visible flash on
+     every poll. The _html cache compares against the string actually
+     written, never the browser's serialisation. */
+  function setText(el, txt) { if (el && el.textContent !== txt) el.textContent = txt; }
+  function setHtml(el, html) { if (el && el._html !== html) { el.innerHTML = html; el._html = html; } }
+  /* Has the first ball been bowled? The endpoint flags a match "live"
+     ~15 min before kickoff, so status alone cannot prove play has
+     started — only a score, a ball or an innings row can. Same rule
+     as match-live.js. */
+  function hasStarted(m) {
+    if (!m) return false;
+    if (m.score1 || m.score2) return true;
+    if ((m.commentary || []).length) return true;
+    var inns = (m.scorecard && m.scorecard.innings) || [];
+    for (var i = 0; i < inns.length; i++) {
+      if (((inns[i].batting || []).length) || ((inns[i].bowling || []).length)) return true;
+    }
+    return false;
+  }
+  function isLiveNow(m) { return !!m && m.status === 'live' && hasStarted(m); }
+
   function pick(matches) {
     var live = null, latest = null, next = null;
     (matches || []).forEach(function (m) {
-      if (m.status === 'live') live = m;
+      /* A pre-start live match is not live yet — no ball bowled — so
+         it counts as the next match, not the live one. This also fixes
+         hero-score.js / live-card.js (both use window.sialtvPick):
+         pre-start no longer shows "Live now" there. */
+      if (m.status === 'live' && isLiveNow(m)) live = m;
       if (m.status === 'result' && (!latest || m.matchNo > latest.matchNo)) latest = m;
-      if (m.status === 'upcoming' && (!next || m.matchNo < next.matchNo)) next = m;
+      if ((m.status === 'upcoming' || (m.status === 'live' && !isLiveNow(m))) && (!next || m.matchNo < next.matchNo)) next = m;
     });
     return { live: live, latest: latest, next: next };
   }
@@ -338,10 +365,10 @@
     if (p.live) html += cardHtml(p.live, 'Live now', league);
     else if (p.latest) html += cardHtml(p.latest, 'Latest result', league);
     if (p.next) html += cardHtml(p.next, 'Next match', league);
-    if (html && root) root.innerHTML = html;
+    if (html && root) setHtml(root, html);
     if (fresh) {
-      fresh.textContent = (data.fetchedAt ? fmtUpdated(data.fetchedAt) : 'Last checked: 11 November 2026') +
-        '. Scores refresh roughly every ten minutes while a match is on — a ten-minute-old score is shown as ten minutes old, never as ball-by-ball.';
+      setText(fresh, (data.fetchedAt ? fmtUpdated(data.fetchedAt) : 'Last checked: 11 November 2026') +
+        '. Scores refresh roughly every ten minutes while a match is on — a ten-minute-old score is shown as ten minutes old, never as ball-by-ball.');
     }
     if (results) {
       var done = (data.matches || []).filter(function (m) { return m.status === 'result'; })
@@ -393,14 +420,14 @@
        scorecard does not carry) — never overwrite it with less. */
     if (p.live && featured && scorecard && window.sialtvLiveTables) {
       var tables = window.sialtvLiveTables(featured);
-      if (tables) scorecard.innerHTML = tables;
+      if (tables) setHtml(scorecard, tables);
     }
     if (p.live && featured && overs) {
       var tl = featured.overTimeline || [];
       if (tl.length && window.sialtvLiveTables && window.sialtvLiveOvers) {
-        overs.innerHTML = window.sialtvLiveOvers(featured);
+        setHtml(overs, window.sialtvLiveOvers(featured));
       } else if (!tl.length) {
-        overs.innerHTML = '<p>Over-by-over balls are not published for Match ' + featured.matchNo + ' on this page.</p>';
+        setHtml(overs, '<p>Over-by-over balls are not published for Match ' + featured.matchNo + ' on this page.</p>');
       }
     }
     return p;
@@ -428,11 +455,11 @@
       if (!card) continue;
       var line = card.querySelector('p:not(.note)');
       if (m.status === 'live') {
-        links[i].textContent = 'Live now — Match ' + m.matchNo;
-        if (line) line.innerHTML = sidebarLiveLine(m, line);
+        setText(links[i], 'Live now — Match ' + m.matchNo);
+        if (line) setHtml(line, sidebarLiveLine(m, line));
       } else if (m.status === 'result') {
-        links[i].textContent = 'Result — Match ' + m.matchNo;
-        if (line) line.textContent = teamName(m.statusText || '');
+        setText(links[i], 'Result — Match ' + m.matchNo);
+        if (line) setText(line, teamName(m.statusText || ''));
       }
     }
   }

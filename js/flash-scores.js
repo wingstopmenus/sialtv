@@ -24,6 +24,46 @@
     });
   }
 
+  /* Write-only-on-change: assigning textContent / setAttribute /
+     classList.add-remove fires a mutation record even when the value
+     does not change, and that churn is the visible "refresh" on every
+     poll. Every write in a poll path must check first. Same helpers
+     as the match-live.js patch. */
+  function setText(el, txt) { if (el && el.textContent !== txt) el.textContent = txt; }
+  function setHidden(el, want) { if (el && !!el.hidden !== !!want) el.hidden = want; }
+  function setAttr(el, name, val) { if (el && el.getAttribute(name) !== val) el.setAttribute(name, val); }
+  function toggleClass(el, cls, want) {
+    if (!el) return;
+    if (want) { if (!el.classList.contains(cls)) el.classList.add(cls); }
+    else if (el.classList.contains(cls)) el.classList.remove(cls);
+  }
+  /* Has the first ball been bowled? The endpoint flags a match "live"
+     ~15 min before kickoff, so status alone cannot prove play has
+     started — only a score, a ball or an innings row can. Same rule
+     as match-live.js. */
+  function hasStarted(m) {
+    if (!m) return false;
+    if (m.score1 || m.score2) return true;
+    if ((m.commentary || []).length) return true;
+    var inns = (m.scorecard && m.scorecard.innings) || [];
+    for (var i = 0; i < inns.length; i++) {
+      if (((inns[i].batting || []).length) || ((inns[i].bowling || []).length)) return true;
+    }
+    return false;
+  }
+  function isLiveNow(m) { return !!m && m.status === 'live' && hasStarted(m); }
+  /* Feed signature for the poll skip in refreshCarousel: only the
+     fields the strip renders (status, scores, overs, status text, live
+     batters). fetchedAt changes on every poll and is deliberately
+     excluded — it would defeat the skip. */
+  function feedSig(data) {
+    return ((data && data.matches) || []).map(function (m) {
+      var lv = m.live || null;
+      var bats = (lv && lv.batters) ? lv.batters.map(function (b) { return b.name + ':' + b.runs + (b.striker ? '*' : ''); }).join(',') : '';
+      return m.matchNo + ':' + (m.status || '') + ':' + (m.score1 || '') + ':' + (m.score2 || '') + ':' + (m.overs1 || '') + ':' + (m.overs2 || '') + ':' + (m.statusText || '') + ':' + bats + ':' + (lv && lv.crr ? lv.crr : '');
+    }).join('|');
+  }
+
   function chip(name) {
     var img = window.sialtvTeamLogos && window.sialtvTeamLogos[String(name || '').trim()];
     if (img) return img;
@@ -121,14 +161,14 @@
     var rows = card.querySelectorAll('.sc-row');
     if (!rows.length) return;
     if (m.status !== 'result') {
-      if (m.status === 'live') rows.forEach(function (r) { r.classList.remove('loser'); });
+      if (m.status === 'live') rows.forEach(function (r) { if (r.classList.contains('loser')) r.classList.remove('loser'); });
       return;
     }
     var w = -1;
     var st = cleanStatus(m.statusText);
     if (st.indexOf(shortName(m.team1) + ' won') === 0) w = 0;
     else if (st.indexOf(shortName(m.team2) + ' won') === 0) w = 1;
-    rows.forEach(function (row, i) { row.classList.toggle('loser', w >= 0 && i !== w); });
+    rows.forEach(function (row, i) { toggleClass(row, 'loser', w >= 0 && i !== w); });
   }
 
   /* The filter pills carry baked counts ("Results (5)"). Re-count from
@@ -146,7 +186,7 @@
     pills.forEach(function (p) {
       var f = p.getAttribute('data-filter');
       if (n[f] == null) return;
-      p.textContent = p.textContent.replace(/\(\d+\)\s*$/, '(' + n[f] + ')');
+      setText(p, p.textContent.replace(/\(\d+\)\s*$/, '(' + n[f] + ')'));
     });
   }
 
@@ -155,14 +195,17 @@
   var VENUE = { npl: 'Kirtipur', ilt20: 'Dubai', apl: 'UAE', sa20: 'South Africa', bbl: 'Australia' };
 
   function cardHtml(m, league) {
-    var kind = m.status === 'live' ? 'live' : (m.status === 'result' ? 'result' : 'upcoming');
-    var label = m.status === 'live' ? 'Live' : (m.status === 'result' ? 'Result' : 'Upcoming');
-    var html = '<a class="score-card" data-kind="' + kind + '" data-match-no="' + m.matchNo + '" data-league="' + esc(league) + '" href="' + matchUrl(league, m.matchNo) + '">';
+    /* A pre-start live match shows as Upcoming until the first ball —
+       the endpoint flags it live ~15 min early with no score yet. */
+    var liveNow = isLiveNow(m);
+    var kind = m.status === 'live' ? (liveNow ? 'live' : 'upcoming') : (m.status === 'result' ? 'result' : 'upcoming');
+    var label = m.status === 'live' ? (liveNow ? 'Live' : 'Upcoming') : (m.status === 'result' ? 'Result' : 'Upcoming');
+    var html = '<a class="score-card" data-kind="' + kind + '" data-match-no="' + m.matchNo + '" data-league="' + esc(league) + '"' + (liveNow ? ' data-live="1"' : '') + ' href="' + matchUrl(league, m.matchNo) + '">';
     html += '<div class="sc-top"><p class="sc-label' + (kind === 'upcoming' ? ' upcoming' : kind === 'live' ? ' live' : '') + '">' + label + '</p>';
     html += '<p class="sc-match">Match ' + m.matchNo + ' &middot; ' + esc(league.toUpperCase()) + ' &middot; ' + esc(VENUE[league] || 'Kirtipur') + '</p></div>';
     html += '<p class="sc-row"><span class="sc-team">' + chip(m.team1) + esc(m.team1) + '</span><span class="sc-score">' + esc(m.score1 || '') + (m.overs1 ? ' (' + esc(m.overs1) + ' ov)' : '') + '</span></p>';
     html += '<p class="sc-row"><span class="sc-team">' + chip(m.team2) + esc(m.team2) + '</span><span class="sc-score">' + esc(m.score2 || '') + (m.overs2 ? ' (' + esc(m.overs2) + ' ov)' : '') + '</span></p>';
-    html += '<p class="sc-result' + (kind === 'upcoming' ? ' upcoming' : '') + '">' + esc(m.status === 'live' ? liveLine(m) : (m.statusText || '')) + '</p></a>';
+    html += '<p class="sc-result' + (kind === 'upcoming' ? ' upcoming' : '') + '">' + esc(m.status === 'live' ? (liveNow ? liveLine(m) : '') : (m.statusText || '')) + '</p></a>';
     return html;
   }
 
@@ -207,11 +250,11 @@
   function fixEveningTime(card) {
     var result = card.querySelector('.sc-result');
     if (!result || result.textContent.indexOf('4:30 PM NST') === -1) return;
-    result.textContent = result.textContent.replace('4:30 PM NST', '5:00 PM NST');
+    setText(result, result.textContent.replace('4:30 PM NST', '5:00 PM NST'));
     var cd = card.querySelector('.sc-countdown[data-kickoff]');
     if (cd) {
       var k = cd.getAttribute('data-kickoff') || '';
-      if (k.indexOf('T10:45:00Z') !== -1) cd.setAttribute('data-kickoff', k.replace('T10:45:00Z', 'T11:15:00Z'));
+      if (k.indexOf('T10:45:00Z') !== -1) setAttr(cd, 'data-kickoff', k.replace('T10:45:00Z', 'T11:15:00Z'));
     }
   }
 
@@ -581,8 +624,21 @@
   }
 
   function refreshCarousel(carousel, data) {
+    /* Feed-signature skip: an identical poll changes nothing on the
+       cards, so skip the whole refresh — every write below fires a
+       mutation record even when the value is unchanged, and that
+       churn is the visible "refresh" on every poll. */
+    var sig = feedSig(data);
+    if (carousel._feedSig === sig) return;
+    carousel._feedSig = sig;
     var byNo = {};
     (data.matches || []).forEach(function (m) { byNo[m.matchNo] = m; });
+    /* The feed carries its league; the "All Matches" track mixes
+       leagues and match numbers repeat across them (NPL M1 / ILT20
+       M1), so a card is only touched when its league matches the
+       feed's. Cards without a league are left to the match-number
+       match, as before. */
+    var feedLeague = (data && data.league) || carousel.getAttribute('data-league') || '';
     var cards = Array.prototype.slice.call(carousel.querySelectorAll('.score-card[data-match-no]'));
     /* The "All Matches" track duplicates this league's cards — update
        the copies too, matched by league + match number. */
@@ -593,13 +649,19 @@
     cards.forEach(function (card) {
       var m = byNo[parseInt(card.getAttribute('data-match-no'), 10)];
       if (!m) return;
+      var cardLeague = card.getAttribute('data-league');
+      if (feedLeague && cardLeague && cardLeague !== feedLeague) return;
+      /* A pre-start live match (no ball bowled yet) stays "Upcoming"
+         with its countdown — it only becomes "Live now" on the first
+         ball. Same hasStarted rule as match-live.js. */
+      var liveNow = isLiveNow(m);
       var label = card.querySelector('.sc-label');
       var result = card.querySelector('.sc-result');
       var rows = card.querySelectorAll('.sc-row');
       if (label) {
-        label.textContent = m.status === 'live' ? 'Live' : (m.status === 'result' ? 'Result' : 'Upcoming');
-        label.classList.toggle('upcoming', m.status === 'upcoming');
-        label.classList.toggle('live', m.status === 'live');
+        setText(label, m.status === 'live' ? (liveNow ? 'Live' : 'Upcoming') : (m.status === 'result' ? 'Result' : 'Upcoming'));
+        toggleClass(label, 'upcoming', m.status === 'upcoming' || (m.status === 'live' && !liveNow));
+        toggleClass(label, 'live', m.status === 'live' && liveNow);
       }
       /* Upcoming cards are baked without .sc-score spans, so a live
          score would have nowhere to go — create the span the first
@@ -615,23 +677,30 @@
           span.className = 'sc-score';
           row.appendChild(span);
         }
-        span.textContent = s;
+        setText(span, s);
       });
       if (result) {
         /* Upcoming: the baked line carries the date, time and venue —
            the feed's statusText for an upcoming match is either the
            same line or a bare "Upcoming", so it stays put — except
-           the NPL evening time (fixEveningTime below). */
-        if (m.status === 'live') result.textContent = liveLine(m);
-        else if (m.status === 'result') result.textContent = cleanStatus(m.statusText) || result.textContent;
-        else if (m.status === 'upcoming') fixEveningTime(card);
-        result.classList.toggle('upcoming', m.status === 'upcoming');
+           the NPL evening time (fixEveningTime below). A pre-start
+           live card keeps its baked line too: the live line only
+           exists once the first ball is bowled. */
+        if (m.status === 'live' && liveNow) setText(result, liveLine(m));
+        else if (m.status === 'result') setText(result, cleanStatus(m.statusText) || result.textContent);
+        else if (m.status === 'upcoming' || (m.status === 'live' && !liveNow)) fixEveningTime(card);
+        toggleClass(result, 'upcoming', m.status === 'upcoming' || (m.status === 'live' && !liveNow));
       }
       setLoser(card, m);
       /* Live matches join the "Live & upcoming" filter bucket — the
          pills only know all / upcoming / result, and a data-kind of
          "live" would hide a live card under every filter. */
-      card.setAttribute('data-kind', m.status === 'result' ? 'result' : 'upcoming');
+      setAttr(card, 'data-kind', m.status === 'result' ? 'result' : 'upcoming');
+      /* data-live is what hides the countdown (stripCountdowns): a
+         started live card keeps data-kind "upcoming" for the filter
+         bucket, so kind alone cannot tell them apart. */
+      if (liveNow) setAttr(card, 'data-live', '1');
+      else if (card.hasAttribute('data-live')) card.removeAttribute('data-live');
     });
     recountPills(carousel);
     reorderStripTracks(carousel);
@@ -855,17 +924,21 @@
   function stripCountdowns() {
     document.querySelectorAll('[data-kickoff]').forEach(function (el) {
       var card = el.closest('.score-card');
-      if (card && card.getAttribute('data-kind') !== 'upcoming') { el.hidden = true; return; }
+      /* A started live card keeps data-kind "upcoming" (the Live &
+         upcoming filter bucket), so the countdown hides on data-live,
+         not on data-kind. A pre-start live card has no data-live, so
+         its countdown stays visible until the first ball. */
+      if (card && (card.getAttribute('data-kind') !== 'upcoming' || card.getAttribute('data-live'))) { setHidden(el, true); return; }
       var t = Date.parse(el.getAttribute('data-kickoff'));
-      if (!t) { el.hidden = true; return; }
+      if (!t) { setHidden(el, true); return; }
       var diff = t - Date.now();
-      if (diff <= 0) { el.hidden = true; return; }
-      el.hidden = false;
+      if (diff <= 0) { setHidden(el, true); return; }
+      setHidden(el, false);
       var mins = Math.floor(diff / 60000);
       var d = Math.floor(mins / 1440), h = Math.floor((mins % 1440) / 60), m = mins % 60;
       var when = d > 0 ? d + (d === 1 ? ' day ' : ' days ') + h + ' hrs'
         : (h > 0 ? h + ' hrs ' + m + ' mins' : m + ' mins');
-      el.textContent = 'Match starts in ' + when;
+      setText(el, 'Match starts in ' + when);
     });
   }
 
@@ -1069,6 +1142,16 @@
         /* Each updater isolated: a throw in one must not kill the others. */
         loadLeague(lg, function (data) {
           try { refreshFlash(group, data, lg); } catch (e) { if (window.console && console.warn) console.warn('[flash-scores] refreshFlash failed:', e); }
+          /* The visible default "all" track is a separate copy of the
+             cards (no .slp-flash class, no data-league) — refresh it
+             from the same feed so the default view flips too.
+             refreshCarousel only touches cards this feed knows (and,
+             with the feed-league guard, only this league's cards), so
+             other leagues' cards are left alone. */
+          try {
+            var all = document.querySelector('.st-strip-track[data-strip-group="all"]');
+            if (all) refreshCarousel(all, data);
+          } catch (e) { if (window.console && console.warn) console.warn('[flash-scores] refreshAll failed:', e); }
           try { refreshFixtures(data, lg); } catch (e) { if (window.console && console.warn) console.warn('[flash-scores] refreshFixtures failed:', e); }
           if (lg === 'npl') {
             /* Schedule first, then hero + spotlight from the merged state.
