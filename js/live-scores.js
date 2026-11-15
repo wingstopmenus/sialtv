@@ -7,7 +7,15 @@
    The static snapshot only changes when the match-day flow pushes a
    new one, so a poll that finds the same file is cheap and harmless.
    Freshness is always shown from the feed's fetchedAt: a score that is
-   ten minutes old is shown as ten minutes old, never as ball-by-ball. */
+   ten minutes old is shown as ten minutes old, never as ball-by-ball.
+   STRIP UNIFY (2026-11-15): the PHP endpoint only returns the current
+   window (live + next upcoming) — a finished match falls out of it
+   within hours, so a stale baked strip card could never flip to its
+   result (flash-scores.js skips cards the feed does not carry). The
+   merge below rides recent results from the static snapshot along with
+   the live payload, so the strip, the hero and the live-scores panel
+   all see the last 7 days of results on every poll, with no re-bake.
+   The PHP endpoint itself is untouched. */
 (function () {
   'use strict';
   var POLL_MS = 30 * 1000;
@@ -31,8 +39,10 @@
     if (c && c.promise && now - c.at < CACHE_MS) return c.promise;
     var p = fetchJson(FEED_API + encodeURIComponent(league)).then(function (d) {
       if (d && d.matches && d.matches.length) {
-        cache[league] = { at: Date.now(), data: d };
-        return d;
+        return mergeRecentResults(d, league).then(function (merged) {
+          cache[league] = { at: Date.now(), data: merged };
+          return merged;
+        });
       }
       throw new Error('empty live feed');
     }).catch(function () {
@@ -49,6 +59,35 @@
     return p;
   }
   window.sialtvScores = sialtvScores;
+
+  /* Recent results from the static snapshot, merged into the live
+     payload. The PHP endpoint deliberately carries no results
+     ("Results come from ESPN only"), and ESPN's scoreboard only shows
+     the current window, so without this a baked card for a finished
+     match could never flip to its result on poll. Only results dated
+     within RECENT_RESULT_DAYS ride along, and only when the live
+     payload does not already carry that match — the live payload
+     always wins. A failed static fetch leaves the live payload
+     untouched. Leagues with no static snapshot (APL) are unaffected. */
+  var RECENT_RESULT_DAYS = 7;
+  function mergeRecentResults(data, league) {
+    var s = STATIC_FEED[league];
+    if (!s || !data || !data.matches) return Promise.resolve(data);
+    return fetchJson(s).then(function (st) {
+      var have = {};
+      data.matches.forEach(function (m) { have[m.matchNo] = true; });
+      var cut = Date.now() - RECENT_RESULT_DAYS * 24 * 60 * 60 * 1000;
+      (st.matches || []).forEach(function (m) {
+        if (m.status !== 'result' || have[m.matchNo]) return;
+        var when = m.date ? Date.parse(m.date + 'T00:00:00Z')
+                          : Date.parse(m.kickoffIso || '');
+        if (isNaN(when) || when < cut) return;
+        data.matches.push(m);
+      });
+      return data;
+    }).catch(function () { return data; });
+  }
+  window.sialtvMergeRecentResults = mergeRecentResults;
 
   function esc(s) {
     return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) {

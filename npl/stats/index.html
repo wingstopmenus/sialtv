@@ -17,7 +17,7 @@
 <meta name="twitter:description" content="Take a look at all the Nepal Premier League 2026/27 Statistics. Discover NPL Statistics on player records, team performances, and more on ESPNcricninfo">
 <meta name="theme-color" content="#090811">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","name":"Nepal Premier League 2026/27 Statistics","url":"https://sialtv.com/npl/stats/","description":"Take a look at all the Nepal Premier League 2026/27 Statistics. Discover NPL Statistics on player records, team performances, and more on ESPNcricninfo","datePublished":"2026-11-11T05:18:00Z","dateModified": "2026-11-15T17:15:00Z"}
+{"@context":"https://schema.org","@type":"WebPage","name":"Nepal Premier League 2026/27 Statistics","url":"https://sialtv.com/npl/stats/","description":"Take a look at all the Nepal Premier League 2026/27 Statistics. Discover NPL Statistics on player records, team performances, and more on ESPNcricninfo","datePublished":"2026-11-11T05:18:00Z","dateModified": "2026-11-15T17:47:00Z"}
 </script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"SialTV","item":"https://sialtv.com/"},{"@type":"ListItem","position":2,"name":"Nepal Premier League","item":"https://sialtv.com/npl/"},{"@type":"ListItem","position":3,"name":"NPL 2026 Stats","item":"https://sialtv.com/npl/stats/"}]}
@@ -103,7 +103,31 @@
 })();
 </script>
 <nav class="series-secnav" aria-label="Nepal Premier League sections"><div class="wrap secnav-row"><div class="secnav-title-wrap"><div class="secnav-title"><button type="button" class="secnav-switch" aria-haspopup="true">Nepal Premier League 2026 <span class="secnav-caret" aria-hidden="true">&#9662;</span></button></div><div class="secnav-drop"><a href="/npl/" aria-current="page">Nepal Premier League 2026</a><a href="/ilt20/">International League T20 2026&ndash;27</a><a href="/apl/">Afghanistan Premier League 2026&ndash;27</a></div></div><span class="secnav-div" aria-hidden="true"></span><div class="secnav-links"><a href="/npl/">Home</a><a href="/npl/schedule/">Fixtures and Results</a><a href="/npl/points-table/">Table</a><a href="/npl/stats/" aria-current="page">Stats</a><a href="/npl/teams/">Teams</a><a href="/npl/players/">Players</a></div></div></nav>
-<div id="stStripSlot"><noscript><p class="rx-viewall"><a href="/live-scores/">Live scores</a></p></noscript></div>
+<div id="stripMount"></div>
+<script>
+(function () {
+  var mount = document.getElementById('stripMount');
+  if (!mount) return;
+  function loadScript(src, next) {
+    var s = document.createElement('script');
+    s.src = src;
+    s.onload = function () { if (next) next(); };
+    s.onerror = function () { if (next) next(); };
+    document.body.appendChild(s);
+  }
+  fetch('/fragments/strip.html', { credentials: 'same-origin' })
+    .then(function (r) { if (!r.ok) throw new Error('strip ' + r.status); return r.text(); })
+    .then(function (html) {
+      mount.innerHTML = html;
+      loadScript('/js/team-logos.js', function () {
+        loadScript('/js/live-scores.js', function () {
+          loadScript('/js/flash-scores.js');
+        });
+      });
+    })
+    .catch(function () { if (mount && mount.parentNode) mount.parentNode.removeChild(mount); });
+})();
+</script>
 <div class="wrap page-head">
   <p class="crumbs"><a href="/">SialTV</a> / <a href="/npl/">Nepal Premier League</a> / NPL 2026 Stats</p>
   <h1>NPL 2026 Stats — Most Runs, Wickets &amp; Records</h1>
@@ -233,56 +257,6 @@
     });
   }, {threshold: .4});
   document.querySelectorAll('[data-count]').forEach(function(el){ cio.observe(el); });
-})();
-</script><script>
-/* Match strip (image-73): fetched once from /fragments/strip.html, then wired
-   exactly like the hub strip (league pills, arrow scroll, kickoff countdowns). */
-(function () {
-  var slot = document.getElementById('stStripSlot');
-  if (!slot) return;
-  function stripCountdowns() {
-    document.querySelectorAll('#stStripSlot .st-strip [data-kickoff]').forEach(function (el) {
-      var card = el.closest('.score-card');
-      if (card && card.getAttribute('data-kind') !== 'upcoming') { el.hidden = true; return; }
-      var t = Date.parse(el.getAttribute('data-kickoff'));
-      if (!t) { el.hidden = true; return; }
-      var diff = t - Date.now();
-      if (diff <= 0) { el.hidden = true; return; }
-      el.hidden = false;
-      var mins = Math.floor(diff / 60000);
-      var d = Math.floor(mins / 1440), h = Math.floor((mins % 1440) / 60), m = mins % 60;
-      var when = d > 0 ? d + (d === 1 ? ' day ' : ' days ') + h + ' hrs'
-        : (h > 0 ? h + ' hrs ' + m + ' mins' : m + ' mins');
-      el.textContent = 'Match starts in ' + when;
-    });
-  }
-  function initStrip() {
-    document.querySelectorAll('#stStripSlot .st-strip').forEach(function (strip) {
-      var pills = strip.querySelectorAll('[data-strip-filter]');
-      var arrow = strip.querySelector('[data-strip-next]');
-      pills.forEach(function (pill) {
-        pill.addEventListener('click', function () {
-          var lg = pill.getAttribute('data-strip-filter');
-          pills.forEach(function (p) { p.setAttribute('aria-pressed', p === pill ? 'true' : 'false'); });
-          strip.querySelectorAll('[data-strip-group]').forEach(function (g) {
-            g.hidden = g.getAttribute('data-strip-group') !== lg;
-          });
-          if (arrow) arrow.style.display = lg === 'apl' ? 'none' : '';
-          stripCountdowns();
-        });
-      });
-      if (arrow) arrow.addEventListener('click', function () {
-        var track = strip.querySelector('.st-strip-track:not([hidden])');
-        if (track) track.scrollBy({ left: track.clientWidth * 0.8, behavior: 'smooth' });
-      });
-    });
-    stripCountdowns();
-    setInterval(stripCountdowns, 60000);
-  }
-  fetch('/fragments/strip.html', { credentials: 'same-origin' })
-    .then(function (r) { if (!r.ok) throw new Error('strip ' + r.status); return r.text(); })
-    .then(function (html) { slot.innerHTML = html; initStrip(); })
-    .catch(function () { slot.innerHTML = ''; });
 })();
 </script><footer class="st-colophon" style="color:#c8c4d6">
   <div class="st-shell">

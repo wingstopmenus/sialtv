@@ -1027,6 +1027,7 @@ body.st-home .st-block__head--left p { font-size: 1rem; max-width: 46rem; }
 
 @media (max-width: 640px) {
   .st-shell { width: min(var(--hub-wide), calc(100% - 1.5rem)); }
+  body.st-home .st-strip .wrap { width: min(var(--hub-wide), calc(100% - 1.5rem)); }
   .st-leagues,
   .st-jumps { grid-template-columns: 1fr; }
   .st-block { padding: 2.5rem 0 2.25rem; }
@@ -2452,6 +2453,10 @@ body.hub-cricinfo .hub-wide { width: min(var(--hub-wide), calc(100% - 2.5rem)); 
 body.hub-cricinfo .st-masthead .st-shell,
 body.hub-cricinfo .st-colophon .st-shell { width: min(var(--hub-wide), calc(100% - 2.5rem)); }
 body.hub-cricinfo .st-strip .wrap { width: min(var(--hub-wide), calc(100% - 2.5rem)); }
+/* Homepage strip (body.st-home) has no .wrap width rule — the inline
+   strip used .st-shell instead. The shared fragment uses .wrap, so the
+   homepage needs the same width as the hub strip. STRIP UNIFY 2026-11-15. */
+body.st-home .st-strip .wrap { width: min(var(--hub-wide), calc(100% - 2.5rem)); margin-inline: auto; }
 
 /* Secondary nav: league name (H1) left + dropdown + divider + links.
    Scoped to body.st-inner: the document fallback (body:not(.st-home) a
