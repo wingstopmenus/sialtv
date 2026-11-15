@@ -245,6 +245,9 @@ body.st-inner.league-npl .player-left .top10 li {
   align-items: center;
   gap: .6rem;
 }
+/* Browse directory rows (v2): the name link now sits inside .tp-main, so the
+   rail `li > a:hover` rule no longer reaches it — restore the rose hover. */
+body.st-inner.league-npl .player-left .top10 .tp-name:hover { color: var(--st-rose-deep); }
 body.st-inner.league-npl .player-left .side-card ul li > a:hover {
   color: var(--st-rose-deep);
 }
@@ -272,13 +275,11 @@ body.st-inner.league-npl .player-centre h3 {
 }
 
 /* ==========================================================================
-   ROUND 3 — TEAM-PAGE STANDARD (2026-11-15)
-   Profiles read as the same site/design as the team pages: full-width dark
-   hero above the grid, style.css .hub3 3-column grid (300/1fr/320) with a
-   hub-matched right sidebar, team-page chrome (stripMount + hub-tabs.js).
-   .tm2-mini / .tm2-cover rules are mirrored from css/teams.css — profiles
-   do NOT load teams.css. They are scoped body.st-inner.league-npl so they
-   beat style.css's st-inner rules (rose .t-pts thead, .side-card li padding).
+   ROUND 3 — TEAM-PAGE STANDARD (2026-11-15), v2 (2026-11-15): the right
+   sidebar is REMOVED per user order — .hub3 is 2 columns (300/1fr) on
+   profiles, the centre taking the freed width. Profiles read as the same
+   site/design as the team pages: full-width dark hero above the grid,
+   team-page chrome (stripMount + hub-tabs.js).
    ========================================================================== */
 
 /* A. Hero — the profile card, full-width above the grid (team-page .tm2-hero
@@ -339,33 +340,34 @@ body.st-inner.league-npl .pl-hero-facts strong a:hover { color: var(--st-rose); 
    headless render: hub3 measured 1440px at a 1440px viewport). */
 body.st-inner.league-npl .hub-wide { width: min(var(--hub-wide), calc(100% - 2.5rem)); margin-inline: auto; }
 
-/* C. Centre rhythm — .hub3-col is a flex column with gap 1.25rem, so the
-   round-2 .pl-card margin would double the gap (same fix as the team pages'
-   .tm2-centre-card margin: 0). */
-body.st-inner.league-npl .hub3-center .pl-card { margin-bottom: 0; }
+/* C. Centre rhythm — CORRECTED in v2 (2026-11-15). The v1 rule
+   `.hub3-center .pl-card { margin-bottom: 0 }` was wrong: the .hub3-col flex
+   gap (1.25rem) only separates the column's DIRECT children (nav, the two
+   sections) — it never reaches the .pl-card elements INSIDE the sections,
+   so the override killed every inter-card gap and the centre sections stuck
+   together (measured 0px, all 5 samples, desktop + mobile). The round-2
+   `.pl-card { margin-bottom: 1.25rem }` stands again; only the last card of
+   each section loses its margin (team-page `.tm2-centre-card:last-child`
+   pattern, teams.css §12), so the section-to-section gap stays exactly one
+   flex gap (1.25rem), not two. */
+body.st-inner.league-npl .hub3-center .pl-card:last-child { margin-bottom: 0; }
+
+/* C2. Two-column grid (v2) — the right sidebar is gone, so at the widths
+   where style.css lays .hub3 out as 3 columns (300/1fr/320, ≥1200px) the
+   profile grid is 300/1fr instead: left rail 300px, centre ~1000px at the
+   1320px shell (1320 − 300 − 20 gap). Scoped :not(.page-npl-players) so the
+   players HUB keeps its 3-column grid with its own right sidebar; team
+   pages do not load this file. Below 1200px style.css already collapses
+   .hub3 to 280px/1fr (≤1199px) then 1fr (≤899px) — untouched. */
+@media (min-width: 1200px) {
+  body.st-inner.league-npl:not(.page-npl-players) .hub3 { grid-template-columns: 300px minmax(0, 1fr); }
+}
 
 /* D. Crumbs — team-page rose crumb links (teams.css
    body.league-npl .hub-crumbs .crumbs a). */
 body.st-inner.league-npl .hub-crumbs .crumbs a { color: var(--st-rose-deep); }
 
-/* E. Points mini — teams.css section (9) verbatim, scoped to profiles:
-   night header (stats beautify pattern), .88rem, rose-tint own row + hover,
-   24px logos with Pokhara night chip. (The live team page emits no tm2-own
-   row; the rule is mirrored for parity and unused on profiles.) */
-body.st-inner.league-npl .tm2-mini { width: 100%; border-collapse: collapse; font-size: .92rem; }
-body.st-inner.league-npl .tm2-mini th { background: #090811; color: #fff; text-align: left; padding: .35rem .4rem; font-size: .88rem; border-bottom: 1px solid rgba(227,223,240,.9); }
-body.st-inner.league-npl .tm2-mini td { padding: .35rem .4rem; font-size: .88rem; border-bottom: 1px solid rgba(227,223,240,.6); }
-body.st-inner.league-npl .tm2-mini td.tm2-num, body.st-inner.league-npl .tm2-mini th.tm2-num { text-align: right; font-variant-numeric: tabular-nums; }
-body.st-inner.league-npl .tm2-mini tr.tm2-own td { background: #fdf0f3; font-weight: 700; }
-body.st-inner.league-npl .tm2-mini tbody tr:hover td { background: #fdf0f3; }
-body.st-inner.league-npl .tm2-mini img.team-logo { width: 1.5rem; height: 1.5rem; object-fit: contain; vertical-align: -.35rem; margin-right: .3rem; }
-body.st-inner.league-npl .tm2-mini img.team-logo[alt*="Pokhara"] { background: var(--st-night-2); border-radius: .4rem; padding: .15rem .25rem; box-sizing: border-box; }
-
-/* F. Full NPL Coverage — teams.css .tm2-cover verbatim, scoped to profiles.
-   (The .tm2-cover-sub lines are the team-pages FIX-2 descriptions.) */
-body.st-inner.league-npl .tm2-cover { margin: 0; padding: 0; list-style: none; }
-body.st-inner.league-npl .tm2-cover li { padding: .4rem 0; border-top: 1px solid rgba(227,223,240,.85); }
-body.st-inner.league-npl .tm2-cover li:first-child { border-top: 0; }
-body.st-inner.league-npl .tm2-cover a { color: var(--st-rose-deep); text-decoration: none; font-weight: 600; }
-body.st-inner.league-npl .tm2-cover a:hover { text-decoration: underline; }
-body.st-inner.league-npl .tm2-cover-sub { display: block; font-size: .85rem; color: var(--st-mute); }
+/* E+F. REMOVED in v2 (2026-11-15) — the .tm2-mini (Points mini) and
+   .tm2-cover (Full NPL Coverage) mirrors were sidebar-only; the sidebar is
+   gone, so these rules are dead. (team-page .tp-list/.tp-photo rules live
+   in style.css and are untouched — the hub still uses them.) */

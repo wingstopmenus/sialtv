@@ -11,15 +11,19 @@ var SIALTV_NPL_PLAYERS = [["rohit-paudel", "Rohit Paudel", "Lumbini Lions", "All
     var p = name.replace(/'/g,"").split(/\s+/);
     return (p[0].charAt(0) + (p.length > 1 ? p[p.length-1].charAt(0) : "")).toUpperCase();
   }
+  /* Browse directory (v2, 2026-11-15): rows match the baked list — name +
+     Team · Role sub-line, alphabetical A–Z. Photos are baked HTML only
+     (not in this data file), so a filtered view shows initials discs. */
   function render(){
     var team = teamSel.value, role = roleSel.value;
     var rows = SIALTV_NPL_PLAYERS.filter(function(r){
       return (!team || r[2] === team) && (!role || r[3] === role);
     }).sort(function(a,b){
-      return b[4]-a[4] || b[5]-a[5] || (a[1] < b[1] ? -1 : a[1] > b[1] ? 1 : 0);
+      return (a[1] < b[1] ? -1 : a[1] > b[1] ? 1 : 0);
     }).slice(0,10);
     list.innerHTML = rows.map(function(r){
-      return '<li><span class="init" aria-hidden="true">' + initials(r[1]) + '</span><a href="/npl/players/' + r[0] + '/">' + r[1] + '</a></li>';
+      var sub = r[2] + (r[3] && r[3] !== '&mdash;' ? ' · ' + r[3] : '');
+      return '<li><span class="init" aria-hidden="true">' + initials(r[1]) + '</span><div class="tp-main"><a class="tp-name" href="/npl/players/' + r[0] + '/">' + r[1] + '</a><span class="tp-sub">' + sub + '</span></div></li>';
     }).join("");
   }
   teamSel.addEventListener("change", render);
