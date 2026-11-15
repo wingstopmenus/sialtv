@@ -1,0 +1,35 @@
+/* Live-scores page — scoped rules (2026-11-15 rebuild).
+   Shared /style.css is NOT edited. All selectors are scoped to
+   body.page-live-scores so no other page is affected. */
+
+/* Sidebar balance: same pattern as the schedule/stats pages —
+   main takes the room, sidebar 320px and sticky. */
+body.st-inner.page-live-scores .home-grid { grid-template-columns: minmax(0, 1fr) 320px; }
+body.st-inner.page-live-scores .home-side { position: sticky; top: 5.5rem; }
+
+/* Tables fill their card at desktop widths (same proven pattern as the
+   profiles width fix). Mobile keeps the fallback block + scroll. */
+@media (min-width: 981px) {
+  body.st-inner.page-live-scores .t-pts { display: table; }
+  body.st-inner.page-live-scores #slp-scorecard table { display: table; }
+}
+@media (max-width: 980px) {
+  /* Same specificity as the desktop rule above (0,3,1) — otherwise the
+     desktop two-column grid would win at mobile widths too and squeeze
+     the main column. Single column + static sidebar on small screens. */
+  body.st-inner.page-live-scores .home-grid { grid-template-columns: 1fr; }
+  body.st-inner.page-live-scores .home-side { position: static; }
+}
+
+/* League-chip empty states (live-scores-tabs.js shows these when a chip
+   has no matches in the current tab). */
+body.st-inner.page-live-scores .ls-empty {
+  margin: 1rem 0 0.25rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--st-line, #e3dff0);
+  border-radius: 0.75rem;
+  background: var(--st-surface, #fff);
+  color: var(--st-ink-2, #3b4258);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}

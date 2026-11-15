@@ -5,6 +5,10 @@
 (function () {
   'use strict';
   var EMPTY = {
+    live: {
+      ilt20: 'No ILT20 match live right now — Season 5 starts on Saturday 21 November 2026, 6:30 PM GST. The first match is Desert Vipers against MI Emirates in Dubai.',
+      apl: 'No APL match live right now — the first ball is on Sunday 27 December 2026, 5:30 PM AFT, in the UAE.'
+    },
     results: {
       ilt20: 'No ILT20 results yet — Season 5 starts on Saturday 21 November 2026.',
       apl: 'No APL results yet — the first ball is on Sunday 27 December 2026.'
