@@ -1910,6 +1910,16 @@ body.st-inner .faq-item p { margin: 0.6rem 0 0; color: var(--st-ink-2); }
 .st-strip-arrow:hover { background: var(--st-rose, #e11d48); border-color: var(--st-rose, #e11d48); color: #fff; }
 /* Initials chip (JS-built cards from the feed carry one when no logo exists). */
 .sc-chip { display: inline-flex; align-items: center; justify-content: center; width: 2rem; height: 2rem; border-radius: 50%; background: var(--st-rose-soft, #ffe4e6); color: var(--st-rose-deep, #be123c); font-size: 0.7rem; font-weight: 800; flex-shrink: 0; }
+/* Schedule fixture cards (2026-11-16): the red code chip is redundant on
+   desktop — each row already shows the team logo + the full team name.
+   Hide it above 640px only. At 640px and below the name is hidden by the
+   mobile rule, so the chip is the only text identifier there and must stay
+   visible. Scoped to .page-npl-schedule + .rx-res-team: the points mini and
+   the strip carry no .sc-chip, and live-scores rows use .ls-code (no logo),
+   so those are untouched. */
+@media (min-width: 641px) {
+  body.page-npl-schedule .rx-res-team .sc-chip { display: none; }
+}
 @media (max-width: 640px) {
   body.st-inner .mc-panel { grid-template-columns: 1fr; }
   body.st-inner #squads .teams { grid-template-columns: 1fr; }
