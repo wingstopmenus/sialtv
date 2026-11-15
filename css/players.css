@@ -149,14 +149,11 @@ body.page-npl-players section[data-team-section] > p.note { border-top: 1px soli
 
 /* Profiles fix — 2026-11-15 (rebuild + enhance + beautify). Theme tokens only. */
 
-/* Left rail 340px on desktop (was 441px at 1280px / 453px at the 1320px shell
-   from style.css `.player-grid { 0.85fr 1.5fr }`). Centre grows to ~912px, so
-   the 7 stats tables fit without the .85rem narrowing hack. Scoped to
-   min-width 981px: the <=980px single-column rule is lower specificity and
-   must keep winning on mobile. */
-@media (min-width: 981px) {
-  body.st-inner.league-npl .player-grid { grid-template-columns: 340px minmax(0, 1fr); }
-}
+/* Left rail (Round 3, 2026-11-15): the 340px .player-grid override is GONE —
+   profiles now use style.css .hub3 (300px minmax(0,1fr) 320px), the same
+   3-column grid as the team pages, so the rail is 300px and the page gains a
+   320px right sidebar. The <=980px single-column rule in style.css still
+   wins on mobile (hub3 collapses the same way it does on team pages). */
 
 /* Details-grid TEAMS logo: the img carries width=77 height=96 attributes,
    so the crest rendered ~85px tall next to the team name (Cricinfo uses
@@ -273,3 +270,102 @@ body.st-inner.league-npl .player-centre h3 {
   color: var(--st-mute);
   margin: .25rem 0 .5rem;
 }
+
+/* ==========================================================================
+   ROUND 3 — TEAM-PAGE STANDARD (2026-11-15)
+   Profiles read as the same site/design as the team pages: full-width dark
+   hero above the grid, style.css .hub3 3-column grid (300/1fr/320) with a
+   hub-matched right sidebar, team-page chrome (stripMount + hub-tabs.js).
+   .tm2-mini / .tm2-cover rules are mirrored from css/teams.css — profiles
+   do NOT load teams.css. They are scoped body.st-inner.league-npl so they
+   beat style.css's st-inner rules (rose .t-pts thead, .side-card li padding).
+   ========================================================================== */
+
+/* A. Hero — the profile card, full-width above the grid (team-page .tm2-hero
+   pattern). The card keeps class .profile-card, so its night background,
+   radius, padding and 160px photo grid come from style.css; here only the
+   hero shell (margin), the team-hero H1 size, and the facts row. */
+body.st-inner.league-npl .pl-hero { margin: 0 0 1.25rem; }
+body.st-inner.league-npl .pl-hero .pc-name { font-size: 1.9rem; }
+body.st-inner.league-npl .pl-hero-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .35rem 1.4rem;
+  margin: .9rem 0 0;
+}
+body.st-inner.league-npl .pl-hero-facts span {
+  display: block;
+  font-size: .62rem;
+  font-weight: 800;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: #8f8aa3;
+}
+body.st-inner.league-npl .pl-hero-facts strong {
+  display: block;
+  font-size: .95rem;
+  font-weight: 700;
+  color: #fff;
+  margin-top: .15rem;
+}
+body.st-inner.league-npl .pl-hero-facts strong a { color: #fff; }
+body.st-inner.league-npl .pl-hero-facts strong a:hover { color: var(--st-rose); }
+@media (max-width: 640px) {
+  body.st-inner.league-npl .pl-hero .pc-name { font-size: 1.45rem; }
+}
+
+/* Hero stats on the right (team-page .tm2-hero-stats pattern, teams.css §12:
+   the same empty black space the team hero had — filled with the player's
+   real record, Matches / Runs / Wickets, as a flex row with the left-border
+   divider. Below 981px the stats return to the footer band (round-2 layout),
+   where the stats tables below carry the same figures.) */
+@media (min-width: 981px) {
+  body.st-inner.league-npl .pl-hero { grid-template-columns: 160px minmax(0, 1fr) auto; }
+  body.st-inner.league-npl .pl-hero .pc-stats {
+    grid-column: 3; grid-row: 1;
+    display: flex; gap: 1.75rem; align-items: center;
+    margin-left: 1.75rem; padding: 0 1.2rem 0 1.75rem;
+    border-top: 0; border-left: 1px solid rgba(245, 243, 251, .18);
+  }
+  body.st-inner.league-npl .pl-hero .pc-stats > div { padding: 0; text-align: right; }
+  body.st-inner.league-npl .pl-hero .pc-stats > div + div { border-left: 0; }
+  body.st-inner.league-npl .pl-hero .pc-stats b { font-size: 1.5rem; }
+  body.st-inner.league-npl .pl-hero .pc-stats span { font-size: .72rem; color: #c8c4d6; }
+}
+
+/* B. Shell — teams.css gives team pages their .hub-wide width; profiles do
+   not load teams.css, so the same rule lives here. Without it .hub-wide is
+   uncapped and the grid spans the full viewport width (caught by the
+   headless render: hub3 measured 1440px at a 1440px viewport). */
+body.st-inner.league-npl .hub-wide { width: min(var(--hub-wide), calc(100% - 2.5rem)); margin-inline: auto; }
+
+/* C. Centre rhythm — .hub3-col is a flex column with gap 1.25rem, so the
+   round-2 .pl-card margin would double the gap (same fix as the team pages'
+   .tm2-centre-card margin: 0). */
+body.st-inner.league-npl .hub3-center .pl-card { margin-bottom: 0; }
+
+/* D. Crumbs — team-page rose crumb links (teams.css
+   body.league-npl .hub-crumbs .crumbs a). */
+body.st-inner.league-npl .hub-crumbs .crumbs a { color: var(--st-rose-deep); }
+
+/* E. Points mini — teams.css section (9) verbatim, scoped to profiles:
+   night header (stats beautify pattern), .88rem, rose-tint own row + hover,
+   24px logos with Pokhara night chip. (The live team page emits no tm2-own
+   row; the rule is mirrored for parity and unused on profiles.) */
+body.st-inner.league-npl .tm2-mini { width: 100%; border-collapse: collapse; font-size: .92rem; }
+body.st-inner.league-npl .tm2-mini th { background: #090811; color: #fff; text-align: left; padding: .35rem .4rem; font-size: .88rem; border-bottom: 1px solid rgba(227,223,240,.9); }
+body.st-inner.league-npl .tm2-mini td { padding: .35rem .4rem; font-size: .88rem; border-bottom: 1px solid rgba(227,223,240,.6); }
+body.st-inner.league-npl .tm2-mini td.tm2-num, body.st-inner.league-npl .tm2-mini th.tm2-num { text-align: right; font-variant-numeric: tabular-nums; }
+body.st-inner.league-npl .tm2-mini tr.tm2-own td { background: #fdf0f3; font-weight: 700; }
+body.st-inner.league-npl .tm2-mini tbody tr:hover td { background: #fdf0f3; }
+body.st-inner.league-npl .tm2-mini img.team-logo { width: 1.5rem; height: 1.5rem; object-fit: contain; vertical-align: -.35rem; margin-right: .3rem; }
+body.st-inner.league-npl .tm2-mini img.team-logo[alt*="Pokhara"] { background: var(--st-night-2); border-radius: .4rem; padding: .15rem .25rem; box-sizing: border-box; }
+
+/* F. Full NPL Coverage — teams.css .tm2-cover verbatim, scoped to profiles.
+   (The .tm2-cover-sub lines are the team-pages FIX-2 descriptions.) */
+body.st-inner.league-npl .tm2-cover { margin: 0; padding: 0; list-style: none; }
+body.st-inner.league-npl .tm2-cover li { padding: .4rem 0; border-top: 1px solid rgba(227,223,240,.85); }
+body.st-inner.league-npl .tm2-cover li:first-child { border-top: 0; }
+body.st-inner.league-npl .tm2-cover a { color: var(--st-rose-deep); text-decoration: none; font-weight: 600; }
+body.st-inner.league-npl .tm2-cover a:hover { text-decoration: underline; }
+body.st-inner.league-npl .tm2-cover-sub { display: block; font-size: .85rem; color: var(--st-mute); }
