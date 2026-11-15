@@ -323,7 +323,7 @@
     var mins = Math.floor(diff / 60000);
     var hours = Math.floor(mins / 60);
     var days = Math.floor(hours / 24);
-    if (days >= 1) return 'Starts in ' + days + (days === 1 ? ' day' : ' days') + ' — ' + new Date(kick).toLocaleString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', hour: 'numeric', minute: '2-digit' });
+    if (days >= 1) return 'Starts in ' + days + (days === 1 ? ' day' : ' days') + ' — ' + new Date(kick).toLocaleString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', hour: 'numeric', minute: '2-digit', timeZone: 'Asia/Kathmandu' }) + ' NST';
     if (hours >= 1) return 'Starts in ' + hours + 'h ' + (mins % 60) + 'm';
     if (mins >= 1) return 'Starts in ' + mins + ' minutes';
     return 'Starting soon';
