@@ -1400,11 +1400,14 @@
         if (sig !== lastFeedSig) {
           lastFeedSig = sig;
           try { render(m, res.fetchedAt, ident); } catch (e) { /* live render must never break the page */ }
+          /* Title tracks the score, not just the state: the feed
+             changed, so recompute the score-led title. applyTitle
+             writes only when the string actually changed. */
+          try { applyTitle(m, ident); } catch (e) { /* title must never break the page */ }
         }
         if (m.status !== seenStatus) {
           applyTabSet(m.status);
           if (!pickedByUser) openTab(DEFAULT_TAB[m.status] || 'live', { silent: true });
-          try { applyTitle(m, ident); } catch (e) { /* title must never break the page */ }
         }
         seenStatus = m.status;
         if (m.status === 'result') return; /* final state shown once; the bake takes over */
