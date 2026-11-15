@@ -171,3 +171,105 @@ body.st-inner.league-npl .player-centre .st-block__head h2::after { content: "";
 
 /* Most Viewed Players: photo thumbs, 32px round like the .init discs. */
 .top10 img.top10-photo { width: 2rem; height: 2rem; border-radius: 50%; object-fit: cover; flex: none; }
+
+/* ==========================================================================
+   ROUND 2 — ENHANCE + BEAUTIFY (2026-11-15)
+   Centre section cards, profile-card stat strip + full-width season footer,
+   table key-figure emphasis, left-rail polish. Every rule is scoped to
+   profile pages (.player-centre / .player-left / .profile-card) — the hub
+   has none of these classes, so its render is unchanged.
+   ========================================================================== */
+
+/* A. Centre section cards — white cards like the team-pages FIX-2 pattern.
+   The lavender table header now reads as a band against white instead of
+   blending into the page background. */
+body.st-inner.league-npl .player-centre .pl-card {
+  background: #fff;
+  border: 1px solid var(--st-line);
+  border-radius: var(--st-radius-sm);
+  box-shadow: var(--st-shadow-sm);
+  padding: 1.25rem 1.35rem;
+  margin-bottom: 1.25rem;
+}
+
+/* B. Table emphasis — row separators between rows only (single-row career /
+   tournament tables keep their clean look); key figure bold night. */
+body.st-inner.league-npl .player-centre .pl-stats tbody tr + tr td {
+  border-top: 1px solid var(--st-line);
+}
+body.st-inner.league-npl .player-centre .pl-stats td.pl-key {
+  font-weight: 800;
+  color: var(--st-night);
+}
+
+/* C. Profile card — verified NPL 2026 stat strip (Matches / Runs / Wickets,
+   the same agg_s3 aggregates the stats tables use; omitted when the player
+   has not played) + season strip as a full-width footer band, so it never
+   wraps inside the narrow text column again. */
+body.st-inner.league-npl .profile-card .pc-stats {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-top: 1px solid rgba(255,255,255,.14);
+}
+body.st-inner.league-npl .profile-card .pc-stats > div {
+  padding: .7rem .5rem .8rem;
+  text-align: center;
+}
+body.st-inner.league-npl .profile-card .pc-stats > div + div {
+  border-left: 1px solid rgba(255,255,255,.14);
+}
+body.st-inner.league-npl .profile-card .pc-stats span {
+  display: block;
+  font-size: .62rem;
+  font-weight: 800;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: #8f8aa3;
+}
+body.st-inner.league-npl .profile-card .pc-stats b {
+  display: block;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #fff;
+  margin-top: .1rem;
+}
+body.st-inner.league-npl .profile-card .pc-strip {
+  grid-column: 1 / -1;
+  border-top: 1px solid rgba(255,255,255,.14);
+  padding: .65rem 1.2rem;
+}
+
+/* D. Left rail — uniform flex rows for Most Viewed / Browse (photo and
+   initials rows align the same), rose hover on rail links, rose focus on
+   the Browse selects (same pattern as the search input). */
+body.st-inner.league-npl .player-left .top10 li {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+}
+body.st-inner.league-npl .player-left .side-card ul li > a:hover {
+  color: var(--st-rose-deep);
+}
+body.st-inner .bop-filters select {
+  cursor: pointer;
+}
+body.st-inner .bop-filters select:focus {
+  outline: none;
+  border-color: var(--st-rose);
+  box-shadow: 0 0 0 3px rgba(225,29,72,.15);
+}
+
+/* E. Centre typography — lead slightly larger, h3 subheads small-caps grey. */
+body.st-inner.league-npl .player-centre .lead {
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+body.st-inner.league-npl .player-centre h3 {
+  font-size: .8rem;
+  font-weight: 800;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--st-mute);
+  margin: .25rem 0 .5rem;
+}
