@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>SA20 Season 5 Schedule — Fixtures, Dates &amp; Venues</title>
-<link rel="stylesheet" href="/style.css?v=4">
+<link rel="stylesheet" href="/style.css">
 <meta name="description" content="All 34 SA20 Season 5 fixtures — 30 league matches and 4 playoffs, 17 Jan–21 Feb 2027, across six South African grounds. See the opener.">
 <link rel="canonical" href="https://sialtv.com/sa20/schedule/">
 <meta property="og:type" content="website">
@@ -16,7 +16,7 @@
 <meta name="twitter:description" content="All 34 SA20 Season 5 fixtures — 30 league matches and 4 playoffs, 17 Jan–21 Feb 2027, across six South African grounds. See the opener.">
 <meta name="theme-color" content="#0f1014">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","name":"SA20 Season 5 Schedule — Fixtures, Dates & Venues","url":"https://sialtv.com/sa20/schedule/","description":"All 34 SA20 Season 5 fixtures — 30 league matches and 4 playoffs, 17 Jan–21 Feb 2027, across six South African grounds. See the opener.","datePublished":"2026-11-11T05:27:00Z","dateModified": "2026-11-12T16:06:50Z"}
+{"@context":"https://schema.org","@type":"WebPage","name":"SA20 Season 5 Schedule — Fixtures, Dates & Venues","url":"https://sialtv.com/sa20/schedule/","description":"All 34 SA20 Season 5 fixtures — 30 league matches and 4 playoffs, 17 Jan–21 Feb 2027, across six South African grounds. See the opener.","datePublished":"2026-11-11T05:27:00Z","dateModified": "2026-11-15T17:50:00Z"}
 </script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"SialTV","item":"https://sialtv.com/"},{"@type":"ListItem","position":2,"name":"SA20","item":"https://sialtv.com/sa20/"},{"@type":"ListItem","position":3,"name":"SA20 Season 5 Schedule — Fixtures, Dates & Venues","item":"https://sialtv.com/sa20/schedule/"}]}
@@ -45,28 +45,40 @@
       <span class="t-time">3:30 PM SAST &middot; Sun 17 Jan 2027</span>
     </div>
   </div>
-<nav class="series-nav" aria-label="SA20 sections">
-  <div class="wrap">
-    <a href="/sa20/">Overview</a>
-    <a href="/sa20/schedule/" aria-current="page">Schedule</a>
-    <a href="/sa20/points-table/">Points Table</a>
-    <a href="/sa20/results/">Results</a>
-    <a href="/sa20/live-scores/">Live Scores</a>
-    <a href="/sa20/teams/">Teams</a>
-    <a href="/sa20/players/">Players</a>
-    <a href="/sa20/stats/">Stats</a>
-    <a href="/sa20/tickets/">Tickets</a>
-  </div>
-</nav>
+<nav class="series-secnav" aria-label="SA20 Season 5 sections"><div class="wrap secnav-row"><div class="secnav-title-wrap"><div class="secnav-title"><button type="button" class="secnav-switch" aria-haspopup="true">SA20 Season 5 <span class="secnav-caret" aria-hidden="true">&#9662;</span></button></div><div class="secnav-drop"><a href="/sa20/" aria-current="page">SA20 Season 5</a><a href="/npl/">Nepal Premier League 2026</a><a href="/ilt20/">International League T20 2026&ndash;27</a><a href="/apl/">Afghanistan Premier League 2026&ndash;27</a></div></div><span class="secnav-div" aria-hidden="true"></span><div class="secnav-links"><a href="/sa20/">Home</a><a href="/sa20/schedule/" aria-current="page">Fixtures and Results</a><a href="/sa20/points-table/">Table</a><a href="/sa20/stats/">Stats</a><a href="/sa20/teams/">Teams</a><a href="/sa20/players/">Players</a></div></div></nav>
+<div id="stripMount"></div>
+<script>
+(function () {
+  var mount = document.getElementById('stripMount');
+  if (!mount) return;
+  function loadScript(src, next) {
+    var s = document.createElement('script');
+    s.src = src;
+    s.onload = function () { if (next) next(); };
+    s.onerror = function () { if (next) next(); };
+    document.body.appendChild(s);
+  }
+  fetch('/fragments/strip.html', { credentials: 'same-origin' })
+    .then(function (r) { if (!r.ok) throw new Error('strip ' + r.status); return r.text(); })
+    .then(function (html) {
+      mount.innerHTML = html;
+      loadScript('/js/team-logos.js', function () {
+        loadScript('/js/live-scores.js', function () {
+          loadScript('/js/flash-scores.js');
+        });
+      });
+    })
+    .catch(function () { if (mount && mount.parentNode) mount.parentNode.removeChild(mount); });
+})();
+</script>
 
 <section class="hero">
   <div class="wrap">
     <p class="crumbs"><a href="/">SialTV</a> / <a href="/sa20/">SA20</a> / SA20 Season 5 Schedule</p>
-    <p class="eyebrow">SA20 &middot; Season 5</p>
     <h1>SA20 Season 5 <span class="accent">Schedule</span> &mdash; Fixtures, Dates &amp; Venues</h1>
     <p>SA20 Season 5 runs from Sunday 17 January to Sunday 21 February 2027, with six teams playing 34 matches across six grounds in South Africa. Sunrisers Eastern Cape, the three-time champions, open the season against Pretoria Capitals at St George&rsquo;s Park &mdash; and the final is at Newlands on 21 February. Every start time is in South African Standard Time (SAST, UTC+2).</p>
         <a class="hero-cta" href="/sa20/points-table/">See the points table <span aria-hidden="true">&rsaquo;</span></a>
-    <p class="updated">Last updated: 12 November 2026</p>
+    <p class="updated">Last updated: 15 November 2026</p>
   </div>
 </section>
 <main>
@@ -142,20 +154,6 @@
       <p><a href="/">SialTV</a> will update the <a href="/sa20/results/">SA20 Results</a> page after every match and the points table after every match day. During play, the <a href="/sa20/live-scores/">SA20 Live Scores</a> page carries the latest score. In South Africa matches are on SuperSport, in Pakistan on Apex, in India on JioStar, in the UK on Sky Sports, in Australia on Fox Sports and in North America on Willow by Cricbuzz. Broadcasters for the UAE and Middle East and the rest of the world are still to be confirmed.</p>
   </section>
 
-  <section data-reveal class="faq" id="faq">
-      <h2>Frequently asked questions</h2>
-      <h3>When does SA20 Season 5 start?</h3>
-      <p>On Sunday 17 January 2027, with Sunrisers Eastern Cape against Pretoria Capitals at St George&rsquo;s Park, Gqeberha, at 3:30 PM SAST. The season ends with the final on Sunday 21 February, at Newlands in Cape Town.</p>
-      <h3>When is the SA20 final?</h3>
-      <p>Sunday 21 February 2027, at Newlands in Cape Town, starting at 3:30 PM SAST. The finalists are the winners of Qualifier 1 and Qualifier 2.</p>
-      <h3>How many matches are in SA20 Season 5?</h3>
-      <p>Thirty-four: 30 league matches, then four playoffs &mdash; Qualifier 1 on 16 February, the Eliminator on 17 February, Qualifier 2 on 19 February and the final on 21 February.</p>
-      <h3>What time do SA20 matches start?</h3>
-      <p>Most matches start at 5:30 PM SAST. Sunday matches start at 3:30 PM, and four Saturdays &mdash; 23 and 30 January, 6 and 13 February &mdash; have a 1:00 PM match before the evening match. SAST is UTC+2, so 5:30 PM SAST is 8:30 PM in Pakistan.</p>
-      <h3>Where are SA20 matches played?</h3>
-      <p>At six grounds across South Africa: Newlands in Cape Town, the Wanderers in Johannesburg, St George&rsquo;s Park in Gqeberha, Kingsmead in Durban, SuperSport Park in Centurion and Boland Park in Paarl.</p>
-  </section>
-
   <section data-reveal id="more">
       <h2>More SA20 coverage</h2>
       <ul>
@@ -185,7 +183,6 @@
           <li><a href="#playoffs">Playoffs</a></li>
           <li><a href="#venues">Venues</a></li>
           <li><a href="#follow">How to follow the season</a></li>
-          <li><a href="#faq">Frequently asked questions</a></li>
           <li><a href="#more">More SA20 coverage</a></li>
         </ul>
       </div>
@@ -225,7 +222,7 @@
         <p class="foot-h">Write to us</p>
         <p><a href="mailto:contact@sialtv.com">contact@sialtv.com</a></p>
         <p>Corrections, missing fixtures and new leagues — tell us and it will be checked.</p>
-        <p>Last updated: 12 November 2026</p>
+        <p>Last updated: 15 November 2026</p>
       </div>
     </div>
   </div>

@@ -2480,6 +2480,19 @@ body.st-inner .secnav-links a { color: var(--st-ink-2); font-weight: 600; font-s
 body.st-inner .secnav-links a:hover { background: var(--st-bg-soft); color: var(--st-ink); }
 body.st-inner .secnav-links a[aria-current="page"] { color: var(--st-rose-deep); background: var(--st-rose-soft); }
 
+/* League schedule pages without st-inner (SA20/BBL/PSL): hub-exact secnav.
+   Same FIX-8 pattern as body.league-npl in teams.css — the document fallback
+   (body:not(.st-home) a/nav) outranks the bare .secnav-* rules, so scope here.
+   Applies only where a .series-secnav exists (none on BBL/PSL pages yet). */
+body.league-sa20 nav.series-secnav, body.league-bbl nav.series-secnav, body.league-psl nav.series-secnav { background: var(--st-surface); border-bottom: 1px solid var(--st-line); margin: 0; }
+body.league-sa20 nav.series-secnav .secnav-title, body.league-bbl nav.series-secnav .secnav-title, body.league-psl nav.series-secnav .secnav-title { font-size: 1.05rem; }
+body.league-sa20 .secnav-row, body.league-bbl .secnav-row, body.league-psl .secnav-row { width: 100%; }
+body.league-sa20 .secnav-drop a, body.league-bbl .secnav-drop a, body.league-psl .secnav-drop a { display: block; padding: 0.55rem 0.75rem; border-radius: 0.6rem; color: var(--st-ink-2); font-weight: 600; font-size: 0.92rem; text-decoration: none; }
+body.league-sa20 .secnav-drop a:hover, body.league-bbl .secnav-drop a:hover, body.league-psl .secnav-drop a:hover { background: var(--st-bg-soft); color: var(--st-ink); }
+body.league-sa20 .secnav-links a, body.league-bbl .secnav-links a, body.league-psl .secnav-links a { color: var(--st-ink-2); font-weight: 600; font-size: 0.93rem; padding: 0.45rem 0.65rem; border-radius: 0.65rem; text-decoration: none; white-space: nowrap; }
+body.league-sa20 .secnav-links a:hover, body.league-bbl .secnav-links a:hover, body.league-psl .secnav-links a:hover { background: var(--st-bg-soft); color: var(--st-ink); }
+body.league-sa20 .secnav-links a[aria-current="page"], body.league-bbl .secnav-links a[aria-current="page"], body.league-psl .secnav-links a[aria-current="page"] { color: var(--st-rose-deep); background: var(--st-rose-soft); }
+
 /* Breadcrumb + updated stamp */
 .hub-crumbs { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; flex-wrap: wrap; padding: 1rem 0 0.25rem; }
 .hub-crumbs .crumbs { margin: 0; color: var(--st-mute); font-size: 0.88rem; }
