@@ -5,18 +5,40 @@
    .ptabs pills, .details-grid, .player-list, .side-card); this file adds
    only what style.css does not cover. */
 
-/* Career + tournament stats tables: pale lavender header, rose row links. */
-.pl-stats thead th {
-  background: #f5f3fb;
-  color: #090811;
+/* Career + tournament + match tables — beautified 2026-11-15, stats-page
+   night-header language: night header, white uppercase text, rose rule
+   underneath, rounded top corners, generous padding, zebra rows, rose-tint
+   hover, tabular numbers, numeric columns right-aligned via the .num class
+   build.py adds (text columns — Format, Tournament, Teams, Match, Date,
+   Ground — stay left). Scoped to the profile centre so it beats style.css's
+   .table-scroll padding (0,4,2) and body:not(.st-home) border-collapse. */
+body.st-inner.league-npl .player-centre .pl-stats { width: 100%; border-collapse: separate; border-spacing: 0; }
+body.st-inner.league-npl .player-centre .pl-stats thead th {
+  background: #090811;
+  color: #fff;
   font-size: .78rem;
-  letter-spacing: .02em;
+  letter-spacing: .05em;
   text-transform: uppercase;
+  text-align: left;
+  padding: .7rem .75rem;
+  border-bottom: 2px solid #e11d48;
   white-space: nowrap;
 }
-.pl-stats tbody td { white-space: nowrap; }
-.pl-stats tbody td:first-child { font-weight: 700; }
-.pl-stats tbody tr:nth-child(even) td { background: #fbfaff; }
+body.st-inner.league-npl .player-centre .pl-stats thead th:first-child { border-top-left-radius: 11px; }
+body.st-inner.league-npl .player-centre .pl-stats thead th:last-child { border-top-right-radius: 11px; }
+body.st-inner.league-npl .player-centre .pl-stats thead th.num,
+body.st-inner.league-npl .player-centre .pl-stats tbody td.num { text-align: right; }
+body.st-inner.league-npl .player-centre .pl-stats tbody td {
+  padding: .55rem .7rem;
+  border-bottom: 1px solid #efeaf9;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+body.st-inner.league-npl .player-centre .pl-stats tbody td:first-child { font-weight: 700; }
+body.st-inner.league-npl .player-centre .pl-stats tbody tr:nth-child(even) td { background: #fbfaff; }
+body.st-inner.league-npl .player-centre .pl-stats tbody tr:hover td { background: #fdf0f3; }
+body.st-inner.league-npl .player-centre .pl-stats tbody td a { color: var(--st-night); font-weight: 600; }
+body.st-inner.league-npl .player-centre .pl-stats tbody td a:hover { color: var(--st-rose); }
 
 /* Match tables: team names — full on desktop, 3-letter code on mobile. */
 .pl-match-teams .tm-full { display: inline; }
@@ -163,8 +185,8 @@ body.st-inner.league-npl .details-grid .team-logo { width: 1.75rem; height: auto
 /* Section headings: rose bar under centre h2s (hub players-page pattern). */
 body.st-inner.league-npl .player-centre .st-block__head h2::after { content: ""; display: block; width: 2.75rem; height: 3px; background: var(--st-rose); border-radius: 2px; margin-top: .5rem; }
 
-/* Stats tables: rose-tint row hover (stats-page pattern). */
-.pl-stats tbody tr:hover td { background: #fdf0f3; }
+/* Stats tables: rose-tint row hover (stats-page pattern) — now in the
+   beautified .pl-stats block above; this old unscoped rule is redundant. */
 
 /* Most Viewed Players: photo thumbs, 32px round like the .init discs. */
 .top10 img.top10-photo { width: 2rem; height: 2rem; border-radius: 50%; object-fit: cover; flex: none; }
@@ -189,11 +211,10 @@ body.st-inner.league-npl .player-centre .pl-card {
   margin-bottom: 1.25rem;
 }
 
-/* B. Table emphasis — row separators between rows only (single-row career /
-   tournament tables keep their clean look); key figure bold night. */
-body.st-inner.league-npl .player-centre .pl-stats tbody tr + tr td {
-  border-top: 1px solid var(--st-line);
-}
+/* B. Table emphasis — row separators are the beautified block's
+   border-bottom on every td (single-row career / tournament tables keep
+   their clean look: the bottom border is the table's own bottom edge);
+   key figure bold night. */
 body.st-inner.league-npl .player-centre .pl-stats td.pl-key {
   font-weight: 800;
   color: var(--st-night);
