@@ -1383,9 +1383,21 @@ body.st-inner .t-pts td:not(:first-child), body.st-inner .t-pts th:not(:first-ch
 body.st-inner .t-pts td:first-child { display: flex; align-items: center; gap: 0.5rem; font-weight: 700; }
 
 /* 8. Team logos keep proportions; Pokhara (pale gold, luminance 203) gets a dark chip
-   so it reads on white. Chitwan is dark (luminance 74), so the chip is Pokhara-only. */
+   so it reads on white. Chitwan is dark (luminance 74), so the chip is Pokhara-only.
+   No padding on the chip (2026-11-16): with box-sizing:border-box the old
+   0.25rem/0.4rem padding shrank the landscape crest to ~15x10px inside a
+   28px box — a solid dark square. The crest fills its canvas already, so
+   the image uses the full box. Pokhara also renders one step larger
+   (2.25rem, rule below): its thin gold line art needs the pixels — at 28px
+   the eagle is a faint smudge, at 36px it reads. */
 body.st-inner img.team-logo { object-fit: contain; flex-shrink: 0; }
-body.st-inner img.team-logo[alt*="Pokhara"] { background: var(--st-night-2); border-radius: 0.55rem; padding: 0.25rem 0.4rem; box-sizing: border-box; }
+body.st-inner img.team-logo[alt*="Pokhara"] { background: var(--st-night-2); border-radius: 0.55rem; box-sizing: border-box; }
+/* Pokhara size step (2026-11-16) — see note above. Higher specificity than
+   the per-context 1.75rem rules, so it wins in cards, points mini and strip
+   alike; other logos are untouched. */
+body.st-inner .rx-res-team img.team-logo[alt*="Pokhara"],
+body.st-inner .t-pts img.tl-table[alt*="Pokhara"],
+body.st-inner .st-strip .sc-team img.team-logo[alt*="Pokhara"] { width: 2.25rem; height: 2.25rem; }
 
 /* Stats top performances (.rx-perf-*): the new design has no rules for these, so the
    name and team/stats run together ("Lokesh BamBIK"). Row layout + stacked who. */
@@ -1884,7 +1896,7 @@ body.st-inner .faq-item p { margin: 0.6rem 0 0; color: var(--st-ink-2); }
 .st-strip .sc-row.loser { opacity: 0.6; }
 .st-strip .sc-team { display: flex; align-items: center; gap: 0.6rem; font-weight: 700; min-width: 0; }
 .st-strip .sc-team img.team-logo { width: 2rem; height: 2rem; object-fit: contain; flex-shrink: 0; }
-.st-strip .sc-team img.team-logo[alt*="Pokhara"] { background: var(--st-night-2, #17141f); border-radius: 0.55rem; padding: 0.25rem 0.4rem; box-sizing: border-box; }
+.st-strip .sc-team img.team-logo[alt*="Pokhara"] { background: var(--st-night-2, #17141f); border-radius: 0.55rem; box-sizing: border-box; }
 .st-strip .sc-score { font-weight: 800; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .st-strip .sc-result { color: var(--st-ink-2, #3b4258); font-size: 0.95rem; margin: 0.75rem 0 0; }
 .st-strip .sc-countdown { color: var(--st-mute, #6b7280); font-size: 0.85rem; margin: 0.5rem 0 0; }
