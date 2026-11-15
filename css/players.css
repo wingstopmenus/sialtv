@@ -40,6 +40,17 @@ body.st-inner.league-npl .player-centre .pl-stats tbody tr:hover td { background
 body.st-inner.league-npl .player-centre .pl-stats tbody td a { color: var(--st-night); font-weight: 600; }
 body.st-inner.league-npl .player-centre .pl-stats tbody td a:hover { color: var(--st-rose); }
 
+/* FULL WIDTH on desktop (fix 2026-11-15, user screenshot): the site-wide fallback
+   (style.css body:not(.st-home) table) forces display:block + overflow-x:auto on
+   every table, so width:100% only sizes the outer block while the anonymous inner
+   table shrink-wraps to content — the header visibly stops short of the card edge
+   (first table 843px, last 513px in a 954px card on live). Same FAIL 1 the points
+   table (.rx-pts) had on 2026-11-14: restore real table layout on desktop; keep
+   block+scroll on mobile (<=980px) where the wide tables must scroll in the card. */
+@media (min-width: 981px) {
+  body.st-inner.league-npl .player-centre .pl-stats { display: table; }
+}
+
 /* Match tables: team names — full on desktop, 3-letter code on mobile. */
 .pl-match-teams .tm-full { display: inline; }
 .pl-match-teams .tm-short { display: none; }
