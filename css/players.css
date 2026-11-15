@@ -86,8 +86,14 @@
 
 /* Side cards: style.css gives .side-card only a border — no background,
    padding, radius or shadow — so on mobile (and desktop) they read as plain
-   boxes. Same component on hub + profiles, so one rule fixes both. */
-body.st-inner .side-card { background: #fff; border-radius: var(--st-radius-sm); padding: 1rem 1.15rem; box-shadow: var(--st-shadow-sm); }
+   boxes. Same component on hub + profiles, so one rule fixes both.
+   P0 FIX (2026-11-15): this rule MUST exclude .profile-card. At equal
+   specificity (0,2,1) it tied with style.css `body.st-inner.profile-card
+   { background: var(--st-night) }` and, loading later, turned the dark
+   profile card white — while its name/summary text stayed white, so the H1
+   was invisible on all 129 profiles. The white rule was meant for sidebar
+   cards, never the profile card. */
+body.st-inner .side-card:not(.profile-card) { background: #fff; border-radius: var(--st-radius-sm); padding: 1rem 1.15rem; box-shadow: var(--st-shadow-sm); }
 
 /* Hub nav card ("On this page"): team rows with logo + code chip (team-rail
    pattern). The flex rule beats style.css `.side-card li > a { display:
@@ -140,3 +146,28 @@ body.page-npl-players section[data-team-section] > p.note { border-top: 1px soli
   .pl-hub-card:hover { transform: none; }
   .pl-chip { transition: none; }
 }
+
+/* Profiles fix — 2026-11-15 (rebuild + enhance + beautify). Theme tokens only. */
+
+/* Left rail 340px on desktop (was 441px at 1280px / 453px at the 1320px shell
+   from style.css `.player-grid { 0.85fr 1.5fr }`). Centre grows to ~912px, so
+   the 7 stats tables fit without the .85rem narrowing hack. Scoped to
+   min-width 981px: the <=980px single-column rule is lower specificity and
+   must keep winning on mobile. */
+@media (min-width: 981px) {
+  body.st-inner.league-npl .player-grid { grid-template-columns: 340px minmax(0, 1fr); }
+}
+
+/* Details-grid TEAMS logo: the img carries width=77 height=96 attributes,
+   so the crest rendered ~85px tall next to the team name (Cricinfo uses
+   ~24px). 1.75rem matches the other team-logo sizes on the site. */
+body.st-inner.league-npl .details-grid .team-logo { width: 1.75rem; height: auto; vertical-align: middle; margin-right: .35rem; }
+
+/* Section headings: rose bar under centre h2s (hub players-page pattern). */
+body.st-inner.league-npl .player-centre .st-block__head h2::after { content: ""; display: block; width: 2.75rem; height: 3px; background: var(--st-rose); border-radius: 2px; margin-top: .5rem; }
+
+/* Stats tables: rose-tint row hover (stats-page pattern). */
+.pl-stats tbody tr:hover td { background: #fdf0f3; }
+
+/* Most Viewed Players: photo thumbs, 32px round like the .init discs. */
+.top10 img.top10-photo { width: 2rem; height: 2rem; border-radius: 50%; object-fit: cover; flex: none; }
