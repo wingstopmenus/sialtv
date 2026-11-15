@@ -22,7 +22,7 @@
 <meta name="twitter:title" content="POA 224/3 beat KAG 169/10 — NPL Match 28">
 <meta name="twitter:description" content="Pokhara Avengers beat Kathmandu Gorkhas by 55 runs in NPL Match 28 at Kirtipur. Full scorecard, commentary, overs and points table.">
 <meta name="theme-color" content="#090811">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"POA 224/3 beat KAG 169/10 \u2014 NPL Match 28","url":"https://sialtv.com/npl/matches/2026/match-28/","description":"Pokhara Avengers beat Kathmandu Gorkhas by 55 runs in NPL Match 28 at Kirtipur. Full scorecard, commentary, overs and points table.","datePublished":"2026-11-15T10:45Z","dateModified":"2026-11-15T21:17:00Z"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"POA 224/3 beat KAG 169/10 \u2014 NPL Match 28","url":"https://sialtv.com/npl/matches/2026/match-28/","description":"Pokhara Avengers beat Kathmandu Gorkhas by 55 runs in NPL Match 28 at Kirtipur. Full scorecard, commentary, overs and points table.","datePublished":"2026-11-15T10:45Z","dateModified":"2026-11-16T02:27:00Z"}</script>
 <script type="application/ld+json">{"@type":"SportsEvent","name":"Kathmandu Gorkhas vs Pokhara Avengers, 28th Match, Nepal Premier League","startDate":"2026-11-15T17:00:00+05:45","eventStatus":"EventCompleted","location":{"@type":"Place","name":"Tribhuvan University International Cricket Ground, Kirtipur","address":{"@type":"PostalAddress","addressLocality":"Kirtipur","addressRegion":"Bagmati","addressCountry":"NP"}},"homeTeam":{"@type":"SportsTeam","name":"Kathmandu Gorkhas"},"awayTeam":{"@type":"SportsTeam","name":"Pokhara Avengers"},"organizer":{"@type":"SportsOrganization","name":"Nepal Premier League"}}</script>
 <script type="application/ld+json">{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"SialTV","item":"https://sialtv.com/"},{"@type":"ListItem","position":2,"name":"Nepal Premier League","item":"https://sialtv.com/npl/"},{"@type":"ListItem","position":3,"name":"Fixtures and Results","item":"https://sialtv.com/npl/schedule/"},{"@type":"ListItem","position":4,"name":"Match 28","item":"https://sialtv.com/npl/matches/2026/match-28/"}]}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -32,7 +32,7 @@
 </head>
 <body class="league-npl st-inner" data-css="p20" data-ci-league="npl" data-ci-season="2026" data-ci-match="28" data-ci-id="npl-2026-m28" data-ci-state="result" data-ci-kickoff="">
 <a class="st-skip" href="#main">Skip to content</a>
-<header class="st-masthead" style="border-bottom:1px solid rgba(227,223,240,.85);padding-bottom:0;margin-bottom:0">
+<div id="mastheadMount"><header class="st-masthead" style="border-bottom:1px solid rgba(227,223,240,.85);padding-bottom:0;margin-bottom:0">
   <div class="st-shell st-masthead__row">
     <a class="st-wordmark" href="/" aria-label="SialTV home" style="color:#0c1022;text-decoration:none">
           <span class="st-wordmark__mark" aria-hidden="true">
@@ -41,28 +41,71 @@
           <span class="st-wordmark__text">Sial<em>TV</em></span>
         </a>
     <div class="st-menu" role="navigation" aria-label="Leagues">
-      <a href="/npl/" style="color:#3b4258;text-decoration:none">NPL</a>
-      <a href="/ilt20/" style="color:#3b4258;text-decoration:none">ILT20</a>
-      <a href="/apl/" style="color:#3b4258;text-decoration:none">APL</a>
+      <a href="/npl/">NPL</a>
+      <a href="/ilt20/">ILT20</a>
+      <a href="/apl/">APL</a>
     </div>
     <a class="st-action" href="/live-scores/">Live scores</a>
-    <button class="st-burger" type="button" aria-expanded="false" aria-controls="st-drawer" aria-label="Open menu">
-      <span></span><span></span><span></span>
-    </button>
   </div>
-  <div class="st-drawer" id="st-drawer">
-    <div class="st-shell">
-      <nav aria-label="Leagues (mobile)" style="gap:0;margin:0">
-        <a href="/npl/" style="color:#0c1022;text-decoration:none">Nepal Premier League</a>
-        <a href="/ilt20/" style="color:#0c1022;text-decoration:none">ILT20</a>
-        <a href="/apl/" style="color:#0c1022;text-decoration:none">Afghanistan Premier League</a>
-        <a href="/series/" style="color:#0c1022;text-decoration:none">All series</a>
-        <a href="/about/" style="color:#0c1022;text-decoration:none">About SialTV</a>
-      </nav>
-      <a class="st-action st-action--block" href="/live-scores/">Live scores</a>
-    </div>
-  </div>
-</header>
+</header></div>
+<script>
+(function () {
+  var mount = document.getElementById('mastheadMount');
+  if (!mount) return;
+  function loadScript(src, next) {
+    var s = document.createElement('script');
+    s.src = src;
+    s.onload = function () { if (next) next(); };
+    s.onerror = function () { if (next) next(); };
+    document.body.appendChild(s);
+  }
+  function wireBurger() {
+    var btn = document.querySelector('.st-burger');
+    var drawer = document.getElementById('st-drawer');
+    if (!btn || !drawer) return;
+    function set(open) {
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+      document.body.classList.toggle('st-nav-open', open);
+    }
+    btn.addEventListener('click', function () {
+      set(btn.getAttribute('aria-expanded') !== 'true');
+    });
+    drawer.querySelectorAll('a').forEach(function (a) {
+      a.addEventListener('click', function () { set(false); });
+    });
+  }
+  function markCurrent() {
+    var p = window.location.pathname;
+    var sections = [['/npl/', '/npl/'], ['/ilt20/', '/ilt20/'], ['/apl/', '/apl/']];
+    for (var i = 0; i < sections.length; i++) {
+      if (p === sections[i][0] || p.indexOf(sections[i][0]) === 0) {
+        var a = document.querySelector('.st-menu a[href="' + sections[i][1] + '"]');
+        if (a) a.setAttribute('aria-current', 'page');
+        var d = document.querySelector('.st-drawer nav a[href="' + sections[i][1] + '"]');
+        if (d) d.setAttribute('aria-current', 'page');
+        break;
+      }
+    }
+  }
+  function inject(html) {
+    mount.outerHTML = html;
+    wireBurger();
+    markCurrent();
+    loadScript('/js/search.js');
+  }
+  function load(attempt) {
+    fetch('/fragments/masthead.html', { credentials: 'same-origin' })
+      .then(function (r) { if (!r.ok) throw new Error('masthead ' + r.status); return r.text(); })
+      .then(inject)
+      .catch(function () {
+        if (attempt < 2) { setTimeout(function () { load(attempt + 1); }, 600); }
+        /* else: keep the skeleton header — wordmark + league links, a working header */
+      });
+  }
+  load(1);
+})();
+</script>
 
 <nav class="series-secnav" aria-label="Nepal Premier League sections"><div class="wrap secnav-row"><div class="secnav-title-wrap"><p class="secnav-title"><button type="button" class="secnav-switch" aria-haspopup="true">Nepal Premier League 2026 <span class="secnav-caret" aria-hidden="true">&#9662;</span></button></p><div class="secnav-drop"><a href="/npl/" aria-current="page">Nepal Premier League 2026</a><a href="/ilt20/">International League T20 2026&ndash;27</a><a href="/apl/">Afghanistan Premier League 2026&ndash;27</a></div></div><span class="secnav-div" aria-hidden="true"></span><div class="secnav-links"><a href="/npl/">Home</a><a href="/npl/schedule/" aria-current="page">Fixtures and Results</a><a href="/npl/points-table/">Table</a><a href="/npl/stats/">Stats</a><a href="/npl/teams/">Teams</a><a href="/npl/players/">Players</a></div></div></nav>
 <div id="stripMount"></div>
@@ -100,7 +143,7 @@
   <!-- Match header: status, match line, team rows, result/toss/RR -->
   <div class="ci-head">
     <p class="ci-status" data-ci-status><span class="ci-live-dot" data-ci-dot hidden></span>RESULT</p>
-    <p class="ci-matchline"><span class="ci-pager"><a href="/npl/matches/2026/match-27/">&lsaquo; Prev</a> <span class="is-disabled">Next &rsaquo;</span> <button class="ci-share" type="button" data-ci-share aria-label="Share this match">Share</button></span>28th Match, Kirtipur, Sunday, 15 November 2026, <a href="/npl/">Nepal Premier League</a></p>
+    <p class="ci-matchline"><span class="ci-pager"><a href="/npl/matches/2026/match-27/">&lsaquo; Prev</a> <a href="/npl/matches/2026/match-29/">Next &rsaquo;</a> <button class="ci-share" type="button" data-ci-share aria-label="Share this match">Share</button></span>28th Match, Kirtipur, Sunday, 15 November 2026, <a href="/npl/">Nepal Premier League</a></p>
     <h1 class="ci-h1" data-ci-h1>Pokhara Avengers 224/3 vs Kathmandu Gorkhas 169/10 — Match 28 Result</h1>
     <div class="ci-teams">
       <div class="ci-team">
@@ -156,7 +199,7 @@
 <h2>Match Centre</h2>
 <p class="ci-mc-team"><b>Pokhara Avengers 224/3 (20 ov)</b></p>
 <p class="ci-mc-line"><a href="/npl/players/kushal-bhurtel/">Kushal Bhurtel</a> 99 (51) · <a href="/npl/players/yuvraaj-samra/">Yuvraaj Samra</a> 89 (55)</p>
-<p class="ci-mc-line"><a href="/npl/players/karan-kc/">Karan KC</a> 2/34 (4) · Jahandad Khan 1/47 (4)</p>
+<p class="ci-mc-line"><a href="/npl/players/karan-kc/">Karan KC</a> 2/34 (4) · <a href="/npl/players/jahandad-khan/">Jahandad Khan</a> 1/47 (4)</p>
 <p class="ci-mc-team"><b>Kathmandu Gorkhas 169/10 (19.5 ov)</b></p>
 <p class="ci-mc-line"><a href="/npl/players/sahil-patel/">Sahil Patel</a> 34 (23) · <a href="/npl/players/rashid-khan/">Rashid Khan</a> 31 (20)</p>
 <p class="ci-mc-line"><a href="/npl/players/dinesh-kharel/">Dinesh Kharel</a> 4/18 (4) · <a href="/npl/players/bipin-khatri/">Bipin Khatri</a> 3/28 (4)</p>
@@ -220,10 +263,10 @@
 <p class="ci-subhead">Batting</p>
 <div class="ci-scroll"><table class="ci-table"><thead><tr><th>Batter</th><th>Dismissal</th><th class="ci-num">R</th><th class="ci-num">B</th><th class="ci-num">4s</th><th class="ci-num">6s</th><th class="ci-num">SR</th></tr></thead><tbody>
 <tr><td><a href="/npl/players/yuvraaj-samra/">Yuvraaj Samra</a></td><td>c Sharki b Karan KC</td><td class="ci-num"><b>89</b></td><td class="ci-num">55</td><td class="ci-num">8</td><td class="ci-num">5</td><td class="ci-num">161.82</td></tr>
-<tr><td><a href="/npl/players/arjun-kumal/">Arjun Kumal</a></td><td>c &amp;dagger;Patel b Jahandad Khan</td><td class="ci-num"><b>5</b></td><td class="ci-num">6</td><td class="ci-num">1</td><td class="ci-num">0</td><td class="ci-num">83.33</td></tr>
-<tr><td><a href="/npl/players/kushal-bhurtel/">Kushal Bhurtel</a></td><td>c &amp;dagger;Patel b Karan KC</td><td class="ci-num"><b>99</b></td><td class="ci-num">51</td><td class="ci-num">8</td><td class="ci-num">8</td><td class="ci-num">194.12</td></tr>
+<tr><td><a href="/npl/players/arjun-kumal/">Arjun Kumal</a></td><td>c †Patel b Jahandad Khan</td><td class="ci-num"><b>5</b></td><td class="ci-num">6</td><td class="ci-num">1</td><td class="ci-num">0</td><td class="ci-num">83.33</td></tr>
+<tr><td><a href="/npl/players/kushal-bhurtel/">Kushal Bhurtel</a></td><td>c †Patel b Karan KC</td><td class="ci-num"><b>99</b></td><td class="ci-num">51</td><td class="ci-num">8</td><td class="ci-num">8</td><td class="ci-num">194.12</td></tr>
 <tr><td><a href="/npl/players/chamika-karunaratne/">Chamika Karunaratne</a> (c)*</td><td>not out</td><td class="ci-num"><b>19</b></td><td class="ci-num">7</td><td class="ci-num">1</td><td class="ci-num">2</td><td class="ci-num">271.43</td></tr>
-<tr><td>Dhananjaya Lakshan*</td><td>not out</td><td class="ci-num"><b>2</b></td><td class="ci-num">2</td><td class="ci-num">0</td><td class="ci-num">0</td><td class="ci-num">100.00</td></tr>
+<tr><td><a href="/npl/players/dhananjaya-lakshan/">Dhananjaya Lakshan</a>*</td><td>not out</td><td class="ci-num"><b>2</b></td><td class="ci-num">2</td><td class="ci-num">0</td><td class="ci-num">0</td><td class="ci-num">100.00</td></tr>
 <tr><td>Extras</td><td>(b 1, lb 1, w 7, nb 1)</td><td class="ci-num"><b>10</b></td><td></td><td></td><td></td><td></td></tr>
 <tr class="ci-total"><td>Total</td><td>20 Ov (RR: 11.20, 3 wkts)</td><td class="ci-num"><b>224</b></td><td></td><td></td><td></td><td></td></tr>
 </tbody></table></div>
@@ -231,46 +274,46 @@
 <p class="ci-dnb"><b>Yet to bat:</b> Ramesh Mendis, Sunny BK, Dinesh Kharel, Bipin Acharya, Bipin Khatri, Bibek Magar</p>
 <p class="ci-subhead">Bowling</p>
 <div class="ci-scroll"><table class="ci-table"><thead><tr><th>Bowler</th><th class="ci-num">O</th><th class="ci-num">M</th><th class="ci-num">R</th><th class="ci-num">W</th><th class="ci-num">Econ</th><th class="ci-num">0s</th><th class="ci-num">WD</th><th class="ci-num">NB</th></tr></thead><tbody>
-<tr><td>Jahandad Khan</td><td class="ci-num">4</td><td class="ci-num">0</td><td class="ci-num">47</td><td class="ci-num"><b>1</b> <button class="ci-wvict" type="button" aria-expanded="false" aria-label="Show wickets taken">&#9662;</button><span class="ci-wvict-list" hidden>Arjun Kumal</span></td><td class="ci-num">11.75</td><td class="ci-num">11</td><td class="ci-num">3</td><td class="ci-num">1</td></tr>
+<tr><td><a href="/npl/players/jahandad-khan/">Jahandad Khan</a></td><td class="ci-num">4</td><td class="ci-num">0</td><td class="ci-num">47</td><td class="ci-num"><b>1</b> <button class="ci-wvict" type="button" aria-expanded="false" aria-label="Show wickets taken">&#9662;</button><span class="ci-wvict-list" hidden>Arjun Kumal</span></td><td class="ci-num">11.75</td><td class="ci-num">11</td><td class="ci-num">3</td><td class="ci-num">1</td></tr>
 <tr><td><a href="/npl/players/karan-kc/">Karan KC</a></td><td class="ci-num">4</td><td class="ci-num">0</td><td class="ci-num">34</td><td class="ci-num"><b>2</b> <button class="ci-wvict" type="button" aria-expanded="false" aria-label="Show wickets taken">&#9662;</button><span class="ci-wvict-list" hidden>Yuvraaj Samra, Kushal Bhurtel</span></td><td class="ci-num">8.50</td><td class="ci-num">9</td><td class="ci-num">0</td><td class="ci-num">0</td></tr>
 <tr><td><a href="/npl/players/sahan-arachchige/">Sahan Arachchige</a></td><td class="ci-num">3</td><td class="ci-num">0</td><td class="ci-num">40</td><td class="ci-num"><b>0</b></td><td class="ci-num">13.33</td><td class="ci-num">4</td><td class="ci-num">0</td><td class="ci-num">0</td></tr>
 <tr><td><a href="/npl/players/santosh-yadav/">Santosh Yadav</a></td><td class="ci-num">2</td><td class="ci-num">0</td><td class="ci-num">21</td><td class="ci-num"><b>0</b></td><td class="ci-num">10.50</td><td class="ci-num">4</td><td class="ci-num">0</td><td class="ci-num">0</td></tr>
 <tr><td><a href="/npl/players/rashid-khan/">Rashid Khan</a></td><td class="ci-num">4</td><td class="ci-num">0</td><td class="ci-num">55</td><td class="ci-num"><b>0</b></td><td class="ci-num">13.75</td><td class="ci-num">7</td><td class="ci-num">0</td><td class="ci-num">0</td></tr>
-<tr><td>Ganesh Gautam</td><td class="ci-num">3</td><td class="ci-num">0</td><td class="ci-num">25</td><td class="ci-num"><b>0</b></td><td class="ci-num">8.33</td><td class="ci-num">7</td><td class="ci-num">0</td><td class="ci-num">0</td></tr>
+<tr><td><a href="/npl/players/ganesh-gautam/">Ganesh Gautam</a></td><td class="ci-num">3</td><td class="ci-num">0</td><td class="ci-num">25</td><td class="ci-num"><b>0</b></td><td class="ci-num">8.33</td><td class="ci-num">7</td><td class="ci-num">0</td><td class="ci-num">0</td></tr>
 </tbody></table></div>
-<p class="ci-fieldxi"><b>Kathmandu Gorkhas PLAYING XI</b> — <a href="/npl/players/sahil-patel/">Sahil Patel</a> †, <a href="/npl/players/bhim-sharki/">Bhim Sharki</a>, William Bosisto, <a href="/npl/players/sahan-arachchige/">Sahan Arachchige</a>, <a href="/npl/players/rashid-khan/">Rashid Khan</a>, Jahandad Khan, <a href="/npl/players/karan-kc/">Karan KC</a> (c), <a href="/npl/players/santosh-yadav/">Santosh Yadav</a>, <a href="/npl/players/sonu-devkota/">Sonu Devkota</a>, Sumit Maharjan, Ganesh Gautam</p>
+<p class="ci-fieldxi"><b>Kathmandu Gorkhas PLAYING XI</b> — <a href="/npl/players/sahil-patel/">Sahil Patel</a> †, <a href="/npl/players/bhim-sharki/">Bhim Sharki</a>, <a href="/npl/players/william-bosisto/">William Bosisto</a>, <a href="/npl/players/sahan-arachchige/">Sahan Arachchige</a>, <a href="/npl/players/rashid-khan/">Rashid Khan</a>, <a href="/npl/players/jahandad-khan/">Jahandad Khan</a>, <a href="/npl/players/karan-kc/">Karan KC</a> (c), <a href="/npl/players/santosh-yadav/">Santosh Yadav</a>, <a href="/npl/players/sonu-devkota/">Sonu Devkota</a>, <a href="/npl/players/sumit-maharjan/">Sumit Maharjan</a>, <a href="/npl/players/ganesh-gautam/">Ganesh Gautam</a></p>
 </div>
 <div id="ci-sc-inn2">
 <p class="ci-innings-head">Kathmandu Gorkhas <span>(T: 225 runs from 20 ovs)</span></p>
 <p class="ci-subhead">Batting</p>
 <div class="ci-scroll"><table class="ci-table"><thead><tr><th>Batter</th><th>Dismissal</th><th class="ci-num">R</th><th class="ci-num">B</th><th class="ci-num">4s</th><th class="ci-num">6s</th><th class="ci-num">SR</th></tr></thead><tbody>
-<tr><td><a href="/npl/players/sahil-patel/">Sahil Patel</a> †</td><td>st &amp;dagger;Kumal b Kharel</td><td class="ci-num"><b>34</b></td><td class="ci-num">23</td><td class="ci-num">4</td><td class="ci-num">1</td><td class="ci-num">147.83</td></tr>
+<tr><td><a href="/npl/players/sahil-patel/">Sahil Patel</a> †</td><td>st †Kumal b Kharel</td><td class="ci-num"><b>34</b></td><td class="ci-num">23</td><td class="ci-num">4</td><td class="ci-num">1</td><td class="ci-num">147.83</td></tr>
 <tr><td><a href="/npl/players/bhim-sharki/">Bhim Sharki</a></td><td>lbw b Bipin Khatri</td><td class="ci-num"><b>8</b></td><td class="ci-num">7</td><td class="ci-num">1</td><td class="ci-num">0</td><td class="ci-num">114.29</td></tr>
-<tr><td>William Bosisto</td><td>c Sunny b Kharel</td><td class="ci-num"><b>26</b></td><td class="ci-num">22</td><td class="ci-num">3</td><td class="ci-num">1</td><td class="ci-num">118.18</td></tr>
+<tr><td><a href="/npl/players/william-bosisto/">William Bosisto</a></td><td>c Sunny b Kharel</td><td class="ci-num"><b>26</b></td><td class="ci-num">22</td><td class="ci-num">3</td><td class="ci-num">1</td><td class="ci-num">118.18</td></tr>
 <tr><td><a href="/npl/players/sahan-arachchige/">Sahan Arachchige</a></td><td>c Bhurtel b Kharel</td><td class="ci-num"><b>1</b></td><td class="ci-num">6</td><td class="ci-num">0</td><td class="ci-num">0</td><td class="ci-num">16.67</td></tr>
 <tr><td><a href="/npl/players/rashid-khan/">Rashid Khan</a></td><td>c Bhurtel b Bipin Khatri</td><td class="ci-num"><b>31</b></td><td class="ci-num">20</td><td class="ci-num">3</td><td class="ci-num">2</td><td class="ci-num">155.00</td></tr>
-<tr><td>Jahandad Khan</td><td>c Karunaratne b Mendis</td><td class="ci-num"><b>24</b></td><td class="ci-num">12</td><td class="ci-num">0</td><td class="ci-num">3</td><td class="ci-num">200.00</td></tr>
+<tr><td><a href="/npl/players/jahandad-khan/">Jahandad Khan</a></td><td>c Karunaratne b Mendis</td><td class="ci-num"><b>24</b></td><td class="ci-num">12</td><td class="ci-num">0</td><td class="ci-num">3</td><td class="ci-num">200.00</td></tr>
 <tr><td><a href="/npl/players/karan-kc/">Karan KC</a> (c)</td><td>c Bhurtel b Kharel</td><td class="ci-num"><b>0</b></td><td class="ci-num">3</td><td class="ci-num">0</td><td class="ci-num">0</td><td class="ci-num">0.00</td></tr>
 <tr><td><a href="/npl/players/santosh-yadav/">Santosh Yadav</a></td><td>c Bhurtel b Bipin Khatri</td><td class="ci-num"><b>0</b></td><td class="ci-num">2</td><td class="ci-num">0</td><td class="ci-num">0</td><td class="ci-num">0.00</td></tr>
 <tr><td><a href="/npl/players/sonu-devkota/">Sonu Devkota</a></td><td>c Karunaratne b Samra</td><td class="ci-num"><b>29</b></td><td class="ci-num">14</td><td class="ci-num">0</td><td class="ci-num">4</td><td class="ci-num">207.14</td></tr>
-<tr><td>Sumit Maharjan</td><td>c Karunaratne b Sunny</td><td class="ci-num"><b>3</b></td><td class="ci-num">6</td><td class="ci-num">0</td><td class="ci-num">0</td><td class="ci-num">50.00</td></tr>
-<tr><td>Ganesh Gautam*</td><td>not out</td><td class="ci-num"><b>0</b></td><td class="ci-num">4</td><td class="ci-num">0</td><td class="ci-num">0</td><td class="ci-num">0.00</td></tr>
+<tr><td><a href="/npl/players/sumit-maharjan/">Sumit Maharjan</a></td><td>c Karunaratne b Sunny</td><td class="ci-num"><b>3</b></td><td class="ci-num">6</td><td class="ci-num">0</td><td class="ci-num">0</td><td class="ci-num">50.00</td></tr>
+<tr><td><a href="/npl/players/ganesh-gautam/">Ganesh Gautam</a>*</td><td>not out</td><td class="ci-num"><b>0</b></td><td class="ci-num">4</td><td class="ci-num">0</td><td class="ci-num">0</td><td class="ci-num">0.00</td></tr>
 <tr><td>Extras</td><td>(b 4, lb 2, w 7)</td><td class="ci-num"><b>13</b></td><td></td><td></td><td></td><td></td></tr>
 <tr class="ci-total"><td>Total</td><td>19.5 Ov (RR: 8.52, 10 wkts)</td><td class="ci-num"><b>169</b></td><td></td><td></td><td></td><td></td></tr>
 </tbody></table></div>
 <p class="ci-fow"><b>Fall of wickets:</b> 1-12 (Bhim Sharki, 1.5 ov), 2-72 (Sahil Patel, 7.6 ov), 3-79 (William Bosisto, 9.1 ov), 4-86 (Sahan Arachchige, 11.2 ov), 5-130 (Jahandad Khan, 14.4 ov), 6-137 (Rashid Khan, 15.2 ov), 7-137 (Santosh Yadav, 15.4 ov), 8-139 (Karan KC, 16.2 ov), 9-145 (Sumit Maharjan, 18.2 ov), 10-169 (Sonu Devkota, 19.5 ov)</p>
 <p class="ci-subhead">Bowling</p>
 <div class="ci-scroll"><table class="ci-table"><thead><tr><th>Bowler</th><th class="ci-num">O</th><th class="ci-num">M</th><th class="ci-num">R</th><th class="ci-num">W</th><th class="ci-num">Econ</th><th class="ci-num">0s</th><th class="ci-num">WD</th><th class="ci-num">NB</th></tr></thead><tbody>
-<tr><td>Dhananjaya Lakshan</td><td class="ci-num">2</td><td class="ci-num">0</td><td class="ci-num">12</td><td class="ci-num"><b>0</b></td><td class="ci-num">6.00</td><td class="ci-num">4</td><td class="ci-num">0</td><td class="ci-num">0</td></tr>
+<tr><td><a href="/npl/players/dhananjaya-lakshan/">Dhananjaya Lakshan</a></td><td class="ci-num">2</td><td class="ci-num">0</td><td class="ci-num">12</td><td class="ci-num"><b>0</b></td><td class="ci-num">6.00</td><td class="ci-num">4</td><td class="ci-num">0</td><td class="ci-num">0</td></tr>
 <tr><td><a href="/npl/players/bipin-khatri/">Bipin Khatri</a></td><td class="ci-num">4</td><td class="ci-num">0</td><td class="ci-num">28</td><td class="ci-num"><b>3</b> <button class="ci-wvict" type="button" aria-expanded="false" aria-label="Show wickets taken">&#9662;</button><span class="ci-wvict-list" hidden>Bhim Sharki, Rashid Khan, Santosh Yadav</span></td><td class="ci-num">7.00</td><td class="ci-num">12</td><td class="ci-num">1</td><td class="ci-num">0</td></tr>
-<tr><td>Ramesh Mendis</td><td class="ci-num">4</td><td class="ci-num">0</td><td class="ci-num">40</td><td class="ci-num"><b>1</b> <button class="ci-wvict" type="button" aria-expanded="false" aria-label="Show wickets taken">&#9662;</button><span class="ci-wvict-list" hidden>Jahandad Khan</span></td><td class="ci-num">10.00</td><td class="ci-num">12</td><td class="ci-num">2</td><td class="ci-num">0</td></tr>
+<tr><td><a href="/npl/players/ramesh-mendis/">Ramesh Mendis</a></td><td class="ci-num">4</td><td class="ci-num">0</td><td class="ci-num">40</td><td class="ci-num"><b>1</b> <button class="ci-wvict" type="button" aria-expanded="false" aria-label="Show wickets taken">&#9662;</button><span class="ci-wvict-list" hidden>Jahandad Khan</span></td><td class="ci-num">10.00</td><td class="ci-num">12</td><td class="ci-num">2</td><td class="ci-num">0</td></tr>
 <tr><td><a href="/npl/players/kushal-bhurtel/">Kushal Bhurtel</a></td><td class="ci-num">2</td><td class="ci-num">0</td><td class="ci-num">27</td><td class="ci-num"><b>0</b></td><td class="ci-num">13.50</td><td class="ci-num">2</td><td class="ci-num">0</td><td class="ci-num">0</td></tr>
 <tr><td><a href="/npl/players/dinesh-kharel/">Dinesh Kharel</a></td><td class="ci-num">4</td><td class="ci-num">0</td><td class="ci-num">18</td><td class="ci-num"><b>4</b> <button class="ci-wvict" type="button" aria-expanded="false" aria-label="Show wickets taken">&#9662;</button><span class="ci-wvict-list" hidden>Sahil Patel, William Bosisto, Sahan Arachchige, Karan KC</span></td><td class="ci-num">4.50</td><td class="ci-num">12</td><td class="ci-num">0</td><td class="ci-num">0</td></tr>
 <tr><td><a href="/npl/players/chamika-karunaratne/">Chamika Karunaratne</a></td><td class="ci-num">2</td><td class="ci-num">0</td><td class="ci-num">14</td><td class="ci-num"><b>0</b></td><td class="ci-num">7.00</td><td class="ci-num">3</td><td class="ci-num">0</td><td class="ci-num">0</td></tr>
 <tr><td><a href="/npl/players/sunny-bk/">Sunny BK</a></td><td class="ci-num">1</td><td class="ci-num">1</td><td class="ci-num">0</td><td class="ci-num"><b>1</b></td><td class="ci-num">0.00</td><td class="ci-num">6</td><td class="ci-num">0</td><td class="ci-num">0</td></tr>
 <tr><td><a href="/npl/players/yuvraaj-samra/">Yuvraaj Samra</a></td><td class="ci-num">0.5</td><td class="ci-num">0</td><td class="ci-num">24</td><td class="ci-num"><b>1</b> <button class="ci-wvict" type="button" aria-expanded="false" aria-label="Show wickets taken">&#9662;</button><span class="ci-wvict-list" hidden>Sonu Devkota</span></td><td class="ci-num">28.80</td><td class="ci-num">1</td><td class="ci-num">0</td><td class="ci-num">0</td></tr>
 </tbody></table></div>
-<p class="ci-fieldxi"><b>Pokhara Avengers PLAYING XI</b> — <a href="/npl/players/yuvraaj-samra/">Yuvraaj Samra</a>, <a href="/npl/players/arjun-kumal/">Arjun Kumal</a>, <a href="/npl/players/kushal-bhurtel/">Kushal Bhurtel</a>, <a href="/npl/players/chamika-karunaratne/">Chamika Karunaratne</a> (c), Dhananjaya Lakshan, Ramesh Mendis, <a href="/npl/players/sunny-bk/">Sunny BK</a>, <a href="/npl/players/dinesh-kharel/">Dinesh Kharel</a>, <a href="/npl/players/bipin-acharya/">Bipin Acharya</a>, <a href="/npl/players/bipin-khatri/">Bipin Khatri</a>, Bibek Magar</p>
+<p class="ci-fieldxi"><b>Pokhara Avengers PLAYING XI</b> — <a href="/npl/players/yuvraaj-samra/">Yuvraaj Samra</a>, <a href="/npl/players/arjun-kumal/">Arjun Kumal</a>, <a href="/npl/players/kushal-bhurtel/">Kushal Bhurtel</a>, <a href="/npl/players/chamika-karunaratne/">Chamika Karunaratne</a> (c), <a href="/npl/players/dhananjaya-lakshan/">Dhananjaya Lakshan</a>, <a href="/npl/players/ramesh-mendis/">Ramesh Mendis</a>, <a href="/npl/players/sunny-bk/">Sunny BK</a>, <a href="/npl/players/dinesh-kharel/">Dinesh Kharel</a>, <a href="/npl/players/bipin-acharya/">Bipin Acharya</a>, <a href="/npl/players/bipin-khatri/">Bipin Khatri</a>, <a href="/npl/players/bibek-kumar-rana-magar/">Bibek Magar</a></p>
 </div>
 <div id="ci-sc-flow"><h2>Match Flow</h2><ul class="ci-flow">
 <li>1st innings — Powerplay 1: Overs 0.1 - 6.0 (Mandatory - 65 runs, 1 wicket)</li>
@@ -370,13 +413,13 @@
 </ul>
 <h2>Partnerships</h2>
 <div class="ci-partner"><div class="ci-partner-row"><span><a href="/npl/players/yuvraaj-samra/">Yuvraaj Samra</a> + <a href="/npl/players/kushal-bhurtel/">Kushal Bhurtel</a></span><span><b>186</b> — 2 wicket</span></div><div class="ci-partner-bar"><i style="width:100%"></i></div></div>
-<div class="ci-partner"><div class="ci-partner-row"><span>William Bosisto + <a href="/npl/players/sahil-patel/">Sahil Patel</a></span><span><b>60</b> — 2 wicket</span></div><div class="ci-partner-bar"><i style="width:32%"></i></div></div>
-<div class="ci-partner"><div class="ci-partner-row"><span><a href="/npl/players/rashid-khan/">Rashid Khan</a> + Jahandad Khan</span><span><b>44</b> — 5 wicket</span></div><div class="ci-partner-bar"><i style="width:23%"></i></div></div>
-<div class="ci-partner"><div class="ci-partner-row"><span>Ganesh Gautam + <a href="/npl/players/sonu-devkota/">Sonu Devkota</a></span><span><b>24</b> — 10 wicket</span></div><div class="ci-partner-bar"><i style="width:12%"></i></div></div>
+<div class="ci-partner"><div class="ci-partner-row"><span><a href="/npl/players/william-bosisto/">William Bosisto</a> + <a href="/npl/players/sahil-patel/">Sahil Patel</a></span><span><b>60</b> — 2 wicket</span></div><div class="ci-partner-bar"><i style="width:32%"></i></div></div>
+<div class="ci-partner"><div class="ci-partner-row"><span><a href="/npl/players/rashid-khan/">Rashid Khan</a> + <a href="/npl/players/jahandad-khan/">Jahandad Khan</a></span><span><b>44</b> — 5 wicket</span></div><div class="ci-partner-bar"><i style="width:23%"></i></div></div>
+<div class="ci-partner"><div class="ci-partner-row"><span><a href="/npl/players/ganesh-gautam/">Ganesh Gautam</a> + <a href="/npl/players/sonu-devkota/">Sonu Devkota</a></span><span><b>24</b> — 10 wicket</span></div><div class="ci-partner-bar"><i style="width:12%"></i></div></div>
 <div class="ci-partner"><div class="ci-partner-row"><span><a href="/npl/players/yuvraaj-samra/">Yuvraaj Samra</a> + <a href="/npl/players/arjun-kumal/">Arjun Kumal</a></span><span><b>17</b> — 1 wicket</span></div><div class="ci-partner-bar"><i style="width:9%"></i></div></div>
-<div class="ci-partner"><div class="ci-partner-row"><span><a href="/npl/players/chamika-karunaratne/">Chamika Karunaratne</a> + Dhananjaya Lakshan</span><span><b>16</b> — unbroken</span></div><div class="ci-partner-bar"><i style="width:8%"></i></div></div>
+<div class="ci-partner"><div class="ci-partner-row"><span><a href="/npl/players/chamika-karunaratne/">Chamika Karunaratne</a> + <a href="/npl/players/dhananjaya-lakshan/">Dhananjaya Lakshan</a></span><span><b>16</b> — unbroken</span></div><div class="ci-partner-bar"><i style="width:8%"></i></div></div>
 <div class="ci-partner"><div class="ci-partner-row"><span><a href="/npl/players/sahil-patel/">Sahil Patel</a> + <a href="/npl/players/bhim-sharki/">Bhim Sharki</a></span><span><b>12</b> — 1 wicket</span></div><div class="ci-partner-bar"><i style="width:6%"></i></div></div>
-<div class="ci-partner"><div class="ci-partner-row"><span><a href="/npl/players/sahan-arachchige/">Sahan Arachchige</a> + William Bosisto</span><span><b>7</b> — 3 wicket</span></div><div class="ci-partner-bar"><i style="width:3%"></i></div></div>
+<div class="ci-partner"><div class="ci-partner-row"><span><a href="/npl/players/sahan-arachchige/">Sahan Arachchige</a> + <a href="/npl/players/william-bosisto/">William Bosisto</a></span><span><b>7</b> — 3 wicket</span></div><div class="ci-partner-bar"><i style="width:3%"></i></div></div>
 <h2>Team stats</h2>
 <p class="ci-mc-team"><b>Pokhara Avengers 224/3 (20 ov)</b></p>
 <p class="ci-mc-line">Run rate 11.20 · Powerplay 65/1</p>
@@ -398,17 +441,17 @@
       <!-- TABLE (all states) -->
       <section id="ci-panel-table" class="ci-panel" data-ci-state="upcoming live result abandoned" role="tabpanel" hidden>
 <h2>Points Table</h2><div class="ci-scroll"><table class="ci-table"><thead><tr><th>#</th><th>Teams</th><th class="ci-num">M</th><th class="ci-num">W</th><th class="ci-num">L</th><th class="ci-num">T</th><th class="ci-num">N/R</th><th class="ci-num">Pts</th><th>Series Form</th><th>Next</th></tr></thead><tbody>
-<tr><td>1</td><td><span class="ci-tm-full">Lumbini Lions</span><span class="ci-tm-short">LUL</span></td><td class="ci-num">7</td><td class="ci-num">5</td><td class="ci-num">1</td><td class="ci-num">0</td><td class="ci-num">1</td><td class="ci-num"><b>11</b></td><td><span class="ci-wl"><i class="is-w">W</i><i class="is-nr">A</i><i class="is-w">W</i><i class="is-w">W</i><i class="is-l">L</i><i class="is-w">W</i><i class="is-w">W</i></span></td><td>Q1 · Tue 17 Nov</td></tr>
-<tr><td>2</td><td><span class="ci-tm-full">Sudur Paschim Royals</span><span class="ci-tm-short">SPR</span></td><td class="ci-num">7</td><td class="ci-num">5</td><td class="ci-num">2</td><td class="ci-num">0</td><td class="ci-num">0</td><td class="ci-num"><b>10</b></td><td><span class="ci-wl"><i class="is-l">L</i><i class="is-w">W</i><i class="is-l">L</i><i class="is-w">W</i><i class="is-w">W</i><i class="is-w">W</i><i class="is-w">W</i></span></td><td>Playoffs · TBC</td></tr>
-<tr class="ci-hl"><td>3</td><td><span class="ci-tm-full">Kathmandu Gorkhas</span><span class="ci-tm-short">KAG</span></td><td class="ci-num">7</td><td class="ci-num">4</td><td class="ci-num">3</td><td class="ci-num">0</td><td class="ci-num">0</td><td class="ci-num"><b>8</b></td><td><span class="ci-wl"><i class="is-l">L</i><i class="is-w">W</i><i class="is-w">W</i><i class="is-w">W</i><i class="is-w">W</i><i class="is-l">L</i><i class="is-l">L</i></span></td><td>Playoffs · TBC</td></tr>
-<tr><td>4</td><td><span class="ci-tm-full">Chitwan Rhinos</span><span class="ci-tm-short">CHR</span></td><td class="ci-num">7</td><td class="ci-num">3</td><td class="ci-num">3</td><td class="ci-num">0</td><td class="ci-num">1</td><td class="ci-num"><b>7</b></td><td><span class="ci-wl"><i class="is-w">W</i><i class="is-nr">A</i><i class="is-l">L</i><i class="is-w">W</i><i class="is-l">L</i><i class="is-w">W</i><i class="is-l">L</i></span></td><td>Playoffs · TBC</td></tr>
+<tr><td>1</td><td><span class="ci-tm-full">Lumbini Lions</span><span class="ci-tm-short">LUL</span></td><td class="ci-num">7</td><td class="ci-num">5</td><td class="ci-num">1</td><td class="ci-num">0</td><td class="ci-num">1</td><td class="ci-num"><b>11</b></td><td><span class="ci-wl"><i class="is-w">W</i><i class="is-nr">A</i><i class="is-w">W</i><i class="is-w">W</i><i class="is-l">L</i><i class="is-w">W</i><i class="is-w">W</i></span></td><td>vs <a href="/npl/teams/sudurpaschim-royals/">SPR</a></td></tr>
+<tr><td>2</td><td><span class="ci-tm-full">Sudur Paschim Royals</span><span class="ci-tm-short">SPR</span></td><td class="ci-num">7</td><td class="ci-num">5</td><td class="ci-num">2</td><td class="ci-num">0</td><td class="ci-num">0</td><td class="ci-num"><b>10</b></td><td><span class="ci-wl"><i class="is-l">L</i><i class="is-w">W</i><i class="is-l">L</i><i class="is-w">W</i><i class="is-w">W</i><i class="is-w">W</i><i class="is-w">W</i></span></td><td>vs <a href="/npl/teams/lumbini-lions/">LUL</a></td></tr>
+<tr class="ci-hl"><td>3</td><td><span class="ci-tm-full">Kathmandu Gorkhas</span><span class="ci-tm-short">KAG</span></td><td class="ci-num">7</td><td class="ci-num">4</td><td class="ci-num">3</td><td class="ci-num">0</td><td class="ci-num">0</td><td class="ci-num"><b>8</b></td><td><span class="ci-wl"><i class="is-l">L</i><i class="is-w">W</i><i class="is-w">W</i><i class="is-w">W</i><i class="is-w">W</i><i class="is-l">L</i><i class="is-l">L</i></span></td><td>vs <a href="/npl/teams/chitwan-rhinos/">CHR</a></td></tr>
+<tr><td>4</td><td><span class="ci-tm-full">Chitwan Rhinos</span><span class="ci-tm-short">CHR</span></td><td class="ci-num">7</td><td class="ci-num">3</td><td class="ci-num">3</td><td class="ci-num">0</td><td class="ci-num">1</td><td class="ci-num"><b>7</b></td><td><span class="ci-wl"><i class="is-w">W</i><i class="is-nr">A</i><i class="is-l">L</i><i class="is-w">W</i><i class="is-l">L</i><i class="is-w">W</i><i class="is-l">L</i></span></td><td>vs <a href="/npl/teams/kathmandu-gorkhas/">KAG</a></td></tr>
 <tr><td>5</td><td><span class="ci-tm-full">Biratnagar Kings</span><span class="ci-tm-short">BIK</span></td><td class="ci-num">7</td><td class="ci-num">3</td><td class="ci-num">4</td><td class="ci-num">0</td><td class="ci-num">0</td><td class="ci-num"><b>6</b></td><td><span class="ci-wl"><i class="is-l">L</i><i class="is-l">L</i><i class="is-w">W</i><i class="is-w">W</i><i class="is-l">L</i><i class="is-w">W</i><i class="is-l">L</i></span></td><td>—</td></tr>
 <tr><td>6</td><td><span class="ci-tm-full">Karnali Yaks</span><span class="ci-tm-short">KAY</span></td><td class="ci-num">7</td><td class="ci-num">3</td><td class="ci-num">4</td><td class="ci-num">0</td><td class="ci-num">0</td><td class="ci-num"><b>6</b></td><td><span class="ci-wl"><i class="is-w">W</i><i class="is-w">W</i><i class="is-l">L</i><i class="is-l">L</i><i class="is-l">L</i><i class="is-l">L</i><i class="is-w">W</i></span></td><td>—</td></tr>
 <tr class="ci-hl"><td>7</td><td><span class="ci-tm-full">Pokhara Avengers</span><span class="ci-tm-short">POA</span></td><td class="ci-num">7</td><td class="ci-num">2</td><td class="ci-num">5</td><td class="ci-num">0</td><td class="ci-num">0</td><td class="ci-num"><b>4</b></td><td><span class="ci-wl"><i class="is-l">L</i><i class="is-l">L</i><i class="is-l">L</i><i class="is-l">L</i><i class="is-w">W</i><i class="is-l">L</i><i class="is-w">W</i></span></td><td>—</td></tr>
 <tr><td>8</td><td><span class="ci-tm-full">Janakpur Bolts</span><span class="ci-tm-short">JAB</span></td><td class="ci-num">7</td><td class="ci-num">2</td><td class="ci-num">5</td><td class="ci-num">0</td><td class="ci-num">0</td><td class="ci-num"><b>4</b></td><td><span class="ci-wl"><i class="is-l">L</i><i class="is-w">W</i><i class="is-w">W</i><i class="is-l">L</i><i class="is-l">L</i><i class="is-l">L</i><i class="is-l">L</i></span></td><td>—</td></tr>
 </tbody></table></div><p>Top four teams qualify for the playoffs.</p><p>Standings are updated with the completion of each game.</p><p class="ci-note">M = matches played · W = won · L = lost · T = tied · N/R = abandoned · PTS = points awarded</p>      </section>
 
-      <p class="ci-updated">Last updated: 15 November 2026</p>
+      <p class="ci-updated">Last updated: 16 November 2026</p>
     </div>
 
     <aside class="ci-rail" aria-label="Match information">
@@ -460,32 +503,12 @@
       </div>
     </div>
     <div class="st-colophon__legal">
-      <span>Last updated: 15 November 2026</span>
+      <span>Last updated: 16 November 2026</span>
       <span>© 2026 SialTV</span>
     </div>
   </div>
 </footer>
 <script src="/js/match-live.js" defer></script>
-<script>
-(function () {
-  var btn = document.querySelector(".st-burger");
-  var drawer = document.getElementById("st-drawer");
-  if (!btn || !drawer) return;
-  function set(open) {
-    btn.setAttribute("aria-expanded", open ? "true" : "false");
-    btn.setAttribute("aria-label", open ? "Close menu" : "Open menu");
-    document.body.classList.toggle("st-nav-open", open);
-  }
-  btn.addEventListener("click", function () {
-    set(btn.getAttribute("aria-expanded") !== "true");
-  });
-  drawer.querySelectorAll("a").forEach(function (a) {
-    a.addEventListener("click", function () { set(false); });
-  });
-  document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape") set(false);
-  });
-})();
-</script>
+
 </body>
 </html>
