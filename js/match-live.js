@@ -144,13 +144,25 @@
        jumping to a hidden section. */
     document.addEventListener('click', function (ev) {
       var a = ev.target.closest ? ev.target.closest('a[href^="#ci-panel-"]') : null;
-      if (!a || a.hasAttribute('data-ci-panel')) return;
+      if (!a || a.hasAttribute('data-ci-panel') || a.hasAttribute('data-ci-goto')) return;
       var key = a.getAttribute('href').slice('#ci-panel-'.length);
       var tab = $('[data-ci-tabs] [data-ci-panel="' + key + '"]');
       if (!tab || tab.parentNode.hidden) return;
       ev.preventDefault();
       pickedByUser = true;
       openTab(key, { scroll: true });
+    });
+  }
+
+  /* Scorecard sub-tab pills (Innings | Flow | Info) are plain anchors;
+     keep their pressed state in sync with the click. */
+  function wireSubtabs() {
+    $all('[data-ci-subtab]').forEach(function (pill) {
+      pill.addEventListener('click', function () {
+        $all('[data-ci-subtab]').forEach(function (p) {
+          p.setAttribute('aria-current', p === pill ? 'true' : 'false');
+        });
+      });
     });
   }
 
@@ -691,12 +703,21 @@
     if (!ident) return;
     wireTabs();
     wireSquads();
+    wireSubtabs();
     document.addEventListener('click', function (ev) {
       var a = ev.target.closest ? ev.target.closest('a[data-ci-goto]') : null;
       if (!a) return;
       ev.preventDefault();
       pickedByUser = true;
       openTab(a.getAttribute('data-ci-goto'), { scroll: true });
+      /* A goto link may also name an anchor inside the panel (e.g. the
+         Summary's "Match details" link targets #ci-sc-info): scroll to
+         it once the tab is open. */
+      var href = a.getAttribute('href') || '';
+      if (href.charAt(0) === '#' && href.indexOf('#ci-panel-') !== 0) {
+        var target = document.getElementById(href.slice(1));
+        if (target) setTimeout(function () { target.scrollIntoView(); }, 0);
+      }
     });
 
     /* Baked result: no fetch, no poll, ever. */

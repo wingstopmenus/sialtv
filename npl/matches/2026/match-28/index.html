@@ -16,7 +16,7 @@
 <meta name="twitter:title" content="KAG vs POA NPL Match 28 — Preview & Squads">
 <meta name="twitter:description" content="Kathmandu Gorkhas vs Pokhara Avengers, NPL Match 28 at Kirtipur, Sunday, 15 November 2026 5:00 PM NST. Squads, players to watch, head to head and points table.">
 <meta name="theme-color" content="#090811">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"KAG vs POA NPL Match 28 \u2014 Preview & Squads","url":"https://sialtv.com/npl/matches/2026/match-28/","description":"Kathmandu Gorkhas vs Pokhara Avengers, NPL Match 28 at Kirtipur, Sunday, 15 November 2026 5:00 PM NST. Squads, players to watch, head to head and points table.","datePublished":"2026-11-15T10:45Z","dateModified":"2026-11-15T02:58:00Z"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"KAG vs POA NPL Match 28 \u2014 Preview & Squads","url":"https://sialtv.com/npl/matches/2026/match-28/","description":"Kathmandu Gorkhas vs Pokhara Avengers, NPL Match 28 at Kirtipur, Sunday, 15 November 2026 5:00 PM NST. Squads, players to watch, head to head and points table.","datePublished":"2026-11-15T10:45Z","dateModified":"2026-11-15T18:18:00Z"}</script>
 <script type="application/ld+json">{"@type":"SportsEvent","name":"Kathmandu Gorkhas vs Pokhara Avengers, 28th Match, Nepal Premier League","startDate":"2026-11-15T17:00:00+05:45","eventStatus":"EventScheduled","location":{"@type":"Place","name":"Tribhuvan University International Cricket Ground, Kirtipur","address":{"@type":"PostalAddress","addressLocality":"Kirtipur","addressRegion":"Bagmati","addressCountry":"NP"}},"homeTeam":{"@type":"SportsTeam","name":"Kathmandu Gorkhas"},"awayTeam":{"@type":"SportsTeam","name":"Pokhara Avengers"},"organizer":{"@type":"SportsOrganization","name":"Nepal Premier League"}}</script>
 <script type="application/ld+json">{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"SialTV","item":"https://sialtv.com/"},{"@type":"ListItem","position":2,"name":"Nepal Premier League","item":"https://sialtv.com/npl/"},{"@type":"ListItem","position":3,"name":"Fixtures and Results","item":"https://sialtv.com/npl/schedule/"},{"@type":"ListItem","position":4,"name":"Match 28","item":"https://sialtv.com/npl/matches/2026/match-28/"}]}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -119,7 +119,9 @@
     .then(function (html) {
       mount.innerHTML = html;
       loadScript('/js/team-logos.js', function () {
-        loadScript('/js/flash-scores.js');
+        loadScript('/js/live-scores.js', function () {
+          loadScript('/js/flash-scores.js');
+        });
       });
     })
     .catch(function () { if (mount && mount.parentNode) mount.parentNode.removeChild(mount); });
@@ -174,7 +176,7 @@
       <!-- SUMMARY (default tab while upcoming / abandoned; result shows Scorecard first) -->
       <section id="ci-panel-summary" class="ci-panel" data-ci-state="upcoming result abandoned" role="tabpanel">
 <h2>Points Table</h2><div class="ci-scroll"><table class="ci-table"><thead><tr><th>#</th><th>Teams</th><th class="ci-num">M</th><th class="ci-num">W</th><th class="ci-num">L</th><th class="ci-num">N/R</th><th class="ci-num">Pts</th><th class="ci-num">NRR</th></tr></thead><tbody>
-<tr class="ci-hl"><td>3</td><td><span class="ci-tm-full">Kathmandu Gorkhas</span><span class="ci-tm-short">KAG</span></td><td class="ci-num">6</td><td class="ci-num">4</td><td class="ci-num">2</td><td class="ci-num">0</td><td class="ci-num"><b>8</b></td><td class="ci-num">+0.882</td></tr>
+<tr class="ci-hl"><td>3</td><td><span class="ci-tm-full">Kathmandu Gorkhas</span><span class="ci-tm-short">KAG</span></td><td class="ci-num">6</td><td class="ci-num">4</td><td class="ci-num">2</td><td class="ci-num">0</td><td class="ci-num"><b>8</b></td><td class="ci-num">0.882</td></tr>
 <tr class="ci-hl"><td>8</td><td><span class="ci-tm-full">Pokhara Avengers</span><span class="ci-tm-short">POA</span></td><td class="ci-num">6</td><td class="ci-num">1</td><td class="ci-num">5</td><td class="ci-num">0</td><td class="ci-num"><b>2</b></td><td class="ci-num">-0.651</td></tr>
 </tbody></table></div>
 <h2>Recent Performance</h2>
@@ -182,27 +184,21 @@
 <p class="ci-recent"><span>Pokhara Avengers</span><span class="ci-wl"><i class="is-l">L</i><i class="is-l">L</i><i class="is-l">L</i><i class="is-w">W</i><i class="is-l">L</i></span></p>
 <h2>Players To Watch</h2><div class="ci-ptw">
 <div><p class="ci-subhead">Batters (Recent Stats)</p>
-<div class="ci-ptw-card"><div><b>Rashid Khan, KAG</b><span>6 M · 155 Runs · 38.75 Avg · 139.63 SR</span></div></div>
-<div class="ci-ptw-card"><div><b>David Warner, KAG</b><span>4 M · 127 Runs · 42.33 Avg · 141.11 SR</span></div></div>
-<div class="ci-ptw-card"><div><b>Yuvraaj Samra, POA</b><span>3 M · 205 Runs · 68.33 Avg · 188.07 SR</span></div></div>
-<div class="ci-ptw-card"><div><b>Kushal Bhurtel, POA</b><span>6 M · 136 Runs · 22.67 Avg · 127.1 SR</span></div></div>
+<div class="ci-ptw-card"><div><b><a href="/npl/players/rashid-khan/">Rashid Khan</a>, KAG</b><span>6 M · 155 Runs · 38.75 Avg · 139.63 SR</span></div></div>
+<div class="ci-ptw-card"><div><b><a href="/npl/players/david-warner/">David Warner</a>, KAG</b><span>4 M · 127 Runs · 42.33 Avg · 141.11 SR</span></div></div>
+<div class="ci-ptw-card"><div><b><a href="/npl/players/yuvraaj-samra/">Yuvraaj Samra</a>, POA</b><span>3 M · 205 Runs · 68.33 Avg · 188.07 SR</span></div></div>
+<div class="ci-ptw-card"><div><b><a href="/npl/players/kushal-bhurtel/">Kushal Bhurtel</a>, POA</b><span>6 M · 136 Runs · 22.67 Avg · 127.1 SR</span></div></div>
 </div>
 <div><p class="ci-subhead">Bowlers (Recent Stats)</p>
 <div class="ci-ptw-card"><div><b>Jahandad Khan, KAG</b><span>6 M · 11 Wkts · 7.19 Econ · 11.45 SR</span></div></div>
-<div class="ci-ptw-card"><div><b>Santosh Yadav, KAG</b><span>5 M · 8 Wkts · 5.73 Econ · 11.25 SR</span></div></div>
-<div class="ci-ptw-card"><div><b>Kushal Bhurtel, POA</b><span>6 M · 6 Wkts · 7.46 Econ · 19.83 SR</span></div></div>
-<div class="ci-ptw-card"><div><b>Bipin Khatri, POA</b><span>6 M · 6 Wkts · 8.42 Econ · 16.5 SR</span></div></div>
+<div class="ci-ptw-card"><div><b><a href="/npl/players/santosh-yadav/">Santosh Yadav</a>, KAG</b><span>5 M · 8 Wkts · 5.73 Econ · 11.25 SR</span></div></div>
+<div class="ci-ptw-card"><div><b><a href="/npl/players/kushal-bhurtel/">Kushal Bhurtel</a>, POA</b><span>6 M · 6 Wkts · 7.46 Econ · 19.83 SR</span></div></div>
+<div class="ci-ptw-card"><div><b><a href="/npl/players/bipin-khatri/">Bipin Khatri</a>, POA</b><span>6 M · 6 Wkts · 8.42 Econ · 16.5 SR</span></div></div>
 </div></div>
 <h2>Squad</h2><p>Squads have not been announced yet for this match.</p>
 <h2>Head to head</h2>
 <p>Kathmandu Gorkhas and Pokhara Avengers have not met before in Season 3 — this is their first meeting.</p>
-<h2>Match Details</h2><dl class="ci-details">
-<div class="ci-details-row"><dt>Ground</dt><dd>Tribhuvan University International Cricket Ground, Kirtipur</dd></div>
-<div class="ci-details-row"><dt>Series</dt><dd><a href="/npl/">Nepal Premier League</a></dd></div>
-<div class="ci-details-row"><dt>Season</dt><dd>2026/27</dd></div>
-<div class="ci-details-row"><dt>Match Days</dt><dd>Sunday, 15 November 2026 (20-over match)</dd></div>
-</dl>
-<h2>NPL News</h2><ul class="ci-news"><li>Pakistan players in doubt for Nepal Premier League</li></ul>      </section>
+<h2>NPL News</h2><ul class="ci-news"><li><a href="/npl/news/pakistan-players-in-doubt-for-nepal-premier-league/">Pakistan players in doubt for Nepal Premier League</a></li></ul>      </section>
 
       <!-- SCORECARD (default tab once result) -->
       <section id="ci-panel-scorecard" class="ci-panel" data-ci-state="live result" role="tabpanel" hidden>
@@ -218,16 +214,16 @@
       <section id="ci-panel-stats" class="ci-panel" data-ci-state="upcoming result" role="tabpanel" hidden>
 <h2>Players To Watch</h2><div class="ci-ptw">
 <div><p class="ci-subhead">Batters (Recent Stats)</p>
-<div class="ci-ptw-card"><div><b>Rashid Khan, KAG</b><span>6 M · 155 Runs · 38.75 Avg · 139.63 SR</span></div></div>
-<div class="ci-ptw-card"><div><b>David Warner, KAG</b><span>4 M · 127 Runs · 42.33 Avg · 141.11 SR</span></div></div>
-<div class="ci-ptw-card"><div><b>Yuvraaj Samra, POA</b><span>3 M · 205 Runs · 68.33 Avg · 188.07 SR</span></div></div>
-<div class="ci-ptw-card"><div><b>Kushal Bhurtel, POA</b><span>6 M · 136 Runs · 22.67 Avg · 127.1 SR</span></div></div>
+<div class="ci-ptw-card"><div><b><a href="/npl/players/rashid-khan/">Rashid Khan</a>, KAG</b><span>6 M · 155 Runs · 38.75 Avg · 139.63 SR</span></div></div>
+<div class="ci-ptw-card"><div><b><a href="/npl/players/david-warner/">David Warner</a>, KAG</b><span>4 M · 127 Runs · 42.33 Avg · 141.11 SR</span></div></div>
+<div class="ci-ptw-card"><div><b><a href="/npl/players/yuvraaj-samra/">Yuvraaj Samra</a>, POA</b><span>3 M · 205 Runs · 68.33 Avg · 188.07 SR</span></div></div>
+<div class="ci-ptw-card"><div><b><a href="/npl/players/kushal-bhurtel/">Kushal Bhurtel</a>, POA</b><span>6 M · 136 Runs · 22.67 Avg · 127.1 SR</span></div></div>
 </div>
 <div><p class="ci-subhead">Bowlers (Recent Stats)</p>
 <div class="ci-ptw-card"><div><b>Jahandad Khan, KAG</b><span>6 M · 11 Wkts · 7.19 Econ · 11.45 SR</span></div></div>
-<div class="ci-ptw-card"><div><b>Santosh Yadav, KAG</b><span>5 M · 8 Wkts · 5.73 Econ · 11.25 SR</span></div></div>
-<div class="ci-ptw-card"><div><b>Kushal Bhurtel, POA</b><span>6 M · 6 Wkts · 7.46 Econ · 19.83 SR</span></div></div>
-<div class="ci-ptw-card"><div><b>Bipin Khatri, POA</b><span>6 M · 6 Wkts · 8.42 Econ · 16.5 SR</span></div></div>
+<div class="ci-ptw-card"><div><b><a href="/npl/players/santosh-yadav/">Santosh Yadav</a>, KAG</b><span>5 M · 8 Wkts · 5.73 Econ · 11.25 SR</span></div></div>
+<div class="ci-ptw-card"><div><b><a href="/npl/players/kushal-bhurtel/">Kushal Bhurtel</a>, POA</b><span>6 M · 6 Wkts · 7.46 Econ · 19.83 SR</span></div></div>
+<div class="ci-ptw-card"><div><b><a href="/npl/players/bipin-khatri/">Bipin Khatri</a>, POA</b><span>6 M · 6 Wkts · 8.42 Econ · 16.5 SR</span></div></div>
 </div></div>      </section>
 
       <!-- LIVE STATS (live only) -->
@@ -249,10 +245,10 @@
       <!-- TABLE (all states) -->
       <section id="ci-panel-table" class="ci-panel" data-ci-state="upcoming live result abandoned" role="tabpanel" hidden>
 <h2>Points Table</h2><div class="ci-scroll"><table class="ci-table"><thead><tr><th>#</th><th>Teams</th><th class="ci-num">M</th><th class="ci-num">W</th><th class="ci-num">L</th><th class="ci-num">N/R</th><th class="ci-num">Pts</th><th class="ci-num">NRR</th></tr></thead><tbody>
-<tr><td>1</td><td><span class="ci-tm-full">Lumbini Lions</span><span class="ci-tm-short">LUL</span></td><td class="ci-num">7</td><td class="ci-num">5</td><td class="ci-num">1</td><td class="ci-num">1</td><td class="ci-num"><b>11</b></td><td class="ci-num">+1.256</td></tr>
-<tr><td>2</td><td><span class="ci-tm-full">Sudur Paschim Royals</span><span class="ci-tm-short">SPR</span></td><td class="ci-num">7</td><td class="ci-num">5</td><td class="ci-num">2</td><td class="ci-num">0</td><td class="ci-num"><b>10</b></td><td class="ci-num">+0.135</td></tr>
-<tr class="ci-hl"><td>3</td><td><span class="ci-tm-full">Kathmandu Gorkhas</span><span class="ci-tm-short">KAG</span></td><td class="ci-num">6</td><td class="ci-num">4</td><td class="ci-num">2</td><td class="ci-num">0</td><td class="ci-num"><b>8</b></td><td class="ci-num">+0.882</td></tr>
-<tr><td>4</td><td><span class="ci-tm-full">Chitwan Rhinos</span><span class="ci-tm-short">CHR</span></td><td class="ci-num">6</td><td class="ci-num">3</td><td class="ci-num">2</td><td class="ci-num">1</td><td class="ci-num"><b>7</b></td><td class="ci-num">+0.261</td></tr>
+<tr><td>1</td><td><span class="ci-tm-full">Lumbini Lions</span><span class="ci-tm-short">LUL</span></td><td class="ci-num">7</td><td class="ci-num">5</td><td class="ci-num">1</td><td class="ci-num">1</td><td class="ci-num"><b>11</b></td><td class="ci-num">1.256</td></tr>
+<tr><td>2</td><td><span class="ci-tm-full">Sudur Paschim Royals</span><span class="ci-tm-short">SPR</span></td><td class="ci-num">7</td><td class="ci-num">5</td><td class="ci-num">2</td><td class="ci-num">0</td><td class="ci-num"><b>10</b></td><td class="ci-num">0.135</td></tr>
+<tr class="ci-hl"><td>3</td><td><span class="ci-tm-full">Kathmandu Gorkhas</span><span class="ci-tm-short">KAG</span></td><td class="ci-num">6</td><td class="ci-num">4</td><td class="ci-num">2</td><td class="ci-num">0</td><td class="ci-num"><b>8</b></td><td class="ci-num">0.882</td></tr>
+<tr><td>4</td><td><span class="ci-tm-full">Chitwan Rhinos</span><span class="ci-tm-short">CHR</span></td><td class="ci-num">6</td><td class="ci-num">3</td><td class="ci-num">2</td><td class="ci-num">1</td><td class="ci-num"><b>7</b></td><td class="ci-num">0.261</td></tr>
 <tr><td>5</td><td><span class="ci-tm-full">Biratnagar Kings</span><span class="ci-tm-short">BIK</span></td><td class="ci-num">7</td><td class="ci-num">3</td><td class="ci-num">4</td><td class="ci-num">0</td><td class="ci-num"><b>6</b></td><td class="ci-num">-0.467</td></tr>
 <tr><td>6</td><td><span class="ci-tm-full">Janakpur Bolts</span><span class="ci-tm-short">JAB</span></td><td class="ci-num">7</td><td class="ci-num">2</td><td class="ci-num">5</td><td class="ci-num">0</td><td class="ci-num"><b>4</b></td><td class="ci-num">-0.422</td></tr>
 <tr><td>7</td><td><span class="ci-tm-full">Karnali Yaks</span><span class="ci-tm-short">KAY</span></td><td class="ci-num">6</td><td class="ci-num">2</td><td class="ci-num">4</td><td class="ci-num">0</td><td class="ci-num"><b>4</b></td><td class="ci-num">-0.955</td></tr>
@@ -263,13 +259,13 @@
     </div>
 
     <aside class="ci-rail" aria-label="Match information">
-<div class="ci-rail-block"><h2>NPL News</h2><ul class="ci-news"><li>Pakistan players in doubt for Nepal Premier League</li></ul></div>
-<div class="ci-rail-block"><h2>Match Details</h2><dl class="ci-details">
+<div class="ci-rail-block"><h2>NPL News</h2><ul class="ci-news"><li><a href="/npl/news/pakistan-players-in-doubt-for-nepal-premier-league/">Pakistan players in doubt for Nepal Premier League</a></li></ul></div>
+<div class="ci-rail-block"><div id="ci-sc-info"><h2>Match Details</h2><dl class="ci-details">
 <div class="ci-details-row"><dt>Ground</dt><dd>Tribhuvan University International Cricket Ground, Kirtipur</dd></div>
 <div class="ci-details-row"><dt>Series</dt><dd><a href="/npl/">Nepal Premier League</a></dd></div>
 <div class="ci-details-row"><dt>Season</dt><dd>2026/27</dd></div>
 <div class="ci-details-row"><dt>Match Days</dt><dd>Sunday, 15 November 2026 (20-over match)</dd></div>
-</dl></div>    </aside>
+</dl></div></div>    </aside>
   </div>
 
 </div>

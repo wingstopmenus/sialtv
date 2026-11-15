@@ -38,6 +38,13 @@
 }
 .ci-main { min-width: 0; }
 .ci-rail { min-width: 0; }
+/* Sticky rail on desktop: the rail (973px) is far shorter than the main
+   column (2729px on a result page), so it used to leave a 1756px void
+   below it while scrolling. .ci-layout already uses align-items:start,
+   so sticky works directly. Mobile stacks the rail below the content. */
+@media (min-width: 901px) {
+  .ci-rail { position: sticky; top: 16px; }
+}
 
 /* ---- breadcrumb + status ---- */
 .ci-crumb { font-size: 12px; color: var(--ci-grey); margin: 0 0 12px; }
@@ -157,6 +164,19 @@
 .ci-table tr.ci-highlight td { border-left: 2px solid var(--ci-blue); }
 .ci-table a { color: var(--ci-body); }
 .ci-table a:hover { color: var(--ci-blue); }
+/* Player-name links elsewhere on the page use the scorecard treatment
+   (body colour, blue on hover) — never the shell's rose link colour. */
+.ci-squad-list a, .ci-ptw-card a, .ci-mc-line a, .ci-partner a, .ci-top a { color: var(--ci-body); }
+.ci-squad-list a:hover, .ci-ptw-card a:hover, .ci-mc-line a:hover, .ci-partner a:hover, .ci-top a:hover { color: var(--ci-blue); }
+/* Tables: full width on desktop. The document fallback in /style.css
+   forces display:block on every table, so the inner table shrink-wraps
+   to content (scorecard theads measured 445–581px inside an 888px card).
+   display:table at desktop widths fills the card; mobile keeps
+   block+scroll. Same pattern as the players .pl-stats fix. */
+@media (min-width: 981px) {
+  body.league-npl.st-inner .ci-scroll > table.ci-table,
+  body.league-npl.st-inner .ci-rail-block > table.ci-breakdown { display: table; }
+}
 .ci-fow { font-size: 12px; color: var(--ci-body); margin: 8px 0 0; }
 .ci-fow b, .ci-extras b { font-weight: 700; color: var(--ci-ink); }
 .ci-dnb { font-size: 12px; color: var(--ci-grey); margin: 8px 0 0; }
@@ -214,6 +234,19 @@
 .ci-ball.is-4 { background: var(--ci-green); border-color: var(--ci-green); color: #fff; }
 .ci-ball.is-6 { background: var(--ci-purple); border-color: var(--ci-purple); color: #fff; }
 .ci-ball.is-wide { background: #fff; border-color: #c9c9c9; }
+
+/* ---- over headers + ball rows (commentary + overs tabs) ---- */
+.ci-overhead { margin: 16px 0 6px; font-size: 13px; }
+.ci-ballrow { margin: 0; display: flex; flex-wrap: wrap; gap: 4px; }
+/* ---- overs tab: two-column over blocks on desktop. The old single
+   column was one thin line of chips on the left of an 888px card,
+   2733px tall; two columns use the full width and halve the height. ---- */
+.ci-overs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 24px; }
+.ci-over { padding: 10px 0; border-bottom: 1px solid var(--ci-line-soft); }
+.ci-over .ci-overhead { margin: 0 0 6px; }
+@media (max-width: 900px) {
+  .ci-overs-grid { grid-template-columns: 1fr; }
+}
 
 /* ---- W/L form chips ---- */
 .ci-wl { display: inline-flex; gap: 3px; vertical-align: middle; }
