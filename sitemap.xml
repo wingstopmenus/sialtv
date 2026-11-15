@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='utf-8'?>
 <ns0:urlset xmlns:ns0="http://www.sitemaps.org/schemas/sitemap/0.9">
   <ns0:url><ns0:loc>https://sialtv.com/</ns0:loc>
-    <ns0:lastmod>2026-11-15T17:36:00Z</ns0:lastmod><ns0:changefreq>daily</ns0:changefreq><ns0:priority>1.0</ns0:priority></ns0:url>
+    <ns0:lastmod>2026-11-15T20:42:00Z</ns0:lastmod><ns0:changefreq>daily</ns0:changefreq><ns0:priority>1.0</ns0:priority></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/live-scores/</ns0:loc>
-    <ns0:lastmod>2026-11-15T18:19:00Z</ns0:lastmod><ns0:changefreq>daily</ns0:changefreq><ns0:priority>0.9</ns0:priority></ns0:url>
+    <ns0:lastmod>2026-11-15T20:46:59Z</ns0:lastmod><ns0:changefreq>daily</ns0:changefreq><ns0:priority>0.9</ns0:priority></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/</ns0:loc>
     <ns0:lastmod>2026-11-15T18:20:00Z</ns0:lastmod><ns0:changefreq>daily</ns0:changefreq><ns0:priority>0.9</ns0:priority></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/players/</ns0:loc>
@@ -20,19 +20,19 @@
   <ns0:url><ns0:loc>https://sialtv.com/ilt20/</ns0:loc>
     <ns0:lastmod>2026-11-15T20:43:59Z</ns0:lastmod><ns0:changefreq>daily</ns0:changefreq><ns0:priority>0.9</ns0:priority></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/ilt20/schedule/</ns0:loc>
-    <ns0:lastmod>2026-11-15T17:48:00Z</ns0:lastmod><ns0:changefreq>daily</ns0:changefreq><ns0:priority>0.8</ns0:priority></ns0:url>
+    <ns0:lastmod>2026-11-15T20:46:49Z</ns0:lastmod><ns0:changefreq>daily</ns0:changefreq><ns0:priority>0.8</ns0:priority></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/ilt20/points-table/</ns0:loc>
-    <ns0:lastmod>2026-11-15T17:45:00Z</ns0:lastmod><ns0:changefreq>daily</ns0:changefreq><ns0:priority>0.8</ns0:priority></ns0:url>
+    <ns0:lastmod>2026-11-15T20:46:47Z</ns0:lastmod><ns0:changefreq>daily</ns0:changefreq><ns0:priority>0.8</ns0:priority></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/ilt20/results/</ns0:loc>
-    <ns0:lastmod>2026-11-14T18:20:00Z</ns0:lastmod><ns0:changefreq>daily</ns0:changefreq><ns0:priority>0.8</ns0:priority></ns0:url>
+    <ns0:lastmod>2026-11-15T20:46:48Z</ns0:lastmod><ns0:changefreq>daily</ns0:changefreq><ns0:priority>0.8</ns0:priority></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/ilt20/teams/</ns0:loc>
-    <ns0:lastmod>2026-11-15T03:09:00Z</ns0:lastmod><ns0:changefreq>daily</ns0:changefreq><ns0:priority>0.8</ns0:priority></ns0:url>
+    <ns0:lastmod>2026-11-15T20:46:51Z</ns0:lastmod><ns0:changefreq>daily</ns0:changefreq><ns0:priority>0.8</ns0:priority></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/ilt20/tickets/</ns0:loc>
-    <ns0:lastmod>2026-11-14T18:25:00Z</ns0:lastmod><ns0:changefreq>daily</ns0:changefreq><ns0:priority>0.8</ns0:priority></ns0:url>
+    <ns0:lastmod>2026-11-15T20:46:58Z</ns0:lastmod><ns0:changefreq>daily</ns0:changefreq><ns0:priority>0.8</ns0:priority></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/ilt20/live-scores/</ns0:loc>
     <ns0:lastmod>2026-11-15T20:44:00Z</ns0:lastmod><ns0:changefreq>daily</ns0:changefreq><ns0:priority>0.8</ns0:priority></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/ilt20/stats/</ns0:loc>
-    <ns0:lastmod>2026-11-14T18:24:00Z</ns0:lastmod><ns0:changefreq>daily</ns0:changefreq><ns0:priority>0.8</ns0:priority></ns0:url>
+    <ns0:lastmod>2026-11-15T20:46:50Z</ns0:lastmod><ns0:changefreq>daily</ns0:changefreq><ns0:priority>0.8</ns0:priority></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/teams/kathmandu-gorkhas/</ns0:loc>
     <ns0:lastmod>2026-11-15T20:38:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/teams/sudurpaschim-royals/</ns0:loc>
@@ -52,7 +52,7 @@
   <ns0:url><ns0:loc>https://sialtv.com/npl/teams/</ns0:loc>
     <ns0:lastmod>2026-11-15T18:22:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/live-scores/</ns0:loc>
-    <ns0:lastmod>2026-11-15T17:41:00Z</ns0:lastmod></ns0:url>
+    <ns0:lastmod>2026-11-15T20:47:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/players/aakash-tripathi/</ns0:loc>
     <ns0:lastmod>2026-11-15T18:27:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/players/aarif-sheikh/</ns0:loc>
@@ -297,27 +297,27 @@
     <ns0:lastmod>2026-11-15T20:33:00Z</ns0:lastmod></ns0:url>
   <ns0:url>
     <ns0:loc>https://sialtv.com/ilt20/teams/abu-dhabi-knight-riders/</ns0:loc>
-    <ns0:lastmod>2026-11-14T21:47:00Z</ns0:lastmod>
+    <ns0:lastmod>2026-11-15T20:46:52Z</ns0:lastmod>
   </ns0:url>
   <ns0:url>
     <ns0:loc>https://sialtv.com/ilt20/teams/desert-vipers/</ns0:loc>
-    <ns0:lastmod>2026-11-14T21:48:00Z</ns0:lastmod>
+    <ns0:lastmod>2026-11-15T20:46:53Z</ns0:lastmod>
   </ns0:url>
   <ns0:url>
     <ns0:loc>https://sialtv.com/ilt20/teams/dubai-capitals/</ns0:loc>
-    <ns0:lastmod>2026-11-14T21:49:00Z</ns0:lastmod>
+    <ns0:lastmod>2026-11-15T20:46:54Z</ns0:lastmod>
   </ns0:url>
   <ns0:url>
     <ns0:loc>https://sialtv.com/ilt20/teams/gulf-giants/</ns0:loc>
-    <ns0:lastmod>2026-11-14T21:50:00Z</ns0:lastmod>
+    <ns0:lastmod>2026-11-15T20:46:55Z</ns0:lastmod>
   </ns0:url>
   <ns0:url>
     <ns0:loc>https://sialtv.com/ilt20/teams/mi-emirates/</ns0:loc>
-    <ns0:lastmod>2026-11-14T21:51:00Z</ns0:lastmod>
+    <ns0:lastmod>2026-11-15T20:46:56Z</ns0:lastmod>
   </ns0:url>
   <ns0:url>
     <ns0:loc>https://sialtv.com/ilt20/teams/sharjah-warriorz/</ns0:loc>
-    <ns0:lastmod>2026-11-14T21:52:00Z</ns0:lastmod>
+    <ns0:lastmod>2026-11-15T20:46:57Z</ns0:lastmod>
   </ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/</ns0:loc>
     <ns0:lastmod>2026-11-15T20:44:35Z</ns0:lastmod></ns0:url>
@@ -380,78 +380,78 @@
   <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/jason-holder/</ns0:loc><ns0:lastmod>2026-11-15T20:45:32Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/joe-clarke/</ns0:loc><ns0:lastmod>2026-11-15T20:45:33Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/jonny-bairstow/</ns0:loc><ns0:lastmod>2026-11-15T20:45:34Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/jordon-thompson/</ns0:loc><ns0:lastmod>2026-11-14T23:34:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/jos-buttler/</ns0:loc><ns0:lastmod>2026-11-14T23:35:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/junaid-siddique/</ns0:loc><ns0:lastmod>2026-11-14T23:36:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/kane-williamson/</ns0:loc><ns0:lastmod>2026-11-14T23:37:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/karim-janat/</ns0:loc><ns0:lastmod>2026-11-14T23:38:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/khuzaima-tanveer/</ns0:loc><ns0:lastmod>2026-11-14T23:39:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/kusal-perera/</ns0:loc><ns0:lastmod>2026-11-14T23:40:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/liam-livingstone/</ns0:loc><ns0:lastmod>2026-11-14T23:41:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/lizaad-williams/</ns0:loc><ns0:lastmod>2026-11-14T23:42:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/logan-van-beek/</ns0:loc><ns0:lastmod>2026-11-14T23:43:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/lorcan-tucker/</ns0:loc><ns0:lastmod>2026-11-14T23:44:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/luke-wood/</ns0:loc><ns0:lastmod>2026-11-14T23:45:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/marcus-stoinis/</ns0:loc><ns0:lastmod>2026-11-14T23:46:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/mark-adair/</ns0:loc><ns0:lastmod>2026-11-14T23:47:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/masood-ul-rahman-gurbaz/</ns0:loc><ns0:lastmod>2026-11-14T23:48:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/matiullah-khan/</ns0:loc><ns0:lastmod>2026-11-14T23:49:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/matthew-potts/</ns0:loc><ns0:lastmod>2026-11-14T23:50:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/matthew-tromp/</ns0:loc><ns0:lastmod>2026-11-14T23:51:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/max-holden/</ns0:loc><ns0:lastmod>2026-11-14T23:52:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/meet-bhavsar/</ns0:loc><ns0:lastmod>2026-11-14T23:53:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/michael-pepper/</ns0:loc><ns0:lastmod>2026-11-14T23:54:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/moeen-ali/</ns0:loc><ns0:lastmod>2026-11-14T23:55:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/mohammad-nabi/</ns0:loc><ns0:lastmod>2026-11-14T23:56:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/mohammad-saqib/</ns0:loc><ns0:lastmod>2026-11-14T23:57:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/mohammad-shafeeq/</ns0:loc><ns0:lastmod>2026-11-14T23:58:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/muhammad-rohid/</ns0:loc><ns0:lastmod>2026-11-14T23:59:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/muhammad-waseem/</ns0:loc><ns0:lastmod>2026-11-15T00:00:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/mujeeb-ur-rahman/</ns0:loc><ns0:lastmod>2026-11-15T00:01:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/mustafizur-rahman/</ns0:loc><ns0:lastmod>2026-11-15T00:02:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/nangeyalia-kharote/</ns0:loc><ns0:lastmod>2026-11-15T00:03:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/naseem-shah/</ns0:loc><ns0:lastmod>2026-11-15T00:04:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/nicholas-pooran/</ns0:loc><ns0:lastmod>2026-11-15T00:05:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/nilansh-keswani/</ns0:loc><ns0:lastmod>2026-11-15T00:06:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/noor-ahmad/</ns0:loc><ns0:lastmod>2026-11-15T00:07:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/paul-walter/</ns0:loc><ns0:lastmod>2026-11-15T00:08:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/phil-salt/</ns0:loc><ns0:lastmod>2026-11-15T00:09:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/qais-ahmad/</ns0:loc><ns0:lastmod>2026-11-15T00:10:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/rahmanullah-gurbaz/</ns0:loc><ns0:lastmod>2026-11-15T00:11:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/raizal-nadir-nather-shah/</ns0:loc><ns0:lastmod>2026-11-15T00:12:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/rashid-khan/</ns0:loc><ns0:lastmod>2026-11-15T00:13:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/ravija-sandaruwan/</ns0:loc><ns0:lastmod>2026-11-15T00:14:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/richard-gleeson/</ns0:loc><ns0:lastmod>2026-11-15T00:15:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/romario-shepherd/</ns0:loc><ns0:lastmod>2026-11-15T00:16:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/ross-adair/</ns0:loc><ns0:lastmod>2026-11-15T00:17:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/rovman-powell/</ns0:loc><ns0:lastmod>2026-11-15T00:18:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/sagar-kalyan/</ns0:loc><ns0:lastmod>2026-11-15T00:19:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/saleem-safi/</ns0:loc><ns0:lastmod>2026-11-15T00:20:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/sanjay-krishnamurthi/</ns0:loc><ns0:lastmod>2026-11-15T00:21:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/sanjay-pahal/</ns0:loc><ns0:lastmod>2026-11-15T00:22:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/sarafuddin-ashraf/</ns0:loc><ns0:lastmod>2026-11-15T00:23:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/sediqullah-atal/</ns0:loc><ns0:lastmod>2026-11-15T00:24:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/shadab-khan/</ns0:loc><ns0:lastmod>2026-11-15T00:25:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/shamar-joseph/</ns0:loc><ns0:lastmod>2026-11-15T00:26:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/sherfane-rutherford/</ns0:loc><ns0:lastmod>2026-11-15T00:27:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/shimron-hetmyer/</ns0:loc><ns0:lastmod>2026-11-15T00:28:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/shubham-ranjane/</ns0:loc><ns0:lastmod>2026-11-15T00:29:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/sikandar-raza/</ns0:loc><ns0:lastmod>2026-11-15T00:30:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/sunil-narine/</ns0:loc><ns0:lastmod>2026-11-15T00:31:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/tabraiz-shamsi/</ns0:loc><ns0:lastmod>2026-11-15T00:32:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/tanish-suri/</ns0:loc><ns0:lastmod>2026-11-15T00:33:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/tom-banton/</ns0:loc><ns0:lastmod>2026-11-15T00:34:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/tom-moores/</ns0:loc><ns0:lastmod>2026-11-15T00:35:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/usman-najeeb/</ns0:loc><ns0:lastmod>2026-11-15T00:36:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/usman-tariq/</ns0:loc><ns0:lastmod>2026-11-15T00:37:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/vriitya-aravind/</ns0:loc><ns0:lastmod>2026-11-15T00:38:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/wahidullah-zadran/</ns0:loc><ns0:lastmod>2026-11-15T00:39:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/wali-muhammad/</ns0:loc><ns0:lastmod>2026-11-15T00:40:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/waqar-salamkheil/</ns0:loc><ns0:lastmod>2026-11-15T00:41:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/wasim-akram/</ns0:loc><ns0:lastmod>2026-11-15T00:42:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/zahoor-khan/</ns0:loc><ns0:lastmod>2026-11-15T00:43:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/zain-ul-abidin/</ns0:loc><ns0:lastmod>2026-11-15T00:44:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/zuhaib-zubair/</ns0:loc><ns0:lastmod>2026-11-15T00:45:00Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/jordon-thompson/</ns0:loc><ns0:lastmod>2026-11-15T20:45:35Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/jos-buttler/</ns0:loc><ns0:lastmod>2026-11-15T20:45:36Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/junaid-siddique/</ns0:loc><ns0:lastmod>2026-11-15T20:45:37Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/kane-williamson/</ns0:loc><ns0:lastmod>2026-11-15T20:45:38Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/karim-janat/</ns0:loc><ns0:lastmod>2026-11-15T20:45:39Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/khuzaima-tanveer/</ns0:loc><ns0:lastmod>2026-11-15T20:45:40Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/kusal-perera/</ns0:loc><ns0:lastmod>2026-11-15T20:45:41Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/liam-livingstone/</ns0:loc><ns0:lastmod>2026-11-15T20:45:42Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/lizaad-williams/</ns0:loc><ns0:lastmod>2026-11-15T20:45:43Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/logan-van-beek/</ns0:loc><ns0:lastmod>2026-11-15T20:45:44Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/lorcan-tucker/</ns0:loc><ns0:lastmod>2026-11-15T20:45:45Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/luke-wood/</ns0:loc><ns0:lastmod>2026-11-15T20:45:46Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/marcus-stoinis/</ns0:loc><ns0:lastmod>2026-11-15T20:45:47Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/mark-adair/</ns0:loc><ns0:lastmod>2026-11-15T20:45:48Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/masood-ul-rahman-gurbaz/</ns0:loc><ns0:lastmod>2026-11-15T20:45:49Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/matiullah-khan/</ns0:loc><ns0:lastmod>2026-11-15T20:45:50Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/matthew-potts/</ns0:loc><ns0:lastmod>2026-11-15T20:45:51Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/matthew-tromp/</ns0:loc><ns0:lastmod>2026-11-15T20:45:52Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/max-holden/</ns0:loc><ns0:lastmod>2026-11-15T20:45:53Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/meet-bhavsar/</ns0:loc><ns0:lastmod>2026-11-15T20:45:54Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/michael-pepper/</ns0:loc><ns0:lastmod>2026-11-15T20:45:55Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/moeen-ali/</ns0:loc><ns0:lastmod>2026-11-15T20:45:56Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/mohammad-nabi/</ns0:loc><ns0:lastmod>2026-11-15T20:45:57Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/mohammad-saqib/</ns0:loc><ns0:lastmod>2026-11-15T20:45:58Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/mohammad-shafeeq/</ns0:loc><ns0:lastmod>2026-11-15T20:45:59Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/muhammad-rohid/</ns0:loc><ns0:lastmod>2026-11-15T20:46:00Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/muhammad-waseem/</ns0:loc><ns0:lastmod>2026-11-15T20:46:01Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/mujeeb-ur-rahman/</ns0:loc><ns0:lastmod>2026-11-15T20:46:02Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/mustafizur-rahman/</ns0:loc><ns0:lastmod>2026-11-15T20:46:03Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/nangeyalia-kharote/</ns0:loc><ns0:lastmod>2026-11-15T20:46:04Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/naseem-shah/</ns0:loc><ns0:lastmod>2026-11-15T20:46:05Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/nicholas-pooran/</ns0:loc><ns0:lastmod>2026-11-15T20:46:06Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/nilansh-keswani/</ns0:loc><ns0:lastmod>2026-11-15T20:46:07Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/noor-ahmad/</ns0:loc><ns0:lastmod>2026-11-15T20:46:08Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/paul-walter/</ns0:loc><ns0:lastmod>2026-11-15T20:46:09Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/phil-salt/</ns0:loc><ns0:lastmod>2026-11-15T20:46:10Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/qais-ahmad/</ns0:loc><ns0:lastmod>2026-11-15T20:46:11Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/rahmanullah-gurbaz/</ns0:loc><ns0:lastmod>2026-11-15T20:46:12Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/raizal-nadir-nather-shah/</ns0:loc><ns0:lastmod>2026-11-15T20:46:13Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/rashid-khan/</ns0:loc><ns0:lastmod>2026-11-15T20:46:14Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/ravija-sandaruwan/</ns0:loc><ns0:lastmod>2026-11-15T20:46:15Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/richard-gleeson/</ns0:loc><ns0:lastmod>2026-11-15T20:46:16Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/romario-shepherd/</ns0:loc><ns0:lastmod>2026-11-15T20:46:17Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/ross-adair/</ns0:loc><ns0:lastmod>2026-11-15T20:46:18Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/rovman-powell/</ns0:loc><ns0:lastmod>2026-11-15T20:46:19Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/sagar-kalyan/</ns0:loc><ns0:lastmod>2026-11-15T20:46:20Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/saleem-safi/</ns0:loc><ns0:lastmod>2026-11-15T20:46:21Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/sanjay-krishnamurthi/</ns0:loc><ns0:lastmod>2026-11-15T20:46:22Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/sanjay-pahal/</ns0:loc><ns0:lastmod>2026-11-15T20:46:23Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/sarafuddin-ashraf/</ns0:loc><ns0:lastmod>2026-11-15T20:46:24Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/sediqullah-atal/</ns0:loc><ns0:lastmod>2026-11-15T20:46:25Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/shadab-khan/</ns0:loc><ns0:lastmod>2026-11-15T20:46:26Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/shamar-joseph/</ns0:loc><ns0:lastmod>2026-11-15T20:46:27Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/sherfane-rutherford/</ns0:loc><ns0:lastmod>2026-11-15T20:46:28Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/shimron-hetmyer/</ns0:loc><ns0:lastmod>2026-11-15T20:46:29Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/shubham-ranjane/</ns0:loc><ns0:lastmod>2026-11-15T20:46:30Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/sikandar-raza/</ns0:loc><ns0:lastmod>2026-11-15T20:46:31Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/sunil-narine/</ns0:loc><ns0:lastmod>2026-11-15T20:46:32Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/tabraiz-shamsi/</ns0:loc><ns0:lastmod>2026-11-15T20:46:33Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/tanish-suri/</ns0:loc><ns0:lastmod>2026-11-15T20:46:34Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/tom-banton/</ns0:loc><ns0:lastmod>2026-11-15T20:46:35Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/tom-moores/</ns0:loc><ns0:lastmod>2026-11-15T20:46:36Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/usman-najeeb/</ns0:loc><ns0:lastmod>2026-11-15T20:46:37Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/usman-tariq/</ns0:loc><ns0:lastmod>2026-11-15T20:46:38Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/vriitya-aravind/</ns0:loc><ns0:lastmod>2026-11-15T20:46:39Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/wahidullah-zadran/</ns0:loc><ns0:lastmod>2026-11-15T20:46:40Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/wali-muhammad/</ns0:loc><ns0:lastmod>2026-11-15T20:46:41Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/waqar-salamkheil/</ns0:loc><ns0:lastmod>2026-11-15T20:46:42Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/wasim-akram/</ns0:loc><ns0:lastmod>2026-11-15T20:46:43Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/zahoor-khan/</ns0:loc><ns0:lastmod>2026-11-15T20:46:44Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/zain-ul-abidin/</ns0:loc><ns0:lastmod>2026-11-15T20:46:45Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/ilt20/players/zuhaib-zubair/</ns0:loc><ns0:lastmod>2026-11-15T20:46:46Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/ilt20/matches/2026-27/match-1/</ns0:loc><ns0:lastmod>2026-11-15T20:44:01Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/ilt20/matches/2026-27/match-2/</ns0:loc><ns0:lastmod>2026-11-15T20:44:12Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/ilt20/matches/2026-27/match-3/</ns0:loc><ns0:lastmod>2026-11-15T20:44:23Z</ns0:lastmod></ns0:url>
@@ -494,7 +494,7 @@
   <ns0:url><ns0:loc>https://sialtv.com/npl/players/saif-hassan/</ns0:loc><ns0:lastmod>2026-11-15T20:06:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/players/tharindu-ratnayake/</ns0:loc><ns0:lastmod>2026-11-15T20:27:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/players/yuvraaj-samra/</ns0:loc><ns0:lastmod>2026-11-15T20:32:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-1/</ns0:loc><ns0:lastmod>2026-11-15T17:51:00Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-1/</ns0:loc><ns0:lastmod>2026-11-15T20:47:01Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-2/</ns0:loc><ns0:lastmod>2026-11-15T17:52:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-3/</ns0:loc><ns0:lastmod>2026-11-15T17:53:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-4/</ns0:loc><ns0:lastmod>2026-11-15T17:54:00Z</ns0:lastmod></ns0:url>
@@ -503,12 +503,12 @@
   <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-7/</ns0:loc><ns0:lastmod>2026-11-15T17:57:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-8/</ns0:loc><ns0:lastmod>2026-11-15T17:58:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-9/</ns0:loc><ns0:lastmod>2026-11-15T17:59:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-10/</ns0:loc><ns0:lastmod>2026-11-15T18:00:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-11/</ns0:loc><ns0:lastmod>2026-11-15T18:01:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-12/</ns0:loc><ns0:lastmod>2026-11-15T18:02:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-13/</ns0:loc><ns0:lastmod>2026-11-15T18:03:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-14/</ns0:loc><ns0:lastmod>2026-11-15T18:04:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-15/</ns0:loc><ns0:lastmod>2026-11-15T18:05:00Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-10/</ns0:loc><ns0:lastmod>2026-11-15T20:47:02Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-11/</ns0:loc><ns0:lastmod>2026-11-15T20:47:03Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-12/</ns0:loc><ns0:lastmod>2026-11-15T20:47:04Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-13/</ns0:loc><ns0:lastmod>2026-11-15T20:47:05Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-14/</ns0:loc><ns0:lastmod>2026-11-15T20:47:06Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-15/</ns0:loc><ns0:lastmod>2026-11-15T20:47:07Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-16/</ns0:loc><ns0:lastmod>2026-11-15T18:06:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-17/</ns0:loc><ns0:lastmod>2026-11-15T18:07:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-18/</ns0:loc><ns0:lastmod>2026-11-15T18:08:00Z</ns0:lastmod></ns0:url>
