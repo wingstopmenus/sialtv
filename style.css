@@ -2894,3 +2894,55 @@ body.page-npl-stats #more .records-grid { display: grid; grid-template-columns: 
 @media (min-width: 641px) {
   .st-strip-track { padding-right: 3.25rem; }
 }
+
+/* ---------- NPL hub Where-to-Watch table — 2026-11-15 (E1 narrow tables) ----------
+   Root cause (live HTML/CSS se verify): the site-wide fallback
+   `body:not(.st-home) table` (line ~1083: display:block + overflow-x:auto)
+   forces display:block, so the anonymous inner table shrink-wraps to
+   content — the Where-to-Watch thead measured 974px inside a 1273px card
+   @1440 (Playwright, inner thead via getBoundingClientRect). Same pattern
+   as the 2026-11-13 fixes2 records fix and the 2026-11-14 .rx-pts fix:
+   restore display:table at desktop widths only (min-width:981px, same
+   breakpoint as the .rx-pts fix); mobile (<=980px) keeps block+scroll —
+   there the table is already full width (303=303 @390). Scoped to the
+   bare table inside #where-to-watch so no other table is touched. */
+@media (min-width: 981px) {
+  body.st-inner.league-npl #where-to-watch .table-scroll table { display: table; width: 100%; }
+}
+
+/* ---------- NPL league live-scores tables — 2026-11-15 (E2 narrow tables) ----------
+   Root cause (fresh live HTML/CSS se verify): same site-wide fallback
+   `body:not(.st-home) table` (line ~1083: display:block + overflow-x:auto)
+   as E1's hub fix — the anonymous inner table shrink-wraps to content:
+   points table.t-pts thead 325px and scorecard theads 279–309px inside an
+   830px card @1440 (Playwright, inner thead via getBoundingClientRect).
+   Same proven pattern as E1's rule, as the 2026-11-14 .rx-pts fix, and as
+   the root /live-scores/ rebuild's own live-scores.css
+   (`body.st-inner.page-live-scores .t-pts` / `#slp-scorecard table` at
+   min-width:981px): restore display:table at desktop widths only;
+   mobile (<=980px) keeps block+scroll. Scoped twice so the rebuilt root
+   page is untouched: `body.league-npl` (root body is `page-live-scores`,
+   no league-npl) AND the live-scores-only hooks `[data-slp-panel]`
+   / `#slp-scorecard` (no other live NPL page — hub, points-table,
+   schedule, stats, teams-index, players-index — contains them). */
+@media (min-width: 981px) {
+  body.st-inner.league-npl [data-slp-panel="summary"] .table-scroll table.t-pts,
+  body.st-inner.league-npl #slp-scorecard table { display: table; width: 100%; }
+}
+
+/* ---------- Schedule sidebar points-mini — 2026-11-15 (C1 clean-ups, audit §10.5) ----------
+   Root cause (fresh live HTML/CSS se verify): same site-wide fallback
+   `body:not(.st-home) table` (line ~1083: display:block + overflow-x:auto)
+   as E1's hub fix and E2's league live-scores fix — the anonymous inner table
+   shrink-wraps to content: sidebar pts-mini thead 272px inside a 281px card
+   @1440 (Playwright, inner thead via getBoundingClientRect). The stats page's
+   identical pts-mini is full width (281=281) only because css/stats.css:143
+   (`body.page-npl-stats .sts-table table { display: table; }`) covers it —
+   the schedule page loads style.css only, so no rule reaches its mini.
+   Same proven pattern as E1/E2 (min-width:981px, display:table, width:100%);
+   mobile (<=980px) keeps block+scroll. Scoped to the schedule page's single
+   sidebar mini: `body.page-npl-schedule` matches no other live NPL page, and
+   the schedule page has exactly 1 table. */
+@media (min-width: 981px) {
+  body.st-inner.page-npl-schedule .table-scroll table.t-pts.pts-mini { display: table; width: 100%; }
+}
