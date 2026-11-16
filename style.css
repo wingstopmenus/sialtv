@@ -2989,13 +2989,16 @@ body.page-npl-stats #more .records-grid { display: grid; grid-template-columns: 
    identical pts-mini is full width (281=281) only because css/stats.css:143
    (`body.page-npl-stats .sts-table table { display: table; }`) covers it —
    the schedule page loads style.css only, so no rule reaches its mini.
-   Same proven pattern as E1/E2 (min-width:981px, display:table, width:100%);
-   mobile (<=980px) keeps block+scroll. Scoped to the schedule page's single
+   Same proven pattern as E1/E2 (display:table, width:100%).
+   2026-11-16: the min-width:981px gate is GONE — it left the mobile mini
+   shrink-wrapped (Playwright @390: thead 279px inside a 366px card, the
+   gap the user photographed on his phone). The mini's content is ~279px,
+   narrower than the card at every viewport (296px card at 320px wide),
+   so block+scroll is never needed for this mini; the rule now applies
+   at all widths. Scoped to the schedule page's single
    sidebar mini: `body.page-npl-schedule` matches no other live NPL page, and
    the schedule page has exactly 1 table. */
-@media (min-width: 981px) {
-  body.st-inner.page-npl-schedule .table-scroll table.t-pts.pts-mini { display: table; width: 100%; }
-}
+body.st-inner.page-npl-schedule .table-scroll table.t-pts.pts-mini { display: table; width: 100%; }
 
 /* ---------- Back-to-top floating button — 2026-11-15 (site-wide) ----------
    Markup: /fragments/masthead.html, a sibling of the header (never inside
