@@ -23,7 +23,7 @@
 <meta name="twitter:description" content="Live cricket scores for the NPL, ILT20 and APL — every match as it happens, the latest result and the next fixture.">
 <meta name="theme-color" content="#090811">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","name":"Live Cricket Scores | Today's Match Scorecard & Ball-by-Ball Commentary","url":"https://sialtv.com/live-scores/","description":"Live cricket scores for the NPL, ILT20 and APL — every match as it happens, the latest result and the next fixture.","datePublished":"2026-11-12T16:07:04Z","dateModified": "2026-11-16T12:30:00Z"}
+{"@context":"https://schema.org","@type":"WebPage","name":"Live Cricket Scores | Today's Match Scorecard & Ball-by-Ball Commentary","url":"https://sialtv.com/live-scores/","description":"Live cricket scores for the NPL, ILT20 and APL — every match as it happens, the latest result and the next fixture.","datePublished":"2026-11-12T16:07:04Z","dateModified": "2026-11-16T13:00:00Z"}
 </script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sialtv.com/"},{"@type":"ListItem","position":2,"name":"Live Cricket Score","item":"https://sialtv.com/live-scores/"}]}
@@ -109,11 +109,17 @@
   load(1);
 })();
 </script>
-  <nav class="series-secnav" aria-label="Nepal Premier League sections"><div class="wrap secnav-row"><div class="secnav-title-wrap"><div class="secnav-title"><button type="button" class="secnav-switch" aria-haspopup="true">Nepal Premier League 2026 <span class="secnav-caret" aria-hidden="true">&#9662;</span></button></div><div class="secnav-drop"><a href="/npl/" aria-current="page">Nepal Premier League 2026</a><a href="/ilt20/">International League T20 2026&ndash;27</a><a href="/apl/">Afghanistan Premier League 2026&ndash;27</a></div></div><span class="secnav-div" aria-hidden="true"></span><div class="secnav-links"><a href="/npl/">Home</a><a href="/npl/schedule/">Fixtures and Results</a><a href="/npl/points-table/">Table</a><a href="/npl/stats/">Stats</a><a href="/npl/teams/">Teams</a><a href="/npl/players/">Players</a></div></div></nav> <div id="stripMount"></div>
+  <nav class="series-secnav" aria-label="Nepal Premier League sections"><div class="wrap secnav-row"><div class="secnav-title-wrap"><div class="secnav-title"><button type="button" class="secnav-switch" aria-haspopup="true">Nepal Premier League 2026 <span class="secnav-caret" aria-hidden="true">&#9662;</span></button></div><div class="secnav-drop"><a href="/npl/" aria-current="page">Nepal Premier League 2026</a><a href="/ilt20/">International League T20 2026&ndash;27</a><a href="/apl/">Afghanistan Premier League 2026&ndash;27</a></div></div><span class="secnav-div" aria-hidden="true"></span><div class="secnav-links"><a href="/npl/">Home</a><a href="/npl/schedule/">Fixtures and Results</a><a href="/npl/points-table/">Table</a><a href="/npl/stats/">Stats</a><a href="/npl/teams/">Teams</a><a href="/npl/players/">Players</a></div></div></nav>
 <script>
+/* STRIP SUPPRESSED on this page (2026-11-16): the site-wide match strip
+   duplicates this page's own list (every match rendered twice — once in
+   the strip, once in the list), so there is no strip mount div here, the
+   strip fragment is never fetched, and the strip's own script is not
+   loaded. The strip still mounts on every other page (homepage, hubs,
+   match pages) — this template is live-scores-only. team-logos.js (the
+   logo map the list cards use) and live-scores.js (the poller) still
+   load, in the same order as before. */
 (function () {
-  var mount = document.getElementById('stripMount');
-  if (!mount) return;
   function loadScript(src, next) {
     var s = document.createElement('script');
     s.src = src;
@@ -121,17 +127,9 @@
     s.onerror = function () { if (next) next(); };
     document.body.appendChild(s);
   }
-  fetch('/fragments/strip.html', { credentials: 'same-origin' })
-    .then(function (r) { if (!r.ok) throw new Error('strip ' + r.status); return r.text(); })
-    .then(function (html) {
-      mount.innerHTML = html;
-      loadScript('/js/team-logos.js', function () {
-        loadScript('/js/live-scores.js', function () {
-          loadScript('/js/flash-scores.js');
-        });
-      });
-    })
-    .catch(function () { if (mount && mount.parentNode) mount.parentNode.removeChild(mount); });
+  loadScript('/js/team-logos.js', function () {
+    loadScript('/js/live-scores.js');
+  });
 })();
 </script>
 
