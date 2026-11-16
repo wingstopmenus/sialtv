@@ -1,0 +1,22 @@
+{
+  "leagues": [
+    {
+      "code": "NPL",
+      "name": "Nepal Premier League",
+      "href": "/npl/",
+      "final": "2026-11-21"
+    },
+    {
+      "code": "ILT20",
+      "name": "ILT20",
+      "href": "/ilt20/",
+      "final": "2026-12-20"
+    },
+    {
+      "code": "APL",
+      "name": "Afghanistan Premier League",
+      "href": "/apl/",
+      "final": "2027-01-20"
+    }
+  ]
+}

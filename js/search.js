@@ -179,3 +179,117 @@
   });
   update();
 })();
+
+/* Header league links — data-driven (2026-11-16).
+   The masthead fragment hardcodes the current leagues as the no-JS
+   fallback; this IIFE reconciles both menus (.st-menu on desktop,
+   .st-drawer nav on mobile) against /data/nav-leagues.json on every
+   page load. A league shows up to and including its Final day and
+   disappears from the menu the day after — automatically, with no
+   fragment edit and no page rebuild. A league added to the JSON
+   appears automatically, in JSON order. Runs after inject(), so the
+   fragment is already in the DOM. Separate IIFE on purpose: the
+   search IIFE above returns early when there is no search input, and
+   this must not depend on it. Silent no-op when the JSON cannot be
+   fetched (the hardcoded links stay as they are). */
+(function () {
+  'use strict';
+
+  var DATA_URL = '/data/nav-leagues.json';
+
+  function utcDateString(d) {
+    var m = d.getUTCMonth() + 1;
+    var day = d.getUTCDate();
+    return d.getUTCFullYear() + '-' + (m < 10 ? '0' + m : m) + '-' + (day < 10 ? '0' + day : day);
+  }
+
+  function isActive(league, today) {
+    // Visible through the Final day; gone the day after. A missing or
+    // invalid final date never removes a league.
+    if (!league || !league.final) return true;
+    var f = String(league.final).slice(0, 10);
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(f)) return true;
+    return today <= f;
+  }
+
+  function closeDrawer() {
+    var btn = document.querySelector('.st-burger');
+    if (btn) {
+      btn.setAttribute('aria-expanded', 'false');
+      btn.setAttribute('aria-label', 'Open menu');
+    }
+    document.body.classList.remove('st-nav-open');
+  }
+
+  function syncMenu(menu, active, isDrawer) {
+    if (!menu) return;
+    var i, code, link;
+    var have = {};
+    var existing = menu.querySelectorAll('a[data-league]');
+    for (i = 0; i < existing.length; i++) {
+      have[existing[i].getAttribute('data-league')] = existing[i];
+    }
+    // Remove concluded leagues.
+    for (i = 0; i < existing.length; i++) {
+      code = existing[i].getAttribute('data-league');
+      if (!active[code]) existing[i].parentNode.removeChild(existing[i]);
+    }
+    // Add new leagues and restore JSON order. The menu holds only the
+    // Series link + league links, so appending in JSON order puts them
+    // after Series in the right sequence (appendChild moves existing
+    // nodes instead of duplicating them).
+    for (i = 0; i < active.list.length; i++) {
+      code = active.list[i].code;
+      link = (have[code] && have[code].parentNode) ? have[code] : null;
+      if (!link) {
+        link = document.createElement('a');
+        link.setAttribute('href', active.list[i].href);
+        link.setAttribute('data-league', code);
+        link.textContent = code;
+        if (isDrawer) link.addEventListener('click', closeDrawer);
+      }
+      menu.appendChild(link);
+    }
+  }
+
+  function markCurrent(active) {
+    var p = window.location.pathname;
+    var best = null;
+    for (var i = 0; i < active.list.length; i++) {
+      var href = active.list[i].href;
+      if (p === href || p.indexOf(href) === 0) {
+        if (!best || href.length > best.length) best = href;
+      }
+    }
+    if (!best) return;
+    [document.querySelector('.st-menu'), document.querySelector('.st-drawer nav')].forEach(function (menu) {
+      if (!menu) return;
+      menu.querySelectorAll('a[data-league]').forEach(function (a) {
+        if (a.getAttribute('href') === best) a.setAttribute('aria-current', 'page');
+        else a.removeAttribute('aria-current');
+      });
+    });
+  }
+
+  var menus = [document.querySelector('.st-menu'), document.querySelector('.st-drawer nav')];
+  if (!menus[0] && !menus[1]) return;
+
+  fetch(DATA_URL, { cache: 'no-cache' })
+    .then(function (r) { if (!r.ok) throw new Error('nav leagues ' + r.status); return r.json(); })
+    .then(function (data) {
+      var today = utcDateString(new Date());
+      var list = (data && data.leagues) || [];
+      var active = { list: [] };
+      for (var i = 0; i < list.length; i++) {
+        var lg = list[i];
+        if (lg && lg.code && lg.href && isActive(lg, today)) {
+          active[lg.code] = true;
+          active.list.push(lg);
+        }
+      }
+      syncMenu(menus[0], active, false);
+      syncMenu(menus[1], active, true);
+      markCurrent(active);
+    })
+    .catch(function () { /* keep the hardcoded links */ });
+})();
