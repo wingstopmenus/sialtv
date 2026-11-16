@@ -290,13 +290,15 @@
   }
 
 
-  /* Hero match (2026-11-13): the homepage hero panel (#heroMatch) shows the
-     LIVE match if one is live, else the NEXT upcoming match — NEVER a result.
-     It reads the NPL feed (full team names + live scores) and takes the
-     venue/time + kickoff from that match's strip card. Runs on every feed
-     poll, so the hero switches automatically when a match starts/finishes
-     (no cron, no hand update). If the feed has no live/upcoming match the
-     baked panel is left alone. */
+  /* Hero match (2026-11-13, result slide added 2026-11-16): the homepage
+     hero panel (#heroMatch) shows the LIVE match if one is live (score
+     updating every poll), else the RESULT of today's finished match, else
+     the NEXT upcoming match. It reads the NPL feed (full team names +
+     live scores) and takes the venue/time + kickoff from that match's
+     strip card. Runs on every feed poll, so the hero switches
+     automatically when a match starts/finishes (no cron, no hand
+     update). If the feed has no live/result/upcoming match the baked
+     panel is left alone. */
   function heroShortName(name) {
     return String(name || '').replace(/\s*\([^)]*\)\s*$/, '').trim();
   }
@@ -312,7 +314,9 @@
      come from data/npl-schedule.json (verified fixtures); the endpoint
      supplies the live/result state. The hero is a slider on two-match
      days: both of today's matches show, and when one finishes the other
-     takes over automatically. Never a result in the hero. */
+     takes over automatically. A finished match shows as a result slide
+     while it is still today; the next morning the hero moves on to the
+     next match. */
   var nplSchedulePromise = null;
   function loadNplSchedule() {
     if (nplSchedulePromise) return nplSchedulePromise;
@@ -369,18 +373,50 @@
     var upcoming = (fixtures || []).filter(function (f) {
       return f.kickoff && Date.parse(f.kickoff) > t && !done[f.matchNo];
     }).sort(function (a, b) { return Date.parse(a.kickoff) - Date.parse(b.kickoff); });
-    return { live: live, latestResult: latestResult, todayUpcoming: upcoming.filter(function (f) { return f.date === today; }), next: upcoming[0] || null };
+    return { live: live, latestResult: latestResult, today: today, todayUpcoming: upcoming.filter(function (f) { return f.date === today; }), next: upcoming[0] || null };
+  }
+  /* Hero score rows (2026-11-16): logo + name on the left, code
+     (upcoming) or score (live/result) on the right. chip() returns the
+     team's logo <img> from window.sialtvTeamLogos (loaded before this
+     file) or the initials chip when the team has no logo; the img
+     already carries an alt (feed spelling for SPR), so heroLogo
+     replaces it with the display spelling. */
+  function heroLogo(name) {
+    var img = chip(name);
+    if (img.indexOf('<img ') === 0) {
+      /* The img already carries an alt (feed spelling for SPR), so it is
+         replaced with the display spelling; added only when absent. */
+      var alt = 'alt="' + heroEsc(heroShortName(name)) + ' logo"';
+      if (img.indexOf('alt="') !== -1) return img.replace(/alt="[^"]*"/, alt);
+      return img.replace('<img ', '<img ' + alt + ' ');
+    }
+    return img;
+  }
+  function heroScoreRow(name, value) {
+    return '<span><span class="st-panel__team">' + heroLogo(name) +
+      '<small>' + heroEsc(heroShortName(name)) + '</small></span><b>' +
+      heroEsc(value) + '</b></span>';
+  }
+  /* "Qualifier 1 · Match 29" — the strip shows it, the hero omitted it.
+     From the schedule fixture (label/desc + matchNo); for a feed match
+     the fixture is looked up by match number. */
+  function matchLabelFor(matchNo, fixtures) {
+    var fx = null;
+    (fixtures || []).forEach(function (f) { if (f.matchNo === matchNo) fx = f; });
+    if (fx) return (fx.label || fx.desc || 'Match') + ' · Match ' + fx.matchNo;
+    return 'Match ' + matchNo;
   }
   function heroSlideInner(o) {
     var html = '<span class="st-panel__kicker">' + o.kicker + '</span>';
     html += '<strong>' + heroEsc(o.strong) + '</strong>';
+    if (o.meta) html += '<span class="st-panel__meta">' + heroEsc(o.meta) + '</span>';
     html += '<p>' + heroEsc(o.sub) + '</p>';
     html += '<div class="st-panel__scores">' + o.scores + '</div>';
     if (o.kickoff) html += '<p class="st-panel__countdown" data-kickoff="' + heroEsc(o.kickoff) + '">Match starts in \u2026</p>';
     html += '<span class="st-panel__link">' + heroEsc(o.cta) + ' <span aria-hidden="true">\u2192</span></span>';
     return html;
   }
-  function liveSlide(m) {
+  function liveSlide(m, fixtures) {
     var t1 = heroShortName(m.team1), t2 = heroShortName(m.team2);
     var parts = [];
     if (m.score1) parts.push(m.score1 + (m.overs1 ? ' (' + m.overs1 + ' ov)' : ''));
@@ -390,11 +426,31 @@
       href: '/npl/matches/2026/match-' + m.matchNo + '/',
       kicker: '<span class="live-dot" aria-hidden="true"></span>Live now',
       strong: t1 + ' vs ' + t2,
+      meta: matchLabelFor(m.matchNo, fixtures),
       sub: parts.join(' \u00b7 ') || (m.statusText || ''),
-      scores: '<span><small>' + heroEsc(t1) + '</small><b>' + heroEsc(m.score1 || 'Yet to bat') + '</b></span>' +
-        '<span><small>' + heroEsc(t2) + '</small><b>' + heroEsc(m.score2 || 'Yet to bat') + '</b></span>',
+      scores: heroScoreRow(m.team1, m.score1 || 'Yet to bat') +
+        heroScoreRow(m.team2, m.score2 || 'Yet to bat'),
       kickoff: '',
       cta: 'Live scorecard'
+    };
+  }
+  /* Result slide (2026-11-16): when a match finishes, the hero shows
+     its result (winner + margin) instead of jumping straight to the
+     next match — the score update lands here, as on the strip cards.
+     heroSlidesFor only picks it while the result is from today, so the
+     next morning the hero moves on to the next match. */
+  function resultSlide(m, fixtures) {
+    return {
+      key: 'result-' + m.matchNo,
+      href: '/npl/matches/2026/match-' + m.matchNo + '/',
+      kicker: 'Result',
+      strong: resultHeadline(m),
+      meta: matchLabelFor(m.matchNo, fixtures),
+      sub: resultLine(m, 'npl') + ' Open the scorecard for the full result.',
+      scores: heroScoreRow(m.team1, m.score1 || '') +
+        heroScoreRow(m.team2, m.score2 || ''),
+      kickoff: '',
+      cta: 'Scorecard and result'
     };
   }
   function nextSlide(fx) {
@@ -404,6 +460,7 @@
         href: fx.href || '/npl/',
         kicker: 'Next match',
         strong: fx.label || fx.desc || ('Match ' + fx.matchNo),
+        meta: (fx.label || fx.desc || 'Match') + ' · Match ' + fx.matchNo,
         sub: fmtVenueLine(fx),
         scores: '<span><small>Teams to be decided</small><b>' + heroEsc(fx.note || '') + '</b></span>',
         kickoff: fx.kickoff,
@@ -415,9 +472,10 @@
       href: fx.href,
       kicker: 'Next match',
       strong: fx.team1 + ' vs ' + fx.team2,
+      meta: (fx.label || fx.desc || 'Match') + ' · Match ' + fx.matchNo,
       sub: fmtVenueLine(fx),
-      scores: '<span><small>' + heroEsc(fx.team1) + '</small><b>' + heroEsc(fx.abbr1 || '') + '</b></span>' +
-        '<span><small>' + heroEsc(fx.team2) + '</small><b>' + heroEsc(fx.abbr2 || '') + '</b></span>',
+      scores: heroScoreRow(fx.team1, fx.abbr1 || '') +
+        heroScoreRow(fx.team2, fx.abbr2 || ''),
       kickoff: fx.kickoff,
       cta: 'Match preview'
     };
@@ -435,9 +493,10 @@
     cta: 'Open the NPL hub'
   };
   var heroSlider = { keys: [], index: 0, timer: null, lastHtml: '' };
-  function heroSlidesFor(st) {
+  function heroSlidesFor(st, fixtures) {
     var slides = [];
-    if (st.live) slides.push(liveSlide(st.live));
+    if (st.live) slides.push(liveSlide(st.live, fixtures));
+    else if (st.latestResult && st.latestResult.date === st.today) slides.push(resultSlide(st.latestResult, fixtures));
     st.todayUpcoming.forEach(function (fx) {
       if (st.live && fx.matchNo === st.live.matchNo) return;
       slides.push(nextSlide(fx));
@@ -516,7 +575,7 @@
     if (!track || !data || !data.matches) return;
     initHeroSlider();
     var st = nplState(data, fixtures, new Date());
-    var slides = heroSlidesFor(st);
+    var slides = heroSlidesFor(st, fixtures);
     if (!slides.length) {
       /* Season over (schedule loaded, final's kickoff passed) — show the
          neutral card. Schedule not loaded yet — leave the baked panel. */

@@ -453,7 +453,7 @@ body.st-home .st-splash__lead {
   gap: 0.45rem;
   margin-bottom: 1.15rem;
 }
-.st-panel__scores span {
+.st-panel__scores > span {
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 0.85rem;
@@ -461,8 +461,32 @@ body.st-home .st-splash__lead {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: baseline;
+  align-items: center;
   gap: 0.75rem;
+}
+/* Hero team rows (2026-11-16): logo + name on the left, code/score on
+   the right. The > child selector keeps the pill above off the nested
+   .st-panel__team group. Logos sit on a white rounded chip so dark
+   crests (SPR is ~half dark) still read on the dark hero panel. */
+.st-panel__team { display: inline-flex; align-items: center; gap: 0.6rem; min-width: 0; }
+.st-panel__scores img.team-logo {
+  width: 2rem;
+  height: 2rem;
+  object-fit: contain;
+  flex-shrink: 0;
+  background: #fff;
+  border-radius: 0.55rem;
+  padding: 0.15rem;
+  box-sizing: border-box;
+}
+.st-panel__meta {
+  display: block;
+  color: var(--st-gold);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 0.35rem;
 }
 .st-panel__scores b {
   font-size: 1.2rem;
