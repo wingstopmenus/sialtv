@@ -1946,6 +1946,19 @@ body.st-inner .faq-item p { margin: 0.6rem 0 0; color: var(--st-ink-2); }
 @media (min-width: 641px) {
   body.page-npl-schedule .rx-res-team .sc-chip { display: none; }
 }
+/* Schedule result cards (2026-11-16): the team code is plain text, not a
+   chip. Result rows carry .rx-code (the builder emits it instead of
+   .sc-chip for result cards only — fixture/upcoming rows keep the chip).
+   On mobile the code inherits the .rx-res-team typography (17px, ink) and
+   takes font-weight 900, so it matches the desktop full name (<b> inside
+   .rx-tname) exactly. On desktop the code is hidden and the full name
+   shows. */
+@media (min-width: 641px) {
+  body.page-npl-schedule .rx-res-team .rx-code { display: none; }
+}
+@media (max-width: 640px) {
+  body.page-npl-schedule .rx-res-team .rx-code { font-weight: 900; }
+}
 @media (max-width: 640px) {
   body.st-inner .mc-panel { grid-template-columns: 1fr; }
   body.st-inner #squads .teams { grid-template-columns: 1fr; }
