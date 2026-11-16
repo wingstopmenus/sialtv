@@ -1389,6 +1389,20 @@ body.st-inner .t-pts td:first-child { display: flex; align-items: center; gap: 0
    Team pages are untouched (no st-inner; teams.css already nudges their
    logo with vertical-align: -.35rem). */
 body.st-inner #points-table .t-pts td:first-child a { display: inline-flex; align-items: center; }
+/* Points-mini v2 (2026-11-16): uniform logos + original row heights.
+   (1) All mini logos 2.25rem (36px): Pokhara's override made it the only
+   36px logo while the rest are 28px. Uniform 36px keeps Pokhara's thin gold
+   crest legible - at 28px it is a black box (verified by screenshot), at
+   32px still a smudge. Scoped to #points-table only: Records tables, result
+   cards, strip and team pages keep their own logo sizes.
+   (2) Row heights back to pre-fix: the inline-flex centring removed the
+   text-descent dead space (~6.76px/row). With 36px logos the rows would be
+   50.4/51.4px; trimming td:first-child vertical padding 7.2px -> 6.57px
+   restores the original 49.14px (stats) / 50.14px (schedule, hub) rows.
+   36 + 2x6.57 = 49.14; +1px td border on schedule/hub = 50.14. Team pages
+   untouched (no st-inner; 24px logos, 40.0px rows). */
+body.st-inner #points-table .t-pts img.tl-table { width: 2.25rem; height: 2.25rem; }
+body.st-inner #points-table .t-pts td:first-child { padding-top: 6.57px; padding-bottom: 6.57px; }
 
 /* 8. Team logos keep proportions; Pokhara (pale gold, luminance 203) gets a dark chip
    so it reads on white. Chitwan is dark (luminance 74), so the chip is Pokhara-only.
