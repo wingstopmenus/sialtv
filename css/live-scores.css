@@ -33,3 +33,151 @@ body.st-inner.page-live-scores .ls-empty {
   font-size: 0.95rem;
   line-height: 1.5;
 }
+
+/* ---------- Redesign 2026-11-16: Cricinfo structure, sialtv colours.
+   /style.css is never edited here — everything below is scoped to this
+   page (0,3,1 beats the shared 0,2,1 rules) and beats nothing else. */
+
+/* White cards on the lavender page (shared .rx-res-card is lavender);
+   whole-card hover lift: the card itself navigates (see live-scores-tabs.js). */
+body.st-inner.page-live-scores .rx-res-card {
+  background: var(--st-surface, #fff);
+  cursor: pointer;
+  transition: transform var(--st-ease, 0.2s ease), box-shadow var(--st-ease, 0.2s ease);
+}
+body.st-inner.page-live-scores .rx-res-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--st-shadow, 0 8px 24px rgba(9, 8, 17, 0.12));
+}
+/* One wide card when a series has a single match (Cricinfo grid rule). */
+body.st-inner.page-live-scores .rx-res-grid > .rx-res-card:only-child {
+  grid-column: 1 / -1;
+}
+/* Team logos swapped in by JS (chip stays as the no-JS fallback). */
+body.st-inner.page-live-scores .rx-res-team img.team-logo {
+  object-fit: contain;
+  flex-shrink: 0;
+}
+/* Series group heading: an H2 now (was div+b), same flex row as before. */
+body.st-inner.page-live-scores h2.rx-res-boxhead {
+  font-size: 1rem;
+  line-height: 1.35;
+  margin: 0;
+}
+body.st-inner.page-live-scores .rx-res-boxhead > a:first-child {
+  font-size: 1.05rem;
+  font-weight: 800;
+}
+body.st-inner.page-live-scores .rx-res-boxhead .rx-seeall {
+  font-size: 0.85rem;
+  color: var(--st-rose-deep, #be123c);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* The two top cards (latest result + next match) side-by-side on desktop. */
+body.st-inner.page-live-scores #liveScoreRoot {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0 0 1rem;
+}
+@media (min-width: 981px) {
+  body.st-inner.page-live-scores #liveScoreRoot { grid-template-columns: 1fr 1fr; }
+}
+body.st-inner.page-live-scores #liveScoreRoot > .rx-res-card:only-child {
+  grid-column: 1 / -1;
+}
+
+/* LIVE badge: rose + pulsing dot. The batting side gets a red dot. */
+body.st-inner.page-live-scores .rx-res-status.is-live::before {
+  content: "";
+  display: inline-block;
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 50%;
+  background: #fff;
+  margin-right: 0.35rem;
+  vertical-align: 1px;
+  animation: ls-pulse 1.6s ease-in-out infinite;
+}
+@keyframes ls-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+body.st-inner.page-live-scores .rx-res-team .ls-bat {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--st-rose, #e11d48);
+  flex-shrink: 0;
+}
+
+/* Reset chip: a utility pill, not a league. */
+body.st-inner.page-live-scores .ls-chip.ls-reset {
+  background: var(--st-bg, #f5f3fb);
+}
+
+/* Featured match centre: white card below the list, H2 like the other
+   sections, and underline tabs (matching .ls-tab) instead of pills. */
+body.st-inner.page-live-scores .slp-centre {
+  background: var(--st-surface, #fff);
+  border: 1px solid var(--st-line, #e3dff0);
+  border-radius: var(--st-radius-sm, 0.75rem);
+  box-shadow: var(--st-shadow-sm, 0 1px 3px rgba(9, 8, 17, 0.06));
+  padding: 1.25rem 1.35rem;
+  margin: 0 0 1.5rem;
+}
+body.st-inner.page-live-scores .slp-centre > h2 {
+  font-size: clamp(1.35rem, 2.5vw, 1.75rem);
+  line-height: 1.2;
+  margin: 0 0 0.75rem;
+  padding-bottom: 0.55rem;
+  border-bottom: 1px solid var(--st-line, #e3dff0);
+}
+body.st-inner.page-live-scores .slp-centre > h2::before {
+  content: "";
+  display: inline-block;
+  width: 0.55rem;
+  height: 0.55rem;
+  background: var(--st-rose, #e11d48);
+  border-radius: 2px;
+  margin-right: 0.55rem;
+}
+body.st-inner.page-live-scores .slp-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.5rem;
+  border-bottom: 1px solid var(--st-line, #e3dff0);
+  margin: 0 0 1rem;
+}
+body.st-inner.page-live-scores .slp-tab {
+  background: none;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  margin-bottom: -1px;
+  padding: 0.65rem 0.15rem;
+  font-size: 0.95rem;
+  font-weight: 650;
+  color: var(--st-ink-2, #3b4258);
+}
+body.st-inner.page-live-scores .slp-tab:hover {
+  background: none;
+  color: var(--st-ink, #0c1022);
+}
+body.st-inner.page-live-scores .slp-tab[aria-selected="true"],
+body.st-inner.page-live-scores .slp-tab[aria-current="true"] {
+  background: none;
+  color: var(--st-rose-deep, #be123c);
+  border-bottom-color: var(--st-rose, #e11d48);
+  font-weight: 800;
+}
+
+/* Sidebar cards read as white cards, like the series boxes. */
+body.st-inner.page-live-scores .side-card {
+  background: var(--st-surface, #fff);
+  border-radius: var(--st-radius-sm, 0.75rem);
+  box-shadow: var(--st-shadow-sm, 0 1px 3px rgba(9, 8, 17, 0.06));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.st-inner.page-live-scores .rx-res-status.is-live::before { animation: none; }
+  body.st-inner.page-live-scores .rx-res-card:hover { transform: none; }
+}

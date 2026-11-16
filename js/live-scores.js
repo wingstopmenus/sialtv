@@ -153,13 +153,6 @@
   }
   window.sialtvFmtUpdated = fmtUpdated;
 
-  function fmtDate(iso) {
-    if (!iso) return '';
-    try {
-      return new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Kathmandu', weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' }).format(new Date(iso + 'T00:00:00Z'));
-    } catch (e) { return iso; }
-  }
-
   /* Match pages exist for npl, ilt20, sa20 and bbl only; apl and psl
      fall back to the results list until their match pages exist. */
   var MATCH_SEASON = { npl: '2026', ilt20: '2026-27', sa20: '2026-27', bbl: '2026-27' };
@@ -179,48 +172,69 @@
      blank score followed by "(0 ov)". */
   function hasOvers(o) { return !!o && o !== '0' && o !== '0.0'; }
 
-  function scoreLine(m) {
+  /* ---- top cards (#liveScoreRoot): Cricinfo-style .rx-res-card, the same
+     shape as the baked list cards — the old .today prose block is gone.
+     A result reuses resultItem (identical to the baked result cards); a
+     live match gets the LIVE badge, the batting side's red dot and the
+     situation line; an upcoming match gets its start-day badge. */
+  function descLine(m, league) {
+    var seriesName = LEAGUE_NAMES[league] || leagueTag(league);
+    return ordinal(m.matchNo) + ' Match, ' + esc(venueShort(m.venue)) + ', ' + esc(fmtDateLong(m.date)) +
+      ' &middot; <a href="/' + esc(league) + '/">' + esc(seriesName) + '</a>';
+  }
+  /* One team row, shared by the live card and resultItem: logo (or the
+     code chip when the logo map has no entry), optional batting dot,
+     name, overs, score right-aligned. A side that has not batted yet
+     shows "yet to bat", never a bare name or "( ov)". */
+  function teamRow(team, abbr, pre, score, opts) {
+    opts = opts || {};
+    var img = logoImg(team);
+    var chip = img || '<span class="ls-code" aria-hidden="true">' + esc(abbr || '') + '</span>';
+    var dot = opts.batting ? '<span class="ls-bat" aria-hidden="true"></span>' : '';
+    var row = '<div class="rx-res-team' + (opts.loser ? ' is-loser' : '') + '">' + chip + dot +
+      '<span class="rx-tname"><b>' + esc(teamName(team)) + '</b></span>';
+    if (opts.yetToBat) row += '<span class="rx-tpre">yet to bat</span>';
+    else if (pre) row += '<span class="rx-tpre">' + pre + '</span>';
+    if (score) row += '<span class="rx-tscore">' + esc(score) + '</span>';
+    return row + '</div>';
+  }
+
+  function cardHtml(m, league) {
     if (!m) return '';
-    if (m.status === 'upcoming') return esc(teamName(m.team1)) + ' vs ' + esc(teamName(m.team2));
-    /* A team that has not batted yet shows "yet to bat", never a bare
-       name and never "( ov)" — same as the strip and the hero. */
-    var a = esc(teamName(m.team1)) + ' ' + esc(m.score1 || '');
-    if (hasOvers(m.overs1)) a += ' <span>(' + esc(m.overs1) + ' ov)</span>';
-    else if (m.status === 'live' && !m.score1 && m.score2) a = esc(teamName(m.team1)) + ' yet to bat';
-    var b = esc(teamName(m.team2)) + ' ' + esc(m.score2 || '');
-    if (hasOvers(m.overs2)) b += ' <span>(' + esc(m.overs2) + ' ov)</span>';
-    else if (m.status === 'live' && !m.score2 && m.score1) b = esc(teamName(m.team2)) + ' yet to bat';
-    return a + '<br>' + b;
-  }
-
-  function performersLine(m) {
-    /* Headline figures from the feed scorecard, so a JS re-render keeps
-       the same detail as the baked card (top scorer, best bowling). */
-    if (!m.scorecard || !m.scorecard.innings) return '';
-    var bits = [];
-    m.scorecard.innings.forEach(function (inn) {
-      var top = null, best = null;
-      (inn.batting || []).forEach(function (b) {
-        if (!top || (parseInt(b.runs, 10) || 0) > (parseInt(top.runs, 10) || 0)) top = b;
-      });
-      (inn.bowling || []).forEach(function (b) {
-        if (!best || (parseInt(b.wickets, 10) || 0) > (parseInt(best.wickets, 10) || 0)) best = b;
-      });
-      if (top) bits.push(esc(top.name) + ' ' + esc(top.runs) + (top.balls ? ' (' + esc(top.balls) + ')' : ''));
-      if (best) bits.push(esc(best.name) + ' ' + esc(best.wickets) + '/' + esc(best.runs));
-    });
-    return bits.length ? '<p class="note">' + bits.join(' &middot; ') + '.</p>' : '';
-  }
-
-  function cardHtml(m, label, league) {
-    var html = '<div class="today">';
-    html += '<p class="today-label">' + esc(label) + ' &middot; Match ' + m.matchNo + ' &middot; ' + esc(fmtDate(m.date)) + '</p>';
-    html += '<strong><a href="' + matchUrl(league, m.matchNo) + '">' + scoreLine(m) + '</a></strong>';
-    html += '<p>' + esc(teamName(m.statusText || '')) + (m.venue ? ' at ' + esc(m.venue) : '') + '.</p>';
-    if (m.status === 'result') html += performersLine(m);
-    if (m.toss) html += '<p class="note">' + esc(m.toss) + '</p>';
-    html += '</div>';
-    return html;
+    if (m.status === 'result') return resultItem(m, league);
+    var href = matchUrl(league, m.matchNo);
+    var open = '<article class="rx-res-card' + (m.status === 'live' ? ' is-live' : '') +
+      '" data-match-no="' + m.matchNo + '" data-date="' + esc(m.date || '') +
+      '" data-league="' + esc(league) + '">';
+    if (m.status === 'live') {
+      /* Batting side: the side with a second-innings score is batting;
+         otherwise the side with a score is. A side with no score while
+         the other bats shows "yet to bat". */
+      var bat = m.score2 ? 2 : (m.score1 ? 1 : 0);
+      var runs1 = parseInt(String(m.score1 || '').split('/')[0], 10) || 0;
+      var maxov = (m.overs1 === '5' || m.overs1 === '5.0') ? '5' : '20';
+      var pre1 = hasOvers(m.overs1) ? '(' + esc(m.overs1) + ' ov)' : '';
+      var pre2 = hasOvers(m.overs2) ? '(' + esc(m.overs2) + '/' + maxov + ' ov, T:' + (runs1 + 1) + ')' : '';
+      var html = open + '<div class="rx-res-status is-live">LIVE</div>' +
+        '<div class="rx-res-desc">' + descLine(m, league) + '</div>' +
+        teamRow(m.team1, m.abbr1, pre1, m.score1, { batting: bat === 1, yetToBat: bat === 2 && !m.score1 }) +
+        teamRow(m.team2, m.abbr2, pre2, m.score2, { batting: bat === 2, yetToBat: bat === 1 && !m.score2 });
+      if (m.statusText) html += '<div class="rx-res-result">' + esc(teamName(m.statusText)) + '</div>';
+      html += '<div class="rx-res-links"><a href="' + href + '">Live Score</a>' +
+        '<a href="' + href + '#scorecard">Scorecard</a>' +
+        '<a href="/' + esc(league) + '/">Series</a></div>';
+      if (m.toss) html += '<p class="note">' + esc(m.toss) + '</p>';
+      return html + '</article>';
+    }
+    /* upcoming */
+    var badge = fmtHead(m.date) ? esc(fmtHead(m.date).toUpperCase()) : 'UPCOMING';
+    return open + '<div class="rx-res-status upcoming">' + badge + '</div>' +
+      '<div class="rx-res-desc">' + descLine(m, league) + '</div>' +
+      teamRow(m.team1, m.abbr1, '', '', {}) + teamRow(m.team2, m.abbr2, '', '', {}) +
+      '<div class="rx-res-result is-upcoming">Match yet to begin</div>' +
+      '<div class="rx-res-links"><a href="' + href + '#summary">Summary</a>' +
+      '<a href="' + href + '#scorecard">Scorecard</a>' +
+      '<a href="/' + esc(league) + '/">Series</a></div></article>';
   }
 
   /* League tag for feed rows, Cricinfo-style: "Biratnagar Kings (NPL)". */
@@ -285,8 +299,8 @@
     return '<div class="rx-date-group" id="date-' + esc(iso) + '" data-date="' + esc(iso) + '">' +
       '<div class="rx-date-pill"><span>' + esc(fmtHead(iso)) + '</span></div>' +
       '<div class="rx-res-box" data-league="' + esc(league) + '">' +
-      '<div class="rx-res-boxhead"><b><a href="/' + esc(league) + '/">' + esc(head) + '</a> &rsaquo;</b>' +
-      '<a href="/' + esc(league) + '/">See all</a></div>' +
+      '<h2 class="rx-res-boxhead"><a href="/' + esc(league) + '/">' + esc(head) + ' &rsaquo;</a>' +
+      '<a class="rx-seeall" href="/' + esc(league) + '/">See all</a></h2>' +
       '<div class="rx-res-grid">' + cardsHtml + '</div></div></div>';
   }
 
@@ -296,9 +310,7 @@
      chaser's row and is always first-innings runs + 1. */
   function resultItem(m, league) {
     var href = matchUrl(league, m.matchNo);
-    var seriesName = LEAGUE_NAMES[league] || leagueTag(league);
-    var desc = ordinal(m.matchNo) + ' Match, ' + esc(venueShort(m.venue)) + ', ' + esc(fmtDateLong(m.date)) +
-      ' &middot; <a href="/' + esc(league) + '/">' + esc(seriesName) + '</a>';
+    var desc = descLine(m, league);
     /* Batting order comes from scorecard.innings — the feed's team1 /
        team2 order is NOT batting order (M22: team1 is the chaser BIK;
        M24: team1 is the chaser KAG). Fall back to team1 first. */
@@ -319,24 +331,16 @@
     var preCh = '(' + esc(chOvers || '') + '/' + maxov + ' ov, T:' + (firstRuns + 1) + ')';
     var w = winnerSide(m);
     var winnerIsFirst = (w === 0 && firstIdx === 0) || (w === 1 && firstIdx === 1);
-    function row(team, abbr, pre, score, loser) {
-      var img = logoImg(team);
-      var chip = img || '<span class="ls-code" aria-hidden="true">' + esc(abbr || '') + '</span>';
-      return '<div class="rx-res-team' + (loser ? ' is-loser' : '') + '">' + chip +
-        '<span class="rx-tname"><b>' + esc(teamName(team)) + '</b></span>' +
-        '<span class="rx-tpre">' + pre + '</span>' +
-        '<span class="rx-tscore">' + esc(score || '') + '</span></div>';
-    }
-    var rowFirst = row(firstTeam, firstAbbr, preFirst, firstScore, w !== -1 && !winnerIsFirst);
-    var rowCh = row(chTeam, chAbbr, preCh, chScore, w !== -1 && winnerIsFirst);
+    var rowFirst = teamRow(firstTeam, firstAbbr, preFirst, firstScore, { loser: w !== -1 && !winnerIsFirst });
+    var rowCh = teamRow(chTeam, chAbbr, preCh, chScore, { loser: w !== -1 && winnerIsFirst });
     var rows = (w === -1 || winnerIsFirst) ? rowFirst + rowCh : rowCh + rowFirst;
     return '<article class="rx-res-card" data-match-no="' + m.matchNo + '" data-date="' + esc(m.date || '') +
       '" data-league="' + esc(league) + '">' +
       '<div class="rx-res-status">RESULT</div>' +
       '<div class="rx-res-desc">' + desc + '</div>' + rows +
       '<div class="rx-res-result">' + esc(teamName(m.statusText || '')) + '</div>' +
-      '<div class="rx-res-links"><a href="' + href + '#summary">Summary</a> | ' +
-      '<a href="' + href + '#scorecard">Scorecard</a> | <a href="/' + esc(league) + '/">Series</a></div>' +
+      '<div class="rx-res-links"><a href="' + href + '#summary">Summary</a>' +
+      '<a href="' + href + '#scorecard">Scorecard</a><a href="/' + esc(league) + '/">Series</a></div>' +
       '</article>';
   }
 
@@ -368,9 +372,20 @@
     var overs = document.getElementById('slp-overs');
     var p = pick((data && data.matches) || []);
     var html = '';
-    if (p.live) html += cardHtml(p.live, 'Live now', league);
-    else if (p.latest) html += cardHtml(p.latest, 'Latest result', league);
-    if (p.next) html += cardHtml(p.next, 'Next match', league);
+    if (p.live) html += cardHtml(p.live, league);
+    else if (p.latest) html += cardHtml(p.latest, league);
+    if (p.next) {
+      var nt1 = teamName(p.next.team1), nt2 = teamName(p.next.team2);
+      if (nt1 === 'TBA' || nt2 === 'TBA') {
+        /* ESPN still lists a qualifier as "TBA vs TBA" after the teams
+           are decided — keep the baked next-match card (real teams from
+           matches.json) instead of overwriting it with TBA. The baked
+           card survives later polls too: it is re-read from the root
+           each time, never re-rendered from the feed. */
+        var baked = root && root.querySelector('.rx-res-card[data-match-no="' + p.next.matchNo + '"]');
+        if (baked) html += baked.outerHTML;
+      } else html += cardHtml(p.next, league);
+    }
     if (html && root) setHtml(root, html);
     if (fresh) {
       setText(fresh, (data.fetchedAt ? fmtUpdated(data.fetchedAt) : 'Last checked: 11 November 2026') +
@@ -488,6 +503,11 @@
     var panel = document.getElementById('livePanel');
     if (!panel) return;
     wireTabs(panel);
+    /* The featured match centre moved below the series list (redesign
+       2026-11-16) — its Summary/Scorecard/Overs tabs live in #slpCentre
+       now, not inside #livePanel. */
+    var centre = document.getElementById('slpCentre');
+    if (centre) wireTabs(centre);
     /* Pre-season leagues have no feed yet: the baked panel is the whole
        truth, and the tabs are the only live behaviour. No fetch, no
        invented scores. */

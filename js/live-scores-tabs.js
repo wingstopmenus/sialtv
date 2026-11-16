@@ -23,6 +23,9 @@
   var currentTab = 'live';
   var currentChip = 'all';
 
+  /* The featured match centre moved below the series list (redesign
+     2026-11-16) — it is NPL content, so the league chips hide it exactly
+     like the NPL-only #livePanel. */
   function applyChip() {
     var panel = $('.ls-panel[data-ls-panel="' + currentTab + '"]');
     if (!panel) return;
@@ -41,6 +44,11 @@
     if (livePanel && currentTab === 'live') {
       livePanel.hidden = !(currentChip === 'all' || currentChip === 'npl');
       if (!livePanel.hidden) anyVisible = true;
+    }
+    var centre = $('#slpCentre');
+    if (centre && currentTab === 'live') {
+      centre.hidden = !(currentChip === 'all' || currentChip === 'npl');
+      if (!centre.hidden) anyVisible = true;
     }
     var empty = $('[data-ls-empty]', panel);
     if (empty) {
@@ -75,6 +83,58 @@
       applyChip();
     });
   });
+  /* Reset (Cricinfo chip row): back to All. The button carries no
+     data-ls-chip, so it is wired separately and never joins the chips list. */
+  var reset = $('[data-ls-reset]');
+  if (reset) {
+    reset.addEventListener('click', function () {
+      currentChip = 'all';
+      chips.forEach(function (x) { x.setAttribute('aria-pressed', x.getAttribute('data-ls-chip') === 'all' ? 'true' : 'false'); });
+      applyChip();
+    });
+  }
+  /* Whole-card click (Cricinfo: the card itself is the link). The footer
+     links stay for keyboard / no-JS users; a click on a link, button, or
+     a text selection is left alone. Delegated on document so cards the
+     poller rebuilds in the Results tab are covered too. */
+  document.addEventListener('click', function (e) {
+    var card = e.target && e.target.closest ? e.target.closest('.rx-res-card') : null;
+    if (!card) return;
+    if (e.target.closest('a, button')) return;
+    try { if (window.getSelection && String(window.getSelection())) return; } catch (err) {}
+    var link = card.querySelector('.rx-res-links a');
+    if (link && link.getAttribute('href')) window.location.href = link.getAttribute('href');
+  });
+  /* Team logos on the baked list cards: the strip's logo map
+     (window.sialtvTeamLogos, loaded by the strip loader) replaces the
+     .ls-code chip in each team row. The chip stays when the map has no
+     entry (TBC rows) or when JS is off — it is the fallback, not a bug.
+     The poller-built cards already carry logos themselves. */
+  function enhanceLogos() {
+    var map = window.sialtvTeamLogos;
+    if (!map) return false;
+    $all('.rx-res-card .rx-res-team').forEach(function (row) {
+      var chip = row.querySelector('.ls-code');
+      var nameEl = row.querySelector('.rx-tname b');
+      if (!chip || !nameEl) return;
+      var img = map[nameEl.textContent.trim()];
+      if (!img) return;
+      var tmp = document.createElement('span');
+      tmp.innerHTML = img;
+      var im = tmp.firstChild;
+      if (im) {
+        im.setAttribute('alt', nameEl.textContent.trim() + ' logo');
+        chip.replaceWith(im);
+      }
+    });
+    return true;
+  }
+  if (!enhanceLogos()) {
+    var tries = 0;
+    var iv = setInterval(function () {
+      if (enhanceLogos() || ++tries >= 20) clearInterval(iv);
+    }, 500);
+  }
   /* Deep-link: #live / #schedule / #results */
   var hash = (location.hash || '').replace('#', '');
   if (hash === 'schedule' || hash === 'results' || hash === 'live') showTab(hash);
