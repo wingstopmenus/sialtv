@@ -1,6 +1,6 @@
 {
- "fetchedAt": "2026-11-14T15:50:51Z",
- "source": "crictracker",
+ "fetchedAt": "2026-11-16T04:19:13Z",
+ "source": "sialtv",
  "series": "Nepal Premier League 2026",
  "matches": [
   {
@@ -15,7 +15,7 @@
    "abbr2": "POA",
    "status": "result",
    "statusText": "Biratnagar Kings won by 4 wickets",
-   "toss": null,
+   "toss": "Pokhara elected to bat first",
    "score1": "136/6",
    "score2": "132/10",
    "overs1": "19.2",
@@ -31,7 +31,7 @@
       "overs": "17.5",
       "batting": [
        {
-        "name": "Yuvraj Samra",
+        "name": "Yuvraaj Samra",
         "runs": 84,
         "balls": 47
        }
@@ -83,6 +83,7 @@
    "abbr2": "LUL",
    "status": "result",
    "statusText": "Lumbini Lions won by 4 wickets",
+   "toss": "Karnali elected to bat first",
    "score1": "105/10",
    "score2": "107/6",
    "overs1": "19.2",
@@ -105,7 +106,7 @@
       ],
       "bowling": [
        {
-        "name": "Kishore Mahato",
+        "name": "Kishor Mahato",
         "wickets": 2,
         "runs": 6,
         "overs": "2.2"
@@ -150,7 +151,7 @@
    "abbr2": "SPR",
    "status": "result",
    "statusText": "Sudur Paschim Royals won by 7 runs",
-   "toss": null,
+   "toss": "Kathmandu elected to field first",
    "score1": "118/7",
    "score2": "125/6",
    "overs1": "20",
@@ -212,17 +213,17 @@
    "matchNo": 25,
    "matchDesc": "Match 25",
    "series_name": "Nepal Premier League 2026",
-   "team1": "Janakpur Bolts",
-   "team2": "Chitwan Rhinos",
-   "abbr1": "JAB",
-   "abbr2": "CHR",
+   "team1": "Chitwan Rhinos",
+   "team2": "Janakpur Bolts",
+   "abbr1": "CHR",
+   "abbr2": "JAB",
    "status": "result",
    "statusText": "Chitwan Rhinos won by 4 wickets",
-   "toss": null,
-   "score1": "88/9",
-   "score2": "92/6",
-   "overs1": "20",
-   "overs2": "17.2",
+   "toss": "Janakpur elected to bat first",
+   "score1": "92/6",
+   "score2": "88/9",
+   "overs1": "17.2",
+   "overs2": "20",
    "venue": "Tribhuvan University International Cricket Ground, Kirtipur",
    "date": "2026-11-13",
    "kickoffIso": "2026-11-13T17:00:00+05:45",
@@ -286,6 +287,7 @@
    "abbr2": "LUL",
    "status": "result",
    "statusText": "Lumbini Lions won by 4 wickets",
+   "toss": "Lumbini elected to field first",
    "score1": "166/4",
    "score2": "168/6",
    "overs1": "20",
@@ -332,6 +334,142 @@
         "wickets": 2,
         "runs": 5,
         "overs": "1"
+       }
+      ]
+     }
+    ]
+   },
+   "commentary": [],
+   "overTimeline": [],
+   "live": null
+  },
+  {
+   "id": "npl-2026-m27",
+   "espnEventId": 1558608,
+   "matchNo": 27,
+   "matchDesc": "Match 27",
+   "series_name": "Nepal Premier League 2026",
+   "team1": "Chitwan Rhinos",
+   "team2": "Karnali Yaks",
+   "abbr1": "CHR",
+   "abbr2": "KAY",
+   "status": "result",
+   "statusText": "Karnali Yaks won by 24 runs",
+   "toss": "Karnali elected to bat first",
+   "score1": "129/10",
+   "score2": "153/8",
+   "overs1": "19.1",
+   "overs2": "20",
+   "venue": "Tribhuvan University International Cricket Ground, Kirtipur",
+   "date": "2026-11-15",
+   "kickoffIso": "2026-11-15T12:30:00+05:45",
+   "scorecard": {
+    "innings": [
+     {
+      "team": "Karnali Yaks",
+      "total": "153/8",
+      "overs": "20",
+      "batting": [
+       {
+        "name": "Hussain Talat",
+        "runs": 51,
+        "balls": 33
+       }
+      ],
+      "bowling": [
+       {
+        "name": "Salahuddin Khan",
+        "wickets": 2,
+        "runs": 19,
+        "overs": "2"
+       }
+      ]
+     },
+     {
+      "team": "Chitwan Rhinos",
+      "total": "129/10",
+      "overs": "19.1",
+      "batting": [
+       {
+        "name": "Usama Mir",
+        "runs": 28,
+        "balls": 23
+       }
+      ],
+      "bowling": [
+       {
+        "name": "Hussain Talat",
+        "wickets": 3,
+        "runs": 17,
+        "overs": "3.1"
+       }
+      ]
+     }
+    ]
+   },
+   "commentary": [],
+   "overTimeline": [],
+   "live": null
+  },
+  {
+   "id": "npl-2026-m28",
+   "espnEventId": 1558609,
+   "matchNo": 28,
+   "matchDesc": "Match 28",
+   "series_name": "Nepal Premier League 2026",
+   "team1": "Kathmandu Gorkhas",
+   "team2": "Pokhara Avengers",
+   "abbr1": "KAG",
+   "abbr2": "POA",
+   "status": "result",
+   "statusText": "Pokhara Avengers won by 55 runs",
+   "toss": "Kathmandu elected to field first",
+   "score1": "169/10",
+   "score2": "224/3",
+   "overs1": "19.5",
+   "overs2": "20",
+   "venue": "Tribhuvan University International Cricket Ground, Kirtipur",
+   "date": "2026-11-15",
+   "kickoffIso": "2026-11-15T17:00:00+05:45",
+   "scorecard": {
+    "innings": [
+     {
+      "team": "Pokhara Avengers",
+      "total": "224/3",
+      "overs": "20",
+      "batting": [
+       {
+        "name": "Kushal Bhurtel",
+        "runs": 99,
+        "balls": 51
+       }
+      ],
+      "bowling": [
+       {
+        "name": "Karan KC",
+        "wickets": 2,
+        "runs": 34,
+        "overs": "4"
+       }
+      ]
+     },
+     {
+      "team": "Kathmandu Gorkhas",
+      "total": "169/10",
+      "overs": "19.5",
+      "batting": [
+       {
+        "name": "Sahil Patel",
+        "runs": 34,
+        "balls": 23
+       }
+      ],
+      "bowling": [
+       {
+        "name": "Dinesh Kharel",
+        "wickets": 4,
+        "runs": 18,
+        "overs": "4"
        }
       ]
      }
