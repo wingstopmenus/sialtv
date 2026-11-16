@@ -49,6 +49,12 @@
       var s = STATIC_FEED[league];
       if (!s) return { fetchedAt: '', source: 'none', matches: [] };
       return fetchJson(s).then(function (d) {
+        /* Stamp the league on the static fallback: the strip's
+           cross-league guard (flash-scores.js refreshCarousel) trusts
+           data.league, and the static files carry none — without this
+           an ILT20 poll overwrites NPL cards in the "All Matches"
+           track by match number when the API is down. */
+        if (d) d.league = league;
         cache[league] = { at: Date.now(), data: d };
         return d;
       }).catch(function () {

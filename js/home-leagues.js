@@ -1,8 +1,8 @@
 /* SialTV home leagues: hide a league the day after its final, and move the
    spotlight to the next league. Static site, so this runs on page load.
    Card-hide and spotlight-switch are separate rules: a card hides the day
-   after its final, but the spotlight moves earlier — ILT20 from 19 Nov 2026
-   (two days before its opener), APL from 21 Dec 2026 (the day after the
+   after its final, but the spotlight moves the day after the NPL final —
+   ILT20 from 22 Nov 2026, APL from 21 Dec 2026 (the day after the
    ILT20 final). The strip's own LEAGUE_END rule (flash-scores.js, final +
    3 days) is separate and untouched. */
 (function () {
@@ -12,9 +12,9 @@
      final begins (local date). */
   var LEAGUE_END = { npl: '2026-11-21', ilt20: '2026-12-20', apl: '2027-01-20' };
   /* First day the spotlight shows the next league (verified dates). ILT20
-     starts 21 Nov, so its coverage leads from 19 Nov even while NPL still
-     plays; APL leads from the day after the ILT20 final. */
-  var SPOTLIGHT_FROM = { ilt20: '2026-11-19', apl: '2026-12-21' };
+     leads from the day after the NPL final (22 Nov) so the NPL spotlight
+     covers Q2 and the Final; APL leads from the day after the ILT20 final. */
+  var SPOTLIGHT_FROM = { ilt20: '2026-11-22', apl: '2026-12-21' };
 
   var ICONS = {
     calendar: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>',
@@ -48,6 +48,29 @@
       ]
     }
   };
+
+  /* Hero "next league" panel: baked as "Up next / ILT20 Season 5".
+     While ILT20 runs it reads "Now playing"; from 21 Dec the next
+     league is APL. Once every league is over the panel has nothing
+     true to say, so it hides. */
+  var NEXT = {
+    ilt20: { kicker: 'Now playing', title: 'ILT20 Season 5', meta: '21 Nov – 20 Dec 2026 · UAE', href: '/ilt20/' },
+    apl: { kicker: 'Up next', title: 'APL 2026-27', meta: '27 Dec – 20 Jan 2027', href: '/apl/' }
+  };
+  function renderNext(lg) {
+    var panel = document.querySelector('.st-panel--next');
+    if (!panel) return;
+    var d = NEXT[lg];
+    if (!d) { panel.hidden = true; return; }
+    var k = panel.querySelector('span');
+    var t = panel.querySelector('strong');
+    var e = panel.querySelector('em');
+    if (k && k.textContent !== d.kicker) k.textContent = d.kicker;
+    if (t && t.textContent !== d.title) t.textContent = d.title;
+    if (e && e.textContent !== d.meta) e.textContent = d.meta;
+    if (panel.getAttribute('href') !== d.href) panel.setAttribute('href', d.href);
+    if (panel.hidden) panel.hidden = false;
+  }
 
   function parseDate(s) {
     var p = s.split('-');
@@ -100,6 +123,17 @@
         visible++;
       }
     }
+    /* The stat panel counts the leagues still on the site ("3 league
+       hubs on SialTV") — write the visible count back, so it tracks
+       the cards as they hide. "1 league hubs" reads wrong, so the
+       label goes singular at one. */
+    var stat = document.querySelector('.st-panel--stat b');
+    if (stat && stat.textContent !== String(visible)) stat.textContent = String(visible);
+    var statLbl = document.querySelector('.st-panel--stat span');
+    if (statLbl) {
+      var wantLbl = visible === 1 ? 'league hub on SialTV' : 'league hubs on SialTV';
+      if (statLbl.textContent !== wantLbl) statLbl.textContent = wantLbl;
+    }
     if (!visible) {
       var leagues = document.getElementById('leagues');
       if (leagues) leagues.classList.add('is-ended');
@@ -109,9 +143,11 @@
     var active = spotlightLeague();
     if (!active) {
       spot.classList.add('is-ended');
+      renderNext(null);
       return;
     }
     if (active === 'npl') return;
+    renderNext(active);
     spot.setAttribute('aria-labelledby', 'st-' + active + '-title');
     spot.innerHTML = renderSpot(active);
   }
