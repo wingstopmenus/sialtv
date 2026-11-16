@@ -139,3 +139,57 @@ body.st-inner.page-live-scores .side-card {
   body.st-inner.page-live-scores .rx-res-status.is-live::before { animation: none; }
   body.st-inner.page-live-scores .rx-res-card:hover { transform: none; }
 }
+
+/* ---------- Sidebar redesign 2026-11-16 (user order): the top three
+   cards were plain lists with link + description spans. Quick Links is
+   now a clean link list (chevron rows, the site's › motif); Records
+   index + Rankings are hub tp-list rows like the leader cards below
+   them — same 48px first column, same figures. Scoped to this page. */
+
+/* Clean link rows: flex, label left, rose chevron right, rose-deep on
+   hover. The shared rule already gives each li a top divider + padding. */
+body.st-inner.page-live-scores .side-card .side-links a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  font-weight: 650;
+}
+body.st-inner.page-live-scores .side-card .side-links a::after {
+  content: "\203A";
+  color: var(--st-rose, #e11d48);
+  font-weight: 800;
+  font-size: 1.05rem;
+  line-height: 1;
+}
+body.st-inner.page-live-scores .side-card .side-links a:hover {
+  color: var(--st-rose-deep, #be123c);
+}
+/* Records card: a divider between the stat rows and the league links. */
+body.st-inner.page-live-scores .side-card .tp-list + .side-links {
+  border-top: 1px solid var(--st-line, #e3dff0);
+}
+
+/* Rank badge: the 48px circle in the leader cards' photo slot — rose
+   tint, rose-deep number, same size as the photos below it. */
+body.st-inner.page-live-scores .side-card .tp-rank {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--st-rose-soft, #fff1f3);
+  color: var(--st-rose-deep, #be123c);
+  font-size: 1.15rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+/* The "pts" unit after the points figure — small, muted, like .tp-sub. */
+body.st-inner.page-live-scores .side-card .rk-unit {
+  font-size: 0.8rem;
+  color: var(--st-mute, #667085);
+  margin-left: 0.25rem;
+  align-self: center;
+}

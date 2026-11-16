@@ -17,11 +17,11 @@
    FULL AUTO-UPDATE (2026-11-16): on the live-scores page the poller
    also re-renders the ONE list in place, Cricinfo-style — the
    series-list cards (NPL + ILT20) — from the live feed the moment a
-   result lands, and the sidebar rankings / records / Quick Links note
+   result lands, and the sidebar rankings / records / leader lists
    from /data/live-scores-state.json (the bake's authoritative snapshot:
-   points, leaders, next match) whenever it changes. No reload, no
+   points, leaders) whenever it changes. No reload, no
    flash, no spinner. Sections the feed cannot supply faithfully
-   (points, records, the next-match note) update from the state file,
+   (points, records) update from the state file,
    never from a guess. The points table is ALSO recomputed in the
    browser from the state's full results list the instant a league
    result lands (build_data.py rules, verified exact against the M28
@@ -223,17 +223,6 @@
       return new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Kathmandu', weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(iso + 'T00:00:00Z'));
     } catch (e) { return iso; }
   }
-  /* Date pill, identical to the baked pills: "Fri, 13 Nov" (Intl's
-     en-GB short form has no comma, so the comma is added here). */
-  function fmtHead(iso) {
-    if (!iso) return '';
-    try {
-      var d = new Date(iso + 'T00:00:00Z');
-      var wd = new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Kathmandu', weekday: 'short' }).format(d);
-      var dm = new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Kathmandu', day: 'numeric', month: 'short' }).format(d);
-      return wd + ', ' + dm;
-    } catch (e) { return iso; }
-  }
   function venueShort(v) {
     v = String(v || '');
     if (/Kirtipur/i.test(v)) return 'Kirtipur';
@@ -271,18 +260,18 @@
   /* ================= FULL AUTO-UPDATE (2026-11-16) =================
      The poller above keeps the strip and the hero fresh. Everything
      else on the live-scores page used to change only on a bake — the
-     series-list cards and the sidebar rankings / records / Quick Links
-     note. The sections below close that gap, Cricinfo-style: they
+     series-list cards and the sidebar rankings / records / leader
+     lists. The sections below close that gap, Cricinfo-style: they
      re-render in place from fresh data, with no reload, no flash, no
      spinner. Two sources, each used for what it is good at:
      - the LIVE FEED (30s poll) — the instant trigger. A result landing
        in the feed flips the list cards at once, and the points table
        recomputes from the state's full results list (below).
      - the STATE FILE (/data/live-scores-state.json, 120s TTL) — the
-       bake's authoritative snapshot: points, rankings, leaders, next
-       match. The bake writes it as step 4a2, right after re-baking the
+       bake's authoritative snapshot: points, leaders. The bake writes
+       it as step 4a2, right after re-baking the
        page (step 4c), so a push carries both. Sections the feed cannot
-       supply faithfully (points, records, the next-match note) update
+       supply faithfully (points, records) update
        from the state file, never from a guess. The state file's points
        WIN whenever they differ from the browser recompute — the
        recompute is only the instant bridge until the next state file lands.
@@ -405,44 +394,75 @@
     return { rows: state.points, after_match: state.through_match };
   }
 
-  /* ---- sidebar: rankings, records, Quick Links ---- */
-  function sidebarCardByLink(hrefPart) {
-    var links = document.querySelectorAll('.side-card h3 a');
-    for (var i = 0; i < links.length; i++) {
-      if ((links[i].getAttribute('href') || '').indexOf(hrefPart) !== -1) return links[i].closest('.side-card');
+  /* ---- sidebar: rankings + records (hub tp-list rows) ----
+     SIDEBAR REDESIGN (2026-11-16, user order): the top three cards were
+     plain lists with link + description spans. Quick Links is now a
+     clean link list — no descriptions, so renderQuickNpl is GONE (the
+     state file no longer carries `next` either). Records index +
+     Rankings are tp-list rows, re-rendered the same way as the leader
+     cards below: a tmp <ul> is serialised and compared to the baked
+     <ul>'s outerHTML, so entity serialisation (&middot; / &amp;) can
+     never cause a false rewrite — a no-change poll writes nothing.
+     The cards are found by their data-side hooks (the headings are
+     plain <h3> now, no heading links), and sidebarCardByLink is gone
+     with them. parseRecordsLine mirrors the builder's
+     parse_records_line exactly (same split, same suffix strip, same
+     &amp; unescape + esc round-trip) so the baked rows and the
+     poller's re-render are byte-identical. A records line whose format
+     changed returns null and the baked rows are left alone — never a
+     guess. */
+  function sidebarCard(side) {
+    return document.querySelector('.side-card[data-side="' + side + '"]');
+  }
+  function parseRecordsLine(line) {
+    var parts = String(line || '').split(' &middot; ');
+    if (parts.length !== 3) return null;
+    var labels = ['Most runs', 'Most wickets', 'Best bowling'];
+    var rows = [];
+    for (var i = 0; i < 3; i++) {
+      var part = parts[i].replace(/\.$/, '').replace(/ (runs|wickets)$/, '');
+      part = part.replace(/&amp;/g, '&');
+      var cut = part.lastIndexOf(' ');
+      if (cut < 1) return null;
+      rows.push({label: labels[i], name: part.slice(0, cut), fig: part.slice(cut + 1)});
     }
-    return null;
+    return rows;
+  }
+  function recordsRowsHtml(rows) {
+    return rows.map(function (r) {
+      return '<li><div class="tp-main"><span class="tp-name">' + esc(r.name) + '</span>' +
+        '<span class="tp-sub">' + r.label + '</span></div>' +
+        '<strong class="tp-fig">' + esc(r.fig) + '</strong></li>';
+    }).join('');
+  }
+  function rankingsRowsHtml(rows) {
+    return rows.slice(0, 4).map(function (r) {
+      return '<li><span class="tp-rank">' + r.rank + '</span>' +
+        '<div class="tp-main"><span class="tp-name">' + esc(r.name) + '</span></div>' +
+        '<strong class="tp-fig">' + r.points + '</strong>' +
+        '<span class="rk-unit">pts</span></li>';
+    }).join('');
+  }
+  function renderTpList(ul, rowsHtml) {
+    if (!ul) return;
+    var tmp = document.createElement('ul');
+    tmp.className = 'tp-list';
+    tmp.innerHTML = rowsHtml;
+    if (tmp.outerHTML !== ul.outerHTML) { ul.innerHTML = tmp.innerHTML; writes.html++; }
   }
   function renderRankings(pts) {
     if (!pts || !pts.rows || !pts.rows.length) return;
-    var card = sidebarCardByLink('/npl/points-table/');
+    var card = sidebarCard('rankings');
     if (!card) return;
-    var leader = pts.rows[0];
-    var line = card.querySelector('p');
-    if (line) setText(line, leader.name + ' lead the NPL on ' + leader.points + ' points after Match ' + pts.after_match + '.');
-    var ul = card.querySelector('ul');
-    if (ul) setHtml(ul, pts.rows.slice(0, 4).map(function (r) {
-      return '<li><span>' + r.rank + '. ' + esc(r.name) + ' &mdash; ' + r.points + ' pts</span></li>';
-    }).join(''));
+    renderTpList(card.querySelector('ul.tp-list'), rankingsRowsHtml(pts.rows));
   }
   function renderRecords(state) {
     if (!state || !state.leaders || !state.leaders.records_line) return;
-    var card = sidebarCardByLink('/npl/stats/');
+    var card = sidebarCard('records');
     if (!card) return;
-    var span = card.querySelector('li a[href="/npl/stats/"] + span');
-    /* setHtml, not setText: the line carries &middot; / &amp; entities,
-       exactly as the baked page renders them. The values are identical
-       to the baked line; the order follows the stats system's canonical
-       order (the generator is the authority — G7), so the first state
-       file reorders the tied bowlers once, then never again. */
-    if (span) setHtml(span, state.leaders.records_line);
-  }
-  function renderQuickNpl(state) {
-    if (!state || !state.next || !state.next.date || !state.next.stage_short) return;
-    var li = document.querySelector('.side-card a[href="/npl/"]');
-    if (!li) return;
-    var span = li.parentNode.querySelector('span');
-    if (span) setText(span, 'Next match ' + fmtHead(state.next.date).replace(',', '') + ', ' + state.next.stage_short + '.');
+    var rows = parseRecordsLine(state.leaders.records_line);
+    if (!rows) return; /* generator format changed: leave the baked rows alone */
+    renderTpList(card.querySelector('ul.tp-list'), recordsRowsHtml(rows));
   }
 
   /* ---- sidebar: top-3 runs / wickets (hub tp-list cards) ----
@@ -767,7 +787,6 @@
     var pts = state ? pointsToRender(state, data.matches || []) : null;
     if (pts) renderRankings(pts);
     renderRecords(state);
-    renderQuickNpl(state);
     renderLeaders(state);
     var changed = false;
     changed = reconcileList('npl', data.matches || [], state) || changed;
