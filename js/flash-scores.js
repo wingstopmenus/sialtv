@@ -375,8 +375,9 @@
     }).sort(function (a, b) { return Date.parse(a.kickoff) - Date.parse(b.kickoff); });
     return { live: live, latestResult: latestResult, today: today, todayUpcoming: upcoming.filter(function (f) { return f.date === today; }), next: upcoming[0] || null };
   }
-  /* Hero score rows (2026-11-16): logo + name on the left, code
-     (upcoming) or score (live/result) on the right. chip() returns the
+  /* Hero score rows (2026-11-16): logo + name on the left, score
+     on the right — 'Yet to Bat' while a side has not batted (upcoming,
+     or the 2nd-innings side while the 1st is in progress). chip() returns the
      team's logo <img> from window.sialtvTeamLogos (loaded before this
      file) or the initials chip when the team has no logo; the img
      already carries an alt (feed spelling for SPR), so heroLogo
@@ -393,8 +394,13 @@
     return img;
   }
   function heroScoreRow(name, value) {
+    /* 'Yet to Bat' reads as a quiet status, not a score — it gets the
+       team-name style (see .st-panel__scores b.st-panel__yet); a real
+       score keeps the bold slot. */
+    var yet = (value === 'Yet to Bat');
     return '<span><span class="st-panel__team">' + heroLogo(name) +
-      '<small>' + heroEsc(heroShortName(name)) + '</small></span><b>' +
+      '<small>' + heroEsc(heroShortName(name)) + '</small></span><b' +
+      (yet ? ' class="st-panel__yet"' : '') + '>' +
       heroEsc(value) + '</b></span>';
   }
   /* "Qualifier 1 · Match 29" — the strip shows it, the hero omitted it.
@@ -428,8 +434,8 @@
       strong: t1 + ' vs ' + t2,
       meta: matchLabelFor(m.matchNo, fixtures),
       sub: parts.join(' \u00b7 ') || (m.statusText || ''),
-      scores: heroScoreRow(m.team1, m.score1 || 'Yet to bat') +
-        heroScoreRow(m.team2, m.score2 || 'Yet to bat'),
+      scores: heroScoreRow(m.team1, m.score1 || 'Yet to Bat') +
+        heroScoreRow(m.team2, m.score2 || 'Yet to Bat'),
       kickoff: '',
       cta: 'Live scorecard'
     };
@@ -474,8 +480,8 @@
       strong: fx.team1 + ' vs ' + fx.team2,
       meta: (fx.label || fx.desc || 'Match') + ' · Match ' + fx.matchNo,
       sub: fmtVenueLine(fx),
-      scores: heroScoreRow(fx.team1, fx.abbr1 || '') +
-        heroScoreRow(fx.team2, fx.abbr2 || ''),
+      scores: heroScoreRow(fx.team1, 'Yet to Bat') +
+        heroScoreRow(fx.team2, 'Yet to Bat'),
       kickoff: fx.kickoff,
       cta: 'Match preview'
     };
@@ -923,7 +929,7 @@
             if (b0) {
               /* Live, other side batting: this side has not batted yet. */
               var other = side === 0 ? m.score2 : m.score1;
-              b0.textContent = (m.status === 'live' && other) ? 'Yet to bat' : '';
+              b0.textContent = (m.status === 'live' && other) ? 'Yet to Bat' : '';
             }
             return;
           }

@@ -464,8 +464,9 @@ body.st-home .st-splash__lead {
   align-items: center;
   gap: 0.75rem;
 }
-/* Hero team rows (2026-11-16): logo + name on the left, code/score on
-   the right. The > child selector keeps the pill above off the nested
+/* Hero team rows (2026-11-16): logo + name on the left, score on the
+   right ('Yet to Bat' in the team-name style while a side has not batted).
+   The > child selector keeps the pill above off the nested
    .st-panel__team group. Logos sit on a white rounded chip so dark
    crests (SPR is ~half dark) still read on the dark hero panel. */
 .st-panel__team { display: inline-flex; align-items: center; gap: 0.6rem; min-width: 0; }
@@ -494,6 +495,14 @@ body.st-home .st-splash__lead {
   letter-spacing: -0.03em;
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
+}
+/* Hero score slot — "Yet to Bat" status (2026-11-16): quiet, like the team
+   name, so it reads as a status and not as a score or a team code. */
+.st-panel__scores b.st-panel__yet {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #b9b4c9;
+  letter-spacing: 0;
 }
 .st-panel__scores small { color: #b9b4c9; font-size: 0.82rem; font-weight: 600; }
 .st-panel__link {
