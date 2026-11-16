@@ -328,7 +328,10 @@ body.st-nav-open .st-burger span:nth-child(3) { transform: translateY(-0.44rem) 
   opacity: 0.9;
   transform: skewX(-12deg);
 }
-.st-splash__lead {
+/* body.st-home prefix: beats the base `body.st-home p { margin: 0 }` reset
+   (specificity) — without it the 2rem gap below the intro is zeroed and the
+   hero buttons touch the text. Do not drop the prefix. */
+body.st-home .st-splash__lead {
   color: #d9d4e8;
   font-size: 1.12rem;
   line-height: 1.65;
@@ -671,7 +674,9 @@ body.st-home .st-block__head--left p { font-size: 1rem; max-width: 46rem; }
   line-height: 1.4;
 }
 /* Facts as one flowing line, not pill chips. */
-.st-league__facts {
+/* body.st-home prefix: beats the base `body.st-home ul { margin: 0 }` reset
+   (specificity) — without it the facts line has 0 gap to the card head. */
+body.st-home .st-league__facts {
   display: flex;
   flex-wrap: wrap;
   margin: 0.7rem 0 0.85rem;
@@ -744,7 +749,10 @@ body.st-home .st-block__head--left p { font-size: 1rem; max-width: 46rem; }
   font-size: clamp(1.4rem, 2.6vw, 1.85rem);
   margin: 0.4rem 0 0.75rem;
 }
-.st-spot__feature p { color: #c9c4d8; max-width: 36rem; margin-bottom: 1.25rem; }
+/* body.st-home prefix: beats the base `body.st-home p { margin: 0 }` reset
+   (specificity) — without it the 1.25rem gap above the button is zeroed and
+   the button touches the result text. Do not drop the prefix. */
+body.st-home .st-spot__feature p { color: #c9c4d8; max-width: 36rem; margin-bottom: 1.25rem; }
 .st-spot__feature .st-action { align-self: flex-start; margin-top: auto; }
 
 .st-spot__list {
@@ -863,11 +871,16 @@ body.st-home .st-block__head--left p { font-size: 1rem; max-width: 46rem; }
   padding: 0.38rem 0;
   transition: color var(--st-ease);
 }
+/* Chevron sized up: at the inherited 0.88rem the "›" renders ~6px wide — a
+   tiny mark read as a small "s" before every link. 1.15rem makes it a
+   legible chevron; line-height 1 keeps the row height unchanged. */
 .st-jump__pills a::before {
   content: "\203a";
   color: var(--st-rose);
   font-weight: 800;
   flex-shrink: 0;
+  font-size: 1.15rem;
+  line-height: 1;
 }
 .st-jump__pills a:hover { color: var(--st-rose-deep); }
 
@@ -894,7 +907,11 @@ body.st-home .st-block__head--left p { font-size: 1rem; max-width: 46rem; }
   background: linear-gradient(90deg, var(--st-rose), var(--st-rose-deep), var(--st-rose-glow));
 }
 .st-about__copy h2 { font-size: clamp(1.5rem, 2.5vw, 1.9rem); margin-bottom: 1rem; }
-.st-about__copy p { color: var(--st-ink-2); margin-bottom: 1rem; }
+/* body.st-home prefix: beats the base `body.st-home p { margin: 0 }` reset
+   (specificity) — without it the 1rem gap between About paragraphs is
+   zeroed and they touch. Same bug as the hero/league/featured fixes above.
+   Do not drop the prefix. */
+body.st-home .st-about__copy p { color: var(--st-ink-2); margin-bottom: 1rem; }
 .st-about__copy p:last-of-type { margin-bottom: 1.4rem; }
 .st-about__copy a {
   color: var(--st-rose-deep);
