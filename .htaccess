@@ -14,29 +14,31 @@ DirectorySlash Off
 RewriteEngine On
 
 # NPL: /npl/results/ merged into the combined Fixtures & Results page (2026-11-13).
-RewriteRule ^npl/results/?$ https://sialtv.com/npl/schedule/ [L,R=301,NE]
+RewriteRule ^npl/results/?$ /npl/schedule/ [L,R=301,NE]
 
 # Retired financial-calculator URLs from the previous sialtv.com site.
 # 410 Gone (different topic — do not 301 to the cricket homepage).
 RewriteRule ^(advertising-disclosure|affordability-calculator|car-payment-calculator|compound-interest-calculator|debt-payoff-calculator|editorial-policy|embed|guides|hourly-to-salary|investment-calculator|loan-calculator|methodology|mortgage-calculator|paycheck-calculator|paycheck-calculator-by-state|refinance-calculator|rent-vs-buy-calculator|research|retirement-calculator|salary-calculator|sources)(/.*)?$ - [G,L]
 RewriteRule ^terms(/.*)?$ - [G,L]
 
-# Slash and index.html rules target the https apex so http/www/no-slash
-# combinations resolve in a single 301 hop.
+# Slash and index.html rules are host-relative (preview domain now,
+# sialtv.com if re-attached). HTTPS requests resolve in a single 301
+# hop; plain-HTTP requests take the slash/index hop, then rule 3
+# upgrades to HTTPS.
 # 1) Directory without trailing slash -> add slash
 RewriteCond %{REQUEST_FILENAME} -d
 RewriteCond %{REQUEST_URI} !/$
-RewriteRule ^(.*)$ https://sialtv.com/$1/ [L,R=301,NE]
+RewriteRule ^(.*)$ /$1/ [L,R=301,NE]
 
 # 2) /index.html -> directory URL
 RewriteCond %{THE_REQUEST} \s/+(.*/)?index\.html[\s?] [NC]
-RewriteRule ^(.*/)?index\.html$ https://sialtv.com/$1 [L,R=301,NE]
+RewriteRule ^(.*/)?index\.html$ /$1 [L,R=301,NE]
 
 # 3) HTTP -> HTTPS (honours X-Forwarded-Proto from Hostinger CDN)
 RewriteCond %{HTTPS} !=on
 RewriteCond %{HTTP:X-Forwarded-Proto} !=https [NC]
 RewriteCond %{HTTP:X-Forwarded-SSL} !=on [NC]
-RewriteRule ^ https://sialtv.com%{REQUEST_URI} [L,R=301,NE]
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301,NE]
 
 # 4) www -> apex (always https)
 RewriteCond %{HTTP_HOST} ^www\.sialtv\.com$ [NC]
