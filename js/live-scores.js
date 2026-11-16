@@ -445,6 +445,41 @@
     if (span) setText(span, 'Next match ' + fmtHead(state.next.date).replace(',', '') + ', ' + state.next.stage_short + '.');
   }
 
+  /* ---- sidebar: top-3 runs / wickets (hub tp-list cards) ----
+     The state file carries the same rows the builder baked from, so a
+     re-render is byte-identical to the baked list. The comparison is
+     outerHTML-to-outerHTML on a parsed node: the browser serialises
+     "&middot;" as the literal "·", so a string comparison would fail
+     on every card, every poll and rewrite the lists every 30 seconds —
+     the same bug the dedupe fixed for the list. A state file without
+     the lists (pre-2026-11-16) leaves the baked cards alone. */
+  function leadersListHtml(rows) {
+    return rows.map(function (r) {
+      return '<li>' + (r.avatar || '') + '<div class="tp-main">' +
+        '<a class="tp-name" href="/npl/players/' + esc(r.slug) + '/">' + esc(r.name) + '</a>' +
+        '<span class="tp-sub">' + esc(r.sub1) + '</span>' +
+        '<span class="tp-sub">Innings: ' + esc(r.mat) + ' &middot; Average: ' + esc(r.ave) + '</span></div>' +
+        '<strong class="tp-fig">' + esc(r.fig) + '</strong></li>';
+    }).join('');
+  }
+  function renderLeadersList(ul, rows) {
+    if (!ul || !rows || rows.length !== 3) return false;
+    var tmp = document.createElement('ul');
+    tmp.className = 'tp-list';
+    tmp.innerHTML = leadersListHtml(rows);
+    if (tmp.outerHTML === ul.outerHTML) return false;
+    ul.innerHTML = tmp.innerHTML;
+    writes.html++;
+    return true;
+  }
+  function renderLeaders(state) {
+    if (!state || !state.leaders) return;
+    var runs = document.querySelector('.side-card[data-side="top-runs"] ul.tp-list');
+    var wkts = document.querySelector('.side-card[data-side="top-wickets"] ul.tp-list');
+    if (runs) renderLeadersList(runs, state.leaders.top_runs);
+    if (wkts) renderLeadersList(wkts, state.leaders.top_wickets);
+  }
+
   /* ---- series-list cards (the Live tab's per-league boxes) ----
      Mirrors cards.py's result_card / upcoming_card in the baked <div>
      shape (data-format / data-gender / data-teams / overlay), with the
@@ -733,6 +768,7 @@
     if (pts) renderRankings(pts);
     renderRecords(state);
     renderQuickNpl(state);
+    renderLeaders(state);
     var changed = false;
     changed = reconcileList('npl', data.matches || [], state) || changed;
     if (ilt20Data) changed = reconcileList('ilt20', ilt20Data.matches || [], state) || changed;
