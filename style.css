@@ -254,6 +254,10 @@ body.st-nav-open .st-burger span:nth-child(3) { transform: translateY(-0.44rem) 
   color: var(--st-ink);
 }
 .st-drawer .st-action { margin-top: 0.85rem; }
+/* Drawer Live-scores button on top (2026-11-16): the button is the first
+   menu item (Cricinfo sequence — Live scores, Series, leagues, All series),
+   so it needs the gap below it, not above it. */
+.st-drawer .st-shell > .st-action:first-child { margin-top: 0; margin-bottom: 0.85rem; }
 
 /* ---------- Hero / splash ---------- */
 .st-splash {
