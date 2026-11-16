@@ -1381,6 +1381,14 @@ body.st-inner .t-pts thead th { background: var(--st-rose); color: #fff; }
 body.st-inner .t-pts tbody tr:nth-child(even) { background: var(--st-bg-soft); }
 body.st-inner .t-pts td:not(:first-child), body.st-inner .t-pts th:not(:first-child) { text-align: right; font-variant-numeric: tabular-nums; }
 body.st-inner .t-pts td:first-child { display: flex; align-items: center; gap: 0.5rem; font-weight: 700; }
+/* Points-mini team cell: centre the logo with the short name (2026-11-16).
+   The td flex above centres only the <a> box; inside the <a> the img kept
+   its baseline alignment, so the code sat at the bottom of the logo
+   (+8px, POA +12px on st-inner pages). Making the <a> a flex row centres
+   logo and code on each other. No gap added: the two already touch.
+   Team pages are untouched (no st-inner; teams.css already nudges their
+   logo with vertical-align: -.35rem). */
+body.st-inner #points-table .t-pts td:first-child a { display: inline-flex; align-items: center; }
 
 /* 8. Team logos keep proportions; Pokhara (pale gold, luminance 203) gets a dark chip
    so it reads on white. Chitwan is dark (luminance 74), so the chip is Pokhara-only.
