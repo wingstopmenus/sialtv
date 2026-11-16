@@ -1,13 +1,26 @@
 /* SialTV live-scores tabs + league chips (2026-11-13).
    Standalone, no dependencies: tabs switch the feed (Live Cricket Score /
    Cricket Schedule / Match Results), chips filter the visible panel by
-   league. Hash #live / #schedule / #results deep-links a tab. */
+   league. Hash #live / #schedule / #results deep-links a tab.
+
+   DEDUPE (2026-11-16): the page is ONE series-grouped list (the Live
+   tab). The Schedule + Results tabs are JS VIEWS derived from that
+   list — same cards, different grouping/filter — not separate renders:
+   Schedule = the upcoming cards, grouped by series; Results = the
+   result cards, regrouped by date (date H2s, as before). The poller
+   (js/live-scores.js) calls window.sialtvRebuildTabViews() after it
+   changes the list, so the views track the live list with no reload. */
 (function () {
   'use strict';
   var EMPTY = {
     live: {
       ilt20: 'No ILT20 match live right now — Season 5 starts on Saturday 21 November 2026, 6:30 PM GST. The first match is Desert Vipers against MI Emirates in Dubai.',
       apl: 'No APL match live right now — the first ball is on Sunday 27 December 2026, 5:30 PM AFT, in the UAE.'
+    },
+    schedule: {
+      npl: 'No NPL fixture scheduled — the season ended on Saturday 21 November 2026.',
+      ilt20: 'No ILT20 fixture scheduled — Season 5 starts on Saturday 21 November 2026, 6:30 PM GST.',
+      apl: 'No APL fixture scheduled yet — the first ball is on Sunday 27 December 2026, 5:30 PM AFT, in the UAE.'
     },
     results: {
       ilt20: 'No ILT20 results yet — Season 5 starts on Saturday 21 November 2026.',
@@ -23,9 +36,124 @@
   var currentTab = 'live';
   var currentChip = 'all';
 
-  /* The featured match centre moved below the series list (redesign
-     2026-11-16) — it is NPL content, so the league chips hide it exactly
-     like the NPL-only #livePanel. */
+  /* "Sunday, 15 November 2026" / "Sun, 15 Nov" — the Results view's
+     date-group H2 + pill, identical to the baked groups they replace
+     (and to the poller's dateGroupHtml, now removed). */
+  function fmtDateLong(iso) {
+    if (!iso) return '';
+    try {
+      return new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Kathmandu', weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(iso + 'T00:00:00Z'));
+    } catch (e) { return iso; }
+  }
+  function fmtHead(iso) {
+    if (!iso) return '';
+    try {
+      var d = new Date(iso + 'T00:00:00Z');
+      var wd = new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Kathmandu', weekday: 'short' }).format(d);
+      var dm = new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Kathmandu', day: 'numeric', month: 'short' }).format(d);
+      return wd + ', ' + dm;
+    } catch (e) { return iso; }
+  }
+
+  /* Is this card an upcoming match? The status div carries class
+     "upcoming" (real fixtures and the APL coming-soon card alike);
+     result/live cards carry no such class. */
+  function isUpcoming(card) {
+    var st = card.querySelector('.rx-res-status');
+    return !!st && st.classList.contains('upcoming');
+  }
+  function isResult(card) {
+    return !!card.getAttribute('data-date');
+  }
+
+  /* The one list: the Live tab's series boxes, in page order. */
+  function listBoxes() {
+    return $all('#tab-live .rx-res-box[data-league]');
+  }
+
+  /* Schedule view: the upcoming cards, grouped by series — a clone of
+     each list box with the played cards removed. A box with no upcoming
+     card is left out (the empty message covers it). */
+  function buildScheduleView() {
+    var view = $('#scheduleView');
+    if (!view) return;
+    view.innerHTML = '';
+    listBoxes().forEach(function (box) {
+      var clone = box.cloneNode(true);
+      clone.hidden = false; /* the list box may be chip-hidden; the view is filtered by applyChip() */
+      var cards = $all('.rx-res-card', clone);
+      var kept = 0;
+      cards.forEach(function (c) {
+        if (!isUpcoming(c)) c.parentNode.removeChild(c);
+        else kept++;
+      });
+      if (kept) view.appendChild(clone);
+    });
+  }
+
+  /* Results view: the result cards, regrouped by date (newest first),
+     one date group per (date, league) — the same shape the baked
+     results groups had (date H2, pill, series box, 2-col grid). */
+  function buildResultsView() {
+    var view = $('#liveResults');
+    if (!view) return;
+    view.innerHTML = '';
+    var groups = {};
+    var order = [];
+    listBoxes().forEach(function (box) {
+      var league = box.getAttribute('data-league');
+      $all('.rx-res-card', box).forEach(function (card) {
+        if (!isResult(card)) return;
+        var date = card.getAttribute('data-date') || '';
+        var key = date + '|' + league;
+        if (!groups[key]) { groups[key] = []; order.push(key); }
+        groups[key].push(card.cloneNode(true));
+      });
+    });
+    order.sort(function (a, b) { return b.localeCompare(a); });
+    order.forEach(function (key) {
+      var parts = key.split('|');
+      var date = parts[0], league = parts[1];
+      var g = document.createElement('div');
+      g.className = 'rx-date-group';
+      g.id = 'date-' + date;
+      g.setAttribute('data-date', date);
+      var pill = document.createElement('div');
+      pill.className = 'rx-date-pill';
+      var span = document.createElement('span');
+      span.textContent = fmtHead(date);
+      pill.appendChild(span);
+      var box = document.createElement('div');
+      box.className = 'rx-res-box';
+      box.setAttribute('data-league', league);
+      var h2 = document.createElement('h2');
+      h2.className = 'rx-res-boxhead';
+      h2.textContent = fmtDateLong(date);
+      var grid = document.createElement('div');
+      grid.className = 'rx-res-grid';
+      groups[key].forEach(function (c) { grid.appendChild(c); });
+      box.appendChild(h2);
+      box.appendChild(grid);
+      g.appendChild(pill);
+      g.appendChild(box);
+      view.appendChild(g);
+    });
+  }
+
+  /* Rebuild both views from the current list. Called at load and by the
+     poller after it changes the list (window.sialtvRebuildTabViews).
+     Re-applying the chip keeps a filtered view filtered; re-running the
+     logo enhancement covers clones built from not-yet-enhanced cards. */
+  function rebuildTabViews() {
+    buildScheduleView();
+    buildResultsView();
+    enhanceLogos();
+    applyChip();
+  }
+  window.sialtvRebuildTabViews = rebuildTabViews;
+
+  /* The league chips hide whole series boxes (and whole date groups
+     in Results) in the current tab. */
   function applyChip() {
     var panel = $('.ls-panel[data-ls-panel="' + currentTab + '"]');
     if (!panel) return;
@@ -39,17 +167,6 @@
     $all('.rx-date-group', panel).forEach(function (g) {
       g.hidden = $all('.rx-res-box:not([hidden])', g).length === 0;
     });
-    /* The live panel is NPL-only. */
-    var livePanel = $('#livePanel');
-    if (livePanel && currentTab === 'live') {
-      livePanel.hidden = !(currentChip === 'all' || currentChip === 'npl');
-      if (!livePanel.hidden) anyVisible = true;
-    }
-    var centre = $('#slpCentre');
-    if (centre && currentTab === 'live') {
-      centre.hidden = !(currentChip === 'all' || currentChip === 'npl');
-      if (!centre.hidden) anyVisible = true;
-    }
     var empty = $('[data-ls-empty]', panel);
     if (empty) {
       var msg = (EMPTY[currentTab] && EMPTY[currentTab][currentChip]) || '';
@@ -96,7 +213,7 @@
   /* Whole-card click (Cricinfo: the card itself is the link). The footer
      links stay for keyboard / no-JS users; a click on a link, button, or
      a text selection is left alone. Delegated on document so cards the
-     poller rebuilds in the Results tab are covered too. */
+     poller rebuilds — and the view clones — are covered too. */
   document.addEventListener('click', function (e) {
     var card = e.target && e.target.closest ? e.target.closest('.rx-res-card') : null;
     if (!card) return;
@@ -109,7 +226,9 @@
      (window.sialtvTeamLogos, loaded by the strip loader) replaces the
      .ls-code chip in each team row. The chip stays when the map has no
      entry (TBC rows) or when JS is off — it is the fallback, not a bug.
-     The poller-built cards already carry logos themselves. */
+     The poller-built cards already carry logos themselves. Idempotent:
+     a card whose chip is already an img is left alone, so rebuilding
+     the views (or a second call) never rewrites a card. */
   function enhanceLogos() {
     var map = window.sialtvTeamLogos;
     if (!map) return false;
@@ -129,7 +248,11 @@
     });
     return true;
   }
-  if (!enhanceLogos()) {
+  /* Build the views from the baked list first, then enhance logos
+     (the clones inherit whatever the list cards carry). If the logo
+     map is not ready yet, the retry loop enhances list + views alike. */
+  rebuildTabViews();
+  if (!window.sialtvTeamLogos) {
     var tries = 0;
     var iv = setInterval(function () {
       if (enhanceLogos() || ++tries >= 20) clearInterval(iv);

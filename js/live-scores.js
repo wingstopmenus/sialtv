@@ -15,21 +15,27 @@
    all see the last 7 days of results on every poll, with no re-bake.
    The PHP endpoint itself is untouched.
    FULL AUTO-UPDATE (2026-11-16): on the live-scores page the poller
-   also re-renders every section in place, Cricinfo-style — the
-   series-list cards (NPL + ILT20), the flash row, the sidebar latest
-   result / rankings / records, the featured centre — from the live
-   feed the moment a result lands, and from /data/live-scores-state.json
-   (the bake's authoritative snapshot: points, leaders, featured
-   detail) whenever it changes. No reload, no flash, no spinner.
-   Sections the feed cannot supply faithfully (points, records, the
-   centre's prose + full tables) update from the state file, never from
-   a guess. The points table is ALSO recomputed in the browser from the
-   state's full results list the instant a league result lands
-   (build_data.py rules, verified exact against the M28 table); the
-   state file's points win whenever they differ. There is NO freshness
-   clock line any more: it ticked on every poll because it was a clock,
-   not data proof, and Cricinfo shows none — the in-place updates are
-   the proof. The baked "Last updated: <date>" under the H1 stays. */
+   also re-renders the ONE list in place, Cricinfo-style — the
+   series-list cards (NPL + ILT20) — from the live feed the moment a
+   result lands, and the sidebar rankings / records / Quick Links note
+   from /data/live-scores-state.json (the bake's authoritative snapshot:
+   points, leaders, next match) whenever it changes. No reload, no
+   flash, no spinner. Sections the feed cannot supply faithfully
+   (points, records, the next-match note) update from the state file,
+   never from a guess. The points table is ALSO recomputed in the
+   browser from the state's full results list the instant a league
+   result lands (build_data.py rules, verified exact against the M28
+   table); the state file's points win whenever they differ. There is
+   NO freshness clock line any more: it ticked on every poll because it
+   was a clock, not data proof, and Cricinfo shows none — the in-place
+   updates are the proof. The baked "Last updated: <date>" under the H1 stays.
+   DEDUPE (2026-11-16): the page is ONE list — no flash row, no root
+   pair, no featured centre, no sidebar latest-result card. The poller
+   renders nothing into those (they are gone); it reconciles the list
+   and, when it changes a card, asks live-scores-tabs.js to rebuild the
+   Schedule + Results views from the list
+   (window.sialtvRebuildTabViews). The state file carries no featured
+   match any more (write-live-scores-state.py, bake step 4a2). */
 (function () {
   'use strict';
   var POLL_MS = 30 * 1000;
@@ -157,16 +163,7 @@
   }
   window.sialtvPick = pick;
 
-  /* "Tue 17 Nov 2026" — the sidebar "Next:" line and the Quick Links
-     note. Built from the same Intl call as fmtDateLong; the comma is
-     stripped so it matches the baked label exactly. */
-  function fmtDateLabel(iso) {
-    if (!iso) return '';
-    try {
-      return new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Kathmandu', weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' }).format(new Date(iso + 'T00:00:00Z')).replace(',', '');
-    } catch (e) { return iso; }
-  }
-  /* "5:00 PM" from a kickoff ISO — the sidebar "Next:" line. */
+  /* "5:00 PM" from a kickoff ISO — the upcoming cards' day badge. */
   function fmtTimeNst(iso) {
     if (!iso) return '';
     try {
@@ -193,18 +190,8 @@
      blank score followed by "(0 ov)". */
   function hasOvers(o) { return !!o && o !== '0' && o !== '0.0'; }
 
-  /* ---- top cards (#liveScoreRoot): Cricinfo-style .rx-res-card, the same
-     shape as the baked list cards — the old .today prose block is gone.
-     A result reuses resultItem (identical to the baked result cards); a
-     live match gets the LIVE badge, the batting side's red dot and the
-     situation line; an upcoming match gets its start-day badge. */
-  function descLine(m, league) {
-    var seriesName = LEAGUE_NAMES[league] || leagueTag(league);
-    return ordinal(m.matchNo) + ' Match, ' + esc(venueShort(m.venue)) + ', ' + esc(fmtDateLong(m.date)) +
-      ' &middot; <a href="/' + esc(league) + '/">' + esc(seriesName) + '</a>';
-  }
-  /* One team row, shared by the live card and resultItem: logo (or the
-     code chip when the logo map has no entry), optional batting dot,
+  /* One team row, shared by the live card and the result card: logo (or
+     the code chip when the logo map has no entry), optional batting dot,
      name, overs, score right-aligned. A side that has not batted yet
      shows "Yet to Bat", never a bare name or "( ov)". */
   function teamRow(team, abbr, pre, score, opts) {
@@ -220,56 +207,11 @@
     return row + '</div>';
   }
 
-  function cardHtml(m, league) {
-    if (!m) return '';
-    if (m.status === 'result') return resultItem(m, league);
-    var href = matchUrl(league, m.matchNo);
-    var open = '<article class="rx-res-card' + (m.status === 'live' ? ' is-live' : '') +
-      '" data-match-no="' + m.matchNo + '" data-date="' + esc(m.date || '') +
-      '" data-league="' + esc(league) + '">';
-    if (m.status === 'live') {
-      /* Batting side: the side with a second-innings score is batting;
-         otherwise the side with a score is. A side with no score while
-         the other bats shows "Yet to Bat". */
-      var bat = m.score2 ? 2 : (m.score1 ? 1 : 0);
-      var runs1 = parseInt(String(m.score1 || '').split('/')[0], 10) || 0;
-      var maxov = (m.overs1 === '5' || m.overs1 === '5.0') ? '5' : '20';
-      var pre1 = hasOvers(m.overs1) ? '(' + esc(m.overs1) + ' ov)' : '';
-      var pre2 = hasOvers(m.overs2) ? '(' + esc(m.overs2) + '/' + maxov + ' ov, T:' + (runs1 + 1) + ')' : '';
-      var html = open + '<div class="rx-res-status is-live">LIVE</div>' +
-        '<div class="rx-res-desc">' + descLine(m, league) + '</div>' +
-        teamRow(m.team1, m.abbr1, pre1, m.score1, { batting: bat === 1, yetToBat: bat === 2 && !m.score1 }) +
-        teamRow(m.team2, m.abbr2, pre2, m.score2, { batting: bat === 2, yetToBat: bat === 1 && !m.score2 });
-      if (m.statusText) html += '<div class="rx-res-result">' + esc(teamName(m.statusText)) + '</div>';
-      html += '<div class="rx-res-links"><a href="' + href + '">Live Score</a>' +
-        '<a href="' + href + '#scorecard">Scorecard</a>' +
-        '<a href="/' + esc(league) + '/">Series</a></div>';
-      if (m.toss) html += '<p class="note">' + esc(m.toss) + '</p>';
-      /* Whole-card link (follow-up 2026-11-16): stretched link, like the
-         baked cards — the card itself is a real anchor. */
-      return html + '<a class="rx-card-link" href="' + href + '" aria-label="' +
-        esc(ordinal(m.matchNo)) + ' Match: ' + esc(teamName(m.team1)) + ' vs ' +
-        esc(teamName(m.team2)) + '"></a></article>';
-    }
-    /* upcoming */
-    var badge = fmtHead(m.date) ? esc(fmtHead(m.date).toUpperCase()) : 'UPCOMING';
-    return open + '<div class="rx-res-status upcoming">' + badge + '</div>' +
-      '<div class="rx-res-desc">' + descLine(m, league) + '</div>' +
-      teamRow(m.team1, m.abbr1, '', '', {}) + teamRow(m.team2, m.abbr2, '', '', {}) +
-      '<div class="rx-res-result is-upcoming">Match yet to begin</div>' +
-      '<div class="rx-res-links"><a href="' + href + '#summary">Summary</a>' +
-      '<a href="' + href + '#scorecard">Scorecard</a>' +
-      '<a href="/' + esc(league) + '/">Series</a></div>' +
-      '<a class="rx-card-link" href="' + href + '" aria-label="' +
-      esc(ordinal(m.matchNo)) + ' Match: ' + esc(teamName(m.team1)) + ' vs ' +
-      esc(teamName(m.team2)) + '"></a></article>';
-  }
-
   /* League tag for feed rows, Cricinfo-style: "Biratnagar Kings (NPL)". */
   var LEAGUE_TAG = { npl: 'NPL', ilt20: 'ILT20', apl: 'APL', sa20: 'SA20', bbl: 'BBL', psl: 'PSL' };
   function leagueTag(league) { return LEAGUE_TAG[league] || String(league || '').toUpperCase(); }
 
-  /* ---- results cards (.rx-res-card, shared with the results page) ---- */
+  /* ---- list-card helpers (shared with the baked cards) ---- */
   function ordinal(n) {
     n = parseInt(n, 10) || 0;
     var s = ['th', 'st', 'nd', 'rd'], v = n % 100;
@@ -301,12 +243,16 @@
     return v;
   }
   /* Team logo from the map (keys use feed spelling, e.g. "Sudurpaschim
-     Royals"); the img carries no alt, so one is added here. Falls back to
-     the 3-letter code chip used by the baked cards. */
+     Royals"); the map's <img> already carries an alt, so it is
+     REPLACED in place with the display name (the same overwrite
+     live-scores-tabs.js enhanceLogos() does) — never a second alt, and
+     the width/height stay, so a card the poller rebuilds compares
+     equal to the enhanced baked one. Falls back to the 3-letter code
+     chip used by the baked cards. */
   function logoImg(team) {
     var key = teamName(team);
     if (window.sialtvTeamLogos && window.sialtvTeamLogos[key]) {
-      return window.sialtvTeamLogos[key].replace('<img ', '<img alt="' + esc(key) + ' logo" ');
+      return window.sialtvTeamLogos[key].replace(/ alt="[^"]*"/, ' alt="' + esc(key) + ' logo"');
     }
     return '';
   }
@@ -321,98 +267,25 @@
     return -1;
   }
   var LEAGUE_NAMES = { npl: 'Nepal Premier League', ilt20: 'ILT20', apl: 'Afghanistan Premier League' };
-  /* Results-tab date group (follow-up 2026-11-16): the H2 is the DATE,
-     not the repeated series name — the series name already lives in each
-     card's desc line. Mirrors cards.py date_group(). */
-  function dateGroupHtml(iso, league, cardsHtml) {
-    return '<div class="rx-date-group" id="date-' + esc(iso) + '" data-date="' + esc(iso) + '">' +
-      '<div class="rx-date-pill"><span>' + esc(fmtHead(iso)) + '</span></div>' +
-      '<div class="rx-res-box" data-league="' + esc(league) + '">' +
-      '<h2 class="rx-res-boxhead">' + esc(fmtDateLong(iso)) + '</h2>' +
-      '<div class="rx-res-grid">' + cardsHtml + '</div></div></div>';
-  }
-
-  /* One result card, identical in structure to the baked cards on the
-     live-scores and results pages: status pill, match-info line, two team
-     rows (winner first), result line, links. The target goes on the
-     chaser's row and is always first-innings runs + 1. */
-  function resultItem(m, league) {
-    var href = matchUrl(league, m.matchNo);
-    var desc = descLine(m, league);
-    /* Batting order comes from scorecard.innings — the feed's team1 /
-       team2 order is NOT batting order (M22: team1 is the chaser BIK;
-       M24: team1 is the chaser KAG). Fall back to team1 first. */
-    var inn = (m.scorecard && m.scorecard.innings) || [];
-    var firstIdx = 0;
-    if (inn.length && teamName(inn[0].team) === teamName(m.team2)) firstIdx = 1;
-    var firstTeam = firstIdx === 0 ? m.team1 : m.team2;
-    var firstAbbr = firstIdx === 0 ? m.abbr1 : m.abbr2;
-    var firstScore = firstIdx === 0 ? m.score1 : m.score2;
-    var firstOvers = firstIdx === 0 ? m.overs1 : m.overs2;
-    var chTeam = firstIdx === 0 ? m.team2 : m.team1;
-    var chAbbr = firstIdx === 0 ? m.abbr2 : m.abbr1;
-    var chScore = firstIdx === 0 ? m.score2 : m.score1;
-    var chOvers = firstIdx === 0 ? m.overs2 : m.overs1;
-    var firstRuns = parseInt(String(firstScore || '').split('/')[0], 10) || 0;
-    var maxov = (firstOvers === '5' || firstOvers === '5.0') ? '5' : '20';
-    var preFirst = '(' + esc(firstOvers || '') + ' ov)';
-    var preCh = '(' + esc(chOvers || '') + '/' + maxov + ' ov, T:' + (firstRuns + 1) + ')';
-    var w = winnerSide(m);
-    var winnerIsFirst = (w === 0 && firstIdx === 0) || (w === 1 && firstIdx === 1);
-    var rowFirst = teamRow(firstTeam, firstAbbr, preFirst, firstScore, { loser: w !== -1 && !winnerIsFirst });
-    var rowCh = teamRow(chTeam, chAbbr, preCh, chScore, { loser: w !== -1 && winnerIsFirst });
-    var rows = (w === -1 || winnerIsFirst) ? rowFirst + rowCh : rowCh + rowFirst;
-    return '<article class="rx-res-card" data-match-no="' + m.matchNo + '" data-date="' + esc(m.date || '') +
-      '" data-league="' + esc(league) + '">' +
-      '<div class="rx-res-status">RESULT</div>' +
-      '<div class="rx-res-desc">' + desc + '</div>' + rows +
-      '<div class="rx-res-result">' + esc(teamName(m.statusText || '')) + '</div>' +
-      '<div class="rx-res-links"><a href="' + href + '#summary">Summary</a>' +
-      '<a href="' + href + '#scorecard">Scorecard</a><a href="/' + esc(league) + '/">Series</a></div>' +
-      '<a class="rx-card-link" href="' + href + '" aria-label="' +
-      esc(ordinal(m.matchNo)) + ' Match: ' + esc(teamName(m.team1)) + ' vs ' +
-      esc(teamName(m.team2)) + '"></a></article>';
-  }
-
-  /* ---- tabs (Summary / Scorecard / Overs) ---- */
-  function wireTabs(panel) {
-    var btns = panel.querySelectorAll('[data-slp-tab]');
-    if (!btns.length) return;
-    function show(name) {
-      btns.forEach(function (b) {
-        b.setAttribute('aria-selected', b.getAttribute('data-slp-tab') === name ? 'true' : 'false');
-      });
-      panel.querySelectorAll('[data-slp-panel]').forEach(function (p) {
-        p.hidden = p.getAttribute('data-slp-panel') !== name;
-      });
-    }
-    btns.forEach(function (b) {
-      b.addEventListener('click', function () { show(b.getAttribute('data-slp-tab')); });
-    });
-    show('summary');
-  }
 
   /* ================= FULL AUTO-UPDATE (2026-11-16) =================
-     The poller above keeps the live card and the Results tab fresh.
-     Everything else on the page used to change only on a bake — the
-     series-list cards, the flash row, the sidebar latest result /
-     rankings / records, the featured centre. The sections below close
-     that gap, Cricinfo-style: they re-render in place from fresh data,
-     with no reload, no flash, no spinner. Two sources, each used for
-     what it is good at:
+     The poller above keeps the strip and the hero fresh. Everything
+     else on the live-scores page used to change only on a bake — the
+     series-list cards and the sidebar rankings / records / Quick Links
+     note. The sections below close that gap, Cricinfo-style: they
+     re-render in place from fresh data, with no reload, no flash, no
+     spinner. Two sources, each used for what it is good at:
      - the LIVE FEED (30s poll) — the instant trigger. A result landing
-       in the feed flips the list cards, the flash row, the sidebar
-       latest result and the Results tab at once, and the points table
+       in the feed flips the list cards at once, and the points table
        recomputes from the state's full results list (below).
      - the STATE FILE (/data/live-scores-state.json, 120s TTL) — the
-       bake's authoritative snapshot: points, rankings, leaders,
-       featured detail (summary prose + full tables). The bake writes
-       it as step 4a2, right after re-baking the page (step 4c), so a
-       push carries both. Sections the feed cannot supply faithfully
-       (points, records, the centre's prose + tables) update from the
-       state file, never from a guess. The state file's points WIN
-       whenever they differ from the browser recompute — the recompute
-       is only the instant bridge until the next state file lands.
+       bake's authoritative snapshot: points, rankings, leaders, next
+       match. The bake writes it as step 4a2, right after re-baking the
+       page (step 4c), so a push carries both. Sections the feed cannot
+       supply faithfully (points, records, the next-match note) update
+       from the state file, never from a guess. The state file's points
+       WIN whenever they differ from the browser recompute — the
+       recompute is only the instant bridge until the next state file lands.
      Every write goes through setText / setHtml, so a poll that finds
      unchanged data writes nothing (window.sialtvWriteCount proves it).
      A missing state file degrades cleanly: the feed-driven sections
@@ -426,7 +299,7 @@
     var now = Date.now();
     if (!force && stateCache && stateCache.data && now - stateCache.at < STATE_TTL_MS) return Promise.resolve(stateCache.data);
     return fetchJson(STATE_URL).then(function (d) {
-      if (d && d.points && d.results && d.featured) { stateCache = { at: Date.now(), data: d }; return d; }
+      if (d && d.points && d.results) { stateCache = { at: Date.now(), data: d }; return d; }
       throw new Error('bad state file');
     }).catch(function () { return stateCache && stateCache.data ? stateCache.data : null; });
   }
@@ -531,16 +404,8 @@
     if (recomputed.after_match > state.through_match) return recomputed;
     return { rows: state.points, after_match: state.through_match };
   }
-  /* Centre points-table rows, byte-identical in shape to build.py's
-     match_centre(): plain <td>s, negatives as &minus;. */
-  function pointsRowsHtml(rows) {
-    return rows.map(function (r) {
-      var nrr = String(r.nrr_display || '').replace(/^-/, '&minus;');
-      return '<tr><td>' + r.rank + '</td><td>' + esc(r.name) + '</td><td>' + r.played + '</td><td>' + r.points + '</td><td>' + nrr + '</td></tr>';
-    }).join('');
-  }
 
-  /* ---- sidebar: rankings, records, Quick Links, latest result ---- */
+  /* ---- sidebar: rankings, records, Quick Links ---- */
   function sidebarCardByLink(hrefPart) {
     var links = document.querySelectorAll('.side-card h3 a');
     for (var i = 0; i < links.length; i++) {
@@ -579,129 +444,11 @@
     var span = li.parentNode.querySelector('span');
     if (span) setText(span, 'Next match ' + fmtHead(state.next.date).replace(',', '') + ', ' + state.next.stage_short + '.');
   }
-  function renderLatest(feedMatches, state) {
-    var p = pick(feedMatches || []);
-    var latest = p.latest;
-    if (!latest) return;
-    /* The latest-result card is the ONLY sidebar card whose heading
-       links to a match page — find it by that link, not by its heading
-       text: refreshSidebarLive rewrites the heading to "Result —
-       Match N" on the first poll, so "Latest result" no longer matches. */
-    var card = null;
-    var links = document.querySelectorAll('.side-card h3 a[href*="/match-"]');
-    if (links.length) card = links[0].closest('.side-card');
-    if (!card) return;
-    var current = card.querySelector('h3 a');
-    var currentNo = current ? parseInt((current.getAttribute('href') || '').match(/match-(\d+)\//) ? (current.getAttribute('href').match(/match-(\d+)\//))[1] : '0', 10) : 0;
-    if (currentNo === latest.matchNo) return; /* refreshSidebarLive owns the line while the match stays latest */
-    var url = matchUrl('npl', latest.matchNo);
-    var status = teamName(latest.statusText || '');
-    var next = p.next;
-    var nextLine = '';
-    if (next) {
-      nextLine = '\n        <p class="note">Next: ' + esc(teamName(next.team1)) + ' vs ' + esc(teamName(next.team2)) +
-        ', Match ' + next.matchNo + ', ' + fmtDateLabel(next.date) + ', ' + fmtTimeNst(next.kickoffIso) + ' NST.</p>';
-    } else if (state && state.next) {
-      nextLine = '\n        <p class="note">Next: ' + esc(state.next.teams) +
-        ', Match ' + state.next.match_no + ', ' + esc(state.next.date_label) + ', ' + esc(state.next.time_nst) + ' NST.</p>';
-    }
-    /* The post-poll form, exactly as refreshSidebarLive leaves it: the
-       heading is "Result — Match N" and the scores line IS the result
-       text (that is the live behaviour today, not the baked form). */
-    setHtml(card, '\n        <h3><a href="' + esc(url) + '">Result &mdash; Match ' + latest.matchNo + '</a></h3>\n' +
-      '        <p>' + esc(status) + '</p>\n' +
-      '        <p class="note"><a href="' + esc(url) + '">' + esc(status) + ' &rsaquo;</a></p>' + nextLine + '\n      ');
-  }
-
-  /* ---- flash row: the latest 3 NPL results ---- */
-  function flashCardHtml(m) {
-    var w = winnerSide(m);
-    if (w < 0) return '';
-    var win = w === 0 ? { team: m.team1, score: m.score1, overs: m.overs1 } : { team: m.team2, score: m.score2, overs: m.overs2 };
-    var lose = w === 0 ? { team: m.team2, score: m.score2, overs: m.overs2 } : { team: m.team1, score: m.score1, overs: m.overs1 };
-    var wl = logoImgBaked(win.team), ll = logoImgBaked(lose.team);
-    if (!wl || !ll) return ''; /* a logoless flash card is worse than the baked one */
-    return '<a class="score-card" data-kind="result" data-match-no="' + m.matchNo + '" href="' + esc(matchUrl('npl', m.matchNo)) + '">\n' +
-      '        <p class="sc-label">Result</p>\n' +
-      '        <p class="sc-match">Match ' + m.matchNo + ' &middot; NPL &middot; Kirtipur</p>\n' +
-      '        <p class="sc-row loser"><span class="sc-team">' + ll + esc(teamName(lose.team)) + '</span><span class="sc-score">' + esc(lose.score) + ' (' + esc(lose.overs) + ' ov)</span></p>\n' +
-      '        <p class="sc-row"><span class="sc-team">' + wl + esc(teamName(win.team)) + '</span><span class="sc-score">' + esc(win.score) + ' (' + esc(win.overs) + ' ov)</span></p>\n' +
-      '        <p class="sc-result">' + esc(teamName(m.statusText || '')) + '</p>\n' +
-      '        </a>';
-  }
-  function renderFlash(feedMatches) {
-    var flash = document.getElementById('sialtvFlash');
-    if (!flash) return;
-    var done = (feedMatches || []).filter(function (m) { return m.status === 'result'; })
-      .sort(function (a, b) { return b.matchNo - a.matchNo; }).slice(0, 3);
-    if (done.length < 3) return;
-    var cards = done.map(function (m) { return flashCardHtml(m); });
-    if (cards.indexOf('') !== -1) return;
-    setHtml(flash, cards.join('\n        '));
-  }
-
-  /* ---- featured centre (from the state file) ----
-     Mirrors build.py's match_centre() exactly: the same H3s, the same
-     table shapes, the same notes. The fields come from the bake's own
-     state file — the same trusted source as the baked page — so they
-     are rendered unescaped, exactly as the builder does. */
-  function batTableHtml(rows, kind) {
-    var head = kind === 'bat'
-      ? '<thead><tr><th>Batter</th><th class="num">R</th><th class="num">B</th><th class="num">4s</th><th class="num">6s</th><th class="num">SR</th></tr></thead>'
-      : '<thead><tr><th>Bowler</th><th class="num">O</th><th class="num">M</th><th class="num">R</th><th class="num">W</th><th class="num">Econ</th></tr></thead>';
-    var body = rows.map(function (r) {
-      return '<tr>' + r.map(function (c, i) {
-        return i ? '<td class="num">' + c + '</td>' : '<td>' + c + '</td>';
-      }).join('') + '</tr>';
-    }).join('');
-    return '<div class="table-scroll slp-tables"><table>\n          ' + head + '\n          <tbody>' + body + '</tbody>\n        </table></div>';
-  }
-  function summaryPanelHtml(f, pts) {
-    return '\n        <h3>Match ' + f.match_no + ' &mdash; innings summary</h3>\n' +
-      '        <p>' + f.summary + '</p>\n' +
-      '        <h3>Points after Match ' + f.match_no + '</h3>\n' +
-      '        <div class="table-scroll"><table class="t-pts">\n' +
-      '          <thead><tr><th>#</th><th>Team</th><th>P</th><th>Pts</th><th>NRR</th></tr></thead>\n' +
-      '          <tbody>\n            ' + pointsRowsHtml(pts.rows) + '\n          </tbody>\n' +
-      '        </table></div>\n' +
-      '        <p class="note">A win is worth 2 points; the top four qualify for the playoffs. The full table is on the <a href="/npl/points-table/">NPL Points Table</a> page.</p>\n      ';
-  }
-  function scorecardPanelHtml(f) {
-    return '\n        <h3>' + f.team1 + ' &mdash; ' + f.score1 + ' (' + f.overs1 + ' ov)</h3>\n' +
-      '        ' + batTableHtml(f.batting1, 'bat') + '\n' +
-      '        ' + batTableHtml(f.bowling1, 'bowl') + '\n' +
-      '        <h3>' + f.team2 + ' &mdash; ' + f.score2 + ' (' + f.overs2 + ' ov)</h3>\n' +
-      '        ' + batTableHtml(f.batting2, 'bat') + '\n' +
-      '        ' + batTableHtml(f.bowling2, 'bowl') + '\n' +
-      '        <p class="note">These are the verified headline figures from Match ' + f.match_no + ' &mdash; top scorers and wicket-takers from the match feed.</p>\n      ';
-  }
-  /* The centre's summary is always the latest finished match (the state
-     file's featured); the scorecard and overs panels follow the LIVE
-     match while one is on — the existing code above owns them then —
-     and fall back to the featured match when no match is live. */
-  function renderCentre(state, pts, liveMatch) {
-    var f = state && state.featured;
-    if (!f || !pts) return;
-    var h2 = document.querySelector('#slpCentre h2');
-    if (h2) setText(h2, 'Featured match \u2014 Match ' + f.match_no);
-    var summary = document.querySelector('#slpCentre [data-slp-panel="summary"]');
-    if (summary) setHtml(summary, summaryPanelHtml(f, pts));
-    var scorecard = document.getElementById('slp-scorecard');
-    if (scorecard && !liveMatch) setHtml(scorecard, scorecardPanelHtml(f));
-    var overs = document.getElementById('slp-overs');
-    if (overs && !liveMatch) {
-      var p = overs.querySelector('p');
-      if (p) setText(p, 'Over-by-over balls are not published for Match ' + f.match_no + ' on this page.');
-    }
-    var full = document.querySelector('#slpCentre > p.note > a');
-    if (full && full.getAttribute('href') !== '/npl/matches/2026/match-' + f.match_no + '/')
-      full.setAttribute('href', '/npl/matches/2026/match-' + f.match_no + '/');
-  }
 
   /* ---- series-list cards (the Live tab's per-league boxes) ----
      Mirrors cards.py's result_card / upcoming_card in the baked <div>
      shape (data-format / data-gender / data-teams / overlay), with the
-     live branch taken from cardHtml. The logo helper appends the alt
+     live branch taken from the feed. The logo helper appends the alt
      AFTER class/src — exactly what live-scores-tabs.js enhanceLogos()
      produces — so a card the tabs script already enhanced compares
      equal and is not rewritten. */
@@ -714,7 +461,12 @@
   function logoImgBaked(team) {
     var key = teamName(team);
     if (window.sialtvTeamLogos && window.sialtvTeamLogos[key]) {
-      return window.sialtvTeamLogos[key].replace(/>$/, ' alt="' + esc(key) + ' logo">');
+      /* The map's <img> already carries an alt — replace it in place
+         with the display name (same overwrite enhanceLogos() does), so
+         the poller's img is byte-identical to the enhanced baked one
+         (class, src, alt, width, height). The map's SPR alt spells it
+         "Sudurpaschim"; the display name is "Sudur Paschim". */
+      return window.sialtvTeamLogos[key].replace(/ alt="[^"]*"/, ' alt="' + esc(key) + ' logo"');
     }
     return '';
   }
@@ -732,14 +484,60 @@
     }
     return PLAYOFF_STAGE[matchNo] || null;
   }
-  function chaserTpre(ov, target) {
-    return ov !== '20' ? '(' + ov + '/20 ov, T:' + target + ')' : '(20 ov, T:' + target + ')';
+  /* Cricinfo chase format, mirroring cards.py's _chaser_tpre: the full
+     standard quota drops the "/20" ("(20 ov, T:225)"); a partial chase
+     — or a full reduced quota (M8: "(5/5 ov, T:106)") — keeps it. */
+  function chaserTpre(ov, target, quota) {
+    quota = quota || 20;
+    ov = String(ov);
+    if (ov === String(quota) && quota === 20) return '(20 ov, T:' + target + ')';
+    return '(' + ov + '/' + quota + ' ov, T:' + target + ')';
   }
   function listDescLine(m, league, state) {
     var label = stageLabelFor(m.matchNo, league, state) || (ordinal(m.matchNo) + ' Match');
     var seriesName = LEAGUE_NAMES[league] || leagueTag(league);
     return label + ', ' + esc(venueShort(m.venue)) + ', ' + esc(fmtDateLong(m.date)) +
       ' &middot; <a href="/' + esc(league) + '/">' + esc(seriesName) + '</a>';
+  }
+  /* Which side chased, and the target — the chase tpre always sits on
+     the CHASER's row (cards.py result_card). The winner is NOT always
+     the chaser: M28's winner POA batted first and defended, so the
+     LOSER (KAG) carries "(19.5/20 ov, T:225)". Sources, in order:
+     (1) the feed's scorecard innings — innings[0] batted first, so
+     the winner chased iff it is innings[1]'s side, and the target is
+     innings[0]'s total + 1 (the API keeps the scorecards, and the
+     static snapshot carries them); (2) the state file's results rows,
+     which the bake writes from matches.json's innings order
+     (win_chased / target); (3) last resort, the old heuristic
+     (team2 won ⇒ team2 chased) — wrong when the fixture's team2
+     batted first, so it only ever fires on a malformed feed. */
+  function chaseInfo(m, league, state) {
+    var inns = (m.scorecard && m.scorecard.innings) || [];
+    var w = winnerSide(m);
+    if (inns.length >= 2 && w >= 0) {
+      var winTeam = w === 0 ? m.team1 : m.team2;
+      var first = inns[0] || {};
+      var second = inns[1] || {};
+      var firstRuns = NaN;
+      if (first.total) firstRuns = parseInt(String(first.total).split('/')[0], 10);
+      if (isNaN(firstRuns)) {
+        var ft = teamName(first.team || '');
+        if (ft === teamName(m.team1)) firstRuns = parseInt(String(m.score1 || '').split('/')[0], 10);
+        else if (ft === teamName(m.team2)) firstRuns = parseInt(String(m.score2 || '').split('/')[0], 10);
+      }
+      if (!isNaN(firstRuns)) {
+        return { winChased: teamName(winTeam) === teamName(second.team || ''), target: firstRuns + 1 };
+      }
+    }
+    if (state && state.results) {
+      for (var i = 0; i < state.results.length; i++) {
+        var r = state.results[i];
+        if (r.matchNo === m.matchNo && r.win_chased !== undefined && r.win_chased !== null) {
+          return { winChased: !!r.win_chased, target: r.target };
+        }
+      }
+    }
+    return { winChased: w === 1, target: null };
   }
   function listResultCardHtml(m, league, state) {
     var w = winnerSide(m);
@@ -748,16 +546,21 @@
     var lose = w === 0 ? { team: m.team2, abbr: m.abbr2, score: m.score2, overs: m.overs2 } : { team: m.team1, abbr: m.abbr1, score: m.score1, overs: m.overs1 };
     var label = stageLabelFor(m.matchNo, league, state) || (ordinal(m.matchNo) + ' Match');
     var url = matchUrl(league, m.matchNo);
-    var winChased = w === 1;
+    var ci = chaseInfo(m, league, state);
+    var winChased = ci.winChased;
+    /* The first innings' overs set the quota (cards.py): the side that
+       batted first is the loser when the winner chased, else the winner. */
     var firstOvers = winChased ? lose.overs : win.overs;
-    var maxov = (firstOvers === '5' || firstOvers === '5.0') ? '5' : '20';
+    var maxov = (firstOvers === '5' || firstOvers === '5.0') ? 5 : 20;
     var winTpre, loseTpre;
     if (winChased) {
-      winTpre = '(' + win.overs + '/' + maxov + ' ov, T:' + (parseInt(String(lose.score).split('/')[0], 10) + 1) + ')';
+      var tgt = ci.target !== null && ci.target !== undefined ? ci.target : (parseInt(String(lose.score).split('/')[0], 10) + 1);
+      winTpre = chaserTpre(win.overs, tgt, maxov);
       loseTpre = '(' + lose.overs + ' ov)';
     } else {
       winTpre = '(' + win.overs + ' ov)';
-      loseTpre = '(' + lose.overs + '/' + maxov + ' ov, T:' + (parseInt(String(win.score).split('/')[0], 10) + 1) + ')';
+      var tgt2 = ci.target !== null && ci.target !== undefined ? ci.target : (parseInt(String(win.score).split('/')[0], 10) + 1);
+      loseTpre = chaserTpre(lose.overs, tgt2, maxov);
     }
     return '<div class="rx-res-card" data-format="t20" data-gender="men" data-teams="' + esc(teamSlug(m.team1) + ' ' + teamSlug(m.team2)) +
       '" data-league="' + esc(league) + '" data-match-no="' + m.matchNo + '" data-date="' + esc(m.date || '') + '">' +
@@ -804,7 +607,7 @@
     var runs1 = parseInt(String(m.score1 || '').split('/')[0], 10) || 0;
     var maxov = (m.overs1 === '5' || m.overs1 === '5.0') ? '5' : '20';
     var pre1 = hasOvers(m.overs1) ? '(' + esc(m.overs1) + ' ov)' : '';
-    var pre2 = hasOvers(m.overs2) ? '(' + esc(m.overs2) + '/' + maxov + ' ov, T:' + (runs1 + 1) + ')' : '';
+    var pre2 = hasOvers(m.overs2) ? chaserTpre(m.overs2, runs1 + 1, parseInt(maxov, 10)) : '';
     return '<div class="rx-res-card is-live" data-format="t20" data-gender="men" data-teams="' + esc(teamSlug(m.team1) + ' ' + teamSlug(m.team2)) +
       '" data-league="' + esc(league) + '" data-match-no="' + m.matchNo + '" data-date="' + esc(m.date || '') + '">' +
       '<div class="rx-res-status is-live">LIVE</div>' +
@@ -820,17 +623,62 @@
   function listCardHtml(m, league, state) {
     if (m.status === 'result') return listResultCardHtml(m, league, state);
     if (m.status === 'live') return listLiveCardHtml(m, league, state);
+    /* Abandoned (M7): the feed carries no innings to render from, and
+       the baked abandoned card is the authority — the poller never
+       rewrites it (returning '' skips the card in reconcileList). */
+    if (m.status === 'abandoned') return '';
     return listUpcomingCardHtml(m, league, state);
   }
+  /* A card's status, from its status pill: LIVE (is-live), upcoming,
+     or result (plain). */
+  function cardStatus(card) {
+    var st = card.querySelector('.rx-res-status');
+    if (!st) return 'result';
+    if (st.classList.contains('is-live')) return 'live';
+    if (st.classList.contains('upcoming')) return 'upcoming';
+    return 'result';
+  }
+  /* Canonical list order (the baked order): live first, then upcoming,
+     then results newest first. Re-appends only when the order actually
+     differs, so a no-change poll never touches the DOM. */
+  function reorderBox(box) {
+    var cards = Array.prototype.slice.call(box.querySelectorAll('.rx-res-card'));
+    var rank = { live: 0, upcoming: 1, result: 2 };
+    var sorted = cards.slice().sort(function (a, b) {
+      var sa = cardStatus(a), sb = cardStatus(b);
+      if (rank[sa] !== rank[sb]) return rank[sa] - rank[sb];
+      var na = parseInt(a.getAttribute('data-match-no') || '0', 10);
+      var nb = parseInt(b.getAttribute('data-match-no') || '0', 10);
+      return (sa === 'result') ? (nb - na) : (na - nb);
+    });
+    var same = cards.length === sorted.length && cards.every(function (c, i) { return c === sorted[i]; });
+    if (same) return false;
+    sorted.forEach(function (c) { box.appendChild(c); });
+    return true;
+  }
   /* Reconcile one league's Live-tab box with the feed: update each card
-     the feed carries (in place, only when the markup differs), and
-     insert a result the list lacks — after the last result card, before
-     the first upcoming card. Cards the feed does not carry are left
-     exactly as baked. The TBA guard from renderPanel applies here too:
-     a "TBA vs TBA" feed entry never overwrites the baked card. */
+     the feed carries (in place, only when the markup differs), insert a
+     result the list lacks (at the front of the results), and re-order
+     the box when a card's status changed (a live card that finished
+     moves to the results; an upcoming card that went live moves to the
+     front). Cards the feed does not carry are left exactly as baked.
+     The TBA guard: a "TBA vs TBA" feed entry never overwrites the baked
+     card. Two presentation bits are the baked card's, not the poller's,
+     and are carried over before comparing: the fixture order in
+     data-teams (the feed's team order differs — M28's feed lists KAG
+     first, the fixture POA first) and the upcoming status pill (the
+     league badge format is the league builder's — ILT20 bakes
+     "SAT, 21 NOV · EVENING", the poller's generic badge would say
+     "SATURDAY · 6:30 PM"). The comparison is outerHTML-to-outerHTML
+     on a parsed node, never string-to-outerHTML: the browser serialises
+     "&middot;" as the literal "·", so a string comparison would fail
+     on every card, every poll, and rewrite the whole list every 30
+     seconds. Returns true when anything changed (so the caller knows
+     to rebuild the Schedule + Results views). */
   function reconcileList(league, feedMatches, state) {
-    var box = document.querySelector('.rx-res-box[data-league="' + league + '"] .rx-res-grid');
-    if (!box) return;
+    var box = document.querySelector('#tab-live .rx-res-box[data-league="' + league + '"] .rx-res-grid');
+    if (!box) return false;
+    var changed = false;
     var byNo = {};
     (feedMatches || []).forEach(function (m) { byNo[m.matchNo] = m; });
     var cards = box.querySelectorAll('.rx-res-card');
@@ -840,7 +688,18 @@
       if (!m) continue;
       if (m.status === 'upcoming' && (teamName(m.team1) === 'TBA' || teamName(m.team2) === 'TBA')) continue;
       var fresh = listCardHtml(m, league, state);
-      if (fresh && cards[i].outerHTML !== fresh) cards[i].outerHTML = fresh;
+      if (!fresh) continue;
+      var tmp = document.createElement('div');
+      tmp.innerHTML = fresh;
+      var node = tmp.firstChild;
+      if (!node) continue;
+      node.setAttribute('data-teams', cards[i].getAttribute('data-teams') || node.getAttribute('data-teams'));
+      var oldSt = cards[i].querySelector('.rx-res-status');
+      var newSt = node.querySelector('.rx-res-status');
+      if (oldSt && newSt && oldSt.classList.contains('upcoming') && newSt.classList.contains('upcoming')) {
+        newSt.innerHTML = oldSt.innerHTML;
+      }
+      if (node.outerHTML !== cards[i].outerHTML) { cards[i].outerHTML = node.outerHTML; changed = true; }
     }
     var have = {};
     box.querySelectorAll('.rx-res-card').forEach(function (c) { have[parseInt(c.getAttribute('data-match-no') || '0', 10)] = true; });
@@ -853,201 +712,49 @@
       tmp.innerHTML = html;
       var node = tmp.firstChild;
       if (!node) return;
+      /* The front of the results = before the first existing result
+         card (newest first); if the box has no result yet, the end. */
       var anchor = null;
       var all = box.querySelectorAll('.rx-res-card');
       for (var k = 0; k < all.length; k++) {
-        if (!all[k].getAttribute('data-date')) { anchor = all[k]; break; }
+        if (cardStatus(all[k]) === 'result') { anchor = all[k]; break; }
       }
       if (anchor) box.insertBefore(node, anchor);
       else box.appendChild(node);
+      changed = true;
     });
+    if (reorderBox(box)) changed = true;
+    return changed;
   }
-
-  /* The TBA guard's baked-card cache (see renderPanel): the baked card
-     is re-read once, then reused, so enhanceLogos() mutating it in
-     place never rewrites the root. */
-  var tbaCache = {};
 
   /* ---- the live-scores page panel ---- */
-  function renderPanel(panel, data, ilt20Data, state) {
-    var league = panel.getAttribute('data-league') || 'npl';
-    var root = document.getElementById('liveScoreRoot');
-    var results = document.getElementById('liveResults');
-    var scorecard = document.getElementById('slp-scorecard');
-    var overs = document.getElementById('slp-overs');
-    var p = pick((data && data.matches) || []);
-    var html = '';
-    if (p.live) html += cardHtml(p.live, league);
-    else if (p.latest) html += cardHtml(p.latest, league);
-    if (p.next) {
-      var nt1 = teamName(p.next.team1), nt2 = teamName(p.next.team2);
-      if (nt1 === 'TBA' || nt2 === 'TBA') {
-        /* ESPN still lists a qualifier as "TBA vs TBA" after the teams
-           are decided — keep the baked next-match card (real teams from
-           matches.json) instead of overwriting it with TBA. The baked
-           card survives later polls too: it is re-read from the root
-           each time, never re-rendered from the feed. The string is
-           cached on first use: live-scores-tabs.js enhanceLogos()
-           rewrites the baked card's chip into a logo img in place, so
-           re-reading outerHTML on a later poll would change the string
-           and rewrite the root for no visible reason. */
-        var tkey = p.next.matchNo;
-        if (!tbaCache[tkey]) {
-          var baked = root && root.querySelector('.rx-res-card[data-match-no="' + tkey + '"]');
-          if (baked) tbaCache[tkey] = baked.outerHTML;
-        }
-        if (tbaCache[tkey]) html += tbaCache[tkey];
-      } else html += cardHtml(p.next, league);
-    }
-    if (html && root) setHtml(root, html);
-    if (results) {
-      var done = (data.matches || []).filter(function (m) { return m.status === 'result'; })
-        .map(function (m) { return { m: m, league: league }; });
-      if (ilt20Data) done = done.concat((ilt20Data.matches || []).filter(function (m) { return m.status === 'result'; })
-        .map(function (m) { return { m: m, league: 'ilt20' }; }));
-      done.sort(function (a, b) { return b.m.matchNo - a.m.matchNo; });
-      if (done.length) {
-        /* Merge, never shrink: the feed only carries the matches it
-           knows about, while the baked list goes further back. Feed
-           rows first (fresh), baked rows the feed lacks stay after. */
-        /* Merge, never shrink: the feed only carries the matches it
-           knows about, while the baked list goes further back. Feed
-           cards first (fresh), baked cards the feed lacks stay after,
-           regrouped by date so the Results tab keeps its date groups.
-           The signature skips the rebuild when the feed result set is
-           unchanged, so a poll cycle never re-renders identical cards. */
-        var sig = done.map(function (d) { return d.league + d.m.matchNo + ':' + (d.m.score1 || '') + '-' + (d.m.score2 || ''); }).join('|');
-        if (results.getAttribute('data-feed-sig') !== sig) {
-          results.setAttribute('data-feed-sig', sig);
-          var kept = [];
-          var cards = results.querySelectorAll('.rx-res-card');
-          for (var i = 0; i < cards.length; i++) {
-            var no = parseInt(cards[i].getAttribute('data-match-no') || '0', 10);
-            var lg = cards[i].getAttribute('data-league') || league;
-            var inFeed = false;
-            for (var j = 0; j < done.length; j++) if (done[j].m.matchNo === no && done[j].league === lg) inFeed = true;
-            if (!inFeed) kept.push(cards[i].outerHTML);
-          }
-          var all = done.map(function (d) { return resultItem(d.m, d.league); }).concat(kept);
-          var groups = {};
-          var order = [];
-          all.forEach(function (html) {
-            var dm = /data-date="([^"]+)"/.exec(html);
-            var lm = /data-league="([^"]+)"/.exec(html);
-            var key = (dm ? dm[1] : '') + '|' + (lm ? lm[1] : league);
-            if (!groups[key]) { groups[key] = []; order.push(key); }
-            groups[key].push(html);
-          });
-          var out = '';
-          order.forEach(function (key) {
-            var parts = key.split('|');
-            out += dateGroupHtml(parts[0], parts[1], groups[key].join(''));
-          });
-          results.innerHTML = out;
-        }
-      }
-    }
-    var featured = p.live || p.latest;
-    /* Scorecard and overs come from the feed only while a match is
-       live. For a finished match the baked scorecard is authoritative
-       (the post-match run writes it, with figures the feed's partial
-       scorecard does not carry) — never overwrite it with less. */
-    if (p.live && featured && scorecard && window.sialtvLiveTables) {
-      var tables = window.sialtvLiveTables(featured);
-      if (tables) setHtml(scorecard, tables);
-    }
-    if (p.live && featured && overs) {
-      var tl = featured.overTimeline || [];
-      if (tl.length && window.sialtvLiveTables && window.sialtvLiveOvers) {
-        setHtml(overs, window.sialtvLiveOvers(featured));
-      } else if (!tl.length) {
-        setHtml(overs, '<p>Over-by-over balls are not published for Match ' + featured.matchNo + ' on this page.</p>');
-      }
-    }
-    /* ---- full auto-update: every other section, in place ---- */
-    renderFlash(data.matches || []);
-    renderLatest(data.matches || [], state);
-    renderQuickNpl(state);
-    renderRecords(state);
+  function renderPanel(data, ilt20Data, state) {
     var pts = state ? pointsToRender(state, data.matches || []) : null;
     if (pts) renderRankings(pts);
-    if (state && pts) renderCentre(state, pts, p.live);
-    reconcileList('npl', data.matches || [], state);
-    if (ilt20Data) reconcileList('ilt20', ilt20Data.matches || [], state);
-    return p;
-  }
-
-
-  /* Sidebar "Live now — Match N" (live-scores pages): the baked line
-     freezes at the bake ("Kathmandu Yet to Bat") while the match moves
-     on. Update it from the same feed as the live centre, on every poll.
-     The venue is kept from the baked line (the feed carries none). */
-  function refreshSidebarLive(data) {
-    /* Every sidebar card is updated from the feed entry for ITS OWN
-       match — not just the live/latest one. When Match 24 finishes and
-       Match 25 goes live, the Match 24 card must flip to its result
-       instead of staying frozen on "Yet to Bat". */
-    var byNo = {};
-    (data.matches || []).forEach(function (m) { byNo[m.matchNo] = m; });
-    var links = document.querySelectorAll('.side-card h3 a[href*="/match-"]');
-    for (var i = 0; i < links.length; i++) {
-      var mm = (links[i].getAttribute('href') || '').match(/match-(\d+)\//);
-      if (!mm) continue;
-      var m = byNo[parseInt(mm[1], 10)];
-      if (!m || (m.status !== 'live' && m.status !== 'result')) continue;
-      var card = links[i].closest('.side-card');
-      if (!card) continue;
-      var line = card.querySelector('p:not(.note)');
-      if (m.status === 'live') {
-        setText(links[i], 'Live now — Match ' + m.matchNo);
-        if (line) setHtml(line, sidebarLiveLine(m, line));
-      } else if (m.status === 'result') {
-        setText(links[i], 'Result — Match ' + m.matchNo);
-        if (line) setText(line, teamName(m.statusText || ''));
-      }
-    }
-  }
-  function sidebarLiveLine(m, line) {
-    var a = esc(teamName(m.team1)) + ' ' + esc(m.score1 || '');
-    if (m.score1 && hasOvers(m.overs1)) a += ' (' + esc(m.overs1) + ' ov)';
-    else if (m.status === 'live' && !m.score1 && m.score2) a = esc(teamName(m.team1)) + ' Yet to Bat';
-    var b = esc(teamName(m.team2)) + ' ' + esc(m.score2 || '');
-    if (m.score2 && hasOvers(m.overs2)) b += ' (' + esc(m.overs2) + ' ov)';
-    else if (m.status === 'live' && !m.score2 && m.score1) b = esc(teamName(m.team2)) + ' Yet to Bat';
-    var venue = '';
-    if (line) {
-      var parts = (line.textContent || '').split('·');
-      if (parts.length > 1) venue = ' &middot; ' + esc(parts[parts.length - 1].trim());
-    }
-    return '<b>' + esc(teamName(m.team1)) + ' vs ' + esc(teamName(m.team2)) + '</b><br>' + a + ' &middot; ' + b + venue;
+    renderRecords(state);
+    renderQuickNpl(state);
+    var changed = false;
+    changed = reconcileList('npl', data.matches || [], state) || changed;
+    if (ilt20Data) changed = reconcileList('ilt20', ilt20Data.matches || [], state) || changed;
+    if (changed && window.sialtvRebuildTabViews) window.sialtvRebuildTabViews();
+    return pick((data && data.matches) || []);
   }
 
   function boot() {
-    var panel = document.getElementById('livePanel');
+    var panel = document.getElementById('tab-live');
     if (!panel) return;
-    wireTabs(panel);
-    /* The featured match centre moved below the series list (redesign
-       2026-11-16) — its Summary/Scorecard/Overs tabs live in #slpCentre
-       now, not inside #livePanel. */
-    var centre = document.getElementById('slpCentre');
-    if (centre) wireTabs(centre);
-    /* Pre-season leagues have no feed yet: the baked panel is the whole
-       truth, and the tabs are the only live behaviour. No fetch, no
-       invented scores. */
-    if (panel.getAttribute('data-mode') === 'preseason') return;
-    var league = panel.getAttribute('data-league') || 'npl';
     function load() {
       if (document.hidden) return;
-      /* The NPL feed drives the panel; the ILT20 feed drives its list
-         box and Results-tab groups; the state file drives points,
-         rankings, records and the centre. Each fetch fails soft, so
-         one dead source never blocks the other two. */
-      var nplP = sialtvScores(league).catch(function () { return null; });
+      /* The NPL feed drives the list; the ILT20 feed drives its list
+         box; the state file drives rankings, records and the Quick
+         Links note. Each fetch fails soft, so one dead source never
+         blocks the other two. */
+      var nplP = sialtvScores('npl').catch(function () { return null; });
       var iltP = sialtvScores('ilt20').catch(function () { return null; });
       var stP = fetchState(false);
       Promise.all([nplP, iltP, stP]).then(function (all) {
         var data = all[0], ilt = all[1], state = all[2];
-        if (data && data.matches && data.matches.length) { renderPanel(panel, data, ilt, state); refreshSidebarLive(data); }
+        if (data && data.matches && data.matches.length) { renderPanel(data, ilt, state); }
       }).catch(function () {});
     }
     load();

@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-11-16T11:19:13Z",
+ "generatedAt": "2026-11-16T12:26:54Z",
  "through_match": 28,
  "points": [
   {
@@ -117,101 +117,6 @@
   "match_no": 28,
   "records_line": "Yuvraaj Samra 294 runs &middot; Kamal Airee, Rijan Dhakal, Rahul Yadav &amp; Jahandad Khan 12 wickets &middot; Sandeep Lamichhane 6/27."
  },
- "featured": {
-  "match_no": 28,
-  "date": "2026-11-15",
-  "date_label": "Sun 15 Nov 2026",
-  "team1": "Pokhara Avengers",
-  "abbr1": "POA",
-  "score1": "224/3",
-  "overs1": "20",
-  "team2": "Kathmandu Gorkhas",
-  "abbr2": "KAG",
-  "score2": "169/10",
-  "overs2": "19.5",
-  "result": "Pokhara Avengers won by 55 runs",
-  "venue": "TU International Cricket Ground, Kirtipur",
-  "venue_short": "Kirtipur",
-  "summary": "Pokhara Avengers made 224 for 3 in 20 overs, then Kathmandu Gorkhas were bowled out for 169 in 19.5 overs. Kushal Bhurtel top-scored for the Avengers with 99 off 51 balls, and Yuvraaj Samra made 89 off 55; Karan KC took 2 for 34 for the Gorkhas. In reply Sahil Patel made 34 off 23 and Rashid Khan 31 off 20 for the Gorkhas; Dinesh Kharel took 4 for 18 for the Avengers.",
-  "result_note": "Kushal Bhurtel made 99 off 51 balls; Dinesh Kharel took 4 for 18.",
-  "win_team": "Pokhara Avengers",
-  "win_score": "224/3",
-  "lose_team": "Kathmandu Gorkhas",
-  "lose_score": "169/10",
-  "margin": "by 55 runs",
-  "batting1": [
-   [
-    "Kushal Bhurtel",
-    "99",
-    "51",
-    "8",
-    "8",
-    "194.12"
-   ],
-   [
-    "Yuvraaj Samra",
-    "89",
-    "55",
-    "8",
-    "5",
-    "161.82"
-   ]
-  ],
-  "bowling1": [
-   [
-    "Karan KC",
-    "4",
-    "0",
-    "34",
-    "2",
-    "8.50"
-   ],
-   [
-    "Jahandad Khan",
-    "4",
-    "0",
-    "47",
-    "1",
-    "11.75"
-   ]
-  ],
-  "batting2": [
-   [
-    "Sahil Patel",
-    "34",
-    "23",
-    "4",
-    "1",
-    "147.83"
-   ],
-   [
-    "Rashid Khan",
-    "31",
-    "20",
-    "3",
-    "2",
-    "155.00"
-   ]
-  ],
-  "bowling2": [
-   [
-    "Dinesh Kharel",
-    "4",
-    "0",
-    "18",
-    "4",
-    "4.50"
-   ],
-   [
-    "Bipin Khatri",
-    "4",
-    "0",
-    "28",
-    "3",
-    "7.00"
-   ]
-  ]
- },
  "next": {
   "match_no": 29,
   "date": "2026-11-17",
@@ -235,7 +140,9 @@
    "overs1": "9.5",
    "overs2": "17.2",
    "quota": 20,
-   "winner": "LUL"
+   "winner": "LUL",
+   "win_chased": true,
+   "target": 88
   },
   {
    "matchNo": 2,
@@ -249,7 +156,9 @@
    "overs1": "19.3",
    "overs2": "20",
    "quota": 20,
-   "winner": "CHR"
+   "winner": "CHR",
+   "win_chased": false,
+   "target": 158
   },
   {
    "matchNo": 3,
@@ -263,7 +172,9 @@
    "overs1": "19.3",
    "overs2": "20",
    "quota": 20,
-   "winner": "KAY"
+   "winner": "KAY",
+   "win_chased": false,
+   "target": 133
   },
   {
    "matchNo": 4,
@@ -277,7 +188,9 @@
    "overs1": "20",
    "overs2": "16.5",
    "quota": 20,
-   "winner": "SPR"
+   "winner": "SPR",
+   "win_chased": true,
+   "target": 146
   },
   {
    "matchNo": 5,
@@ -291,7 +204,9 @@
    "overs1": "17.2",
    "overs2": "19.3",
    "quota": 20,
-   "winner": "JAB"
+   "winner": "JAB",
+   "win_chased": true,
+   "target": 116
   },
   {
    "matchNo": 6,
@@ -305,7 +220,9 @@
    "overs1": "20",
    "overs2": "19.5",
    "quota": 20,
-   "winner": "KAY"
+   "winner": "KAY",
+   "win_chased": true,
+   "target": 187
   },
   {
    "matchNo": 7,
@@ -319,7 +236,9 @@
    "overs1": "",
    "overs2": "",
    "quota": 20,
-   "winner": null
+   "winner": null,
+   "win_chased": null,
+   "target": null
   },
   {
    "matchNo": 8,
@@ -333,7 +252,9 @@
    "overs1": "5",
    "overs2": "5",
    "quota": 5,
-   "winner": "BIK"
+   "winner": "BIK",
+   "win_chased": false,
+   "target": 106
   },
   {
    "matchNo": 9,
@@ -347,7 +268,9 @@
    "overs1": "20",
    "overs2": "20",
    "quota": 20,
-   "winner": "JAB"
+   "winner": "JAB",
+   "win_chased": false,
+   "target": 148
   },
   {
    "matchNo": 10,
@@ -361,7 +284,9 @@
    "overs1": "20",
    "overs2": "19.4",
    "quota": 20,
-   "winner": "KAG"
+   "winner": "KAG",
+   "win_chased": true,
+   "target": 181
   },
   {
    "matchNo": 11,
@@ -375,7 +300,9 @@
    "overs1": "20",
    "overs2": "16.4",
    "quota": 20,
-   "winner": "SPR"
+   "winner": "SPR",
+   "win_chased": true,
+   "target": 130
   },
   {
    "matchNo": 12,
@@ -389,7 +316,9 @@
    "overs1": "20",
    "overs2": "20",
    "quota": 20,
-   "winner": "BIK"
+   "winner": "BIK",
+   "win_chased": false,
+   "target": 175
   },
   {
    "matchNo": 13,
@@ -403,7 +332,9 @@
    "overs1": "11.4",
    "overs2": "20",
    "quota": 20,
-   "winner": "LUL"
+   "winner": "LUL",
+   "win_chased": true,
+   "target": 98
   },
   {
    "matchNo": 14,
@@ -417,7 +348,9 @@
    "overs1": "20",
    "overs2": "20",
    "quota": 20,
-   "winner": "LUL"
+   "winner": "LUL",
+   "win_chased": false,
+   "target": 150
   },
   {
    "matchNo": 15,
@@ -431,7 +364,9 @@
    "overs1": "18.3",
    "overs2": "9.4",
    "quota": 20,
-   "winner": "KAG"
+   "winner": "KAG",
+   "win_chased": true,
+   "target": 84
   },
   {
    "matchNo": 16,
@@ -445,7 +380,9 @@
    "overs1": "20",
    "overs2": "20",
    "quota": 20,
-   "winner": "SPR"
+   "winner": "SPR",
+   "win_chased": false,
+   "target": 177
   },
   {
    "matchNo": 17,
@@ -459,7 +396,9 @@
    "overs1": "20",
    "overs2": "19",
    "quota": 20,
-   "winner": "CHR"
+   "winner": "CHR",
+   "win_chased": false,
+   "target": 152
   },
   {
    "matchNo": 18,
@@ -473,7 +412,9 @@
    "overs1": "20",
    "overs2": "19.3",
    "quota": 20,
-   "winner": "KAG"
+   "winner": "KAG",
+   "win_chased": false,
+   "target": 161
   },
   {
    "matchNo": 19,
@@ -487,7 +428,9 @@
    "overs1": "18.3",
    "overs2": "20",
    "quota": 20,
-   "winner": "POA"
+   "winner": "POA",
+   "win_chased": false,
+   "target": 218
   },
   {
    "matchNo": 20,
@@ -501,7 +444,9 @@
    "overs1": "20",
    "overs2": "20",
    "quota": 20,
-   "winner": "KAG"
+   "winner": "KAG",
+   "win_chased": false,
+   "target": 181
   },
   {
    "matchNo": 21,
@@ -515,7 +460,9 @@
    "overs1": "19.5",
    "overs2": "20",
    "quota": 20,
-   "winner": "SPR"
+   "winner": "SPR",
+   "win_chased": false,
+   "target": 121
   },
   {
    "matchNo": 22,
@@ -529,7 +476,9 @@
    "overs1": "19.2",
    "overs2": "17.5",
    "quota": 20,
-   "winner": "BIK"
+   "winner": "BIK",
+   "win_chased": true,
+   "target": 133
   },
   {
    "matchNo": 23,
@@ -543,7 +492,9 @@
    "overs1": "19.2",
    "overs2": "16.4",
    "quota": 20,
-   "winner": "LUL"
+   "winner": "LUL",
+   "win_chased": true,
+   "target": 106
   },
   {
    "matchNo": 24,
@@ -557,7 +508,9 @@
    "overs1": "20",
    "overs2": "20",
    "quota": 20,
-   "winner": "SPR"
+   "winner": "SPR",
+   "win_chased": false,
+   "target": 126
   },
   {
    "matchNo": 25,
@@ -571,7 +524,9 @@
    "overs1": "17.2",
    "overs2": "20",
    "quota": 20,
-   "winner": "CHR"
+   "winner": "CHR",
+   "win_chased": true,
+   "target": 89
   },
   {
    "matchNo": 26,
@@ -585,7 +540,9 @@
    "overs1": "20",
    "overs2": "19.5",
    "quota": 20,
-   "winner": "LUL"
+   "winner": "LUL",
+   "win_chased": true,
+   "target": 167
   },
   {
    "matchNo": 27,
@@ -599,7 +556,9 @@
    "overs1": "19.1",
    "overs2": "20",
    "quota": 20,
-   "winner": "KAY"
+   "winner": "KAY",
+   "win_chased": false,
+   "target": 154
   },
   {
    "matchNo": 28,
@@ -613,7 +572,9 @@
    "overs1": "19.5",
    "overs2": "20",
    "quota": 20,
-   "winner": "POA"
+   "winner": "POA",
+   "win_chased": false,
+   "target": 225
   },
   {
    "matchNo": 29,
@@ -627,7 +588,9 @@
    "overs1": "",
    "overs2": "",
    "quota": 20,
-   "winner": null
+   "winner": null,
+   "win_chased": null,
+   "target": null
   },
   {
    "matchNo": 30,
@@ -641,7 +604,9 @@
    "overs1": "",
    "overs2": "",
    "quota": 20,
-   "winner": null
+   "winner": null,
+   "win_chased": null,
+   "target": null
   },
   {
    "matchNo": 31,
@@ -655,7 +620,9 @@
    "overs1": "",
    "overs2": "",
    "quota": 20,
-   "winner": null
+   "winner": null,
+   "win_chased": null,
+   "target": null
   },
   {
    "matchNo": 32,
@@ -669,7 +636,9 @@
    "overs1": "",
    "overs2": "",
    "quota": 20,
-   "winner": null
+   "winner": null,
+   "win_chased": null,
+   "target": null
   }
  ]
 }
