@@ -41,9 +41,28 @@ body.st-inner.page-live-scores .ls-empty {
 /* White cards on the lavender page (shared .rx-res-card is lavender);
    whole-card hover lift: the card itself navigates (see live-scores-tabs.js). */
 body.st-inner.page-live-scores .rx-res-card {
+  position: relative;
   background: var(--st-surface, #fff);
   cursor: pointer;
   transition: transform var(--st-ease, 0.2s ease), box-shadow var(--st-ease, 0.2s ease);
+}
+/* Whole-card link (follow-up 2026-11-16): a stretched link, like the
+   Recent-row flash cards — the card itself is a real anchor, so it
+   navigates natively and never depends on the delegated click. The
+   inner links sit above it (z-index) and keep working; the delegated
+   click stays as the fallback for cards without an overlay. */
+body.st-inner.page-live-scores .rx-res-card .rx-card-link {
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
+}
+body.st-inner.page-live-scores .rx-res-card .rx-res-desc a,
+body.st-inner.page-live-scores .rx-res-card .rx-res-links a {
+  position: relative;
+  z-index: 1;
+}
+body.st-inner.page-live-scores .rx-res-card .rx-card-link:focus-visible {
+  outline: 2px solid var(--st-rose, #e11d48);
+  outline-offset: -2px;
 }
 body.st-inner.page-live-scores .rx-res-card:hover {
   transform: translateY(-2px);
@@ -58,9 +77,13 @@ body.st-inner.page-live-scores .rx-res-team img.team-logo {
   object-fit: contain;
   flex-shrink: 0;
 }
-/* Series group heading: an H2 now (was div+b), same flex row as before. */
+/* Series group heading: an H2 now (was div+b), same flex row as before.
+   font-weight 800 so a plain-text H2 (the Results-tab date headings,
+   follow-up 2026-11-16) reads as bold as the series-name links; the
+   links carry their own weights and are unaffected. */
 body.st-inner.page-live-scores h2.rx-res-boxhead {
   font-size: 1rem;
+  font-weight: 800;
   line-height: 1.35;
   margin: 0;
 }
@@ -170,11 +193,16 @@ body.st-inner.page-live-scores .slp-tab[aria-current="true"] {
   font-weight: 800;
 }
 
-/* Sidebar cards read as white cards, like the series boxes. */
+/* Sidebar cards read as white cards, like the series boxes. Padding is
+   the site's card padding (.st-jump: 1rem 1.15rem 1.05rem) — without it
+   the text touched both borders and the rounded corners clipped the
+   first/last letters (follow-up 2026-11-16: "ajeeb sidebar"). No shared
+   rule supplies .side-card padding; the hub's cards get it from .st-jump. */
 body.st-inner.page-live-scores .side-card {
   background: var(--st-surface, #fff);
   border-radius: var(--st-radius-sm, 0.75rem);
   box-shadow: var(--st-shadow-sm, 0 1px 3px rgba(9, 8, 17, 0.06));
+  padding: 1rem 1.15rem 1.05rem;
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -168,7 +168,7 @@
     return String(s == null ? '' : s).replace(/\s*\((NPL|ILT20|APL|SA20|BBL|PSL)\)/g, '').replace(/Sudurpaschim/g, 'Sudur Paschim');
   }
   /* Overs of "0" (or "0.0") with no score yet is not a real innings —
-     treat it as no overs, so the side shows "yet to bat" instead of a
+     treat it as no overs, so the side shows "Yet to Bat" instead of a
      blank score followed by "(0 ov)". */
   function hasOvers(o) { return !!o && o !== '0' && o !== '0.0'; }
 
@@ -185,7 +185,7 @@
   /* One team row, shared by the live card and resultItem: logo (or the
      code chip when the logo map has no entry), optional batting dot,
      name, overs, score right-aligned. A side that has not batted yet
-     shows "yet to bat", never a bare name or "( ov)". */
+     shows "Yet to Bat", never a bare name or "( ov)". */
   function teamRow(team, abbr, pre, score, opts) {
     opts = opts || {};
     var img = logoImg(team);
@@ -193,7 +193,7 @@
     var dot = opts.batting ? '<span class="ls-bat" aria-hidden="true"></span>' : '';
     var row = '<div class="rx-res-team' + (opts.loser ? ' is-loser' : '') + '">' + chip + dot +
       '<span class="rx-tname"><b>' + esc(teamName(team)) + '</b></span>';
-    if (opts.yetToBat) row += '<span class="rx-tpre">yet to bat</span>';
+    if (opts.yetToBat) row += '<span class="rx-tpre">Yet to Bat</span>';
     else if (pre) row += '<span class="rx-tpre">' + pre + '</span>';
     if (score) row += '<span class="rx-tscore">' + esc(score) + '</span>';
     return row + '</div>';
@@ -209,7 +209,7 @@
     if (m.status === 'live') {
       /* Batting side: the side with a second-innings score is batting;
          otherwise the side with a score is. A side with no score while
-         the other bats shows "yet to bat". */
+         the other bats shows "Yet to Bat". */
       var bat = m.score2 ? 2 : (m.score1 ? 1 : 0);
       var runs1 = parseInt(String(m.score1 || '').split('/')[0], 10) || 0;
       var maxov = (m.overs1 === '5' || m.overs1 === '5.0') ? '5' : '20';
@@ -224,7 +224,11 @@
         '<a href="' + href + '#scorecard">Scorecard</a>' +
         '<a href="/' + esc(league) + '/">Series</a></div>';
       if (m.toss) html += '<p class="note">' + esc(m.toss) + '</p>';
-      return html + '</article>';
+      /* Whole-card link (follow-up 2026-11-16): stretched link, like the
+         baked cards — the card itself is a real anchor. */
+      return html + '<a class="rx-card-link" href="' + href + '" aria-label="' +
+        esc(ordinal(m.matchNo)) + ' Match: ' + esc(teamName(m.team1)) + ' vs ' +
+        esc(teamName(m.team2)) + '"></a></article>';
     }
     /* upcoming */
     var badge = fmtHead(m.date) ? esc(fmtHead(m.date).toUpperCase()) : 'UPCOMING';
@@ -234,7 +238,10 @@
       '<div class="rx-res-result is-upcoming">Match yet to begin</div>' +
       '<div class="rx-res-links"><a href="' + href + '#summary">Summary</a>' +
       '<a href="' + href + '#scorecard">Scorecard</a>' +
-      '<a href="/' + esc(league) + '/">Series</a></div></article>';
+      '<a href="/' + esc(league) + '/">Series</a></div>' +
+      '<a class="rx-card-link" href="' + href + '" aria-label="' +
+      esc(ordinal(m.matchNo)) + ' Match: ' + esc(teamName(m.team1)) + ' vs ' +
+      esc(teamName(m.team2)) + '"></a></article>';
   }
 
   /* League tag for feed rows, Cricinfo-style: "Biratnagar Kings (NPL)". */
@@ -293,14 +300,14 @@
     return -1;
   }
   var LEAGUE_NAMES = { npl: 'Nepal Premier League', ilt20: 'ILT20', apl: 'Afghanistan Premier League' };
-  var LEAGUE_HEADS = { npl: 'Nepal Premier League 2026', ilt20: 'ILT20 2026-27', apl: 'Afghanistan Premier League 2026-27' };
+  /* Results-tab date group (follow-up 2026-11-16): the H2 is the DATE,
+     not the repeated series name — the series name already lives in each
+     card's desc line. Mirrors cards.py date_group(). */
   function dateGroupHtml(iso, league, cardsHtml) {
-    var head = LEAGUE_HEADS[league] || LEAGUE_NAMES[league] || leagueTag(league);
     return '<div class="rx-date-group" id="date-' + esc(iso) + '" data-date="' + esc(iso) + '">' +
       '<div class="rx-date-pill"><span>' + esc(fmtHead(iso)) + '</span></div>' +
       '<div class="rx-res-box" data-league="' + esc(league) + '">' +
-      '<h2 class="rx-res-boxhead"><a href="/' + esc(league) + '/">' + esc(head) + ' &rsaquo;</a>' +
-      '<a class="rx-seeall" href="/' + esc(league) + '/">See all</a></h2>' +
+      '<h2 class="rx-res-boxhead">' + esc(fmtDateLong(iso)) + '</h2>' +
       '<div class="rx-res-grid">' + cardsHtml + '</div></div></div>';
   }
 
@@ -341,7 +348,9 @@
       '<div class="rx-res-result">' + esc(teamName(m.statusText || '')) + '</div>' +
       '<div class="rx-res-links"><a href="' + href + '#summary">Summary</a>' +
       '<a href="' + href + '#scorecard">Scorecard</a><a href="/' + esc(league) + '/">Series</a></div>' +
-      '</article>';
+      '<a class="rx-card-link" href="' + href + '" aria-label="' +
+      esc(ordinal(m.matchNo)) + ' Match: ' + esc(teamName(m.team1)) + ' vs ' +
+      esc(teamName(m.team2)) + '"></a></article>';
   }
 
   /* ---- tabs (Summary / Scorecard / Overs) ---- */
@@ -456,14 +465,14 @@
 
 
   /* Sidebar "Live now — Match N" (live-scores pages): the baked line
-     freezes at the bake ("Kathmandu yet to bat") while the match moves
+     freezes at the bake ("Kathmandu Yet to Bat") while the match moves
      on. Update it from the same feed as the live centre, on every poll.
      The venue is kept from the baked line (the feed carries none). */
   function refreshSidebarLive(data) {
     /* Every sidebar card is updated from the feed entry for ITS OWN
        match — not just the live/latest one. When Match 24 finishes and
        Match 25 goes live, the Match 24 card must flip to its result
-       instead of staying frozen on "yet to bat". */
+       instead of staying frozen on "Yet to Bat". */
     var byNo = {};
     (data.matches || []).forEach(function (m) { byNo[m.matchNo] = m; });
     var links = document.querySelectorAll('.side-card h3 a[href*="/match-"]');
@@ -487,10 +496,10 @@
   function sidebarLiveLine(m, line) {
     var a = esc(teamName(m.team1)) + ' ' + esc(m.score1 || '');
     if (m.score1 && hasOvers(m.overs1)) a += ' (' + esc(m.overs1) + ' ov)';
-    else if (m.status === 'live' && !m.score1 && m.score2) a = esc(teamName(m.team1)) + ' yet to bat';
+    else if (m.status === 'live' && !m.score1 && m.score2) a = esc(teamName(m.team1)) + ' Yet to Bat';
     var b = esc(teamName(m.team2)) + ' ' + esc(m.score2 || '');
     if (m.score2 && hasOvers(m.overs2)) b += ' (' + esc(m.overs2) + ' ov)';
-    else if (m.status === 'live' && !m.score2 && m.score1) b = esc(teamName(m.team2)) + ' yet to bat';
+    else if (m.status === 'live' && !m.score2 && m.score1) b = esc(teamName(m.team2)) + ' Yet to Bat';
     var venue = '';
     if (line) {
       var parts = (line.textContent || '').split('·');
