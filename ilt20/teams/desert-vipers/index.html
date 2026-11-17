@@ -23,7 +23,7 @@
 <meta name="twitter:description" content="Desert Vipers defend their ILT20 title in Season 5 with Shadab Khan as captain. Verified squad, the opener against MI Emirates and all 10 fixtures.">
 <meta name="theme-color" content="#090811">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","name":"Desert Vipers Cricket Team | DV News, Matches, Results, Squad","url":"https://sialtv.com/ilt20/teams/desert-vipers/","description":"Desert Vipers defend their ILT20 title in Season 5 with Shadab Khan as captain. Verified squad, the opener against MI Emirates and all 10 fixtures.","datePublished":"2026-11-11T05:44:00Z","dateModified":"2026-11-17T19:57:00Z"}
+{"@context":"https://schema.org","@type":"WebPage","name":"Desert Vipers Cricket Team | DV News, Matches, Results, Squad","url":"https://sialtv.com/ilt20/teams/desert-vipers/","description":"Desert Vipers defend their ILT20 title in Season 5 with Shadab Khan as captain. Verified squad, the opener against MI Emirates and all 10 fixtures.","datePublished":"2026-11-11T05:44:00Z","dateModified":"2026-11-17T23:11:00Z"}
 </script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"SportsTeam","name":"Desert Vipers","sport":"Cricket","url":"https://sialtv.com/ilt20/teams/desert-vipers/","memberOf":{"@type":"SportsOrganization","name":"International League T20 2026-27"},"coach":{"@type":"Person","name":"James Foster"},"athlete":[{"@type":"Person","name":"Abdullah Ahmadzai"},{"@type":"Person","name":"Babar Azam"},{"@type":"Person","name":"David Payne"},{"@type":"Person","name":"Fakhar Zaman"},{"@type":"Person","name":"Harry Tector"},{"@type":"Person","name":"Hassan Nawaz"},{"@type":"Person","name":"Joe Clarke"},{"@type":"Person","name":"Mujeeb Ur Rahman"},{"@type":"Person","name":"Nangeyalia Kharote"},{"@type":"Person","name":"Naseem Shah"},{"@type":"Person","name":"Saleem Safi"},{"@type":"Person","name":"Shadab Khan"},{"@type":"Person","name":"Shimron Hetmyer"},{"@type":"Person","name":"Tom Curran"},{"@type":"Person","name":"Khuzaima Bin Tanveer"},{"@type":"Person","name":"Nilansh Keswani"},{"@type":"Person","name":"Sanjay Pahal"},{"@type":"Person","name":"Vriitya Aravind"},{"@type":"Person","name":"Wali Muhammad"},{"@type":"Person","name":"Andries Gous"},{"@type":"Person","name":"Bilal Tahir"},{"@type":"Person","name":"Ishtiaq Ahmed"}]}
@@ -38,12 +38,6 @@
 </head>
 <body class="st-inner league-ilt20" data-css="p12">
 <a class="st-skip" href="#main">Skip to content</a>
-<div class="st-match-strip">
-    <div class="wrap">
-      <span><b>NEXT</b> &middot; ILT20 Match 1 — Desert Vipers vs MI Emirates</span>
-      <span class="t-time">Evening · Sat 21 Nov 2026</span>
-    </div>
-  </div>
 <div id="mastheadMount"><header class="st-masthead" style="border-bottom:1px solid rgba(227,223,240,.85);padding-bottom:0;margin-bottom:0">
   <div class="st-shell st-masthead__row">
     <a class="st-wordmark" href="/" aria-label="SialTV home" style="color:#0c1022;text-decoration:none">
@@ -119,19 +113,33 @@
 })();
 </script>
   <!--__PH23__-->
-<nav class="series-nav" aria-label="ILT20 sections">
-  <div class="wrap">
-    <a href="/ilt20/">Overview</a>
-    <a href="/ilt20/schedule/">Schedule</a>
-    <a href="/ilt20/points-table/">Points Table</a>
-    <a href="/ilt20/results/">Results</a>
-    <a href="/ilt20/live-scores/">Live Scores</a>
-    <a href="/ilt20/teams/" aria-current="page">Teams</a>
-    <a href="/ilt20/players/">Players</a>
-    <a href="/ilt20/stats/">Stats</a>
-    <a href="/ilt20/tickets/">Tickets</a>
-  </div>
-</nav>
+<nav class="series-secnav" aria-label="International League T20 sections"><div class="wrap secnav-row"><div class="secnav-title-wrap"><div class="secnav-title"><button type="button" class="secnav-switch" aria-haspopup="true">International League T20 2026&ndash;27 <span class="secnav-caret" aria-hidden="true">&#9662;</span></button></div><div class="secnav-drop"><a href="/npl/">Nepal Premier League 2026</a><a href="/ilt20/" aria-current="page">International League T20 2026&ndash;27</a><a href="/apl/">Afghanistan Premier League 2026&ndash;27</a></div></div><span class="secnav-div" aria-hidden="true"></span><div class="secnav-links"><a href="/ilt20/">Home</a><a href="/ilt20/schedule/">Fixtures and Results</a><a href="/ilt20/points-table/">Table</a><a href="/ilt20/stats/">Stats</a><a href="/ilt20/teams/" aria-current="page">Teams</a><a href="/ilt20/players/">Players</a></div></div></nav>
+
+<div id="stripMount"></div>
+<script>
+(function () {
+  var mount = document.getElementById('stripMount');
+  if (!mount) return;
+  function loadScript(src, next) {
+    var s = document.createElement('script');
+    s.src = src;
+    s.onload = function () { if (next) next(); };
+    s.onerror = function () { if (next) next(); };
+    document.body.appendChild(s);
+  }
+  fetch('/fragments/strip.html', { credentials: 'same-origin' })
+    .then(function (r) { if (!r.ok) throw new Error('strip ' + r.status); return r.text(); })
+    .then(function (html) {
+      mount.innerHTML = html;
+      loadScript('/js/team-logos.js', function () {
+        loadScript('/js/live-scores.js', function () {
+          loadScript('/js/flash-scores.js');
+        });
+      });
+    })
+    .catch(function () { if (mount && mount.parentNode) mount.parentNode.removeChild(mount); });
+})();
+</script>
 
 <div class="wrap page-head">
   <p class="crumbs"><a href="/">SialTV</a> / <a href="/ilt20/">ILT20</a> / <a href="/ilt20/teams/">ILT20 Season 5 Teams</a> / Desert Vipers</p>

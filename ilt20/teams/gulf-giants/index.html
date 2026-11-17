@@ -23,7 +23,7 @@
 <meta name="twitter:description" content="Gulf Giants won the first ILT20 in 2023 and return with Heinrich Klaasen as captain. Verified squad, all 10 fixtures and the playoff maths for Season 5.">
 <meta name="theme-color" content="#090811">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","name":"Gulf Giants Cricket Team | GG News, Matches, Results, Squad","url":"https://sialtv.com/ilt20/teams/gulf-giants/","description":"Gulf Giants won the first ILT20 in 2023 and return with Heinrich Klaasen as captain. Verified squad, all 10 fixtures and the playoff maths for Season 5.","datePublished":"2026-11-11T05:46:00Z","dateModified":"2026-11-17T19:59:00Z"}
+{"@context":"https://schema.org","@type":"WebPage","name":"Gulf Giants Cricket Team | GG News, Matches, Results, Squad","url":"https://sialtv.com/ilt20/teams/gulf-giants/","description":"Gulf Giants won the first ILT20 in 2023 and return with Heinrich Klaasen as captain. Verified squad, all 10 fixtures and the playoff maths for Season 5.","datePublished":"2026-11-11T05:46:00Z","dateModified":"2026-11-17T23:13:00Z"}
 </script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"SportsTeam","name":"Gulf Giants","sport":"Cricket","url":"https://sialtv.com/ilt20/teams/gulf-giants/","memberOf":{"@type":"SportsOrganization","name":"International League T20 2026-27"},"coach":{"@type":"Person","name":"Simon Helmot"},"athlete":[{"@type":"Person","name":"Akeal Hosein"},{"@type":"Person","name":"Alick Athanaze"},{"@type":"Person","name":"Alzarri Joseph"},{"@type":"Person","name":"Azmatullah Omarzai"},{"@type":"Person","name":"Blessing Muzarabani"},{"@type":"Person","name":"Curtis Campher"},{"@type":"Person","name":"David Miller"},{"@type":"Person","name":"Heinrich Klaasen"},{"@type":"Person","name":"Ibrahim Zadran"},{"@type":"Person","name":"Imran Mir"},{"@type":"Person","name":"Liam Livingstone"},{"@type":"Person","name":"Rahmanullah Gurbaz"},{"@type":"Person","name":"Shamar Joseph"},{"@type":"Person","name":"Tabraiz Shamsi"},{"@type":"Person","name":"Wahidullah Zadran"},{"@type":"Person","name":"Awais Ahmed"},{"@type":"Person","name":"Dhruv Parashar"},{"@type":"Person","name":"Haider Razzaq"},{"@type":"Person","name":"Matiullah Khan"},{"@type":"Person","name":"Sagar Kalyan"},{"@type":"Person","name":"David Wiese"},{"@type":"Person","name":"Imtiaz Khan"},{"@type":"Person","name":"Meet Bhavsar"},{"@type":"Person","name":"Shubham Ranjane"}]}
@@ -38,12 +38,6 @@
 </head>
 <body class="st-inner league-ilt20" data-css="p12">
 <a class="st-skip" href="#main">Skip to content</a>
-<div class="st-match-strip">
-    <div class="wrap">
-      <span><b>NEXT</b> &middot; ILT20 Match 2 — Sharjah Warriorz vs Gulf Giants</span>
-      <span class="t-time">Afternoon · Sun 22 Nov 2026</span>
-    </div>
-  </div>
 <div id="mastheadMount"><header class="st-masthead" style="border-bottom:1px solid rgba(227,223,240,.85);padding-bottom:0;margin-bottom:0">
   <div class="st-shell st-masthead__row">
     <a class="st-wordmark" href="/" aria-label="SialTV home" style="color:#0c1022;text-decoration:none">
@@ -119,19 +113,33 @@
 })();
 </script>
   <!--__PH31__-->
-<nav class="series-nav" aria-label="ILT20 sections">
-  <div class="wrap">
-    <a href="/ilt20/">Overview</a>
-    <a href="/ilt20/schedule/">Schedule</a>
-    <a href="/ilt20/points-table/">Points Table</a>
-    <a href="/ilt20/results/">Results</a>
-    <a href="/ilt20/live-scores/">Live Scores</a>
-    <a href="/ilt20/teams/" aria-current="page">Teams</a>
-    <a href="/ilt20/players/">Players</a>
-    <a href="/ilt20/stats/">Stats</a>
-    <a href="/ilt20/tickets/">Tickets</a>
-  </div>
-</nav>
+<nav class="series-secnav" aria-label="International League T20 sections"><div class="wrap secnav-row"><div class="secnav-title-wrap"><div class="secnav-title"><button type="button" class="secnav-switch" aria-haspopup="true">International League T20 2026&ndash;27 <span class="secnav-caret" aria-hidden="true">&#9662;</span></button></div><div class="secnav-drop"><a href="/npl/">Nepal Premier League 2026</a><a href="/ilt20/" aria-current="page">International League T20 2026&ndash;27</a><a href="/apl/">Afghanistan Premier League 2026&ndash;27</a></div></div><span class="secnav-div" aria-hidden="true"></span><div class="secnav-links"><a href="/ilt20/">Home</a><a href="/ilt20/schedule/">Fixtures and Results</a><a href="/ilt20/points-table/">Table</a><a href="/ilt20/stats/">Stats</a><a href="/ilt20/teams/" aria-current="page">Teams</a><a href="/ilt20/players/">Players</a></div></div></nav>
+
+<div id="stripMount"></div>
+<script>
+(function () {
+  var mount = document.getElementById('stripMount');
+  if (!mount) return;
+  function loadScript(src, next) {
+    var s = document.createElement('script');
+    s.src = src;
+    s.onload = function () { if (next) next(); };
+    s.onerror = function () { if (next) next(); };
+    document.body.appendChild(s);
+  }
+  fetch('/fragments/strip.html', { credentials: 'same-origin' })
+    .then(function (r) { if (!r.ok) throw new Error('strip ' + r.status); return r.text(); })
+    .then(function (html) {
+      mount.innerHTML = html;
+      loadScript('/js/team-logos.js', function () {
+        loadScript('/js/live-scores.js', function () {
+          loadScript('/js/flash-scores.js');
+        });
+      });
+    })
+    .catch(function () { if (mount && mount.parentNode) mount.parentNode.removeChild(mount); });
+})();
+</script>
 
 <div class="wrap page-head">
   <p class="crumbs"><a href="/">SialTV</a> / <a href="/ilt20/">ILT20</a> / <a href="/ilt20/teams/">ILT20 Season 5 Teams</a> / Gulf Giants</p>

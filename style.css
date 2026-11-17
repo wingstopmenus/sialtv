@@ -1998,12 +1998,14 @@ body.st-inner .faq-item p { margin: 0.6rem 0 0; color: var(--st-ink-2); }
    On mobile the code inherits the .rx-res-team typography (17px, ink) and
    takes font-weight 900, so it matches the desktop full name (<b> inside
    .rx-tname) exactly. On desktop the code is hidden and the full name
-   shows. */
+   shows. FIX ROUND 2 (2026-11-18, defect 13): extended to
+   .page-ilt20-schedule — ILT20 cards showed the code on desktop, squeezing
+   "Abu Dhabi Knight Riders" onto 2 lines; NPL selectors unchanged. */
 @media (min-width: 641px) {
-  body.page-npl-schedule .rx-res-team .rx-code { display: none; }
+  body.page-npl-schedule .rx-res-team .rx-code, body.page-ilt20-schedule .rx-res-team .rx-code { display: none; }
 }
 @media (max-width: 640px) {
-  body.page-npl-schedule .rx-res-team .rx-code { font-weight: 900; }
+  body.page-npl-schedule .rx-res-team .rx-code, body.page-ilt20-schedule .rx-res-team .rx-code { font-weight: 900; }
 }
 @media (max-width: 640px) {
   body.st-inner .mc-panel { grid-template-columns: 1fr; }
@@ -2927,14 +2929,35 @@ body.st-inner.league-npl .profile-card .pc-summary { font-size: 0.875rem; line-h
   body.st-inner.league-npl .profile-card .pc-name { font-size: 1.25rem; }
   body.st-inner.league-npl .profile-card .pc-text { padding: 1rem; }
 }
+/* ILT20 — same rule, league-ilt20 scope (FIX ROUND 2, 2026-11-18, defect 10):
+   without this twin the ILT20 profile hero fell back to the old 72px-circle
+   rules — photo a small centred circle, name centred, stats stacked below —
+   while the NPL hero is the 160px square left block. NPL selectors unchanged. */
+body.st-inner.league-ilt20 .profile-card { display: grid; grid-template-columns: 160px minmax(0, 1fr); align-items: stretch; padding: 0; overflow: hidden; text-align: left; }
+body.st-inner.league-ilt20 .profile-card .pc-photo-wrap { width: 160px; height: 160px; }
+body.st-inner.league-ilt20 .profile-card .pc-photo-wrap .pc-photo { width: 100%; height: 100%; border-radius: 0; object-fit: cover; display: block; }
+body.st-inner.league-ilt20 .profile-card .pc-photo-wrap .init.big { width: 100%; height: 100%; border-radius: 0; background: var(--st-rose); color: #fff; font-size: 2rem; font-weight: 800; display: flex; align-items: center; justify-content: center; margin: 0; }
+body.st-inner.league-ilt20 .profile-card .pc-text { padding: 1.25rem 1.2rem; min-width: 0; display: flex; flex-direction: column; justify-content: center; }
+body.st-inner.league-ilt20 .profile-card .pc-name { margin: 0 0 0.35rem; }
+body.st-inner.league-ilt20 .profile-card .pc-summary { font-size: 0.875rem; line-height: 1.5; }
+@media (max-width: 640px) {
+  body.st-inner.league-ilt20 .profile-card .pc-name { font-size: 1.25rem; }
+  body.st-inner.league-ilt20 .profile-card .pc-text { padding: 1rem; }
+}
 /* VERDICT 2026-11-14 (player pages): bowling/batting stats tables overflow — the
    14/15-column tables are a few px too wide for the centre column and the last
    column (10W) is cut. Narrow the player-centre tables so they fit without scrolling. */
 body.st-inner.league-npl .player-centre .table-scroll table { font-size: .85rem; }
 body.st-inner.league-npl .player-centre .table-scroll th,
 body.st-inner.league-npl .player-centre .table-scroll td { padding: .4rem .4rem; }
+/* ILT20 — same rule, league-ilt20 scope (FIX ROUND 2, 2026-11-18, defect 10). */
+body.st-inner.league-ilt20 .player-centre .table-scroll table { font-size: .85rem; }
+body.st-inner.league-ilt20 .player-centre .table-scroll th,
+body.st-inner.league-ilt20 .player-centre .table-scroll td { padding: .4rem .4rem; }
 /* VERDICT 2026-11-14 (player pages): tighten the empty grey space below the content. */
 body.st-inner.league-npl footer.st-colophon { margin-top: 1.5rem; }
+/* ILT20 — same rule, league-ilt20 scope (FIX ROUND 2, 2026-11-18, defect 10). */
+body.st-inner.league-ilt20 footer.st-colophon { margin-top: 1.5rem; }
 /* ---------- Points-table layout fix 2 — 2026-11-14 (browser verdict 01:33 PKT) ----------
    Root causes (live HTML/CSS se verify):
    - FAIL 1 table 82%: .rx-pts display:block tha (document fallback body:not(.st-home)
@@ -2957,20 +2980,23 @@ body.st-inner.league-npl footer.st-colophon { margin-top: 1.5rem; }
 body.st-inner .rx-pts th, body.st-inner .rx-pts td { padding: 0.3rem 0.5rem; }
 .st-strip-view { padding-right: 0; padding-left: 0; }
 
-/* NPL schedule page: narrower sticky sidebar + no-wrap pre-scores (2026-11-14) */
+/* NPL schedule page: narrower sticky sidebar + no-wrap pre-scores (2026-11-14)
+   FIX ROUND 2 (2026-11-18, defect 13): same rules extended to
+   .page-ilt20-schedule — NPL selectors unchanged, ILT20 cards now match NPL
+   geometry (980px main column, 320px sidebar) instead of 830px/470px. */
 @media (min-width: 981px) {
-  body.page-npl-schedule .home-grid { grid-template-columns: minmax(0, 1fr) 320px; }
-  body.page-npl-schedule .home-side { position: sticky; top: 5.5rem; }
+  body.page-npl-schedule .home-grid, body.page-ilt20-schedule .home-grid { grid-template-columns: minmax(0, 1fr) 320px; }
+  body.page-npl-schedule .home-side, body.page-ilt20-schedule .home-side { position: sticky; top: 5.5rem; }
 }
-body.page-npl-schedule .rx-tpre { white-space: nowrap; }
-body.page-npl-schedule .rx-res-desc { text-wrap: balance; }
+body.page-npl-schedule .rx-tpre, body.page-ilt20-schedule .rx-tpre { white-space: nowrap; }
+body.page-npl-schedule .rx-res-desc, body.page-ilt20-schedule .rx-res-desc { text-wrap: balance; }
 
 /* Team-name short/long forms (reusable; mobile tables show 3-letter codes) */
 .tm-short { display: none; }
 @media (max-width: 640px) {
   .tm-full { display: none; }
   .tm-short { display: inline; }
-  body.page-npl-schedule .rx-tname { display: none; }
+  body.page-npl-schedule .rx-tname, body.page-ilt20-schedule .rx-tname { display: none; }
   /* Points tables: hide For/Against columns on mobile (2026-11-14). */
   .pts-for, .pts-against { display: none; }
   /* Points tables: hide Series Form/Next columns on mobile too (2026-11-14). */
@@ -3056,8 +3082,10 @@ body.page-npl-stats #more .records-grid { display: grid; grid-template-columns: 
    so block+scroll is never needed for this mini; the rule now applies
    at all widths. Scoped to the schedule page's single
    sidebar mini: `body.page-npl-schedule` matches no other live NPL page, and
-   the schedule page has exactly 1 table. */
-body.st-inner.page-npl-schedule .table-scroll table.t-pts.pts-mini { display: table; width: 100%; }
+   the schedule page has exactly 1 table.
+   FIX ROUND 2 (2026-11-18, defect 13): extended to .page-ilt20-schedule —
+   the ILT20 schedule page has the same single sidebar mini. */
+body.st-inner.page-npl-schedule .table-scroll table.t-pts.pts-mini, body.st-inner.page-ilt20-schedule .table-scroll table.t-pts.pts-mini { display: table; width: 100%; }
 
 /* ---------- Back-to-top floating button — 2026-11-15 (site-wide) ----------
    Markup: /fragments/masthead.html, a sibling of the header (never inside
