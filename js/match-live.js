@@ -58,12 +58,12 @@
   /* Tab sets per state. Panel ids are ci-panel-<key>; tab links carry
      data-ci-panel="<key>". */
   var TABS_BY_STATE = {
-    upcoming: ['summary', 'scorecard', 'stats', 'squads', 'playingxi', 'table'],
-    live: ['live', 'scorecard', 'commentary', 'livestats', 'overs', 'playingxi', 'table'],
+    upcoming: ['summary', 'scorecard', 'playingxi', 'stats', 'table'],
+    live: ['live', 'scorecard', 'commentary', 'stats', 'overs', 'playingxi', 'table'],
     result: ['summary', 'scorecard', 'commentary', 'stats', 'overs', 'table'],
-    abandoned: ['summary', 'scorecard', 'stats', 'squads', 'playingxi', 'table']
+    abandoned: ['summary', 'scorecard', 'playingxi', 'stats', 'table']
   };
-  var DEFAULT_TAB = { upcoming: 'summary', live: 'live', result: 'scorecard', abandoned: 'summary' };
+  var DEFAULT_TAB = { upcoming: 'summary', live: 'live', result: 'summary', abandoned: 'summary' };
 
   var timer = null;
   var seenStatus = '';
@@ -550,7 +550,16 @@
       var el = $(sel);
       if (!el) return;
       if (!score) { setHtml(el, '<span class="ci-yet">' + esc(team || '') + ' yet to bat</span>'); return; }
-      setHtml(el, '<b>' + esc(score) + '</b> <span>' + (overs ? '(' + esc(overs) + ' ov)' : '') + '</span>');
+      /* Baked result pages carry data-ci-quota / data-ci-target /
+         data-ci-win on the score cell (Cricinfo chase form + winner
+         bold). Keep them across polls; live pages have no attrs and
+         keep the plain "(x ov)" form. */
+      var q = el.getAttribute('data-ci-quota');
+      var t = el.getAttribute('data-ci-target');
+      var w = el.getAttribute('data-ci-win');
+      var ovTxt = overs ? '(' + esc(overs) + (q ? '/' + esc(q) : '') + ' ov' + (t ? ', T:' + esc(t) : '') + ')' : '';
+      var scoreHtml = (w === '0') ? esc(score) : '<b>' + esc(score) + '</b>';
+      setHtml(el, scoreHtml + ' <span>' + ovTxt + '</span>');
     }
     if (m.status === 'live' || m.status === 'result') {
       setScore('[data-ci-score1]', m.team1, m.score1, m.overs1);
@@ -1339,7 +1348,11 @@
       }
     }
     fill('overs', oversHtml(m));
-    fill('livestats', liveStatsHtml(m));
+    /* Live Stats merged into the Stats tab (Cricinfo re-sequence):
+       fill it only while live — on the result flip the baked page is
+       rebuilt by the bake, and a fill here would overwrite the live
+       stats with the "not started" line. */
+    if (m.status === 'live') fill('stats', liveStatsHtml(m));
     /* Playing XI: the feed carries no XI. Only fill a panel that is
        empty (the baked upcoming/abandoned panels already carry the
        squads + honest note, and are left alone). */
@@ -1347,17 +1360,33 @@
     if (xiPanel && !xiPanel.innerHTML.trim()) {
       xiPanel.innerHTML = '<p class="ci-yet">Playing XIs are announced at the toss.</p>';
     }
-    /* The worm goes last: the Live Stats fill above (re)creates its slot. */
+    /* The worm goes last: the Stats fill above (re)creates its slot. */
     renderWorm(m);
   }
 
   /* ---------- boot / poll loop ---------- */
+
+  /* Overs comparison table: over-number buttons expand the ball chips.
+     Delegated on document, so it survives the live fills that replace
+     the panel content. */
+  function wireOvers() {
+    document.addEventListener('click', function (ev) {
+      var btn = ev.target.closest ? ev.target.closest('[data-ci-ov]') : null;
+      if (!btn) return;
+      var row = document.querySelector('[data-ci-ov-detail="' + btn.getAttribute('data-ci-ov') + '"]');
+      if (!row) return;
+      var open = row.hidden;
+      row.hidden = !open;
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+  }
 
   function boot() {
     var ident = identity();
     if (!ident) return;
     wireTabs();
     wireSquads();
+    wireOvers();
     wireSubtabs();
     wireStatsChips();
     wireVictims();
@@ -1371,8 +1400,8 @@
       pickedByUser = true;
       openTab(a.getAttribute('data-ci-goto'), { scroll: true });
       /* A goto link may also name an anchor inside the panel (e.g. the
-         Summary's "Match details" link targets #ci-sc-info): scroll to
-         it once the tab is open. */
+         Scorecard's "View Scorecard" link targets #ci-sc-inn1): scroll
+         to it once the tab is open. */
       var href = a.getAttribute('href') || '';
       if (href.charAt(0) === '#' && href.indexOf('#ci-panel-') !== 0) {
         var target = document.getElementById(href.slice(1));

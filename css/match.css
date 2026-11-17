@@ -435,3 +435,32 @@
 .ci-manhattan i.is-w { background: var(--ci-red); }
 .ci-strip-over { font-size: 12px; font-weight: 700; color: var(--ci-grey); margin-right: 4px; }
 .ci-comm-sentinel { height: 1px; }
+
+/* ---- Cricinfo re-sequence (2026-11-17) ---- */
+/* Match Centre two-column grid (upcoming/abandoned Summary): left
+   Players To Watch + Head to head; right Playing XI toggle + Match
+   details. Result Summary grid: scorecard summary + commentary
+   excerpt left, Match details right. */
+.ci-mc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 24px; }
+.ci-sum-grid { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 0 32px; }
+.ci-sum-grid .ci-details-row { grid-template-columns: 110px 1fr; }
+@media (min-width: 901px) {
+  /* PTW is itself two columns; inside the half-width Match Centre
+     column it stacks to one. */
+  .ci-mc-grid .ci-ptw { grid-template-columns: 1fr; }
+}
+@media (max-width: 900px) {
+  .ci-mc-grid, .ci-sum-grid { grid-template-columns: 1fr; }
+}
+/* Result header: loser's score is plain, winner's bold. */
+.ci-team-score.is-loser b { font-weight: 400; }
+/* POTM photo (Cricinfo shows a photo in the POTM box). */
+.ci-potm img { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; vertical-align: middle; margin-right: 8px; }
+.ci-potm .ci-ptw-initials { width: 32px; height: 32px; vertical-align: middle; margin-right: 8px; font-size: 11px; }
+/* Overs comparison table: over-number toggle button. */
+.ci-ov-toggle { background: none; border: none; color: var(--ci-blue); cursor: pointer; font-size: 13px; font-weight: 700; padding: 0; font-family: inherit; }
+.ci-ov-toggle:hover { text-decoration: underline; }
+.ci-ov-toggle[aria-expanded="true"]::after { content: " \25BE"; }
+.ci-ov-toggle[aria-expanded="false"]::after { content: " \25B8"; }
+.ci-overs td { white-space: normal; }
+.ci-ov-detail td { background: #fafafa; }
