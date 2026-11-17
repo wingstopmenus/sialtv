@@ -1,6 +1,6 @@
 {
- "generatedAt": "2026-11-16T13:49:44Z",
- "through_match": 28,
+ "generatedAt": "2026-11-17T15:05:22Z",
+ "through_match": 29,
  "points": [
   {
    "rank": 1,
@@ -92,7 +92,7 @@
   }
  ],
  "leaders": {
-  "match_no": 28,
+  "match_no": 29,
   "records_line": "Yuvraaj Samra 294 runs &middot; Kamal Airee, Rijan Dhakal, Rahul Yadav &amp; Jahandad Khan 12 wickets &middot; Sandeep Lamichhane 6/27.",
   "top_runs": [
    {
@@ -612,17 +612,17 @@
    "matchNo": 29,
    "date": "2026-11-17",
    "stage": "Qualifier 1",
-   "status": "upcoming",
+   "status": "result",
    "team1": "LUL",
    "team2": "SPR",
-   "score1": "",
-   "score2": "",
-   "overs1": "",
-   "overs2": "",
+   "score1": "108/4",
+   "score2": "105/8",
+   "overs1": "16.4",
+   "overs2": "20",
    "quota": 20,
-   "winner": null,
-   "win_chased": null,
-   "target": null
+   "winner": "LUL",
+   "win_chased": true,
+   "target": 106
   },
   {
    "matchNo": 30,

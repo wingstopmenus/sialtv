@@ -82,6 +82,8 @@ html.ci-gate .ci-head, html.ci-gate .ci-tabs, html.ci-gate .ci-main { visibility
 }
 .ci-team-logo { width: 28px; height: 28px; object-fit: contain; align-self: center; flex: none; }
 .ci-team-name { font-size: 20px; font-weight: 700; color: var(--ci-ink); line-height: 1.3; }
+/* Result header (Cricinfo): the loser's name is plain, the winner's bold. */
+.ci-team-name.is-loser { font-weight: 400; }
 .ci-team-name .ci-team-tag { font-size: 13px; font-weight: 400; color: var(--ci-grey); }
 .ci-team-score { margin-left: auto; text-align: right; white-space: nowrap; }
 .ci-team-score b { font-size: 20px; font-weight: 700; color: var(--ci-ink); }
@@ -94,6 +96,35 @@ html.ci-gate .ci-head, html.ci-gate .ci-tabs, html.ci-gate .ci-main { visibility
 .ci-meta { font-size: 13px; color: var(--ci-grey); margin: 2px 0 0; }
 .ci-countdown { font-size: 15px; font-weight: 700; color: var(--ci-ink); margin: 8px 0 0; }
 .ci-countdown small { display: block; font-size: 12px; font-weight: 400; color: var(--ci-grey); }
+
+/* ---- header row: teams + result on the left, POTM box on the right ---- */
+.ci-head-row { display: flex; gap: 24px; align-items: flex-start; }
+.ci-head-main { flex: 1; min-width: 0; }
+/* POTM box (Cricinfo): bordered box on the right of the header, photo +
+   label + name + figures. Empty (no POTM recorded) = hidden — the box
+   must never render as an empty frame. */
+.ci-potm-box {
+  width: 280px; flex: none;
+  display: flex; gap: 12px; align-items: flex-start;
+  border: 1px solid var(--ci-line); border-radius: 4px;
+  padding: 12px; margin-top: 4px; background: #fff;
+}
+.ci-potm-box:empty { display: none; }
+.ci-potm-box img { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; flex: none; background: #eee; }
+.ci-potm-box .ci-ptw-initials { width: 48px; height: 48px; flex: none; font-size: 15px; }
+.ci-potm-text { min-width: 0; }
+.ci-potm-text > span:first-child {
+  display: block; font-size: 11px; font-weight: 700; letter-spacing: .06em;
+  text-transform: uppercase; color: var(--ci-grey); margin-bottom: 2px;
+}
+.ci-potm-text b { display: block; font-size: 15px; color: var(--ci-ink); line-height: 1.3; }
+.ci-potm-text b a { color: var(--ci-ink); }
+.ci-potm-text b a:hover { color: var(--ci-blue); }
+.ci-potm-fig { display: block; font-size: 13px; color: var(--ci-grey); margin-top: 2px; }
+@media (max-width: 900px) {
+  .ci-head-row { flex-direction: column; gap: 12px; }
+  .ci-potm-box { width: 100%; box-sizing: border-box; }
+}
 
 /* ---- tabs: plain text links, blue underline on active ---- */
 .ci-tabs {

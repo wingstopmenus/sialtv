@@ -1,21 +1,21 @@
 <?xml version='1.0' encoding='utf-8'?>
 <ns0:urlset xmlns:ns0="http://www.sitemaps.org/schemas/sitemap/0.9">
   <ns0:url><ns0:loc>https://sialtv.com/</ns0:loc>
-    <ns0:lastmod>2026-11-16T09:55:00Z</ns0:lastmod><ns0:changefreq>daily</ns0:changefreq><ns0:priority>1.0</ns0:priority></ns0:url>
+    <ns0:lastmod>2026-11-17T12:58:00Z</ns0:lastmod><ns0:changefreq>daily</ns0:changefreq><ns0:priority>1.0</ns0:priority></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/live-scores/</ns0:loc>
-    <ns0:lastmod>2026-11-16T14:00:00Z</ns0:lastmod><ns0:changefreq>daily</ns0:changefreq><ns0:priority>0.9</ns0:priority></ns0:url>
+    <ns0:lastmod>2026-11-17T12:54:00Z</ns0:lastmod><ns0:changefreq>daily</ns0:changefreq><ns0:priority>0.9</ns0:priority></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/</ns0:loc>
-<ns0:lastmod>2026-11-16T04:50:00Z</ns0:lastmod><ns0:changefreq>daily</ns0:changefreq><ns0:priority>0.9</ns0:priority></ns0:url>
+<ns0:lastmod>2026-11-17T12:51:00Z</ns0:lastmod><ns0:changefreq>daily</ns0:changefreq><ns0:priority>0.9</ns0:priority></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/players/</ns0:loc>
-<ns0:lastmod>2026-11-16T04:31:00Z</ns0:lastmod><ns0:changefreq>daily</ns0:changefreq><ns0:priority>0.8</ns0:priority></ns0:url>
+<ns0:lastmod>2026-11-17T12:56:00Z</ns0:lastmod><ns0:changefreq>daily</ns0:changefreq><ns0:priority>0.8</ns0:priority></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/tickets/</ns0:loc>
     <ns0:lastmod>2026-11-15T20:47:31Z</ns0:lastmod><ns0:changefreq>daily</ns0:changefreq><ns0:priority>0.8</ns0:priority></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/stats/</ns0:loc>
-<ns0:lastmod>2026-11-16T03:08:00Z</ns0:lastmod><ns0:changefreq>daily</ns0:changefreq><ns0:priority>0.8</ns0:priority></ns0:url>
+<ns0:lastmod>2026-11-17T12:55:00Z</ns0:lastmod><ns0:changefreq>daily</ns0:changefreq><ns0:priority>0.8</ns0:priority></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/schedule/</ns0:loc>
-    <ns0:lastmod>2026-11-16T05:10:00Z</ns0:lastmod><ns0:changefreq>daily</ns0:changefreq><ns0:priority>0.8</ns0:priority></ns0:url>
+    <ns0:lastmod>2026-11-17T12:52:00Z</ns0:lastmod><ns0:changefreq>daily</ns0:changefreq><ns0:priority>0.8</ns0:priority></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/points-table/</ns0:loc>
-    <ns0:lastmod>2026-11-15T22:55:00Z</ns0:lastmod><ns0:changefreq>daily</ns0:changefreq><ns0:priority>0.8</ns0:priority></ns0:url>
+    <ns0:lastmod>2026-11-17T12:53:00Z</ns0:lastmod><ns0:changefreq>daily</ns0:changefreq><ns0:priority>0.8</ns0:priority></ns0:url>
 
   <ns0:url><ns0:loc>https://sialtv.com/ilt20/</ns0:loc>
     <ns0:lastmod>2026-11-17T06:00:00Z</ns0:lastmod><ns0:changefreq>daily</ns0:changefreq><ns0:priority>0.9</ns0:priority></ns0:url>
@@ -36,9 +36,9 @@
   <ns0:url><ns0:loc>https://sialtv.com/npl/teams/kathmandu-gorkhas/</ns0:loc>
     <ns0:lastmod>2026-11-16T04:40:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/teams/sudurpaschim-royals/</ns0:loc>
-    <ns0:lastmod>2026-11-15T21:50:00Z</ns0:lastmod></ns0:url>
+    <ns0:lastmod>2026-11-17T13:02:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/teams/lumbini-lions/</ns0:loc>
-    <ns0:lastmod>2026-11-15T21:49:00Z</ns0:lastmod></ns0:url>
+    <ns0:lastmod>2026-11-17T13:01:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/teams/chitwan-rhinos/</ns0:loc>
     <ns0:lastmod>2026-11-16T04:41:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/teams/janakpur-bolts/</ns0:loc>
@@ -50,23 +50,23 @@
   <ns0:url><ns0:loc>https://sialtv.com/npl/teams/pokhara-avengers/</ns0:loc>
     <ns0:lastmod>2026-11-16T04:42:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/teams/</ns0:loc>
-    <ns0:lastmod>2026-11-16T04:32:00Z</ns0:lastmod></ns0:url>
+    <ns0:lastmod>2026-11-17T12:57:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/live-scores/</ns0:loc>
     <ns0:lastmod>2026-11-15T20:47:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/players/aakash-tripathi/</ns0:loc>
     <ns0:lastmod>2026-11-15T18:27:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/players/aarif-sheikh/</ns0:loc>
-    <ns0:lastmod>2026-11-16T03:30:00Z</ns0:lastmod></ns0:url>
+    <ns0:lastmod>2026-11-17T13:03:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/players/aasif-sheikh/</ns0:loc>
-    <ns0:lastmod>2026-11-15T18:30:00Z</ns0:lastmod></ns0:url>
+    <ns0:lastmod>2026-11-17T13:04:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/players/abhishesh-gautam/</ns0:loc>
-    <ns0:lastmod>2026-11-15T18:32:00Z</ns0:lastmod></ns0:url>
+    <ns0:lastmod>2026-11-17T13:05:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/players/abinash-bohara/</ns0:loc>
-    <ns0:lastmod>2026-11-16T03:31:00Z</ns0:lastmod></ns0:url>
+    <ns0:lastmod>2026-11-17T13:06:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/players/ajay-chauhan/</ns0:loc>
     <ns0:lastmod>2026-11-15T18:34:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/players/anil-kharel/</ns0:loc>
-    <ns0:lastmod>2026-11-16T03:32:00Z</ns0:lastmod></ns0:url>
+    <ns0:lastmod>2026-11-17T13:08:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/players/arjun-saud/</ns0:loc>
     <ns0:lastmod>2026-11-16T03:33:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/players/arniko-prasad-yadav/</ns0:loc>
@@ -80,7 +80,7 @@
   <ns0:url><ns0:loc>https://sialtv.com/npl/players/bibek-yadav/</ns0:loc>
     <ns0:lastmod>2026-11-16T03:37:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/players/binod-bhandari/</ns0:loc>
-    <ns0:lastmod>2026-11-16T03:38:00Z</ns0:lastmod></ns0:url>
+    <ns0:lastmod>2026-11-17T13:09:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/players/bipin-rawal/</ns0:loc>
     <ns0:lastmod>2026-11-16T03:39:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/players/brandon-mcmullen/</ns0:loc>
@@ -96,29 +96,29 @@
   <ns0:url><ns0:loc>https://sialtv.com/npl/players/dev-shah/</ns0:loc>
     <ns0:lastmod>2026-11-16T03:45:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/players/dilip-nath/</ns0:loc>
-    <ns0:lastmod>2026-11-15T19:08:00Z</ns0:lastmod></ns0:url>
+    <ns0:lastmod>2026-11-17T13:11:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/players/dinesh-adhikari/</ns0:loc>
     <ns0:lastmod>2026-11-15T19:10:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/players/dipak-bohara/</ns0:loc>
     <ns0:lastmod>2026-11-16T03:46:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/players/dipendra-singh-airee/</ns0:loc>
-    <ns0:lastmod>2026-11-16T03:47:00Z</ns0:lastmod></ns0:url>
+    <ns0:lastmod>2026-11-17T13:12:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/players/durgesh-gupta/</ns0:loc>
     <ns0:lastmod>2026-11-15T19:16:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/players/gautam-kc/</ns0:loc>
     <ns0:lastmod>2026-11-16T03:48:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/players/hemant-dhami/</ns0:loc>
-    <ns0:lastmod>2026-11-16T03:49:00Z</ns0:lastmod></ns0:url>
+    <ns0:lastmod>2026-11-17T13:13:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/players/hikmat-mahara/</ns0:loc>
     <ns0:lastmod>2026-11-16T03:50:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/players/ishan-pandey/</ns0:loc>
-    <ns0:lastmod>2026-11-16T03:51:00Z</ns0:lastmod></ns0:url>
+    <ns0:lastmod>2026-11-17T13:14:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/players/kamal-singh-airee/</ns0:loc>
     <ns0:lastmod>2026-11-16T03:52:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/players/karan-kc/</ns0:loc>
     <ns0:lastmod>2026-11-16T03:53:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/players/kishore-mahato/</ns0:loc>
-    <ns0:lastmod>2026-11-15T19:29:00Z</ns0:lastmod></ns0:url>
+    <ns0:lastmod>2026-11-17T13:15:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/players/krishna-poudel/</ns0:loc>
     <ns0:lastmod>2026-11-16T03:54:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/players/ks-bharat/</ns0:loc>
@@ -140,7 +140,7 @@
   <ns0:url><ns0:loc>https://sialtv.com/npl/players/rijan-dhakal/</ns0:loc>
     <ns0:lastmod>2026-11-16T04:03:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/players/rohit-paudel/</ns0:loc>
-    <ns0:lastmod>2026-11-15T19:57:00Z</ns0:lastmod></ns0:url>
+    <ns0:lastmod>2026-11-17T13:17:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/players/sachin-bhatta/</ns0:loc>
     <ns0:lastmod>2026-11-16T04:04:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/players/sahan-arachchige/</ns0:loc>
@@ -154,17 +154,17 @@
   <ns0:url><ns0:loc>https://sialtv.com/npl/players/santosh-yadav/</ns0:loc>
     <ns0:lastmod>2026-11-16T04:09:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/players/scott-kuggeleijn/</ns0:loc>
-    <ns0:lastmod>2026-11-16T04:10:00Z</ns0:lastmod></ns0:url>
+    <ns0:lastmod>2026-11-17T13:19:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/players/shahab-alam/</ns0:loc>
     <ns0:lastmod>2026-11-16T04:11:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/players/sher-malla/</ns0:loc>
-    <ns0:lastmod>2026-11-15T20:14:00Z</ns0:lastmod></ns0:url>
+    <ns0:lastmod>2026-11-17T13:20:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/players/sikandar-raza/</ns0:loc>
     <ns0:lastmod>2026-11-16T04:12:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/players/sonu-devkota/</ns0:loc>
     <ns0:lastmod>2026-11-16T04:13:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/players/sundeep-jora/</ns0:loc>
-    <ns0:lastmod>2026-11-15T20:22:00Z</ns0:lastmod></ns0:url>
+    <ns0:lastmod>2026-11-17T13:21:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/players/suryanshu-koirala/</ns0:loc>
     <ns0:lastmod>2026-11-16T04:14:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/players/tek-rawat/</ns0:loc>
@@ -492,18 +492,18 @@
   <ns0:url><ns0:loc>https://sialtv.com/npl/players/ravi-bopara/</ns0:loc><ns0:lastmod>2026-11-15T19:54:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/players/ryan-burl/</ns0:loc><ns0:lastmod>2026-11-15T19:59:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/players/saif-hassan/</ns0:loc><ns0:lastmod>2026-11-15T20:06:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/npl/players/tharindu-ratnayake/</ns0:loc><ns0:lastmod>2026-11-15T20:27:00Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/npl/players/tharindu-ratnayake/</ns0:loc><ns0:lastmod>2026-11-17T13:22:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/players/yuvraaj-samra/</ns0:loc><ns0:lastmod>2026-11-15T20:32:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/players/akbar-ali/</ns0:loc>
     <ns0:lastmod>2026-11-15T23:00:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/players/ali-sheikh/</ns0:loc>
-    <ns0:lastmod>2026-11-15T23:01:00Z</ns0:lastmod></ns0:url>
+    <ns0:lastmod>2026-11-17T13:07:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/players/angelo-mathews/</ns0:loc>
     <ns0:lastmod>2026-11-15T23:02:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/players/dan-mousley/</ns0:loc>
     <ns0:lastmod>2026-11-15T23:03:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/players/darcy-short/</ns0:loc>
-    <ns0:lastmod>2026-11-15T23:04:00Z</ns0:lastmod></ns0:url>
+    <ns0:lastmod>2026-11-17T13:10:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/players/david-miller/</ns0:loc>
     <ns0:lastmod>2026-11-15T23:05:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/players/dawid-malan/</ns0:loc>
@@ -537,7 +537,7 @@
   <ns0:url><ns0:loc>https://sialtv.com/npl/players/mohammad-saifuddin/</ns0:loc>
     <ns0:lastmod>2026-11-15T23:19:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/players/niroshan-dickwella/</ns0:loc>
-    <ns0:lastmod>2026-11-15T23:20:00Z</ns0:lastmod></ns0:url>
+    <ns0:lastmod>2026-11-17T13:16:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/players/parvez-hossain-emon/</ns0:loc>
     <ns0:lastmod>2026-11-15T23:21:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/players/ramesh-mendis/</ns0:loc>
@@ -545,7 +545,7 @@
   <ns0:url><ns0:loc>https://sialtv.com/npl/players/ripon-mondol/</ns0:loc>
     <ns0:lastmod>2026-11-15T23:23:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/players/ruben-trumpelmann/</ns0:loc>
-    <ns0:lastmod>2026-11-15T23:24:00Z</ns0:lastmod></ns0:url>
+    <ns0:lastmod>2026-11-17T13:18:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/players/sadeera-samarawickrama/</ns0:loc>
     <ns0:lastmod>2026-11-15T23:25:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/players/sam-heazlett/</ns0:loc>
@@ -568,46 +568,46 @@
     <ns0:lastmod>2026-11-16T03:24:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/players/william-bosisto/</ns0:loc>
     <ns0:lastmod>2026-11-15T23:35:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-1/</ns0:loc><ns0:lastmod>2026-11-17T12:18:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-2/</ns0:loc><ns0:lastmod>2026-11-17T12:19:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-3/</ns0:loc><ns0:lastmod>2026-11-17T12:20:00Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-1/</ns0:loc><ns0:lastmod>2026-11-17T13:23:00Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-2/</ns0:loc><ns0:lastmod>2026-11-17T13:24:00Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-3/</ns0:loc><ns0:lastmod>2026-11-17T13:25:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-4/</ns0:loc>
-<ns0:lastmod>2026-11-17T12:21:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-5/</ns0:loc><ns0:lastmod>2026-11-17T12:22:00Z</ns0:lastmod></ns0:url>
+<ns0:lastmod>2026-11-17T13:26:00Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-5/</ns0:loc><ns0:lastmod>2026-11-17T13:27:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-6/</ns0:loc>
-<ns0:lastmod>2026-11-17T12:23:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-7/</ns0:loc><ns0:lastmod>2026-11-17T12:24:00Z</ns0:lastmod></ns0:url>
+<ns0:lastmod>2026-11-17T13:28:00Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-7/</ns0:loc><ns0:lastmod>2026-11-17T13:29:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-8/</ns0:loc>
-<ns0:lastmod>2026-11-17T12:25:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-9/</ns0:loc><ns0:lastmod>2026-11-17T12:26:00Z</ns0:lastmod></ns0:url>
+<ns0:lastmod>2026-11-17T13:30:00Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-9/</ns0:loc><ns0:lastmod>2026-11-17T13:31:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-10/</ns0:loc>
-<ns0:lastmod>2026-11-17T12:27:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-11/</ns0:loc><ns0:lastmod>2026-11-17T12:28:00Z</ns0:lastmod></ns0:url>
+<ns0:lastmod>2026-11-17T13:32:00Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-11/</ns0:loc><ns0:lastmod>2026-11-17T13:33:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-12/</ns0:loc>
-<ns0:lastmod>2026-11-17T12:29:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-13/</ns0:loc><ns0:lastmod>2026-11-17T12:30:00Z</ns0:lastmod></ns0:url>
+<ns0:lastmod>2026-11-17T13:34:00Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-13/</ns0:loc><ns0:lastmod>2026-11-17T13:35:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-14/</ns0:loc>
-<ns0:lastmod>2026-11-17T12:31:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-15/</ns0:loc><ns0:lastmod>2026-11-17T12:32:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-16/</ns0:loc><ns0:lastmod>2026-11-17T12:33:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-17/</ns0:loc><ns0:lastmod>2026-11-17T12:34:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-18/</ns0:loc><ns0:lastmod>2026-11-17T12:35:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-19/</ns0:loc><ns0:lastmod>2026-11-17T12:36:00Z</ns0:lastmod></ns0:url>
+<ns0:lastmod>2026-11-17T13:36:00Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-15/</ns0:loc><ns0:lastmod>2026-11-17T13:37:00Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-16/</ns0:loc><ns0:lastmod>2026-11-17T13:38:00Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-17/</ns0:loc><ns0:lastmod>2026-11-17T13:39:00Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-18/</ns0:loc><ns0:lastmod>2026-11-17T13:40:00Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-19/</ns0:loc><ns0:lastmod>2026-11-17T13:41:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-20/</ns0:loc>
-<ns0:lastmod>2026-11-17T12:37:00Z</ns0:lastmod></ns0:url>
+<ns0:lastmod>2026-11-17T13:42:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-21/</ns0:loc>
-<ns0:lastmod>2026-11-17T12:38:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-22/</ns0:loc><ns0:lastmod>2026-11-17T12:39:00Z</ns0:lastmod></ns0:url>
+<ns0:lastmod>2026-11-17T13:43:00Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-22/</ns0:loc><ns0:lastmod>2026-11-17T13:44:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-23/</ns0:loc>
-<ns0:lastmod>2026-11-17T12:40:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-24/</ns0:loc><ns0:lastmod>2026-11-17T12:41:00Z</ns0:lastmod></ns0:url>
-  <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-25/</ns0:loc><ns0:lastmod>2026-11-17T12:42:00Z</ns0:lastmod></ns0:url>
+<ns0:lastmod>2026-11-17T13:45:00Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-24/</ns0:loc><ns0:lastmod>2026-11-17T13:46:00Z</ns0:lastmod></ns0:url>
+  <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-25/</ns0:loc><ns0:lastmod>2026-11-17T13:47:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-26/</ns0:loc>
-<ns0:lastmod>2026-11-17T12:43:00Z</ns0:lastmod></ns0:url>
+<ns0:lastmod>2026-11-17T13:48:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-27/</ns0:loc>
-<ns0:lastmod>2026-11-17T12:44:00Z</ns0:lastmod></ns0:url>
+<ns0:lastmod>2026-11-17T13:49:00Z</ns0:lastmod></ns0:url>
   <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-28/</ns0:loc>
-<ns0:lastmod>2026-11-17T12:45:00Z</ns0:lastmod></ns0:url> <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-29/</ns0:loc><ns0:lastmod>2026-11-17T12:46:00Z</ns0:lastmod></ns0:url> <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-30/</ns0:loc><ns0:lastmod>2026-11-17T12:47:00Z</ns0:lastmod></ns0:url> <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-31/</ns0:loc><ns0:lastmod>2026-11-17T12:48:00Z</ns0:lastmod></ns0:url> <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-32/</ns0:loc><ns0:lastmod>2026-11-17T12:49:00Z</ns0:lastmod></ns0:url>
+<ns0:lastmod>2026-11-17T13:50:00Z</ns0:lastmod></ns0:url> <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-29/</ns0:loc><ns0:lastmod>2026-11-17T13:51:00Z</ns0:lastmod></ns0:url> <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-30/</ns0:loc><ns0:lastmod>2026-11-17T13:52:00Z</ns0:lastmod></ns0:url> <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-31/</ns0:loc><ns0:lastmod>2026-11-17T13:53:00Z</ns0:lastmod></ns0:url> <ns0:url><ns0:loc>https://sialtv.com/npl/matches/2026/match-32/</ns0:loc><ns0:lastmod>2026-11-17T13:54:00Z</ns0:lastmod></ns0:url>
 <ns0:url><ns0:loc>https://sialtv.com/apl/</ns0:loc>
     <ns0:lastmod>2026-11-17T05:22:00Z</ns0:lastmod></ns0:url>
 <ns0:url><ns0:loc>https://sialtv.com/apl/live-scores/</ns0:loc><ns0:lastmod>2026-11-17T05:28:00Z</ns0:lastmod></ns0:url>

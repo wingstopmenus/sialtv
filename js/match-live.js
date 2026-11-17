@@ -470,21 +470,9 @@
   function mergedInnings(m) {
     var inns = (m.scorecard && m.scorecard.innings) || [];
     if (!inns.length) return [];
-    var hasPeriod = inns.some(function (g) { return g.period != null; });
-    if (!hasPeriod) {
-      return inns.slice().sort(function (a, b) {
-        return ((b.batting || []).length - (a.batting || []).length);
-      });
-    }
-    var byPeriod = {};
-    var order = [];
-    inns.forEach(function (g) {
-      var p = g.period || 1;
-      if (!byPeriod[p]) {
-        byPeriod[p] = { team: '', period: p, batting: [], bowling: [], yet: [], total: '', overs: '' };
-        order.push(p);
-      }
-      var tgt = byPeriod[p];
+    /* Merge one entry into a section: batting + yet + total/overs from
+       the entry that batted, bowling from the entry that bowled. */
+    function mergeInto(tgt, g) {
       if ((g.batting || []).length || (g.yet || []).length) {
         tgt.team = g.team;
         tgt.batting = g.batting || [];
@@ -496,6 +484,35 @@
         tgt.bowling = g.bowling || [];
         if (!tgt.team) tgt.team = g.team;
       }
+    }
+    var hasPeriod = inns.some(function (g) { return g.period != null; });
+    if (!hasPeriod) {
+      /* Old window payload (no period): merge by team so one side never
+         renders as two blocks (the duplicate-batting-block defect).
+         Batting-first order, as before. */
+      var byTeam = {};
+      var tOrder = [];
+      inns.forEach(function (g) {
+        var key = g.team || '';
+        if (!byTeam[key]) {
+          byTeam[key] = { team: '', period: 0, batting: [], bowling: [], yet: [], total: '', overs: '' };
+          tOrder.push(key);
+        }
+        mergeInto(byTeam[key], g);
+      });
+      return tOrder.map(function (k) { return byTeam[k]; }).sort(function (a, b) {
+        return ((b.batting || []).length - (a.batting || []).length);
+      });
+    }
+    var byPeriod = {};
+    var order = [];
+    inns.forEach(function (g) {
+      var p = g.period || 1;
+      if (!byPeriod[p]) {
+        byPeriod[p] = { team: '', period: p, batting: [], bowling: [], yet: [], total: '', overs: '' };
+        order.push(p);
+      }
+      mergeInto(byPeriod[p], g);
     });
     order.sort(function (a, b) { return a - b; });
     return order.map(function (p) { return byPeriod[p]; });
@@ -641,18 +658,47 @@
         setHidden(dot, true);
       }
     }
+    /* Chase overs cell, Cricinfo form "(16.4/20 ov, T:106)": the quota is
+       20 (NPL is a 20-over league; a rain-shortened live game shows the
+       full quota until the bake, whose baked page reads the real quota
+       from target_note). The target is the other side's total + 1, shown
+       only for the side currently batting in the chase. */
+    function chaseOvers(team, overs) {
+      if (!overs) return '';
+      var txt = '(' + esc(overs) + '/20 ov';
+      if (m.score1 && m.score2) {
+        var bat = battingNow(m);
+        if (bat && cleanName(bat.team) === cleanName(team)) {
+          var otherScore = cleanName(m.team1) === cleanName(team) ? m.score2 : m.score1;
+          var other = scoreRuns(otherScore);
+          if (other) txt += ', T:' + (other.runs + 1);
+        }
+      }
+      return txt + ')';
+    }
     function setScore(sel, team, score, overs) {
-      var el = $(sel);
+      /* Match the row by TEAM (data-ci-team), not by position: a baked
+         result page orders the rows loser-first, while the feed's team1
+         / team2 are fixture order. Old pages without data-ci-team fall
+         back to the positional selector, so the shared JS keeps working
+         on them until they are rebuilt. */
+      var code = TEAM_CODE[cleanName(team)] || cleanName(team);
+      var row = document.querySelector('.ci-team[data-ci-team="' + code + '"]');
+      var el = row ? row.querySelector('.ci-team-score') : $(sel);
       if (!el) return;
       if (!score) { setHtml(el, '<span class="ci-yet">' + esc(team || '') + ' yet to bat</span>'); return; }
       /* Baked result pages carry data-ci-quota / data-ci-target /
          data-ci-win on the score cell (Cricinfo chase form + winner
          bold). Keep them across polls; live pages have no attrs and
-         keep the plain "(x ov)" form. */
+         use the derived chase form. */
       var q = el.getAttribute('data-ci-quota');
       var t = el.getAttribute('data-ci-target');
       var w = el.getAttribute('data-ci-win');
-      var ovTxt = overs ? '(' + esc(overs) + (q ? '/' + esc(q) : '') + ' ov' + (t ? ', T:' + esc(t) : '') + ')' : '';
+      var ovTxt = '';
+      if (overs) {
+        if (q || t) ovTxt = '(' + esc(overs) + (q ? '/' + esc(q) : '') + ' ov' + (t ? ', T:' + esc(t) : '') + ')';
+        else ovTxt = chaseOvers(team, overs);
+      }
       var scoreHtml = (w === '0') ? esc(score) : '<b>' + esc(score) + '</b>';
       setHtml(el, scoreHtml + ' <span>' + ovTxt + '</span>');
     }
@@ -660,13 +706,63 @@
       setScore('[data-ci-score1]', m.team1, m.score1, m.overs1);
       setScore('[data-ci-score2]', m.team2, m.score2, m.overs2);
     }
+    /* Result: order the rows loser-first, winner bold (Cricinfo). A
+       baked result page is built that way; a live page flipping to
+       result is fixture order, so reorder it once. Check-first: the
+       swap runs only when the loser is not already first, and the
+       classes are set idempotently. */
+    if (m.status === 'result') {
+      var win = /^(.+?)\s+won by/i.exec(cleanName(m.statusText || ''));
+      if (win) {
+        var wname = win[1].trim();
+        var teams = document.querySelector('.ci-teams');
+        if (teams) {
+          var trows = $all('.ci-team', teams);
+          if (trows.length === 2) {
+            var loserRow = null, winnerRow = null;
+            trows.forEach(function (r) {
+              var nm = r.querySelector('.ci-team-name');
+              var txt = nm ? nm.textContent.trim() : '';
+              if (txt === wname) winnerRow = r; else loserRow = r;
+            });
+            if (loserRow && winnerRow && trows[0] !== loserRow) {
+              teams.insertBefore(loserRow, winnerRow);
+            }
+            if (loserRow) {
+              var ln = loserRow.querySelector('.ci-team-name');
+              var ls = loserRow.querySelector('.ci-team-score');
+              if (ln) ln.classList.add('is-loser');
+              if (ls) ls.classList.add('is-loser');
+            }
+            if (winnerRow) {
+              var wn = winnerRow.querySelector('.ci-team-name');
+              var ws = winnerRow.querySelector('.ci-team-score');
+              if (wn) wn.classList.remove('is-loser');
+              if (ws) ws.classList.remove('is-loser');
+            }
+          }
+        }
+      }
+    }
     var result = $('[data-ci-result]');
-    if (result && m.statusText) setText(result, m.statusText);
+    /* The feed's result line carries the league suffix
+       ("Lumbini Lions (NPL) won by 6 wickets") — the baked line has
+       none. Strip the league code, keep any other parenthetical. */
+    if (result && m.statusText) setText(result, stripLeague(m.statusText));
     var toss = $('[data-ci-toss]');
     if (toss && m.toss) setText(toss, m.toss);
     var rr = $('[data-ci-rr]');
-    var crr = runRate(m);
-    if (rr && crr) setText(rr, 'Current RR: ' + crr);
+    if (rr) {
+      /* A result has no current run rate: the feed still carries the
+         last live.crr (and battingNow still finds a batting side), so
+         writing it here leaves a stale "Current RR" on the result
+         page. Clear it instead. */
+      if (m.status === 'result') setText(rr, '');
+      else {
+        var crr = runRate(m);
+        if (crr) setText(rr, 'Current RR: ' + crr);
+      }
+    }
     /* The countdown stays visible until the first ball is bowled: the
        endpoint flags the match live ~15 min before kickoff, and hiding
        it then would leave the pre-start page with no clock at all.
@@ -1174,19 +1270,30 @@
           }
         }
         if (g.yet && g.yet.length) body += '<p class="ci-dnb"><b>Yet to bat:</b> ' + g.yet.map(esc).join(', ') + '.</p>';
-        /* Fielding XI, one line (image-123): the other side's batting +
-           yet-to-bat names. Omitted when the other side has not batted
-           (its XI is not in the feed). Bowling-only blocks get no line. */
+        /* Fielding XI, one line (image-123): the endpoint's playingXI
+           (11 per team) when present; else the other side's batting +
+           yet-to-bat names — but ONLY when they total 11. A partial
+           list (e.g. only the two not-out batters from a window
+           payload) is never called a PLAYING XI. */
         var other = null;
         inns.forEach(function (h) {
           if (h !== g && h.team !== g.team && (h.batting || []).length) other = h;
         });
         if (other) {
-          var xi = (other.batting || []).map(function (b) { return b.name; })
-            .concat(other.yet || []);
-          if (xi.length) {
+          var xiNames = null;
+          var xiFeed = (m.playingXI || []).filter(function (s) {
+            return cleanName(s.team || '') === cleanName(other.team || '');
+          })[0];
+          if (xiFeed && (xiFeed.players || []).length === 11) {
+            xiNames = xiFeed.players.map(function (p) { return p.name; });
+          } else {
+            var cand = (other.batting || []).map(function (b) { return b.name; })
+              .concat(other.yet || []);
+            if (cand.length === 11) xiNames = cand;
+          }
+          if (xiNames) {
             body += '<p class="ci-fieldxi"><b>' + esc(other.team || '') + ' PLAYING XI</b> — ' +
-              xi.map(esc).join(', ') + '</p>';
+              xiNames.map(esc).join(', ') + '</p>';
           }
         }
       }
@@ -1550,6 +1657,9 @@
   }
 
   function cleanName(name) { return String(name || '').replace(/\s*\([^)]*\)/g, '').trim(); }
+  /* Strip only the league code the feed appends to team names
+     ("Lumbini Lions (NPL)") — any other parenthetical stays. */
+  function stripLeague(text) { return String(text || '').replace(/ \((NPL|ILT20|APL)\)/g, ''); }
 
   function applyTitle(m, ident) {
     var no = m.matchNo || ident.matchNo;
@@ -1606,7 +1716,10 @@
         if (wname === t1) { wscore = m.score1; lname = t2; lscore = m.score2; }
         else if (wname === t2) { wscore = m.score2; lname = t1; lscore = m.score1; }
         if (wscore) {
-          var h1Text = wname + ' ' + wscore + ' vs ' + lname + ' ' + lscore + ' — Match ' + (no || '') + ' Result';
+          /* Loser first, winner second — the same order as the header
+             team rows (Cricinfo). The document title stays
+             winner-first (locked). */
+          var h1Text = lname + ' ' + lscore + ' vs ' + wname + ' ' + wscore + ' — Match ' + (no || '') + ' Result';
           if (h1.textContent !== h1Text) h1.textContent = h1Text;
         }
       }

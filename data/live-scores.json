@@ -1,76 +1,8 @@
 {
- "fetchedAt": "2026-11-16T09:13:55Z",
+ "fetchedAt": "2026-11-17T15:05:16Z",
  "source": "sialtv",
  "series": "Nepal Premier League 2026",
  "matches": [
-  {
-   "id": "npl-2026-m22",
-   "espnEventId": 1558603,
-   "matchNo": 22,
-   "matchDesc": "Match 22",
-   "series_name": "Nepal Premier League 2026",
-   "team1": "Biratnagar Kings",
-   "team2": "Pokhara Avengers",
-   "abbr1": "BIK",
-   "abbr2": "POA",
-   "status": "result",
-   "statusText": "Biratnagar Kings won by 4 wickets",
-   "toss": "Pokhara elected to bat first",
-   "score1": "136/6",
-   "score2": "132/10",
-   "overs1": "19.2",
-   "overs2": "17.5",
-   "venue": "Tribhuvan University International Cricket Ground, Kirtipur",
-   "date": "2026-11-12",
-   "kickoffIso": "2026-11-12T12:30:00+05:45",
-   "scorecard": {
-    "innings": [
-     {
-      "team": "Pokhara Avengers",
-      "total": "132/10",
-      "overs": "17.5",
-      "batting": [
-       {
-        "name": "Yuvraaj Samra",
-        "runs": 84,
-        "balls": 47
-       }
-      ],
-      "bowling": [
-       {
-        "name": "Sandeep Lamichhane",
-        "wickets": 6,
-        "runs": 27,
-        "overs": "4"
-       }
-      ]
-     },
-     {
-      "team": "Biratnagar Kings",
-      "total": "136/6",
-      "overs": "19.2",
-      "batting": [
-       {
-        "name": "Basir Ahamad",
-        "runs": 37,
-        "balls": 39
-       }
-      ],
-      "bowling": [
-       {
-        "name": "Kushal Bhurtel",
-        "wickets": 2,
-        "runs": 21,
-        "overs": "4"
-       }
-      ]
-     }
-    ]
-   },
-   "commentary": [],
-   "overTimeline": [],
-   "live": null
-  },
   {
    "id": "npl-2026-m23",
    "espnEventId": 1558604,
@@ -469,6 +401,74 @@
         "name": "Dinesh Kharel",
         "wickets": 4,
         "runs": 18,
+        "overs": "4"
+       }
+      ]
+     }
+    ]
+   },
+   "commentary": [],
+   "overTimeline": [],
+   "live": null
+  },
+  {
+   "id": "npl-2026-m29",
+   "espnEventId": 1558610,
+   "matchNo": 29,
+   "matchDesc": "Match 29",
+   "series_name": "Nepal Premier League 2026",
+   "team1": "Lumbini Lions",
+   "team2": "Sudur Paschim Royals",
+   "abbr1": "LUL",
+   "abbr2": "SPR",
+   "status": "result",
+   "statusText": "Lumbini Lions won by 6 wickets",
+   "toss": "Lumbini elected to field first",
+   "score1": "108/4",
+   "score2": "105/8",
+   "overs1": "16.4",
+   "overs2": "20",
+   "venue": "Tribhuvan University International Cricket Ground, Kirtipur",
+   "date": "2026-11-17",
+   "kickoffIso": "2026-11-17T17:00:00+05:45",
+   "scorecard": {
+    "innings": [
+     {
+      "team": "Sudur Paschim Royals",
+      "total": "105/8",
+      "overs": "20",
+      "batting": [
+       {
+        "name": "Dipendra Singh Airee",
+        "runs": 52,
+        "balls": 51
+       }
+      ],
+      "bowling": [
+       {
+        "name": "Ruben Trumpelmann",
+        "wickets": 2,
+        "runs": 14,
+        "overs": "4"
+       }
+      ]
+     },
+     {
+      "team": "Lumbini Lions",
+      "total": "108/4",
+      "overs": "16.4",
+      "batting": [
+       {
+        "name": "Niroshan Dickwella",
+        "runs": 59,
+        "balls": 37
+       }
+      ],
+      "bowling": [
+       {
+        "name": "Tharindu Ratnayake",
+        "wickets": 2,
+        "runs": 25,
         "overs": "4"
        }
       ]
