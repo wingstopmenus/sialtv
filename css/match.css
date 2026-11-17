@@ -495,10 +495,13 @@ html.ci-gate .ci-head, html.ci-gate .ci-tabs, html.ci-gate .ci-main { visibility
 /* ---- Cricinfo re-sequence (2026-11-17) ---- */
 /* Match Centre two-column grid (upcoming/abandoned Summary): left
    Players To Watch + Head to head; right Playing XI toggle + Match
-   details. Result Summary grid: scorecard summary + commentary
-   excerpt left, Match details right. */
+   details. Result Summary grid: scorecard summary (tables) FULL WIDTH
+   on row 1, then Match Centre excerpt left + Match details right on
+   row 2. (Round 3: the details used to sit parallel to the tables,
+   which cut the ~762px tables off at the ~556px left column.) */
 .ci-mc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 24px; }
 .ci-sum-grid { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 0 32px; }
+.ci-sum-grid .ci-sum-wide { grid-column: 1 / -1; }
 .ci-sum-grid .ci-details-row { grid-template-columns: 110px 1fr; }
 @media (min-width: 901px) {
   /* PTW is itself two columns; inside the half-width Match Centre
