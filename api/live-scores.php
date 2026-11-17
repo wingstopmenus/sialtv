@@ -42,6 +42,14 @@ if (!$isCli) {
 
 const SIALTV_UA = 'SialTVLive/1.0';
 const SIALTV_CACHE_SECONDS = 12;
+/* Full play-by-play cache: the summary embeds only the last ~18 balls,
+   so the match page's Commentary / Overs / worm / FOW can only show
+   the last ~3 overs from it. The full PBP (playbyplay endpoint, 25
+   items/page, period 1+2) is cached per event+period for 30 s and
+   refreshed only when the summary's newest ball sequence advances —
+   so a live poll costs 0 extra ESPN requests when nothing new was
+   bowled, and one parallel burst (all pages at once) when it has. */
+const SIALTV_PBP_CACHE_SECONDS = 30;
 
 const LEAGUE_SERIES = [
     'npl' => 23081, // Nepal Premier League 2026 (website series 1558581)
@@ -232,6 +240,325 @@ function sialtv_espn_get(string $url, int $timeout): ?array
     return is_array($data) ? $data : null;
 }
 
+/* Parallel ESPN fetch (curl_multi). Falls back to sequential
+   sialtv_espn_get when curl is unavailable. Returns [url => ?array]. */
+function sialtv_espn_get_multi(array $urls, int $timeout): array
+{
+    $out = [];
+    if (!function_exists('curl_multi_init')) {
+        foreach ($urls as $url) {
+            $out[$url] = sialtv_espn_get($url, $timeout);
+        }
+        return $out;
+    }
+    $mh = curl_multi_init();
+    $handles = [];
+    foreach ($urls as $url) {
+        $ch = curl_init($url);
+        curl_setopt_array($ch, [
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_TIMEOUT => $timeout,
+            CURLOPT_CONNECTTIMEOUT => 2,
+            CURLOPT_NOSIGNAL => true,
+            CURLOPT_HTTPHEADER => ['Accept: application/json', 'User-Agent: ' . SIALTV_UA],
+        ]);
+        curl_multi_add_handle($mh, $ch);
+        $handles[$url] = $ch;
+    }
+    $running = 0;
+    do {
+        $mrc = curl_multi_exec($mh, $running);
+        if ($running > 0) {
+            curl_multi_select($mh, 0.5);
+        }
+    } while ($running > 0 && $mrc === CURLM_OK);
+    foreach ($handles as $url => $ch) {
+        $raw = curl_multi_getcontent($ch);
+        $code = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $data = (is_string($raw) && $code >= 200 && $code < 300) ? json_decode($raw, true) : null;
+        $out[$url] = is_array($data) ? $data : null;
+        curl_multi_remove_handle($mh, $ch);
+        curl_close($ch);
+    }
+    curl_multi_close($mh);
+    return $out;
+}
+
+/* One ball from the ESPN play-by-play / summary commentary shape into
+   the endpoint's commentary shape (the shape the match-page JS reads).
+   'period' is the innings number (1|2); 'seq' is the ESPN sequence,
+   kept for cache merging and stripped from the payload. 'team' is the
+   ball's batting team as reported by ESPN (empty in the summary
+   window — the over timeline takes the team from the innings). */
+function sialtv_map_commentary_ball(array $cb, int $period): array
+{
+    $ctext = trim((string) ($cb['text'] ?? ''));
+    if ($ctext === '') {
+        $ctext = (string) ($cb['shortText'] ?? '');
+    }
+    return [
+        'over' => (string) ($cb['over']['actual'] ?? ''),
+        'short' => (string) ($cb['shortText'] ?? ''),
+        'text' => $ctext,
+        'runs' => (int) ($cb['scoreValue'] ?? 0),
+        'dismissal' => (string) ($cb['dismissal']['text'] ?? ''),
+        'bowler' => (string) ($cb['bowler']['athlete']['displayName'] ?? ''),
+        'batsman' => (string) ($cb['batsman']['athlete']['displayName'] ?? ''),
+        'otherBatsman' => (string) ($cb['otherBatsman']['athlete']['displayName'] ?? ''),
+        'period' => $period,
+        'seq' => (int) ($cb['sequence'] ?? 0),
+        'team' => sialtv_canon_team((string) ($cb['team']['displayName'] ?? '')),
+    ];
+}
+
+/* Full play-by-play for one period, cache-aware. Returns [entries
+   (chronological, normalised), maxSeq, count]. $latestSeq is the
+   newest ball sequence the summary window already shows for this
+   period — when the cache is fresh (<30 s) and its maxSeq covers it,
+   no ESPN request is made at all. Otherwise all pages are fetched in
+   one parallel burst (page 1 first for the page count, the rest via
+   curl_multi) and merged by sequence. Any failure returns the stale
+   cache, or an empty list — never an exception, so the payload build
+   falls back to the summary window. */
+function sialtv_pbp_period_items(int $seriesId, int $eventId, int $period, int $latestSeq): array
+{
+    $cachePath = sys_get_temp_dir() . '/sialtv-pbp-' . $eventId . '-p' . $period . '.json';
+    $cached = null;
+    if (is_file($cachePath)) {
+        $d = json_decode((string) @file_get_contents($cachePath), true);
+        if (is_array($d) && is_array($d['entries'] ?? null)) {
+            $cached = $d;
+        }
+    }
+    $fresh = is_array($cached) && (time() - (int) ($cached['fetchedAt'] ?? 0)) < SIALTV_PBP_CACHE_SECONDS;
+    if ($fresh && (int) ($cached['maxSeq'] ?? 0) >= $latestSeq) {
+        return [$cached['entries'], (int) $cached['maxSeq'], (int) ($cached['count'] ?? 0)];
+    }
+    $base = 'https://site.api.espn.com/apis/site/v2/sports/cricket/' . $seriesId . '/playbyplay?event=' . $eventId . '&period=' . $period;
+    $first = sialtv_espn_get($base . '&page=1', 4);
+    if (!is_array($first) || !is_array($first['commentary'] ?? null)) {
+        return is_array($cached)
+            ? [$cached['entries'], (int) $cached['maxSeq'], (int) ($cached['count'] ?? 0)]
+            : [[], 0, 0];
+    }
+    $c = $first['commentary'];
+    $count = (int) ($c['count'] ?? 0);
+    $pageCount = (int) ($c['pageCount'] ?? 1);
+    $items = is_array($c['items'] ?? null) ? $c['items'] : [];
+    if ($pageCount > 1) {
+        $urls = [];
+        for ($p = 2; $p <= $pageCount; $p++) {
+            $urls[] = $base . '&page=' . $p;
+        }
+        foreach (sialtv_espn_get_multi($urls, 4) as $data) {
+            if (is_array($data) && is_array($data['commentary']['items'] ?? null)) {
+                $items = array_merge($items, $data['commentary']['items']);
+            }
+        }
+    }
+    $seen = [];
+    $entries = [];
+    foreach ($items as $it) {
+        if (!is_array($it)) {
+            continue;
+        }
+        $seq = (int) ($it['sequence'] ?? 0);
+        if ($seq <= 0 || isset($seen[$seq])) {
+            continue;
+        }
+        $seen[$seq] = true;
+        /* Real balls only: a non-ball item (breaks, reviews) has no
+           numeric over.actual and would corrupt the over grouping. */
+        if (!is_numeric($it['over']['actual'] ?? null)) {
+            continue;
+        }
+        $entries[] = sialtv_map_commentary_ball($it, $period);
+    }
+    usort($entries, static fn($a, $b) => $a['seq'] <=> $b['seq']);
+    $maxSeq = $entries ? max(array_column($entries, 'seq')) : 0;
+    @file_put_contents($cachePath, json_encode(
+        ['fetchedAt' => time(), 'maxSeq' => $maxSeq, 'count' => $count, 'entries' => $entries],
+        JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
+    ), LOCK_EX);
+    return [$entries, $maxSeq, $count];
+}
+
+/* Over-by-over timeline from normalised balls (one period, newest
+   first): label, runs, wickets, ball tokens, bowler, batting team,
+   period. The token rule matches the old window builder exactly (W
+   for a wicket, otherwise the runs; a wide is "Nw", a no-ball "Nnb"). */
+function sialtv_over_timeline(array $balls, string $team, int $period): array
+{
+    $byOver = [];
+    $order = [];
+    foreach ($balls as $b) {
+        if (!is_array($b)) {
+            continue;
+        }
+        $actual = (string) ($b['over'] ?? '');
+        if (!preg_match('/^(\d+)\.(\d)$/', $actual, $m)) {
+            continue;
+        }
+        $overNo = ((int) $m[1]) + 1;
+        if (!isset($byOver[$overNo])) {
+            $byOver[$overNo] = ['label' => 'Over ' . $overNo, 'runs' => 0, 'wickets' => 0, 'tokens' => [], 'bowler' => (string) ($b['bowler'] ?? ''), 'team' => $team, 'period' => $period];
+            $order[] = $overNo;
+        }
+        $ballRuns = (int) ($b['runs'] ?? 0);
+        $ballShort = strtolower((string) ($b['short'] ?? ''));
+        if (trim((string) ($b['dismissal'] ?? '')) !== '') {
+            $byOver[$overNo]['tokens'][] = 'W';
+            $byOver[$overNo]['wickets']++;
+        } elseif (strpos($ballShort, 'wide') !== false) {
+            $byOver[$overNo]['tokens'][] = $ballRuns . 'w';
+        } elseif (strpos($ballShort, 'no ball') !== false) {
+            $byOver[$overNo]['tokens'][] = $ballRuns . 'nb';
+        } else {
+            $byOver[$overNo]['tokens'][] = (string) $ballRuns;
+        }
+        $byOver[$overNo]['runs'] += $ballRuns;
+    }
+    rsort($order);
+    $out = [];
+    foreach ($order as $n) {
+        $out[] = $byOver[$n];
+    }
+    return $out;
+}
+
+/* Internal ball (from sialtv_map_commentary_ball) to the payload
+   shape: the ESPN sequence is an internal key only, and 'period' is
+   omitted when unknown (the JS defaults a missing period to the
+   current innings, so old / window entries still render). */
+function sialtv_commentary_out(array $e): array
+{
+    $out = [
+        'over' => $e['over'],
+        'short' => $e['short'],
+        'text' => $e['text'],
+        'runs' => $e['runs'],
+        'dismissal' => $e['dismissal'],
+        'bowler' => $e['bowler'],
+        'batsman' => $e['batsman'],
+        'otherBatsman' => $e['otherBatsman'],
+    ];
+    if ((int) ($e['period'] ?? 0) > 0) {
+        $out['period'] = (int) $e['period'];
+    }
+    return $out;
+}
+
+/* Full PBP for a live match: [commentary (newest first, all periods),
+   overTimeline (current period, full), overTimelinePrev (previous
+   period, full)]. Returns null when the PBP is unavailable or stale —
+   the caller then keeps the summary window. $headerComp is the
+   summary's competition (for the per-period newest sequences);
+   $innings are the mapped innings (for the batting team per period). */
+function sialtv_full_pbp(int $seriesId, int $eventId, $headerComp, array $innings): ?array
+{
+    if (!is_array($headerComp) || !is_array($headerComp['commentaries'] ?? null)) {
+        return null;
+    }
+    $latestSeq = [1 => 0, 2 => 0];
+    foreach ($headerComp['commentaries'] as $cb) {
+        if (!is_array($cb)) {
+            continue;
+        }
+        $p = (int) ($cb['innings']['number'] ?? $cb['period'] ?? 0);
+        $s = (int) ($cb['sequence'] ?? 0);
+        if ($p >= 1 && $p <= 2 && $s > $latestSeq[$p]) {
+            $latestSeq[$p] = $s;
+        }
+    }
+    if ($latestSeq[1] <= 0 && $latestSeq[2] <= 0) {
+        return null;
+    }
+    $byPeriod = [];
+    foreach ([1, 2] as $per) {
+        [$entries, , ] = sialtv_pbp_period_items($seriesId, $eventId, $per, $latestSeq[$per]);
+        $byPeriod[$per] = $entries;
+    }
+    $have = array_merge($byPeriod[1], $byPeriod[2]);
+    if (!$have) {
+        return null;
+    }
+    /* The full list must at least cover the window's newest ball;
+       otherwise the PBP fetch is stale/partial — keep the window. */
+    if (max(array_column($have, 'seq')) < max($latestSeq)) {
+        return null;
+    }
+    $teamFor = [];
+    foreach ($innings as $inn) {
+        if (!is_array($inn)) {
+            continue;
+        }
+        $per = (int) ($inn['period'] ?? 0);
+        if ($per < 1 || $per > 2) {
+            continue;
+        }
+        if (!empty($inn['batting']) || !empty($inn['yet'])) {
+            $teamFor[$per] = (string) ($inn['team'] ?? '');
+        }
+    }
+    $curPeriod = ($latestSeq[2] > $latestSeq[1]) ? 2 : 1;
+    $prevPeriod = $curPeriod === 2 ? 1 : 0;
+    $all = array_merge($byPeriod[1], $byPeriod[2]);
+    usort($all, static fn($a, $b) => $b['seq'] <=> $a['seq']);
+    $commentary = [];
+    foreach ($all as $e) {
+        $commentary[] = sialtv_commentary_out($e);
+    }
+    $tl = static function (array $entries, int $per) use ($teamFor): array {
+        if (!$entries) {
+            return [];
+        }
+        return sialtv_over_timeline(array_reverse($entries), $teamFor[$per] ?? '', $per);
+    };
+    return [$commentary, $tl($byPeriod[$curPeriod], $curPeriod), $prevPeriod ? $tl($byPeriod[$prevPeriod], $prevPeriod) : []];
+}
+
+/* Playing XI from the ESPN summary rosters: the roster IS the XI (11
+   players, in batting order) once the match is live. Returns null
+   unless both rosters carry exactly 11 — never invent an XI. */
+function sialtv_map_playing_xi(?array $summary): ?array
+{
+    $rosters = is_array($summary['rosters'] ?? null) ? $summary['rosters'] : [];
+    if (count($rosters) !== 2) {
+        return null;
+    }
+    $out = [];
+    foreach ($rosters as $side) {
+        if (!is_array($side)) {
+            return null;
+        }
+        $roster = is_array($side['roster'] ?? null) ? $side['roster'] : [];
+        if (count($roster) !== 11) {
+            return null;
+        }
+        $players = [];
+        foreach ($roster as $p) {
+            if (!is_array($p)) {
+                return null;
+            }
+            $name = (string) ($p['athlete']['displayName'] ?? $p['athlete']['fullName'] ?? '');
+            if ($name === '') {
+                return null;
+            }
+            $players[] = [
+                'name' => $name,
+                'captain' => !empty($p['captain']),
+                'wk' => (($p['position']['abbreviation'] ?? '') === 'WK'),
+            ];
+        }
+        $out[] = [
+            'team' => sialtv_canon_team((string) ($side['team']['displayName'] ?? '')),
+            'players' => $players,
+        ];
+    }
+    return $out;
+}
+
 /* If a fresh ESPN payload has lost batting data, keep the previous
    cached scorecard / commentary / over timeline instead of showing an
    empty card. */
@@ -264,8 +591,43 @@ function sialtv_keep_scorecards(array $payload, string $cachedJson): array
             $payload['matches'][$i]['scorecard'] = $prev['scorecard'];
             $payload['matches'][$i]['commentary'] = $prev['commentary'] ?? [];
             $payload['matches'][$i]['overTimeline'] = $prev['overTimeline'] ?? [];
+            $payload['matches'][$i]['overTimelinePrev'] = $prev['overTimelinePrev'] ?? [];
             if (!empty($prev['live'])) {
                 $payload['matches'][$i]['live'] = $prev['live'];
+            }
+            continue;
+        }
+        /* Never shrink a FINISHED innings' batting list: a not-out
+           0-ball batter flips to 'yet' once his live role changes —
+           M29, 17 Nov 2026: Hemant Dhami was 0* at the crease at the
+           end of innings 1, then started bowling in innings 2, and
+           the fresh payload dropped him from the batting list. A
+           finished innings is one whose period is behind the current
+           period; its batting + yet are restored from the cache. */
+        $newPeriods = [];
+        foreach (($m['scorecard']['innings'] ?? []) as $inn) {
+            $newPeriods[] = (int) ($inn['period'] ?? 0);
+        }
+        $curPeriod = $newPeriods ? max($newPeriods) : 0;
+        $oldInns = [];
+        foreach (($prev['scorecard']['innings'] ?? []) as $o) {
+            if (is_array($o)) {
+                $oldInns[(string) ($o['team'] ?? '') . '|' . (int) ($o['period'] ?? 0)] = $o;
+            }
+        }
+        foreach (($m['scorecard']['innings'] ?? []) as $j => $inn) {
+            if (!is_array($inn)) {
+                continue;
+            }
+            $key = (string) ($inn['team'] ?? '') . '|' . (int) ($inn['period'] ?? 0);
+            $old = $oldInns[$key] ?? null;
+            if (!is_array($old)) {
+                continue;
+            }
+            if ((int) ($inn['period'] ?? 0) < $curPeriod
+                && count($inn['batting'] ?? []) < count($old['batting'] ?? [])) {
+                $payload['matches'][$i]['scorecard']['innings'][$j]['batting'] = $old['batting'];
+                $payload['matches'][$i]['scorecard']['innings'][$j]['yet'] = $old['yet'] ?? [];
             }
         }
     }
@@ -354,6 +716,13 @@ function sialtv_build_payload(int $seriesId, string $league, bool $withSummary =
         $summary = null;
         $fetch = false;
         if ($withSummary && $id > 0 && $state === 'in' && $liveLeft > 0) {
+            $fetch = true;
+            $liveLeft--;
+        } elseif ($withSummary && $id > 0 && $state === 'pre' && $inWindow && $liveLeft > 0) {
+            /* In-window pre-start (toss done, no ball bowled): the
+               summary carries the rosters — the playing XI — which the
+               match page shows from the toss. One slot of the live
+               budget; the match goes 'in' at the first ball anyway. */
             $fetch = true;
             $liveLeft--;
         } elseif ($withSummary && $id > 0 && $state === 'post' && $postLeft > 0 && empty($haveCard[(string) $id])) {
@@ -630,6 +999,13 @@ function sialtv_map_innings(array $summary, string $name1, string $name2): array
     }
     $periodList = array_values(array_unique($periodList));
     sort($periodList);
+    /* The crease roles (striker / non-striker) are LIVE roles — they
+       describe the current period only. Applied to every period they
+       leak the current batters into a finished innings' batting list
+       (M29, 17 Nov 2026: Aasif Sheikh + Dickwella, at the crease in
+       innings 2, appeared as 0* batters in Lumbini's innings-1 entry,
+       which had never batted). */
+    $currentPeriod = $periodList ? max($periodList) : 1;
     $out = [];
     foreach ($periodList as $period) {
         $sides = [];
@@ -650,7 +1026,7 @@ function sialtv_map_innings(array $summary, string $name1, string $name2): array
                     continue;
                 }
                 $role = strtolower(trim((string) ($player['activeName'] ?? '')));
-                $atCrease = $role === 'striker' || $role === 'non-striker';
+                $atCrease = $period === $currentPeriod && ($role === 'striker' || $role === 'non-striker');
                 $stats = sialtv_player_stats($player, (int) $period);
                 $nums = $stats['nums'];
                 $hasBat = array_key_exists('ballsFaced', $nums) || array_key_exists('runs', $nums);
@@ -728,7 +1104,7 @@ function sialtv_map_innings(array $summary, string $name1, string $name2): array
                 unset($row['order']);
             }
             unset($row);
-            $sides[] = ['team' => $team, 'batting' => $batting, 'bowling' => $bowling, 'yet' => $yet];
+            $sides[] = ['team' => $team, 'period' => $period, 'batting' => $batting, 'bowling' => $bowling, 'yet' => $yet];
         }
         foreach ($sides as $side) {
             $out[] = $side;
@@ -1022,12 +1398,15 @@ function sialtv_normalise_event(array $event, array $comp, ?array $summary, stri
     $innings = [];
     $commentary = [];
     $overs = [];
+    $oversPrev = [];
     $live = null;
+    $xi = null;
     if (is_array($summary)) {
         $innings = sialtv_map_innings($summary, $name1, $name2);
         $innings = sialtv_sync_totals($innings, $name1, $score1, $overs1, $name2, $score2, $overs2);
         $live = sialtv_map_live($headerComp, $innings, $summary);
         $overs = $live['recentOvers'] ?? [];
+        $xi = sialtv_map_playing_xi($summary);
         /* Ball-by-ball commentary from the feed (most recent first),
            for the match page's Commentary tab. */
         if (is_array($headerComp) && is_array($headerComp['commentaries'] ?? null)) {
@@ -1039,20 +1418,18 @@ function sialtv_normalise_event(array $event, array $comp, ?array $summary, stri
             }
             usort($cballs, static fn($a, $b) => ((int) ($b['sequence'] ?? 0)) <=> ((int) ($a['sequence'] ?? 0)));
             foreach ($cballs as $cb) {
-                $ctext = trim((string) ($cb['text'] ?? ''));
-                if ($ctext === '') {
-                    $ctext = (string) ($cb['shortText'] ?? '');
-                }
-                $commentary[] = [
-                    'over' => (string) ($cb['over']['actual'] ?? ''),
-                    'short' => (string) ($cb['shortText'] ?? ''),
-                    'text' => $ctext,
-                    'runs' => (int) ($cb['scoreValue'] ?? 0),
-                    'dismissal' => (string) ($cb['dismissal']['text'] ?? ''),
-                    'bowler' => (string) ($cb['bowler']['athlete']['displayName'] ?? ''),
-                    'batsman' => (string) ($cb['batsman']['athlete']['displayName'] ?? ''),
-                ];
+                $per = (int) ($cb['innings']['number'] ?? $cb['period'] ?? 0);
+                $commentary[] = sialtv_commentary_out(sialtv_map_commentary_ball($cb, $per));
             }
+        }
+        /* Full play-by-play (defect 2): the window above is only the
+           last ~18 balls. When the PBP cache has the full innings,
+           the commentary + over timelines come from it instead —
+           newest first, all overs from over 1. Any failure keeps the
+           window above (never break the payload). */
+        $full = sialtv_full_pbp($seriesId, $eventId, $headerComp, $innings);
+        if ($full !== null) {
+            [$commentary, $overs, $oversPrev] = $full;
         }
         if (is_array($headerComp)) {
             $hs = trim((string) ($headerComp['status']['summary'] ?? ''));
@@ -1084,6 +1461,8 @@ function sialtv_normalise_event(array $event, array $comp, ?array $summary, stri
         'scorecard' => ['innings' => $innings],
         'commentary' => $commentary,
         'overTimeline' => $overs,
+        'overTimelinePrev' => $oversPrev,
+        'playingXI' => $xi,
         'live' => $live,
     ];
 }

@@ -38,6 +38,14 @@
 }
 .ci-main { min-width: 0; }
 .ci-rail { min-width: 0; }
+/* First-paint gate (live-flash fix): while the gate is on, the match
+   header, tabs and main column are invisible — but they keep their
+   layout (visibility, not display), so the page never jumps when the
+   gate lifts. The rail and news stay visible. The gate is added by the
+   inline script after <body> only when the match is inside its live
+   window, and removed by match-live.js after the first poll resolves
+   (or after 8 s by the script's own fallback). */
+html.ci-gate .ci-head, html.ci-gate .ci-tabs, html.ci-gate .ci-main { visibility: hidden; }
 /* Sticky rail on desktop: the rail (973px) is far shorter than the main
    column (2729px on a result page), so it used to leave a 1756px void
    below it while scrolling. .ci-layout already uses align-items:start,
@@ -304,6 +312,10 @@
   padding: 7px 0; border-bottom: 1px solid var(--ci-line-soft); font-size: 13px;
 }
 .ci-squad-list .ci-role { color: var(--ci-grey); font-size: 12px; text-align: right; }
+/* Playing XI (live Scorecard tab + pre-start panel): batting order,
+   numbered, one name per line with (c) / † marks. */
+.ci-xi-list { margin: 0 0 16px 20px; padding: 0; font-size: 13px; }
+.ci-xi-list li { padding: 4px 0; border-bottom: 1px solid var(--ci-line-soft); }
 
 /* ---- players to watch ---- */
 .ci-ptw { display: grid; grid-template-columns: 1fr 1fr; gap: 0 24px; }

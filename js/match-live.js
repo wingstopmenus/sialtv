@@ -12,7 +12,12 @@
  *       "matchNo":26,"status":"upcoming|live|result","statusText":"...",
  *       "score1":null,"score2":null,"overs1":null,"overs2":null,
  *       "scorecard":{"innings":[]},"commentary":[],"overTimeline":[],
+ *       "overTimelinePrev":[],"playingXI":null,
  *       "live":null}], "fetchedAt":"..."}
+ *   Commentary entries carry `period` (1|2) + `otherBatsman`; over
+ *   timeline entries carry `team` + `period`; innings entries carry
+ *   `period`. The commentary is the FULL play-by-play from over 1
+ *   (both innings), not the summary's last-~18-ball window.
  *   Static fallback: /data/<league>-live-scores.json (npl: /data/live-scores.json).
  *
  * Golden rule: a baked result page never polls. The template marks it
@@ -59,7 +64,7 @@
      data-ci-panel="<key>". */
   var TABS_BY_STATE = {
     upcoming: ['summary', 'scorecard', 'playingxi', 'stats', 'table'],
-    live: ['live', 'scorecard', 'commentary', 'stats', 'overs', 'playingxi', 'table'],
+    live: ['live', 'scorecard', 'commentary', 'stats', 'overs', 'table'],
     result: ['summary', 'scorecard', 'commentary', 'stats', 'overs', 'table'],
     abandoned: ['summary', 'scorecard', 'playingxi', 'stats', 'table']
   };
@@ -127,6 +132,9 @@
       var panel = document.getElementById('ci-panel-' + k);
       var active = (k === key);
       tab.setAttribute('aria-current', active ? 'true' : 'false');
+      /* aria-selected is the tab's accessible state; the live tab was
+         active visually only (no aria-selected in the DOM). */
+      tab.setAttribute('aria-selected', active ? 'true' : 'false');
       if (panel) panel.hidden = !active;
     });
     if (!opts || !opts.silent) {
@@ -138,6 +146,7 @@
 
   function applyTabSet(state) {
     var set = TABS_BY_STATE[state] || TABS_BY_STATE.upcoming;
+    var nav = document.querySelector('[data-ci-tabs]');
     var current = null;
     $all('[data-ci-tabs] [data-ci-panel]').forEach(function (tab) {
       var k = tab.getAttribute('data-ci-panel');
@@ -145,6 +154,16 @@
       tab.parentNode.hidden = !show;
       if (tab.getAttribute('aria-current') === 'true') current = k;
     });
+    /* Reorder the tabs into the state's set order: hiding alone leaves
+       the baked DOM order (Summary first, Live 5th) — the shuffled tab
+       row the user reported. Appending in set order moves the visible
+       tabs to the front in the right sequence. */
+    if (nav) {
+      set.forEach(function (k) {
+        var tab = nav.querySelector('[data-ci-panel="' + k + '"]');
+        if (tab && tab.parentNode) nav.appendChild(tab.parentNode);
+      });
+    }
     if (!current || set.indexOf(current) === -1) {
       openTab(DEFAULT_TAB[state] || 'summary', { silent: true });
     }
@@ -430,7 +449,7 @@
   }
 
   function inningsInProgress(m) {
-    var inns = (m.scorecard && m.scorecard.innings) || [];
+    var inns = mergedInnings(m);
     for (var i = 0; i < inns.length; i++) {
       var bat = inns[i].batting || [];
       for (var j = 0; j < bat.length; j++) if (bat[j].crease) return inns[i];
@@ -438,9 +457,99 @@
     return inns.length ? inns[inns.length - 1] : null;
   }
 
-  /* Fall of wickets, walked from the ball-by-ball in order. */
+  /* One section per innings: the endpoint emits one entry per
+     (period, side) in roster order, so a live match has four entries —
+     the batting side's entry and the bowling side's entry per period.
+     Merge by period into one section (batting side's batting + yet +
+     total/overs, bowling side's bowling), ordered chronologically
+     (period 1, then period 2) — the same order the baked result pages
+     show. Entries without a period (old snapshots) fall back to the raw
+     list sorted batting-first. Totals/overs come from the batting
+     side's entry: totals are synced per team name, so a bowling-side
+     entry can carry the other period's score. */
+  function mergedInnings(m) {
+    var inns = (m.scorecard && m.scorecard.innings) || [];
+    if (!inns.length) return [];
+    var hasPeriod = inns.some(function (g) { return g.period != null; });
+    if (!hasPeriod) {
+      return inns.slice().sort(function (a, b) {
+        return ((b.batting || []).length - (a.batting || []).length);
+      });
+    }
+    var byPeriod = {};
+    var order = [];
+    inns.forEach(function (g) {
+      var p = g.period || 1;
+      if (!byPeriod[p]) {
+        byPeriod[p] = { team: '', period: p, batting: [], bowling: [], yet: [], total: '', overs: '' };
+        order.push(p);
+      }
+      var tgt = byPeriod[p];
+      if ((g.batting || []).length || (g.yet || []).length) {
+        tgt.team = g.team;
+        tgt.batting = g.batting || [];
+        tgt.yet = g.yet || [];
+        tgt.total = g.total || tgt.total;
+        tgt.overs = g.overs || tgt.overs;
+      }
+      if ((g.bowling || []).length) {
+        tgt.bowling = g.bowling || [];
+        if (!tgt.team) tgt.team = g.team;
+      }
+    });
+    order.sort(function (a, b) { return a - b; });
+    return order.map(function (p) { return byPeriod[p]; });
+  }
+
+  /* Which innings is in progress: the one with a batsman at the crease;
+     else the latest period with batting; else the old score heuristic
+     (score2 exists => innings 2). The old rule was wrong in the 2nd
+     innings: once both scores exist it always said 2, so the commentary
+     walk-back started from the completed 1st-innings total. */
+  function currentPeriod(m) {
+    var inns = mergedInnings(m);
+    for (var i = 0; i < inns.length; i++) {
+      var bat = inns[i].batting || [];
+      for (var j = 0; j < bat.length; j++) if (bat[j].crease) return inns[i].period || 1;
+    }
+    var latest = 0;
+    inns.forEach(function (g) {
+      if ((g.batting || []).length && (g.period || 0) > latest) latest = g.period || 0;
+    });
+    if (latest) return latest;
+    return m.score2 ? 2 : 1;
+  }
+
+  /* The current innings' team / score / overs, from the merged innings
+     (the period with a batsman at the crease; else the latest period
+     with batting). Falls back to the old score heuristic. */
+  function periodScore(m) {
+    var inns = mergedInnings(m);
+    for (var i = 0; i < inns.length; i++) {
+      var bat = inns[i].batting || [];
+      for (var j = 0; j < bat.length; j++) {
+        if (bat[j].crease) {
+          return { team: inns[i].team, score: scoreRuns(inns[i].total), overs: inns[i].overs };
+        }
+      }
+    }
+    var latest = null;
+    inns.forEach(function (g) { if ((g.batting || []).length) latest = g; });
+    if (latest) return { team: latest.team, score: scoreRuns(latest.total), overs: latest.overs };
+    if (m.score2) return { team: m.team2, score: scoreRuns(m.score2), overs: m.overs2 };
+    return { team: m.team1, score: scoreRuns(m.score1), overs: m.overs1 };
+  }
+
+  /* Fall of wickets, walked from the ball-by-ball in order — the
+     CURRENT innings only. The payload now carries the full PBP (both
+     innings), so walking all of it would add the 1st-innings falls to
+     the 2nd-innings total. Entries without a period (old payloads)
+     default to the current innings. */
   function fallOfWickets(m) {
-    var balls = (m.commentary || []).slice().reverse();
+    var period = currentPeriod(m);
+    var balls = (m.commentary || []).filter(function (b) {
+      return (b.period || period) === period;
+    }).slice().reverse();
     var out = [], runs = 0, wkts = 0;
     balls.forEach(function (b) {
       runs += parseInt(b.runs || '0', 10);
@@ -485,20 +594,6 @@
   }
 
   function isLegalToken(t) { return !/w$|nb$/.test(String(t)); }
-
-  /* Which innings the feed window belongs to: innings 2 once team 2 has
-     a score, else innings 1. */
-  function currentPeriod(m) { return m.score2 ? 2 : 1; }
-
-  /* The current innings' team / score / overs, by period. Walk-back
-     totals must come from the innings the window belongs to, not from the
-     battingNow heuristic (which is meaningless once a match is decided). */
-  function periodScore(m) {
-    if (currentPeriod(m) === 2) {
-      return { team: m.team2, score: scoreRuns(m.score2), overs: m.overs2 };
-    }
-    return { team: m.team1, score: scoreRuns(m.score1), overs: m.overs1 };
-  }
 
   /* Dismissal detail box (image-124): the scorecard's dismissal string
      for the batsman when it resolves (exact name, else a unique surname —
@@ -641,7 +736,12 @@
   function commentaryGroups(m, limitBalls, noCum) {
     var period = currentPeriod(m);
     var ps = periodScore(m);
-    var balls = (m.commentary || []).slice(0, limitBalls || undefined);
+    /* The payload now carries the full PBP (both innings): group the
+       current innings only. Entries without a period (old payloads)
+       default to the current innings, so old snapshots still render. */
+    var balls = (m.commentary || []).filter(function (b) {
+      return (b.period || period) === period;
+    }).slice(0, limitBalls || undefined);
     if (!balls.length) return [];
     var chrono = balls.slice().reverse();
     var groups = {}, order = [];
@@ -756,10 +856,11 @@
   }
 
   /* Over-by-over table (image-125): cumulative score + CRR per over, walked
-     back from the current total over the last 3 overs in the timeline.
+     back from the current total over the full timeline (or the last 3
+     overs when the endpoint only sent the window).
      Maiden = 0 runs off 6 legal balls (a 0-run partial over is not one). */
   function overDetailRows(m) {
-    var tl = ((m.live && m.live.recentOvers) || m.overTimeline || []).slice();
+    var tl = (m.overTimeline || (m.live && m.live.recentOvers) || []).slice();
     if (!tl.length) return '';
     var ps = periodScore(m);
     var code = TEAM_CODE[cleanName(ps.team)] || cleanName(ps.team);
@@ -790,12 +891,12 @@
   }
 
   /* This spell: the current bowler's trailing consecutive overs in the
-     timeline (image-122). The timeline holds only the last 3 overs, so
-     when the run reaches its oldest over AND more overs have been bowled
-     than the timeline covers, the spell is truncated — say so. */
+     timeline (image-122). With a window-only timeline, when the run
+     reaches its oldest over AND more overs have been bowled than the
+     timeline covers, the spell is truncated — say so. */
   function thisSpell(m) {
     var live = m.live || {};
-    var tl = live.recentOvers || m.overTimeline || [];
+    var tl = m.overTimeline || live.recentOvers || [];
     if (!tl.length) return '';
     var bowlers = live.bowlers || [], cur = null;
     bowlers.forEach(function (bw) { if (bw.current) cur = bw; });
@@ -882,6 +983,19 @@
     if (commDone || commObs) return;
     var sentinel = document.querySelector('[data-ci-comm-sentinel]');
     if (!sentinel || !('IntersectionObserver' in window)) return;
+    /* The payload now carries the full PBP: when the first render
+       already covers from over 1 of the current innings (group key
+       "<period>-1" present), there is nothing older to load — no
+       infinite-scroll loader at all. */
+    var period = currentPeriod(m);
+    var container = document.querySelector('[data-ci-comm-groups]');
+    if (container) {
+      var covered = false;
+      $all('.ci-comm-group', container).forEach(function (g) {
+        if (g.getAttribute('data-ci-over') === period + '-1') covered = true;
+      });
+      if (covered) { commDone = true; return; }
+    }
     if (!commPeriod) { commPeriod = currentPeriod(m); commPage = 2; }
     commObs = new IntersectionObserver(function (entries) {
       if (!entries[0].isIntersecting || commLoading || commDone || commOldest) return;
@@ -978,19 +1092,23 @@
   }
 
   function scorecardHtml(m) {
-    var inns = (m.scorecard && m.scorecard.innings) || [];
+    var inns = mergedInnings(m);
     if (!inns.length) {
       if (m.status === 'live' && !hasStarted(m)) {
         return '<p class="ci-yet">Match yet to begin. The scorecard appears here once the first ball is bowled.</p>';
       }
       return '<p class="ci-yet">Match in progress — the scorecard will appear here shortly.</p>';
     }
-    /* The feed window covers only the current innings. A full fall-of-
-       wickets walk from it is valid only when the window starts at the
-       innings' first ball ("0.1"); otherwise show the last wicket only.
-       The walk is shown on the innings in progress only — never under
-       the completed innings (its balls are not in the window). */
-    var balls = m.commentary || [];
+    /* The payload carries the full PBP from over 1, so the fall-of-
+       wickets walk is complete for the innings in progress — show the
+       full list under it, never under the completed innings. The walk
+       is valid only when the current innings' balls start at "0.1";
+       with an old window-only payload it falls back to the last wicket
+       only (the live.lastWicket line below). */
+    var period = currentPeriod(m);
+    var balls = (m.commentary || []).filter(function (b) {
+      return (b.period || period) === period;
+    });
     var oldest = balls.length ? balls[balls.length - 1] : null;
     var fullFow = !!oldest && String(oldest.over || '') === '0.1';
     var fow = fullFow ? fallOfWickets(m) : [];
@@ -1088,7 +1206,7 @@
           }).join('') + '</tbody></table></div>';
       }
       return head + body;
-    }).join('');
+    }).join('') + playingXiHtml(m);
   }
 
   function commentaryHtml(m) {
@@ -1105,25 +1223,226 @@
   function oversHtml(m) {
     var rows = overDetailRows(m);
     if (!rows) return '<p class="ci-yet">No overs yet. The over-by-over summary appears here once the match starts.</p>';
-    return '<h2>Overs</h2><div class="ci-overs-grid">' + rows + '</div>' +
-      '<p class="ci-note">Showing the most recent overs.</p>';
+    var html = '<h2>Overs</h2><div class="ci-overs-grid">' + rows + '</div>';
+    /* The full timeline starts at over 1; a window-only payload shows
+       the most recent overs only — say so only then. */
+    var tl = m.overTimeline || (m.live && m.live.recentOvers) || [];
+    var first = tl.length ? overNum(tl[tl.length - 1].label) : 0;
+    if (tl.length && first !== 1) html += '<p class="ci-note">Showing the most recent overs.</p>';
+    return html;
+  }
+
+  /* Playing XI (Cricinfo's home for it on a live page is the Scorecard
+     tab): both teams in batting order with (c) / † marks, from the
+     endpoint's playingXI (the ESPN rosters — 11 per team, in batting
+     order). Returns '' when the feed carries no XI. */
+  function playingXiHtml(m) {
+    var xi = m.playingXI || null;
+    if (!xi || !xi.length) return '';
+    var html = '<h2>Playing XI</h2>';
+    xi.forEach(function (side) {
+      html += '<p class="ci-subhead">' + esc(side.team || '') + '</p><ol class="ci-xi-list">' +
+        (side.players || []).map(function (p) {
+          return '<li>' + esc(p.name) + (p.captain ? ' (c)' : '') + (p.wk ? ' †' : '') + '</li>';
+        }).join('') + '</ol>';
+    });
+    return html;
+  }
+
+  /* Playing XI panel (pre-start): the baked panel carries the squads +
+     the "never confirmed" note. Once the feed carries the XI (from the
+     toss), replace ONLY that note <p> with the XI lists — the baked
+     squads stay below as the bench. Idempotent: the note is gone after
+     the first fill, so later polls do nothing. */
+  function fillPlayingXiPanel(m) {
+    var panel = document.getElementById('ci-panel-playingxi');
+    if (!panel || !m.playingXI || !m.playingXI.length) return;
+    var note = null;
+    $all('p', panel).forEach(function (p) {
+      if (!note && p.textContent.indexOf('never confirmed') !== -1) note = p;
+    });
+    if (!note) return;
+    note.outerHTML = playingXiHtml(m);
+  }
+
+  /* Partnerships from the full current-period PBP (Cricinfo Stats tab):
+     walk the balls chronologically, split at each wicket. The pair is
+     the two batters at the crease for the stand (batsman + otherBatsman
+     on each ball; the batting order fills a missing partner — ESPN
+     omits otherBatsman on some wicket balls). Runs are the stand's
+     runs, extras included (ESPN convention). Biggest first, top 8 —
+     the same markup as the baked Stats tab. */
+  function livePartnershipsHtml(m) {
+    var period = currentPeriod(m);
+    var balls = (m.commentary || []).filter(function (b) {
+      return (b.period || period) === period;
+    }).slice().reverse();
+    if (!balls.length) return '';
+    var g = inningsInProgress(m);
+    var order = ((g && g.batting) || []).map(function (b) { return b.name; });
+    var outSet = {};
+    var pairs = [];
+    var cur = null;
+    var wkts = 0;
+    balls.forEach(function (b) {
+      var a = String(b.batsman || '').trim();
+      var o = String(b.otherBatsman || '').trim();
+      if (!cur) {
+        cur = { a: a, b: o, runs: 0 };
+        if (!cur.b) {
+          for (var i = 0; i < order.length; i++) {
+            if (order[i] !== cur.a && !outSet[order[i]]) { cur.b = order[i]; break; }
+          }
+        }
+      } else {
+        if (a && a !== cur.a && !cur.b) cur.b = a;
+        if (o && o !== cur.a && !cur.b) cur.b = o;
+      }
+      cur.runs += parseInt(b.runs || '0', 10);
+      if (String(b.dismissal || '').trim()) {
+        wkts++;
+        var dismissed = a;
+        var survivor = o || ((dismissed === cur.a) ? cur.b : cur.a);
+        outSet[dismissed] = true;
+        pairs.push({ pair: survivor + (dismissed ? ' + ' + dismissed : ''), runs: cur.runs, wk: wkts });
+        cur = { a: survivor, b: '', runs: 0 };
+      }
+    });
+    if (cur && cur.a) pairs.push({ pair: cur.a + (cur.b ? ' + ' + cur.b : ''), runs: cur.runs, wk: null });
+    pairs = pairs.filter(function (p) { return p.pair && p.pair.indexOf(' + ') !== -1; });
+    pairs.sort(function (a, b) { return b.runs - a.runs; });
+    var top = pairs.slice(0, 8);
+    if (!top.length) return '';
+    var mx = 0;
+    top.forEach(function (p) { if (p.runs > mx) mx = p.runs; });
+    if (!mx) mx = 1;
+    var html = '<h2>Partnerships</h2>';
+    top.forEach(function (p) {
+      var wktxt = p.wk ? ' — ' + p.wk + ' wicket' : ' — unbroken';
+      var pct = Math.round(p.runs / mx * 100);
+      html += '<div class="ci-partner"><div class="ci-partner-row"><span>' + esc(p.pair) +
+        '</span><span><b>' + p.runs + '</b>' + esc(wktxt) + '</span></div>' +
+        '<div class="ci-partner-bar"><i style="width:' + pct + '%"></i></div></div>';
+    });
+    return html;
+  }
+
+  /* Manhattan (Cricinfo Stats tab): runs scored in each over, per
+     innings, from the over timelines. Wicket overs are red. The same
+     markup as the baked Stats tab. */
+  function liveManhattanHtml(m) {
+    var tls = [];
+    if ((m.overTimelinePrev || []).length) tls.push(m.overTimelinePrev);
+    if ((m.overTimeline || []).length) tls.push(m.overTimeline);
+    if (!tls.length) return '';
+    var html = '<h2>Manhattan</h2>';
+    tls.forEach(function (tl) {
+      var bars = tl.slice().sort(function (a, b) { return overNum(a.label) - overNum(b.label); });
+      if (!bars.length) return;
+      var mx = 1;
+      bars.forEach(function (o) { if ((o.runs || 0) > mx) mx = o.runs || 0; });
+      var team = bars[0].team || '';
+      html += '<p class="ci-subhead">' + esc(team) + '</p><div class="ci-manhattan">' +
+        bars.map(function (o) {
+          var h = Math.max(2, Math.round((o.runs || 0) / mx * 100));
+          return '<i style="height:' + h + '%"' + ((o.wickets || 0) ? ' class="is-w"' : '') +
+            ' title="Over ' + overNum(o.label) + ': ' + (o.runs || 0) + ' runs"></i>';
+        }).join('') + '</div>';
+    });
+    return html;
+  }
+
+  /* Run Rate Graph (Cricinfo Stats tab): cumulative run rate after each
+     over, per innings, from the over timelines. Same SVG shape as the
+     baked Stats tab (320x170, blue = 1st innings, grey = 2nd). */
+  function liveRunRateGraphHtml(m) {
+    var tls = [];
+    if ((m.overTimelinePrev || []).length) tls.push(m.overTimelinePrev);
+    if ((m.overTimeline || []).length) tls.push(m.overTimeline);
+    if (!tls.length) return '';
+    var series = [];
+    tls.forEach(function (tl, idx) {
+      var bars = tl.slice().sort(function (a, b) { return overNum(a.label) - overNum(b.label); });
+      var cumRuns = 0, cumBalls = 0;
+      var pts = [[0, 0]];
+      bars.forEach(function (o) {
+        cumRuns += (o.runs || 0);
+        (o.tokens || []).forEach(function (t) { if (isLegalToken(t)) cumBalls++; });
+        pts.push([overNum(o.label), cumBalls ? cumRuns * 6 / cumBalls : 0]);
+      });
+      if (pts.length >= 2) series.push({ inn: idx + 1, pts: pts, team: bars[0].team || '' });
+    });
+    if (!series.length) return '';
+    var maxRr = 1, maxOv = 1;
+    series.forEach(function (s) {
+      s.pts.forEach(function (p) {
+        if (p[1] > maxRr) maxRr = p[1];
+        if (p[0] > maxOv) maxOv = p[0];
+      });
+    });
+    var W = 320, H = 170, PL = 28, PB = 22;
+    var xy = function (ov, rr) {
+      return [PL + (ov / Math.max(maxOv, 1)) * (W - PL - 8),
+        (H - PB) - (rr / (maxRr * 1.1)) * (H - PB - 14)];
+    };
+    var colors = { 1: '#0b5ed7', 2: '#5f6368' };
+    var svg = ['<svg viewBox="0 0 320 170" role="img" aria-label="Run rate graph">'];
+    [0, Math.round(maxRr * 10) / 10].forEach(function (gv) {
+      var y = xy(0, gv)[1];
+      svg.push('<line x1="' + PL + '" y1="' + y.toFixed(1) + '" x2="' + (W - 8) + '" y2="' + y.toFixed(1) +
+        '" stroke="#eeeeee"/><text x="4" y="' + (y + 3).toFixed(1) + '" font-size="10" fill="#8a8f98">' + gv + '</text>');
+    });
+    svg.push('<text x="' + PL + '" y="' + (H - 6) + '" font-size="10" fill="#8a8f98">0</text>' +
+      '<text x="' + (W - 16) + '" y="' + (H - 6) + '" font-size="10" fill="#8a8f98">' + maxOv + ' ov</text>');
+    series.forEach(function (s) {
+      var d = s.pts.map(function (p) {
+        var p2 = xy(p[0], p[1]);
+        return p2[0].toFixed(1) + ',' + p2[1].toFixed(1);
+      }).join(' ');
+      svg.push('<polyline points="' + d + '" fill="none" stroke="' + colors[s.inn] + '" stroke-width="2"/>');
+    });
+    svg.push('</svg>');
+    var legend = '<p class="ci-worm-legend">' + series.map(function (s) {
+      return '<i' + (s.inn === 2 ? ' style="background:#5f6368"' : '') + '></i>' + esc(s.team);
+    }).join(' &nbsp; ') + '</p>';
+    return '<h2>Run Rate Graph</h2>' + svg.join('') + legend;
   }
 
   function liveStatsHtml(m) {
     var live = m.live || {};
-    var batters = live.batters || [];
-    if (m.status === 'upcoming' || !batters.length) {
+    var g = inningsInProgress(m);
+    var bat = (g && g.batting) || [];
+    var bowl = (g && g.bowling) || [];
+    if (m.status === 'upcoming' || (!bat.length && !bowl.length)) {
       return '<p class="ci-yet">Live stats appear here once the match starts.</p>';
     }
-    var html = '<h2>Live Stats</h2><div class="ci-worm-slot" data-ci-worm></div>';
-    html += battersTable(batters) + bowlersTable(live.bowlers || []);
+    /* Full tables from the in-progress innings (dismissed players
+       included) — the live block carries only the crease pair + the
+       current/other bowler. Crease flags map to the table's * marks;
+       the current bowler is name-matched against the live block. */
+    var batters = bat.map(function (b) {
+      return { name: b.name, runs: b.runs, balls: b.balls, fours: b.fours, sixes: b.sixes, sr: b.sr,
+        striker: b.crease === 'striker' };
+    });
+    var curBowler = null;
+    (live.bowlers || []).forEach(function (bw) { if (bw.current) curBowler = bw.name; });
+    var bowlers = bowl.map(function (b) {
+      return { name: b.name, overs: b.overs, maidens: b.maidens, runs: b.runs, wickets: b.wickets,
+        econ: b.econ, current: b.name === curBowler };
+    });
+    /* Cricinfo Stats order: Partnerships, Manhattan, Run Rate Graph,
+       Worm, then the full tables + Scoring Breakdown + info rows. */
+    var html = '<h2>Live Stats</h2>';
+    html += livePartnershipsHtml(m);
+    html += liveManhattanHtml(m);
+    html += liveRunRateGraphHtml(m);
+    html += '<div class="ci-worm-slot" data-ci-worm></div>';
+    html += battersTable(batters) + bowlersTable(bowlers);
     /* Scoring breakdown (image-122): Sixes / Fours / Runs in Boundaries
        from the in-progress innings' batting sums — only when the feed
        carries fours/sixes (the static snapshot's reduced innings do not).
-       Power Play / Middle Overs / Dot-ball % are NOT computable live
-       (the timeline holds 3 overs), so they are omitted, never guessed. */
-    var g = inningsInProgress(m);
-    var bat = (g && g.batting) || [];
+       Power Play / Middle Overs / Dot-ball % are not shown live (not in
+       the defect list), so they are omitted, never guessed. */
     var hasFigs = bat.length > 0 && bat.every(function (x) { return x.fours != null && x.sixes != null; });
     if (hasFigs) {
       var fours = 0, sixes = 0;
@@ -1142,11 +1461,6 @@
     var rows = [];
     var crr = runRate(m);
     if (crr) rows.push(['Current run rate', crr]);
-    if (batters.length >= 2) {
-      var r0 = parseInt(batters[0].runs || '0', 10) + parseInt(batters[1].runs || '0', 10);
-      var b0 = parseInt(batters[0].balls || '0', 10) + parseInt(batters[1].balls || '0', 10);
-      rows.push(['Partnership', r0 + ' runs (' + b0 + ' balls)']);
-    }
     var all = (m.commentary || []).slice().reverse();
     if (all.length) {
       var last5 = all.slice(-5).map(function (b) { var t = ballToken(b); return t === '0' ? '•' : t; });
@@ -1166,9 +1480,11 @@
   }
 
   /* Worm: re-draw from the over timeline + the current total. The timeline
-     holds only the last 3 overs, so the line starts at its oldest over —
-     never from (0,0), which would fabricate the early trajectory — except
-     when the timeline starts at over 1 (the feed covers from the start).
+     is the full over-by-over list when the endpoint sent it; with an old
+     window-only payload it holds only the last 3 overs, so the line starts
+     at its oldest over — never from (0,0), which would fabricate the early
+     trajectory — except when the timeline starts at over 1 (the feed covers
+     from the start).
      Fills EVERY [data-ci-worm] slot (rail + Live Stats tab). The baked
      result worm has no data-ci-worm attribute, so it is never touched.
      Stroke stays #0b5ed7 (the match content area is the Cricinfo-blue
@@ -1178,7 +1494,7 @@
     if (!wraps.length) return;
     var ps = periodScore(m);
     if (!ps.team || !ps.score) return;
-    var tl = ((m.live && m.live.recentOvers) || m.overTimeline || []).slice();
+    var tl = (m.overTimeline || (m.live && m.live.recentOvers) || []).slice();
     tl = tl.filter(function (o) { return !isNaN(overNum(o.label)); });
     tl.sort(function (a, b) { return overNum(a.label) - overNum(b.label); });
     if (!tl.length) return;
@@ -1353,15 +1669,39 @@
        rebuilt by the bake, and a fill here would overwrite the live
        stats with the "not started" line. */
     if (m.status === 'live') fill('stats', liveStatsHtml(m));
-    /* Playing XI: the feed carries no XI. Only fill a panel that is
-       empty (the baked upcoming/abandoned panels already carry the
-       squads + honest note, and are left alone). */
+    /* Playing XI: fill the baked panel from the feed once the XI is
+       known (pre-start: the note is replaced, squads stay as the
+       bench). Only fill a panel that is empty (the baked
+       upcoming/abandoned panels already carry the squads + honest
+       note, and are left alone). */
     var xiPanel = document.getElementById('ci-panel-playingxi');
     if (xiPanel && !xiPanel.innerHTML.trim()) {
       xiPanel.innerHTML = '<p class="ci-yet">Playing XIs are announced at the toss.</p>';
     }
+    fillPlayingXiPanel(m);
     /* The worm goes last: the Stats fill above (re)creates its slot. */
     renderWorm(m);
+  }
+
+  /* ---------- first-paint gate (live-flash fix) ---------- */
+
+  /* Remove the gate the inline template script added (match header /
+     tabs / main hidden until the first poll resolves). A no-op when
+     the gate was never added. */
+  function ungate() {
+    var h = document.documentElement;
+    if (h.classList.contains('ci-gate')) h.classList.remove('ci-gate');
+  }
+
+  /* Is a flip to live possible right now? Only an upcoming page inside
+     [kickoff - 30 min, kickoff + 6 h] can flip — the template script
+     adds the gate on exactly this condition. */
+  function inLiveWindow(ident) {
+    if (!ident || ident.state !== 'upcoming') return false;
+    var k = kickoffMs(ident);
+    if (isNaN(k)) return false;
+    var now = Date.now();
+    return now >= k - 30 * 60 * 1000 && now <= k + 6 * 60 * 60 * 1000;
   }
 
   /* ---------- boot / poll loop ---------- */
@@ -1413,11 +1753,19 @@
     if (ident.state === 'result' || ident.state === 'abandoned') {
       applyTabSet(ident.state);
       openTab(DEFAULT_TAB[ident.state] || 'summary', { silent: true });
+      ungate();
       return;
     }
     applyTabSet(ident.state);
     openTab(DEFAULT_TAB[ident.state] || 'summary', { silent: true });
     renderCountdown(ident);
+    /* No flip possible (outside the live window): paint the baked
+       state at once. Inside the window the gate stays until the first
+       poll resolves. */
+    if (!inLiveWindow(ident)) ungate();
+    /* 8 s fallback: a slow/dead feed — or a hidden tab that never
+       polls — must never leave the gate on. */
+    setTimeout(ungate, 8000);
 
     function schedule(delay) {
       if (timer) clearTimeout(timer);
@@ -1434,9 +1782,14 @@
           /* Pre-start live window: the endpoint flags the match live
              ~15 min before kickoff, but no ball has been bowled. Keep
              the baked Preview state — no H1 flip, no tab switch, no
-             panel fill — and update only the toss line in place. */
+             panel fill — and update only the toss line in place. The
+             Playing XI panel is the one exception: once the feed
+             carries the XI (from the toss), its note is replaced. */
           var tossEl = $('[data-ci-toss]');
           if (tossEl && m.toss) setText(tossEl, m.toss);
+          try { fillPlayingXiPanel(m); } catch (e) { /* XI fill must never break the page */ }
+          /* Pre-start: the baked Preview is the correct state — reveal it. */
+          ungate();
           var delay = POLL_FAST;
           var kick = kickoffMs(ident);
           if (!isNaN(kick) && kick - Date.now() > NEAR_KICKOFF) delay = POLL_SLOW;
@@ -1461,9 +1814,12 @@
           if (!pickedByUser) openTab(DEFAULT_TAB[m.status] || 'live', { silent: true });
         }
         seenStatus = m.status;
+        /* First poll resolved: the live state is rendered and the tabs
+           are in live order — reveal the page. */
+        ungate();
         if (m.status === 'result') return; /* final state shown once; the bake takes over */
         schedule(POLL_FAST);
-      }).catch(function () { schedule(POLL_FAST); });
+      }).catch(function () { ungate(); schedule(POLL_FAST); });
     }
 
     tick();
@@ -1483,6 +1839,9 @@
     runRate: runRate,
     battingNow: battingNow,
     hasStarted: hasStarted,
+    mergedInnings: mergedInnings,
+    currentPeriod: currentPeriod,
+    periodScore: periodScore,
     fallOfWickets: fallOfWickets,
     overNum: overNum,
     commentaryGroups: commentaryGroups,
@@ -1495,7 +1854,14 @@
     scorecardHtml: scorecardHtml,
     commentaryHtml: commentaryHtml,
     oversHtml: oversHtml,
-    liveStatsHtml: liveStatsHtml
+    liveStatsHtml: liveStatsHtml,
+    livePartnershipsHtml: livePartnershipsHtml,
+    liveManhattanHtml: liveManhattanHtml,
+    liveRunRateGraphHtml: liveRunRateGraphHtml,
+    playingXiHtml: playingXiHtml,
+    fillPlayingXiPanel: fillPlayingXiPanel,
+    ungate: ungate,
+    inLiveWindow: inLiveWindow
   };
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
