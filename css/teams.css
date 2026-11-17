@@ -208,13 +208,13 @@ body.league-npl .side-card { border-top: 3px solid var(--st-rose); }
 
 /* (6) Fixture result lines: ink (not link-rose), hub size (0.95rem),
    pretty-wrapped so no single-word orphan ("by 4 / wickets"). Hover rose. */
-body.league-npl .fx-team {
+body.league-npl .fx-team, body.league-ilt20 .fx-team {
   color: var(--st-ink);
   font-size: .95rem;
   text-wrap: pretty;
 }
-body.league-npl #fxResults a:hover .fx-team,
-body.league-npl #fxFixtures a:hover .fx-team { color: var(--st-rose-deep); }
+body.league-npl #fxResults a:hover .fx-team, body.league-ilt20 #fxResults a:hover .fx-team,
+body.league-npl #fxFixtures a:hover .fx-team, body.league-ilt20 #fxFixtures a:hover .fx-team { color: var(--st-rose-deep); }
 
 /* (7) Squad: 2-across (was 3-across ~214px cards, 5 long names wrapped to
    2 lines and rows went uneven 85px vs 64px). At 250px min the longest
@@ -265,10 +265,10 @@ a.tm2-player:hover, span.tm2-player:hover {
 
 /* (10) "Full NPL Coverage": rose links, like the other sidebar blocks
    (was a plain list of dark links under the fallback). */
-body.league-npl .tm2-cover a {
+body.league-npl .tm2-cover a, body.league-ilt20 .tm2-cover a {
   color: var(--st-rose-deep); text-decoration: none; font-weight: 600;
 }
-body.league-npl .tm2-cover a:hover { text-decoration: underline; }
+body.league-npl .tm2-cover a:hover, body.league-ilt20 .tm2-cover a:hover { text-decoration: underline; }
 
 /* (11) Centre h3 hierarchy: History / Featured / Latest were ~24px,
    barely below the 28px h2. Now a clear step down. */
@@ -508,3 +508,12 @@ body.league-npl .hub3-center section > .side-card:not(.tm2-centre-card) { margin
 /* (4) Squad photos: <img> avatars crop to the 40px disc (the .tm2-avatar
    rule already gives the size + circle; only object-fit is missing). */
 img.tm2-avatar { object-fit: cover; }
+
+/* ILT20 (2026-11-17, teams rebuild): the hero sits inside .page-head, so
+   body.st-inner .page-head h1 (0,2,2) beats .tm2-hero h1 (0,1,1) — the H1
+   rendered dark ink at 50px on the night hero. Mirror the NPL hero H1 at
+   higher specificity; small-screen size matches the 640px hero rule. */
+body.st-inner.league-ilt20 .tm2-hero h1 { color:#fff; font-size:1.9rem; line-height:1.15; margin:0 0 .35rem; }
+@media (max-width:640px) {
+  body.st-inner.league-ilt20 .tm2-hero h1 { font-size:1.45rem; }
+}

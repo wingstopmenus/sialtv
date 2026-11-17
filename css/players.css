@@ -1,3 +1,9 @@
+/* Players — NPL + ILT20 profiles + players hubs. Scoped .pl- classes only.
+   Generalised 2026-11-18 (ILT20 rebuild): every .league-npl / .page-npl-players
+   rule is duplicated for .league-ilt20 / .page-ilt20-players (see the /* ILT20 */
+   copies). NPL rules are unchanged. The two leagues share this one file:
+   /css/players.css must be pushed with the ILT20 hub, or the hub renders
+   without the .pl- styles (the NPL-only live file has no league-ilt20 rules). */
 /* Players — NPL profiles + players hub. Scoped .pl- classes only.
    Site theme: Plus Jakarta Sans, lavender #f5f3fb, rose #e11d48, night #090811.
    NO Cricinfo blue anywhere. Loaded after /style.css on player pages + hub.
@@ -13,6 +19,9 @@
    Ground — stay left). Scoped to the profile centre so it beats style.css's
    .table-scroll padding (0,4,2) and body:not(.st-home) border-collapse. */
 body.st-inner.league-npl .player-centre .pl-stats { width: 100%; border-collapse: separate; border-spacing: 0; }
+/* ILT20 — same rule, league-ilt20 scope (generalised from the NPL rule above). */
+
+body.st-inner.league-ilt20 .player-centre .pl-stats { width: 100%; border-collapse: separate; border-spacing: 0; }
 body.st-inner.league-npl .player-centre .pl-stats thead th {
   background: #090811;
   color: #fff;
@@ -24,21 +33,67 @@ body.st-inner.league-npl .player-centre .pl-stats thead th {
   border-bottom: 2px solid #e11d48;
   white-space: nowrap;
 }
+/* ILT20 — same rule, league-ilt20 scope (generalised from the NPL rule above). */
+
+body.st-inner.league-ilt20 .player-centre .pl-stats thead th {
+  background: #090811;
+  color: #fff;
+  font-size: .78rem;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  text-align: left;
+  padding: .7rem .75rem;
+  border-bottom: 2px solid #e11d48;
+  white-space: nowrap;
+}
 body.st-inner.league-npl .player-centre .pl-stats thead th:first-child { border-top-left-radius: 11px; }
+/* ILT20 — same rule, league-ilt20 scope (generalised from the NPL rule above). */
+
+body.st-inner.league-ilt20 .player-centre .pl-stats thead th:first-child { border-top-left-radius: 11px; }
 body.st-inner.league-npl .player-centre .pl-stats thead th:last-child { border-top-right-radius: 11px; }
+/* ILT20 — same rule, league-ilt20 scope (generalised from the NPL rule above). */
+
+body.st-inner.league-ilt20 .player-centre .pl-stats thead th:last-child { border-top-right-radius: 11px; }
 body.st-inner.league-npl .player-centre .pl-stats thead th.num,
 body.st-inner.league-npl .player-centre .pl-stats tbody td.num { text-align: right; }
+/* ILT20 — same rule, league-ilt20 scope (generalised from the NPL rule above). */
+
+body.st-inner.league-ilt20 .player-centre .pl-stats thead th.num,
+body.st-inner.league-ilt20 .player-centre .pl-stats tbody td.num { text-align: right; }
 body.st-inner.league-npl .player-centre .pl-stats tbody td {
   padding: .55rem .7rem;
   border-bottom: 1px solid #efeaf9;
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
+/* ILT20 — same rule, league-ilt20 scope (generalised from the NPL rule above). */
+
+body.st-inner.league-ilt20 .player-centre .pl-stats tbody td {
+  padding: .55rem .7rem;
+  border-bottom: 1px solid #efeaf9;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
 body.st-inner.league-npl .player-centre .pl-stats tbody td:first-child { font-weight: 700; }
+/* ILT20 — same rule, league-ilt20 scope (generalised from the NPL rule above). */
+
+body.st-inner.league-ilt20 .player-centre .pl-stats tbody td:first-child { font-weight: 700; }
 body.st-inner.league-npl .player-centre .pl-stats tbody tr:nth-child(even) td { background: #fbfaff; }
+/* ILT20 — same rule, league-ilt20 scope (generalised from the NPL rule above). */
+
+body.st-inner.league-ilt20 .player-centre .pl-stats tbody tr:nth-child(even) td { background: #fbfaff; }
 body.st-inner.league-npl .player-centre .pl-stats tbody tr:hover td { background: #fdf0f3; }
+/* ILT20 — same rule, league-ilt20 scope (generalised from the NPL rule above). */
+
+body.st-inner.league-ilt20 .player-centre .pl-stats tbody tr:hover td { background: #fdf0f3; }
 body.st-inner.league-npl .player-centre .pl-stats tbody td a { color: var(--st-night); font-weight: 600; }
+/* ILT20 — same rule, league-ilt20 scope (generalised from the NPL rule above). */
+
+body.st-inner.league-ilt20 .player-centre .pl-stats tbody td a { color: var(--st-night); font-weight: 600; }
 body.st-inner.league-npl .player-centre .pl-stats tbody td a:hover { color: var(--st-rose); }
+/* ILT20 — same rule, league-ilt20 scope (generalised from the NPL rule above). */
+
+body.st-inner.league-ilt20 .player-centre .pl-stats tbody td a:hover { color: var(--st-rose); }
 
 /* FULL WIDTH on desktop (fix 2026-11-15, user screenshot): the site-wide fallback
    (style.css body:not(.st-home) table) forces display:block + overflow-x:auto on
@@ -49,6 +104,11 @@ body.st-inner.league-npl .player-centre .pl-stats tbody td a:hover { color: var(
    block+scroll on mobile (<=980px) where the wide tables must scroll in the card. */
 @media (min-width: 981px) {
   body.st-inner.league-npl .player-centre .pl-stats { display: table; }
+}
+/* ILT20 — same rule, league-ilt20 scope (generalised from the NPL rule above). */
+
+@media (min-width: 981px) {
+  body.st-inner.league-ilt20 .player-centre .pl-stats { display: table; }
 }
 
 /* Match tables: team names — full on desktop, 3-letter code on mobile. */
@@ -75,6 +135,7 @@ body.st-inner.league-npl .player-centre .pl-stats tbody td a:hover { color: var(
 .pl-hub-card .pl-hub-photo .pl-hub-init { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: #090811; color: #fff; font-weight: 800; font-size: 1.25rem; }
 .pl-hub-card .pl-hub-body { min-width: 0; }
 .pl-hub-card .pl-hub-body > a { color: var(--st-ink); font-weight: 700; }
+.pl-hub-card .pl-hub-body > .pl-hub-name { color: var(--st-ink); font-weight: 700; } /* ILT20: name with no live profile yet — plain text, not a link. */
 .pl-hub-card .pl-hub-body > a:hover { color: var(--st-rose-deep); text-decoration: underline; }
 .pl-hub-role { display: block; font-size: .85rem; color: #5b6070; }
 .pl-hub-stats { display: block; font-size: .85rem; font-weight: 600; color: var(--st-ink-2); }
@@ -116,6 +177,12 @@ body.st-inner.league-npl .player-centre .pl-stats tbody td a:hover { color: var(
   body.st-inner.page-npl-players .home-grid { grid-template-columns: minmax(0, 1fr) 320px; }
   body.st-inner .home-side { position: sticky; top: 5.5rem; }
 }
+/* ILT20 — same rule, league-ilt20 scope (generalised from the NPL rule above). */
+
+@media (min-width: 981px) {
+  body.st-inner.page-ilt20-players .home-grid { grid-template-columns: minmax(0, 1fr) 320px; }
+  body.st-inner .home-side { position: sticky; top: 5.5rem; }
+}
 
 /* Side cards: style.css gives .side-card only a border — no background,
    padding, radius or shadow — so on mobile (and desktop) they read as plain
@@ -153,18 +220,36 @@ body.st-inner .side-card li.pl-nav-team > a:hover { color: var(--st-rose-deep); 
 
 /* Section headings: rose bar under every h2 (teams-page pattern). */
 body.page-npl-players .home-main .st-block__head h2::after { content: ""; display: block; width: 2.75rem; height: 3px; background: var(--st-rose); border-radius: 2px; margin-top: .5rem; }
+/* ILT20 — same rule, league-ilt20 scope (generalised from the NPL rule above). */
+
+body.page-ilt20-players .home-main .st-block__head h2::after { content: ""; display: block; width: 2.75rem; height: 3px; background: var(--st-rose); border-radius: 2px; margin-top: .5rem; }
 
 /* Team sections: clearer rhythm between squads. */
 body.page-npl-players section[data-team-section] { margin-top: 2rem; }
+/* ILT20 — same rule, league-ilt20 scope (generalised from the NPL rule above). */
+
+body.page-ilt20-players section[data-team-section] { margin-top: 2rem; }
 
 /* Intro: first paragraph as a lead (text unchanged). */
 body.page-npl-players section#top > p:first-of-type { font-size: 1.1rem; line-height: 1.7; }
+/* ILT20 — same rule, league-ilt20 scope (generalised from the NPL rule above). */
+
+body.page-ilt20-players section#top > p:first-of-type { font-size: 1.1rem; line-height: 1.7; }
 
 /* Filter row: the real classes are .player-filter / #playerSearch
    (.pl-filter / .pl-search above are unused — the hub uses these). */
 body.page-npl-players .player-filter { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; margin: 1.25rem 0 .5rem; }
+/* ILT20 — same rule, league-ilt20 scope (generalised from the NPL rule above). */
+
+body.page-ilt20-players .player-filter { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; margin: 1.25rem 0 .5rem; }
 body.page-npl-players #playerSearch { flex: 1 1 12rem; min-width: 10rem; padding: .55rem .85rem; border: 1px solid var(--st-line); border-radius: .6rem; background: #fff; font: inherit; color: var(--st-ink); }
+/* ILT20 — same rule, league-ilt20 scope (generalised from the NPL rule above). */
+
+body.page-ilt20-players #playerSearch { flex: 1 1 12rem; min-width: 10rem; padding: .55rem .85rem; border: 1px solid var(--st-line); border-radius: .6rem; background: #fff; font: inherit; color: var(--st-ink); }
 body.page-npl-players #playerSearch:focus { outline: none; border-color: var(--st-rose); box-shadow: 0 0 0 3px rgba(225,29,72,.15); }
+/* ILT20 — same rule, league-ilt20 scope (generalised from the NPL rule above). */
+
+body.page-ilt20-players #playerSearch:focus { outline: none; border-color: var(--st-rose); box-shadow: 0 0 0 3px rgba(225,29,72,.15); }
 
 /* Sidebar: heading + leader/caption hierarchy. */
 body.st-inner .side-card h3 { font-size: 1.05rem; font-weight: 800; letter-spacing: -0.01em; margin: 0 0 .5rem; }
@@ -172,6 +257,9 @@ body.st-inner .side-card li > span { color: var(--st-mute); font-size: .85rem; }
 
 /* "Full squad…" footer line: divider above it. */
 body.page-npl-players section[data-team-section] > p.note { border-top: 1px solid var(--st-line); padding-top: .8rem; }
+/* ILT20 — same rule, league-ilt20 scope (generalised from the NPL rule above). */
+
+body.page-ilt20-players section[data-team-section] > p.note { border-top: 1px solid var(--st-line); padding-top: .8rem; }
 
 /* Reduced motion: no lift, no chip transition. */
 @media (prefers-reduced-motion: reduce) {
@@ -192,9 +280,15 @@ body.page-npl-players section[data-team-section] > p.note { border-top: 1px soli
    so the crest rendered ~85px tall next to the team name (Cricinfo uses
    ~24px). 1.75rem matches the other team-logo sizes on the site. */
 body.st-inner.league-npl .details-grid .team-logo { width: 1.75rem; height: auto; vertical-align: middle; margin-right: .35rem; }
+/* ILT20 — same rule, league-ilt20 scope (generalised from the NPL rule above). */
+
+body.st-inner.league-ilt20 .details-grid .team-logo { width: 1.75rem; height: auto; vertical-align: middle; margin-right: .35rem; }
 
 /* Section headings: rose bar under centre h2s (hub players-page pattern). */
 body.st-inner.league-npl .player-centre .st-block__head h2::after { content: ""; display: block; width: 2.75rem; height: 3px; background: var(--st-rose); border-radius: 2px; margin-top: .5rem; }
+/* ILT20 — same rule, league-ilt20 scope (generalised from the NPL rule above). */
+
+body.st-inner.league-ilt20 .player-centre .st-block__head h2::after { content: ""; display: block; width: 2.75rem; height: 3px; background: var(--st-rose); border-radius: 2px; margin-top: .5rem; }
 
 /* Stats tables: rose-tint row hover (stats-page pattern) — now in the
    beautified .pl-stats block above; this old unscoped rule is redundant. */
@@ -221,12 +315,28 @@ body.st-inner.league-npl .player-centre .pl-card {
   padding: 1.25rem 1.35rem;
   margin-bottom: 1.25rem;
 }
+/* ILT20 — same rule, league-ilt20 scope (generalised from the NPL rule above). */
+
+body.st-inner.league-ilt20 .player-centre .pl-card {
+  background: #fff;
+  border: 1px solid var(--st-line);
+  border-radius: var(--st-radius-sm);
+  box-shadow: var(--st-shadow-sm);
+  padding: 1.25rem 1.35rem;
+  margin-bottom: 1.25rem;
+}
 
 /* B. Table emphasis — row separators are the beautified block's
    border-bottom on every td (single-row career / tournament tables keep
    their clean look: the bottom border is the table's own bottom edge);
    key figure bold night. */
 body.st-inner.league-npl .player-centre .pl-stats td.pl-key {
+  font-weight: 800;
+  color: var(--st-night);
+}
+/* ILT20 — same rule, league-ilt20 scope (generalised from the NPL rule above). */
+
+body.st-inner.league-ilt20 .player-centre .pl-stats td.pl-key {
   font-weight: 800;
   color: var(--st-night);
 }
@@ -241,14 +351,43 @@ body.st-inner.league-npl .profile-card .pc-stats {
   grid-template-columns: repeat(3, 1fr);
   border-top: 1px solid rgba(255,255,255,.14);
 }
+/* ILT20 — same rule, league-ilt20 scope (generalised from the NPL rule above). */
+
+body.st-inner.league-ilt20 .profile-card .pc-stats {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-top: 1px solid rgba(255,255,255,.14);
+}
 body.st-inner.league-npl .profile-card .pc-stats > div {
+  padding: .7rem .5rem .8rem;
+  text-align: center;
+}
+/* ILT20 — same rule, league-ilt20 scope (generalised from the NPL rule above). */
+
+body.st-inner.league-ilt20 .profile-card .pc-stats > div {
   padding: .7rem .5rem .8rem;
   text-align: center;
 }
 body.st-inner.league-npl .profile-card .pc-stats > div + div {
   border-left: 1px solid rgba(255,255,255,.14);
 }
+/* ILT20 — same rule, league-ilt20 scope (generalised from the NPL rule above). */
+
+body.st-inner.league-ilt20 .profile-card .pc-stats > div + div {
+  border-left: 1px solid rgba(255,255,255,.14);
+}
 body.st-inner.league-npl .profile-card .pc-stats span {
+  display: block;
+  font-size: .62rem;
+  font-weight: 800;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: #8f8aa3;
+}
+/* ILT20 — same rule, league-ilt20 scope (generalised from the NPL rule above). */
+
+body.st-inner.league-ilt20 .profile-card .pc-stats span {
   display: block;
   font-size: .62rem;
   font-weight: 800;
@@ -263,7 +402,23 @@ body.st-inner.league-npl .profile-card .pc-stats b {
   color: #fff;
   margin-top: .1rem;
 }
+/* ILT20 — same rule, league-ilt20 scope (generalised from the NPL rule above). */
+
+body.st-inner.league-ilt20 .profile-card .pc-stats b {
+  display: block;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #fff;
+  margin-top: .1rem;
+}
 body.st-inner.league-npl .profile-card .pc-strip {
+  grid-column: 1 / -1;
+  border-top: 1px solid rgba(255,255,255,.14);
+  padding: .65rem 1.2rem;
+}
+/* ILT20 — same rule, league-ilt20 scope (generalised from the NPL rule above). */
+
+body.st-inner.league-ilt20 .profile-card .pc-strip {
   grid-column: 1 / -1;
   border-top: 1px solid rgba(255,255,255,.14);
   padding: .65rem 1.2rem;
@@ -277,10 +432,25 @@ body.st-inner.league-npl .player-left .top10 li {
   align-items: center;
   gap: .6rem;
 }
+/* ILT20 — same rule, league-ilt20 scope (generalised from the NPL rule above). */
+
+body.st-inner.league-ilt20 .player-left .top10 li {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+}
 /* Browse directory rows (v2): the name link now sits inside .tp-main, so the
    rail `li > a:hover` rule no longer reaches it — restore the rose hover. */
 body.st-inner.league-npl .player-left .top10 .tp-name:hover { color: var(--st-rose-deep); }
+/* ILT20 — same rule, league-ilt20 scope (generalised from the NPL rule above). */
+
+body.st-inner.league-ilt20 .player-left .top10 .tp-name:hover { color: var(--st-rose-deep); }
 body.st-inner.league-npl .player-left .side-card ul li > a:hover {
+  color: var(--st-rose-deep);
+}
+/* ILT20 — same rule, league-ilt20 scope (generalised from the NPL rule above). */
+
+body.st-inner.league-ilt20 .player-left .side-card ul li > a:hover {
   color: var(--st-rose-deep);
 }
 body.st-inner .bop-filters select {
@@ -297,7 +467,23 @@ body.st-inner.league-npl .player-centre .lead {
   font-size: 1.05rem;
   line-height: 1.7;
 }
+/* ILT20 — same rule, league-ilt20 scope (generalised from the NPL rule above). */
+
+body.st-inner.league-ilt20 .player-centre .lead {
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
 body.st-inner.league-npl .player-centre h3 {
+  font-size: .8rem;
+  font-weight: 800;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--st-mute);
+  margin: .25rem 0 .5rem;
+}
+/* ILT20 — same rule, league-ilt20 scope (generalised from the NPL rule above). */
+
+body.st-inner.league-ilt20 .player-centre h3 {
   font-size: .8rem;
   font-weight: 800;
   letter-spacing: .06em;
@@ -319,14 +505,38 @@ body.st-inner.league-npl .player-centre h3 {
    radius, padding and 160px photo grid come from style.css; here only the
    hero shell (margin), the team-hero H1 size, and the facts row. */
 body.st-inner.league-npl .pl-hero { margin: 0 0 1.25rem; }
+/* ILT20 — same rule, league-ilt20 scope (generalised from the NPL rule above). */
+
+body.st-inner.league-ilt20 .pl-hero { margin: 0 0 1.25rem; }
 body.st-inner.league-npl .pl-hero .pc-name { font-size: 1.9rem; }
+/* ILT20 — same rule, league-ilt20 scope (generalised from the NPL rule above). */
+
+body.st-inner.league-ilt20 .pl-hero .pc-name { font-size: 1.9rem; }
 body.st-inner.league-npl .pl-hero-facts {
   display: flex;
   flex-wrap: wrap;
   gap: .35rem 1.4rem;
   margin: .9rem 0 0;
 }
+/* ILT20 — same rule, league-ilt20 scope (generalised from the NPL rule above). */
+
+body.st-inner.league-ilt20 .pl-hero-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .35rem 1.4rem;
+  margin: .9rem 0 0;
+}
 body.st-inner.league-npl .pl-hero-facts span {
+  display: block;
+  font-size: .62rem;
+  font-weight: 800;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: #8f8aa3;
+}
+/* ILT20 — same rule, league-ilt20 scope (generalised from the NPL rule above). */
+
+body.st-inner.league-ilt20 .pl-hero-facts span {
   display: block;
   font-size: .62rem;
   font-weight: 800;
@@ -341,10 +551,30 @@ body.st-inner.league-npl .pl-hero-facts strong {
   color: #fff;
   margin-top: .15rem;
 }
+/* ILT20 — same rule, league-ilt20 scope (generalised from the NPL rule above). */
+
+body.st-inner.league-ilt20 .pl-hero-facts strong {
+  display: block;
+  font-size: .95rem;
+  font-weight: 700;
+  color: #fff;
+  margin-top: .15rem;
+}
 body.st-inner.league-npl .pl-hero-facts strong a { color: #fff; }
+/* ILT20 — same rule, league-ilt20 scope (generalised from the NPL rule above). */
+
+body.st-inner.league-ilt20 .pl-hero-facts strong a { color: #fff; }
 body.st-inner.league-npl .pl-hero-facts strong a:hover { color: var(--st-rose); }
+/* ILT20 — same rule, league-ilt20 scope (generalised from the NPL rule above). */
+
+body.st-inner.league-ilt20 .pl-hero-facts strong a:hover { color: var(--st-rose); }
 @media (max-width: 640px) {
   body.st-inner.league-npl .pl-hero .pc-name { font-size: 1.45rem; }
+}
+/* ILT20 — same rule, league-ilt20 scope (generalised from the NPL rule above). */
+
+@media (max-width: 640px) {
+  body.st-inner.league-ilt20 .pl-hero .pc-name { font-size: 1.45rem; }
 }
 
 /* Hero stats on the right (team-page .tm2-hero-stats pattern, teams.css §12:
@@ -365,12 +595,30 @@ body.st-inner.league-npl .pl-hero-facts strong a:hover { color: var(--st-rose); 
   body.st-inner.league-npl .pl-hero .pc-stats b { font-size: 1.5rem; }
   body.st-inner.league-npl .pl-hero .pc-stats span { font-size: .72rem; color: #c8c4d6; }
 }
+/* ILT20 — same rule, league-ilt20 scope (generalised from the NPL rule above). */
+
+@media (min-width: 981px) {
+  body.st-inner.league-ilt20 .pl-hero { grid-template-columns: 160px minmax(0, 1fr) auto; }
+  body.st-inner.league-ilt20 .pl-hero .pc-stats {
+    grid-column: 3; grid-row: 1;
+    display: flex; gap: 1.75rem; align-items: center;
+    margin-left: 1.75rem; padding: 0 1.2rem 0 1.75rem;
+    border-top: 0; border-left: 1px solid rgba(245, 243, 251, .18);
+  }
+  body.st-inner.league-ilt20 .pl-hero .pc-stats > div { padding: 0; text-align: right; }
+  body.st-inner.league-ilt20 .pl-hero .pc-stats > div + div { border-left: 0; }
+  body.st-inner.league-ilt20 .pl-hero .pc-stats b { font-size: 1.5rem; }
+  body.st-inner.league-ilt20 .pl-hero .pc-stats span { font-size: .72rem; color: #c8c4d6; }
+}
 
 /* B. Shell — teams.css gives team pages their .hub-wide width; profiles do
    not load teams.css, so the same rule lives here. Without it .hub-wide is
    uncapped and the grid spans the full viewport width (caught by the
    headless render: hub3 measured 1440px at a 1440px viewport). */
 body.st-inner.league-npl .hub-wide { width: min(var(--hub-wide), calc(100% - 2.5rem)); margin-inline: auto; }
+/* ILT20 — same rule, league-ilt20 scope (generalised from the NPL rule above). */
+
+body.st-inner.league-ilt20 .hub-wide { width: min(var(--hub-wide), calc(100% - 2.5rem)); margin-inline: auto; }
 
 /* C. Centre rhythm — CORRECTED in v2 (2026-11-15). The v1 rule
    `.hub3-center .pl-card { margin-bottom: 0 }` was wrong: the .hub3-col flex
@@ -383,6 +631,9 @@ body.st-inner.league-npl .hub-wide { width: min(var(--hub-wide), calc(100% - 2.5
    pattern, teams.css §12), so the section-to-section gap stays exactly one
    flex gap (1.25rem), not two. */
 body.st-inner.league-npl .hub3-center .pl-card:last-child { margin-bottom: 0; }
+/* ILT20 — same rule, league-ilt20 scope (generalised from the NPL rule above). */
+
+body.st-inner.league-ilt20 .hub3-center .pl-card:last-child { margin-bottom: 0; }
 
 /* C2. Two-column grid (v2) — the right sidebar is gone, so at the widths
    where style.css lays .hub3 out as 3 columns (300/1fr/320, ≥1200px) the
@@ -394,10 +645,18 @@ body.st-inner.league-npl .hub3-center .pl-card:last-child { margin-bottom: 0; }
 @media (min-width: 1200px) {
   body.st-inner.league-npl:not(.page-npl-players) .hub3 { grid-template-columns: 300px minmax(0, 1fr); }
 }
+/* ILT20 — same rule, league-ilt20 scope (generalised from the NPL rule above). */
+
+@media (min-width: 1200px) {
+  body.st-inner.league-ilt20:not(.page-ilt20-players) .hub3 { grid-template-columns: 300px minmax(0, 1fr); }
+}
 
 /* D. Crumbs — team-page rose crumb links (teams.css
    body.league-npl .hub-crumbs .crumbs a). */
 body.st-inner.league-npl .hub-crumbs .crumbs a { color: var(--st-rose-deep); }
+/* ILT20 — same rule, league-ilt20 scope (generalised from the NPL rule above). */
+
+body.st-inner.league-ilt20 .hub-crumbs .crumbs a { color: var(--st-rose-deep); }
 
 /* E+F. REMOVED in v2 (2026-11-15) — the .tm2-mini (Points mini) and
    .tm2-cover (Full NPL Coverage) mirrors were sidebar-only; the sidebar is

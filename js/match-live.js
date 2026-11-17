@@ -51,13 +51,19 @@
     'Biratnagar Kings': 'BIK', 'Lumbini Lions': 'LUL',
     'Kathmandu Gorkhas': 'KAG', 'Sudur Paschim Royals': 'SPR',
     'Janakpur Bolts': 'JAB', 'Chitwan Rhinos': 'CHR',
-    'Karnali Yaks': 'KAY', 'Pokhara Avengers': 'POA'
+    'Karnali Yaks': 'KAY', 'Pokhara Avengers': 'POA',
+    'Abu Dhabi Knight Riders': 'ADKR', 'Desert Vipers': 'DV',
+    'Dubai Capitals': 'DC', 'Gulf Giants': 'GG',
+    'MI Emirates': 'MIE', 'Sharjah Warriorz': 'SW'
   };
   var TEAM_SHORT = {
     'Biratnagar Kings': 'Kings', 'Lumbini Lions': 'Lions',
     'Kathmandu Gorkhas': 'Gorkhas', 'Sudur Paschim Royals': 'Royals',
     'Janakpur Bolts': 'Bolts', 'Chitwan Rhinos': 'Rhinos',
-    'Karnali Yaks': 'Yaks', 'Pokhara Avengers': 'Avengers'
+    'Karnali Yaks': 'Yaks', 'Pokhara Avengers': 'Avengers',
+    'Abu Dhabi Knight Riders': 'Knight Riders', 'Desert Vipers': 'Vipers',
+    'Dubai Capitals': 'Capitals', 'Gulf Giants': 'Giants',
+    'MI Emirates': 'MI Emirates', 'Sharjah Warriorz': 'Warriorz'
   };
 
   /* Tab sets per state. Panel ids are ci-panel-<key>; tab links carry
@@ -342,7 +348,9 @@
     var mins = Math.floor(diff / 60000);
     var hours = Math.floor(mins / 60);
     var days = Math.floor(hours / 24);
-    if (days >= 1) return 'Starts in ' + days + (days === 1 ? ' day' : ' days') + ' — ' + new Date(kick).toLocaleString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', hour: 'numeric', minute: '2-digit', timeZone: 'Asia/Kathmandu' }) + ' NST';
+    var _tz = (document.body && document.body.getAttribute('data-ci-league') === 'ilt20') ? 'Asia/Dubai' : 'Asia/Kathmandu';
+    var _tzLabel = _tz === 'Asia/Dubai' ? ' GST' : ' NST';
+    if (days >= 1) return 'Starts in ' + days + (days === 1 ? ' day' : ' days') + ' — ' + new Date(kick).toLocaleString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', hour: 'numeric', minute: '2-digit', timeZone: _tz }) + _tzLabel;
     if (hours >= 1) return 'Starts in ' + hours + 'h ' + (mins % 60) + 'm';
     if (mins >= 1) return 'Starts in ' + mins + ' minutes';
     return 'Starting soon';
@@ -1718,6 +1726,7 @@
       title += ', ' + code + ' vs ' + otherCode + ' live score';
       if (no) title += ', ' + ordinal(no) + ' Match';
       if (ident.league === 'npl') title += ', Tribhuvan University International Cricket Ground, Kirtipur';
+      else if (ident.league === 'ilt20' && m.venue) title += ', ' + m.venue;
       var d = dateLong(m.date);
       if (d) title += ', ' + d;
       if (bat.overs) title += ')';
@@ -1725,7 +1734,7 @@
     } else if (m.status === 'result') {
       var s1 = TEAM_SHORT[cleanName(m.team1)] || cleanName(m.team1);
       var s2 = TEAM_SHORT[cleanName(m.team2)] || cleanName(m.team2);
-      var rTitle = s1 + ' vs ' + s2 + ' NPL Match ' + no + ' — Scorecard & Result';
+      var rTitle = s1 + ' vs ' + s2 + ' ' + ident.league.toUpperCase() + ' Match ' + no + ' — Scorecard & Result';
       if (no && document.title !== rTitle) document.title = rTitle;
       var h1 = $('[data-ci-h1]');
       var win = /^(.+?)\s+won by/i.exec(cleanName(m.statusText || ''));
