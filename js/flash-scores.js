@@ -65,9 +65,14 @@
   }
 
   function chip(name) {
-    var img = window.sialtvTeamLogos && window.sialtvTeamLogos[String(name || '').trim()];
+    /* The feed carries a league suffix ("Lumbini Lions (NPL)") — strip
+       it before the lookup, or every live row falls back to initials
+       even though the crest exists. shortName is the same strip
+       heroShortName uses. */
+    var key = shortName(name);
+    var img = window.sialtvTeamLogos && window.sialtvTeamLogos[key];
     if (img) return img;
-    var bits = String(name || '').trim().split(/\s+/);
+    var bits = key.split(/\s+/);
     var ini = bits.map(function (w) { return w[0] || ''; }).join('').slice(0, 2).toUpperCase();
     return '<span class="sc-chip">' + esc(ini) + '</span>';
   }
@@ -359,17 +364,20 @@
     var matches = (data && data.matches) || [];
     var live = null, latestResult = null;
     matches.forEach(function (m) {
-      if (m.status === 'live' && !live) live = m;
+      if (isLiveNow(m) && !live) live = m;
       if (m.status === 'result' && (!latestResult || (m.matchNo || 0) > (latestResult.matchNo || 0))) latestResult = m;
     });
     var t = (now || new Date()).getTime();
     var today = nstDateStr(now || new Date());
-    /* A fixture the endpoint already reports as live/result is not
-       upcoming any more — even if its kickoff is still in the future
-       on the clock (early finish, clock skew). Without this, a finished
-       match would keep showing as "Next match" from the schedule. */
+    /* A fixture the endpoint already reports as a started live match
+       or a result is not upcoming any more — even if its kickoff is
+       still in the future on the clock (early finish, clock skew).
+       Without this, a finished match would keep showing as "Next
+       match" from the schedule. A live-but-not-started match (the
+       endpoint flags it live ~15 min before the first ball) stays
+       upcoming with its countdown until the first ball is bowled. */
     var done = {};
-    matches.forEach(function (m) { if (m.status === 'live' || m.status === 'result') done[m.matchNo] = true; });
+    matches.forEach(function (m) { if (m.status === 'result' || isLiveNow(m)) done[m.matchNo] = true; });
     var upcoming = (fixtures || []).filter(function (f) {
       return f.kickoff && Date.parse(f.kickoff) > t && !done[f.matchNo];
     }).sort(function (a, b) { return Date.parse(a.kickoff) - Date.parse(b.kickoff); });
@@ -554,6 +562,25 @@
       else startHeroAuto();
     }, { passive: true });
   }
+  /* First poll: does the baked hero already show exactly these slides?
+     The bake and the poller build the same slide (same href, same
+     kicker) for an unchanged state — in that case leave the baked DOM
+     alone and seed the baseline instead of rewriting it. The rewrite
+     is the visible flash on page load. */
+  function bakedHeroMatches(slides) {
+    var track = document.getElementById('heroTrack');
+    if (!track) return false;
+    var baked = track.querySelectorAll('a.st-hero-slide');
+    if (baked.length !== slides.length) return false;
+    for (var i = 0; i < slides.length; i++) {
+      if ((baked[i].getAttribute('href') || '') !== slides[i].href) return false;
+      var k = baked[i].querySelector('.st-panel__kicker');
+      var kt = k ? k.textContent.replace(/\s+/g, ' ').trim() : '';
+      var want = slides[i].kicker.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+      if (kt !== want) return false;
+    }
+    return true;
+  }
   function renderHero(slides) {
     var track = document.getElementById('heroTrack');
     var slider = document.getElementById('heroSlider');
@@ -563,13 +590,19 @@
       return '<a class="st-panel st-panel--featured st-hero-slide" href="' + heroEsc(s.href) + '">' + heroSlideInner(s) + '</a>';
     }).join('');
     if (html !== heroSlider.lastHtml) {
-      var cur = heroSlider.keys[heroSlider.index];
-      track.innerHTML = html;
-      heroSlider.keys = keys;
-      heroSlider.lastHtml = html;
-      var ni = keys.indexOf(cur);
-      heroSlider.index = ni >= 0 ? ni : 0;
-      applyHeroSlide();
+      if (!heroSlider.lastHtml && bakedHeroMatches(slides)) {
+        /* Unchanged since the bake — seed the baseline, write nothing. */
+        heroSlider.keys = keys;
+        heroSlider.lastHtml = html;
+      } else {
+        var cur = heroSlider.keys[heroSlider.index];
+        track.innerHTML = html;
+        heroSlider.keys = keys;
+        heroSlider.lastHtml = html;
+        var ni = keys.indexOf(cur);
+        heroSlider.index = ni >= 0 ? ni : 0;
+        applyHeroSlide();
+      }
     }
     var nav = slider.querySelector('.st-hero-nav');
     if (nav) nav.hidden = keys.length < 2;
@@ -629,17 +662,19 @@
   function setSpotText(el, text) {
     if (!el) return;
     var node = el.firstChild;
-    if (node && node.nodeType === 3) node.nodeValue = text + ' ';
-    else el.textContent = text;
+    if (node && node.nodeType === 3) { if (node.nodeValue !== text + ' ') node.nodeValue = text + ' '; }
+    else setText(el, text);
   }
   function setSpotFeature(feat, f) {
-    feat.setAttribute('href', f.href);
+    /* Check-first: a no-op poll must not rewrite the feature — every
+       write fires a mutation record even when the value is unchanged. */
+    setAttr(feat, 'href', f.href);
     var k = feat.querySelector('.st-panel__kicker');
-    if (k) k.textContent = f.kicker;
+    if (k) setText(k, f.kicker);
     var h = feat.querySelector('h3');
-    if (h) h.textContent = f.h;
+    if (h) setText(h, f.h);
     var p = feat.querySelector('p');
-    if (p) p.textContent = f.p;
+    if (p) setText(p, f.p);
     setSpotText(feat.querySelector('.st-action'), f.cta);
   }
   function setSpotItem(spot, m, league) {
@@ -697,12 +732,12 @@
     var matches = (data && data.matches) || [];
     var live = null, latestResult = null;
     matches.forEach(function (m) {
-      if (m.status === 'live' && !live) live = m;
+      if (isLiveNow(m) && !live) live = m;
       if (m.status === 'result' && (!latestResult || (m.matchNo || 0) > (latestResult.matchNo || 0))) latestResult = m;
     });
     var t = (now || new Date()).getTime();
     var done = {};
-    matches.forEach(function (m) { if (m.status === 'live' || m.status === 'result') done[m.matchNo] = true; });
+    matches.forEach(function (m) { if (m.status === 'result' || isLiveNow(m)) done[m.matchNo] = true; });
     var upcoming = matches.filter(function (m) {
       return m.status === 'upcoming' && m.kickoffIso && Date.parse(m.kickoffIso) > t && !done[m.matchNo];
     }).sort(function (a, b) { return Date.parse(a.kickoffIso) - Date.parse(b.kickoffIso); })
@@ -918,6 +953,10 @@
         if (!mm) return;
         var m = byNo[parseInt(mm[1], 10)];
         if (!m || (m.status !== 'live' && m.status !== 'result')) return;
+        /* Pre-start live: no ball bowled yet — leave the baked row
+           alone (no LIVE badge, no status rewrite) until the first
+           ball, same hasStarted rule as the strip. */
+        if (m.status === 'live' && !isLiveNow(m)) return;
         var li = a.closest('li');
         var teams = a.querySelectorAll('.fx-team');
         teams.forEach(function (span, i) {
@@ -1010,6 +1049,9 @@
       var m = byNo[no];
       if (!m) return;
       if (m.status !== 'live' && m.status !== 'result') return;
+      /* Pre-start live: leave the baked panel alone until the first
+         ball — its kicker must not read "Live now" with no score. */
+      if (m.status === 'live' && !isLiveNow(m)) return;
       var kicker = panel.querySelector('.lead-kicker');
       if (kicker) {
         var datePart = kicker.textContent.split('·').pop().trim();
@@ -1050,7 +1092,7 @@
         var mm = (a.getAttribute('href') || '').match(/match-(\d+)\//);
         if (!mm) return;
         var m = byNo[parseInt(mm[1], 10)];
-        if (m && (m.status === 'live' || m.status === 'result')) {
+        if (m && (m.status === 'result' || isLiveNow(m))) {
           li.style.display = 'none';
         }
       });

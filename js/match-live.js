@@ -1228,15 +1228,15 @@
 
   function applyTitle(m, ident) {
     var no = m.matchNo || ident.matchNo;
-    if (m.status === 'live') {
+    if (m.status === 'live' && hasStarted(m)) {
       /* LIVE H1 — same format the builder bakes for a live page
          (build.py live_h1): fixture order, scores as they stand, one
          state word. Before this the H1 kept the baked "Preview" text
          for the whole match: the live title fix (f292bf2c) updated
-         document.title only. A side yet to bat shows no score. This
-         runs BEFORE the title's early return below, so the H1 also
-         flips in the pre-start live window, when no ball has been
-         bowled yet and there is no score for a title. */
+         document.title only. A side yet to bat shows no score.
+         Gated on hasStarted: in the pre-start live window (the
+         endpoint flags the match live ~15 min before kickoff) the
+         baked "Preview" H1 stays until the first ball is bowled. */
       var h1 = $('[data-ci-h1]');
       if (h1) {
         var n1 = cleanName(m.team1), n2 = cleanName(m.team2);
@@ -1401,7 +1401,13 @@
       loadMatch(ident).then(function (res) {
         var m = res.match;
         if (!m) { schedule(POLL_FAST); return; }
-        if (m.status === 'upcoming') {
+        if (m.status === 'upcoming' || (m.status === 'live' && !hasStarted(m))) {
+          /* Pre-start live window: the endpoint flags the match live
+             ~15 min before kickoff, but no ball has been bowled. Keep
+             the baked Preview state — no H1 flip, no tab switch, no
+             panel fill — and update only the toss line in place. */
+          var tossEl = $('[data-ci-toss]');
+          if (tossEl && m.toss) setText(tossEl, m.toss);
           var delay = POLL_FAST;
           var kick = kickoffMs(ident);
           if (!isNaN(kick) && kick - Date.now() > NEAR_KICKOFF) delay = POLL_SLOW;
