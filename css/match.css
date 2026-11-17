@@ -277,6 +277,19 @@ html.ci-gate .ci-head, html.ci-gate .ci-tabs, html.ci-gate .ci-main { visibility
 /* ---- over headers + ball rows (commentary + overs tabs) ---- */
 .ci-overhead { margin: 16px 0 6px; font-size: 13px; }
 .ci-ballrow { margin: 0; display: flex; flex-wrap: wrap; gap: 4px; }
+
+/* ---- result Summary scorecard summary (Cricinfo Live tab) ---- */
+.ci-mc-table { margin-bottom: 12px; }
+.ci-table th.ci-career-head { text-align: right; }
+.ci-table th.ci-career-gap { border-bottom: none; }
+.ci-mc-style { color: var(--ci-grey); font-size: 12px; font-weight: 400; text-transform: none; letter-spacing: 0; }
+.ci-partnership { font-size: 13px; margin: 12px 0; }
+.ci-overstrip { display: flex; align-items: center; gap: 4px; margin: 12px 0; overflow-x: auto; }
+.ci-os-label { display: inline-flex; flex-direction: column; align-items: center; padding: 0 6px; white-space: nowrap; }
+.ci-os-label span:first-child { font-size: 11px; color: var(--ci-grey); }
+.ci-os-label span:last-child { font-size: 12px; font-weight: 700; color: var(--ci-ink); }
+.ci-os-more { font-size: 18px; font-weight: 700; color: var(--ci-blue); padding: 0 6px; text-decoration: none; white-space: nowrap; }
+.ci-os-more:hover { text-decoration: none; }
 /* ---- overs tab: two-column over blocks on desktop. The old single
    column was one thin line of chips on the left of an 888px card,
    2733px tall; two columns use the full width and halve the height. ---- */
@@ -493,7 +506,12 @@ html.ci-gate .ci-head, html.ci-gate .ci-tabs, html.ci-gate .ci-main { visibility
   .ci-mc-grid .ci-ptw { grid-template-columns: 1fr; }
 }
 @media (max-width: 900px) {
-  .ci-mc-grid, .ci-sum-grid { grid-template-columns: 1fr; }
+  /* minmax(0, 1fr) — not bare 1fr: a bare 1fr is minmax(auto, 1fr) and
+     the auto minimum lets a wide child (the result Summary's
+     scorecard-summary tables, ~760px min-content) blow the track out
+     to 762px on a 390px viewport. With minmax(0, 1fr) the track
+     shrinks to the container and .ci-scroll handles the table. */
+  .ci-mc-grid, .ci-sum-grid { grid-template-columns: minmax(0, 1fr); }
 }
 /* Result header: loser's score is plain, winner's bold. */
 .ci-team-score.is-loser b { font-weight: 400; }

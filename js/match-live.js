@@ -747,8 +747,10 @@
     var result = $('[data-ci-result]');
     /* The feed's result line carries the league suffix
        ("Lumbini Lions (NPL) won by 6 wickets") — the baked line has
-       none. Strip the league code, keep any other parenthetical. */
-    if (result && m.statusText) setText(result, stripLeague(m.statusText));
+       none. Strip the league code, keep any other parenthetical.
+       Then the Cricinfo result-line form: short team name +
+       "(with N balls remaining)". */
+    if (result && m.statusText) setText(result, resultLineText(m.statusText));
     var toss = $('[data-ci-toss]');
     if (toss && m.toss) setText(toss, m.toss);
     var rr = $('[data-ci-rr]');
@@ -1660,6 +1662,24 @@
   /* Strip only the league code the feed appends to team names
      ("Lumbini Lions (NPL)") — any other parenthetical stays. */
   function stripLeague(text) { return String(text || '').replace(/ \((NPL|ILT20|APL)\)/g, ''); }
+
+  /* Cricinfo result line: short team name + "(with N balls remaining)".
+     (The JS TEAM_SHORT map gives mascot names — 'Lions' — which are
+     WRONG here; this map matches build.py's Python TEAM_SHORT.) */
+  var RESULT_SHORT = {
+    'Biratnagar Kings': 'Biratnagar', 'Lumbini Lions': 'Lumbini',
+    'Kathmandu Gorkhas': 'Kathmandu', 'Sudur Paschim Royals': 'Sudur Paschim',
+    'Janakpur Bolts': 'Janakpur', 'Chitwan Rhinos': 'Chitwan',
+    'Karnali Yaks': 'Karnali', 'Pokhara Avengers': 'Pokhara'
+  };
+  function resultLineText(text) {
+    var t = stripLeague(text);
+    t = t.replace(/^(.+?)\s+won by/i, function (m0, who) {
+      return (RESULT_SHORT[who.trim()] || who.trim()) + ' won by';
+    });
+    t = t.replace(/\((\d+) (balls? remaining)\)/, '(with $1 $2)');
+    return t;
+  }
 
   function applyTitle(m, ident) {
     var no = m.matchNo || ident.matchNo;
