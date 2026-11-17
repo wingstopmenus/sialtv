@@ -11,6 +11,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>APL 2026-27 Live Scores — Match 1 &amp; Updates</title>
 <link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="/css/live-scores.css">
 <meta name="description" content="APL 2026-27 live scores — pre-season, first live update on 27 Dec when Match 1 begins in the UAE. Next match and fixtures here.">
 <link rel="canonical" href="https://sialtv.com/apl/live-scores/">
 <meta property="og:type" content="website">
@@ -22,7 +23,7 @@
 <meta name="twitter:description" content="APL 2026-27 live scores — pre-season, first live update on 27 Dec when Match 1 begins in the UAE. Next match and fixtures here.">
 <meta name="theme-color" content="#090811">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","name":"APL 2026-27 Live Scores — Match 1 & Updates","url":"https://sialtv.com/apl/live-scores/","description":"APL 2026-27 live scores — pre-season, first live update on 27 Dec when Match 1 begins in the UAE. Next match and fixtures here.","datePublished":"2026-11-11T05:24:00Z","dateModified": "2026-11-17T05:28:00Z"}
+{"@context":"https://schema.org","@type":"WebPage","name":"APL 2026-27 Live Scores — Match 1 & Updates","url":"https://sialtv.com/apl/live-scores/","description":"APL 2026-27 live scores — pre-season, first live update on 27 Dec when Match 1 begins in the UAE. Next match and fixtures here.","datePublished":"2026-11-11T05:24:00Z","dateModified": "2026-11-17T21:40:00Z"}
 </script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"SialTV","item":"https://sialtv.com/"},{"@type":"ListItem","position":2,"name":"Afghanistan Premier League","item":"https://sialtv.com/apl/"},{"@type":"ListItem","position":3,"name":"APL 2026-27 Live Scores — Match 1 & Updates","item":"https://sialtv.com/apl/live-scores/"}]}
@@ -32,7 +33,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400..800;1,400..800&display=swap">
 </head>
-<body class="league-apl st-inner" data-css="p25">
+<body class="st-inner league-apl" data-css="p25">
 <a class="st-skip" href="#main">Skip to content</a>
 <div id="mastheadMount"><header class="st-masthead" style="border-bottom:1px solid rgba(227,223,240,.85);padding-bottom:0;margin-bottom:0">
   <div class="st-shell st-masthead__row">
@@ -108,13 +109,17 @@
   load(1);
 })();
 </script>
-
-<nav class="series-secnav" aria-label="Afghanistan Premier League sections"><div class="wrap secnav-row"><div class="secnav-title-wrap"><div class="secnav-title"><button type="button" class="secnav-switch" aria-haspopup="true">Afghanistan Premier League 2026&ndash;27 <span class="secnav-caret" aria-hidden="true">&#9662;</span></button></div><div class="secnav-drop"><a href="/npl/">Nepal Premier League 2026</a><a href="/ilt20/">International League T20 2026&ndash;27</a><a href="/apl/" aria-current="page">Afghanistan Premier League 2026&ndash;27</a></div></div><span class="secnav-div" aria-hidden="true"></span><div class="secnav-links"><a href="/apl/">Home</a><a href="/apl/schedule/">Fixtures and Results</a><a href="/apl/points-table/">Table</a><a href="/apl/stats/">Stats</a><a href="/apl/teams/">Teams</a><a href="/apl/players/">Players</a></div></div></nav>
-  <div id="stripMount"></div>
+  <nav class="series-secnav" aria-label="Afghanistan Premier League sections"><div class="wrap secnav-row"><div class="secnav-title-wrap"><div class="secnav-title"><button type="button" class="secnav-switch" aria-haspopup="true">Afghanistan Premier League 2026&ndash;27 <span class="secnav-caret" aria-hidden="true">&#9662;</span></button></div><div class="secnav-drop"><a href="/npl/">Nepal Premier League 2026</a><a href="/ilt20/">International League T20 2026&ndash;27</a><a href="/apl/" aria-current="page">Afghanistan Premier League 2026&ndash;27</a></div></div><span class="secnav-div" aria-hidden="true"></span><div class="secnav-links"><a href="/apl/">Home</a><a href="/apl/schedule/">Fixtures and Results</a><a href="/apl/points-table/">Table</a><a href="/apl/stats/">Stats</a><a href="/apl/teams/">Teams</a><a href="/apl/players/">Players</a></div></div></nav>
 <script>
+/* STRIP SUPPRESSED on this page (2026-11-16): the site-wide match strip
+   duplicates this page's own list (every match rendered twice — once in
+   the strip, once in the list), so there is no strip mount div here, the
+   strip fragment is never fetched, and the strip's own script is not
+   loaded. The strip still mounts on every other page (homepage, hubs,
+   match pages) — this template is live-scores-only. team-logos.js (the
+   logo map the list cards use) and live-scores.js (the poller) still
+   load, in the same order as before. */
 (function () {
-  var mount = document.getElementById('stripMount');
-  if (!mount) return;
   function loadScript(src, next) {
     var s = document.createElement('script');
     s.src = src;
@@ -122,26 +127,13 @@
     s.onerror = function () { if (next) next(); };
     document.body.appendChild(s);
   }
-  fetch('/fragments/strip.html', { credentials: 'same-origin' })
-    .then(function (r) { if (!r.ok) throw new Error('strip ' + r.status); return r.text(); })
-    .then(function (html) {
-      mount.innerHTML = html;
-      loadScript('/js/team-logos.js', function () {
-        loadScript('/js/live-scores.js', function () {
-          loadScript('/js/flash-scores.js');
-        });
-      });
-    })
-    .catch(function () { if (mount && mount.parentNode) mount.parentNode.removeChild(mount); });
+  loadScript('/js/team-logos.js', function () {
+    loadScript('/js/live-scores.js');
+  });
 })();
 </script>
 
-  <div class="subnav">
-    <div class="wrap">
-      <span><b>NEXT</b> &middot; APL Match 1 &mdash; teams to be announced</span>
-      <span class="t-time">5:30 PM AFT &middot; Sun 27 Dec 2026</span>
-    </div>
-  </div>
+
 
 <div class="wrap page-head">
   <p class="crumbs"><a href="/">SialTV</a> / <a href="/apl/">APL</a> / APL 2026-27 Live Scores — Match 1 &amp; Updates</p>
@@ -152,111 +144,60 @@
 <main id="main">
 <div class="wrap"><div class="home-grid"><div class="home-main">
 
-  <section data-reveal id="latest">
-      <div class="st-block__head st-block__head--left">
-        
-        <h2>Next match &mdash; the opener</h2>
-      </div>
-      <div class="sialtv-live-panel" id="livePanel" data-league="apl" data-mode="preseason" data-checked="17 November 2026">
-      <p class="slp-status"><strong>No live score yet — the season starts on Sunday 27 December 2026.</strong></p>
-      <div class="today">
-        <p class="lead-kicker">Season opener &middot; Sunday, 27 December 2026</p>
-        <h3 class="lead-head">APL 2026-27 &mdash; Match 1</h3>
-        <p class="lead-score">Afghanistan Premier League, Match 1 &middot; <span class="t-time">5:30 PM AFT (5:00 PM Dubai time)</span> &middot; UAE &mdash; teams and ground to be announced</p>
-        <p class="lead-stand">Match yet to begin. The opening match teams and the ground have not been announced yet, so there is no fixture to preview &mdash; only the first ball, on Sunday 27 December 2026.</p>
-        <p class="lead-links"><a href="/apl/schedule/">APL Schedule</a> &middot; <a href="/apl/points-table/">APL Points Table</a> &middot; <a href="/apl/results/">APL Results</a></p>
-      </div>
-      <p class="note">Last checked: 17 November 2026. There is no live score yet &mdash; the season starts on 27 December. The first live update on this page lands when the opener begins.</p>
-  
-      <div class="slp-tabs" role="tablist" aria-label="Match centre">
-        <button type="button" class="slp-tab" data-slp-tab="summary" aria-selected="true">Summary</button>
-        <button type="button" class="slp-tab" data-slp-tab="scorecard" aria-selected="false">Scorecard</button>
-        <button type="button" class="slp-tab" data-slp-tab="overs" aria-selected="false">Overs</button>
-      </div>
-      <div data-slp-panel="summary">
-        <p>Next match: Match 1, Sunday 27 December 2026, first ball 5:30 PM Afghanistan time (5:00 PM Dubai time), in the UAE. The teams and the ground have not been announced yet.</p>
-      </div>
-      <div data-slp-panel="scorecard" id="slp-scorecard">
-        <p>The scorecard appears here once the opener begins.</p>
-      </div>
-      <div data-slp-panel="overs" id="slp-overs">
-        <p>Over-by-over balls are not published before the season starts.</p>
-      </div>
-      <h3>Results</h3>
-      <ul class="slp-results" id="liveResults"><li><b>No results yet</b><span>No results yet — the first result lands here after Match 1 on 27 December 2026.</span></li></ul>
-      <p class="slp-fresh" id="liveFreshness">Last checked: 17 November 2026. There is no live feed yet because the season has not started.</p>
-      <noscript><div class="today"><p class="today-label">Season opener</p><p>No live score yet. Next match: APL 2026-27 Match 1, Sunday 27 December 2026, first ball 5:30 PM Afghanistan time, in the UAE. Teams and ground to be announced. No results yet — the season starts on 27 December 2026.</p></div></noscript>
-      </div></section>
+  <div class="ls-list" id="match-list">
+<div class="ls-tabs" role="tablist" aria-label="Live scores"><button type="button" class="ls-tab" id="tabbtn-live" role="tab" aria-selected="true" aria-controls="tab-live" data-ls-tab="live">Live Cricket Score</button><button type="button" class="ls-tab" id="tabbtn-schedule" role="tab" aria-selected="false" aria-controls="tab-schedule" data-ls-tab="schedule" tabindex="-1">Cricket Schedule</button><button type="button" class="ls-tab" id="tabbtn-results" role="tab" aria-selected="false" aria-controls="tab-results" data-ls-tab="results" tabindex="-1">Match Results</button></div><div class="ls-chips" role="group" aria-label="Filter by league"><button type="button" class="ls-chip ls-reset" data-ls-reset>Reset</button><button type="button" class="ls-chip" data-ls-chip="all" aria-pressed="true">All</button><button type="button" class="ls-chip" data-ls-chip="apl" aria-pressed="false">APL</button></div>
+<div class="ls-panel" id="tab-live" role="tabpanel" aria-labelledby="tabbtn-live" data-ls-panel="live"><h2>Live Cricket Matches</h2><div class="rx-res-box" data-league="apl"><h2 class="rx-res-boxhead"><a href="/apl/">Afghanistan Premier League 2026-27</a><a class="rx-seeall" href="/apl/">See all &rsaquo;</a></h2><div class="rx-res-grid"><div class="rx-res-card" data-league="apl"><div class="rx-res-status upcoming">COMING SOON</div><div class="rx-res-desc">Afghanistan Premier League 2026-27 &middot; UAE</div><p class="rx-res-note">First ball Sunday 27 December 2026, 5:30 PM AFT (5:00 PM Dubai GST). Fixtures to be announced.</p><div class="rx-res-links"><a href="/apl/schedule/">Schedule</a><a href="/apl/">Series</a></div><a class="rx-card-link" href="/apl/schedule/" aria-label="Match — Schedule"></a></div></div></div></div>
+<div class="ls-panel" id="tab-schedule" role="tabpanel" aria-labelledby="tabbtn-schedule" data-ls-panel="schedule" hidden><h2>Cricket Schedule</h2><div id="scheduleView"></div><p class="ls-empty" data-ls-empty hidden></p></div>
+<div class="ls-panel" id="tab-results" role="tabpanel" aria-labelledby="tabbtn-results" data-ls-panel="results" hidden><h2>Match Results</h2><div id="liveResults"></div><p class="note">Every result of the season is on the <a href="/apl/schedule/">APL Schedule</a> page.</p><p class="ls-empty" data-ls-empty hidden></p></div>
+<p class="ls-desc">Live APL 2026-27 scores &mdash; the score while a match is on, the result once it ends, and the next fixture after that. There is no live score yet: the season starts on Sunday 27 December 2026, when Match 1 begins in the UAE. First ball is 5:30 PM Afghanistan time (5:00 PM Dubai time); the teams and the ground have not been announced yet. <a href="/">SialTV</a> follows every APL 2026-27 match from the UAE &mdash; twenty league matches from 27 December into January, then the playoffs and the final on Wednesday 20 January 2027. Last checked: 17 November 2026. The full fixture list will appear here once the ACB publishes it.</p>
+  </div>
 
-  <section data-reveal id="how-it-works">
-      <div class="st-block__head st-block__head--left">
-        
-        <h2>Live scores, kept honest</h2>
-      </div>
-      <p><a href="/">SialTV</a> follows every APL 2026-27 match from the UAE. While a match is in progress, the score on this page is refreshed from verified live sources, and the time of that last refresh is printed next to the score &mdash; so a score from ten minutes ago is shown as ten minutes old, never as ball-by-ball. Between matches the page shows the latest result and the next fixture, with the points table alongside.</p>
-      <p>There is no live feed yet because the season has not started. Once a match ends, the final result &mdash; and the points table it changes &mdash; is written into the page, so the numbers here and on the <a href="/apl/results/">APL Results</a> page always agree. For the confirmed dates, the <a href="/apl/schedule/">APL Schedule</a> page has what is known so far.</p>
-  </section>
+<section data-reveal id="popular-matches" class="ls-sec">
+      <h2>Popular Matches</h2>
+      <p class="ls-popular">No matches to list yet &mdash; the fixture list has not been published. Match 1 is on Sunday 27 December 2026, in the UAE; the teams and the ground are still to be announced.</p>
+    </section>
 
-  <section data-reveal id="next">
-      <div class="st-block__head st-block__head--left">
-        
-        <h2>What comes next</h2>
-        <p>Match 1 is on Sunday 27 December 2026, first ball 5:30 PM Afghanistan time (5:00 PM Dubai time), in the UAE. The teams and the ground are still to be announced, and so is the rest of the fixture list.</p>
-      </div>
-      <p>Twenty league matches run from 27 December into January, then three playoffs and the final on Wednesday 20 January 2027. The full fixture list will be added to the schedule page once the ACB publishes it.</p>
-  </section>
-
-  
-
-  <section data-reveal id="more">
-      <div class="st-block__head st-block__head--left">
-        
-        <h2>More APL coverage</h2>
-      </div>
-      <ul>
-        <li><a href="/apl/schedule/">APL Schedule</a> &mdash; Fixtures, dates and format.</li>
-        <li><a href="/apl/points-table/">APL Points Table</a> &mdash; Standings and the playoff race.</li>
-        <li><a href="/apl/results/">APL Results</a> &mdash; Every result, once the season starts.</li>
-        <li><a href="/apl/teams/">APL Teams</a> &mdash; Captains, coaches and squads.</li>
-        <li><a href="/apl/stats/">APL Stats</a> &mdash; Top scorers, wicket takers and records.</li>
-        <li><a href="/apl/tickets/">APL Tickets</a> &mdash; Availability and official channels.</li>
-        <li><a href="/apl/">APL</a> &mdash; the season in full: schedule, teams, points table and where to watch.</li>
-      </ul>
+<section data-reveal id="popular-teams" class="ls-sec">
+      <h2>Popular Teams</h2>
+      <p class="ls-popular"><a href="/apl/teams/akcel-united-kabul/">Akcel United Kabul</a> | <a href="/apl/teams/balkh-zwanan/">Balkh Zwanan</a> | <a href="/apl/teams/kandahar-warriors/">Kandahar Warriors</a> | <a href="/apl/teams/nangarhar-cosmic/">Nangarhar Cosmic</a> | <a href="/apl/teams/paktia/">Paktia</a></p>
   </section>
 
 </div>
-<aside class="home-side" aria-label="Sidebar">
-      <div class="side-card" data-reveal>
-        <h3>Coming up</h3>
-        <ul>
-          <li><b>First live update</b><span>Sun 27 Dec, 5:30 PM AFT &middot; UAE</span></li>
-          <li><b>First ball</b><span>Sun 27 Dec, 5:30 PM AFT &middot; UAE</span></li>
-          <li><b>Final</b><span>Wed 20 Jan 2027 &middot; UAE</span></li>
+<aside class="home-side" aria-label="Sidebar">      <div class="side-card" data-reveal>
+        <h3>Quick Links</h3>
+        <ul class="side-links">
+          <li><a href="/apl/">APL</a></li>
+          <li><a href="/npl/">Nepal Premier League</a></li>
+          <li><a href="/ilt20/">ILT20</a></li>
+          <li><a href="/apl/points-table/">APL Points Table</a></li>
+          <li><a href="/apl/schedule/">APL Schedule</a></li>
+          <li><a href="/apl/stats/">APL Stats</a></li>
+          <li><a href="/series/">All series</a></li>
         </ul>
       </div>
-      <div class="side-card" data-reveal>
-        <h3>On this page</h3>
-        <ul>
-          <li><a href="#latest">Next match — the opener</a></li>
-          <li><a href="#how-it-works">Live scores, kept honest</a></li>
-          <li><a href="#next">What comes next</a></li>
-          
-          <li><a href="#more">More APL coverage</a></li>
+      <div class="side-card" data-reveal data-side="records">
+        <h3>Records index</h3>
+        <ul class="tp-list"><li><div class="tp-main"><span class="tp-name">Mohammad Shahzad</span><span class="tp-sub">Most runs · 2018</span></div><strong class="tp-fig">344</strong></li><li><div class="tp-main"><span class="tp-name">Isuru Udana</span><span class="tp-sub">Most wickets · 2018</span></div><strong class="tp-fig">17</strong></li><li><div class="tp-main"><span class="tp-name">Qais Ahmad</span><span class="tp-sub">Best bowling · 2018</span></div><strong class="tp-fig">5/18</strong></li></ul>
+        <ul class="side-links">
+          <li><a href="/apl/stats/">APL stats &amp; records</a></li>
+          <li><a href="/npl/stats/">NPL stats &amp; records</a></li>
+          <li><a href="/ilt20/stats/">ILT20 stats &amp; records</a></li>
         </ul>
       </div>
-      <div class="side-card" data-reveal>
-        <h3>Full APL coverage</h3>
-        <ul>
-          <li><a href="/apl/schedule/">APL Schedule</a><span>Fixtures, dates and format.</span></li>
-          <li><a href="/apl/points-table/">APL Points Table</a><span>Standings and the playoff race.</span></li>
-          <li><a href="/apl/results/">APL Results</a><span>Every result, once the season starts.</span></li>
-          <li><a href="/apl/teams/">APL Teams</a><span>Captains, coaches and squads.</span></li>
-          <li><a href="/apl/stats/">APL Stats</a><span>Top scorers, wicket takers and records.</span></li>
-          <li><a href="/apl/tickets/">APL Tickets</a><span>Availability and official channels.</span></li>
-          <li><a href="/apl/">APL</a><span>the season in full: schedule, teams, points table and where to watch.</span></li>
-        </ul>
+      <div class="side-card" data-reveal data-side="rankings">
+        <h3>Rankings: who&rsquo;s leading <a class="see-all" href="/apl/points-table/">FULL TABLE</a></h3>
+        <ul class="tp-list"><li><span class="tp-rank">1</span><div class="tp-main"><span class="tp-name">Akcel United Kabul</span></div><strong class="tp-fig">0</strong><span class="rk-unit">pts</span></li><li><span class="tp-rank">2</span><div class="tp-main"><span class="tp-name">Balkh Zwanan</span></div><strong class="tp-fig">0</strong><span class="rk-unit">pts</span></li><li><span class="tp-rank">3</span><div class="tp-main"><span class="tp-name">Kandahar Warriors</span></div><strong class="tp-fig">0</strong><span class="rk-unit">pts</span></li><li><span class="tp-rank">4</span><div class="tp-main"><span class="tp-name">Nangarhar Cosmic</span></div><strong class="tp-fig">0</strong><span class="rk-unit">pts</span></li></ul>
       </div>
-    </aside>
+      <div class="side-card" data-reveal data-side="top-wickets">
+        <h3>Top Wicket Takers</h3>
+        <p>No wickets yet &mdash; the season starts on 27 December 2026.</p>
+        <p class="u-mt-10"><a href="/apl/stats/#most-wickets">View full list &rsaquo;</a></p>
+      </div>
+      <div class="side-card" data-reveal data-side="top-runs">
+        <h3>Top Run Scorers</h3>
+        <p>No runs yet &mdash; the season starts on 27 December 2026.</p>
+        <p class="u-mt-10"><a href="/apl/stats/#most-runs">View full list &rsaquo;</a></p>
+      </div></aside>
 </div></div>
 </main>
 <footer class="st-colophon" style="color:#c8c4d6">
@@ -341,7 +282,7 @@
 })();
 </script>
 
-<script src="/js/live-strip.js"></script>
+<script src="/js/live-scores-tabs.js"></script>
 <script src="/js/sticky-bar.js"></script>
 
 </body>

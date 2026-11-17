@@ -265,10 +265,10 @@ a.tm2-player:hover, span.tm2-player:hover {
 
 /* (10) "Full NPL Coverage": rose links, like the other sidebar blocks
    (was a plain list of dark links under the fallback). */
-body.league-npl .tm2-cover a, body.league-ilt20 .tm2-cover a {
+body.league-npl .tm2-cover a, body.league-ilt20 .tm2-cover a, body.league-apl .tm2-cover a {
   color: var(--st-rose-deep); text-decoration: none; font-weight: 600;
 }
-body.league-npl .tm2-cover a:hover, body.league-ilt20 .tm2-cover a:hover { text-decoration: underline; }
+body.league-npl .tm2-cover a:hover, body.league-ilt20 .tm2-cover a:hover, body.league-apl .tm2-cover a:hover { text-decoration: underline; }
 
 /* (11) Centre h3 hierarchy: History / Featured / Latest were ~24px,
    barely below the 28px h2. Now a clear step down. */
@@ -516,4 +516,14 @@ img.tm2-avatar { object-fit: cover; }
 body.st-inner.league-ilt20 .tm2-hero h1 { color:#fff; font-size:1.9rem; line-height:1.15; margin:0 0 .35rem; }
 @media (max-width:640px) {
   body.st-inner.league-ilt20 .tm2-hero h1 { font-size:1.45rem; }
+}
+
+/* APL (2026-11-18, teams rebuild): the hero sits inside .page-head, so
+   body.st-inner .page-head h1 (0,2,2) beats .tm2-hero h1 (0,1,1) — the H1
+   rendered dark ink at 50px on the night hero. Mirror the NPL hero H1 at
+   higher specificity; small-screen size matches the 640px hero rule.
+   (Same block as ILT20's, for league-apl.) */
+body.st-inner.league-apl .tm2-hero h1 { color:#fff; font-size:1.9rem; line-height:1.15; margin:0 0 .35rem; }
+@media (max-width:640px) {
+  body.st-inner.league-apl .tm2-hero h1 { font-size:1.45rem; }
 }

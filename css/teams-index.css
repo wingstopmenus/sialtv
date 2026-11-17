@@ -3,9 +3,9 @@
    shell (~430px at 1320px). The rail is now 300px and the content takes
    the rest, matching the schedule/stats pages' rail pattern. */
 @media (min-width: 981px) {
-  body.page-npl-teams .home-grid, body.page-ilt20-teams .home-grid { grid-template-columns: minmax(0, 1fr) 300px; }
+  body.page-npl-teams .home-grid, body.page-ilt20-teams .home-grid, body.page-apl-teams .home-grid { grid-template-columns: minmax(0, 1fr) 300px; }
   /* Sticky rail — same mechanism as schedule/stats/players sidebars. */
-  body.page-npl-teams .home-side, body.page-ilt20-teams .home-side { position: sticky; top: 5.5rem; align-self: start; }
+  body.page-npl-teams .home-side, body.page-ilt20-teams .home-side, body.page-apl-teams .home-side { position: sticky; top: 5.5rem; align-self: start; }
   /* STICKY FIX (2026-11-15, browser-proven): the sidebar is 2036px tall but
      the content column is only ~1828px, so the grid row height equals the
      sidebar height and the sticky stick-range is ZERO (gridHeight -
@@ -16,22 +16,22 @@
      at top:5.5rem for ~836px of page scroll and all three cards stay
      reachable via the rail's own scroll (scrollbar hidden, 2026-11-15). Desktop only (<=980px
      the rail stacks below the content, uncapped). */
-  body.page-npl-teams .home-side, body.page-ilt20-teams .home-side {
+  body.page-npl-teams .home-side, body.page-ilt20-teams .home-side, body.page-apl-teams .home-side {
     max-height: calc(100vh - 5.5rem - 1rem);
     overflow-y: auto;
     scrollbar-width: none;
   }
   /* Visible scrollbar hidden (user order 2026-11-15) — rail still scrolls
      internally (wheel/touch), pinning unchanged. */
-  body.page-npl-teams .home-side::-webkit-scrollbar, body.page-ilt20-teams .home-side::-webkit-scrollbar { display: none; }
+  body.page-npl-teams .home-side::-webkit-scrollbar, body.page-ilt20-teams .home-side::-webkit-scrollbar, body.page-apl-teams .home-side::-webkit-scrollbar { display: none; }
 }
 /* Points mini stays readable inside the 300px rail. */
-body.page-npl-teams .home-side .pts-mini th, body.page-ilt20-teams .home-side .pts-mini th,
-body.page-npl-teams .home-side .pts-mini td, body.page-ilt20-teams .home-side .pts-mini td { padding: 0.5rem 0.35rem; }
-body.page-npl-teams .home-side .pts-mini td:first-child, body.page-ilt20-teams .home-side .pts-mini td:first-child { gap: 0.4rem; }
+body.page-npl-teams .home-side .pts-mini th, body.page-ilt20-teams .home-side .pts-mini th, body.page-apl-teams .home-side .pts-mini th,
+body.page-npl-teams .home-side .pts-mini td, body.page-ilt20-teams .home-side .pts-mini td, body.page-apl-teams .home-side .pts-mini td { padding: 0.5rem 0.35rem; }
+body.page-npl-teams .home-side .pts-mini td:first-child, body.page-ilt20-teams .home-side .pts-mini td:first-child, body.page-apl-teams .home-side .pts-mini td:first-child { gap: 0.4rem; }
 /* .u-mt-10 is only defined for league-ilt20 in style.css; the hub cards
    using it need the same 10px top margin here. */
-body.page-npl-teams .u-mt-10, body.page-ilt20-teams .u-mt-10 { margin-top: 10px; }
+body.page-npl-teams .u-mt-10, body.page-ilt20-teams .u-mt-10, body.page-apl-teams .u-mt-10 { margin-top: 10px; }
 
 /* BEAUTIFY (2026-11-15, stamp 03:53) — teams index polish, user order image-94.
    Design: Hallmark floor gates + Impeccable slop check + Taste bar applied.
@@ -41,28 +41,28 @@ body.page-npl-teams .u-mt-10, body.page-ilt20-teams .u-mt-10 { margin-top: 10px;
 
 /* --- Team cards: air, hierarchy, hover (desktop, >=981px) --- */
 @media (min-width: 981px) {
-  body.page-npl-teams .team, body.page-ilt20-teams .team {
+  body.page-npl-teams .team, body.page-ilt20-teams .team, body.page-apl-teams .team {
     padding: 1.25rem 1.4rem;
     margin-bottom: 1rem;
     gap: 1.15rem;
     transition: transform var(--st-ease), box-shadow var(--st-ease), border-color var(--st-ease);
   }
-  body.page-npl-teams .team:hover, body.page-ilt20-teams .team:hover {
+  body.page-npl-teams .team:hover, body.page-ilt20-teams .team:hover, body.page-apl-teams .team:hover {
     transform: translateY(-2px);
     box-shadow: var(--st-shadow);
     border-color: #d9d3ea;
   }
   /* Logo as a soft tile so the eight crests read as one set (Pokhara keeps
      its night chip from style.css — excluded here, its pale gold needs dark). */
-  body.page-npl-teams .team img.tl-tile:not([alt*="Pokhara"]), body.page-ilt20-teams .team img.tl-tile:not([alt*="Pokhara"]) {
+  body.page-npl-teams .team img.tl-tile:not([alt*="Pokhara"]), body.page-ilt20-teams .team img.tl-tile:not([alt*="Pokhara"]), body.page-apl-teams .team img.tl-tile:not([alt*="Pokhara"]) {
     background: var(--st-bg-soft);
     padding: 0.45rem;
     box-sizing: border-box;
   }
-  body.page-npl-teams .team-body > b, body.page-ilt20-teams .team-body > b { font-size: 1.2rem; }
-  body.page-npl-teams .team-body > b a:hover, body.page-ilt20-teams .team-body > b a:hover { color: var(--st-rose-deep); }
+  body.page-npl-teams .team-body > b, body.page-ilt20-teams .team-body > b, body.page-apl-teams .team-body > b { font-size: 1.2rem; }
+  body.page-npl-teams .team-body > b a:hover, body.page-ilt20-teams .team-body > b a:hover, body.page-apl-teams .team-body > b a:hover { color: var(--st-rose-deep); }
   /* Rose rule under the "Teams" heading — echoes the sidebar cards. */
-  body.page-npl-teams #teams .st-block__head h2::after, body.page-ilt20-teams #teams .st-block__head h2::after {
+  body.page-npl-teams #teams .st-block__head h2::after, body.page-ilt20-teams #teams .st-block__head h2::after, body.page-apl-teams #teams .st-block__head h2::after {
     content: "";
     display: block;
     width: 3rem;
@@ -74,7 +74,7 @@ body.page-npl-teams .u-mt-10, body.page-ilt20-teams .u-mt-10 { margin-top: 10px;
 }
 
 /* --- Team cards: footer rhythm + top-four accent (all widths) --- */
-body.page-npl-teams .team-body p:last-of-type, body.page-ilt20-teams .team-body p:last-of-type {
+body.page-npl-teams .team-body p:last-of-type, body.page-ilt20-teams .team-body p:last-of-type, body.page-apl-teams .team-body p:last-of-type {
   border-top: 1px solid var(--st-line);
   padding-top: 0.55rem;
   margin-top: 0.55rem;
@@ -82,25 +82,32 @@ body.page-npl-teams .team-body p:last-of-type, body.page-ilt20-teams .team-body 
 /* Playoff cut: the top four reach the playoffs (sidebar footnote). Quiet rose
    left bar on the four cards above the cut — no new text, rank line already
    states the position. */
-body.page-npl-teams .team.tm-top4, body.page-ilt20-teams .team.tm-top4 { border-left: 3px solid var(--st-rose); }
+body.page-npl-teams .team.tm-top4, body.page-ilt20-teams .team.tm-top4, body.page-apl-teams .team.tm-top4 { border-left: 3px solid var(--st-rose); }
 
 
 /* --- Points mini: playoff cut line under row 4 (top four qualify). --- */
-body.page-npl-teams #points-table .t-pts tbody tr:nth-child(4) td, body.page-ilt20-teams #points-table .t-pts tbody tr:nth-child(4) td {
+body.page-npl-teams #points-table .t-pts tbody tr:nth-child(4) td, body.page-ilt20-teams #points-table .t-pts tbody tr:nth-child(4) td, body.page-apl-teams #points-table .t-pts tbody tr:nth-child(4) td {
   border-bottom: 2px solid var(--st-rose);
 }
 
 /* --- Leader rows: tighter rhythm so "Innings: 7 · Average: 34.57" stops
    splitting mid-phrase in the 300px rail. --- */
-body.page-npl-teams .home-side .side-card li:has(.tp-main), body.page-ilt20-teams .home-side .side-card li:has(.tp-main) { gap: 0.7rem; }
-body.page-npl-teams .home-side .tp-photo, body.page-ilt20-teams .home-side .tp-photo { width: 44px; height: 44px; }
+body.page-npl-teams .home-side .side-card li:has(.tp-main), body.page-ilt20-teams .home-side .side-card li:has(.tp-main), body.page-apl-teams .home-side .side-card li:has(.tp-main) { gap: 0.7rem; }
+body.page-npl-teams .home-side .tp-photo, body.page-ilt20-teams .home-side .tp-photo, body.page-apl-teams .home-side .tp-photo { width: 44px; height: 44px; }
 /* Leader-row wrap fix (2026-11-15, measured): "Innings: 7 · Average: 34.57" is 162px at .82rem but only 160.1px fits
    (44px photo + 2x .7rem gaps + 34.7px figure in the 300px rail) — 1.9px short, so it split. At .78rem the text is ~154px. */
-body.page-npl-teams .home-side .tp-sub, body.page-ilt20-teams .home-side .tp-sub { font-size: 0.78rem; line-height: 1.4; }
-body.page-npl-teams .home-side .tp-fig, body.page-ilt20-teams .home-side .tp-fig { font-size: 1.25rem; }
+body.page-npl-teams .home-side .tp-sub, body.page-ilt20-teams .home-side .tp-sub, body.page-apl-teams .home-side .tp-sub { font-size: 0.78rem; line-height: 1.4; }
+body.page-npl-teams .home-side .tp-fig, body.page-ilt20-teams .home-side .tp-fig, body.page-apl-teams .home-side .tp-fig { font-size: 1.25rem; }
 
 /* Reduced motion: hover lift off, everything else static. */
 @media (prefers-reduced-motion: reduce) {
-  body.page-npl-teams .team, body.page-ilt20-teams .team { transition: none; }
-  body.page-npl-teams .team:hover, body.page-ilt20-teams .team:hover { transform: none; }
+  body.page-npl-teams .team, body.page-ilt20-teams .team, body.page-apl-teams .team { transition: none; }
+  body.page-npl-teams .team:hover, body.page-ilt20-teams .team:hover, body.page-apl-teams .team:hover { transform: none; }
+}
+
+/* APL (2026-11-18, teams rebuild): mobile stack for the flat .team row —
+   the added standing line is a fifth flex column and overflows 390px.
+   Below 640px the card stacks (logo on top, text below). */
+@media (max-width:640px) {
+  body.page-apl-teams .team { flex-direction: column; }
 }
