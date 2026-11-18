@@ -647,6 +647,39 @@
         out.push({ score: runs + '/' + wkts, name: b.batsman || '', over: b.over || '' });
       }
     });
+    /* Top-up for a lagging PBP (round 3): the walk only sees the balls
+       the feed has delivered. When the latest dismissal ball has not
+       arrived yet (the endpoint's PBP cache is ~30s), the walk drops
+       the newest wicket even though the scorecard batting rows (from
+       the summary, which updates faster) already show that batter
+       dismissed. In that case — and ONLY when exactly one wicket is
+       missing — append the missing latest fall from the feed's
+       lastWicket, guarded so nothing is invented: its fow must parse
+       as runs/wkts, be exactly the next wicket, be monotonic, and its
+       name must be the one dismissed batter missing from the walk.
+       lastWicket's runs/balls/fow are NOT trusted anywhere else: the
+       fresh M30 feed carries runs "0", balls "" and fow "0" for a
+       batter who scored 2 off 6 (5/1) — placeholders. */
+    var lw = (m.live || {}).lastWicket;
+    if (lw && lw.name && lw.fow && lw.over) {
+      var fp = String(lw.fow).split('/');
+      var dismissed = [];
+      mergedInnings(m).forEach(function (g) {
+        if ((g.period || 1) !== period) return;
+        (g.batting || []).forEach(function (b) {
+          if (String(b.dismissal || '').trim() && String(b.dismissal).toLowerCase() !== 'not out') dismissed.push(b);
+        });
+      });
+      var missing = dismissed.filter(function (b) {
+        return out.every(function (w) { return cleanName(w.name) !== cleanName(b.name); });
+      });
+      if (missing.length === 1 && cleanName(missing[0].name) === cleanName(lw.name) &&
+          fp.length === 2 && /^\d+$/.test(fp[0]) && /^\d+$/.test(fp[1]) &&
+          parseInt(fp[1], 10) === out.length + 1 &&
+          (!out.length || parseInt(fp[0], 10) >= parseInt(String(out[out.length - 1].score).split('/')[0], 10))) {
+        out.push({ score: lw.fow, name: lw.name, over: lw.over });
+      }
+    }
     return out;
   }
 
@@ -1511,25 +1544,29 @@
        overs, so without this the line vanishes mid-match. The
        batter's runs/balls/dismissal come from the innings batting
        rows — never invented. */
-    var lw = live.lastWicket;
-    if (lw && lw.name) {
-      html += '<p class="ci-meta">Last Bat: ' + esc(lw.name) +
-        (lw.runs !== '' && lw.runs != null ? ' ' + esc(lw.runs) : '') +
-        (lw.balls !== '' && lw.balls != null ? ' (' + esc(lw.balls) + ')' : '') +
-        (lw.dismissal ? ' — ' + esc(lw.dismissal) : '') + '</p>';
-    } else if (fowList.length) {
-      var lastFall = fowList[fowList.length - 1];
-      var lastBat = null;
-      mergedInnings(m).forEach(function (g) {
-        (g.batting || []).forEach(function (b) {
-          if (cleanName(b.name) === cleanName(lastFall.name)) lastBat = b;
-        });
+    /* Last Bat: the most recent fall in the CURRENT innings' batting
+       rows (the last row with a dismissal — dismissed batters appear
+       in batting order, so the last one is the newest wicket). The
+       rows come from the summary and carry the true runs/balls, so
+       this never prints the feed lastWicket's placeholder figures:
+       the fresh M30 feed carries runs "0", balls "" and fow "0" for
+       Sahil Patel (2 off 6, 5/1). lastWicket is only a fallback for
+       its name + dismissal string, never for figures. */
+    var lastBat = null;
+    mergedInnings(m).forEach(function (g) {
+      if ((g.period || 1) !== currentPeriod(m)) return;
+      (g.batting || []).forEach(function (b) {
+        if (String(b.dismissal || '').trim() && String(b.dismissal).toLowerCase() !== 'not out') lastBat = b;
       });
-      if (lastBat) {
-        html += '<p class="ci-meta">Last Bat: ' + esc(lastBat.name) +
-          ' ' + esc(lastBat.runs || '0') + ' (' + esc(lastBat.balls || '0') + 'b)' +
-          (lastBat.dismissal ? ' — ' + esc(lastBat.dismissal) : '') + '</p>';
-      }
+    });
+    if (lastBat) {
+      html += '<p class="ci-meta">Last Bat: ' + esc(lastBat.name) +
+        ' ' + esc(lastBat.runs || '0') + ' (' + esc(lastBat.balls || '0') + 'b)' +
+        (lastBat.dismissal ? ' — ' + esc(lastBat.dismissal) : '') + '</p>';
+    } else if (live.lastWicket && live.lastWicket.name) {
+      var lw0 = live.lastWicket;
+      html += '<p class="ci-meta">Last Bat: ' + esc(lw0.name) +
+        (lw0.dismissal ? ' — ' + esc(lw0.dismissal) : '') + '</p>';
     }
     if (fowList.length) {
       html += '<p class="ci-meta">Fall of wickets: ' + fowList.map(function (w) {
@@ -1537,9 +1574,16 @@
         if (p.length !== 2) return esc(w.score);
         return esc(p[1] + '-' + p[0]) + ' (' + esc(w.name) + ', ' + esc(w.over) + ' ov)';
       }).join(', ') + '</p>';
-    } else if (lw && lw.fow) {
-      html += '<p class="ci-meta">Fall of wickets: ' + esc(lw.fow) +
-        (lw.name ? ' (' + esc(lw.name) + (lw.over ? ', ' + esc(lw.over) + ' ov' : '') + ')' : '') + '</p>';
+    } else {
+      /* One-line latest fall only when the walk is unavailable (window
+         payload) AND the feed's fow is a real runs/wkts score. A
+         placeholder "0" (the fresh M30 feed's Sahil Patel value) is
+         never printed — no FoW line is better than a bogus one. */
+      var lw = live.lastWicket;
+      if (lw && lw.name && /^\d+\/\d+$/.test(String(lw.fow || ''))) {
+        html += '<p class="ci-meta">Fall of wickets: ' + esc(lw.fow) +
+          ' (' + esc(lw.name) + (lw.over ? ', ' + esc(lw.over) + ' ov' : '') + ')</p>';
+      }
     }
     html += stripHtml((m.overTimeline && m.overTimeline.length) ? m.overTimeline : overs);
     html += '<h2>Match Centre</h2>' + commentaryGroupsHtml(m, 12);
@@ -1664,9 +1708,11 @@
             }).join(', ') + '</p>';
           } else {
             var lw = (m.live || {}).lastWicket;
-            if (lw && lw.fow) {
+            /* Guard (round 3): the feed's lastWicket.fow is a placeholder
+               "0" in the fresh M30 feed — only a real runs/wkts score prints. */
+            if (lw && lw.name && /^\d+\/\d+$/.test(String(lw.fow || ''))) {
               body += '<p class="ci-fow"><b>Fall of wickets:</b> ' + esc(lw.fow) +
-                (lw.name ? ' (' + esc(lw.name) + (lw.over ? ', ' + esc(lw.over) + ' ov' : '') + ')' : '') + '</p>';
+                ' (' + esc(lw.name) + (lw.over ? ', ' + esc(lw.over) + ' ov' : '') + ')</p>';
             }
           }
         }
