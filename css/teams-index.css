@@ -111,3 +111,22 @@ body.page-npl-teams .home-side .tp-fig, body.page-ilt20-teams .home-side .tp-fig
 @media (max-width:640px) {
   body.page-apl-teams .team { flex-direction: column; }
 }
+
+/* ILT20 TEAMS-INDEX ENHANCEMENT (2026-11-18) — captain block on each card.
+   Fills the card's empty right side: the captain's photo (144x144 data
+   URI, displayed 5rem) + the captain's name. The DC slot carries the team
+   logo large instead (no Billings photo on record) — the .tm-cap-photo
+   cover rule is scoped to the photo class only, so the logo's own
+   object-fit: contain is never overridden. */
+body.page-ilt20-teams .team-captain { margin-left: auto; flex-shrink: 0; align-self: center; text-align: center; }
+body.page-ilt20-teams .team-captain img.tm-cap-photo { width: 5rem; height: 5rem; object-fit: cover; border-radius: 0.8rem; display: block; }
+body.page-ilt20-teams .team-captain span { display: block; margin-top: 0.35rem; font-size: 0.8rem; font-weight: 700; color: var(--st-ink-2); }
+body.page-ilt20-teams .team-captain span a { color: var(--st-ink-2); }
+
+/* ILT20 mobile stack (twin of the APL rule above): a third flex child
+   would squeeze the body to ~130px at 390px without it. */
+@media (max-width:640px) {
+  body.page-ilt20-teams .team { flex-direction: column; }
+  body.page-ilt20-teams .team-captain { margin-left: 0; align-self: center; }
+  body.page-ilt20-teams .team-captain img.tm-cap-photo { width: 4rem; height: 4rem; }
+}
