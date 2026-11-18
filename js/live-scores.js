@@ -163,11 +163,12 @@
   }
   window.sialtvPick = pick;
 
-  /* "5:00 PM" from a kickoff ISO — the upcoming cards' day badge. */
-  function fmtTimeNst(iso) {
+  /* "5:00 PM" from a kickoff ISO — the upcoming cards' day badge.
+     Visitor-local: Intl without timeZone renders in the visitor's zone. */
+  function fmtTimeLocal(iso) {
     if (!iso) return '';
     try {
-      return new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kathmandu', hour: 'numeric', minute: '2-digit', hour12: true }).format(new Date(iso));
+      return new Intl.DateTimeFormat('en-US', { hour: 'numeric', minute: '2-digit', hour12: true }).format(new Date(iso));
     } catch (e) { return ''; }
   }
 
@@ -220,7 +221,9 @@
   function fmtDateLong(iso) {
     if (!iso) return '';
     try {
-      return new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Kathmandu', weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(iso + 'T00:00:00Z'));
+      /* Date-only string: parse as local midnight (no Z, no timeZone)
+         so the calendar date itself never shifts in the visitor's zone. */
+      return new Intl.DateTimeFormat('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(iso + 'T00:00:00'));
     } catch (e) { return iso; }
   }
   function venueShort(v) {
@@ -639,8 +642,8 @@
     var label = stageLabelFor(m.matchNo, league, state) || (ordinal(m.matchNo) + ' Match');
     var url = matchUrl(league, m.matchNo);
     var wd = '';
-    try { wd = new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Kathmandu', weekday: 'long' }).format(new Date((m.date || '') + 'T00:00:00Z')).toUpperCase(); } catch (e) { wd = 'UPCOMING'; }
-    var badge = (wd || 'UPCOMING') + ' &middot; ' + esc(fmtTimeNst(m.kickoffIso) || '');
+    try { wd = new Intl.DateTimeFormat('en-GB', { weekday: 'long' }).format(new Date((m.date || '') + 'T00:00:00')).toUpperCase(); } catch (e) { wd = 'UPCOMING'; }
+    var badge = (wd || 'UPCOMING') + ' &middot; ' + esc(fmtTimeLocal(m.kickoffIso) || '');
     return '<div class="rx-res-card" data-format="t20" data-gender="men" data-teams="' + esc(teamSlug(m.team1) + ' ' + teamSlug(m.team2)) +
       '" data-league="' + esc(league) + '" data-match-no="' + m.matchNo + '">' +
       '<div class="rx-res-status upcoming">' + badge + '</div>' +

@@ -23,7 +23,7 @@
 <meta name="twitter:description" content="Ibrahim Zadran leads Balkh Zwanan into APL 2026-27 with Moeen Ali and Mickey Arthur. Full 19-man squad, draft story and season outlook — read the team guide.">
 <meta name="theme-color" content="#090811">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","name":"Balkh Zwanan APL 2026-27 — Squad &amp; Fixtures","url":"https://sialtv.com/apl/teams/balkh-zwanan/","description":"Ibrahim Zadran leads Balkh Zwanan into APL 2026-27 with Moeen Ali and Mickey Arthur. Full 19-man squad, draft story and season outlook — read the team guide.","datePublished":"2026-11-11T05:51:00Z","dateModified":"2026-11-17T21:27:00Z"}
+{"@context":"https://schema.org","@type":"WebPage","name":"Balkh Zwanan APL 2026-27 — Squad &amp; Fixtures","url":"https://sialtv.com/apl/teams/balkh-zwanan/","description":"Ibrahim Zadran leads Balkh Zwanan into APL 2026-27 with Moeen Ali and Mickey Arthur. Full 19-man squad, draft story and season outlook — read the team guide.","datePublished":"2026-11-11T05:51:00Z","dateModified":"2026-11-18T23:45:06Z"}
 </script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"SportsTeam","name":"Balkh Zwanan","sport":"Cricket","url":"https://sialtv.com/apl/teams/balkh-zwanan/","memberOf":{"@type":"SportsOrganization","name":"Afghanistan Premier League 2026-27"},"coach":{"@type":"Person","name":"Mickey Arthur"},"athlete":[{"@type":"Person","name":"Ibrahim Zadran"},{"@type":"Person","name":"Moeen Ali"},{"@type":"Person","name":"Allah Mohammad Ghazanfar"},{"@type":"Person","name":"Luke Wood"},{"@type":"Person","name":"Gulbadin Naib"},{"@type":"Person","name":"Sediqullah Atal"},{"@type":"Person","name":"Muhammad Waseem"},{"@type":"Person","name":"Afsar Khan Zazai"},{"@type":"Person","name":"Abdullah Ahmadzai"},{"@type":"Person","name":"Thomas Moores"},{"@type":"Person","name":"Zia ur Rehman Akbar"},{"@type":"Person","name":"Abdullah Tarakhail"},{"@type":"Person","name":"Colin Ackermann"},{"@type":"Person","name":"Mohammad Waqar Salamkheil"},{"@type":"Person","name":"Salaam Khan Ahmadzai"},{"@type":"Person","name":"Azizullah Miakhil"},{"@type":"Person","name":"Abdul Aziz Khan"},{"@type":"Person","name":"Qais Ahmad"},{"@type":"Person","name":"Christopher Wood"}]}
@@ -133,7 +133,9 @@
       mount.innerHTML = html;
       loadScript('/js/team-logos.js', function () {
         loadScript('/js/live-scores.js', function () {
-          loadScript('/js/flash-scores.js');
+          loadScript('/js/local-time.js', function () {
+            loadScript('/js/flash-scores.js');
+          });
         });
       });
     })
@@ -157,7 +159,7 @@
     <div class="tm2-hero-stat"><b>0.000</b><span>NRR</span></div>
   </div>
 </div>
-  <p class="updated">Last updated: 17 November 2026</p>
+  <p class="updated">Last updated: 18 November 2026</p>
 </div>
 
 <main id="main"><div class="wrap"><div class="team-grid">
@@ -180,7 +182,7 @@
           <button class="fx-pill fx-seg-btn" type="button" data-fx="results" aria-pressed="false">Results</button>
         </div>
         <ul id="fxFixtures">
-<li>Fixtures not yet published by the ACB — first ball Sunday 27 December 2026, 5:30 PM AFT, UAE (grounds TBC).</li>
+<li>Fixtures not yet published by the ACB — first ball <span data-local-time="2026-12-27T13:00:00Z">Sunday 27 December 2026, 5:30 PM AFT</span>, UAE (grounds TBC).</li>
 </ul>
         <ul id="fxResults" hidden>
 <li>No results yet — the season starts on 27 December 2026.</li>
@@ -202,7 +204,7 @@
 <div class="side-card" data-reveal>
         <h3>Coming up</h3>
         <ul>
-          <li><b>First ball</b><span>Sun 27 Dec, 5:30 PM AFT  UAE</span></li>
+          <li><b>First ball</b><span><span data-local-time="2026-12-27T13:00:00Z">Sun 27 Dec, 5:30 PM AFT</span>  UAE</span></li>
           <li><b>Draft</b><span>Done  3 Nov 2026, Dubai</span></li>
           <li><b>Final</b><span>Wed 20 Jan 2027  UAE</span></li>
         </ul>
@@ -426,7 +428,7 @@
       </div>
     </div>
     <div class="st-colophon__legal">
-      <span>Last updated: 17 November 2026</span>
+      <span>Last updated: 18 November 2026</span>
       <span>© 2026 SialTV</span>
     </div>
   </div>

@@ -23,7 +23,7 @@
 <meta name="twitter:description" content="Rahmat Shah captains Nangarhar Cosmic into APL 2026-27, with Alex Hales and Shakib Al Hasan in the squad. Full 19-man list and outlook — read the team guide.">
 <meta name="theme-color" content="#090811">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","name":"Nangarhar Cosmic APL 2026-27 — Squad &amp; Fixtures","url":"https://sialtv.com/apl/teams/nangarhar-cosmic/","description":"Rahmat Shah captains Nangarhar Cosmic into APL 2026-27, with Alex Hales and Shakib Al Hasan in the squad. Full 19-man list and outlook — read the team guide.","datePublished":"2026-11-11T05:53:00Z","dateModified":"2026-11-17T21:29:00Z"}
+{"@context":"https://schema.org","@type":"WebPage","name":"Nangarhar Cosmic APL 2026-27 — Squad &amp; Fixtures","url":"https://sialtv.com/apl/teams/nangarhar-cosmic/","description":"Rahmat Shah captains Nangarhar Cosmic into APL 2026-27, with Alex Hales and Shakib Al Hasan in the squad. Full 19-man list and outlook — read the team guide.","datePublished":"2026-11-11T05:53:00Z","dateModified":"2026-11-18T23:45:09Z"}
 </script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"SportsTeam","name":"Nangarhar Cosmic","sport":"Cricket","url":"https://sialtv.com/apl/teams/nangarhar-cosmic/","memberOf":{"@type":"SportsOrganization","name":"Afghanistan Premier League 2026-27"},"coach":{"@type":"Person","name":"Toby Radford"},"athlete":[{"@type":"Person","name":"Rahmat Shah"},{"@type":"Person","name":"Alex Hales"},{"@type":"Person","name":"Darwish Rasooli"},{"@type":"Person","name":"Shakib Al Hasan"},{"@type":"Person","name":"Kamindu Mendis"},{"@type":"Person","name":"Ziawrahman Sharifi"},{"@type":"Person","name":"Mohammad Akram Zazai"},{"@type":"Person","name":"Ikram Alikhil"},{"@type":"Person","name":"Junaid Siddique"},{"@type":"Person","name":"Zahir Khan"},{"@type":"Person","name":"Ismatullah Alam"},{"@type":"Person","name":"Mohammad Yamin Ahmadzai"},{"@type":"Person","name":"Amir Jangoo"},{"@type":"Person","name":"Shafiqullah Ghafari"},{"@type":"Person","name":"Faisal Khan Shinozada"},{"@type":"Person","name":"Bahar Ali Shinwari"},{"@type":"Person","name":"Islam Khan Zazai"},{"@type":"Person","name":"Aftab Alam"},{"@type":"Person","name":"Zubairullah Akbari"}]}
@@ -133,7 +133,9 @@
       mount.innerHTML = html;
       loadScript('/js/team-logos.js', function () {
         loadScript('/js/live-scores.js', function () {
-          loadScript('/js/flash-scores.js');
+          loadScript('/js/local-time.js', function () {
+            loadScript('/js/flash-scores.js');
+          });
         });
       });
     })
@@ -157,7 +159,7 @@
     <div class="tm2-hero-stat"><b>0.000</b><span>NRR</span></div>
   </div>
 </div>
-  <p class="updated">Last updated: 17 November 2026</p>
+  <p class="updated">Last updated: 18 November 2026</p>
 </div>
 
 <main id="main"><div class="wrap"><div class="team-grid">
@@ -180,7 +182,7 @@
           <button class="fx-pill fx-seg-btn" type="button" data-fx="results" aria-pressed="false">Results</button>
         </div>
         <ul id="fxFixtures">
-<li>Fixtures not yet published by the ACB — first ball Sunday 27 December 2026, 5:30 PM AFT, UAE (grounds TBC).</li>
+<li>Fixtures not yet published by the ACB — first ball <span data-local-time="2026-12-27T13:00:00Z">Sunday 27 December 2026, 5:30 PM AFT</span>, UAE (grounds TBC).</li>
 </ul>
         <ul id="fxResults" hidden>
 <li>No results yet — the season starts on 27 December 2026.</li>
@@ -202,7 +204,7 @@
 <div class="side-card" data-reveal>
         <h3>Coming up</h3>
         <ul>
-          <li><b>First ball</b><span>Sun 27 Dec, 5:30 PM AFT  UAE</span></li>
+          <li><b>First ball</b><span><span data-local-time="2026-12-27T13:00:00Z">Sun 27 Dec, 5:30 PM AFT</span>  UAE</span></li>
           <li><b>Draft</b><span>Done  3 Nov 2026, Dubai</span></li>
           <li><b>Final</b><span>Wed 20 Jan 2027  UAE</span></li>
         </ul>
@@ -426,7 +428,7 @@
       </div>
     </div>
     <div class="st-colophon__legal">
-      <span>Last updated: 17 November 2026</span>
+      <span>Last updated: 18 November 2026</span>
       <span>© 2026 SialTV</span>
     </div>
   </div>

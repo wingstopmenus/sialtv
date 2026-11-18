@@ -23,7 +23,7 @@
 <meta name="twitter:description" content="Every APL 2026-27 player in one place — all 95 profiles grouped by team, with roles, captains and squads. Find your player here.">
 <meta name="theme-color" content="#090811">
 <script type="application/ld+json">
-{"@context": "https://schema.org", "@type": "WebPage", "name": "APL 2026-27 Players — All 95 Profiles & Teams", "url": "https://sialtv.com/apl/players/", "description": "Every APL 2026-27 player in one place — all 95 profiles grouped by team, with roles, captains and squads. Find your player here.", "datePublished": "2026-11-12T03:13:00Z", "dateModified": "2026-11-17T21:35:00Z"}
+{"@context": "https://schema.org", "@type": "WebPage", "name": "APL 2026-27 Players — All 95 Profiles & Teams", "url": "https://sialtv.com/apl/players/", "description": "Every APL 2026-27 player in one place — all 95 profiles grouped by team, with roles, captains and squads. Find your player here.", "datePublished": "2026-11-12T03:13:00Z", "dateModified": "2026-11-18T23:45:02Z"}
 </script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"SialTV","item":"https://sialtv.com/"},{"@type":"ListItem","position":2,"name":"APL","item":"https://sialtv.com/apl/"},{"@type":"ListItem","position":3,"name":"APL 2026-27 Players","item":"https://sialtv.com/apl/players/"}]}
@@ -121,7 +121,7 @@
 <div class="wrap page-head">
   <p class="crumbs"><a href="/">SialTV</a> / <a href="/apl/">APL</a> / APL 2026-27 Players</p>
   <h1>APL 2026-27 Players &mdash; All 95 Profiles &amp; Teams</h1>
-  <p class="updated">Last updated: 17 November 2026</p>
+  <p class="updated">Last updated: 18 November 2026</p>
 </div>
 
 <main id="main">
@@ -305,7 +305,7 @@
       <div class="side-card" data-reveal>
         <h3>Season at a glance</h3>
         <ul>
-          <li><b>Opener: APL Match 1 &mdash; teams TBC</b><span>Sun 27 Dec, 5:30 PM AFT</span></li>
+          <li><b>Opener: APL Match 1 &mdash; teams TBC</b><span data-local-time="2026-12-27T13:00:00Z">Sun 27 Dec, 5:30 PM AFT</span></li>
           <li><b>Draft: squads set</b><span>Mon 3 Nov 2026 &middot; Dubai</span></li>
           <li><b>Final</b><span>Wed 20 Jan 2027</span></li>
         </ul>
@@ -365,7 +365,7 @@
       </div>
     </div>
     <div class="st-colophon__legal">
-      <span>Last updated: 17 November 2026</span>
+      <span>Last updated: 18 November 2026</span>
       <span>© 2026 SialTV</span>
     </div>
   </div>
@@ -409,7 +409,7 @@
 
 <script src="/js/team-logos.js"></script>
 <script>
-/* Match strip: the shared baked strip (/fragments/strip.html, verbatim from the NPL hub) is fetched and injected here, then the strip driver loads. */
+/* Match strip: the shared baked strip (/fragments/strip.html, verbatim from the NPL hub) is fetched and injected here, then the local-time module loads, then the strip driver. */
 (function(){
   var el = document.querySelector('[data-strip-src]');
   if (!el) return;
@@ -421,8 +421,19 @@
       var strip = tmp.querySelector('.st-strip');
       if (!strip) return;
       el.parentNode.replaceChild(strip, el);
+      /* Visitor-local times (2026-11-18, LOADER agent): the module
+         loads after the strip fragment is injected and before the
+         strip driver, the same order as the strip chain — so the
+         injected strip cards convert, as does the hub's own M1 line.
+         The module boots on load even when appended late. */
       var s = document.createElement('script');
-      s.src = '/js/flash-scores.js';
+      s.src = '/js/local-time.js';
+      s.onload = function () {
+        var f = document.createElement('script');
+        f.src = '/js/flash-scores.js';
+        document.body.appendChild(f);
+      };
+      s.onerror = s.onload;
       document.body.appendChild(s);
     })
     .catch(function(){ if (el && el.parentNode) el.parentNode.removeChild(el); });

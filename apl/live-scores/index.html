@@ -23,7 +23,7 @@
 <meta name="twitter:description" content="APL 2026-27 live scores — pre-season, first live update on 27 Dec when Match 1 begins in the UAE. Next match and fixtures here.">
 <meta name="theme-color" content="#090811">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","name":"APL 2026-27 Live Scores — Match 1 & Updates","url":"https://sialtv.com/apl/live-scores/","description":"APL 2026-27 live scores — pre-season, first live update on 27 Dec when Match 1 begins in the UAE. Next match and fixtures here.","datePublished":"2026-11-11T05:24:00Z","dateModified": "2026-11-17T21:40:00Z"}
+{"@context":"https://schema.org","@type":"WebPage","name":"APL 2026-27 Live Scores — Match 1 & Updates","url":"https://sialtv.com/apl/live-scores/","description":"APL 2026-27 live scores — pre-season, first live update on 27 Dec when Match 1 begins in the UAE. Next match and fixtures here.","datePublished":"2026-11-11T05:24:00Z","dateModified": "2026-11-18T23:45:01Z"}
 </script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"SialTV","item":"https://sialtv.com/"},{"@type":"ListItem","position":2,"name":"Afghanistan Premier League","item":"https://sialtv.com/apl/"},{"@type":"ListItem","position":3,"name":"APL 2026-27 Live Scores — Match 1 & Updates","item":"https://sialtv.com/apl/live-scores/"}]}
@@ -128,7 +128,9 @@
     document.body.appendChild(s);
   }
   loadScript('/js/team-logos.js', function () {
-    loadScript('/js/live-scores.js');
+    loadScript('/js/live-scores.js', function () {
+      loadScript('/js/local-time.js');
+    });
   });
 })();
 </script>
@@ -139,17 +141,17 @@
   <p class="crumbs"><a href="/">SialTV</a> / <a href="/apl/">APL</a> / APL 2026-27 Live Scores — Match 1 &amp; Updates</p>
   
   <h1>APL 2026-27 Live Scores &mdash; Match 1 &amp; Updates</h1>
-  <p class="updated">Last updated: 17 November 2026</p>
+  <p class="updated">Last updated: 18 November 2026</p>
 </div>
 <main id="main">
 <div class="wrap"><div class="home-grid"><div class="home-main">
 
   <div class="ls-list" id="match-list">
 <div class="ls-tabs" role="tablist" aria-label="Live scores"><button type="button" class="ls-tab" id="tabbtn-live" role="tab" aria-selected="true" aria-controls="tab-live" data-ls-tab="live">Live Cricket Score</button><button type="button" class="ls-tab" id="tabbtn-schedule" role="tab" aria-selected="false" aria-controls="tab-schedule" data-ls-tab="schedule" tabindex="-1">Cricket Schedule</button><button type="button" class="ls-tab" id="tabbtn-results" role="tab" aria-selected="false" aria-controls="tab-results" data-ls-tab="results" tabindex="-1">Match Results</button></div><div class="ls-chips" role="group" aria-label="Filter by league"><button type="button" class="ls-chip ls-reset" data-ls-reset>Reset</button><button type="button" class="ls-chip" data-ls-chip="all" aria-pressed="true">All</button><button type="button" class="ls-chip" data-ls-chip="apl" aria-pressed="false">APL</button></div>
-<div class="ls-panel" id="tab-live" role="tabpanel" aria-labelledby="tabbtn-live" data-ls-panel="live"><h2>Live Cricket Matches</h2><div class="rx-res-box" data-league="apl"><h2 class="rx-res-boxhead"><a href="/apl/">Afghanistan Premier League 2026-27</a><a class="rx-seeall" href="/apl/">See all &rsaquo;</a></h2><div class="rx-res-grid"><div class="rx-res-card" data-league="apl"><div class="rx-res-status upcoming">COMING SOON</div><div class="rx-res-desc">Afghanistan Premier League 2026-27 &middot; UAE</div><p class="rx-res-note">First ball Sunday 27 December 2026, 5:30 PM AFT (5:00 PM Dubai GST). Fixtures to be announced.</p><div class="rx-res-links"><a href="/apl/schedule/">Schedule</a><a href="/apl/">Series</a></div><a class="rx-card-link" href="/apl/schedule/" aria-label="Match — Schedule"></a></div></div></div></div>
+<div class="ls-panel" id="tab-live" role="tabpanel" aria-labelledby="tabbtn-live" data-ls-panel="live"><h2>Live Cricket Matches</h2><div class="rx-res-box" data-league="apl"><h2 class="rx-res-boxhead"><a href="/apl/">Afghanistan Premier League 2026-27</a><a class="rx-seeall" href="/apl/">See all &rsaquo;</a></h2><div class="rx-res-grid"><div class="rx-res-card" data-league="apl"><div class="rx-res-status upcoming">COMING SOON</div><div class="rx-res-desc">Afghanistan Premier League 2026-27 &middot; UAE</div><p class="rx-res-note">First ball <span data-local-time="2026-12-27T13:00:00Z">Sunday 27 December 2026, 5:30 PM AFT</span> (5:00 PM Dubai GST). Fixtures to be announced.</p><div class="rx-res-links"><a href="/apl/schedule/">Schedule</a><a href="/apl/">Series</a></div><a class="rx-card-link" href="/apl/schedule/" aria-label="Match — Schedule"></a></div></div></div></div>
 <div class="ls-panel" id="tab-schedule" role="tabpanel" aria-labelledby="tabbtn-schedule" data-ls-panel="schedule" hidden><h2>Cricket Schedule</h2><div id="scheduleView"></div><p class="ls-empty" data-ls-empty hidden></p></div>
 <div class="ls-panel" id="tab-results" role="tabpanel" aria-labelledby="tabbtn-results" data-ls-panel="results" hidden><h2>Match Results</h2><div id="liveResults"></div><p class="note">Every result of the season is on the <a href="/apl/schedule/">APL Schedule</a> page.</p><p class="ls-empty" data-ls-empty hidden></p></div>
-<p class="ls-desc">Live APL 2026-27 scores &mdash; the score while a match is on, the result once it ends, and the next fixture after that. There is no live score yet: the season starts on Sunday 27 December 2026, when Match 1 begins in the UAE. First ball is 5:30 PM Afghanistan time (5:00 PM Dubai time); the teams and the ground have not been announced yet. <a href="/">SialTV</a> follows every APL 2026-27 match from the UAE &mdash; twenty league matches from 27 December into January, then the playoffs and the final on Wednesday 20 January 2027. Last checked: 17 November 2026. The full fixture list will appear here once the ACB publishes it.</p>
+<p class="ls-desc">Live APL 2026-27 scores &mdash; the score while a match is on, the result once it ends, and the next fixture after that. There is no live score yet: the season starts on Sunday 27 December 2026, when Match 1 begins in the UAE. First ball is <span data-local-time="2026-12-27T13:00:00Z" data-local-format="time">5:30 PM Afghanistan time</span> (5:00 PM Dubai time); the teams and the ground have not been announced yet. <a href="/">SialTV</a> follows every APL 2026-27 match from the UAE &mdash; twenty league matches from 27 December into January, then the playoffs and the final on Wednesday 20 January 2027. Last checked: 18 November 2026. The full fixture list will appear here once the ACB publishes it.</p>
   </div>
 
 <section data-reveal id="popular-matches" class="ls-sec">
@@ -241,7 +243,7 @@
       </div>
     </div>
     <div class="st-colophon__legal">
-      <span>Last updated: 17 November 2026</span>
+      <span>Last updated: 18 November 2026</span>
       <span>© 2026 SialTV</span>
     </div>
   </div>

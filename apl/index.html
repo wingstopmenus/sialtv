@@ -22,7 +22,7 @@
 <meta name="twitter:description" content="Afghanistan Premier League 2026-27 schedule, teams and points table — 5 teams, 24 matches, first ball 27 December 2026 in the UAE.">
 <meta name="theme-color" content="#090811">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","name":"Afghanistan Premier League 2026-27 — Schedule, Teams & Points Table","url":"https://sialtv.com/apl/","description":"Afghanistan Premier League 2026-27 schedule, teams and points table — 5 teams, 24 matches advertised, first ball 27 December 2026 in the UAE.","datePublished":"2026-11-10T08:21:00Z","dateModified": "2026-11-17T21:00:00Z"}
+{"@context":"https://schema.org","@type":"WebPage","name":"Afghanistan Premier League 2026-27 — Schedule, Teams & Points Table","url":"https://sialtv.com/apl/","description":"Afghanistan Premier League 2026-27 schedule, teams and points table — 5 teams, 24 matches advertised, first ball 27 December 2026 in the UAE.","datePublished":"2026-11-10T08:21:00Z","dateModified": "2026-11-18T23:45:00Z"}
 </script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"SialTV","item":"https://sialtv.com/"},{"@type":"ListItem","position":2,"name":"Afghanistan Premier League","item":"https://sialtv.com/apl/"}]}
@@ -130,7 +130,9 @@
       mount.innerHTML = html;
       loadScript('/js/team-logos.js', function () {
         loadScript('/js/live-scores.js', function () {
-          loadScript('/js/flash-scores.js');
+          loadScript('/js/local-time.js', function () {
+            loadScript('/js/flash-scores.js');
+          });
         });
       });
     })
@@ -143,7 +145,7 @@
 
 <main id="main">
 <div class="hub-wide">
-<div class="hub-crumbs"><p class="crumbs"><a href="/">Home</a> &rsaquo; <a href="/series/">Series</a> &rsaquo; Afghanistan Premier League 2026–27</p><p class="updated">Last updated: 17 November 2026</p></div>
+<div class="hub-crumbs"><p class="crumbs"><a href="/">Home</a> &rsaquo; <a href="/series/">Series</a> &rsaquo; Afghanistan Premier League 2026–27</p><p class="updated">Last updated: 18 November 2026</p></div>
 <div class="hub3"><div class="hub3-col hub3-left"><nav class="hub-rail hub-rail-l" aria-label="Fixtures, results and records">
       <div class="side-card st-jump" data-reveal>
         <h3>Fixtures &amp; Results</h3>
@@ -153,7 +155,7 @@
         </div>
         <ul id="fxFixtures">
           <li>
-<span class="fx-date">SUN, 27 DEC, 5:30 PM AFT</span>
+<span class="fx-date" data-local-time="2026-12-27T13:00:00Z">SUN, 27 DEC, 5:30 PM AFT</span>
 <span class="fx-desc">Match 1 &middot; UAE</span>
 <span class="fx-team">First ball &mdash; teams and ground TBC</span>
 <span class="fx-status">Fixtures not yet published by the ACB. Playoffs in January 2027 &mdash; final Wednesday 20 January 2027; dates to be announced.</span>
@@ -188,8 +190,8 @@
 
             <div class="today" id="heroLiveCard" data-league="apl" aria-live="polite">
         <p class="lead-kicker">First ball &middot; Sunday, 27 December 2026</p>
-        <h3 class="lead-head">First ball: Sunday 27 December, 5:30 PM AFT</h3>
-        <p class="lead-score">Afghanistan Premier League, Match 1 &middot; <span class="t-time">5:30 PM AFT (5:00 PM Dubai time)</span> &middot; UAE &mdash; ground to be announced</p>
+        <h3 class="lead-head">First ball: <span data-local-time="2026-12-27T13:00:00Z">Sunday 27 December, 5:30 PM AFT</span></h3>
+        <p class="lead-score">Afghanistan Premier League, Match 1 &middot; <span class="t-time"><span data-local-time="2026-12-27T13:00:00Z" data-local-format="time">5:30 PM AFT</span> (5:00 PM Dubai time)</span> &middot; UAE &mdash; ground to be announced</p>
         <p class="lead-stand">Neither team in the opener has been named yet, and neither has the ground &mdash; the matches will be played at ICC-approved venues in the UAE, but the league hasn&rsquo;t said which ones. The full fixture list will appear here once the Afghanistan Cricket Board publishes it.</p>
         <p class="lead-links"><a href="#points-table">APL points table</a> &middot; <a href="/apl/schedule/">APL schedule</a> &middot; <a href="#where-to-watch">Where to watch</a></p>
        <p class="note">Updated 18 November 2026 at 1:30 am AFT.</p></div>
@@ -308,7 +310,7 @@
       </div>
     </div>
     <div class="st-colophon__legal">
-      <span>Last updated: 17 November 2026</span>
+      <span>Last updated: 18 November 2026</span>
       <span>© 2026 SialTV</span>
     </div>
   </div>

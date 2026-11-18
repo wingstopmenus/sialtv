@@ -254,12 +254,40 @@
      itself is the times batch's to fix. */
   function fixEveningTime(card) {
     var result = card.querySelector('.sc-result');
-    if (!result || result.textContent.indexOf('4:30 PM NST') === -1) return;
-    setText(result, result.textContent.replace('4:30 PM NST', '5:00 PM NST'));
+    if (!result) return;
+    /* The strip now carries the time in a <span data-local-time> inside
+       .sc-result: never overwrite .sc-result wholesale — setText on it
+       would destroy that span. Fix the span itself (and its ISO) instead.
+       Staleness is checked three ways: the baked text, the span's ISO,
+       and the countdown's ISO — the module may already have rewritten
+       the text from a stale ISO, so the text alone cannot be trusted. */
+    var span = result.querySelector('[data-local-time]');
     var cd = card.querySelector('.sc-countdown[data-kickoff]');
-    if (cd) {
-      var k = cd.getAttribute('data-kickoff') || '';
-      if (k.indexOf('T10:45:00Z') !== -1) setAttr(cd, 'data-kickoff', k.replace('T10:45:00Z', 'T11:15:00Z'));
+    var staleText = result.textContent.indexOf('4:30 PM NST') !== -1;
+    var staleIso = !!span && (span.getAttribute('data-local-time') || '').indexOf('T10:45:00Z') !== -1;
+    var staleCd = !!cd && (cd.getAttribute('data-kickoff') || '').indexOf('T10:45:00Z') !== -1;
+    if (!staleText && !staleIso && !staleCd) return;
+    if (span) {
+      if (staleText && !span.getAttribute('data-local-done')) setText(span, span.textContent.replace('4:30 PM NST', '5:00 PM NST'));
+      if (staleIso) {
+        setAttr(span, 'data-local-time', span.getAttribute('data-local-time').replace('T10:45:00Z', 'T11:15:00Z'));
+        /* Already localised from the stale ISO: re-run from the fixed one. */
+        if (span.getAttribute('data-local-done')) {
+          span.removeAttribute('data-local-done');
+          if (typeof window.sialtvLocalTime === 'function') window.sialtvLocalTime();
+        }
+      }
+    } else if (staleText) {
+      setText(result, result.textContent.replace('4:30 PM NST', '5:00 PM NST'));
+    }
+    if (staleCd) {
+      setAttr(cd, 'data-kickoff', cd.getAttribute('data-kickoff').replace('T10:45:00Z', 'T11:15:00Z'));
+      /* No span: the module's fallback may already have localised this
+         line from the stale countdown ISO — re-run from the fixed one. */
+      if (!span && result.getAttribute('data-local-done')) {
+        result.removeAttribute('data-local-done');
+        if (typeof window.sialtvLocalTime === 'function') window.sialtvLocalTime();
+      }
     }
   }
 
@@ -339,20 +367,23 @@
   var MONTHS_S = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   var DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   var DAYS_S = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-  /* NST parts for an ISO kickoff: weekday, day, month, "5:00 PM". */
-  function nstParts(iso) {
-    var d = new Date(Date.parse(iso) + (5 * 60 + 45) * 60000);
-    var hh = d.getUTCHours(), mm = d.getUTCMinutes();
+  /* Visitor-local parts for an ISO kickoff: weekday, day, month, "5:00 PM".
+     Local Date getters are the visitor's zone — the same result as
+     Intl.DateTimeFormat without timeZone. Replaces the old nstParts,
+     which hardcoded NST by arithmetic. */
+  function localParts(iso) {
+    var d = new Date(Date.parse(iso));
+    var hh = d.getHours(), mm = d.getMinutes();
     var h12 = hh % 12; if (h12 === 0) h12 = 12;
-    return { mo: d.getUTCMonth(), day: d.getUTCDate(), wd: d.getUTCDay(), time: h12 + ':' + (mm < 10 ? '0' : '') + mm + ' ' + (hh >= 12 ? 'PM' : 'AM') };
+    return { mo: d.getMonth(), day: d.getDate(), wd: d.getDay(), time: h12 + ':' + (mm < 10 ? '0' : '') + mm + ' ' + (hh >= 12 ? 'PM' : 'AM') };
   }
   function fmtDateLong(isoDate) {
     var p = String(isoDate || '').split('-');
     return (+p[2]) + ' ' + MONTHS[+p[1] - 1];
   }
   function fmtVenueLine(f) {
-    var p = nstParts(f.kickoff);
-    return DAYS_S[p.wd] + ' ' + p.day + ' ' + MONTHS_S[p.mo] + ', ' + p.time + ' NST · ' + (f.venue || 'Kirtipur');
+    var p = localParts(f.kickoff);
+    return DAYS_S[p.wd] + ' ' + p.day + ' ' + MONTHS_S[p.mo] + ', ' + p.time + ' · ' + (f.venue || 'Kirtipur');
   }
   function shortTeam(name) {
     var n = heroShortName(name).split(' ');
@@ -692,19 +723,6 @@
     var d = b && b.nextElementSibling;
     if (d) d.textContent = heroShortName(m.team1) + ' vs ' + heroShortName(m.team2) + ' at ' + venueShort(m, league) + '. Open the match page for the full scorecard and result.';
   }
-  /* Match-time parts in the league's zone: NPL in NST (UTC+5:45),
-     ILT20 in GST (UTC+4). Same shape as nstParts. */
-  var TZ_OFFSET = { npl: 5 * 60 + 45, ilt20: 4 * 60 };
-  var TZ_NAME = { npl: 'NST', ilt20: 'GST' };
-  function tzParts(iso, league) {
-    var off = TZ_OFFSET[league] || 0;
-    var d = new Date(Date.parse(iso) + off * 60000);
-    var hh = d.getUTCHours(), mm = d.getUTCMinutes();
-    var h12 = hh % 12; if (h12 === 0) h12 = 12;
-    return { mo: d.getUTCMonth(), day: d.getUTCDate(), wd: d.getUTCDay(),
-      time: h12 + ':' + (mm < 10 ? '0' : '') + mm + ' ' + (hh >= 12 ? 'PM' : 'AM'),
-      tz: TZ_NAME[league] || '' };
-  }
   /* Short venue for a spotlight line: NPL is always Kirtipur; other
      leagues use the feed's venue city ("Dubai International Stadium,
      Dubai" -> "Dubai"). */
@@ -785,10 +803,10 @@
       prev = prevResultOf(r, data);
     } else if (st.next) {
       var nx = st.next;
-      var p2 = tzParts(nx.kickoff, league);
+      var p2 = localParts(nx.kickoff);
       f = { href: nx.href, kicker: 'Next match · Match ' + nx.matchNo,
         h: nx.team1 ? nx.team1 + ' vs ' + nx.team2 : (nx.label || nx.desc),
-        p: 'At ' + venueShort(nx, league) + ' on ' + DAYS[p2.wd] + ', ' + p2.day + ' ' + MONTHS[p2.mo] + ', ' + p2.time + ' ' + p2.tz + '. Open the match page for the preview.',
+        p: 'At ' + venueShort(nx, league) + ' on ' + DAYS[p2.wd] + ', ' + p2.day + ' ' + MONTHS[p2.mo] + ', ' + p2.time + '. Open the match page for the preview.',
         cta: 'Match preview' };
       prev = st.latestResult;
     }

@@ -42,15 +42,17 @@
   function fmtDateLong(iso) {
     if (!iso) return '';
     try {
-      return new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Kathmandu', weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(iso + 'T00:00:00Z'));
+      /* Date-only string: parse as local midnight (no Z, no timeZone)
+         so the calendar date itself never shifts in the visitor's zone. */
+      return new Intl.DateTimeFormat('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(iso + 'T00:00:00'));
     } catch (e) { return iso; }
   }
   function fmtHead(iso) {
     if (!iso) return '';
     try {
-      var d = new Date(iso + 'T00:00:00Z');
-      var wd = new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Kathmandu', weekday: 'short' }).format(d);
-      var dm = new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Kathmandu', day: 'numeric', month: 'short' }).format(d);
+      var d = new Date(iso + 'T00:00:00');
+      var wd = new Intl.DateTimeFormat('en-GB', { weekday: 'short' }).format(d);
+      var dm = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'short' }).format(d);
       return wd + ', ' + dm;
     } catch (e) { return iso; }
   }

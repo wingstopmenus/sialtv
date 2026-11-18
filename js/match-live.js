@@ -348,9 +348,12 @@
     var mins = Math.floor(diff / 60000);
     var hours = Math.floor(mins / 60);
     var days = Math.floor(hours / 24);
-    var _tz = (document.body && document.body.getAttribute('data-ci-league') === 'ilt20') ? 'Asia/Dubai' : 'Asia/Kathmandu';
-    var _tzLabel = _tz === 'Asia/Dubai' ? ' GST' : ' NST';
-    if (days >= 1) return 'Starts in ' + days + (days === 1 ? ' day' : ' days') + ' — ' + new Date(kick).toLocaleString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', hour: 'numeric', minute: '2-digit', timeZone: _tz }) + _tzLabel;
+    /* Visitor-local clock: Intl without timeZone renders in the
+       visitor's own zone; the duration part above is untouched.
+       hour12:true: the old branch relied on en-GB's default, which is
+       24-hour ("at 19:30") — the site convention is 12-hour ("7:30 PM",
+       en-GB renders a lowercase pm, so it is uppercased). */
+    if (days >= 1) return 'Starts in ' + days + (days === 1 ? ' day' : ' days') + ' — ' + new Date(kick).toLocaleString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', hour: 'numeric', minute: '2-digit', hour12: true }).replace(/\b(am|pm)$/i, function (m) { return m.toUpperCase(); });
     if (hours >= 1) return 'Starts in ' + hours + 'h ' + (mins % 60) + 'm';
     if (mins >= 1) return 'Starts in ' + mins + ' minutes';
     return 'Starting soon';

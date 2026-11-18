@@ -1,0 +1,134 @@
+{
+  "generated_at_utc": "2026-11-18T01:30:29Z",
+  "order": "live",
+  "counts": {
+    "all": 90,
+    "npl": 32,
+    "ilt20": 34,
+    "apl": 24
+  },
+  "cards": {
+    "all": [
+      [
+        "npl",
+        "upcoming",
+        30
+      ],
+      [
+        "ilt20",
+        "upcoming",
+        1
+      ],
+      [
+        "ilt20",
+        "upcoming",
+        2
+      ],
+      [
+        "ilt20",
+        "upcoming",
+        3
+      ],
+      [
+        "ilt20",
+        "upcoming",
+        4
+      ],
+      [
+        "npl",
+        "result",
+        29
+      ],
+      [
+        "npl",
+        "result",
+        28
+      ],
+      [
+        "npl",
+        "result",
+        27
+      ],
+      [
+        "npl",
+        "result",
+        26
+      ],
+      [
+        "npl",
+        "result",
+        25
+      ],
+      [
+        "npl",
+        "result",
+        24
+      ]
+    ],
+    "npl": [
+      [
+        "npl",
+        "upcoming",
+        30
+      ],
+      [
+        "npl",
+        "result",
+        29
+      ],
+      [
+        "npl",
+        "result",
+        28
+      ],
+      [
+        "npl",
+        "result",
+        27
+      ],
+      [
+        "npl",
+        "result",
+        26
+      ],
+      [
+        "npl",
+        "result",
+        25
+      ],
+      [
+        "npl",
+        "result",
+        24
+      ]
+    ],
+    "ilt20": [
+      [
+        "ilt20",
+        "upcoming",
+        1
+      ],
+      [
+        "ilt20",
+        "upcoming",
+        2
+      ],
+      [
+        "ilt20",
+        "upcoming",
+        3
+      ],
+      [
+        "ilt20",
+        "upcoming",
+        4
+      ]
+    ]
+  },
+  "sources": {
+    "matches.json": "npl results + teams (NPL Season 3, 28 matches)",
+    "npl-schedule.json": "npl upcoming fixtures (order + kickoff)",
+    "ilt20-live-scores.json": "ilt20 upcoming (34 matches)",
+    "live-scores.json": "feed result lines + scores when present"
+  }
+}
