@@ -1330,6 +1330,306 @@ function sialtv_map_live($headerComp, array $innings, array $summary = null): ?a
     return $out;
 }
 
+/* Cricinfo sync (2026-11-18): the result view needs fields the endpoint
+   never emitted — toss, venue, Player of the Match, officials, and the
+   summary batters'/bowlers' T20 career stats + styles. All of them come
+   from the ESPN summary this file already fetches; nothing is invented.
+   Every field is omitted (null / absent) when the summary does not carry
+   it — the JS renders what is present and omits the rest. UNTESTED here:
+   run `php -l` and smoke-test on the preview domain before pushing. */
+
+/* City (short) name for a team, the bake's POTM-row / toss form
+   (build.py TEAM_SHORT[code]: "Chitwan", "Pokhara", "Sudur Paschim").
+   The full name minus its last word (the mascot); the explicit map wins
+   for the two-word cities. Returns the full name unchanged when it cannot
+   derive one. */
+function sialtv_city_name(string $team): string
+{
+    $team = trim(preg_replace('/\s*\((NPL|ILT20|APL)\)\s*/', '', $team));
+    $map = [
+        'Sudur Paschim Royals' => 'Sudur Paschim',
+        'Chitwan Rhinos' => 'Chitwan',
+        'Pokhara Avengers' => 'Pokhara',
+        'Lumbini Lions' => 'Lumbini',
+        'Kathmandu Gorkhas' => 'Kathmandu',
+        'Biratnagar Kings' => 'Biratnagar',
+        'Janakpur Bolts' => 'Janakpur',
+        'Karnali Yaks' => 'Karnali',
+    ];
+    if (isset($map[$team])) {
+        return $map[$team];
+    }
+    $parts = preg_split('/\s+/', $team);
+    if (count($parts) > 1) {
+        array_pop($parts);
+        return implode(' ', $parts);
+    }
+    return $team;
+}
+
+/* Toss text in the baked form ("Chitwan elected to bat first").
+   Source: the SUMMARY's top-level notes (type 'toss') — NOT the event
+   competition's notes ($comp['notes'] is null, which is why the endpoint
+   returned toss null). The raw note reads "Chitwan Rhinos (NPL) ,
+   elected to bat first": strip the league suffix, fix the stray space
+   before the comma, use the city name. Returns '' when no toss note is
+   carried. */
+function sialtv_toss_text(?array $summary): string
+{
+    if (!is_array($summary)) {
+        return '';
+    }
+    foreach (($summary['notes'] ?? []) as $note) {
+        if (!is_array($note) || strtolower((string) ($note['type'] ?? '')) !== 'toss') {
+            continue;
+        }
+        $text = trim((string) ($note['text'] ?? ''));
+        if ($text === '') {
+            continue;
+        }
+        /* "Chitwan Rhinos (NPL) , elected to bat first" -> "Chitwan
+           elected to bat first". The team is the text before the first
+           comma; the rest ("elected to bat/field first") is kept. */
+        $text = preg_replace('/\s*\((NPL|ILT20|APL)\)\s*/', '', $text);
+        $text = preg_replace('/\s+,/', ',', $text);
+        $comma = strpos($text, ',');
+        if ($comma !== false) {
+            $team = trim(substr($text, 0, $comma));
+            $rest = trim(substr($text, $comma + 1));
+            if ($team !== '' && $rest !== '') {
+                return sialtv_city_name($team) . ' ' . $rest;
+            }
+        }
+        return $text;
+    }
+    return '';
+}
+
+/* Persist a toss once seen, read it back when the summary no longer
+   carries it (the toss note can drop out of the summary after the
+   match ends). One small file per event in the temp cache dir — the
+   same dir the PBP cache already uses. */
+function sialtv_toss_persist(int $eventId, string $toss): string
+{
+    $path = sys_get_temp_dir() . '/sialtv-toss-' . $eventId . '.json';
+    if ($toss !== '') {
+        @file_put_contents($path, json_encode(['toss' => $toss]));
+        return $toss;
+    }
+    if (is_file($path)) {
+        $old = json_decode((string) @file_get_contents($path), true);
+        if (is_array($old) && isset($old['toss']) && is_string($old['toss'])) {
+            return $old['toss'];
+        }
+    }
+    return '';
+}
+
+/* Player of the Match, from the summary's header competition status
+   (header.competitions[0].status.featuredAthletes, entry name
+   'playerOfTheMatch'). The figure comes from the final innings' batting
+   row (runs/balls/notOut) — the summary carries no figure. The headshot
+   is passed through ONLY when it is not the ESPN default-player-logo
+   (the baked POTM box shows no photo rather than the default logo). */
+function sialtv_player_of_match(?array $summary, array $innings): ?array
+{
+    if (!is_array($summary)) {
+        return null;
+    }
+    $comps = $summary['header']['competitions'] ?? [];
+    $status = is_array($comps) && isset($comps[0]['status']) ? $comps[0]['status'] : null;
+    if (!is_array($status)) {
+        return null;
+    }
+    foreach (($status['featuredAthletes'] ?? []) as $entry) {
+        if (!is_array($entry) || (string) ($entry['name'] ?? '') !== 'playerOfTheMatch') {
+            continue;
+        }
+        $athlete = is_array($entry['athlete'] ?? null) ? $entry['athlete'] : [];
+        $name = trim((string) ($athlete['displayName'] ?? $athlete['fullName'] ?? ''));
+        if ($name === '') {
+            return null;
+        }
+        $team = trim((string) (($entry['team']['name'] ?? '') ?: ($entry['team']['displayName'] ?? '')));
+        $team = preg_replace('/\s*\((NPL|ILT20|APL)\)\s*/', '', $team);
+        $photo = trim((string) ($athlete['headshot']['href'] ?? ''));
+        if (strpos($photo, 'default-player-logo') !== false) {
+            $photo = '';
+        }
+        $out = ['name' => $name, 'team' => $team, 'photo' => $photo !== '' ? $photo : null];
+        /* Figure from the POTM's batting row. The innings array carries
+           one entry per team per period (the team that did not bat in
+           a period is an EMPTY placeholder), so the last element is
+           often empty — e.g. M30: [KAG p1 empty, CHR p1, KAG p2, CHR p2
+           empty], Mishara batted in CHR p1. Search every innings,
+           most recent first, for the POTM's row. */
+        foreach (array_reverse($innings) as $inn) {
+            if (!is_array($inn)) {
+                continue;
+            }
+            $found = false;
+            foreach (($inn['batting'] ?? []) as $row) {
+                if (!is_array($row) || (string) ($row['name'] ?? '') !== $name) {
+                    continue;
+                }
+                $runs = (string) ($row['runs'] ?? '');
+                $balls = (string) ($row['balls'] ?? '');
+                $notOut = strtolower(trim((string) ($row['dismissal'] ?? ''))) === 'not out';
+                if ($runs !== '' && $balls !== '') {
+                    $out['runs'] = (int) $runs;
+                    $out['balls'] = (int) $balls;
+                    $out['notOut'] = $notOut;
+                    $out['figure'] = $runs . ($notOut ? '*' : '') . ' (' . $balls . ')';
+                }
+                $found = true;
+                break;
+            }
+            if ($found) {
+                break;
+            }
+        }
+        return $out;
+    }
+    return null;
+}
+
+/* Officials, from the summary's gameInfo.officials, by
+   position.displayName (the bake's officials_with_countries rule):
+   on-field umpires sorted alphabetically, country from flag.alt.
+   Returns null when the summary carries no officials. */
+function sialtv_officials(?array $summary): ?array
+{
+    if (!is_array($summary)) {
+        return null;
+    }
+    $list = $summary['gameInfo']['officials'] ?? null;
+    if (!is_array($list) || !$list) {
+        return null;
+    }
+    $out = ['umpires' => [], 'tv' => null, 'reserve' => null, 'referee' => null];
+    foreach ($list as $o) {
+        if (!is_array($o)) {
+            continue;
+        }
+        $name = trim((string) ($o['displayName'] ?? ''));
+        if ($name === '') {
+            continue;
+        }
+        $country = trim((string) ($o['flag']['alt'] ?? ''));
+        $pos = strtolower(trim((string) ($o['position']['displayName'] ?? $o['position']['name'] ?? '')));
+        $one = ['name' => $name, 'country' => $country];
+        if ($pos === 'umpire') {
+            $out['umpires'][] = $one;
+        } elseif ($pos === 'tv umpire') {
+            $out['tv'] = $one;
+        } elseif ($pos === 'reserve umpire') {
+            $out['reserve'] = $one;
+        } elseif ($pos === 'referee') {
+            $out['referee'] = $one;
+        }
+    }
+    usort($out['umpires'], static fn($a, $b) => strcmp($a['name'], $b['name']));
+    if (!$out['umpires'] && !$out['tv'] && !$out['reserve'] && !$out['referee']) {
+        return null;
+    }
+    return $out;
+}
+
+/* T20 career stats + styles onto the scorecard rows, from the summary
+   rosters (the bake's _roster_stats rule: roster entry 'stats' is a LIST
+   of {name, displayValue} — averages carry value 0, so displayValue is
+   used, never value; styles come from athlete.style shortDescriptions,
+   lowercase). ESPN carries stats only for a few players and only while
+   the match is recent — rows without stats simply carry no .career
+   (the JS omits the T20 Career columns for them). Matched by exact
+   displayName; the style is the batting style for a batting row and the
+   bowling style for a bowling row. */
+function sialtv_enrich_career(array $innings, ?array $summary): array
+{
+    if (!is_array($summary)) {
+        return $innings;
+    }
+    $byName = [];
+    foreach (($summary['rosters'] ?? []) as $side) {
+        if (!is_array($side)) {
+            continue;
+        }
+        foreach (($side['roster'] ?? []) as $player) {
+            if (!is_array($player)) {
+                continue;
+            }
+            $name = trim((string) ($player['athlete']['displayName'] ?? $player['athlete']['fullName'] ?? ''));
+            if ($name === '') {
+                continue;
+            }
+            $career = [];
+            foreach (($player['stats'] ?? []) as $s) {
+                if (is_array($s) && isset($s['name'])) {
+                    $career[(string) $s['name']] = trim((string) ($s['displayValue'] ?? ''));
+                }
+            }
+            $styles = [];
+            foreach (($player['athlete']['style'] ?? []) as $st) {
+                if (is_array($st) && isset($st['type'], $st['shortDescription'])) {
+                    $styles[strtolower((string) $st['type'])] = strtolower(trim((string) $st['shortDescription']));
+                }
+            }
+            $byName[$name] = ['career' => $career, 'styles' => $styles];
+        }
+    }
+    if (!$byName) {
+        return $innings;
+    }
+    foreach ($innings as &$g) {
+        if (!is_array($g)) {
+            continue;
+        }
+        foreach (['batting', 'bowling'] as $kind) {
+            if (!is_array($g[$kind] ?? null)) {
+                continue;
+            }
+            foreach ($g[$kind] as &$row) {
+                if (!is_array($row)) {
+                    continue;
+                }
+                $info = $byName[(string) ($row['name'] ?? '')] ?? null;
+                if ($info === null) {
+                    continue;
+                }
+                if ($kind === 'batting') {
+                    $c = $info['career'];
+                    if (isset($c['matches']) || isset($c['runs'])) {
+                        $row['career'] = [
+                            'matches' => $c['matches'] ?? '',
+                            'runs' => $c['runs'] ?? '',
+                            'highScore' => $c['highScore'] ?? '',
+                            'battingAverage' => $c['battingAverage'] ?? '',
+                        ];
+                    }
+                    if (isset($info['styles']['batting'])) {
+                        $row['style'] = $info['styles']['batting'];
+                    }
+                } else {
+                    $c = $info['career'];
+                    if (isset($c['matches']) || isset($c['wickets'])) {
+                        $row['career'] = [
+                            'matches' => $c['matches'] ?? '',
+                            'wickets' => $c['wickets'] ?? '',
+                            'bestBowlingFigures' => $c['bestBowlingFigures'] ?? '',
+                            'bowlingAverage' => $c['bowlingAverage'] ?? '',
+                        ];
+                    }
+                    if (isset($info['styles']['bowling'])) {
+                        $row['style'] = $info['styles']['bowling'];
+                    }
+                }
+            }
+            unset($row);
+        }
+    }
+    unset($g);
+    return $innings;
+}
 function sialtv_normalise_event(array $event, array $comp, ?array $summary, string $league): array
 {
     $state = strtolower((string) ($comp['status']['type']['state'] ?? 'pre'));
@@ -1368,9 +1668,17 @@ function sialtv_normalise_event(array $event, array $comp, ?array $summary, stri
     $summaryRaw = trim((string) ($comp['status']['summary'] ?? ''));
     $detail = trim((string) ($comp['status']['type']['detail'] ?? ''));
     $toss = '';
-    foreach (($comp['notes'] ?? []) as $note) {
-        if (is_array($note) && strtolower((string) ($note['type'] ?? '')) === 'toss') {
-            $toss = trim((string) ($note['text'] ?? ''));
+    /* The toss note lives in the SUMMARY's top-level notes — the event
+       competition's notes ($comp['notes']) is null, which is why the
+       endpoint returned toss null. Fall back to the comp notes, then
+       the status summary, then the persisted toss (the note can drop
+       out of the summary after the match ends). */
+    $toss = sialtv_toss_text($summary);
+    if ($toss === '') {
+        foreach (($comp['notes'] ?? []) as $note) {
+            if (is_array($note) && strtolower((string) ($note['type'] ?? '')) === 'toss') {
+                $toss = trim((string) ($note['text'] ?? ''));
+            }
         }
     }
     if ($toss === '' && preg_match('/\btoss\b/i', $summaryRaw)) {
@@ -1404,6 +1712,12 @@ function sialtv_normalise_event(array $event, array $comp, ?array $summary, stri
         $matchNo = (int) $mm[1];
     }
     $eventId = (int) ($event['id'] ?? 0);
+    /* Persist the toss once seen (the note can drop out of the summary
+       after the match ends) — and read it back when the summary no
+       longer carries one. Placed here because $eventId is defined here;
+       it runs before the summaryRaw fallback so the normalised,
+       persisted form wins over the raw status text. */
+    $toss = sialtv_toss_persist($eventId, $toss);
     $eventBase = LEAGUE_EVENT_BASE[$league] ?? 0;
     if ($matchNo === 0 && $eventBase > 0 && $eventId > $eventBase) {
         $matchNo = $eventId - $eventBase;
@@ -1421,6 +1735,7 @@ function sialtv_normalise_event(array $event, array $comp, ?array $summary, stri
     if (is_array($summary)) {
         $innings = sialtv_map_innings($summary, $name1, $name2);
         $innings = sialtv_sync_totals($innings, $name1, $score1, $overs1, $name2, $score2, $overs2);
+        $innings = sialtv_enrich_career($innings, $summary);
         $live = sialtv_map_live($headerComp, $innings, $summary);
         $overs = $live['recentOvers'] ?? [];
         $xi = sialtv_map_playing_xi($summary);
@@ -1479,11 +1794,18 @@ function sialtv_normalise_event(array $event, array $comp, ?array $summary, stri
         'status' => $status,
         'statusText' => $statusText,
         'toss' => $toss !== '' ? $toss : null,
+        'playerOfTheMatch' => sialtv_player_of_match($summary, $innings),
+        'officials' => sialtv_officials($summary),
         'score1' => $score1 !== '' ? $score1 : null,
         'score2' => $score2 !== '' ? $score2 : null,
         'overs1' => $overs1 !== '' ? $overs1 : null,
         'overs2' => $overs2 !== '' ? $overs2 : null,
-        'venue' => null,
+        /* The venue the match was played at (gameInfo.venue.fullName).
+           Was hardcoded null; the baked page carries it in Match
+           Details, and the JS renders it when present. */
+        'venue' => (is_array($summary) && trim((string) ($summary['gameInfo']['venue']['fullName'] ?? '')) !== '')
+            ? trim((string) $summary['gameInfo']['venue']['fullName'])
+            : null,
         'date' => substr((string) ($event['date'] ?? ''), 0, 10),
         'scorecard' => ['innings' => $innings],
         'commentary' => $commentary,
