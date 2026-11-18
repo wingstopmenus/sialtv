@@ -527,3 +527,28 @@ body.st-inner.league-apl .tm2-hero h1 { color:#fff; font-size:1.9rem; line-heigh
 @media (max-width:640px) {
   body.st-inner.league-apl .tm2-hero h1 { font-size:1.45rem; }
 }
+
+/* ---- FIX ROUND 4 (2026-11-18): ILT20 team pages use the NPL hub3 layout ----
+   Twins of NPL-scoped teams.css rules for body.st-inner.league-ilt20.
+   NPL-applicable rules are untouched; only these ILT20 lines are added. */
+body.st-inner.league-ilt20 .side-card { border-top: 3px solid var(--st-rose); }
+body.st-inner.league-ilt20 .hub3-right .side-card { border-top: 1px solid var(--st-line); }
+body.st-inner.league-ilt20 .hub3-left .side-card { border-top: 1px solid var(--st-line); }
+body.st-inner.league-ilt20 .st-block__head { margin: 0 0 1rem; }
+body.st-inner.league-ilt20 .st-block__head h2 { font-size: clamp(1.35rem, 2.5vw, 1.75rem); line-height: 1.2; margin: 0; border-left: 3px solid #e11d48; padding-left: .6rem; }
+body.st-inner.league-ilt20 .st-block__head h2::after { display: none; }
+body.st-inner.league-ilt20 .hub3-center h3 { font-size: 1.12rem; font-weight: 800; letter-spacing: -.01em; margin: 1.4rem 0 .5rem; }
+body.st-inner.league-ilt20 a.tm2-player { color: #090811; }
+body.st-inner.league-ilt20 .tm2-stat-row dd a, body.st-inner.league-ilt20 .tm2-detail-row dd a { color: #090811; }
+body.st-inner.league-ilt20 .hub3-center .tm2-centre-card { margin-bottom: 1.25rem; }
+body.st-inner.league-ilt20 .hub3-center .tm2-centre-card:last-child { margin-bottom: 0; }
+body.st-inner.league-ilt20 .hub3-center section > .side-card:not(.tm2-centre-card) { margin-bottom: 1.25rem; }
+@media (min-width: 981px) {
+  body.st-inner.league-ilt20 .hub3-left { align-self: stretch; }
+  body.st-inner.league-ilt20 .hub-rail-l { position: sticky; top: 5.5rem; }
+  /* Twin of NPL teams.css rule (7): 300px left / 1fr centre / 320px right.
+     Without it ILT20 falls through to the shared max-width:1199px 2-col
+     rule at 981-1199px (280px left, 684px centre) while NPL keeps 3 cols
+     (300/324/320 at 1024). Desktop >=1200 and mobile <=980 unaffected. */
+  body.st-inner.league-ilt20 .hub3 { grid-template-columns: 300px minmax(0, 1fr) 320px; }
+}

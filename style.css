@@ -3133,3 +3133,23 @@ body:has(.rx-float) .st-to-top { bottom: 5.5rem; }
 @media (prefers-reduced-motion: reduce) {
   .st-to-top { transition: none; }
 }
+
+/* ---- FIX ROUND 4 (2026-11-18): ILT20 team pages, NPL hub3 mini table ----
+   Twin of the style.css NPL rule restoring real table layout inside the
+   right rail (the site-wide fallback makes tables display:block, so the
+   mini shrink-wraps without this). */
+body.st-inner.league-ilt20 .hub3-right .table-scroll table.t-pts { display: table; width: 100%; }
+/* FIX ROUND 4 (defect 4): mini-table column widths match the NPL model
+   exactly. Auto layout sizes the TEAM column from the longest team name
+   ('Abu Dhabi Knight Riders' is longer than any NPL name), so the ILT20
+   columns drifted (108/27/28/22/40/55 vs NPL 80/32/33/27/44/65). Fixed
+   layout with the NPL-measured widths pins them; long names wrap exactly
+   as they do on the NPL model. Scoped to the team-page rail mini table
+   only — the full points-table page is unaffected. */
+body.st-inner.league-ilt20 .hub3-right .table-scroll table.t-pts { table-layout: fixed; }
+body.st-inner.league-ilt20 .hub3-right .table-scroll table.t-pts th:nth-child(1) { width: 80px; }
+body.st-inner.league-ilt20 .hub3-right .table-scroll table.t-pts th:nth-child(2) { width: 32px; }
+body.st-inner.league-ilt20 .hub3-right .table-scroll table.t-pts th:nth-child(3) { width: 33px; }
+body.st-inner.league-ilt20 .hub3-right .table-scroll table.t-pts th:nth-child(4) { width: 27px; }
+body.st-inner.league-ilt20 .hub3-right .table-scroll table.t-pts th:nth-child(5) { width: 44px; }
+body.st-inner.league-ilt20 .hub3-right .table-scroll table.t-pts th:nth-child(6) { width: 65px; }

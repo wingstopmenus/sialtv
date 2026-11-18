@@ -906,6 +906,41 @@ body.st-inner.league-ilt20 .hub3-center .pl-card:last-child { margin-bottom: 0; 
   body.st-inner.league-ilt20:not(.page-ilt20-players) .hub3 { grid-template-columns: 300px minmax(0, 1fr); }
 }
 
+/* C3. FIX ROUND 4 (2026-11-18, Defect 1 — profile sidebar overlap).
+   Root cause (measured live, Sharafu @1440): the ILT20 profile grid was
+   NOT the C2 300/1fr grid above — it computed as 4 tracks
+   (300px 0px 0px 960px) and BOTH .hub3 children sat in the 960px track,
+   so Most Viewed (x=420 y=516 w=470) overlapped Profile details
+   (x=420 y=641 w=960) by ~377px, and the left rail's cards sat side by
+   side (470+470) instead of stacked. The poison is style.css:2028/2030
+   (13 Nov 2026 "ILT20 pages" block, written for the OLD .player-grid
+   layout, which HAD grid-template-areas "left right" / "centre centre"):
+     body.st-inner.league-ilt20 .player-left  { grid-area: left;
+       display: grid; grid-template-columns: 1fr 1fr; ... }
+     body.st-inner.league-ilt20 .player-centre { grid-area: centre; ... }
+   The round-2 rebuild moved profiles onto .hub3, which defines NO
+   grid-template-areas — so the named placements ("left"/"centre") have no
+   area to land in, the grid gains implicit 0px tracks, both children fall
+   into the same track, and the rail becomes a 2-column grid. The C2 twin
+   above was present and correct; it was defeated by the placement, not by
+   a missing twin. The generic NPL behaviour is style.css:1694/1700
+   (.player-left flex column, .player-centre min-width:0, grid-area auto);
+   these ILT20 rules re-assert exactly that. The same stale rule also sets
+   align-items: start — harmless in its old grid, but lethal once this
+   override restores flex: it shrink-wraps every rail card to its content
+   (Most Viewed 233px, More Links 146-240px, vs NPL 300px), so the override
+   also resets align-items: stretch (NPL computes align-items: normal).
+   Same specificity as the stale
+   style.css rules, but this file loads AFTER style.css, so they win.
+   Scoped :not(.page-ilt20-players) like C2 so the players HUB is untouched.
+   Cleanup (coordinator, with workstream B which owns the .team-left half
+   of the same style.css block): delete the dead style.css:2022-2033
+   .player-grid/.player-left/.player-centre rules — .player-grid occurs 0x
+   in live profile markup; only these two rules still bite. Until then this
+   override keeps profiles correct even if style.css regresses. */
+body.st-inner.league-ilt20:not(.page-ilt20-players) .player-left { grid-area: auto; display: flex; flex-direction: column; gap: 1.25rem; min-width: 0; align-items: stretch; }
+body.st-inner.league-ilt20:not(.page-ilt20-players) .player-centre { grid-area: auto; min-width: 0; }
+
 /* D. Crumbs — team-page rose crumb links (teams.css
    body.league-npl .hub-crumbs .crumbs a). */
 body.st-inner.league-npl .hub-crumbs .crumbs a { color: var(--st-rose-deep); }
