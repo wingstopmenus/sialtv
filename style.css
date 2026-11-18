@@ -1090,13 +1090,15 @@ body:not(.st-home) video { max-width: 100%; }
    One footer component for the whole site: night background with a rose
    top edge, brand / Leagues / SialTV / Write to us, a full-width
    disclaimer line, then the legal row (Last updated + ©).
-   Placed AFTER the document fallback above on purpose: footer.st-colophon
-   (0,1,2) ties body:not(.st-home) footer/a and wins by source order, so
-   the footer renders identically on the homepage and on every inner page
-   with NO inline styles in the markup. Do not move this block above the
-   fallback. The old giant "SIALTV" watermark is gone on purpose — the
-   rose edge + wordmark + Contact Us button carry the identity now. */
-footer.st-colophon {
+   Placed AFTER the document fallback above on purpose: body
+   footer.st-colophon (0,1,2) ties body:not(.st-home) footer and wins by
+   source order, so the footer renders identically on the homepage and on
+   every inner page with NO inline styles in the markup. The bare
+   footer.st-colophon (0,1,1) LOSES to that fallback — that is why the body
+   prefix is here. Do not move this block above the fallback. The old giant
+   "SIALTV" watermark is gone on purpose — the rose edge + wordmark +
+   Contact Us button carry the identity now. */
+body footer.st-colophon {
   background: #08070f;
   color: #c8c4d6;
   font-family: var(--st-font);
