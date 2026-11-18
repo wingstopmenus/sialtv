@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
 <ns0:urlset xmlns:ns0="http://www.sitemaps.org/schemas/sitemap/0.9">
   <ns0:url><ns0:loc>https://sialtv.com/</ns0:loc>
-    <ns0:lastmod>2026-11-18T11:08:12Z</ns0:lastmod><ns0:changefreq>daily</ns0:changefreq><ns0:priority>1.0</ns0:priority></ns0:url>
+    <ns0:lastmod>2026-11-18T19:25:12Z</ns0:lastmod><ns0:changefreq>daily</ns0:changefreq><ns0:priority>1.0</ns0:priority></ns0:url>
 <ns0:url><ns0:loc>https://sialtv.com/live-scores/</ns0:loc>
-    <ns0:lastmod>2026-11-18T11:07:12Z</ns0:lastmod><ns0:changefreq>daily</ns0:changefreq><ns0:priority>0.9</ns0:priority></ns0:url>
+    <ns0:lastmod>2026-11-18T19:29:12Z</ns0:lastmod><ns0:changefreq>daily</ns0:changefreq><ns0:priority>0.9</ns0:priority></ns0:url>
 <ns0:url><ns0:loc>https://sialtv.com/npl/</ns0:loc>
-<ns0:lastmod>2026-11-18T11:06:12Z</ns0:lastmod><ns0:changefreq>daily</ns0:changefreq><ns0:priority>0.9</ns0:priority></ns0:url>
+<ns0:lastmod>2026-11-18T19:26:12Z</ns0:lastmod><ns0:changefreq>daily</ns0:changefreq><ns0:priority>0.9</ns0:priority></ns0:url>
 <ns0:url><ns0:loc>https://sialtv.com/npl/players/</ns0:loc>
 <ns0:lastmod>2026-11-18T10:32:12Z</ns0:lastmod><ns0:changefreq>daily</ns0:changefreq><ns0:priority>0.8</ns0:priority></ns0:url>
 <ns0:url><ns0:loc>https://sialtv.com/npl/tickets/</ns0:loc>
@@ -15,7 +15,7 @@
 <ns0:url><ns0:loc>https://sialtv.com/npl/schedule/</ns0:loc>
     <ns0:lastmod>2026-11-18T11:09:12Z</ns0:lastmod><ns0:changefreq>daily</ns0:changefreq><ns0:priority>0.8</ns0:priority></ns0:url>
 <ns0:url><ns0:loc>https://sialtv.com/npl/points-table/</ns0:loc>
-    <ns0:lastmod>2026-11-18T11:12:12Z</ns0:lastmod><ns0:changefreq>daily</ns0:changefreq><ns0:priority>0.8</ns0:priority></ns0:url>
+    <ns0:lastmod>2026-11-18T19:27:12Z</ns0:lastmod><ns0:changefreq>daily</ns0:changefreq><ns0:priority>0.8</ns0:priority></ns0:url>
 <ns0:url><ns0:loc>https://sialtv.com/ilt20/</ns0:loc>
     <ns0:lastmod>2026-11-18T07:31:35Z</ns0:lastmod><ns0:changefreq>daily</ns0:changefreq><ns0:priority>0.9</ns0:priority></ns0:url>
 <ns0:url><ns0:loc>https://sialtv.com/ilt20/schedule/</ns0:loc>
@@ -39,7 +39,7 @@
 <ns0:url><ns0:loc>https://sialtv.com/npl/teams/lumbini-lions/</ns0:loc>
     <ns0:lastmod>2026-11-18T11:18:12Z</ns0:lastmod></ns0:url>
 <ns0:url><ns0:loc>https://sialtv.com/npl/teams/chitwan-rhinos/</ns0:loc>
-    <ns0:lastmod>2026-11-18T11:14:12Z</ns0:lastmod></ns0:url>
+    <ns0:lastmod>2026-11-18T19:28:12Z</ns0:lastmod></ns0:url>
 <ns0:url><ns0:loc>https://sialtv.com/npl/teams/janakpur-bolts/</ns0:loc>
     <ns0:lastmod>2026-11-18T11:15:12Z</ns0:lastmod></ns0:url>
 <ns0:url><ns0:loc>https://sialtv.com/npl/teams/biratnagar-kings/</ns0:loc>
