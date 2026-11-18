@@ -130,3 +130,28 @@ body.page-ilt20-teams .team-captain span a { color: var(--st-ink-2); }
   body.page-ilt20-teams .team-captain { margin-left: 0; align-self: center; }
   body.page-ilt20-teams .team-captain img.tm-cap-photo { width: 4rem; height: 4rem; }
 }
+
+/* ILT20 MOBILE CARD FIX (2026-11-18, Rule 34 — one thing only): on mobile
+   the captain photo dangled alone at the bottom of the ~442px card.
+   Below 640px the photo moves into the card header, next to the logo and
+   the team code. Pure CSS: .team-body goes display:contents, so its
+   children (name + paragraphs) become flex items of the card — the name
+   and the captain block join the logo on the first row, the paragraphs
+   wrap below at full width. Scoped with :has() to cards carrying a
+   captain photo; the DC card (logo fallback, no photo) keeps the existing
+   column layout exactly as it is. Desktop untouched: every rule lives in
+   this media query and the desktop flex row is never restated. */
+@media (max-width:640px) {
+  body.page-ilt20-teams .team:has(.team-captain img.tm-cap-photo) {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0 1.15rem;
+  }
+  body.page-ilt20-teams .team:has(.team-captain img.tm-cap-photo) > img.team-logo { align-self: center; }
+  body.page-ilt20-teams .team:has(.team-captain img.tm-cap-photo) .team-body { display: contents; }
+  body.page-ilt20-teams .team:has(.team-captain img.tm-cap-photo) .team-body > b { order: 2; align-self: center; min-width: 0; }
+  body.page-ilt20-teams .team:has(.team-captain img.tm-cap-photo) .team-captain { order: 3; margin-left: auto; align-self: center; }
+  body.page-ilt20-teams .team:has(.team-captain img.tm-cap-photo) .team-body > p { order: 4; flex-basis: 100%; }
+  body.page-ilt20-teams .team:has(.team-captain img.tm-cap-photo) .team-body > p:first-of-type { margin-top: 0.75rem; }
+}
