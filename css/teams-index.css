@@ -180,3 +180,23 @@ body.st-inner.league-ilt20.page-ilt20-teams .team-body p:first-of-type { font-we
   body.st-inner.league-ilt20.page-ilt20-teams .team { padding: 0.9rem 1rem; }
   body.st-inner.league-ilt20.page-ilt20-teams .team img.tl-tile { width: 4rem; height: 4rem; }
 }
+
+/* TEAMS LOGO — BIGGER + SHARPER (2026-11-18, user order "Logo Bara Kero,
+   Logo Blurry hai Quality bhi thk kero"). Rule 34 — one thing only: the
+   logo tile grows 80px -> 120px desktop, 64px -> 96px mobile. The logo
+   sources are now 150-320px intrinsic (was 92-96px), so the bigger tile
+   stays sharp on retina (120 CSS px needs ~240 device px). Scoped to the
+   three teams INDEX pages only (body.page-*-teams) — team pages, strip,
+   points tables untouched. Specificity (0,5,2) matches the ILT20 template
+   block above and this block sits AFTER it, so it wins on source order;
+   style.css is NOT touched. object-fit: contain (style.css:1465) is
+   unchanged — wide/tall logos keep their aspect. Lavender tile + Pokhara
+   exclusion (above) unchanged — size only. */
+body.st-inner.league-npl.page-npl-teams .team img.tl-tile,
+body.st-inner.league-ilt20.page-ilt20-teams .team img.tl-tile,
+body.st-inner.league-apl.page-apl-teams .team img.tl-tile { width: 7.5rem; height: 7.5rem; }
+@media (max-width: 640px) {
+  body.st-inner.league-npl.page-npl-teams .team img.tl-tile,
+  body.st-inner.league-ilt20.page-ilt20-teams .team img.tl-tile,
+  body.st-inner.league-apl.page-apl-teams .team img.tl-tile { width: 6rem; height: 6rem; }
+}
