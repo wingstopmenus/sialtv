@@ -22,7 +22,7 @@
 <meta name="twitter:title" content="CHR 204/4 beat KAG 143/9 — NPL Match 30">
 <meta name="twitter:description" content="Chitwan Rhinos beat Kathmandu Gorkhas by 61 runs in NPL Match 30 at Kirtipur. Full scorecard, commentary, overs and points table.">
 <meta name="theme-color" content="#090811">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"CHR 204/4 beat KAG 143/9 \u2014 NPL Match 30","url":"https://sialtv.com/npl/matches/2026/match-30/","description":"Chitwan Rhinos beat Kathmandu Gorkhas by 61 runs in NPL Match 30 at Kirtipur. Full scorecard, commentary, overs and points table.","datePublished":"2026-11-18T10:45Z","dateModified":"2026-11-18T10:26:12Z"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"CHR 204/4 beat KAG 143/9 \u2014 NPL Match 30","url":"https://sialtv.com/npl/matches/2026/match-30/","description":"Chitwan Rhinos beat Kathmandu Gorkhas by 61 runs in NPL Match 30 at Kirtipur. Full scorecard, commentary, overs and points table.","datePublished":"2026-11-18T10:45Z","dateModified":"2026-11-18T11:03:12Z"}</script>
 <script type="application/ld+json">{"@type":"SportsEvent","name":"Kathmandu Gorkhas vs Chitwan Rhinos, 30th Match, Nepal Premier League","startDate":"2026-11-18T17:00:00+05:45","eventStatus":"EventCompleted","location":{"@type":"Place","name":"Tribhuvan University International Cricket Ground, Kirtipur","address":{"@type":"PostalAddress","addressLocality":"Kirtipur","addressRegion":"Bagmati","addressCountry":"NP"}},"homeTeam":{"@type":"SportsTeam","name":"Kathmandu Gorkhas"},"awayTeam":{"@type":"SportsTeam","name":"Chitwan Rhinos"},"organizer":{"@type":"SportsOrganization","name":"Nepal Premier League"}}</script>
 <script type="application/ld+json">{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"SialTV","item":"https://sialtv.com/"},{"@type":"ListItem","position":2,"name":"Nepal Premier League","item":"https://sialtv.com/npl/"},{"@type":"ListItem","position":3,"name":"Fixtures and Results","item":"https://sialtv.com/npl/schedule/"},{"@type":"ListItem","position":4,"name":"Match 30","item":"https://sialtv.com/npl/matches/2026/match-30/"}]}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -54,7 +54,7 @@
 })();
 </script>
 <a class="st-skip" href="#main">Skip to content</a>
-<header class="st-masthead" style="border-bottom:1px solid rgba(227,223,240,.85);padding-bottom:0;margin-bottom:0">
+<div id="mastheadMount"><header class="st-masthead" style="border-bottom:1px solid rgba(227,223,240,.85);padding-bottom:0;margin-bottom:0">
   <div class="st-shell st-masthead__row">
     <a class="st-wordmark" href="/" aria-label="SialTV home" style="color:#0c1022;text-decoration:none">
           <span class="st-wordmark__mark" aria-hidden="true">
@@ -63,28 +63,71 @@
           <span class="st-wordmark__text">Sial<em>TV</em></span>
         </a>
     <div class="st-menu" role="navigation" aria-label="Leagues">
-      <a href="/npl/" style="color:#3b4258;text-decoration:none">NPL</a>
-      <a href="/ilt20/" style="color:#3b4258;text-decoration:none">ILT20</a>
-      <a href="/apl/" style="color:#3b4258;text-decoration:none">APL</a>
+      <a href="/npl/">NPL</a>
+      <a href="/ilt20/">ILT20</a>
+      <a href="/apl/">APL</a>
     </div>
     <a class="st-action" href="/live-scores/">Live scores</a>
-    <button class="st-burger" type="button" aria-expanded="false" aria-controls="st-drawer" aria-label="Open menu">
-      <span></span><span></span><span></span>
-    </button>
   </div>
-  <div class="st-drawer" id="st-drawer">
-    <div class="st-shell">
-      <nav aria-label="Leagues (mobile)" style="gap:0;margin:0">
-        <a href="/npl/" style="color:#0c1022;text-decoration:none">Nepal Premier League</a>
-        <a href="/ilt20/" style="color:#0c1022;text-decoration:none">ILT20</a>
-        <a href="/apl/" style="color:#0c1022;text-decoration:none">Afghanistan Premier League</a>
-        <a href="/series/" style="color:#0c1022;text-decoration:none">All series</a>
-        <a href="/about/" style="color:#0c1022;text-decoration:none">About SialTV</a>
-      </nav>
-      <a class="st-action st-action--block" href="/live-scores/">Live scores</a>
-    </div>
-  </div>
-</header>
+</header></div>
+<script>
+(function () {
+  var mount = document.getElementById('mastheadMount');
+  if (!mount) return;
+  function loadScript(src, next) {
+    var s = document.createElement('script');
+    s.src = src;
+    s.onload = function () { if (next) next(); };
+    s.onerror = function () { if (next) next(); };
+    document.body.appendChild(s);
+  }
+  function wireBurger() {
+    var btn = document.querySelector('.st-burger');
+    var drawer = document.getElementById('st-drawer');
+    if (!btn || !drawer) return;
+    function set(open) {
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+      document.body.classList.toggle('st-nav-open', open);
+    }
+    btn.addEventListener('click', function () {
+      set(btn.getAttribute('aria-expanded') !== 'true');
+    });
+    drawer.querySelectorAll('a').forEach(function (a) {
+      a.addEventListener('click', function () { set(false); });
+    });
+  }
+  function markCurrent() {
+    var p = window.location.pathname;
+    var sections = [['/npl/', '/npl/'], ['/ilt20/', '/ilt20/'], ['/apl/', '/apl/']];
+    for (var i = 0; i < sections.length; i++) {
+      if (p === sections[i][0] || p.indexOf(sections[i][0]) === 0) {
+        var a = document.querySelector('.st-menu a[href="' + sections[i][1] + '"]');
+        if (a) a.setAttribute('aria-current', 'page');
+        var d = document.querySelector('.st-drawer nav a[href="' + sections[i][1] + '"]');
+        if (d) d.setAttribute('aria-current', 'page');
+        break;
+      }
+    }
+  }
+  function inject(html) {
+    mount.outerHTML = html;
+    wireBurger();
+    markCurrent();
+    loadScript('/js/search.js');
+  }
+  function load(attempt) {
+    fetch('/fragments/masthead.html', { credentials: 'same-origin' })
+      .then(function (r) { if (!r.ok) throw new Error('masthead ' + r.status); return r.text(); })
+      .then(inject)
+      .catch(function () {
+        if (attempt < 2) { setTimeout(function () { load(attempt + 1); }, 600); }
+        /* else: keep the skeleton header — wordmark + league links, a working header */
+      });
+  }
+  load(1);
+})();
+</script>
 
 <nav class="series-secnav" aria-label="Nepal Premier League sections"><div class="wrap secnav-row"><div class="secnav-title-wrap"><p class="secnav-title"><button type="button" class="secnav-switch" aria-haspopup="true">Nepal Premier League 2026 <span class="secnav-caret" aria-hidden="true">&#9662;</span></button></p><div class="secnav-drop"><a href="/npl/" aria-current="page">Nepal Premier League 2026</a><a href="/ilt20/">International League T20 2026&ndash;27</a><a href="/apl/">Afghanistan Premier League 2026&ndash;27</a></div></div><span class="secnav-div" aria-hidden="true"></span><div class="secnav-links"><a href="/npl/">Home</a><a href="/npl/schedule/" aria-current="page">Fixtures and Results</a><a href="/npl/points-table/">Table</a><a href="/npl/stats/">Stats</a><a href="/npl/teams/">Teams</a><a href="/npl/players/">Players</a></div></div></nav>
 <div id="stripMount"></div>
@@ -141,6 +184,7 @@
       </div>
     </div>
     <p class="ci-result" data-ci-result>Chitwan won by 61 runs</p>
+    
     <p class="ci-meta" data-ci-rr></p>
     <p class="ci-countdown" data-ci-countdown hidden><span data-ci-countdown-text></span><small data-ci-kickoff-note><span data-local-time=""></span></small></p>
     </div>
@@ -195,7 +239,7 @@
 <li><span class="ci-over">19.1</span><span class="ci-ball is-6">6</span><span class="ci-comm-text"><span class="ci-comm-head">Salahuddin Khan to Sharki, SIX</span>
 </span></li>
 </ul>
-<div class="ci-overbar"><span><b>OVER 19</b> — 6 runs — Kathmandu Gorkhas 128/9, CRR: 6.74 RRR: 77.00</span><span class="ci-overbar-sub">Bhim Sharki 16 (13) · Ganesh Gautam 3 (4) · Kamal Airee 4.0-0-18-0</span></div>
+<div class="ci-overbar"><span><b>OVER 19</b> — 6 runs — Kathmandu Gorkhas 128/9, CRR: 6.74 RRR: 77.00</span><span class="ci-overbar-sub">Bhim Sharki 16 (13) · Ganesh Gautam 3 (4) · Kamal Airee 4.0-0-16-0</span></div>
 <ul class="ci-comm">
 <li><span class="ci-over">18.6</span><span class="ci-ball ">1</span><span class="ci-comm-text"><span class="ci-comm-head">Airee to Sharki, 1 run</span>
 </span></li>
@@ -210,7 +254,7 @@
 <li><span class="ci-over">18.1</span><span class="ci-ball ">•</span><span class="ci-comm-text"><span class="ci-comm-head">Airee to Ganesh Gautam, no run</span>
 </span></li>
 </ul>
-<div class="ci-overbar"><span><b>OVER 18</b> — 8 runs, 1 wicket — Kathmandu Gorkhas 122/9, CRR: 6.78 RRR: 41.50</span><span class="ci-overbar-sub">Bhim Sharki 12 (10) · Ganesh Gautam 1 (1) · Rijan Dhakal 4.0-0-18-4</span></div>
+<div class="ci-overbar"><span><b>OVER 18</b> — 8 runs, 1 wicket — Kathmandu Gorkhas 122/9, CRR: 6.78 RRR: 41.50</span><span class="ci-overbar-sub">Bhim Sharki 12 (10) · Ganesh Gautam 1 (1) · Rijan Dhakal 4.0-0-16-4</span></div>
 <ul class="ci-comm">
 <li><span class="ci-over">17.6</span><span class="ci-ball ">•</span><span class="ci-comm-text"><span class="ci-comm-head">Dhakal to Sharki, no run</span>
 </span></li>
@@ -226,7 +270,7 @@
 <li><span class="ci-over">17.1</span><span class="ci-ball ">1</span><span class="ci-comm-text"><span class="ci-comm-head">Dhakal to Sharki, 1 run</span>
 </span></li>
 </ul>
-<div class="ci-overbar"><span><b>OVER 17</b> — 6 runs — Kathmandu Gorkhas 114/8, CRR: 6.71 RRR: 30.33</span><span class="ci-overbar-sub">Bhim Sharki 5 (6) · Santosh Yadav 10 (8) · Kamal Airee 3.0-0-12-0</span></div>
+<div class="ci-overbar"><span><b>OVER 17</b> — 6 runs — Kathmandu Gorkhas 114/8, CRR: 6.71 RRR: 30.33</span><span class="ci-overbar-sub">Bhim Sharki 5 (6) · Santosh Yadav 10 (8) · Kamal Airee 3.0-0-10-0</span></div>
 <ul class="ci-comm">
 <li><span class="ci-over">16.6</span><span class="ci-ball ">1</span><span class="ci-comm-text"><span class="ci-comm-head">Airee to Sharki, 1 run</span>
 </span></li>
@@ -346,7 +390,7 @@
 <h2>Commentary</h2>
 <p class="ci-filter-row"><button type="button" data-ci-comm-order aria-pressed="true">Newest first</button><label>Innings <select data-ci-comm-inn><option value="0">All innings</option><option value="1">1st innings</option><option value="2">2nd innings</option></select></label></p>
 <div class="ci-comm-group" data-ci-inn="2">
-<div class="ci-overbar"><span><b>OVER 20</b> — 15 runs — Kathmandu Gorkhas 143/9, CRR: 7.15</span><span class="ci-overbar-sub">Bhim Sharki 30 (17) · Ganesh Gautam 4 (6) · Salahuddin Khan 4.0-0-49-1</span></div>
+<div class="ci-overbar"><span><b>OVER 20</b> — 15 runs — Kathmandu Gorkhas 143/9, CRR: 7.15</span><span class="ci-overbar-sub">Bhim Sharki 30 (17) · Ganesh Gautam 4 (6) · Salahuddin Khan 4.0-0-47-1</span></div>
 <ul class="ci-comm">
 <li><span class="ci-over">19.6</span><span class="ci-ball ">1</span><span class="ci-comm-text"><span class="ci-comm-head">Salahuddin Khan to Sharki, 1 run</span>
 </span></li>
@@ -363,7 +407,7 @@
 </ul>
 </div>
 <div class="ci-comm-group" data-ci-inn="2">
-<div class="ci-overbar"><span><b>OVER 19</b> — 6 runs — Kathmandu Gorkhas 128/9, CRR: 6.74 RRR: 77.00</span><span class="ci-overbar-sub">Bhim Sharki 16 (13) · Ganesh Gautam 3 (4) · Kamal Airee 4.0-0-18-0</span></div>
+<div class="ci-overbar"><span><b>OVER 19</b> — 6 runs — Kathmandu Gorkhas 128/9, CRR: 6.74 RRR: 77.00</span><span class="ci-overbar-sub">Bhim Sharki 16 (13) · Ganesh Gautam 3 (4) · Kamal Airee 4.0-0-16-0</span></div>
 <ul class="ci-comm">
 <li><span class="ci-over">18.6</span><span class="ci-ball ">1</span><span class="ci-comm-text"><span class="ci-comm-head">Airee to Sharki, 1 run</span>
 </span></li>
@@ -380,7 +424,7 @@
 </ul>
 </div>
 <div class="ci-comm-group" data-ci-inn="2">
-<div class="ci-overbar"><span><b>OVER 18</b> — 8 runs, 1 wicket — Kathmandu Gorkhas 122/9, CRR: 6.78 RRR: 41.50</span><span class="ci-overbar-sub">Bhim Sharki 12 (10) · Ganesh Gautam 1 (1) · Rijan Dhakal 4.0-0-18-4</span></div>
+<div class="ci-overbar"><span><b>OVER 18</b> — 8 runs, 1 wicket — Kathmandu Gorkhas 122/9, CRR: 6.78 RRR: 41.50</span><span class="ci-overbar-sub">Bhim Sharki 12 (10) · Ganesh Gautam 1 (1) · Rijan Dhakal 4.0-0-16-4</span></div>
 <ul class="ci-comm">
 <li><span class="ci-over">17.6</span><span class="ci-ball ">•</span><span class="ci-comm-text"><span class="ci-comm-head">Dhakal to Sharki, no run</span>
 </span></li>
@@ -398,7 +442,7 @@
 </ul>
 </div>
 <div class="ci-comm-group" data-ci-inn="2">
-<div class="ci-overbar"><span><b>OVER 17</b> — 6 runs — Kathmandu Gorkhas 114/8, CRR: 6.71 RRR: 30.33</span><span class="ci-overbar-sub">Bhim Sharki 5 (6) · Santosh Yadav 10 (8) · Kamal Airee 3.0-0-12-0</span></div>
+<div class="ci-overbar"><span><b>OVER 17</b> — 6 runs — Kathmandu Gorkhas 114/8, CRR: 6.71 RRR: 30.33</span><span class="ci-overbar-sub">Bhim Sharki 5 (6) · Santosh Yadav 10 (8) · Kamal Airee 3.0-0-10-0</span></div>
 <ul class="ci-comm">
 <li><span class="ci-over">16.6</span><span class="ci-ball ">1</span><span class="ci-comm-text"><span class="ci-comm-head">Airee to Sharki, 1 run</span>
 </span></li>
@@ -415,7 +459,7 @@
 </ul>
 </div>
 <div class="ci-comm-group" data-ci-inn="2">
-<div class="ci-overbar"><span><b>OVER 16</b> — 3 runs, 1 wicket — Kathmandu Gorkhas 108/8, CRR: 6.75 RRR: 24.25</span><span class="ci-overbar-sub">Bhim Sharki 1 (2) · Santosh Yadav 8 (6) · Rijan Dhakal 3.0-0-10-3</span></div>
+<div class="ci-overbar"><span><b>OVER 16</b> — 3 runs, 1 wicket — Kathmandu Gorkhas 108/8, CRR: 6.75 RRR: 24.25</span><span class="ci-overbar-sub">Bhim Sharki 1 (2) · Santosh Yadav 8 (6) · Rijan Dhakal 3.0-0-8-3</span></div>
 <ul class="ci-comm">
 <li><span class="ci-over">15.6</span><span class="ci-ball ">•</span><span class="ci-comm-text"><span class="ci-comm-head">Dhakal to Sharki, no run</span>
 </span></li>
@@ -433,7 +477,7 @@
 </ul>
 </div>
 <div class="ci-comm-group" data-ci-inn="2">
-<div class="ci-overbar"><span><b>OVER 15</b> — 11 runs, 1 wicket — Kathmandu Gorkhas 105/7, CRR: 7.00 RRR: 20.00</span><span class="ci-overbar-sub">Sonu Devkota 6 (5) · Santosh Yadav 7 (3) · Salahuddin Khan 3.0-0-34-1</span></div>
+<div class="ci-overbar"><span><b>OVER 15</b> — 11 runs, 1 wicket — Kathmandu Gorkhas 105/7, CRR: 7.00 RRR: 20.00</span><span class="ci-overbar-sub">Sonu Devkota 6 (5) · Santosh Yadav 7 (3) · Salahuddin Khan 3.0-0-32-1</span></div>
 <ul class="ci-comm">
 <li><span class="ci-over">14.6</span><span class="ci-ball ">•</span><span class="ci-comm-text"><span class="ci-comm-head">Salahuddin Khan to Devkota, no run</span>
 </span></li>
@@ -470,7 +514,7 @@
 </ul>
 </div>
 <div class="ci-comm-group" data-ci-inn="2">
-<div class="ci-overbar"><span><b>OVER 13</b> — 15 runs — Kathmandu Gorkhas 91/4, CRR: 7.00 RRR: 16.29</span><span class="ci-overbar-sub">Sahan Arachchige 24 (12) · Karan KC 1 (7) · Ranjit Kumar 3.0-0-34-0</span></div>
+<div class="ci-overbar"><span><b>OVER 13</b> — 15 runs — Kathmandu Gorkhas 91/4, CRR: 7.00 RRR: 16.29</span><span class="ci-overbar-sub">Sahan Arachchige 24 (12) · Karan KC 1 (7) · Ranjit Kumar 3.0-0-33-0</span></div>
 <ul class="ci-comm">
 <li><span class="ci-over">12.6</span><span class="ci-ball ">1</span><span class="ci-comm-text"><span class="ci-comm-head">Kumar to Arachchige, 1 run</span>
 </span></li>
@@ -597,7 +641,7 @@
 </ul>
 </div>
 <div class="ci-comm-group" data-ci-inn="2">
-<div class="ci-overbar"><span><b>OVER 6</b> — 6 runs — Kathmandu Gorkhas 36/2, CRR: 6.00 RRR: 12.07</span><span class="ci-overbar-sub">Rashid Khan 5 (6) · William Bosisto 18 (14) · Salahuddin Khan 2.0-0-23-0</span></div>
+<div class="ci-overbar"><span><b>OVER 6</b> — 6 runs — Kathmandu Gorkhas 36/2, CRR: 6.00 RRR: 12.07</span><span class="ci-overbar-sub">Rashid Khan 5 (6) · William Bosisto 18 (14) · Salahuddin Khan 2.0-0-21-0</span></div>
 <ul class="ci-comm">
 <li><span class="ci-over">5.6</span><span class="ci-ball ">1</span><span class="ci-comm-text"><span class="ci-comm-head">Salahuddin Khan to Rashid Khan, 1 run</span>
 </span></li>
@@ -614,7 +658,7 @@
 </ul>
 </div>
 <div class="ci-comm-group" data-ci-inn="2">
-<div class="ci-overbar"><span><b>OVER 5</b> — 5 runs, 1 wicket — Kathmandu Gorkhas 30/2, CRR: 6.00 RRR: 11.67</span><span class="ci-overbar-sub">Rashid Khan 0 (1) · William Bosisto 17 (13) · Rijan Dhakal 2.0-0-7-2</span></div>
+<div class="ci-overbar"><span><b>OVER 5</b> — 5 runs, 1 wicket — Kathmandu Gorkhas 30/2, CRR: 6.00 RRR: 11.67</span><span class="ci-overbar-sub">Rashid Khan 0 (1) · William Bosisto 17 (13) · Rijan Dhakal 2.0-0-6-2</span></div>
 <ul class="ci-comm">
 <li><span class="ci-over">4.6</span><span class="ci-ball ">•</span><span class="ci-comm-text"><span class="ci-comm-head">Dhakal to Rashid Khan, no run</span>
 </span></li>
@@ -632,7 +676,7 @@
 </ul>
 </div>
 <div class="ci-comm-group" data-ci-inn="2">
-<div class="ci-overbar"><span><b>OVER 4</b> — 17 runs — Kathmandu Gorkhas 25/1, CRR: 6.25 RRR: 11.25</span><span class="ci-overbar-sub">William Bosisto 14 (10) · Sam Heazlett 2 (8) · Salahuddin Khan 1.0-0-17-0</span></div>
+<div class="ci-overbar"><span><b>OVER 4</b> — 17 runs — Kathmandu Gorkhas 25/1, CRR: 6.25 RRR: 11.25</span><span class="ci-overbar-sub">William Bosisto 14 (10) · Sam Heazlett 2 (8) · Salahuddin Khan 1.0-0-15-0</span></div>
 <ul class="ci-comm">
 <li><span class="ci-over">3.6</span><span class="ci-ball ">1lb</span><span class="ci-comm-text"><span class="ci-comm-head">Salahuddin Khan to Bosisto, 1 leg bye</span>
 </span></li>
@@ -649,7 +693,7 @@
 </ul>
 </div>
 <div class="ci-comm-group" data-ci-inn="2">
-<div class="ci-overbar"><span><b>OVER 3</b> — 3 runs — Kathmandu Gorkhas 8/1, CRR: 2.67 RRR: 11.59</span><span class="ci-overbar-sub">Sam Heazlett 1 (7) · William Bosisto 0 (5) · Kamal Airee 2.0-0-6-0</span></div>
+<div class="ci-overbar"><span><b>OVER 3</b> — 3 runs — Kathmandu Gorkhas 8/1, CRR: 2.67 RRR: 11.59</span><span class="ci-overbar-sub">Sam Heazlett 1 (7) · William Bosisto 0 (5) · Kamal Airee 2.0-0-4-0</span></div>
 <ul class="ci-comm">
 <li><span class="ci-over">2.6</span><span class="ci-ball ">•</span><span class="ci-comm-text"><span class="ci-comm-head">Airee to Heazlett, no run</span>
 </span></li>
@@ -686,7 +730,7 @@
 </ul>
 </div>
 <div class="ci-comm-group" data-ci-inn="2">
-<div class="ci-overbar"><span><b>OVER 1</b> — 3 runs — Kathmandu Gorkhas 3/0, CRR: 3.00 RRR: 10.63</span><span class="ci-overbar-sub">Sam Heazlett 0 (2) · Sahil Patel 0 (4) · Kamal Airee 1.0-0-3-0</span></div>
+<div class="ci-overbar"><span><b>OVER 1</b> — 3 runs — Kathmandu Gorkhas 3/0, CRR: 3.00 RRR: 10.63</span><span class="ci-overbar-sub">Sam Heazlett 0 (2) · Sahil Patel 0 (4) · Kamal Airee 1.0-0-2-0</span></div>
 <ul class="ci-comm">
 <li><span class="ci-over">0.6</span><span class="ci-ball ">•</span><span class="ci-comm-text"><span class="ci-comm-head">Airee to Heazlett, no run</span>
 </span></li>
@@ -707,7 +751,7 @@
 </ul>
 </div>
 <div class="ci-comm-group" data-ci-inn="1">
-<div class="ci-overbar"><span><b>OVER 20</b> — 20 runs — Chitwan Rhinos 204/4, CRR: 10.20</span><span class="ci-overbar-sub">Kushal Malla 0 (1) · Kamil Mishara 120 (59) · Karan KC 4.0-0-33-2</span></div>
+<div class="ci-overbar"><span><b>OVER 20</b> — 20 runs — Chitwan Rhinos 204/4, CRR: 10.20</span><span class="ci-overbar-sub">Kushal Malla 0 (1) · Kamil Mishara 120 (59) · Karan KC 4.0-0-32-2</span></div>
 <ul class="ci-comm">
 <li><span class="ci-over">19.6</span><span class="ci-ball ">1lb</span><span class="ci-comm-text"><span class="ci-comm-head">Karan KC to Kushal Malla, 1 leg bye</span>
 </span></li>
@@ -936,7 +980,7 @@
 </ul>
 </div>
 <div class="ci-comm-group" data-ci-inn="1">
-<div class="ci-overbar"><span><b>OVER 7</b> — 15 runs — Chitwan Rhinos 49/2, CRR: 7.00</span><span class="ci-overbar-sub">Ravi Bopara 10 (13) · Kamil Mishara 20 (13) · Santosh Yadav 2.0-0-22-0</span></div>
+<div class="ci-overbar"><span><b>OVER 7</b> — 15 runs — Chitwan Rhinos 49/2, CRR: 7.00</span><span class="ci-overbar-sub">Ravi Bopara 10 (13) · Kamil Mishara 20 (13) · Santosh Yadav 2.0-0-21-0</span></div>
 <ul class="ci-comm">
 <li><span class="ci-over">6.6</span><span class="ci-ball ">2</span><span class="ci-comm-text"><span class="ci-comm-head">Santosh Yadav to Bopara, 2 runs</span>
 </span></li>
@@ -970,7 +1014,7 @@
 </ul>
 </div>
 <div class="ci-comm-group" data-ci-inn="1">
-<div class="ci-overbar"><span><b>OVER 5</b> — 7 runs — Chitwan Rhinos 31/2, CRR: 6.20</span><span class="ci-overbar-sub">Ravi Bopara 1 (6) · Kamil Mishara 11 (8) · Santosh Yadav 1.0-0-7-0</span></div>
+<div class="ci-overbar"><span><b>OVER 5</b> — 7 runs — Chitwan Rhinos 31/2, CRR: 6.20</span><span class="ci-overbar-sub">Ravi Bopara 1 (6) · Kamil Mishara 11 (8) · Santosh Yadav 1.0-0-6-0</span></div>
 <ul class="ci-comm">
 <li><span class="ci-over">4.6</span><span class="ci-ball ">•</span><span class="ci-comm-text"><span class="ci-comm-head">Santosh Yadav to Bopara, no run</span>
 </span></li>
@@ -1135,9 +1179,9 @@
       <section id="ci-panel-table" class="ci-panel" data-ci-state="upcoming live result abandoned" role="tabpanel" hidden>
 <h2>Points Table</h2><div class="ci-scroll"><table class="ci-table"><thead><tr><th>#</th><th>Teams</th><th class="ci-num">M</th><th class="ci-num">W</th><th class="ci-num">L</th><th class="ci-num">T</th><th class="ci-num">N/R</th><th class="ci-num">Pts</th><th class="ci-num">NRR</th><th>Series Form</th><th>Next</th></tr></thead><tbody>
 <tr><td>1</td><td><span class="ci-tm-full">Lumbini Lions</span><span class="ci-tm-short">LUL</span></td><td class="ci-num">7</td><td class="ci-num">5</td><td class="ci-num">1</td><td class="ci-num">0</td><td class="ci-num">1</td><td class="ci-num"><b>11</b></td><td class="ci-num">+1.256</td><td><span class="ci-wl"><i class="is-w">W</i><i class="is-nr">A</i><i class="is-w">W</i><i class="is-w">W</i><i class="is-l">L</i><i class="is-w">W</i><i class="is-w">W</i><i class="is-w">W</i></span></td><td>Q1 · Tue 17 Nov</td></tr>
-<tr><td>2</td><td><span class="ci-tm-full">Sudur Paschim Royals</span><span class="ci-tm-short">SPR</span></td><td class="ci-num">7</td><td class="ci-num">5</td><td class="ci-num">2</td><td class="ci-num">0</td><td class="ci-num">0</td><td class="ci-num"><b>10</b></td><td class="ci-num">+0.135</td><td><span class="ci-wl"><i class="is-l">L</i><i class="is-w">W</i><i class="is-l">L</i><i class="is-w">W</i><i class="is-w">W</i><i class="is-w">W</i><i class="is-w">W</i><i class="is-l">L</i></span></td><td>Playoffs · TBC</td></tr>
+<tr><td>2</td><td><span class="ci-tm-full">Sudur Paschim Royals</span><span class="ci-tm-short">SPR</span></td><td class="ci-num">7</td><td class="ci-num">5</td><td class="ci-num">2</td><td class="ci-num">0</td><td class="ci-num">0</td><td class="ci-num"><b>10</b></td><td class="ci-num">+0.135</td><td><span class="ci-wl"><i class="is-l">L</i><i class="is-w">W</i><i class="is-l">L</i><i class="is-w">W</i><i class="is-w">W</i><i class="is-w">W</i><i class="is-w">W</i><i class="is-l">L</i></span></td><td>vs <a href="/npl/teams/chitwan-rhinos/">CHR</a></td></tr>
 <tr class="ci-hl"><td>3</td><td><span class="ci-tm-full">Kathmandu Gorkhas</span><span class="ci-tm-short">KAG</span></td><td class="ci-num">7</td><td class="ci-num">4</td><td class="ci-num">3</td><td class="ci-num">0</td><td class="ci-num">0</td><td class="ci-num"><b>8</b></td><td class="ci-num">+0.360</td><td><span class="ci-wl"><i class="is-l">L</i><i class="is-w">W</i><i class="is-w">W</i><i class="is-w">W</i><i class="is-w">W</i><i class="is-l">L</i><i class="is-l">L</i><i class="is-l">L</i></span></td><td>Playoffs · TBC</td></tr>
-<tr class="ci-hl"><td>4</td><td><span class="ci-tm-full">Chitwan Rhinos</span><span class="ci-tm-short">CHR</span></td><td class="ci-num">7</td><td class="ci-num">3</td><td class="ci-num">3</td><td class="ci-num">0</td><td class="ci-num">1</td><td class="ci-num"><b>7</b></td><td class="ci-num">+0.011</td><td><span class="ci-wl"><i class="is-w">W</i><i class="is-nr">A</i><i class="is-l">L</i><i class="is-w">W</i><i class="is-l">L</i><i class="is-w">W</i><i class="is-l">L</i><i class="is-w">W</i></span></td><td>Playoffs · TBC</td></tr>
+<tr class="ci-hl"><td>4</td><td><span class="ci-tm-full">Chitwan Rhinos</span><span class="ci-tm-short">CHR</span></td><td class="ci-num">7</td><td class="ci-num">3</td><td class="ci-num">3</td><td class="ci-num">0</td><td class="ci-num">1</td><td class="ci-num"><b>7</b></td><td class="ci-num">+0.011</td><td><span class="ci-wl"><i class="is-w">W</i><i class="is-nr">A</i><i class="is-l">L</i><i class="is-w">W</i><i class="is-l">L</i><i class="is-w">W</i><i class="is-l">L</i><i class="is-w">W</i></span></td><td>vs <a href="/npl/teams/sudurpaschim-royals/">SPR</a></td></tr>
 <tr><td>5</td><td><span class="ci-tm-full">Biratnagar Kings</span><span class="ci-tm-short">BIK</span></td><td class="ci-num">7</td><td class="ci-num">3</td><td class="ci-num">4</td><td class="ci-num">0</td><td class="ci-num">0</td><td class="ci-num"><b>6</b></td><td class="ci-num">-0.467</td><td><span class="ci-wl"><i class="is-l">L</i><i class="is-l">L</i><i class="is-w">W</i><i class="is-w">W</i><i class="is-l">L</i><i class="is-w">W</i><i class="is-l">L</i></span></td><td>—</td></tr>
 <tr><td>6</td><td><span class="ci-tm-full">Karnali Yaks</span><span class="ci-tm-short">KAY</span></td><td class="ci-num">7</td><td class="ci-num">3</td><td class="ci-num">4</td><td class="ci-num">0</td><td class="ci-num">0</td><td class="ci-num"><b>6</b></td><td class="ci-num">-0.640</td><td><span class="ci-wl"><i class="is-w">W</i><i class="is-w">W</i><i class="is-l">L</i><i class="is-l">L</i><i class="is-l">L</i><i class="is-l">L</i><i class="is-w">W</i></span></td><td>—</td></tr>
 <tr><td>7</td><td><span class="ci-tm-full">Pokhara Avengers</span><span class="ci-tm-short">POA</span></td><td class="ci-num">7</td><td class="ci-num">2</td><td class="ci-num">5</td><td class="ci-num">0</td><td class="ci-num">0</td><td class="ci-num"><b>4</b></td><td class="ci-num">-0.175</td><td><span class="ci-wl"><i class="is-l">L</i><i class="is-l">L</i><i class="is-l">L</i><i class="is-l">L</i><i class="is-w">W</i><i class="is-l">L</i><i class="is-w">W</i></span></td><td>—</td></tr>
@@ -1203,26 +1247,6 @@
 </footer>
 <script src="/js/match-live.js" defer></script>
 <script src="/js/local-time.js" defer></script>
-<script>
-(function () {
-  var btn = document.querySelector(".st-burger");
-  var drawer = document.getElementById("st-drawer");
-  if (!btn || !drawer) return;
-  function set(open) {
-    btn.setAttribute("aria-expanded", open ? "true" : "false");
-    btn.setAttribute("aria-label", open ? "Close menu" : "Open menu");
-    document.body.classList.toggle("st-nav-open", open);
-  }
-  btn.addEventListener("click", function () {
-    set(btn.getAttribute("aria-expanded") !== "true");
-  });
-  drawer.querySelectorAll("a").forEach(function (a) {
-    a.addEventListener("click", function () { set(false); });
-  });
-  document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape") set(false);
-  });
-})();
-</script>
+
 </body>
 </html>
