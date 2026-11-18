@@ -33,14 +33,15 @@
  * Hidden tabs skip work and re-tick on visibilitychange. A failed
  * fetch changes nothing on the page.
  *
- * Playing XI source (round 2, 2026-11-18): the feed's playingXI is
- * ESPN's summary roster, which is NOT always the toss XI (M30
- * Chitwan: 6 of 11 wrong — the roster is a stale/predicted list, and
- * the baked page carries squads only, never an XI). The XI is
- * resolved verified-first (a Cricinfo-verified table in this file,
- * per match, until the bake/template carries it in the baked DOM),
- * then the PBP-validated feed XI, else nothing — a wrong XI is never
- * shown. The Scorecard "Yet to bat" line is recomputed from the same
+ * Playing XI source (round 2, 2026-11-18; M30 table removed
+ * 2026-11-18 ~18:35 PKT — see VERIFIED_XI comment): the feed's
+ * playingXI is ESPN's summary roster, which is NOT always the toss
+ * XI (a stale/predicted roster can carry wrong names, and the baked
+ * page carries squads only, never an XI). The XI is resolved
+ * verified-first (a verified table in this file, per match, until
+ * the bake/template carries it in the baked DOM), then the
+ * PBP-validated feed XI, else nothing — a wrong XI is never shown.
+ * The Scorecard "Yet to bat" line is recomputed from the same
  * resolved XI when it is verified. See resolveXi / VERIFIED_XI.
  */
 (function () {
@@ -1562,12 +1563,13 @@
     }
     /* Yet to bat from the RESOLVED XI when it is verified: the
        endpoint's `yet` is roster-derived, so for a match whose feed XI
-       is wrong the yet list carries the wrong names too (M30: Bibek
-       Yadav, Kushal Malla … instead of Saif Zaib, Vesawkar …). When
-       the resolved XI is verified, yet = the XI minus everyone who
+       is wrong the yet list carries the wrong names too. When the
+       resolved XI is verified, yet = the XI minus everyone who
        batted (scorecard batting + the ball-by-ball for this period).
        Otherwise the feed's yet is left untouched. Only the batting
-       side's section is overridden — the bowling side has no yet line. */
+       side's section is overridden — the bowling side has no yet line.
+       (M30 note: the feed XI turned out to be the true XI, so no
+       verified override applies there and the feed's yet stands.) */
     var rxYet = resolveXi(m);
     if (rxYet && rxYet.source === 'verified') {
       inns.forEach(function (g) {
@@ -1674,7 +1676,8 @@
            yet-to-bat names — but ONLY when they total 11. A partial
            list (e.g. only the two not-out batters from a window
            payload) is never called a PLAYING XI. The raw feed XI is
-           never used here: for M30 its Chitwan XI is wrong 6/11. */
+           never used here: only the resolved XI (verified first,
+           else PBP-validated feed) is trusted. */
         var other = null;
         inns.forEach(function (h) {
           if (h !== g && h.team !== g.team && (h.batting || []).length) other = h;
@@ -1740,19 +1743,12 @@
     return html;
   }
 
-  /* Playing XI — SOURCE OF TRUTH (round 2, 2026-11-18). The endpoint's
-     playingXI is ESPN's summary roster, and the roster is NOT always
-     the toss XI: for M30 (Eliminator, KAG vs CHR) it is a stale /
-     predicted list — 6 of 11 Chitwan names wrong (Bibek Yadav, Kushal
-     Malla, Salahuddin Khan, Usama Mir, Ranjit Kumar, Kamal Airee in
-     place of Aakash Tripathi, Saif Zaib, Sharad Vesawkar, Yuvraj
-     Khatri, Amar Rautela, Ziaur Rahman). The baked page carries
-     SQUADS only (24 KAG + 20 CHR), never an XI — and the CHR squad
-     does not even contain the six real XI names. So the XI is resolved
-     in this order, and a wrong XI is NEVER shown:
-       (1) VERIFIED_XI below — a Cricinfo-verified XI for the match,
-           once the XI is announced (toss done, or the first ball
-           bowled). Before the toss it is NOT used: the baked "never
+  /* Playing XI — SOURCE OF TRUTH. The endpoint's playingXI is ESPN's
+     summary roster, and the roster is NOT always the toss XI — so the
+     XI is resolved in this order, and a wrong XI is NEVER shown:
+       (1) VERIFIED_XI below — a verified XI for the match, once the
+           XI is announced (toss done, or the first ball bowled).
+           Before the toss it is NOT used: the baked "never
            confirmed" note stays.
        (2) The feed XI — but ONLY if it does not contradict the
            ball-by-ball: a batter who faced a ball, or a bowler who
@@ -1760,28 +1756,20 @@
        (3) Nothing — the note/squads stay, never wrong names.
      The verified table is a stopgap until the bake/template carries
      the XI in the baked DOM (matches.json has no XI field — only
-     squads). REMOVE an entry when that match's result bake lands. */
-  var VERIFIED_XI_M30 = [
-    { team: 'Kathmandu Gorkhas (NPL)', players: [
-      { name: 'Sahil Patel' }, { name: 'Bhim Sharki' },
-      { name: 'William Bosisto' }, { name: 'Sahan Arachchige' },
-      { name: 'Rashid Khan' }, { name: 'Jahandad Khan' },
-      { name: 'Karan KC', captain: true }, { name: 'Santosh Yadav' },
-      { name: 'Sonu Devkota' }, { name: 'Sam Heazlett' },
-      { name: 'Ganesh Gautam' } ] },
-    { team: 'Chitwan Rhinos (NPL)', players: [
-      { name: 'Dev Khanal' }, { name: 'Aakash Tripathi' },
-      { name: 'Kamil Mishara', wk: true }, { name: 'Dawid Malan' },
-      { name: 'Ravi Bopara', captain: true }, { name: 'Saif Zaib' },
-      { name: 'Sharad Vesawkar' }, { name: 'Yuvraj Khatri' },
-      { name: 'Rijan Dhakal' }, { name: 'Amar Rautela' },
-      { name: 'Ziaur Rahman' } ] }
-  ];
-  /* Keys: the match id the pages carry, and the ESPN event id the
-     endpoint carries — either identifies the match. */
+     squads). REMOVE an entry when that match's result bake lands.
+     CORRECTION 2026-11-18 ~18:35 PKT: the M30 table that stood here
+     was REMOVED — live verification proved it wrong, not the feed.
+     Its six "verified" Chitwan names (Tripathi, Saif Zaib, Vesawkar,
+     Khatri, Rautela, Ziaur Rahman) appear NOWHERE in the match data,
+     while the feed XI is confirmed by the endpoint scorecard itself
+     (Bibek Yadav 8 (3), Kushal Malla 0* not out; yet: Salahuddin,
+     Usama Mir, Ranjit Kumar, Kamal Airee, Rijan Dhakal) and by live
+     bowling (Kamal Airee over 1, Rijan Dhakal over 2). The "Tripathi
+     scored 4" claim traces to Bibek Yadav's 4 in M20 (9 Nov) — the
+     wrong match. M30 therefore falls through to the validated feed
+     XI, which passes the ball-by-ball check. Never reinstate the
+     removed table. */
   var VERIFIED_XI = {
-    'npl-2026-m30': VERIFIED_XI_M30,
-    '1558611': VERIFIED_XI_M30
   };
 
   function verifiedXi(m) {
@@ -1810,7 +1798,8 @@
      a bowler who bowled, is proven stale and is rejected outright.
      Returns the feed XI, or null. (It cannot catch every wrong
      roster — a yet-to-bat name is unverifiable from live data — which
-     is why the verified table above exists for M30.) */
+     is why a verified table can be added above for a match when one
+     is truly needed.) */
   function feedXiValidated(m) {
     var xi = m.playingXI || null;
     if (!xi || xi.length < 2) return null;
@@ -1896,7 +1885,8 @@
      the tab shows ONLY the XI (Cricinfo-style); the squads stay in
      the DOM and come back if the XI ever disappears. The table comes
      from the RESOLVED XI (playingXiHtml -> resolveXi): the raw feed
-     XI is never used here — for M30 it is wrong 6/11 for Chitwan.
+     XI is never used here — only the resolved XI (verified first,
+     else PBP-validated feed) is trusted.
      Before the toss resolveXi returns null and the note stays.
      Robust note match ('never confirmed' OR 'not announced' OR
      'announced at the toss') so a wording change cannot silently
