@@ -22,7 +22,7 @@
 <meta name="twitter:title" content="SPR 176/6 beat KAY 137/7 — NPL Match 16">
 <meta name="twitter:description" content="Sudur Paschim Royals beat Karnali Yaks by 39 runs in NPL Match 16 at Kirtipur. Full scorecard, commentary, overs and points table.">
 <meta name="theme-color" content="#090811">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"SPR 176/6 beat KAY 137/7 \u2014 NPL Match 16","url":"https://sialtv.com/npl/matches/2026/match-16/","description":"Sudur Paschim Royals beat Karnali Yaks by 39 runs in NPL Match 16 at Kirtipur. Full scorecard, commentary, overs and points table.","datePublished":"2026-11-06T06:45Z","dateModified": "2026-11-18T05:52:45Z"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"SPR 176/6 beat KAY 137/7 \u2014 NPL Match 16","url":"https://sialtv.com/npl/matches/2026/match-16/","description":"Sudur Paschim Royals beat Karnali Yaks by 39 runs in NPL Match 16 at Kirtipur. Full scorecard, commentary, overs and points table.","datePublished":"2026-11-06T06:45Z","dateModified":"2026-11-18T20:23:23Z"}</script>
 <script type="application/ld+json">{"@type":"SportsEvent","name":"Karnali Yaks vs Sudur Paschim Royals, 16th Match, Nepal Premier League","startDate":"2026-11-06T12:30:00+05:45","eventStatus":"EventCompleted","location":{"@type":"Place","name":"Tribhuvan University International Cricket Ground, Kirtipur","address":{"@type":"PostalAddress","addressLocality":"Kirtipur","addressRegion":"Bagmati","addressCountry":"NP"}},"homeTeam":{"@type":"SportsTeam","name":"Karnali Yaks"},"awayTeam":{"@type":"SportsTeam","name":"Sudur Paschim Royals"},"organizer":{"@type":"SportsOrganization","name":"Nepal Premier League"}}</script>
 <script type="application/ld+json">{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"SialTV","item":"https://sialtv.com/"},{"@type":"ListItem","position":2,"name":"Nepal Premier League","item":"https://sialtv.com/npl/"},{"@type":"ListItem","position":3,"name":"Fixtures and Results","item":"https://sialtv.com/npl/schedule/"},{"@type":"ListItem","position":4,"name":"Match 16","item":"https://sialtv.com/npl/matches/2026/match-16/"}]}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -148,7 +148,9 @@
       mount.innerHTML = html;
       loadScript('/js/team-logos.js', function () {
         loadScript('/js/live-scores.js', function () {
-          loadScript('/js/flash-scores.js');
+          loadScript('/js/local-time.js', function () {
+            loadScript('/js/flash-scores.js');
+          });
         });
       });
     })
@@ -182,10 +184,11 @@
       </div>
     </div>
     <p class="ci-result" data-ci-result>Sudur Paschim won by 39 runs</p>
+    
     <p class="ci-meta" data-ci-rr></p>
-    <p class="ci-countdown" data-ci-countdown hidden><span data-ci-countdown-text></span><small data-ci-kickoff-note></small></p>
+    <p class="ci-countdown" data-ci-countdown hidden><span data-ci-countdown-text></span><small data-ci-kickoff-note><span data-local-time=""></span></small></p>
     </div>
-    <div class="ci-potm-box" data-ci-potm><img src="data:image/webp;base64,UklGRuALAABXRUJQVlA4INQLAABwMwCdASqgAKAAPpFCm0klpCKhKVT7QLASCWYA1bY13j5q/ivNjsz+j/sfAZGShd+YTzu/MB5vf4k+9v+++oB/WfO59jT0AP2M9O72Uv7b/z/3Ao3fSuI9cb2bO0eYmC55SvhnXsaAn8s/xXLX1EOmYb+nagVSi0xGMa8qn/ngQcX0eW6zXvDQ4wAuNHaamqINLrIqKEoVdSV8NLdjz9vY7aKlU7ZVzhsH5xdBP2WKcs9i7sX1Xp72PLcBRk91MCioa06Ek50UIFaA7n2zUyHvpLM3H9weSJwhSIU9nr17/HX39Mmp/5lEYwSTqVlLMWVy5paAqu/l+mWv2mfAYfzdpYs5ncech524d/pB42fiOhw29TM2rsJk3imS5GX7B8hr/xmoHfyhSsUn8em8VAfvyXF+o8RkVGn8wDEzVfDX14sQwg98k7ofVnbNJRdq1lq4X6eg2odbXSibPHaqBqk1O3JcO0KD8V3ZVBN6Jci4a2ITh+Azh5NKiJiYjoJqdpKqNao15Qq0UpN9/aBwZpfQ5Zt3s+g2QgF4BzjOOMSoTe12BAAA/vshu87JZ0JTHLmplC8H+p3TWra7SR2UOUArT5gxvwNoRmUVdRTy+x/IxQNft+rH3KL600IOTYGJ6oKNJOJAxSNFdJQ+r9y0biVixdGH68LZZHjzy2jA7L+U0RL0REhmgGlkd7jn1g1R8ytCt/iMun4bsreQkjWldDaWMShAStywZIViEOFRtwh5ECOF3vcG44WJ9nuvpuw1bqlrbfFutIeTQoARJJorIeHxOOTBD/+WPrMotCeIAIPjrVIRKV43mmMWRwcjQ6WDtdq7uZ0ePcs9zOcfW0M6ntmfFl4LrjeOHL/87dyE4EAqv5FV1mPngj30Qzf7WRYAAARNUmfGAQ2i6B4P0TZCF8xIOWePJfn4e3p80OsdOf49w9xjwfARUNaSbSAMkkCeWIKnHDDgy6PVO4PR1wBsCrETl5NXrn418yks439ftrAK3zb1NK6eZK3P3KvfkXn2pxj9Hdhc+zz4spEcYYwFt2f7DNmWFBp3vV5cpxNktiEnShssCYIgSSGEwXoR18Echj3/kKWcn/krlnfDNyPan1bny3gbk85PVvE9GsqARv7lWXkrY2RBF6XbpD/GI53I6/k+G7WjPxFdoqYu/qkKPtYpsjkXlvAgjusA14O2BORtnN+hsRIE0wutpqK8ZUn4uB6oRw9JZQ2+RFb6ZB0eYRngab++PcKCJJQdw+mMevGFce4HOcABSXHbNQG/wgZ7Gw9OoiAcIw4pwWk9sg53c7wzlJ1HjoENezr+9ramUhXDmptbg81Xgr1ne88YLygyCwmPjeSmUBwv6ACeO229H1Qe75HFAnuaD2jTEwYsVemuQkzj/PJI2OZsYym2kfVTkIW+5bxU10lc7olP/7xM+LVRXDrZ5HI63Vjx8+2TvKHZjJs5FsPSrR9MiHU2k0SkNmUee9THeqVsZhcMU+JY9R5u6PNz5V3GbzdSqAXHLNiCCmofbIZMBrrOwpWGFeiUjXj+PnHWKQpRG18c9ebwALTsdnALjlaV4IMPSoJDEwwDK+/1T+cxXMQADfCMNFS8FMHFyC6s79bLlSMfzBuzK6GPl6fFCSszUUX96G2e/DJ80aFJ1ZlZku82081TCW/xlC4oKahFMFkGN8wiJKzPbUF84gJ8kN6H0wlJAqI+3Pnea9GxhSkhPmz+O5v5PxCdm038oJVH+mumhRQAVjYfopKGHNyQ3dsDHSoDfGsr3UIuqwZmai2kR0qism1gtc/I2Ilmc90u+NWM81DYVU2Crr0J9O3obsD4jlqMluZgWUrErNDoCDKyMy60zDs9h4JK75311PTzEj7Umer2b55e8K+CnKN9KHL3l6Fy0aSCsgf9l6JFfa7f3/44PJxO/EAO1dpkvzE+g6uaeG/nkAlWbmhnt7FVqXIsJxDx7f2tEeL50aM4xp8At/8Nf+liFahVau12RCAWEq8uXzNCZuP+PqGO5vW2HRMI+Lc7Fzp+YzOt9inbl0CaBSfyXYhLtdc78KESdhuT+x45QACwh6YjreA+bEvowtQM6OuZBKkilrHeGMkstzD8zjKr9cqfivYCoSGKTA58VxEYEoGUGdvTA3t9hmHbueZLjt7Kqy/7a/q0wZuPaxglBsBD6eL+OLfKiU9qtyiVN4jmPpbFKbHZV4IRvRJNMSGRkmshziTR2PNQM5DUkpfy55kejdf8DkVFyqw1FcS7vOCInNxFXWvuewNYuO86dOIyJ7TRDcBCKCs5SB9wgDcUK5/3LoBcJQNEPno9rkqGlEc827LSloNXccRCkNHEfZC88Zopp6DGWxLtBm13T/YWaezGAmsmTzRuAQCCQ4zwUK9Q5i2R1FTSNB0bjfxfLxxH1BSXOAk04ngUrVLawl4X/JyV0kBFi9TvGwhsZEzxsatvU7jY6I+adKrsV19EOXBp5eNoOIQPoqVdGy4M7E3oo8g1k06MUMSn6YWgOVBqTXHFv8IPd2utAGvvr3rEEAPUhEQzzdhfxUd7RpNz+0S9hYzZTJ77D2dP8kCtdMLKUDGGRfIxQTmktbB+Z4u6na5qOR22aAhhFWT3v+7rL7pvRos02Jd4TlNexKWFRWxfveD6XDJ1xPiKhrjDroMGpGEJKPTD5LomhB5NCbCwe5VCAFhUbJDnO5Hue2nYAptNNGZQ5Qu4a/SWnYPmo5oJ8PgqbuzCeYkdKaIUuDw5KyQ/Hh8xPQc/3Mq5BB7puA0IPIE1gR89UYnI6Fjb8rrGRFT7o83oxFtZP7AQwSHlwYH1uKiQj/HjvbX7jfvXznZrbV1RQ4tYLrr2wgEp6HFRYzxx/Dj3LZoFt0KGf/jUfpmw+bh/j36sGBMT+bZQ8SwR34goMEfbI+ha/C9t45QNjdMLz9bToBFPsAqDn1goFVZM4NWrKbfa49b0g8JC0Jx7FdD20exvcJANlIF+qjUgH5YJJtD+KX+EqjjXt64gTOBgfPD+D006S7ox4/oOgDmLo2HWUWkPnIg5P/mtFTZPKJrqaqg+6XnIKrI3UvOZFI7fobOc8uZcG4N/3//9SL0jkpQmSSMVC7EcGOcQ3a+5Ouvgh2YEsmJv+NYfLTTembNwE79K++3mzWYFED2LiLVBp77xChdHmEztGydqZBM3V8WslYHDcSItkRTpImqjZ5UPhDUfKZdHit1jJ8zWEusyPNp4XrWLbFZmED8BpBqw4oyTH/BBriV3nY83CsEeIoplyOh2Hiv2R53Pl+Ltji5JoTNkPSgUogGotWvYJvXq4LagD+kYE6qJpP6nbPgA92fHchiC2gGfVu4I/TKsgufSbqBpPwOQtKwdEYRSj68NeTIumfudbSqD5JO9JiN3TD9E+eMHIRmAEfkAIGGh1X1dnZkoJq7/lIXRltrMXUs7Cfzh/Pe0XRxa0qWurkpxtZwbxM2UkRnKRmpfDL8uZLjp9dhCnrUQThcbFDpRgos4g0dK9tEpTiepdScwhmq9nk6EyBdto0t1hOReVzrr1oiFwyRjmX5ETBiujQStZzYSWqg+x7BCzEuWK0BwGwdGl4fa+r/iVDhCscZkxxkOkGzPvc80RsYi7O87ne9vxWVlKId92mge5yAew57J2UTjEJvXH6PDIffcHzLN3pPwyCf5Bj8/64lf+e/RB/s4oBUPkA8D+rmOP1pzB/0sw37prbS803UujLpigoT2y6hDec9/Gyn24GVE/enjdh0NWV+PQLrzfyLuIIaY5d/KK5tP/wPFXP7Cu1op+D1Zxntm0UO6AkhsvSoILlFZtbcjNGYzD5KiIxkqY4WaZY3XGT8L0IH7uuLDEp4/V+xQOMRtrPNurRNP9B6MtH5/siErOLabkXlAA5PDOA/4ThoTza0Xl/rdqR4KxjmzVOFPkTNwknomnXTgUks8XUr/QXKse6CKosrmT66jLlPt5esSa1KBklFytff6IqD4dDHUgdicgEe7X/E8UXqswWGBLXSN1oOgwIpYf3HgbMsDUxdKW0W+2VPhj6D1Zxkj7ZOH6L2AAAAA" alt="David Miller" width="48" height="48" loading="lazy"><div class="ci-potm-text"><span>Player of the Match</span><b><a href="/npl/players/david-miller/">David Miller</a></b><span class="ci-potm-fig">93* (55) &amp; 1 catch</span></div></div>
+    <div class="ci-potm-box" data-ci-potm><img src="data:image/webp;base64,UklGRuALAABXRUJQVlA4INQLAABwMwCdASqgAKAAPpFCm0klpCKhKVT7QLASCWYA1bY13j5q/ivNjsz+j/sfAZGShd+YTzu/MB5vf4k+9v+++oB/WfO59jT0AP2M9O72Uv7b/z/3Ao3fSuI9cb2bO0eYmC55SvhnXsaAn8s/xXLX1EOmYb+nagVSi0xGMa8qn/ngQcX0eW6zXvDQ4wAuNHaamqINLrIqKEoVdSV8NLdjz9vY7aKlU7ZVzhsH5xdBP2WKcs9i7sX1Xp72PLcBRk91MCioa06Ek50UIFaA7n2zUyHvpLM3H9weSJwhSIU9nr17/HX39Mmp/5lEYwSTqVlLMWVy5paAqu/l+mWv2mfAYfzdpYs5ncech524d/pB42fiOhw29TM2rsJk3imS5GX7B8hr/xmoHfyhSsUn8em8VAfvyXF+o8RkVGn8wDEzVfDX14sQwg98k7ofVnbNJRdq1lq4X6eg2odbXSibPHaqBqk1O3JcO0KD8V3ZVBN6Jci4a2ITh+Azh5NKiJiYjoJqdpKqNao15Qq0UpN9/aBwZpfQ5Zt3s+g2QgF4BzjOOMSoTe12BAAA/vshu87JZ0JTHLmplC8H+p3TWra7SR2UOUArT5gxvwNoRmUVdRTy+x/IxQNft+rH3KL600IOTYGJ6oKNJOJAxSNFdJQ+r9y0biVixdGH68LZZHjzy2jA7L+U0RL0REhmgGlkd7jn1g1R8ytCt/iMun4bsreQkjWldDaWMShAStywZIViEOFRtwh5ECOF3vcG44WJ9nuvpuw1bqlrbfFutIeTQoARJJorIeHxOOTBD/+WPrMotCeIAIPjrVIRKV43mmMWRwcjQ6WDtdq7uZ0ePcs9zOcfW0M6ntmfFl4LrjeOHL/87dyE4EAqv5FV1mPngj30Qzf7WRYAAARNUmfGAQ2i6B4P0TZCF8xIOWePJfn4e3p80OsdOf49w9xjwfARUNaSbSAMkkCeWIKnHDDgy6PVO4PR1wBsCrETl5NXrn418yks439ftrAK3zb1NK6eZK3P3KvfkXn2pxj9Hdhc+zz4spEcYYwFt2f7DNmWFBp3vV5cpxNktiEnShssCYIgSSGEwXoR18Echj3/kKWcn/krlnfDNyPan1bny3gbk85PVvE9GsqARv7lWXkrY2RBF6XbpD/GI53I6/k+G7WjPxFdoqYu/qkKPtYpsjkXlvAgjusA14O2BORtnN+hsRIE0wutpqK8ZUn4uB6oRw9JZQ2+RFb6ZB0eYRngab++PcKCJJQdw+mMevGFce4HOcABSXHbNQG/wgZ7Gw9OoiAcIw4pwWk9sg53c7wzlJ1HjoENezr+9ramUhXDmptbg81Xgr1ne88YLygyCwmPjeSmUBwv6ACeO229H1Qe75HFAnuaD2jTEwYsVemuQkzj/PJI2OZsYym2kfVTkIW+5bxU10lc7olP/7xM+LVRXDrZ5HI63Vjx8+2TvKHZjJs5FsPSrR9MiHU2k0SkNmUee9THeqVsZhcMU+JY9R5u6PNz5V3GbzdSqAXHLNiCCmofbIZMBrrOwpWGFeiUjXj+PnHWKQpRG18c9ebwALTsdnALjlaV4IMPSoJDEwwDK+/1T+cxXMQADfCMNFS8FMHFyC6s79bLlSMfzBuzK6GPl6fFCSszUUX96G2e/DJ80aFJ1ZlZku82081TCW/xlC4oKahFMFkGN8wiJKzPbUF84gJ8kN6H0wlJAqI+3Pnea9GxhSkhPmz+O5v5PxCdm038oJVH+mumhRQAVjYfopKGHNyQ3dsDHSoDfGsr3UIuqwZmai2kR0qism1gtc/I2Ilmc90u+NWM81DYVU2Crr0J9O3obsD4jlqMluZgWUrErNDoCDKyMy60zDs9h4JK75311PTzEj7Umer2b55e8K+CnKN9KHL3l6Fy0aSCsgf9l6JFfa7f3/44PJxO/EAO1dpkvzE+g6uaeG/nkAlWbmhnt7FVqXIsJxDx7f2tEeL50aM4xp8At/8Nf+liFahVau12RCAWEq8uXzNCZuP+PqGO5vW2HRMI+Lc7Fzp+YzOt9inbl0CaBSfyXYhLtdc78KESdhuT+x45QACwh6YjreA+bEvowtQM6OuZBKkilrHeGMkstzD8zjKr9cqfivYCoSGKTA58VxEYEoGUGdvTA3t9hmHbueZLjt7Kqy/7a/q0wZuPaxglBsBD6eL+OLfKiU9qtyiVN4jmPpbFKbHZV4IRvRJNMSGRkmshziTR2PNQM5DUkpfy55kejdf8DkVFyqw1FcS7vOCInNxFXWvuewNYuO86dOIyJ7TRDcBCKCs5SB9wgDcUK5/3LoBcJQNEPno9rkqGlEc827LSloNXccRCkNHEfZC88Zopp6DGWxLtBm13T/YWaezGAmsmTzRuAQCCQ4zwUK9Q5i2R1FTSNB0bjfxfLxxH1BSXOAk04ngUrVLawl4X/JyV0kBFi9TvGwhsZEzxsatvU7jY6I+adKrsV19EOXBp5eNoOIQPoqVdGy4M7E3oo8g1k06MUMSn6YWgOVBqTXHFv8IPd2utAGvvr3rEEAPUhEQzzdhfxUd7RpNz+0S9hYzZTJ77D2dP8kCtdMLKUDGGRfIxQTmktbB+Z4u6na5qOR22aAhhFWT3v+7rL7pvRos02Jd4TlNexKWFRWxfveD6XDJ1xPiKhrjDroMGpGEJKPTD5LomhB5NCbCwe5VCAFhUbJDnO5Hue2nYAptNNGZQ5Qu4a/SWnYPmo5oJ8PgqbuzCeYkdKaIUuDw5KyQ/Hh8xPQc/3Mq5BB7puA0IPIE1gR89UYnI6Fjb8rrGRFT7o83oxFtZP7AQwSHlwYH1uKiQj/HjvbX7jfvXznZrbV1RQ4tYLrr2wgEp6HFRYzxx/Dj3LZoFt0KGf/jUfpmw+bh/j36sGBMT+bZQ8SwR34goMEfbI+ha/C9t45QNjdMLz9bToBFPsAqDn1goFVZM4NWrKbfa49b0g8JC0Jx7FdD20exvcJANlIF+qjUgH5YJJtD+KX+EqjjXt64gTOBgfPD+D006S7ox4/oOgDmLo2HWUWkPnIg5P/mtFTZPKJrqaqg+6XnIKrI3UvOZFI7fobOc8uZcG4N/3//9SL0jkpQmSSMVC7EcGOcQ3a+5Ouvgh2YEsmJv+NYfLTTembNwE79K++3mzWYFED2LiLVBp77xChdHmEztGydqZBM3V8WslYHDcSItkRTpImqjZ5UPhDUfKZdHit1jJ8zWEusyPNp4XrWLbFZmED8BpBqw4oyTH/BBriV3nY83CsEeIoplyOh2Hiv2R53Pl+Ltji5JoTNkPSgUogGotWvYJvXq4LagD+kYE6qJpP6nbPgA92fHchiC2gGfVu4I/TKsgufSbqBpPwOQtKwdEYRSj68NeTIumfudbSqD5JO9JiN3TD9E+eMHIRmAEfkAIGGh1X1dnZkoJq7/lIXRltrMXUs7Cfzh/Pe0XRxa0qWurkpxtZwbxM2UkRnKRmpfDL8uZLjp9dhCnrUQThcbFDpRgos4g0dK9tEpTiepdScwhmq9nk6EyBdto0t1hOReVzrr1oiFwyRjmX5ETBiujQStZzYSWqg+x7BCzEuWK0BwGwdGl4fa+r/iVDhCscZkxxkOkGzPvc80RsYi7O87ne9vxWVlKId92mge5yAew57J2UTjEJvXH6PDIffcHzLN3pPwyCf5Bj8/64lf+e/RB/s4oBUPkA8D+rmOP1pzB/0sw37prbS803UujLpigoT2y6hDec9/Gyn24GVE/enjdh0NWV+PQLrzfyLuIIaY5d/KK5tP/wPFXP7Cu1op+D1Zxntm0UO6AkhsvSoILlFZtbcjNGYzD5KiIxkqY4WaZY3XGT8L0IH7uuLDEp4/V+xQOMRtrPNurRNP9B6MtH5/siErOLabkXlAA5PDOA/4ThoTza0Xl/rdqR4KxjmzVOFPkTNwknomnXTgUks8XUr/QXKse6CKosrmT66jLlPt5esSa1KBklFytff6IqD4dDHUgdicgEe7X/E8UXqswWGBLXSN1oOgwIpYf3HgbMsDUxdKW0W+2VPhj6D1Zxkj7ZOH6L2AAAAA" alt="" width="48" height="48" loading="lazy"><div class="ci-potm-text"><span>Player of the Match</span><b><a href="/npl/players/david-miller/">David Miller</a></b><span class="ci-potm-fig">93* (55) &amp; 1 catch</span></div></div>
     </div>
   </div>
 
@@ -733,7 +736,7 @@
 </ul>
 </div>
 <div class="ci-comm-group" data-ci-inn="1">
-<div class="ci-overbar"><span><b>OVER 20</b> — 12 runs — Sudur Paschim Royals 176/6, CRR: 8.80</span><span class="ci-overbar-sub">Scott Kuggeleijn 13 (6) · Tharindu Ratnayake 22 (12) · Nandan Yadav 4.0-0-38-1</span></div>
+<div class="ci-overbar"><span><b>OVER 20</b> — 12 runs — Sudur Paschim Royals 176/6, CRR: 8.80</span><span class="ci-overbar-sub">Scott Kuggeleijn 13 (6) · Tharindu Ratnayake 22 (12) · Nandan Yadav 4.0-0-33-1</span></div>
 <ul class="ci-comm">
 <li><span class="ci-over">19.6</span><span class="ci-ball ">2</span><span class="ci-comm-text"><span class="ci-comm-head">Yadav to Kuggeleijn, 2 runs</span>
 </span></li>
@@ -789,7 +792,7 @@
 </ul>
 </div>
 <div class="ci-comm-group" data-ci-inn="1">
-<div class="ci-overbar"><span><b>OVER 17</b> — 12 runs, 1 wicket — Sudur Paschim Royals 142/5, CRR: 8.35</span><span class="ci-overbar-sub">Aarif Sheikh 9 (10) · Tharindu Ratnayake 5 (3) · Mark Watt 4.0-0-28-2</span></div>
+<div class="ci-overbar"><span><b>OVER 17</b> — 12 runs, 1 wicket — Sudur Paschim Royals 142/5, CRR: 8.35</span><span class="ci-overbar-sub">Aarif Sheikh 9 (10) · Tharindu Ratnayake 5 (3) · Mark Watt 4.0-0-27-2</span></div>
 <ul class="ci-comm">
 <li><span class="ci-over">16.6</span><span class="ci-ball ">1</span><span class="ci-comm-text"><span class="ci-comm-head">Watt to Aarif Sheikh, 1 run</span>
 </span></li>
@@ -807,7 +810,7 @@
 </ul>
 </div>
 <div class="ci-comm-group" data-ci-inn="1">
-<div class="ci-overbar"><span><b>OVER 16</b> — 11 runs — Sudur Paschim Royals 130/4, CRR: 8.12</span><span class="ci-overbar-sub">Ishan Pandey 17 (11) · Aarif Sheikh 8 (9) · Nandan Yadav 3.0-0-26-1</span></div>
+<div class="ci-overbar"><span><b>OVER 16</b> — 11 runs — Sudur Paschim Royals 130/4, CRR: 8.12</span><span class="ci-overbar-sub">Ishan Pandey 17 (11) · Aarif Sheikh 8 (9) · Nandan Yadav 3.0-0-21-1</span></div>
 <ul class="ci-comm">
 <li><span class="ci-over">15.6</span><span class="ci-ball ">1lb</span><span class="ci-comm-text"><span class="ci-comm-head">Yadav to Pandey, 1 bye</span>
 </span></li>
@@ -843,7 +846,7 @@
 </ul>
 </div>
 <div class="ci-comm-group" data-ci-inn="1">
-<div class="ci-overbar"><span><b>OVER 14</b> — 3 runs, 1 wicket — Sudur Paschim Royals 107/4, CRR: 7.64</span><span class="ci-overbar-sub">Aarif Sheikh 1 (3) · Ishan Pandey 3 (5) · Nandan Yadav 2.0-0-15-1</span></div>
+<div class="ci-overbar"><span><b>OVER 14</b> — 3 runs, 1 wicket — Sudur Paschim Royals 107/4, CRR: 7.64</span><span class="ci-overbar-sub">Aarif Sheikh 1 (3) · Ishan Pandey 3 (5) · Nandan Yadav 2.0-0-11-1</span></div>
 <ul class="ci-comm">
 <li><span class="ci-over">13.6</span><span class="ci-ball ">•</span><span class="ci-comm-text"><span class="ci-comm-head">Yadav to Aarif Sheikh, no run</span>
 </span></li>
@@ -880,7 +883,7 @@
 </ul>
 </div>
 <div class="ci-comm-group" data-ci-inn="1">
-<div class="ci-overbar"><span><b>OVER 12</b> — 3 runs, 1 wicket — Sudur Paschim Royals 95/3, CRR: 7.92</span><span class="ci-overbar-sub">Ishan Pandey 0 (2) · Brandon McMullen 17 (10) · Mark Watt 3.0-0-16-1</span></div>
+<div class="ci-overbar"><span><b>OVER 12</b> — 3 runs, 1 wicket — Sudur Paschim Royals 95/3, CRR: 7.92</span><span class="ci-overbar-sub">Ishan Pandey 0 (2) · Brandon McMullen 17 (10) · Mark Watt 3.0-0-15-1</span></div>
 <ul class="ci-comm">
 <li><span class="ci-over">11.6</span><span class="ci-ball ">•</span><span class="ci-comm-text"><span class="ci-comm-head">Watt to Pandey, no run</span>
 </span></li>
@@ -1002,7 +1005,7 @@
 </ul>
 </div>
 <div class="ci-comm-group" data-ci-inn="1">
-<div class="ci-overbar"><span><b>OVER 5</b> — 6 runs — Sudur Paschim Royals 51/0, CRR: 10.20</span><span class="ci-overbar-sub">Saif Zaib 21 (14) · Binod Bhandari 24 (16) · Mark Watt 2.0-0-13-0</span></div>
+<div class="ci-overbar"><span><b>OVER 5</b> — 6 runs — Sudur Paschim Royals 51/0, CRR: 10.20</span><span class="ci-overbar-sub">Saif Zaib 21 (14) · Binod Bhandari 24 (16) · Mark Watt 2.0-0-12-0</span></div>
 <ul class="ci-comm">
 <li><span class="ci-over">4.6</span><span class="ci-ball is-4">4</span><span class="ci-comm-text"><span class="ci-comm-head">Watt to Zaib, FOUR</span>
 </span></li>
@@ -1019,7 +1022,7 @@
 </ul>
 </div>
 <div class="ci-comm-group" data-ci-inn="1">
-<div class="ci-overbar"><span><b>OVER 4</b> — 12 runs — Sudur Paschim Royals 45/0, CRR: 11.25</span><span class="ci-overbar-sub">Binod Bhandari 24 (14) · Saif Zaib 16 (10) · Nandan Yadav 1.0-0-12-0</span></div>
+<div class="ci-overbar"><span><b>OVER 4</b> — 12 runs — Sudur Paschim Royals 45/0, CRR: 11.25</span><span class="ci-overbar-sub">Binod Bhandari 24 (14) · Saif Zaib 16 (10) · Nandan Yadav 1.0-0-8-0</span></div>
 <ul class="ci-comm">
 <li><span class="ci-over">3.6</span><span class="ci-ball ">•</span><span class="ci-comm-text"><span class="ci-comm-head">Yadav to Bhandari, no run</span>
 </span></li>
@@ -1165,12 +1168,12 @@
       <section id="ci-panel-table" class="ci-panel" data-ci-state="upcoming live result abandoned" role="tabpanel" hidden>
 <h2>Points Table</h2><div class="ci-scroll"><table class="ci-table"><thead><tr><th>#</th><th>Teams</th><th class="ci-num">M</th><th class="ci-num">W</th><th class="ci-num">L</th><th class="ci-num">T</th><th class="ci-num">N/R</th><th class="ci-num">Pts</th><th class="ci-num">NRR</th><th>Series Form</th><th>Next</th></tr></thead><tbody>
 <tr><td>1</td><td><span class="ci-tm-full">Lumbini Lions</span><span class="ci-tm-short">LUL</span></td><td class="ci-num">4</td><td class="ci-num">3</td><td class="ci-num">0</td><td class="ci-num">0</td><td class="ci-num">1</td><td class="ci-num"><b>7</b></td><td class="ci-num">+2.789</td><td><span class="ci-wl"><i class="is-w">W</i><i class="is-nr">A</i><i class="is-w">W</i><i class="is-w">W</i><i class="is-l">L</i><i class="is-w">W</i><i class="is-w">W</i><i class="is-w">W</i></span></td><td>Q1 · Tue 17 Nov</td></tr>
-<tr class="ci-hl"><td>2</td><td><span class="ci-tm-full">Sudur Paschim Royals</span><span class="ci-tm-short">SPR</span></td><td class="ci-num">5</td><td class="ci-num">3</td><td class="ci-num">2</td><td class="ci-num">0</td><td class="ci-num">0</td><td class="ci-num"><b>6</b></td><td class="ci-num">-0.275</td><td><span class="ci-wl"><i class="is-l">L</i><i class="is-w">W</i><i class="is-l">L</i><i class="is-w">W</i><i class="is-w">W</i><i class="is-w">W</i><i class="is-w">W</i><i class="is-l">L</i></span></td><td>Playoffs · TBC</td></tr>
-<tr><td>3</td><td><span class="ci-tm-full">Kathmandu Gorkhas</span><span class="ci-tm-short">KAG</span></td><td class="ci-num">3</td><td class="ci-num">2</td><td class="ci-num">1</td><td class="ci-num">0</td><td class="ci-num">0</td><td class="ci-num"><b>4</b></td><td class="ci-num">+1.133</td><td><span class="ci-wl"><i class="is-l">L</i><i class="is-w">W</i><i class="is-w">W</i><i class="is-w">W</i><i class="is-w">W</i><i class="is-l">L</i><i class="is-l">L</i></span></td><td>vs <a href="/npl/teams/chitwan-rhinos/">CHR</a></td></tr>
+<tr class="ci-hl"><td>2</td><td><span class="ci-tm-full">Sudur Paschim Royals</span><span class="ci-tm-short">SPR</span></td><td class="ci-num">5</td><td class="ci-num">3</td><td class="ci-num">2</td><td class="ci-num">0</td><td class="ci-num">0</td><td class="ci-num"><b>6</b></td><td class="ci-num">-0.275</td><td><span class="ci-wl"><i class="is-l">L</i><i class="is-w">W</i><i class="is-l">L</i><i class="is-w">W</i><i class="is-w">W</i><i class="is-w">W</i><i class="is-w">W</i><i class="is-l">L</i></span></td><td>vs <a href="/npl/teams/chitwan-rhinos/">CHR</a></td></tr>
+<tr><td>3</td><td><span class="ci-tm-full">Kathmandu Gorkhas</span><span class="ci-tm-short">KAG</span></td><td class="ci-num">3</td><td class="ci-num">2</td><td class="ci-num">1</td><td class="ci-num">0</td><td class="ci-num">0</td><td class="ci-num"><b>4</b></td><td class="ci-num">+1.133</td><td><span class="ci-wl"><i class="is-l">L</i><i class="is-w">W</i><i class="is-w">W</i><i class="is-w">W</i><i class="is-w">W</i><i class="is-l">L</i><i class="is-l">L</i><i class="is-l">L</i></span></td><td>Playoffs · TBC</td></tr>
 <tr><td>4</td><td><span class="ci-tm-full">Janakpur Bolts</span><span class="ci-tm-short">JAB</span></td><td class="ci-num">5</td><td class="ci-num">2</td><td class="ci-num">3</td><td class="ci-num">0</td><td class="ci-num">0</td><td class="ci-num"><b>4</b></td><td class="ci-num">-0.083</td><td><span class="ci-wl"><i class="is-l">L</i><i class="is-w">W</i><i class="is-w">W</i><i class="is-l">L</i><i class="is-l">L</i><i class="is-l">L</i><i class="is-l">L</i></span></td><td>—</td></tr>
 <tr class="ci-hl"><td>5</td><td><span class="ci-tm-full">Karnali Yaks</span><span class="ci-tm-short">KAY</span></td><td class="ci-num">4</td><td class="ci-num">2</td><td class="ci-num">2</td><td class="ci-num">0</td><td class="ci-num">0</td><td class="ci-num"><b>4</b></td><td class="ci-num">-0.268</td><td><span class="ci-wl"><i class="is-w">W</i><i class="is-w">W</i><i class="is-l">L</i><i class="is-l">L</i><i class="is-l">L</i><i class="is-l">L</i><i class="is-w">W</i></span></td><td>—</td></tr>
 <tr><td>6</td><td><span class="ci-tm-full">Biratnagar Kings</span><span class="ci-tm-short">BIK</span></td><td class="ci-num">5</td><td class="ci-num">2</td><td class="ci-num">3</td><td class="ci-num">0</td><td class="ci-num">0</td><td class="ci-num"><b>4</b></td><td class="ci-num">-0.820</td><td><span class="ci-wl"><i class="is-l">L</i><i class="is-l">L</i><i class="is-w">W</i><i class="is-w">W</i><i class="is-l">L</i><i class="is-w">W</i><i class="is-l">L</i></span></td><td>—</td></tr>
-<tr><td>7</td><td><span class="ci-tm-full">Chitwan Rhinos</span><span class="ci-tm-short">CHR</span></td><td class="ci-num">3</td><td class="ci-num">1</td><td class="ci-num">1</td><td class="ci-num">0</td><td class="ci-num">1</td><td class="ci-num"><b>3</b></td><td class="ci-num">-0.486</td><td><span class="ci-wl"><i class="is-w">W</i><i class="is-nr">A</i><i class="is-l">L</i><i class="is-w">W</i><i class="is-l">L</i><i class="is-w">W</i><i class="is-l">L</i></span></td><td>vs <a href="/npl/teams/kathmandu-gorkhas/">KAG</a></td></tr>
+<tr><td>7</td><td><span class="ci-tm-full">Chitwan Rhinos</span><span class="ci-tm-short">CHR</span></td><td class="ci-num">3</td><td class="ci-num">1</td><td class="ci-num">1</td><td class="ci-num">0</td><td class="ci-num">1</td><td class="ci-num"><b>3</b></td><td class="ci-num">-0.486</td><td><span class="ci-wl"><i class="is-w">W</i><i class="is-nr">A</i><i class="is-l">L</i><i class="is-w">W</i><i class="is-l">L</i><i class="is-w">W</i><i class="is-l">L</i><i class="is-w">W</i></span></td><td>vs <a href="/npl/teams/sudurpaschim-royals/">SPR</a></td></tr>
 <tr><td>8</td><td><span class="ci-tm-full">Pokhara Avengers</span><span class="ci-tm-short">POA</span></td><td class="ci-num">3</td><td class="ci-num">0</td><td class="ci-num">3</td><td class="ci-num">0</td><td class="ci-num">0</td><td class="ci-num"><b>0</b></td><td class="ci-num">-1.770</td><td><span class="ci-wl"><i class="is-l">L</i><i class="is-l">L</i><i class="is-l">L</i><i class="is-l">L</i><i class="is-w">W</i><i class="is-l">L</i><i class="is-w">W</i></span></td><td>—</td></tr>
 </tbody></table></div><p>Top four teams qualify for the playoffs.</p><p>Standings are updated with the completion of each game.</p><p class="ci-note">M = matches played · W = won · L = lost · T = tied · N/R = abandoned · PTS = points awarded · NRR = net run rate</p>      </section>
 
@@ -1185,53 +1188,51 @@
 </div>
 </main>
 
-<footer class="st-colophon" style="color:#c8c4d6">
+<footer class="st-colophon">
   <div class="st-shell">
-    <div class="st-colophon__grid">
-      <div>
-        <a class="st-wordmark" href="/" aria-label="SialTV home" style="text-decoration:none">
+    <div class="st-colophon__top">
+      <div class="st-colophon__brand">
+        <a class="st-wordmark" href="/" aria-label="SialTV home">
           <span class="st-wordmark__mark" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="13" rx="2"/><path d="M8 21h8M12 18v3"/></svg>
           </span>
           <span class="st-wordmark__text">Sial<em>TV</em></span>
         </a>
         <p class="st-colophon__blurb">Independent coverage of cricket league schedules, live scores, points tables and where to watch.</p>
-        <p class="st-colophon__blurb">This is an independent informational website. It is not affiliated with or endorsed by any league, club, board or federation.</p>
       </div>
-      <div>
+      <div class="st-colophon__col">
         <h2>Leagues</h2>
-        <ul style="margin:0;padding:0;list-style:none">
-          <li><a href="/npl/" style="color:#c8c4d6;text-decoration:none">Nepal Premier League</a></li>
-          <li><a href="/ilt20/" style="color:#c8c4d6;text-decoration:none">ILT20</a></li>
-          <li><a href="/apl/" style="color:#c8c4d6;text-decoration:none">Afghanistan Premier League</a></li>
-          <li><a href="/series/" style="color:#c8c4d6;text-decoration:none">All series</a></li>
+        <ul>
+          <li><a href="/npl/">Nepal Premier League</a></li>
+          <li><a href="/ilt20/">ILT20</a></li>
+          <li><a href="/apl/">Afghanistan Premier League</a></li>
+          <li><a href="/series/">All series</a></li>
         </ul>
       </div>
-      <div>
+      <div class="st-colophon__col">
         <h2>SialTV</h2>
-        <ul style="margin:0;padding:0;list-style:none">
-          <li><a href="/about/" style="color:#c8c4d6;text-decoration:none">About</a></li>
-          <li><a href="/authors/" style="color:#c8c4d6;text-decoration:none">Authors</a></li>
-          <li><a href="/author/asad-sial/" style="color:#c8c4d6;text-decoration:none">Asad Sial</a></li>
-          <li><a href="/contact/" style="color:#c8c4d6;text-decoration:none">Contact Us</a></li>
-          <li><a href="/privacy-policy/" style="color:#c8c4d6;text-decoration:none">Privacy Policy</a></li>
-          <li><a href="/disclaimer/" style="color:#c8c4d6;text-decoration:none">Disclaimer</a></li>
-          <li><a href="/terms-and-conditions/" style="color:#c8c4d6;text-decoration:none">Terms and Conditions</a></li>
+        <ul>
+          <li><a href="/about/">About</a></li>
+          <li><a href="/contact/">Contact Us</a></li>
+          <li><a href="/privacy-policy/">Privacy Policy</a></li>
+          <li><a href="/disclaimer/">Disclaimer</a></li>
+          <li><a href="/terms-and-conditions/">Terms and Conditions</a></li>
         </ul>
       </div>
-      <div>
+      <div class="st-colophon__contact">
         <h2>Write to us</h2>
+        <a class="st-colophon__contact-btn" href="/contact/">Contact Us</a>
         <a class="st-colophon__mail" href="mailto:contact@sialtv.com">contact@sialtv.com</a>
         <p>Corrections, missing fixtures and new leagues — tell us and it will be checked.</p>
       </div>
     </div>
     <div class="st-colophon__legal">
-      <span>Last updated: 18 November 2026</span>
-      <span>© 2026 SialTV</span>
+      <span>© 2026 SialTV. All Rights Reserved.</span>
     </div>
   </div>
 </footer>
 <script src="/js/match-live.js" defer></script>
+<script src="/js/local-time.js" defer></script>
 
 </body>
 </html>

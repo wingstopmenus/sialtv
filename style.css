@@ -1124,7 +1124,11 @@ footer.st-colophon h2 {
   text-transform: uppercase;
   margin-bottom: 1rem;
 }
-footer.st-colophon a { color: #c8c4d6; transition: color var(--st-ease); }
+/* 2026-11-19 footer rollout: text-decoration none lives here, not only in
+   body.st-inner a — utility pages (about, 404, authors …) have a bare
+   <body> with no st-inner/st-home class, so without this the UA default
+   underlines every footer link on those 16 pages. */
+footer.st-colophon a { color: #c8c4d6; text-decoration: none; transition: color var(--st-ease); }
 /* Column links need their own rule: body.st-inner a / body.league-npl a
    (0,1,2) sit later in this file and beat the bare rule above. The ul
    descendant lifts this to (0,2,3) on every body class, without touching

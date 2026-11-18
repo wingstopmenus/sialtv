@@ -22,7 +22,7 @@
 <meta name="twitter:title" content="POA 217/3 beat KAY 154/10 — NPL Match 19">
 <meta name="twitter:description" content="Pokhara Avengers beat Karnali Yaks by 63 runs in NPL Match 19 at Kirtipur. Full scorecard, commentary, overs and points table.">
 <meta name="theme-color" content="#090811">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"POA 217/3 beat KAY 154/10 \u2014 NPL Match 19","url":"https://sialtv.com/npl/matches/2026/match-19/","description":"Pokhara Avengers beat Karnali Yaks by 63 runs in NPL Match 19 at Kirtipur. Full scorecard, commentary, overs and points table.","datePublished":"2026-11-09T06:45Z","dateModified": "2026-11-18T05:52:45Z"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"POA 217/3 beat KAY 154/10 \u2014 NPL Match 19","url":"https://sialtv.com/npl/matches/2026/match-19/","description":"Pokhara Avengers beat Karnali Yaks by 63 runs in NPL Match 19 at Kirtipur. Full scorecard, commentary, overs and points table.","datePublished":"2026-11-09T06:45Z","dateModified":"2026-11-18T20:23:23Z"}</script>
 <script type="application/ld+json">{"@type":"SportsEvent","name":"Karnali Yaks vs Pokhara Avengers, 19th Match, Nepal Premier League","startDate":"2026-11-09T12:30:00+05:45","eventStatus":"EventCompleted","location":{"@type":"Place","name":"Tribhuvan University International Cricket Ground, Kirtipur","address":{"@type":"PostalAddress","addressLocality":"Kirtipur","addressRegion":"Bagmati","addressCountry":"NP"}},"homeTeam":{"@type":"SportsTeam","name":"Karnali Yaks"},"awayTeam":{"@type":"SportsTeam","name":"Pokhara Avengers"},"organizer":{"@type":"SportsOrganization","name":"Nepal Premier League"}}</script>
 <script type="application/ld+json">{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"SialTV","item":"https://sialtv.com/"},{"@type":"ListItem","position":2,"name":"Nepal Premier League","item":"https://sialtv.com/npl/"},{"@type":"ListItem","position":3,"name":"Fixtures and Results","item":"https://sialtv.com/npl/schedule/"},{"@type":"ListItem","position":4,"name":"Match 19","item":"https://sialtv.com/npl/matches/2026/match-19/"}]}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -148,7 +148,9 @@
       mount.innerHTML = html;
       loadScript('/js/team-logos.js', function () {
         loadScript('/js/live-scores.js', function () {
-          loadScript('/js/flash-scores.js');
+          loadScript('/js/local-time.js', function () {
+            loadScript('/js/flash-scores.js');
+          });
         });
       });
     })
@@ -182,10 +184,11 @@
       </div>
     </div>
     <p class="ci-result" data-ci-result>Pokhara won by 63 runs</p>
+    
     <p class="ci-meta" data-ci-rr></p>
-    <p class="ci-countdown" data-ci-countdown hidden><span data-ci-countdown-text></span><small data-ci-kickoff-note></small></p>
+    <p class="ci-countdown" data-ci-countdown hidden><span data-ci-countdown-text></span><small data-ci-kickoff-note><span data-local-time=""></span></small></p>
     </div>
-    <div class="ci-potm-box" data-ci-potm><img src="data:image/webp;base64,UklGRpAMAABXRUJQVlA4IIQMAABwNQCdASqgAKAAPmEskkakIqGhKfOp2IAMCWNu3V66OonT6Hzs7Q/oOCuQtYj9Yv6K3qHmM/Zv1Xf9d6w/NE/0fWsegb0rX7h/tV7NGDCtT9W/2n5bcgjqPzJ+xb8X1xdpst7AB9X+/31aPCfmq/7L1s/1XiyUAvzn/3/7h7QmjF63/83uD/rpvuJk/ZbmknrYZQkBPbKNlEvN2QsFjRoCRDyO6SvqAF9mPxzRS8fY3hSIMtuJ2DyZ1ajEhSvC+FLQFsM5k9SzZcNmH8TMSSV1QGBiWwdPom9QwgP48r47O8SFv4oFcmL/NCWAzdytPQzVHv3qgZMl1TdIHg9yjS7jeWGPpuYaCV+NiSMIYpe7R7kkIiOV/rvVvGDo5Xc3MLgKgNLcwoJIUlAFyQneem+b2ZCkHJV6jjaUL4ugvssq4aUkpn1QJv9dqQYz/9Qjbvh2Av26w6TdsCV+4Zc7Ugz83OaPfbAgKXoJFNAtzWHszfbG5r2ZddxJiru75uuV7yJkYOVcBFREdXwMeOgROhAt6ZrXIq/8cydDFP2aOatcoke3oN8pZtlEHsiK2oD3ysCq/6rAAP77/1/ERArzPsx7555Fccp0pdosbncMgaYNfJ8i4zsEOorvxm1pE+Yas1lPjGynxAgsgKlQ8SKm4SltqAZJyD0sQkUQmgv92pK9XPkCleM9B8xFYexT0KnDvFqC0OLffPLSwtwMD67D3vjwNDryFZQ5b4GBrXP1ZG1tMy/yGotKCk8Gq/UsQKnDackpjxlTfKZLzcPg1w44IjOxmLHwPcqN1++XMmxbdNtcz10+SNR6ifv+WkAhfQeRWUDLl4gkdUU01H8oAvU1F68DLBpVNB+Ff08rPFzWFCc3XaO1TfgVqb25TDk+NZ2LFfDlOHyoMRpV1HFj8qP4WMbwrQMFwgSKtijaTSExrp9InrAA/17vcMrpzTA8wVZTkXNCliSOE1T4Ipz0WIvr7aFP/9qYxy3cXX/ZZWP6dSt39e+RcMglTOiVAnMsxyEyH9azwdx2HmdY9EZynzQYcgF9QZDrUaeUaMbZpnspxfwKL7iyHpKJChlGmSL6+hqEOmekhWZ+9s9PKcDMhlaHdk9cUNfxd9xGNE0lgVf4BfLYaTRISgLYaSQEa9gF9i+V+fBH/SYdiat9y5yaEpJY2o/ikW8l25iI5lMk4VBFN1yqMpE270Lk6n6lelbwQLezNj5lThC1lJACFtvDB2v4uBhejaRZ3BmMPycOfyd+eK+XOVEOLRwHBVF7ZYhpnu3Wl5YaAdI190Cq3XsYwxc29c2c0ckccB2GLnWXA4h1kSt4Fytv+pdhGXH/CyGAc29QOJt/Eh8bgU+s7aNUnrsBU7M/D3AVqb0H8WvSQnmYWh7M8pQJsfa3O5qz2xPXsk6rZ9VlShhdejnmpamzIjWoxhQg4FUq88q9lBsUXHKjd+25ZFcwv54RUikGwiaRpxSzMlbVEj1LyxJIbalAkZqvxG10g/D4KaLLbTMZTyAPpH/1Z3LMRWVd6IldBprp13wFPhxk+1QuyVYjGkoaxpRkPbaRN3DCvfodgpmUTvkFXLRX7MAEO//5Zu5cidvvaY/ERgYR8RzNi3CtstbAaHlMoYtoBijz6uJEG/uXd+Tc6IDxQ0GPFkjUdABtSC0vq8uhkax7v0DUu7z3TpWwMbgCfZQKFN8jP0N2XzGG9HyvSSG0vBhh7WkmuxO6c80QpeZJg27AZ9j+fpuit8QOT+deII85SyXGcjzWZYZxfIEWzenk+PWq1Y0zFx/WEGyDInfVUsrr0pF/WXJ8oXjYwSbAubqVZaxkwld5oDTbud0/221eaGAYOL1Kpgh3Z3meBqFUDmaD+sjDh3q2IoetmT39daUm5vPJ+H1vlZENnx7Dy7aVcL/3lMj5JFtrkj60hXpxMiBAV0wAXhJR5CGmQLNQrjki/4WstiAubS19n6SqEO2geRFZ5HZGs5WKbEDUOIw+hhi/dVm0SJI5W/SnAU4FnLqzSZmRPNs9Pm7ryVWAmpyy7DHSRt3EteIsJU369zx2Zq4qoYgaKW34pv35M/CG8RzfAp1/238//IuasEovYPMV/Pxw/3vh8oKKzs1j0ob7gtzAY0fHfikct/FJQhvCDz2FhJeSf3wSoM0ojadpUfVAk++DxfXvW3uLGJYJ6/TvZhK7WZnO+T63R3WHWUFjivnlX8IC8OcZ4zDlYAOjTQYurhFYB6ts1B+iPdSenEe4jp7C1328n6PutTYFWfYPPG6KCHU7aULf6DjHo/+YpUIrm0f8aEX1wxQpvUuiLGWQDoftb5IQ5p2evilJUPxrgW5cUaQfDGXpmCg6DD8E9JNIsxQ9//rFjxSJpdgdv/rIwt78X7+zFxuAgTnheKyqU0RdUdhTRF9qO2fJc5ec5+V1vAlsUk92W1XhCYC61291ieR3isTu0TUtS3IW3VWxF0nnw60ZOS3TewsL8prVN4axU3O1+OrIIVqs9LgaMBSYHzL48Dsc0P4DH8VHBB2Wnqlj/0kBAhiY6yivmu2JTq99KhWGSQvTDwGy5lFoEUg4FI8C39KiImZKHs84F0leBh+AipirGE3Rg1EWeGr3JXveOMaiOvwnxO1FxX+wRy9IYDQ/CRLA65XGStVxXxn8y7Ka8xnhg19DvwvFAMwlPhqnp9fSzWQclNY+Mz+gfLiF9d95h+mcA19PbHT4NIhuZrgKN1Hiu//dJ6d7alcbFyraLxC7Qo/yRlTvS+YFj0IciWAKsRq/OAGwuictuft/w38vTLSNHDrWstSNDdRfu+rzh0I3bQFbW5B346mo6fmL08HDaE3JRyzOT6xCTqzhcY62MpXzF7GGSWdl+vfkv/P40AeFclbnAJfp506LfGoPKwADOUB2KvqAtauDH8lFzbTf3Te6u2oz9rP/Lhqf8GnYgPCsuFBPLnRhapHy0o02+ysNHnHt3bH7DCSPaRfL/bxZ0J9sunFqQEFWtaidLlbSp38W/Dd3MM2/els32/PKsjywaDqWvUOH6d5XHyy/n9XP1oTOjVQ1SrF+urXknFI3IjPPI7eM4w1FaDJAnTpRObUVI4j8bcGLRJ8HXmQV1IPXG1aU0CiDVtldAaeLYl6/sqxLNewZ1gQJGXFw94MEn6CakOOEvfQkJXHgZZkyGRF49E7t57NtHfAMiFjSohOVPk08125pnmexqQCLLQocawIIMEwUvP9aVO6LEGkk/S+/yhsLi+Ei1aAVVTq5nM9kpak6c2tv20OCuIaX6VkLsrJsX1gm4WVn1ucLx7u+JE6WIAayOBTYAhD0+8r/TGeU58BNluVD3WkemexaXA/RoeRaN109zdOp2wYh+3fx2RYCy8x6vho49Spyegb2DF2mIqTuzuLUYuTaBKox6DeRDRmw2oT8esXt0UP/xcEjfRhh5KfN4SR5+aD7aqDf/18dqZE3s+30ApqfsolT1NVqUJ+Xh3jeEMSzmUSeyReyB7uJjBgigGNqCMyGbp55a/5J6uPp0YF3viYFKoNGmuuyclRkBHc8iTjuF6G7OIi6m2BUNIN/y/TgIAN/ECvjWHL+88dkGwXL8P7NhZfRi78Tfw4vOJe4anqqZjeQWXC10+H32DC95vuc5eQGirIt8oH2IpVYgOe9R/QiyEVBK99cpKkaiOO7FXcHjED3qlwQ7FTqU0ZxCvAXQg0Hhnp2lEyvvxfLnvfQBtMfdx6GSESvW/l4PSX/fqhCM+vXnffXf+n/HQimkF33wGJ4mW/FwzpDHE+6nNvs/zpX6aoLwjGoLEROYBTbMj5pt0FGwq6G2COqqYqtvu/79zbQ3OESbrq42455zdHM/va04+zLAa9ZgeV/xdIEVOkfWqQ/6nvuyHjt/XVDSKNe2Ajo0h2FwjvgNiuuLuHiZnes8UvWlSlyhYUZviMa4/UrgJkH4K+1R3Wy/8gypoe0ymEYvxWvlEyCPD7228WcL+TPnsdJmgnDGdrl1/f7z4gwDWVWF3T40ZLmX+x3Eg9jCKZ5pyxBqF2wObn8LJuTC559ZieqPwPffU6V4FccJfMsr+FiPMVEY+1TRGchtI8pUtaa4lSD8bwOoHGTHt3bjedQX3mT6c5//RmhY9/CltZAlDH4Twzr7gfYhNXpwIwJDMJ5Wjr9plsM0WVo0DzOtkwaRNzq6gZ98R4OPipqPghWv7PSCwVof/JDVNPfuhwSrTObedLcTKvs7V5Hkx8t720DeVG8uHaXFwOo8TBTxJCKC8cXTSA7hN4HovpkfZhHwovAyNNRbx1jyxgAAAA=" alt="Yuvraaj Samra" width="48" height="48" loading="lazy"><div class="ci-potm-text"><span>Player of the Match</span><b><a href="/npl/players/yuvraaj-samra/">Yuvraaj Samra</a></b><span class="ci-potm-fig">102 (48)</span></div></div>
+    <div class="ci-potm-box" data-ci-potm><img src="data:image/webp;base64,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" alt="" width="48" height="48" loading="lazy"><div class="ci-potm-text"><span>Player of the Match</span><b><a href="/npl/players/yuvraaj-samra/">Yuvraaj Samra</a></b><span class="ci-potm-fig">102 (48)</span></div></div>
     </div>
   </div>
 
@@ -249,7 +252,7 @@
 <li><span class="ci-over">17.1</span><span class="ci-ball ">1</span><span class="ci-comm-text"><span class="ci-comm-head">Bhurtel to Surya Tamang, 1 run</span>
 </span></li>
 </ul>
-<div class="ci-overbar"><span><b>OVER 17</b> — 7 runs, 1 wicket — Karnali Yaks 140/9, CRR: 8.24 RRR: 26.00</span><span class="ci-overbar-sub">Surya Tamang 2 (2) · Nandan Yadav 2 (5) · Dhananjaya Lakshan 4.0-0-25-2</span></div>
+<div class="ci-overbar"><span><b>OVER 17</b> — 7 runs, 1 wicket — Karnali Yaks 140/9, CRR: 8.24 RRR: 26.00</span><span class="ci-overbar-sub">Surya Tamang 2 (2) · Nandan Yadav 2 (5) · Dhananjaya Lakshan 4.0-0-24-2</span></div>
 <ul class="ci-comm">
 <li><span class="ci-over">16.6</span><span class="ci-ball ">1</span><span class="ci-comm-text"><span class="ci-comm-head">Lakshan to Surya Tamang, 1 run</span>
 </span></li>
@@ -269,7 +272,7 @@
 <li><span class="ci-over">16.1</span><span class="ci-ball is-wide">1w</span><span class="ci-comm-text"><span class="ci-comm-head">Lakshan to Sarraf, 1 wide</span>
 </span></li>
 </ul>
-<div class="ci-overbar"><span><b>OVER 16</b> — 3 runs — Karnali Yaks 133/8, CRR: 8.31 RRR: 21.25</span><span class="ci-overbar-sub">Nandan Yadav 1 (3) · Pawan Sarraf 31 (28) · Mahedi Hasan 4.0-0-25-3</span></div>
+<div class="ci-overbar"><span><b>OVER 16</b> — 3 runs — Karnali Yaks 133/8, CRR: 8.31 RRR: 21.25</span><span class="ci-overbar-sub">Nandan Yadav 1 (3) · Pawan Sarraf 31 (28) · Mahedi Hasan 4.0-0-24-3</span></div>
 <ul class="ci-comm">
 <li><span class="ci-over">15.6</span><span class="ci-ball ">•</span><span class="ci-comm-text"><span class="ci-comm-head">Mahedi Hasan to Yadav, no run</span>
 </span></li>
@@ -420,7 +423,7 @@
 </ul>
 </div>
 <div class="ci-comm-group" data-ci-inn="2">
-<div class="ci-overbar"><span><b>OVER 17</b> — 7 runs, 1 wicket — Karnali Yaks 140/9, CRR: 8.24 RRR: 26.00</span><span class="ci-overbar-sub">Surya Tamang 2 (2) · Nandan Yadav 2 (5) · Dhananjaya Lakshan 4.0-0-25-2</span></div>
+<div class="ci-overbar"><span><b>OVER 17</b> — 7 runs, 1 wicket — Karnali Yaks 140/9, CRR: 8.24 RRR: 26.00</span><span class="ci-overbar-sub">Surya Tamang 2 (2) · Nandan Yadav 2 (5) · Dhananjaya Lakshan 4.0-0-24-2</span></div>
 <ul class="ci-comm">
 <li><span class="ci-over">16.6</span><span class="ci-ball ">1</span><span class="ci-comm-text"><span class="ci-comm-head">Lakshan to Surya Tamang, 1 run</span>
 </span></li>
@@ -442,7 +445,7 @@
 </ul>
 </div>
 <div class="ci-comm-group" data-ci-inn="2">
-<div class="ci-overbar"><span><b>OVER 16</b> — 3 runs — Karnali Yaks 133/8, CRR: 8.31 RRR: 21.25</span><span class="ci-overbar-sub">Nandan Yadav 1 (3) · Pawan Sarraf 31 (28) · Mahedi Hasan 4.0-0-25-3</span></div>
+<div class="ci-overbar"><span><b>OVER 16</b> — 3 runs — Karnali Yaks 133/8, CRR: 8.31 RRR: 21.25</span><span class="ci-overbar-sub">Nandan Yadav 1 (3) · Pawan Sarraf 31 (28) · Mahedi Hasan 4.0-0-24-3</span></div>
 <ul class="ci-comm">
 <li><span class="ci-over">15.6</span><span class="ci-ball ">•</span><span class="ci-comm-text"><span class="ci-comm-head">Mahedi Hasan to Yadav, no run</span>
 </span></li>
@@ -486,7 +489,7 @@
 </ul>
 </div>
 <div class="ci-comm-group" data-ci-inn="2">
-<div class="ci-overbar"><span><b>OVER 14</b> — 11 runs — Karnali Yaks 121/6, CRR: 8.64 RRR: 16.17</span><span class="ci-overbar-sub">Sompal Kami 18 (16) · Pawan Sarraf 27 (22) · Mahedi Hasan 3.0-0-22-3</span></div>
+<div class="ci-overbar"><span><b>OVER 14</b> — 11 runs — Karnali Yaks 121/6, CRR: 8.64 RRR: 16.17</span><span class="ci-overbar-sub">Sompal Kami 18 (16) · Pawan Sarraf 27 (22) · Mahedi Hasan 3.0-0-21-3</span></div>
 <ul class="ci-comm">
 <li><span class="ci-over">13.6</span><span class="ci-ball ">2</span><span class="ci-comm-text"><span class="ci-comm-head">Mahedi Hasan to Sompal Kami, 2 runs</span>
 </span></li>
@@ -765,7 +768,7 @@
 </ul>
 </div>
 <div class="ci-comm-group" data-ci-inn="1">
-<div class="ci-overbar"><span><b>OVER 19</b> — 23 runs — Pokhara Avengers 203/3, CRR: 10.68</span><span class="ci-overbar-sub">Chamika Karunaratne 24 (7) · Nandan Yadav 4.0-0-43-0</span></div>
+<div class="ci-overbar"><span><b>OVER 19</b> — 23 runs — Pokhara Avengers 203/3, CRR: 10.68</span><span class="ci-overbar-sub">Chamika Karunaratne 24 (7) · Nandan Yadav 4.0-0-41-0</span></div>
 <ul class="ci-comm">
 <li><span class="ci-over">18.6</span><span class="ci-ball ">1</span><span class="ci-comm-text"><span class="ci-comm-head">Yadav to Karunaratne, 1 run</span>
 </span></li>
@@ -782,7 +785,7 @@
 </ul>
 </div>
 <div class="ci-comm-group" data-ci-inn="1">
-<div class="ci-overbar"><span><b>OVER 18</b> — 10 runs, 1 wicket — Pokhara Avengers 180/3, CRR: 10.00</span><span class="ci-overbar-sub">Chamika Karunaratne 1 (1) · Sompal Kami 4.0-0-25-2</span></div>
+<div class="ci-overbar"><span><b>OVER 18</b> — 10 runs, 1 wicket — Pokhara Avengers 180/3, CRR: 10.00</span><span class="ci-overbar-sub">Chamika Karunaratne 1 (1) · Sompal Kami 4.0-0-24-2</span></div>
 <ul class="ci-comm">
 <li><span class="ci-over">17.6</span><span class="ci-ball ">1</span><span class="ci-comm-text"><span class="ci-comm-head">Sompal Kami to Karunaratne, 1 run</span>
 </span></li>
@@ -802,7 +805,7 @@
 </ul>
 </div>
 <div class="ci-comm-group" data-ci-inn="1">
-<div class="ci-overbar"><span><b>OVER 17</b> — 6 runs — Pokhara Avengers 170/2, CRR: 10.00</span><span class="ci-overbar-sub">Kushal Bhurtel 54 (34) · Nandan Yadav 3.0-0-20-0</span></div>
+<div class="ci-overbar"><span><b>OVER 17</b> — 6 runs — Pokhara Avengers 170/2, CRR: 10.00</span><span class="ci-overbar-sub">Kushal Bhurtel 54 (34) · Nandan Yadav 3.0-0-18-0</span></div>
 <ul class="ci-comm">
 <li><span class="ci-over">16.6</span><span class="ci-ball ">•</span><span class="ci-comm-text"><span class="ci-comm-head">Yadav to Sunny, no run</span>
 </span></li>
@@ -837,7 +840,7 @@
 </ul>
 </div>
 <div class="ci-comm-group" data-ci-inn="1">
-<div class="ci-overbar"><span><b>OVER 15</b> — 7 runs — Pokhara Avengers 161/1, CRR: 10.73</span><span class="ci-overbar-sub">Yuvraaj Samra 101 (46) · Kushal Bhurtel 50 (28) · Sompal Kami 3.0-0-15-1</span></div>
+<div class="ci-overbar"><span><b>OVER 15</b> — 7 runs — Pokhara Avengers 161/1, CRR: 10.73</span><span class="ci-overbar-sub">Yuvraaj Samra 101 (46) · Kushal Bhurtel 50 (28) · Sompal Kami 3.0-0-14-1</span></div>
 <ul class="ci-comm">
 <li><span class="ci-over">14.6</span><span class="ci-ball ">1</span><span class="ci-comm-text"><span class="ci-comm-head">Sompal Kami to Samra, 1 run</span>
 </span></li>
@@ -1015,7 +1018,7 @@
 </ul>
 </div>
 <div class="ci-comm-group" data-ci-inn="1">
-<div class="ci-overbar"><span><b>OVER 5</b> — 2 runs, 1 wicket — Pokhara Avengers 29/1, CRR: 5.80</span><span class="ci-overbar-sub">Kushal Bhurtel 2 (3) · Yuvraaj Samra 21 (11) · Sompal Kami 2.0-0-8-1</span></div>
+<div class="ci-overbar"><span><b>OVER 5</b> — 2 runs, 1 wicket — Pokhara Avengers 29/1, CRR: 5.80</span><span class="ci-overbar-sub">Kushal Bhurtel 2 (3) · Yuvraaj Samra 21 (11) · Sompal Kami 2.0-0-7-1</span></div>
 <ul class="ci-comm">
 <li><span class="ci-over">4.6</span><span class="ci-ball ">•</span><span class="ci-comm-text"><span class="ci-comm-head">Sompal Kami to Bhurtel, no run</span>
 </span></li>
@@ -1067,7 +1070,7 @@
 </ul>
 </div>
 <div class="ci-comm-group" data-ci-inn="1">
-<div class="ci-overbar"><span><b>OVER 2</b> — 6 runs — Pokhara Avengers 15/0, CRR: 7.50</span><span class="ci-overbar-sub">Yuvraaj Samra 12 (6) · Mahedi Hasan 2 (6) · Sompal Kami 1.0-0-6-0</span></div>
+<div class="ci-overbar"><span><b>OVER 2</b> — 6 runs — Pokhara Avengers 15/0, CRR: 7.50</span><span class="ci-overbar-sub">Yuvraaj Samra 12 (6) · Mahedi Hasan 2 (6) · Sompal Kami 1.0-0-5-0</span></div>
 <ul class="ci-comm">
 <li><span class="ci-over">1.6</span><span class="ci-ball is-4">4</span><span class="ci-comm-text"><span class="ci-comm-head">Sompal Kami to Samra, FOUR</span>
 </span></li>
@@ -1177,9 +1180,9 @@
       <section id="ci-panel-table" class="ci-panel" data-ci-state="upcoming live result abandoned" role="tabpanel" hidden>
 <h2>Points Table</h2><div class="ci-scroll"><table class="ci-table"><thead><tr><th>#</th><th>Teams</th><th class="ci-num">M</th><th class="ci-num">W</th><th class="ci-num">L</th><th class="ci-num">T</th><th class="ci-num">N/R</th><th class="ci-num">Pts</th><th class="ci-num">NRR</th><th>Series Form</th><th>Next</th></tr></thead><tbody>
 <tr><td>1</td><td><span class="ci-tm-full">Lumbini Lions</span><span class="ci-tm-short">LUL</span></td><td class="ci-num">5</td><td class="ci-num">3</td><td class="ci-num">1</td><td class="ci-num">0</td><td class="ci-num">1</td><td class="ci-num"><b>7</b></td><td class="ci-num">+1.501</td><td><span class="ci-wl"><i class="is-w">W</i><i class="is-nr">A</i><i class="is-w">W</i><i class="is-w">W</i><i class="is-l">L</i><i class="is-w">W</i><i class="is-w">W</i><i class="is-w">W</i></span></td><td>Q1 · Tue 17 Nov</td></tr>
-<tr><td>2</td><td><span class="ci-tm-full">Kathmandu Gorkhas</span><span class="ci-tm-short">KAG</span></td><td class="ci-num">4</td><td class="ci-num">3</td><td class="ci-num">1</td><td class="ci-num">0</td><td class="ci-num">0</td><td class="ci-num"><b>6</b></td><td class="ci-num">+1.313</td><td><span class="ci-wl"><i class="is-l">L</i><i class="is-w">W</i><i class="is-w">W</i><i class="is-w">W</i><i class="is-w">W</i><i class="is-l">L</i><i class="is-l">L</i></span></td><td>vs <a href="/npl/teams/chitwan-rhinos/">CHR</a></td></tr>
-<tr><td>3</td><td><span class="ci-tm-full">Sudur Paschim Royals</span><span class="ci-tm-short">SPR</span></td><td class="ci-num">5</td><td class="ci-num">3</td><td class="ci-num">2</td><td class="ci-num">0</td><td class="ci-num">0</td><td class="ci-num"><b>6</b></td><td class="ci-num">-0.275</td><td><span class="ci-wl"><i class="is-l">L</i><i class="is-w">W</i><i class="is-l">L</i><i class="is-w">W</i><i class="is-w">W</i><i class="is-w">W</i><i class="is-w">W</i><i class="is-l">L</i></span></td><td>Playoffs · TBC</td></tr>
-<tr><td>4</td><td><span class="ci-tm-full">Chitwan Rhinos</span><span class="ci-tm-short">CHR</span></td><td class="ci-num">4</td><td class="ci-num">2</td><td class="ci-num">1</td><td class="ci-num">0</td><td class="ci-num">1</td><td class="ci-num"><b>5</b></td><td class="ci-num">+0.207</td><td><span class="ci-wl"><i class="is-w">W</i><i class="is-nr">A</i><i class="is-l">L</i><i class="is-w">W</i><i class="is-l">L</i><i class="is-w">W</i><i class="is-l">L</i></span></td><td>vs <a href="/npl/teams/kathmandu-gorkhas/">KAG</a></td></tr>
+<tr><td>2</td><td><span class="ci-tm-full">Kathmandu Gorkhas</span><span class="ci-tm-short">KAG</span></td><td class="ci-num">4</td><td class="ci-num">3</td><td class="ci-num">1</td><td class="ci-num">0</td><td class="ci-num">0</td><td class="ci-num"><b>6</b></td><td class="ci-num">+1.313</td><td><span class="ci-wl"><i class="is-l">L</i><i class="is-w">W</i><i class="is-w">W</i><i class="is-w">W</i><i class="is-w">W</i><i class="is-l">L</i><i class="is-l">L</i><i class="is-l">L</i></span></td><td>Playoffs · TBC</td></tr>
+<tr><td>3</td><td><span class="ci-tm-full">Sudur Paschim Royals</span><span class="ci-tm-short">SPR</span></td><td class="ci-num">5</td><td class="ci-num">3</td><td class="ci-num">2</td><td class="ci-num">0</td><td class="ci-num">0</td><td class="ci-num"><b>6</b></td><td class="ci-num">-0.275</td><td><span class="ci-wl"><i class="is-l">L</i><i class="is-w">W</i><i class="is-l">L</i><i class="is-w">W</i><i class="is-w">W</i><i class="is-w">W</i><i class="is-w">W</i><i class="is-l">L</i></span></td><td>vs <a href="/npl/teams/chitwan-rhinos/">CHR</a></td></tr>
+<tr><td>4</td><td><span class="ci-tm-full">Chitwan Rhinos</span><span class="ci-tm-short">CHR</span></td><td class="ci-num">4</td><td class="ci-num">2</td><td class="ci-num">1</td><td class="ci-num">0</td><td class="ci-num">1</td><td class="ci-num"><b>5</b></td><td class="ci-num">+0.207</td><td><span class="ci-wl"><i class="is-w">W</i><i class="is-nr">A</i><i class="is-l">L</i><i class="is-w">W</i><i class="is-l">L</i><i class="is-w">W</i><i class="is-l">L</i><i class="is-w">W</i></span></td><td>vs <a href="/npl/teams/sudurpaschim-royals/">SPR</a></td></tr>
 <tr><td>5</td><td><span class="ci-tm-full">Janakpur Bolts</span><span class="ci-tm-short">JAB</span></td><td class="ci-num">5</td><td class="ci-num">2</td><td class="ci-num">3</td><td class="ci-num">0</td><td class="ci-num">0</td><td class="ci-num"><b>4</b></td><td class="ci-num">-0.083</td><td><span class="ci-wl"><i class="is-l">L</i><i class="is-w">W</i><i class="is-w">W</i><i class="is-l">L</i><i class="is-l">L</i><i class="is-l">L</i><i class="is-l">L</i></span></td><td>—</td></tr>
 <tr><td>6</td><td><span class="ci-tm-full">Biratnagar Kings</span><span class="ci-tm-short">BIK</span></td><td class="ci-num">5</td><td class="ci-num">2</td><td class="ci-num">3</td><td class="ci-num">0</td><td class="ci-num">0</td><td class="ci-num"><b>4</b></td><td class="ci-num">-0.820</td><td><span class="ci-wl"><i class="is-l">L</i><i class="is-l">L</i><i class="is-w">W</i><i class="is-w">W</i><i class="is-l">L</i><i class="is-w">W</i><i class="is-l">L</i></span></td><td>—</td></tr>
 <tr class="ci-hl"><td>7</td><td><span class="ci-tm-full">Karnali Yaks</span><span class="ci-tm-short">KAY</span></td><td class="ci-num">5</td><td class="ci-num">2</td><td class="ci-num">3</td><td class="ci-num">0</td><td class="ci-num">0</td><td class="ci-num"><b>4</b></td><td class="ci-num">-0.846</td><td><span class="ci-wl"><i class="is-w">W</i><i class="is-w">W</i><i class="is-l">L</i><i class="is-l">L</i><i class="is-l">L</i><i class="is-l">L</i><i class="is-w">W</i></span></td><td>—</td></tr>
@@ -1197,53 +1200,51 @@
 </div>
 </main>
 
-<footer class="st-colophon" style="color:#c8c4d6">
+<footer class="st-colophon">
   <div class="st-shell">
-    <div class="st-colophon__grid">
-      <div>
-        <a class="st-wordmark" href="/" aria-label="SialTV home" style="text-decoration:none">
+    <div class="st-colophon__top">
+      <div class="st-colophon__brand">
+        <a class="st-wordmark" href="/" aria-label="SialTV home">
           <span class="st-wordmark__mark" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="13" rx="2"/><path d="M8 21h8M12 18v3"/></svg>
           </span>
           <span class="st-wordmark__text">Sial<em>TV</em></span>
         </a>
         <p class="st-colophon__blurb">Independent coverage of cricket league schedules, live scores, points tables and where to watch.</p>
-        <p class="st-colophon__blurb">This is an independent informational website. It is not affiliated with or endorsed by any league, club, board or federation.</p>
       </div>
-      <div>
+      <div class="st-colophon__col">
         <h2>Leagues</h2>
-        <ul style="margin:0;padding:0;list-style:none">
-          <li><a href="/npl/" style="color:#c8c4d6;text-decoration:none">Nepal Premier League</a></li>
-          <li><a href="/ilt20/" style="color:#c8c4d6;text-decoration:none">ILT20</a></li>
-          <li><a href="/apl/" style="color:#c8c4d6;text-decoration:none">Afghanistan Premier League</a></li>
-          <li><a href="/series/" style="color:#c8c4d6;text-decoration:none">All series</a></li>
+        <ul>
+          <li><a href="/npl/">Nepal Premier League</a></li>
+          <li><a href="/ilt20/">ILT20</a></li>
+          <li><a href="/apl/">Afghanistan Premier League</a></li>
+          <li><a href="/series/">All series</a></li>
         </ul>
       </div>
-      <div>
+      <div class="st-colophon__col">
         <h2>SialTV</h2>
-        <ul style="margin:0;padding:0;list-style:none">
-          <li><a href="/about/" style="color:#c8c4d6;text-decoration:none">About</a></li>
-          <li><a href="/authors/" style="color:#c8c4d6;text-decoration:none">Authors</a></li>
-          <li><a href="/author/asad-sial/" style="color:#c8c4d6;text-decoration:none">Asad Sial</a></li>
-          <li><a href="/contact/" style="color:#c8c4d6;text-decoration:none">Contact Us</a></li>
-          <li><a href="/privacy-policy/" style="color:#c8c4d6;text-decoration:none">Privacy Policy</a></li>
-          <li><a href="/disclaimer/" style="color:#c8c4d6;text-decoration:none">Disclaimer</a></li>
-          <li><a href="/terms-and-conditions/" style="color:#c8c4d6;text-decoration:none">Terms and Conditions</a></li>
+        <ul>
+          <li><a href="/about/">About</a></li>
+          <li><a href="/contact/">Contact Us</a></li>
+          <li><a href="/privacy-policy/">Privacy Policy</a></li>
+          <li><a href="/disclaimer/">Disclaimer</a></li>
+          <li><a href="/terms-and-conditions/">Terms and Conditions</a></li>
         </ul>
       </div>
-      <div>
+      <div class="st-colophon__contact">
         <h2>Write to us</h2>
+        <a class="st-colophon__contact-btn" href="/contact/">Contact Us</a>
         <a class="st-colophon__mail" href="mailto:contact@sialtv.com">contact@sialtv.com</a>
         <p>Corrections, missing fixtures and new leagues — tell us and it will be checked.</p>
       </div>
     </div>
     <div class="st-colophon__legal">
-      <span>Last updated: 18 November 2026</span>
-      <span>© 2026 SialTV</span>
+      <span>© 2026 SialTV. All Rights Reserved.</span>
     </div>
   </div>
 </footer>
 <script src="/js/match-live.js" defer></script>
+<script src="/js/local-time.js" defer></script>
 
 </body>
 </html>

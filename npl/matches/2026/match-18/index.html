@@ -22,7 +22,7 @@
 <meta name="twitter:title" content="KAG 160/8 beat LUL 124/10 — NPL Match 18">
 <meta name="twitter:description" content="Kathmandu Gorkhas beat Lumbini Lions by 36 runs in NPL Match 18 at Kirtipur. Full scorecard, commentary, overs and points table.">
 <meta name="theme-color" content="#090811">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"KAG 160/8 beat LUL 124/10 \u2014 NPL Match 18","url":"https://sialtv.com/npl/matches/2026/match-18/","description":"Kathmandu Gorkhas beat Lumbini Lions by 36 runs in NPL Match 18 at Kirtipur. Full scorecard, commentary, overs and points table.","datePublished":"2026-11-07T10:45Z","dateModified": "2026-11-18T05:52:45Z"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"KAG 160/8 beat LUL 124/10 \u2014 NPL Match 18","url":"https://sialtv.com/npl/matches/2026/match-18/","description":"Kathmandu Gorkhas beat Lumbini Lions by 36 runs in NPL Match 18 at Kirtipur. Full scorecard, commentary, overs and points table.","datePublished":"2026-11-07T10:45Z","dateModified":"2026-11-18T20:23:23Z"}</script>
 <script type="application/ld+json">{"@type":"SportsEvent","name":"Kathmandu Gorkhas vs Lumbini Lions, 18th Match, Nepal Premier League","startDate":"2026-11-07T17:00:00+05:45","eventStatus":"EventCompleted","location":{"@type":"Place","name":"Tribhuvan University International Cricket Ground, Kirtipur","address":{"@type":"PostalAddress","addressLocality":"Kirtipur","addressRegion":"Bagmati","addressCountry":"NP"}},"homeTeam":{"@type":"SportsTeam","name":"Kathmandu Gorkhas"},"awayTeam":{"@type":"SportsTeam","name":"Lumbini Lions"},"organizer":{"@type":"SportsOrganization","name":"Nepal Premier League"}}</script>
 <script type="application/ld+json">{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"SialTV","item":"https://sialtv.com/"},{"@type":"ListItem","position":2,"name":"Nepal Premier League","item":"https://sialtv.com/npl/"},{"@type":"ListItem","position":3,"name":"Fixtures and Results","item":"https://sialtv.com/npl/schedule/"},{"@type":"ListItem","position":4,"name":"Match 18","item":"https://sialtv.com/npl/matches/2026/match-18/"}]}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -148,7 +148,9 @@
       mount.innerHTML = html;
       loadScript('/js/team-logos.js', function () {
         loadScript('/js/live-scores.js', function () {
-          loadScript('/js/flash-scores.js');
+          loadScript('/js/local-time.js', function () {
+            loadScript('/js/flash-scores.js');
+          });
         });
       });
     })
@@ -182,10 +184,11 @@
       </div>
     </div>
     <p class="ci-result" data-ci-result>Kathmandu won by 36 runs</p>
+    
     <p class="ci-meta" data-ci-rr></p>
-    <p class="ci-countdown" data-ci-countdown hidden><span data-ci-countdown-text></span><small data-ci-kickoff-note></small></p>
+    <p class="ci-countdown" data-ci-countdown hidden><span data-ci-countdown-text></span><small data-ci-kickoff-note><span data-local-time=""></span></small></p>
     </div>
-    <div class="ci-potm-box" data-ci-potm><img src="data:image/webp;base64,UklGRhIQAABXRUJQVlA4IAYQAADwQACdASqgAKAAPm0ukkYkIqGhMFRq8IANiWIA05oU3F6KfpvN8tn+b/EXK2Hm7f/5nTR/T3o0dOzzGfsv6u3pO/wXqFf4X/O9b36DPlz+zB/bP+R6VGaif13zteJOKzo/+oybbivtXkPZifK/URe52iN+/hZpmJ4D/e8s37P6ifTISUCV8iopVmLYo7dldB7pf3txkjJPp2CGQK+08oZgHbvuoOXc37MMuVClgeWSJ4OE1hXQF55hUY1dLrpBVXPajUJTcc9CQ8MxhUcqKw1YmM/uUxH04LWb21vsgr1MzG7FcwhGU/DsbbpskvcA5OlN0QfV+Hcn/3vhEDTWLhddl27lcKSzEI4m7F0L9YurXwhXQcNsC+2K4Me7SrKkmhc3o+8EDg56MxwBcZPH49mUL1D9ra7Lht9fE+ccFHyCxAyeToX6tuKw3w72NIXoPWpPNtnBHrt47gT3MJ+Wv/LPmzPHVlUr0M8FFCNEO753ab/5jnYKP/q9BQooFZpQvgOa25qdB7r1WQcJscjqvfefXy1LBv4iXph69lepbz3fapVqoep4/Xwnystd5VSz9dQeDAMR6AT9U0RdvZoAj6vbHU8s49tBVu/SoviDyExiX4pSHdjYm/LNcr/4lkKGd7jNwudGykI7MI2Nut+tjZVvPh03KmPMEJvfa0HDtkZwnCL1Qw5bl1E0IfjXQuSihOAA/vv/JieBBTI77KaN+cY7FoVmlGV2LDhfOC5u/XQBsqghOZvReeMAGELzBSetP3sL7V2vlxk9bafxen9otu4Wf4NmJk9X/bYZHyCfh8KDgBGBAkvJIbAw7rJnVFYg2vddjpViYU+OnoQBl11kBIn54Vw426Gtu2w0oFwbNJGMhkjXwO69Nq0lQxdCaHznNZ0Q8lWEK50rkCnLGX1DzlqHF6jxJ6QkpKMgMqEdgK6qe524xhNrYHxdqWXvTok10dNKwU+ptVwrCjSmT2lPAP4wfkJBClETahPK7Avt//8uz7hacflG2MmJ226J2dliw6f7H2pSQXAc+wQya+m+15Dnuw+RwEaYt4JkAdvRKo6oaFrW4GdLwmZ+tmB+HwXz6tsBWGzucM8N6lkuYyf+XJ0HbGmS4VsD1TOMIYPI5VepuyKYNRyHlFT4g+SrUZoRtEqEjjDxcCtUAdEmD07r0/KdZ8zF2fd4CoktsM61ezIYcVQVMShc83JAg/k6isfgtAOFXaVVhWKW/QF1C6rfeZP+OT9JLoZBYcSZSjSfKBKmUzi9ngtzt/HKimM1ypzI+YYVVaRdFKCOZ1zGU98EmD3L+A2o+dtmJHx9V14Qj7BusMsKy4nozGE9J10lWLS3VH6+1DuO/tD5u5WgwGbyPj2Bt0jd0ji9jxQfwJlAFCZpTb/xe3l7Rq/WI3kn4NFwCO9WpnAjs+lLWUP5jND8R9fJznirB/+b5vpOX+zK/v6pkELi1wIYtJeav2QtMo0A9xK/5S4xuztWIy/eyL0U9Kcl8+U5Ka3O6ed5JXGaKte4BuEr0LvGpgr88xkf5NSb/J6gDaT7k/VQFYPNNhCoHPH1GCfH8ivt46zz3LGrb2CAfQXRvGTz8AOJvmnWVEiZ/FREREvuVWRmBKORj2f03VKdC5SfjQjD6lr69kaZ4YMswUBJLW9yl+hbOHj/GGVZjpJb2o/pQqdonPYJKkBCtmcrz8FZXdKQ5TO8wc6u5TVdW6FY6/4lE6ISGGPoc4zcsWe98lqd6xPYLYc1YgXmRy5SF9tk/H8TCZADEwGgmNxBgjTVp4IHn04JLtUdX69Vvc2usml/TT2q/NpdbqEFFMRmywWDCl253hEQjOctFMVeQ2BJ5bt9V7HbEprsgKc2aoJ7aiDprSiWn/BycDRD2JWTMNW2cZY4UJa6wMLeMtOH3NUO1HJ6qekUlK+GsTn7cG1/bi2Vp8RUkhxgLQdUr1BM+gJBTs/Y8ldRLZTliz/f7aaAac3VlTHIWgo+FzO6rys+V1gcdwq4ehRXdlPLX2+lQhmCfOtn7Y1d9JLhLN5gkTb8xinrOWVZLNUcBhB1ctQKoQhDbbK3zA7Xgg9iu4QhEcYPHXmgHDi/AbMj9iDW8lx8vU2Z2hrYYl9Lr3KLmU+Lh7h2013m1CxLszfVyCpInxreEHKow5LSnTFlIWl6hhQs5h/+6ndr3Ow247eEo3L9HSBw3PBtwBAB1r6BuxVVB/dCSQ2DjTHptF0r/nFYCOQ2cJ4ehrLH8OLcM6N7Z93v9RMW8zHJllh1mPjKm2ZrhDJfycDvbWQApFr3KgHr3rOgetgV+qSJroiZqZh9kLILsIh0JlLiR/44yb9yeTZkWsmcDwxF6RUdqUilK3XK+EViiQrsHFQFEE4iQAGBzrtlNPoUkksTqh/wg71fuz4atuoCKCQ3WY2qC5SP1svvGE8CP9zUhZhWVNi8iIh0xYYhIcyFV6GfvSRjcyWaMGs5HeXBebMPrlbMI3PMTVV67u5NExmNL0tBFVrkivoWM6vaXbENKsVnTM16WwrzXyfenrefY7GO1UDc/0IaoV5FLIfc+D4ztitMo6LrBsPSNTuklCLvaZ4/sFHkdvss95hPe7Jre/UPEKZdpO/CdI3ZVkFQZP/LZixrCN5YK1LQ/wgZiEMYw6auhgAIEP7XlOCMhqpVw5F6VZFIfQz/K47Z51nMwje8z43XP3Uh0EgUtxe6ZaYx75e/HgWoeW6j90x5U+8BR2D71RKHxT2cHix74bhRHtDyAbvtUZihVusFTih6jYUJn4A8x+V3XPaYouuOBiuclll7+OOnN7cBEDGIKZLZEsGdHv3EebvxmVDHKE/fv+sJOoybaduWVfomZ0/t4iUE2ztsR7I0QB8253n7cpW5g246+ayj8a2o7xTcCIsLp1c9/gH4kEosxqddtBpb/rLMGOd43BlCUYhByY+5+XOBlwsMSk6XEiIJNpQJT3HVoVyCfrJx//POeH9PvD4bi4qcWOjup6Ies6bQLob4GlKrANgQH39qCMOKpKFyBqwxoQqjRm2xDGH/8pxlMp+Ps2j1t/v3/wZxlV4zb6jKEGLTW/CJzK+UdpQ+5LSKtmGYFeYTIQ/I49t8r68dk0fSSprKf4uhIiuj7ofrsWu/5SIqrs8wHEu6NJ+60HB5rj6VDkmg9hPz20K1rmIsYaGNNRt//h92GtuhrdGw70uJxjXpUA3YfYsHSgL3/IAsAkO+JGt0r6oKMEXGpY17pPSyr8r+DQqtRxy+uL83rvPn1OD8IcelgwytmrnjFLXuQYQGqNr4c/lEbNzwg7bhWtXJVSj5QX3+37IeHXXuaysVtxbRQWFqIQVl5EugYr20Zx2nHfEGiH0v3A7X1JnQZS5nYwo9asWwdqp253Lcx/H0EDvP79RaY9ZKCJ3CX9rP8Fw8TsHUsTYTJnI1J9YRU/PdR32/fIb1M01Jdz6Su8y2suApBBX6XjwN/IYxnRt2cv7MqqkJ5EAi5XfBzU5Y0YRNrAqoK9YIzW3oP128LiMhY1zzyZjokPXDc6TvJ2EWPlReZZBoRc25xt9qrhUCxaCrHpa4es+boT5dK9d/dHmZbGbpHG3HwTHKgDnle4QPlBi/GoMRO+0LZEnGZUZMJzuZxV9aM/FYhCv0hBya96FIixtbfA9S7L2C5C8FLY8FqUA+J3vz9cxJNpkzvdiK0HOu8Vgihyb15knmOcjLezebmUQsXH7afC4Ot13pyxahKWWKLjpG4HIERhZC83d3cdMrZT8qdE5SdTtFkkbiSQmT0pCTckjnp61UWLtGvaKbHjns/+Y4oh+S8sEmrl/fx807hdTW6KhI3Nhd6t31+wzQIZwzrokB4k4w4oilKBmSFXY22cD5F6exrPoCSlHnEpj6RXbR9aRpiFGWaqDBM53YlqW2lUC5ayoD6YBr+oeE7N7QUHpIaLTBF6j1ISKemOvhsu+1d1dHEhUuMS2L2gh03uMM8reA0cOrJe2rBP3c3TjQ8cu3LZwm0ioOWkfBweef7WIGesGRk6Q1ZLQeKZx+p8r8vfLrQ4iQhhACvs/YkmFVohw4W+DGWq3WVy6EKGLhVDJIKkcHQt1Bsc7fk4ghrjilyKxmoXOWlb9vxyAnZT8W3WuQjNx7W8N0a4AcrAZte4/WAOqAU5YBCe720ZOsq6ez7jXV4SR+SomHI2VCNUFdBtlpgFsBeoec565BDtSdvnn3cRtzqsmHVRMVC6ozW9E3gQ7Xy8T0MmjtPwqCvL3USIzXlbuaevqobXewZyYr/AO7y1Y5czW5nk8rQVbRdudriaDwNhL/xiWlo7+R0cpj/Id96oVk2UWeiq64bdI7vd6utEZ9CcYCwB7Z5D6aosakxTosrWF+alz2ZrudtE27Y2dG878+YonogyZ2dW11Dqrh1LdSW885U63vRTli86vPrSq3/PjjNlkVt+ty/O/LgVQJsFDSkFraQQa2u/7YZWu+UuLaflQgamIvQUcgZYqyfiYHTHqBxZfVxB4Xb5S3lobY5/WM0S/mP9aZusXHhmPOfii61F215sC06IQ/SGgGtPBRk4OPEeCFbenZ1VEapz84YnAbzr6Bd/KNPReD+ngYp95c80y2PMNOFci7P83LaqJezgpYJE0UeXgcY+OlLwmOnFxlc3+LVMwdVGf3w6Wc/ejpgjz7gJr6AD7TNTuxMhAVmCk+ZEFKIqD7jrRSXWaoCJo263X9y32AmzIfkKVBMw8syU2ENtlY8QjRP4UTVSSOLxez4OV0/tJZGCF36YqKNe3HVe5b98z7zt5doofQZ8q44sifJ9BbPBN1IxpIn9eM2bB4WhU7jzGGtbw2JNjSldPXrMtZIcVjdKk+hn67TrMkCzMgbiktE+P4URmu6/rhG77R5ZZRmJZP+rEt1l8uUhEic1yFu74VnowFGhUTVWBhHq8q17BsKiV/P/0jVwmOnZqEBnZjcWFPyx/qKR5yec+jCk5YhL+X7zqP2PYWzdPzPfwCzezbTnLOJV8TBcN7gnRKy6cShF7unnwWoIcprc7/A0wn+UqdQNVxKH9OIJ6QpL0BKB+x1uCFVojCJrFvyUmHegpEZfZTvFgjRJDMgTrEe8ztRSUBhsgLIUQjpXUZCR99DPjOrBO6mAAFMIGIL7rZd00Bu7umDTVB2ioIYwnWod1tHtD6Y+z1fxta4j2RfXsUoLSFlJJmF0AbLQo9IAbNJL+zhOx9xQX1wVnX3b9lde9Ov0VORq0lf5uBO+ABo/8LVXvf8E2Y9qltcbMOlz5IOhWqe+JjwkXWe93DLU6BWvh7EWWBsV9Hy28Zy+9Wh1Mc3T1bnSjfd1juBqf+gAxt6hT4TKznDICTfhsct3aY2h93HuNcPHRFXmeNuHP5K167fbF46osGxzZk9Hatvcaq2HJf1j+y0i1SJn+YTeWxyBy6iMcvnnbex9Xq480QfgWliYDZAxoB4OImnArmEj6bPOb3bnoG2DFWwpb5bhVsFGkHF74UG1jClmz9MAAA" alt="David Warner" width="48" height="48" loading="lazy"><div class="ci-potm-text"><span>Player of the Match</span><b><a href="/npl/players/david-warner/">David Warner</a></b><span class="ci-potm-fig">66 (50)</span></div></div>
+    <div class="ci-potm-box" data-ci-potm><img src="data:image/webp;base64,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" alt="" width="48" height="48" loading="lazy"><div class="ci-potm-text"><span>Player of the Match</span><b><a href="/npl/players/david-warner/">David Warner</a></b><span class="ci-potm-fig">66 (50)</span></div></div>
     </div>
   </div>
 
@@ -231,7 +234,7 @@
 <li><span class="ci-over">19.1</span><span class="ci-ball ">•</span><span class="ci-comm-text"><span class="ci-comm-head">Arachchige to Malla, no run</span>
 </span></li>
 </ul>
-<div class="ci-overbar"><span><b>OVER 19</b> — 10 runs — Lumbini Lions 118/9, CRR: 6.21 RRR: 43.00</span><span class="ci-overbar-sub">Sher Malla 12 (12) · Tilak Bhandari 1 (3) · Karan KC 4.0-0-25-2</span></div>
+<div class="ci-overbar"><span><b>OVER 19</b> — 10 runs — Lumbini Lions 118/9, CRR: 6.21 RRR: 43.00</span><span class="ci-overbar-sub">Sher Malla 12 (12) · Tilak Bhandari 1 (3) · Karan KC 4.0-0-24-2</span></div>
 <ul class="ci-comm">
 <li><span class="ci-over">18.6</span><span class="ci-ball ">1</span><span class="ci-comm-text"><span class="ci-comm-head">Karan KC to Malla, 1 run</span>
 </span></li>
@@ -398,7 +401,7 @@
 </ul>
 </div>
 <div class="ci-comm-group" data-ci-inn="2">
-<div class="ci-overbar"><span><b>OVER 19</b> — 10 runs — Lumbini Lions 118/9, CRR: 6.21 RRR: 43.00</span><span class="ci-overbar-sub">Sher Malla 12 (12) · Tilak Bhandari 1 (3) · Karan KC 4.0-0-25-2</span></div>
+<div class="ci-overbar"><span><b>OVER 19</b> — 10 runs — Lumbini Lions 118/9, CRR: 6.21 RRR: 43.00</span><span class="ci-overbar-sub">Sher Malla 12 (12) · Tilak Bhandari 1 (3) · Karan KC 4.0-0-24-2</span></div>
 <ul class="ci-comm">
 <li><span class="ci-over">18.6</span><span class="ci-ball ">1</span><span class="ci-comm-text"><span class="ci-comm-head">Karan KC to Malla, 1 run</span>
 </span></li>
@@ -651,7 +654,7 @@
 </ul>
 </div>
 <div class="ci-comm-group" data-ci-inn="2">
-<div class="ci-overbar"><span><b>OVER 5</b> — 1 run, 1 wicket — Lumbini Lions 28/6, CRR: 5.60 RRR: 8.87</span><span class="ci-overbar-sub">Ruben Trumpelmann 0 (3) · Sundeep Jora 0 (4) · Karan KC 3.0-0-15-2</span></div>
+<div class="ci-overbar"><span><b>OVER 5</b> — 1 run, 1 wicket — Lumbini Lions 28/6, CRR: 5.60 RRR: 8.87</span><span class="ci-overbar-sub">Ruben Trumpelmann 0 (3) · Sundeep Jora 0 (4) · Karan KC 3.0-0-14-2</span></div>
 <ul class="ci-comm">
 <li><span class="ci-over">4.6</span><span class="ci-ball ">•</span><span class="ci-comm-text"><span class="ci-comm-head">Karan KC to Trumpelmann, no run</span>
 </span></li>
@@ -767,14 +770,14 @@
 </ul>
 </div>
 <div class="ci-comm-group" data-ci-inn="1">
-<div class="ci-overbar"><span><b>OVER 19</b> — 9 runs, 2 wickets — Kathmandu Gorkhas 144/6, CRR: 7.58</span><span class="ci-overbar-sub">Sahan Arachchige 21 (10) · Mohammad Aadil Alam 1 (1) · Ruben Trumpelmann 3.0-0-25-2</span></div>
+<div class="ci-overbar"><span><b>OVER 19</b> — 9 runs, 2 wickets — Kathmandu Gorkhas 144/6, CRR: 7.58</span><span class="ci-overbar-sub">Sahan Arachchige 21 (10) · Mohammad Aadil Alam 1 (1) · Ruben Trumpelmann 3.0-0-24-2</span></div>
 <ul class="ci-comm">
 <li><span class="ci-over">18.6</span><span class="ci-ball ">2</span><span class="ci-comm-text"><span class="ci-comm-head">Trumpelmann to Arachchige, 2 runs</span>
 </span></li>
 <li><span class="ci-over">18.5</span><span class="ci-ball ">1</span><span class="ci-comm-text"><span class="ci-comm-head">Trumpelmann to Mohammad Aadil Alam, 1 run</span>
 </span></li>
 <li><span class="ci-over">18.4</span><span class="ci-ball is-w">W</span><span class="ci-comm-text"><span class="ci-comm-head">Trumpelmann to Jahandad Khan, OUT</span>
-<span class="ci-wicket-box">Rashid Khan c Aasif Sheikh b Trumpelmann</span>
+<span class="ci-wicket-box">Jahandad Khan c Nath b Trumpelmann</span>
 </span></li>
 <li><span class="ci-over">18.3</span><span class="ci-ball is-6">6</span><span class="ci-comm-text"><span class="ci-comm-head">Trumpelmann to Jahandad Khan, SIX</span>
 </span></li>
@@ -1045,7 +1048,7 @@
 </ul>
 </div>
 <div class="ci-comm-group" data-ci-inn="1">
-<div class="ci-overbar"><span><b>OVER 3</b> — 7 runs — Kathmandu Gorkhas 22/0, CRR: 7.33</span><span class="ci-overbar-sub">Sahil Patel 3 (5) · David Warner 17 (13) · Ruben Trumpelmann 2.0-0-16-0</span></div>
+<div class="ci-overbar"><span><b>OVER 3</b> — 7 runs — Kathmandu Gorkhas 22/0, CRR: 7.33</span><span class="ci-overbar-sub">Sahil Patel 3 (5) · David Warner 17 (13) · Ruben Trumpelmann 2.0-0-15-0</span></div>
 <ul class="ci-comm">
 <li><span class="ci-over">2.6</span><span class="ci-ball ">1</span><span class="ci-comm-text"><span class="ci-comm-head">Trumpelmann to Patel, 1 run</span>
 </span></li>
@@ -1079,7 +1082,7 @@
 </ul>
 </div>
 <div class="ci-comm-group" data-ci-inn="1">
-<div class="ci-overbar"><span><b>OVER 1</b> — 9 runs — Kathmandu Gorkhas 9/0, CRR: 9.00</span><span class="ci-overbar-sub">David Warner 6 (4) · Sahil Patel 1 (2) · Ruben Trumpelmann 1.0-0-9-0</span></div>
+<div class="ci-overbar"><span><b>OVER 1</b> — 9 runs — Kathmandu Gorkhas 9/0, CRR: 9.00</span><span class="ci-overbar-sub">David Warner 6 (4) · Sahil Patel 1 (2) · Ruben Trumpelmann 1.0-0-8-0</span></div>
 <ul class="ci-comm">
 <li><span class="ci-over">0.6</span><span class="ci-ball ">1</span><span class="ci-comm-text"><span class="ci-comm-head">Trumpelmann to Warner, 1 run</span>
 </span></li>
@@ -1174,9 +1177,9 @@
       <section id="ci-panel-table" class="ci-panel" data-ci-state="upcoming live result abandoned" role="tabpanel" hidden>
 <h2>Points Table</h2><div class="ci-scroll"><table class="ci-table"><thead><tr><th>#</th><th>Teams</th><th class="ci-num">M</th><th class="ci-num">W</th><th class="ci-num">L</th><th class="ci-num">T</th><th class="ci-num">N/R</th><th class="ci-num">Pts</th><th class="ci-num">NRR</th><th>Series Form</th><th>Next</th></tr></thead><tbody>
 <tr class="ci-hl"><td>1</td><td><span class="ci-tm-full">Lumbini Lions</span><span class="ci-tm-short">LUL</span></td><td class="ci-num">5</td><td class="ci-num">3</td><td class="ci-num">1</td><td class="ci-num">0</td><td class="ci-num">1</td><td class="ci-num"><b>7</b></td><td class="ci-num">+1.501</td><td><span class="ci-wl"><i class="is-w">W</i><i class="is-nr">A</i><i class="is-w">W</i><i class="is-w">W</i><i class="is-l">L</i><i class="is-w">W</i><i class="is-w">W</i><i class="is-w">W</i></span></td><td>Q1 · Tue 17 Nov</td></tr>
-<tr class="ci-hl"><td>2</td><td><span class="ci-tm-full">Kathmandu Gorkhas</span><span class="ci-tm-short">KAG</span></td><td class="ci-num">4</td><td class="ci-num">3</td><td class="ci-num">1</td><td class="ci-num">0</td><td class="ci-num">0</td><td class="ci-num"><b>6</b></td><td class="ci-num">+1.313</td><td><span class="ci-wl"><i class="is-l">L</i><i class="is-w">W</i><i class="is-w">W</i><i class="is-w">W</i><i class="is-w">W</i><i class="is-l">L</i><i class="is-l">L</i></span></td><td>vs <a href="/npl/teams/chitwan-rhinos/">CHR</a></td></tr>
-<tr><td>3</td><td><span class="ci-tm-full">Sudur Paschim Royals</span><span class="ci-tm-short">SPR</span></td><td class="ci-num">5</td><td class="ci-num">3</td><td class="ci-num">2</td><td class="ci-num">0</td><td class="ci-num">0</td><td class="ci-num"><b>6</b></td><td class="ci-num">-0.275</td><td><span class="ci-wl"><i class="is-l">L</i><i class="is-w">W</i><i class="is-l">L</i><i class="is-w">W</i><i class="is-w">W</i><i class="is-w">W</i><i class="is-w">W</i><i class="is-l">L</i></span></td><td>Playoffs · TBC</td></tr>
-<tr><td>4</td><td><span class="ci-tm-full">Chitwan Rhinos</span><span class="ci-tm-short">CHR</span></td><td class="ci-num">4</td><td class="ci-num">2</td><td class="ci-num">1</td><td class="ci-num">0</td><td class="ci-num">1</td><td class="ci-num"><b>5</b></td><td class="ci-num">+0.207</td><td><span class="ci-wl"><i class="is-w">W</i><i class="is-nr">A</i><i class="is-l">L</i><i class="is-w">W</i><i class="is-l">L</i><i class="is-w">W</i><i class="is-l">L</i></span></td><td>vs <a href="/npl/teams/kathmandu-gorkhas/">KAG</a></td></tr>
+<tr class="ci-hl"><td>2</td><td><span class="ci-tm-full">Kathmandu Gorkhas</span><span class="ci-tm-short">KAG</span></td><td class="ci-num">4</td><td class="ci-num">3</td><td class="ci-num">1</td><td class="ci-num">0</td><td class="ci-num">0</td><td class="ci-num"><b>6</b></td><td class="ci-num">+1.313</td><td><span class="ci-wl"><i class="is-l">L</i><i class="is-w">W</i><i class="is-w">W</i><i class="is-w">W</i><i class="is-w">W</i><i class="is-l">L</i><i class="is-l">L</i><i class="is-l">L</i></span></td><td>Playoffs · TBC</td></tr>
+<tr><td>3</td><td><span class="ci-tm-full">Sudur Paschim Royals</span><span class="ci-tm-short">SPR</span></td><td class="ci-num">5</td><td class="ci-num">3</td><td class="ci-num">2</td><td class="ci-num">0</td><td class="ci-num">0</td><td class="ci-num"><b>6</b></td><td class="ci-num">-0.275</td><td><span class="ci-wl"><i class="is-l">L</i><i class="is-w">W</i><i class="is-l">L</i><i class="is-w">W</i><i class="is-w">W</i><i class="is-w">W</i><i class="is-w">W</i><i class="is-l">L</i></span></td><td>vs <a href="/npl/teams/chitwan-rhinos/">CHR</a></td></tr>
+<tr><td>4</td><td><span class="ci-tm-full">Chitwan Rhinos</span><span class="ci-tm-short">CHR</span></td><td class="ci-num">4</td><td class="ci-num">2</td><td class="ci-num">1</td><td class="ci-num">0</td><td class="ci-num">1</td><td class="ci-num"><b>5</b></td><td class="ci-num">+0.207</td><td><span class="ci-wl"><i class="is-w">W</i><i class="is-nr">A</i><i class="is-l">L</i><i class="is-w">W</i><i class="is-l">L</i><i class="is-w">W</i><i class="is-l">L</i><i class="is-w">W</i></span></td><td>vs <a href="/npl/teams/sudurpaschim-royals/">SPR</a></td></tr>
 <tr><td>5</td><td><span class="ci-tm-full">Janakpur Bolts</span><span class="ci-tm-short">JAB</span></td><td class="ci-num">5</td><td class="ci-num">2</td><td class="ci-num">3</td><td class="ci-num">0</td><td class="ci-num">0</td><td class="ci-num"><b>4</b></td><td class="ci-num">-0.083</td><td><span class="ci-wl"><i class="is-l">L</i><i class="is-w">W</i><i class="is-w">W</i><i class="is-l">L</i><i class="is-l">L</i><i class="is-l">L</i><i class="is-l">L</i></span></td><td>—</td></tr>
 <tr><td>6</td><td><span class="ci-tm-full">Karnali Yaks</span><span class="ci-tm-short">KAY</span></td><td class="ci-num">4</td><td class="ci-num">2</td><td class="ci-num">2</td><td class="ci-num">0</td><td class="ci-num">0</td><td class="ci-num"><b>4</b></td><td class="ci-num">-0.268</td><td><span class="ci-wl"><i class="is-w">W</i><i class="is-w">W</i><i class="is-l">L</i><i class="is-l">L</i><i class="is-l">L</i><i class="is-l">L</i><i class="is-w">W</i></span></td><td>—</td></tr>
 <tr><td>7</td><td><span class="ci-tm-full">Biratnagar Kings</span><span class="ci-tm-short">BIK</span></td><td class="ci-num">5</td><td class="ci-num">2</td><td class="ci-num">3</td><td class="ci-num">0</td><td class="ci-num">0</td><td class="ci-num"><b>4</b></td><td class="ci-num">-0.820</td><td><span class="ci-wl"><i class="is-l">L</i><i class="is-l">L</i><i class="is-w">W</i><i class="is-w">W</i><i class="is-l">L</i><i class="is-w">W</i><i class="is-l">L</i></span></td><td>—</td></tr>
@@ -1194,53 +1197,51 @@
 </div>
 </main>
 
-<footer class="st-colophon" style="color:#c8c4d6">
+<footer class="st-colophon">
   <div class="st-shell">
-    <div class="st-colophon__grid">
-      <div>
-        <a class="st-wordmark" href="/" aria-label="SialTV home" style="text-decoration:none">
+    <div class="st-colophon__top">
+      <div class="st-colophon__brand">
+        <a class="st-wordmark" href="/" aria-label="SialTV home">
           <span class="st-wordmark__mark" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="13" rx="2"/><path d="M8 21h8M12 18v3"/></svg>
           </span>
           <span class="st-wordmark__text">Sial<em>TV</em></span>
         </a>
         <p class="st-colophon__blurb">Independent coverage of cricket league schedules, live scores, points tables and where to watch.</p>
-        <p class="st-colophon__blurb">This is an independent informational website. It is not affiliated with or endorsed by any league, club, board or federation.</p>
       </div>
-      <div>
+      <div class="st-colophon__col">
         <h2>Leagues</h2>
-        <ul style="margin:0;padding:0;list-style:none">
-          <li><a href="/npl/" style="color:#c8c4d6;text-decoration:none">Nepal Premier League</a></li>
-          <li><a href="/ilt20/" style="color:#c8c4d6;text-decoration:none">ILT20</a></li>
-          <li><a href="/apl/" style="color:#c8c4d6;text-decoration:none">Afghanistan Premier League</a></li>
-          <li><a href="/series/" style="color:#c8c4d6;text-decoration:none">All series</a></li>
+        <ul>
+          <li><a href="/npl/">Nepal Premier League</a></li>
+          <li><a href="/ilt20/">ILT20</a></li>
+          <li><a href="/apl/">Afghanistan Premier League</a></li>
+          <li><a href="/series/">All series</a></li>
         </ul>
       </div>
-      <div>
+      <div class="st-colophon__col">
         <h2>SialTV</h2>
-        <ul style="margin:0;padding:0;list-style:none">
-          <li><a href="/about/" style="color:#c8c4d6;text-decoration:none">About</a></li>
-          <li><a href="/authors/" style="color:#c8c4d6;text-decoration:none">Authors</a></li>
-          <li><a href="/author/asad-sial/" style="color:#c8c4d6;text-decoration:none">Asad Sial</a></li>
-          <li><a href="/contact/" style="color:#c8c4d6;text-decoration:none">Contact Us</a></li>
-          <li><a href="/privacy-policy/" style="color:#c8c4d6;text-decoration:none">Privacy Policy</a></li>
-          <li><a href="/disclaimer/" style="color:#c8c4d6;text-decoration:none">Disclaimer</a></li>
-          <li><a href="/terms-and-conditions/" style="color:#c8c4d6;text-decoration:none">Terms and Conditions</a></li>
+        <ul>
+          <li><a href="/about/">About</a></li>
+          <li><a href="/contact/">Contact Us</a></li>
+          <li><a href="/privacy-policy/">Privacy Policy</a></li>
+          <li><a href="/disclaimer/">Disclaimer</a></li>
+          <li><a href="/terms-and-conditions/">Terms and Conditions</a></li>
         </ul>
       </div>
-      <div>
+      <div class="st-colophon__contact">
         <h2>Write to us</h2>
+        <a class="st-colophon__contact-btn" href="/contact/">Contact Us</a>
         <a class="st-colophon__mail" href="mailto:contact@sialtv.com">contact@sialtv.com</a>
         <p>Corrections, missing fixtures and new leagues — tell us and it will be checked.</p>
       </div>
     </div>
     <div class="st-colophon__legal">
-      <span>Last updated: 18 November 2026</span>
-      <span>© 2026 SialTV</span>
+      <span>© 2026 SialTV. All Rights Reserved.</span>
     </div>
   </div>
 </footer>
 <script src="/js/match-live.js" defer></script>
+<script src="/js/local-time.js" defer></script>
 
 </body>
 </html>
