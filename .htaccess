@@ -87,6 +87,8 @@ ExpiresByType application/xml "access plus 1 hour"
 <IfModule mod_headers.c>
 Header always set X-Content-Type-Options "nosniff"
 Header always set Referrer-Policy "strict-origin-when-cross-origin"
+Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+Header always set X-Frame-Options "SAMEORIGIN"
 # JS/CSS change on every deploy — keep their edge cache short (5 min) so
 # a fix reaches browsers in minutes, not days. Images/fonts rarely change
 # and keep the long cache. (2026-11-13: the 7-day JS cache left the old
