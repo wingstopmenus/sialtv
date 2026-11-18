@@ -147,17 +147,25 @@
     return false;
   }
   function isLiveNow(m) { return !!m && m.status === 'live' && hasStarted(m); }
+  /* Toss window: the match is live and the toss is done, but no ball
+     has been bowled yet. Cricinfo/ESPN label it live from the toss —
+     so do we. The phantom window (live, no toss, no score) is NOT
+     this: it stays upcoming. isLiveShown = "shown as live". */
+  function hasToss(m) { return !!m && !!(m.toss && String(m.toss).trim()); }
+  function isLiveToss(m) { return !!m && m.status === 'live' && !hasStarted(m) && hasToss(m); }
+  function isLiveShown(m) { return isLiveNow(m) || isLiveToss(m); }
 
   function pick(matches) {
     var live = null, latest = null, next = null;
     (matches || []).forEach(function (m) {
-      /* A pre-start live match is not live yet — no ball bowled — so
-         it counts as the next match, not the live one. This also fixes
-         hero-score.js / live-card.js (both use window.sialtvPick):
-         pre-start no longer shows "Live now" there. */
-      if (m.status === 'live' && isLiveNow(m)) live = m;
+      /* A pre-start live match with NO toss is not live yet — no ball
+         bowled, no toss — so it counts as the next match, not the
+         live one. This also fixes hero-score.js / live-card.js (both
+         use window.sialtvPick): pre-start no longer shows "Live now"
+         there. WITH a toss the match IS live. */
+      if (m.status === 'live' && isLiveShown(m)) live = m;
       if (m.status === 'result' && (!latest || m.matchNo > latest.matchNo)) latest = m;
-      if ((m.status === 'upcoming' || (m.status === 'live' && !isLiveNow(m))) && (!next || m.matchNo < next.matchNo)) next = m;
+      if ((m.status === 'upcoming' || (m.status === 'live' && !isLiveShown(m))) && (!next || m.matchNo < next.matchNo)) next = m;
     });
     return { live: live, latest: latest, next: next };
   }

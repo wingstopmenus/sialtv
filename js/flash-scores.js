@@ -52,6 +52,13 @@
     return false;
   }
   function isLiveNow(m) { return !!m && m.status === 'live' && hasStarted(m); }
+  /* Toss window: the match is live and the toss is done, but no ball
+     has been bowled yet. Cricinfo/ESPN label it live from the toss —
+     so do we. The phantom window (live, no toss, no score) is NOT
+     this: it stays upcoming. isLiveShown = "shown as live". */
+  function hasToss(m) { return !!m && !!(m.toss && String(m.toss).trim()); }
+  function isLiveToss(m) { return !!m && m.status === 'live' && !hasStarted(m) && hasToss(m); }
+  function isLiveShown(m) { return isLiveNow(m) || isLiveToss(m); }
   /* Feed signature for the poll skip in refreshCarousel: only the
      fields the strip renders (status, scores, overs, status text, live
      batters). fetchedAt changes on every poll and is deliberately
@@ -200,17 +207,23 @@
   var VENUE = { npl: 'Kirtipur', ilt20: 'Dubai', apl: 'UAE', sa20: 'South Africa', bbl: 'Australia' };
 
   function cardHtml(m, league) {
-    /* A pre-start live match shows as Upcoming until the first ball —
-       the endpoint flags it live ~15 min early with no score yet. */
+    /* A pre-start live match with NO toss shows as Upcoming until the
+       first ball — the endpoint flags it live ~15 min early with no
+       score yet. WITH a toss it is genuinely live: label Live, and
+       the result line shows the toss (no score exists yet). data-live
+       stays started-only: the toss window keeps its "Match starts in
+       X mins" countdown. */
     var liveNow = isLiveNow(m);
-    var kind = m.status === 'live' ? (liveNow ? 'live' : 'upcoming') : (m.status === 'result' ? 'result' : 'upcoming');
-    var label = m.status === 'live' ? (liveNow ? 'Live' : 'Upcoming') : (m.status === 'result' ? 'Result' : 'Upcoming');
+    var tossLive = isLiveToss(m);
+    var shown = liveNow || tossLive;
+    var kind = m.status === 'live' ? (shown ? 'live' : 'upcoming') : (m.status === 'result' ? 'result' : 'upcoming');
+    var label = m.status === 'live' ? (shown ? 'Live' : 'Upcoming') : (m.status === 'result' ? 'Result' : 'Upcoming');
     var html = '<a class="score-card" data-kind="' + kind + '" data-match-no="' + m.matchNo + '" data-league="' + esc(league) + '"' + (liveNow ? ' data-live="1"' : '') + ' href="' + matchUrl(league, m.matchNo) + '">';
     html += '<div class="sc-top"><p class="sc-label' + (kind === 'upcoming' ? ' upcoming' : kind === 'live' ? ' live' : '') + '">' + label + '</p>';
     html += '<p class="sc-match">Match ' + m.matchNo + ' &middot; ' + esc(league.toUpperCase()) + ' &middot; ' + esc(VENUE[league] || 'Kirtipur') + '</p></div>';
     html += '<p class="sc-row"><span class="sc-team">' + chip(m.team1) + esc(m.team1) + '</span><span class="sc-score">' + esc(m.score1 || '') + (m.overs1 ? ' (' + esc(m.overs1) + ' ov)' : '') + '</span></p>';
     html += '<p class="sc-row"><span class="sc-team">' + chip(m.team2) + esc(m.team2) + '</span><span class="sc-score">' + esc(m.score2 || '') + (m.overs2 ? ' (' + esc(m.overs2) + ' ov)' : '') + '</span></p>';
-    html += '<p class="sc-result' + (kind === 'upcoming' ? ' upcoming' : '') + '">' + esc(m.status === 'live' ? (liveNow ? liveLine(m) : '') : (m.statusText || '')) + '</p></a>';
+    html += '<p class="sc-result' + (kind === 'upcoming' ? ' upcoming' : '') + '">' + esc(m.status === 'live' ? (liveNow ? liveLine(m) : (tossLive ? m.toss : '')) : (m.statusText || '')) + '</p></a>';
     return html;
   }
 
@@ -395,7 +408,7 @@
     var matches = (data && data.matches) || [];
     var live = null, latestResult = null;
     matches.forEach(function (m) {
-      if (isLiveNow(m) && !live) live = m;
+      if (isLiveShown(m) && !live) live = m;
       if (m.status === 'result' && (!latestResult || (m.matchNo || 0) > (latestResult.matchNo || 0))) latestResult = m;
     });
     var t = (now || new Date()).getTime();
@@ -404,11 +417,12 @@
        or a result is not upcoming any more — even if its kickoff is
        still in the future on the clock (early finish, clock skew).
        Without this, a finished match would keep showing as "Next
-       match" from the schedule. A live-but-not-started match (the
-       endpoint flags it live ~15 min before the first ball) stays
-       upcoming with its countdown until the first ball is bowled. */
+       match" from the schedule. A live-but-not-started match with NO
+       toss (the endpoint flags it live ~15 min before the first
+       ball) stays upcoming with its countdown until the first ball
+       is bowled; WITH a toss it is live. */
     var done = {};
-    matches.forEach(function (m) { if (m.status === 'result' || isLiveNow(m)) done[m.matchNo] = true; });
+    matches.forEach(function (m) { if (m.status === 'result' || isLiveShown(m)) done[m.matchNo] = true; });
     var upcoming = (fixtures || []).filter(function (f) {
       return f.kickoff && Date.parse(f.kickoff) > t && !done[f.matchNo];
     }).sort(function (a, b) { return Date.parse(a.kickoff) - Date.parse(b.kickoff); });
@@ -750,12 +764,12 @@
     var matches = (data && data.matches) || [];
     var live = null, latestResult = null;
     matches.forEach(function (m) {
-      if (isLiveNow(m) && !live) live = m;
+      if (isLiveShown(m) && !live) live = m;
       if (m.status === 'result' && (!latestResult || (m.matchNo || 0) > (latestResult.matchNo || 0))) latestResult = m;
     });
     var t = (now || new Date()).getTime();
     var done = {};
-    matches.forEach(function (m) { if (m.status === 'result' || isLiveNow(m)) done[m.matchNo] = true; });
+    matches.forEach(function (m) { if (m.status === 'result' || isLiveShown(m)) done[m.matchNo] = true; });
     var upcoming = matches.filter(function (m) {
       return m.status === 'upcoming' && m.kickoffIso && Date.parse(m.kickoffIso) > t && !done[m.matchNo];
     }).sort(function (a, b) { return Date.parse(a.kickoffIso) - Date.parse(b.kickoffIso); })
@@ -845,17 +859,22 @@
       if (!m) return;
       var cardLeague = card.getAttribute('data-league');
       if (feedLeague && cardLeague && cardLeague !== feedLeague) return;
-      /* A pre-start live match (no ball bowled yet) stays "Upcoming"
-         with its countdown — it only becomes "Live now" on the first
-         ball. Same hasStarted rule as match-live.js. */
+      /* A pre-start live match with NO toss stays "Upcoming" with its
+         countdown — it only becomes "Live now" on the first ball.
+         WITH a toss it is genuinely live: label Live, result line
+         the toss. Same hasStarted rule as match-live.js; data-live
+         (which hides the countdown) stays started-only, so the toss
+         window keeps its "Match starts in X mins" countdown. */
       var liveNow = isLiveNow(m);
+      var tossLive = isLiveToss(m);
+      var shown = liveNow || tossLive;
       var label = card.querySelector('.sc-label');
       var result = card.querySelector('.sc-result');
       var rows = card.querySelectorAll('.sc-row');
       if (label) {
-        setText(label, m.status === 'live' ? (liveNow ? 'Live' : 'Upcoming') : (m.status === 'result' ? 'Result' : 'Upcoming'));
-        toggleClass(label, 'upcoming', m.status === 'upcoming' || (m.status === 'live' && !liveNow));
-        toggleClass(label, 'live', m.status === 'live' && liveNow);
+        setText(label, m.status === 'live' ? (shown ? 'Live' : 'Upcoming') : (m.status === 'result' ? 'Result' : 'Upcoming'));
+        toggleClass(label, 'upcoming', m.status === 'upcoming' || (m.status === 'live' && !shown));
+        toggleClass(label, 'live', m.status === 'live' && shown);
       }
       /* Upcoming cards are baked without .sc-score spans, so a live
          score would have nowhere to go — create the span the first
@@ -878,12 +897,14 @@
            the feed's statusText for an upcoming match is either the
            same line or a bare "Upcoming", so it stays put — except
            the NPL evening time (fixEveningTime below). A pre-start
-           live card keeps its baked line too: the live line only
-           exists once the first ball is bowled. */
+           live card with NO toss keeps its baked line too: the live
+           line only exists once the first ball is bowled. WITH a
+           toss the result line becomes the toss. */
         if (m.status === 'live' && liveNow) setText(result, liveLine(m));
+        else if (m.status === 'live' && tossLive) setText(result, m.toss);
         else if (m.status === 'result') setText(result, cleanStatus(m.statusText) || result.textContent);
-        else if (m.status === 'upcoming' || (m.status === 'live' && !liveNow)) fixEveningTime(card);
-        toggleClass(result, 'upcoming', m.status === 'upcoming' || (m.status === 'live' && !liveNow));
+        else if (m.status === 'upcoming' || (m.status === 'live' && !shown)) fixEveningTime(card);
+        toggleClass(result, 'upcoming', m.status === 'upcoming' || (m.status === 'live' && !shown));
       }
       setLoser(card, m);
       /* Live matches join the "Live & upcoming" filter bucket — the
@@ -971,10 +992,11 @@
         if (!mm) return;
         var m = byNo[parseInt(mm[1], 10)];
         if (!m || (m.status !== 'live' && m.status !== 'result')) return;
-        /* Pre-start live: no ball bowled yet — leave the baked row
-           alone (no LIVE badge, no status rewrite) until the first
-           ball, same hasStarted rule as the strip. */
-        if (m.status === 'live' && !isLiveNow(m)) return;
+        /* Pre-start live with NO toss: no ball bowled yet — leave the
+           baked row alone (no LIVE badge, no status rewrite) until
+           the first ball, same hasStarted rule as the strip. WITH a
+           toss the row flips to LIVE (badge + status). */
+        if (m.status === 'live' && !isLiveShown(m)) return;
         var li = a.closest('li');
         var teams = a.querySelectorAll('.fx-team');
         teams.forEach(function (span, i) {
@@ -1067,9 +1089,10 @@
       var m = byNo[no];
       if (!m) return;
       if (m.status !== 'live' && m.status !== 'result') return;
-      /* Pre-start live: leave the baked panel alone until the first
-         ball — its kicker must not read "Live now" with no score. */
-      if (m.status === 'live' && !isLiveNow(m)) return;
+      /* Pre-start live with NO toss: leave the baked panel alone
+         until the first ball — its kicker must not read "Live now"
+         with no score. WITH a toss the panel flips to Live now. */
+      if (m.status === 'live' && !isLiveShown(m)) return;
       var kicker = panel.querySelector('.lead-kicker');
       if (kicker) {
         var datePart = kicker.textContent.split('·').pop().trim();
@@ -1110,7 +1133,7 @@
         var mm = (a.getAttribute('href') || '').match(/match-(\d+)\//);
         if (!mm) return;
         var m = byNo[parseInt(mm[1], 10)];
-        if (m && (m.status === 'result' || isLiveNow(m))) {
+        if (m && (m.status === 'result' || isLiveShown(m))) {
           li.style.display = 'none';
         }
       });
