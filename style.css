@@ -2699,7 +2699,6 @@ body.hub-cricinfo #squads .team { min-width: 0; }
    display:block, so the inner table shrink-wraps to content (~235px) inside
    a full-width element — the header visibly stops short of the card edge.
    Restore real table layout on the hub so tables span the full width. */
-body.league-npl .hub3-right .table-scroll table.t-pts,
 body.league-npl #records .records-grid table.t-nums { display: table; width: 100%; }
 /* Records & Stats tables: card presentation, same facts. */
 body.league-npl #records .records-col { background: var(--st-surface); border: 1px solid var(--st-line); border-radius: var(--st-radius-sm); padding: 1rem 1.1rem; box-shadow: var(--st-shadow-sm); }
@@ -3085,7 +3084,7 @@ body.page-npl-stats #more .records-grid { display: grid; grid-template-columns: 
    the schedule page has exactly 1 table.
    FIX ROUND 2 (2026-11-18, defect 13): extended to .page-ilt20-schedule —
    the ILT20 schedule page has the same single sidebar mini. */
-body.st-inner.page-npl-schedule .table-scroll table.t-pts.pts-mini, body.st-inner.page-ilt20-schedule .table-scroll table.t-pts.pts-mini { display: table; width: 100%; }
+/* Superseded 2026-11-18 by the shared .pts-mini rule below (covers schedule minis too). */
 
 /* ---------- Back-to-top floating button — 2026-11-15 (site-wide) ----------
    Markup: /fragments/masthead.html, a sibling of the header (never inside
@@ -3138,7 +3137,7 @@ body:has(.rx-float) .st-to-top { bottom: 5.5rem; }
    Twin of the style.css NPL rule restoring real table layout inside the
    right rail (the site-wide fallback makes tables display:block, so the
    mini shrink-wraps without this). */
-body.st-inner.league-ilt20 .hub3-right .table-scroll table.t-pts { display: table; width: 100%; }
+/* Display restored by the shared .pts-mini rule below (2026-11-18) — do not re-add a per-league rule. */
 /* FIX ROUND 4 (defect 4): mini-table column widths match the NPL model
    exactly. Auto layout sizes the TEAM column from the longest team name
    ('Abu Dhabi Knight Riders' is longer than any NPL name), so the ILT20
@@ -3153,3 +3152,19 @@ body.st-inner.league-ilt20 .hub3-right .table-scroll table.t-pts th:nth-child(3)
 body.st-inner.league-ilt20 .hub3-right .table-scroll table.t-pts th:nth-child(4) { width: 27px; }
 body.st-inner.league-ilt20 .hub3-right .table-scroll table.t-pts th:nth-child(5) { width: 44px; }
 body.st-inner.league-ilt20 .hub3-right .table-scroll table.t-pts th:nth-child(6) { width: 65px; }
+
+/* ---------- Points mini-table width — ONE shared rule (2026-11-18) ----------
+   Root cause: the site-wide fallback `body:not(.st-home) table` (line 1133:
+   display:block + overflow-x:auto) shrink-wraps every table. The mini was
+   fixed per league — NPL hub (2026-11-13 fixes2), ILT20 hub (2026-11-18 fix
+   round 4), NPL/ILT20 schedule minis (2026-11-15) — and APL was never
+   covered, so its mini shrink-wrapped to content: hub columns 240.6px
+   inside a 281.2px table @360/1440 (70.6px gap @390), team pages 233.3px
+   inside 327.2px @390. The user photographed the dead space on his phone.
+   One component-level rule now covers the mini everywhere it appears
+   (hubs, team pages, schedule sidebars, stats — 28 pages), present and
+   future leagues. No `body.st-inner` qualifier: NPL team pages carry
+   `body class="league-npl"` with NO st-inner (a `body.st-inner` selector
+   silently misses them — caught by Playwright re-measure 2026-11-18).
+   Do NOT add another per-league rule. */
+.table-scroll table.t-pts.pts-mini { display: table; width: 100%; }
