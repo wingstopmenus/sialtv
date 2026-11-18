@@ -105,13 +105,6 @@ body.page-npl-teams .home-side .tp-fig, body.page-ilt20-teams .home-side .tp-fig
   body.page-npl-teams .team:hover, body.page-ilt20-teams .team:hover, body.page-apl-teams .team:hover { transform: none; }
 }
 
-/* APL (2026-11-18, teams rebuild): mobile stack for the flat .team row —
-   the added standing line is a fifth flex column and overflows 390px.
-   Below 640px the card stacks (logo on top, text below). */
-@media (max-width:640px) {
-  body.page-apl-teams .team { flex-direction: column; }
-}
-
 /* ILT20 TEAMS-INDEX ENHANCEMENT (2026-11-18) — captain block on each card.
    Fills the card's empty right side: the captain's photo (144x144 data
    URI, displayed 5rem) + the captain's name. The DC slot carries the team
@@ -154,4 +147,36 @@ body.page-ilt20-teams .team-captain span a { color: var(--st-ink-2); }
   body.page-ilt20-teams .team:has(.team-captain img.tm-cap-photo) .team-captain { order: 3; margin-left: auto; align-self: center; }
   body.page-ilt20-teams .team:has(.team-captain img.tm-cap-photo) .team-body > p { order: 4; flex-basis: 100%; }
   body.page-ilt20-teams .team:has(.team-captain img.tm-cap-photo) .team-body > p:first-of-type { margin-top: 0.75rem; }
+}
+
+/* TEAMS-INDEX TEMPLATE (2026-11-18, user order image-147 spec card):
+   the ILT20 team cards must look EXACTLY like the NPL spec card
+   (white card, rose LEFT border, 17.6px radius, 1.25/1.4rem padding,
+   80px logo, rose-deep first line, 1.2rem name). The league-ilt20
+   style.css:2074-2077 rules (written for the ILT20 TEAM pages' squad
+   grid) leak into the teams INDEX cards and shrink them: rose TOP
+   border, 11.2px radius, 0.75/0.9rem padding, 48px logo, mute-grey
+   first line, 1.125rem name. These index-scoped overrides restore the
+   base card — specificity (0,4,1)/(0,4,2) beats 2074-2077 (0,3,1)/
+   (0,3,2). style.css itself is NOT touched (hub Q5 owns the shared
+   layer). NOTE: the card rule must NOT use the `border:` shorthand —
+   it would clobber the tm-top4 rose LEFT border (0,3,1), which the
+   spec card carries; only border-top is restated (2074 made it 3px
+   rose). The <=640px rules mirror the base mobile values; the mobile
+   card fix (:has() rules above) is untouched. */
+body.st-inner.league-ilt20.page-ilt20-teams .team { border-top: 1px solid var(--st-line); border-radius: var(--st-radius-sm); padding: 1.1rem 1.25rem; }
+body.st-inner.league-ilt20.page-ilt20-teams .team img.tl-tile { margin: 0; }
+body.st-inner.league-ilt20.page-ilt20-teams .team-body > b { font-size: 1.15rem; }
+body.st-inner.league-ilt20.page-ilt20-teams .team-body p { margin: 0.3rem 0 0; color: var(--st-ink-2); font-size: 1.0625rem; }
+body.st-inner.league-ilt20.page-ilt20-teams .team-body p:first-of-type { font-weight: 700; color: var(--st-rose-deep); }
+@media (min-width: 981px) {
+  body.st-inner.league-ilt20.page-ilt20-teams .team { padding: 1.25rem 1.4rem; }
+  body.st-inner.league-ilt20.page-ilt20-teams .team-body > b { font-size: 1.2rem; }
+}
+@media (min-width: 641px) {
+  body.st-inner.league-ilt20.page-ilt20-teams .team img.tl-tile { width: 5rem; height: 5rem; }
+}
+@media (max-width: 640px) {
+  body.st-inner.league-ilt20.page-ilt20-teams .team { padding: 0.9rem 1rem; }
+  body.st-inner.league-ilt20.page-ilt20-teams .team img.tl-tile { width: 4rem; height: 4rem; }
 }
