@@ -879,7 +879,15 @@
        "(with N balls remaining)". */
     if (result && m.statusText) setText(result, resultLineText(m.statusText));
     var toss = $('[data-ci-toss]');
-    if (toss && m.toss) setText(toss, m.toss);
+    /* Result pages: the toss lives ONLY in Match Details — never in the
+       header next to the result line. A page baked as upcoming/live
+       carries the empty header toss slot; when it flips to result the
+       slot must be cleared and hidden, never filled (Q2 flip,
+       2026-11-19: the toss line appeared next to the result line).
+       The Match Details Toss rows are rendered separately and stay. */
+    if (m.status === 'result' || m.status === 'abandoned') {
+      if (toss) { setText(toss, ''); setHidden(toss, true); }
+    } else if (toss && m.toss) { setText(toss, m.toss); setHidden(toss, false); }
     /* Player of the Match box (Cricinfo sync): the baked upcoming/live
        page carries the EMPTY [data-ci-potm] element; fill it when the
        endpoint carries playerOfTheMatch, leave it empty otherwise. The
