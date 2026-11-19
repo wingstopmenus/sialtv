@@ -3148,6 +3148,12 @@ body.page-npl-stats #more .records-grid { display: grid; grid-template-columns: 
   transform: translateY(0.5rem);
   transition: opacity var(--st-ease), transform var(--st-ease), visibility var(--st-ease), background var(--st-ease);
 }
+/* 2026-11-19 back-to-top fix: the body.st-home button reset (line 60,
+   0,1,2) beats the bare .st-to-top rule (0,1,0) — on the homepage the
+   button lost its rose background and white arrow (transparent + dark
+   arrow, invisible over the black footer at the bottom). This override
+   (0,2,1) restores them. Inner pages were never affected. */
+body.st-home .st-to-top { background: var(--st-rose); color: #fff; }
 .st-to-top svg { width: 1.25rem; height: 1.25rem; }
 .st-to-top.is-visible { opacity: 1; visibility: visible; pointer-events: auto; transform: none; }
 .st-to-top:hover { background: var(--st-rose-deep); }
