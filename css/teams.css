@@ -382,6 +382,10 @@ body.league-npl .hub3-center .tm2-centre-card { margin-bottom: 1.25rem; }
    is REMOVED: it bled onto the next row's header on the phone (image-100)
    and the hub has no grey on any fixture row. Logo 1.75rem = hub 28px. */
 .tm2-fx-logo { width: 1.75rem; height: 1.75rem; object-fit: contain; vertical-align: -.35rem; }
+/* TEAM-FX PARITY 2026-11-19: team rows now use the hub's <img class="team-logo">
+   (see update-hub.py team_line). NPL team pages are NOT st-inner, so the
+   style.css:1967 body.st-inner rule does not reach them — size the logo here. */
+body.league-npl .fx-team img.team-logo { width: 1.75rem; height: 1.75rem; object-fit: contain; vertical-align: -.35rem; }
 .tm2-pill { display: inline-flex; align-items: center; padding: .12rem .55rem; border-radius: 999px; font-size: .72rem; font-weight: 800; white-space: nowrap; }
 .tm2-pill-win { background: #fdf0f3; color: #be123c; }
 .tm2-pill-lost { background: #f5f3fb; color: #3b4258; }
