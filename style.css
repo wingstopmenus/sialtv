@@ -2677,6 +2677,17 @@ body.league-sa20 .secnav-links a[aria-current="page"], body.league-bbl .secnav-l
 .hub-crumbs .crumbs a { color: var(--st-ink-2); text-decoration: none; }
 .hub-crumbs .crumbs a:hover { text-decoration: underline; }
 .hub-crumbs .updated { margin: 0; color: var(--st-mute); font-size: 0.88rem; }
+/* Crumbs + date one-line row — shared across all page families (2026-11-19).
+   Normalises the row so it renders identically on every body class.
+   Crumb links stay rose-deep (deliberate overrides in css/players.css + css/teams.css). */
+body .hub-crumbs .crumbs, body .hub-crumbs .updated { font-size: .88rem; font-weight: 400; }
+body .hub-crumbs .updated { margin-top: 0; margin-left: auto; }
+.page-head .hub-crumbs { padding: 0; }
+body.st-inner .match-head .hub-crumbs .crumbs { margin: 0; }
+body.st-inner .match-head .hub-crumbs .updated { font-size: .875rem; margin-left: auto; }
+.match-head .hub-crumbs { padding: 0; }
+.wrap > .hub-crumbs { padding: 0; }
+.hub-wide:has(> article.news-article) > .hub-crumbs { padding: 0; }
 
 /* 3-column hub grid */
 .hub3 { display: grid; grid-template-columns: 300px minmax(0, 1fr) 320px; gap: 1.25rem; align-items: start; padding: 1rem 0 2rem; }

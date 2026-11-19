@@ -57,6 +57,11 @@ html.ci-gate .ci-head, html.ci-gate .ci-tabs, html.ci-gate .ci-main { visibility
 /* ---- breadcrumb + status ---- */
 .ci-crumb { font-size: 12px; color: var(--ci-grey); margin: 0 0 12px; }
 .ci-crumb a { color: var(--ci-grey); }
+
+/* Crumbs + date one-line row on match pages (2026-11-19). */
+.ci-crumbs-line { display: flex; align-items: baseline; justify-content: space-between; gap: .5rem 1rem; flex-wrap: wrap; }
+.ci-crumbs-line .ci-crumb { margin: 0; }
+.ci-crumbs-line .ci-updated { margin: 0 0 0 auto; white-space: nowrap; }
 .ci-status {
   font-size: 11px; font-weight: 700; letter-spacing: .08em;
   text-transform: uppercase; color: var(--ci-grey); margin: 0 0 4px;
