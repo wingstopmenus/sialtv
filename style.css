@@ -3107,6 +3107,27 @@ body.st-inner .rx-pts th, body.st-inner .rx-pts td { padding: 0.3rem 0.5rem; }
 body.page-npl-schedule .rx-tpre, body.page-ilt20-schedule .rx-tpre { white-space: nowrap; }
 body.page-npl-schedule .rx-res-desc, body.page-ilt20-schedule .rx-res-desc { text-wrap: balance; }
 
+/* APL schedule page — same page-scoped rules as NPL/ILT20 (Family 2 parity,
+   2026-11-19): the APL schedule body now carries .page-apl-schedule (see
+   schedule-data-apl.json body_tag). Addition-only: no existing selector
+   touched. Without this the APL grid falls back to 1.5fr/0.85fr (~830/470px)
+   instead of 1fr/320px, the sidebar is not sticky, fixture team names stay
+   visible on mobile, and the result-code/chip rules do not apply. */
+@media (min-width: 641px) {
+  body.page-apl-schedule .rx-res-team .sc-chip { display: none; }
+  body.page-apl-schedule .rx-res-team .rx-code { display: none; }
+}
+@media (max-width: 640px) {
+  body.page-apl-schedule .rx-res-team .rx-code { font-weight: 900; }
+  body.page-apl-schedule .rx-tname { display: none; }
+}
+@media (min-width: 981px) {
+  body.page-apl-schedule .home-grid { grid-template-columns: minmax(0, 1fr) 320px; }
+  body.page-apl-schedule .home-side { position: sticky; top: 5.5rem; }
+}
+body.page-apl-schedule .rx-tpre { white-space: nowrap; }
+body.page-apl-schedule .rx-res-desc { text-wrap: balance; }
+
 /* Team-name short/long forms (reusable; mobile tables show 3-letter codes) */
 .tm-short { display: none; }
 @media (max-width: 640px) {
