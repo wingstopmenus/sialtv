@@ -578,3 +578,19 @@ body.st-inner.league-apl .hub3-center section > .side-card:not(.tm2-centre-card)
      Desktop >=1200 and mobile <=980 unaffected. */
   body.st-inner.league-apl .hub3 { grid-template-columns: 320px minmax(0, 1fr) 320px; }
 }
+
+/* ---- FIX 5-ILT20 (2026-11-19): .hub-wide + .wrap width for ILT20 team pages ----
+   Twin of the NPL teams.css hub-wide rule, for body.st-inner.league-ilt20.
+   Needed by defect 7: the crumbs row moved out of .wrap.page-head into
+   .hub-wide (NPL structure); without this width the wrapper would be
+   full-width and the crumbs row would sit wider than the NPL model. */
+body.st-inner.league-ilt20 .hub-wide,
+body.st-inner.league-ilt20 .wrap { width: min(var(--hub-wide), calc(100% - 2.5rem)); margin-inline: auto; }
+
+/* ---- FIX 5-APL (2026-11-19): .hub-wide + .wrap width for APL team pages ----
+   Twin of the NPL teams.css hub-wide rule, for body.st-inner.league-apl.
+   Needed by defect 7: the crumbs row moved out of .wrap.page-head into
+   .hub-wide (NPL structure); without this width the wrapper would be
+   full-width and the crumbs row would sit wider than the NPL model. */
+body.st-inner.league-apl .hub-wide,
+body.st-inner.league-apl .wrap { width: min(var(--hub-wide), calc(100% - 2.5rem)); margin-inline: auto; }
