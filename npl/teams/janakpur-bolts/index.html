@@ -23,7 +23,7 @@
 <meta name="twitter:description" content="Janakpur Bolts sit fifth in NPL Season 3 with one match left — see the full squad, every result so far and what they need to reach the playoffs.">
 <meta name="theme-color" content="#090811">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","name":"Janakpur Bolts (NPL) Cricket Team | JAB News, Matches, Results, Squad","url":"https://sialtv.com/npl/teams/janakpur-bolts/","description":"Janakpur Bolts sit fifth in NPL Season 3 with one match left — see the full squad, every result so far and what they need to reach the playoffs.","datePublished":"2026-11-10T15:57:00Z","dateModified":"2026-11-19T04:15:28Z"}
+{"@context":"https://schema.org","@type":"WebPage","name":"Janakpur Bolts (NPL) Cricket Team | JAB News, Matches, Results, Squad","url":"https://sialtv.com/npl/teams/janakpur-bolts/","description":"Janakpur Bolts sit fifth in NPL Season 3 with one match left — see the full squad, every result so far and what they need to reach the playoffs.","datePublished":"2026-11-10T15:57:00Z","dateModified":"2026-11-19T10:10:00Z"}
 </script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"SportsTeam","name":"Janakpur Bolts","sport":"Cricket","url":"https://sialtv.com/npl/teams/janakpur-bolts/","memberOf":{"@type":"SportsOrganization","name":"Nepal Premier League 2026"},"coach":{"@type":"Person","name":"Shivnarine Chanderpaul"},"athlete":[{"@type":"Person","name":"Aaditya Mahata"},{"@type":"Person","name":"Aashutosh Pandey"},{"@type":"Person","name":"Abhisekh Tiwari"},{"@type":"Person","name":"Amar Routela"},{"@type":"Person","name":"Anil Sah"},{"@type":"Person","name":"Bikash Aagri"},{"@type":"Person","name":"Bishal Kumar Patel"},{"@type":"Person","name":"Bishal Shusling"},{"@type":"Person","name":"Harmeet Singh"},{"@type":"Person","name":"Harry Tector"},{"@type":"Person","name":"James Neesham"},{"@type":"Person","name":"Kusal Perera"},{"@type":"Person","name":"Lalit Rajbanshi"},{"@type":"Person","name":"Mayan Yadav"},{"@type":"Person","name":"Moeen Ali"},{"@type":"Person","name":"Parvez Hossain Emon"},{"@type":"Person","name":"Rahul Yadav"},{"@type":"Person","name":"Rit Gautam"},{"@type":"Person","name":"Ryan Burl"},{"@type":"Person","name":"Saif Hassan"},{"@type":"Person","name":"Santosh Karki"},{"@type":"Person","name":"Trit Raj Das"}]}
@@ -134,7 +134,9 @@
       mount.innerHTML = html;
       loadScript('/js/team-logos.js', function () {
         loadScript('/js/live-scores.js', function () {
-          loadScript('/js/flash-scores.js');
+          loadScript('/js/local-time.js', function () {
+            loadScript('/js/flash-scores.js');
+          });
         });
       });
     })
