@@ -11,13 +11,23 @@ var SIALTV_ILT20_PLAYERS = [["aayan-afzal-khan", "Aayan Afzal Khan", "Dubai Capi
   var teamSel = document.getElementById("bopTeam");
   var roleSel = document.getElementById("bopRole");
   if(!list || !teamSel || !roleSel) return;
+  var PHOTOS = null, PHOTOS_LOADING = false;
   function initials(name){
     var p = name.replace(/'/g,"").split(/\s+/);
     return (p[0].charAt(0) + (p.length > 1 ? p[p.length-1].charAt(0) : "")).toUpperCase();
   }
-  /* Browse directory: rows match the baked list — name + Team · Role
-     sub-line, alphabetical A–Z. Photos are baked HTML only (not in
-     this data file), so a filtered view shows initials discs. */
+  function escAttr(s){
+    return s.replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+  }
+  /* Filtered rows keep the player's photo where one exists: 48px thumbs in
+     /js/photos-ilt20.json, fetched once on first filter use and cached, so
+     pages that never filter pay nothing. Initials discs only where the player
+     genuinely has no photo. */
+  function avatar(r){
+    var src = PHOTOS && PHOTOS[r[0]];
+    if(src) return '<img class="top10-photo" src="' + src + '" alt="' + escAttr(r[1]) + '" width="32" height="32">';
+    return '<span class="init" aria-hidden="true">' + initials(r[1]) + '</span>';
+  }
   function render(){
     var team = teamSel.value, role = roleSel.value;
     var rows = SIALTV_ILT20_PLAYERS.filter(function(r){
@@ -31,9 +41,17 @@ var SIALTV_ILT20_PLAYERS = [["aayan-afzal-khan", "Aayan Afzal Khan", "Dubai Capi
     }).slice(0,10);
     list.innerHTML = rows.map(function(r){
       var sub = r[2] + (r[3] && r[3] !== '&mdash;' ? ' · ' + r[3] : '');
-      return '<li><span class="init" aria-hidden="true">' + initials(r[1]) + '</span><div class="tp-main"><a class="tp-name" href="/ilt20/players/' + r[0] + '/">' + r[1] + '</a><span class="tp-sub">' + sub + '</span></div></li>';
+      return '<li>' + avatar(r) + '<div class="tp-main"><a class="tp-name" href="/ilt20/players/' + r[0] + '/">' + r[1] + '</a><span class="tp-sub">' + sub + '</span></div></li>';
     }).join("");
   }
-  teamSel.addEventListener("change", render);
-  roleSel.addEventListener("change", render);
+  function ensurePhotos(){
+    if(PHOTOS || PHOTOS_LOADING) return;
+    PHOTOS_LOADING = true;
+    fetch("/js/photos-ilt20.json").then(function(res){ return res.json(); }).then(function(json){
+      PHOTOS = json; render();
+    }).catch(function(){ /* photos stay initials discs */ });
+  }
+  function onFilter(){ ensurePhotos(); render(); }
+  teamSel.addEventListener("change", onFilter);
+  roleSel.addEventListener("change", onFilter);
 })();
