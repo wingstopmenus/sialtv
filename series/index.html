@@ -22,7 +22,7 @@
 <meta name="twitter:description" content="Every cricket series SialTV covers — current, future and recently concluded. NPL, ILT20 and APL fixtures, dates and points tables. Pick a series.">
 <meta name="theme-color" content="#090811">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","name":"Cricket Fixtures — NPL, ILT20 & APL Series","url":"https://sialtv.com/series/","description":"Every cricket series SialTV covers — current, future and recently concluded. NPL, ILT20 and APL fixtures, dates and points tables. Pick a series.","datePublished":"2026-11-12T18:18:31Z","dateModified": "2026-11-18T20:51:00Z"}
+{"@context":"https://schema.org","@type":"WebPage","name":"Cricket Fixtures — NPL, ILT20 & APL Series","url":"https://sialtv.com/series/","description":"Every cricket series SialTV covers — current, future and recently concluded. NPL, ILT20 and APL fixtures, dates and points tables. Pick a series.","datePublished":"2026-11-12T18:18:31Z","dateModified": "2026-11-19T02:20:39Z"}
 </script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"SialTV","item":"https://sialtv.com/"},{"@type":"ListItem","position":2,"name":"Series","item":"https://sialtv.com/series/"}]}
@@ -135,7 +135,7 @@
 </script>
 <main id="main">
 <div class="st-shell">
-<div class="hub-crumbs"><p class="crumbs"><a href="/">Home</a> &rsaquo; Series</p><p class="updated">Last updated: 18 November 2026</p></div>
+<div class="hub-crumbs"><p class="crumbs"><a href="/">Home</a> &rsaquo; Series</p><p class="updated">Last updated: 19 November 2026</p></div>
 <div class="page-head">
 <h1>Cricket Fixtures</h1>
 <p>SialTV covers three cricket leagues — the Nepal Premier League, the International League T20 and the Afghanistan Premier League. Pick a league below to open its hub — fixtures and results, points table, teams and where to watch.</p>
@@ -200,6 +200,7 @@
         <h2>SialTV</h2>
         <ul>
           <li><a href="/about/">About</a></li>
+          <li><button type="button" class="st-share">Share</button></li>
           <li><a href="/contact/">Contact Us</a></li>
           <li><a href="/privacy-policy/">Privacy Policy</a></li>
           <li><a href="/disclaimer/">Disclaimer</a></li>
@@ -218,6 +219,45 @@
     </div>
   </div>
 </footer>
+<script>
+/* SialTV footer Share button (2026-11-19): shares this page. Uses the
+   browser share sheet when available, otherwise copies the page URL and
+   shows "Link copied" briefly. No external service, no tracking. */
+(function () {
+  var btns = document.querySelectorAll('.st-share');
+  for (var i = 0; i < btns.length; i++) {
+    btns[i].addEventListener('click', function () {
+      var b = this;
+      var url = location.href;
+      if (navigator.share) {
+        navigator.share({ title: document.title, url: url }).catch(function () {});
+        return;
+      }
+      function done() {
+        var t = b.textContent;
+        b.textContent = 'Link copied';
+        setTimeout(function () { b.textContent = t; }, 2000);
+      }
+      function fallback() {
+        var ta = document.createElement('textarea');
+        ta.value = url;
+        ta.setAttribute('readonly', '');
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); done(); } catch (e) {}
+        document.body.removeChild(ta);
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).then(done, fallback);
+      } else {
+        fallback();
+      }
+    });
+  }
+})();
+</script>
 
 <script>
 (function(){var b=document.querySelectorAll('[data-series-filter]');if(!b.length)return;function apply(f){b.forEach(function(x){x.setAttribute('aria-pressed',x.getAttribute('data-series-filter')===f?'true':'false');});document.querySelectorAll('[data-status]').forEach(function(el){el.hidden=!(f==='all'||el.getAttribute('data-status')===f);});document.querySelectorAll('[data-filter-section]').forEach(function(s){var any=false;s.querySelectorAll('[data-status]').forEach(function(r){if(!r.hidden)any=true;});s.hidden=!any;});}b.forEach(function(x){x.addEventListener('click',function(){apply(x.getAttribute('data-series-filter'));});});})();
