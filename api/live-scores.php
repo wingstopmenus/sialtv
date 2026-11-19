@@ -182,6 +182,7 @@ try {
         $payload = sialtv_keep_scorecards($payload, $cached);
     }
     $payload = sialtv_merge_static_schedule($payload, $league);
+    $payload['statsVersion'] = sialtv_stats_aggregate($payload, $league);
     $json = json_encode($payload, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
     if (!is_string($json)) {
         throw new RuntimeException('encode');
@@ -650,6 +651,326 @@ function sialtv_keep_scorecards(array $payload, string $cachedJson): array
     }
     return $payload;
 }
+
+/* ================= stats live-sync (2026-11-19) =================
+   Points-table + stats pages re-render LIVE from the endpoint: the
+   payload gains a per-event `stage` + `quota` and a top-level
+   `statsVersion`, and the endpoint maintains a stats aggregate at
+   data/runtime/<league>-stats-agg.json (the same shape as
+   data/<league>-stats-agg-seed.json in the repo).
+
+   The aggregate is the JS's stats source: js/points-stats-live.js
+   fetches it only when statsVersion.hash changes, computes the
+   leader tables from it, and renders them in place. The baked HTML
+   stays the initial/SEO state.
+
+   The aggregate is append-only in practice: an entry is (re)built
+   from the payload match when the payload carries a scorecard for a
+   result the aggregate does not yet have (or has without a card).
+   Abandoned matches are stored with no innings (they count +1 point
+   each, no runs). Upcoming matches are stored with no innings and an
+   empty xi — the JS counts `played` from result matches only, so an
+   empty upcoming xi is harmless. The file is written ONLY when its
+   content changes; a refresh that changes nothing writes nothing.
+
+   Seed: on first run (no aggregate yet) the repo seed file
+   data/<league>-stats-agg-seed.json is copied in verbatim — its
+   version block included. The seed is the install-time snapshot
+   (through M30 for NPL); afterwards the endpoint appends each new
+   result as its summary lands (the same one-post-summary-per-poll
+   budget as the match sync, so a result lands at most one poll after
+   its scorecard is fetched). */
+
+/* Stage of a match from its description: 'Match N' is a league
+   match (null); anything else is the stage name itself
+   ('Qualifier 1', 'Eliminator', 'Qualifier 2', 'Final'). */
+function sialtv_stats_stage(string $desc): ?string
+{
+    if (preg_match('/^Match\s+\d+$/i', trim($desc))) {
+        return null;
+    }
+    $d = trim($desc);
+    return $d === '' ? null : $d;
+}
+
+/* Per-match over quota, from the committed state file
+   (data/live-scores-state.json results[].quota; NPL M8 = 5, else 20).
+   Cached per request. */
+function sialtv_stats_quotas(string $league): array
+{
+    static $cache = [];
+    if (isset($cache[$league])) {
+        return $cache[$league];
+    }
+    $quotas = [];
+    $path = dirname(__DIR__) . '/data/live-scores-state.json';
+    $state = json_decode((string) @file_get_contents($path), true);
+    foreach ((is_array($state['results'] ?? null) ? $state['results'] : []) as $r) {
+        if (is_array($r) && isset($r['matchNo'])) {
+            $quotas[(int) $r['matchNo']] = (int) ($r['quota'] ?? 20);
+        }
+    }
+    $cache[$league] = $quotas;
+    return $quotas;
+}
+
+/* A batting row is not out when the dismissal says so — 'retired
+   hurt' is not out (Imran Sheikh M26), matching the bake's
+   not_out boolean. The endpoint's own POTM-figure derivation only
+   checks 'not out'; the aggregate must not repeat that gap. */
+function sialtv_stats_not_out(string $dismissal): bool
+{
+    $d = strtolower(trim($dismissal));
+    return $d === 'not out' || $d === 'retired hurt' ||
+        $d === 'absent hurt' || $d === 'absent ill';
+}
+
+function sialtv_stats_overs_balls(string $overs): int
+{
+    $parts = explode('.', trim($overs));
+    return ((int) ($parts[0] ?? 0)) * 6 + ((int) ($parts[1] ?? 0));
+}
+
+/* One payload match -> one aggregate entry, or null when the match
+   has no match number. Numbers are JSON numbers in the aggregate
+   (the live payload emits strings); the JS normalises both. */
+function sialtv_stats_entry(array $m, array $quotas): ?array
+{
+    $n = (int) ($m['matchNo'] ?? 0);
+    if ($n <= 0) {
+        return null;
+    }
+    $status = (string) ($m['status'] ?? 'upcoming');
+    $name1 = (string) ($m['team1'] ?? '');
+    $name2 = (string) ($m['team2'] ?? '');
+    $codeOf = static function (string $name) use ($m): string {
+        if ($name === (string) ($m['team1'] ?? '')) {
+            return (string) ($m['abbr1'] ?? '');
+        }
+        if ($name === (string) ($m['team2'] ?? '')) {
+            return (string) ($m['abbr2'] ?? '');
+        }
+        return '';
+    };
+    $entry = [
+        'matchNo' => $n,
+        'date' => substr((string) ($m['date'] ?? ''), 0, 10),
+        'matchDesc' => (string) ($m['matchDesc'] ?? ('Match ' . $n)),
+        'stage' => $m['stage'] ?? null,
+        'quota' => (int) ($quotas[$n] ?? 20),
+        'status' => $status,
+        'team1' => ['name' => $name1, 'code' => (string) ($m['abbr1'] ?? '')],
+        'team2' => ['name' => $name2, 'code' => (string) ($m['abbr2'] ?? '')],
+        'score1' => isset($m['score1']) ? (string) $m['score1'] : null,
+        'score2' => isset($m['score2']) ? (string) $m['score2'] : null,
+        'overs1' => isset($m['overs1']) ? (string) $m['overs1'] : null,
+        'overs2' => isset($m['overs2']) ? (string) $m['overs2'] : null,
+        'winner' => null,
+        'innings' => [],
+        'xi' => [],
+    ];
+    $inns = is_array($m['scorecard']['innings'] ?? null) ? $m['scorecard']['innings'] : [];
+    /* Innings arrive in BATTING order, not team1/team2 order — map
+       the scores by team code (M30: innings[0] is CHR 204/4 while
+       team1 is KAG), exactly as the seed converter does. */
+    $byCode = [];
+    foreach ($inns as $inn) {
+        if (!is_array($inn) || !isset($inn['team'])) {
+            continue;
+        }
+        $byCode[$codeOf((string) $inn['team'])] = $inn;
+    }
+    if (isset($byCode[(string) ($m['abbr1'] ?? '')])) {
+        $entry['score1'] = (string) ($byCode[(string) $m['abbr1']]['total'] ?? $entry['score1']);
+        $entry['overs1'] = (string) ($byCode[(string) $m['abbr1']]['overs'] ?? $entry['overs1']);
+    }
+    if (isset($byCode[(string) ($m['abbr2'] ?? '')])) {
+        $entry['score2'] = (string) ($byCode[(string) $m['abbr2']]['total'] ?? $entry['score2']);
+        $entry['overs2'] = (string) ($byCode[(string) $m['abbr2']]['overs'] ?? $entry['overs2']);
+    }
+    if (count($inns) === 2 && $entry['score1'] !== null && $entry['score2'] !== null) {
+        $r1 = (int) explode('/', $entry['score1'])[0];
+        $r2 = (int) explode('/', $entry['score2'])[0];
+        if ($r1 !== $r2) {
+            $entry['winner'] = $r1 > $r2 ? (string) ($m['abbr1'] ?? '') : (string) ($m['abbr2'] ?? '');
+        }
+    }
+    $period = 0;
+    foreach ($inns as $inn) {
+        if (!is_array($inn)) {
+            continue;
+        }
+        $period++;
+        $batting = [];
+        foreach ((is_array($inn['batting'] ?? null) ? $inn['batting'] : []) as $b) {
+            if (!is_array($b) || !isset($b['name'])) {
+                continue;
+            }
+            $batting[] = [
+                'name' => (string) $b['name'],
+                'dismissal' => (string) ($b['dismissal'] ?? ''),
+                'not_out' => sialtv_stats_not_out((string) ($b['dismissal'] ?? '')),
+                'runs' => (int) ($b['runs'] ?? 0),
+                'balls' => (int) ($b['balls'] ?? 0),
+                'fours' => (int) ($b['fours'] ?? 0),
+                'sixes' => (int) ($b['sixes'] ?? 0),
+            ];
+        }
+        $bowling = [];
+        foreach ((is_array($inn['bowling'] ?? null) ? $inn['bowling'] : []) as $b) {
+            if (!is_array($b) || !isset($b['name'])) {
+                continue;
+            }
+            $bowling[] = [
+                'name' => (string) $b['name'],
+                'overs' => (string) ($b['overs'] ?? '0'),
+                'balls' => (int) ($b['balls'] ?? sialtv_stats_overs_balls((string) ($b['overs'] ?? '0'))),
+                'maidens' => (int) ($b['maidens'] ?? 0),
+                'runs' => (int) ($b['runs'] ?? 0),
+                'wickets' => (int) ($b['wickets'] ?? 0),
+                'wides' => (int) ($b['wides'] ?? 0),
+                'noballs' => (int) ($b['noballs'] ?? 0),
+            ];
+        }
+        $entry['innings'][] = [
+            'team' => (string) ($inn['team'] ?? ''),
+            'code' => $codeOf((string) ($inn['team'] ?? '')),
+            'period' => $period,
+            'total' => (string) ($inn['total'] ?? ''),
+            'overs' => (string) ($inn['overs'] ?? ''),
+            'batting' => $batting,
+            'bowling' => $bowling,
+            'yet' => array_values(array_map('strval', is_array($inn['yet'] ?? null) ? $inn['yet'] : [])),
+        ];
+    }
+    foreach ((is_array($m['playingXI'] ?? null) ? $m['playingXI'] : []) as $side) {
+        if (!is_array($side) || !isset($side['team'])) {
+            continue;
+        }
+        $code = $codeOf((string) $side['team']);
+        if ($code === '') {
+            continue;
+        }
+        $names = [];
+        foreach ((is_array($side['players'] ?? null) ? $side['players'] : []) as $p) {
+            if (is_array($p) && isset($p['name'])) {
+                $names[] = (string) $p['name'];
+            }
+        }
+        if ($names !== []) {
+            $entry['xi'][$code] = $names;
+        }
+    }
+    return $entry;
+}
+
+/* Recursively key-sort an array for a stable content hash. */
+function sialtv_stats_canonical($v)
+{
+    if (!is_array($v)) {
+        return $v;
+    }
+    $isList = array_keys($v) === range(0, count($v) - 1);
+    $out = [];
+    foreach ($v as $k => $item) {
+        $out[$k] = sialtv_stats_canonical($item);
+    }
+    if (!$isList) {
+        ksort($out);
+    }
+    return $out;
+}
+
+/* Maintain data/runtime/<league>-stats-agg.json from the payload and
+   return the statsVersion block for the payload. Never throws: any
+   failure leaves the aggregate untouched and reports the last known
+   version (or an empty one). */
+function sialtv_stats_aggregate(array $payload, string $league): array
+{
+    $aggPath = dirname(__DIR__) . '/data/runtime/' . $league . '-stats-agg.json';
+    $seedPath = dirname(__DIR__) . '/data/' . $league . '-stats-agg-seed.json';
+    try {
+        $agg = null;
+        if (is_file($aggPath)) {
+            $agg = json_decode((string) @file_get_contents($aggPath), true);
+        }
+        if (!is_array($agg) || !is_array($agg['matches'] ?? null)) {
+            if (is_file($seedPath)) {
+                @copy($seedPath, $aggPath);
+                $agg = json_decode((string) @file_get_contents($aggPath), true);
+            }
+            if (!is_array($agg) || !is_array($agg['matches'] ?? null)) {
+                $agg = ['league' => $league, 'generatedAt' => gmdate('c'),
+                    'fullNames' => [], 'version' => ['through_match' => 0, 'results' => 0, 'withCards' => 0, 'hash' => ''],
+                    'matches' => []];
+            }
+        }
+        $quotas = sialtv_stats_quotas($league);
+        $byNo = [];
+        foreach ($agg['matches'] as $i => $e) {
+            if (is_array($e) && isset($e['matchNo'])) {
+                $byNo[(int) $e['matchNo']] = $i;
+            }
+        }
+        $changed = false;
+        foreach ((is_array($payload['matches'] ?? null) ? $payload['matches'] : []) as $m) {
+            if (!is_array($m) || (int) ($m['matchNo'] ?? 0) <= 0) {
+                continue;
+            }
+            $n = (int) $m['matchNo'];
+            $status = (string) ($m['status'] ?? 'upcoming');
+            /* Only results (and abandoned) enter the aggregate; an
+               upcoming match stays as its seed entry until it flips. */
+            if ($status !== 'result' && $status !== 'abandoned') {
+                continue;
+            }
+            $hasCard = is_array($m['scorecard']['innings'] ?? null) && $m['scorecard']['innings'] !== [];
+            $idx = $byNo[$n] ?? null;
+            if ($idx !== null) {
+                $old = $agg['matches'][$idx];
+                $oldHasCard = is_array($old['innings'] ?? null) && $old['innings'] !== [];
+                if (($old['status'] ?? '') === $status && ($oldHasCard || !$hasCard)) {
+                    continue;
+                }
+            }
+            /* A result without a scorecard yet (summary not fetched)
+               still records the status flip; the card follows on the
+               next poll that carries it. */
+            $entry = sialtv_stats_entry($m, $quotas);
+            if ($entry === null) {
+                continue;
+            }
+            if ($idx !== null) {
+                $agg['matches'][$idx] = $entry;
+            } else {
+                $agg['matches'][] = $entry;
+                $byNo[$n] = count($agg['matches']) - 1;
+            }
+            $changed = true;
+        }
+        usort($agg['matches'], static fn($a, $b) => ((int) ($a['matchNo'] ?? 0)) <=> ((int) ($b['matchNo'] ?? 0)));
+        $results = array_values(array_filter($agg['matches'], static fn($e) => ($e['status'] ?? '') === 'result'));
+        $withCards = array_values(array_filter($results, static fn($e) => is_array($e['innings'] ?? null) && $e['innings'] !== []));
+        $version = [
+            'through_match' => $results === [] ? 0 : max(array_map(static fn($e) => (int) $e['matchNo'], $results)),
+            'results' => count($results),
+            'withCards' => count($withCards),
+            'hash' => md5((string) json_encode(sialtv_stats_canonical($agg['matches']), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)),
+        ];
+        if ($changed || ($agg['version'] ?? null) !== $version) {
+            $agg['generatedAt'] = gmdate('c');
+            $agg['version'] = $version;
+            @mkdir(dirname($aggPath), 0755, true);
+            @file_put_contents($aggPath, json_encode($agg, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) . "\n", LOCK_EX);
+        }
+        return $version;
+    } catch (Throwable $e) {
+        @file_put_contents(sys_get_temp_dir() . '/sialtv-live-error.log',
+            gmdate('c') . ' ' . $league . ' stats-agg: ' . get_class($e) . ': ' . $e->getMessage() . "\n", FILE_APPEND);
+        return ['through_match' => 0, 'results' => 0, 'withCards' => 0, 'hash' => ''];
+    }
+}
+
 
 /* A scheduled match must never vanish from the panel just because
    ESPN's scoreboard stopped listing it. ESPN drops a 'pre' event once
@@ -1725,6 +2046,12 @@ function sialtv_normalise_event(array $event, array $comp, ?array $summary, stri
     if ($desc === '' || stripos($desc, ' vs ') !== false) {
         $desc = $matchNo > 0 ? 'Match ' . $matchNo : 'Match';
     }
+    /* Stats live-sync: the stage (null for a league match) and the
+       over quota (state file; NPL M8 = 5, else 20) ride on the event
+       so the points/stats JS can compute from the payload alone. */
+    $stage = sialtv_stats_stage($desc);
+    $quotas = sialtv_stats_quotas($league);
+    $quota = (int) ($quotas[$matchNo] ?? 20);
 
     $innings = [];
     $commentary = [];
@@ -1786,6 +2113,8 @@ function sialtv_normalise_event(array $event, array $comp, ?array $summary, stri
         'espnEventId' => $eventId,
         'matchNo' => $matchNo,
         'matchDesc' => $desc,
+        'stage' => $stage,
+        'quota' => $quota,
         'series_name' => LEAGUE_NAMES[$league] ?? $league,
         'team1' => $name1,
         'team2' => $name2,
