@@ -3243,3 +3243,20 @@ body.st-inner.league-ilt20 .hub3-right .table-scroll table.t-pts th:nth-child(6)
    silently misses them — caught by Playwright re-measure 2026-11-18).
    Do NOT add another per-league rule. */
 .table-scroll table.t-pts.pts-mini { display: table; width: 100%; }
+
+/* ---- FIX ROUND 4-APL (2026-11-19): APL team pages, NPL hub3 mini table ----
+   Twin of the ILT20 fix-4 mini widths (NPL-measured column widths).
+   display:table is NOT twinned: the shared 2026-11-18 rule
+   `.table-scroll table.t-pts.pts-mini { display: table; width: 100%; }`
+   already covers the mini everywhere. Fixed layout pins the columns so
+   the APL mini matches the NPL model exactly (auto layout would size
+   the TEAM column from the longest code + logo instead). Scoped to the
+   team-page rail mini table only — the full points-table page is
+   unaffected. */
+body.st-inner.league-apl .hub3-right .table-scroll table.t-pts { table-layout: fixed; }
+body.st-inner.league-apl .hub3-right .table-scroll table.t-pts th:nth-child(1) { width: 80px; }
+body.st-inner.league-apl .hub3-right .table-scroll table.t-pts th:nth-child(2) { width: 32px; }
+body.st-inner.league-apl .hub3-right .table-scroll table.t-pts th:nth-child(3) { width: 33px; }
+body.st-inner.league-apl .hub3-right .table-scroll table.t-pts th:nth-child(4) { width: 27px; }
+body.st-inner.league-apl .hub3-right .table-scroll table.t-pts th:nth-child(5) { width: 44px; }
+body.st-inner.league-apl .hub3-right .table-scroll table.t-pts th:nth-child(6) { width: 65px; }

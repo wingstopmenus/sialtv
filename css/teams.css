@@ -552,3 +552,29 @@ body.st-inner.league-ilt20 .hub3-center section > .side-card:not(.tm2-centre-car
      (300/324/320 at 1024). Desktop >=1200 and mobile <=980 unaffected. */
   body.st-inner.league-ilt20 .hub3 { grid-template-columns: 300px minmax(0, 1fr) 320px; }
 }
+
+/* ---- FIX ROUND 4-APL (2026-11-19): APL team pages use the NPL hub3 layout ----
+   Twins of NPL-scoped teams.css rules for body.st-inner.league-apl.
+   NPL-applicable rules are untouched; only these APL lines are added.
+   Grid is the NPL-exact 320px left rail (ILT20's twin used 300px). */
+body.st-inner.league-apl .side-card { border-top: 3px solid var(--st-rose); }
+body.st-inner.league-apl .hub3-right .side-card { border-top: 1px solid var(--st-line); }
+body.st-inner.league-apl .hub3-left .side-card { border-top: 1px solid var(--st-line); }
+body.st-inner.league-apl .st-block__head { margin: 0 0 1rem; }
+body.st-inner.league-apl .st-block__head h2 { font-size: clamp(1.35rem, 2.5vw, 1.75rem); line-height: 1.2; margin: 0; border-left: 3px solid #e11d48; padding-left: .6rem; }
+body.st-inner.league-apl .st-block__head h2::after { display: none; }
+body.st-inner.league-apl .hub3-center h3 { font-size: 1.12rem; font-weight: 800; letter-spacing: -.01em; margin: 1.4rem 0 .5rem; }
+body.st-inner.league-apl a.tm2-player { color: #090811; }
+body.st-inner.league-apl .tm2-stat-row dd a, body.st-inner.league-apl .tm2-detail-row dd a { color: #090811; }
+body.st-inner.league-apl .hub3-center .tm2-centre-card { margin-bottom: 1.25rem; }
+body.st-inner.league-apl .hub3-center .tm2-centre-card:last-child { margin-bottom: 0; }
+body.st-inner.league-apl .hub3-center section > .side-card:not(.tm2-centre-card) { margin-bottom: 1.25rem; }
+@media (min-width: 981px) {
+  body.st-inner.league-apl .hub3-left { align-self: stretch; }
+  body.st-inner.league-apl .hub-rail-l { position: sticky; top: 5.5rem; }
+  /* Twin of NPL teams.css rule (5): 320px left / 1fr centre / 320px right.
+     Without it APL falls through to the shared max-width:1199px 2-col
+     rule at 981-1199px (280px left, 684px centre) while NPL keeps 3 cols.
+     Desktop >=1200 and mobile <=980 unaffected. */
+  body.st-inner.league-apl .hub3 { grid-template-columns: 320px minmax(0, 1fr) 320px; }
+}
