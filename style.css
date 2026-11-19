@@ -1136,6 +1136,35 @@ footer.st-colophon a { color: #c8c4d6; text-decoration: none; transition: color 
 footer.st-colophon .st-colophon__top ul a { color: #c8c4d6; }
 footer.st-colophon a:hover { color: var(--st-rose-glow); text-decoration: none; }
 footer.st-colophon a:focus-visible { outline: 3px solid var(--st-rose-glow); outline-offset: 3px; }
+/* 2026-11-19 Social share icons: circular icon links in the footer SialTV
+   column, directly under "About" — round, clean, minimal (reference image).
+   The link rule (0,3,3) beats the footer link colour rule
+   `footer.st-colophon .st-colophon__top ul a` (style.css:1136, 0,2,3) —
+   that rule would otherwise paint the white icons #c8c4d6 (measured in a
+   Playwright computed-style probe, 2026-11-19). The svg fill is set to
+   #fff directly as well, so the glyph stays white even if the link colour
+   is ever overridden. The hover rule (0,3,1) beats the generic
+   `footer.st-colophon a:hover` (0,2,2), so the icon stays white on the
+   rose hover fill. These are links, not buttons, so the body.st-home
+   button reset does not apply. */
+footer.st-colophon .st-social { display: flex; gap: 10px; }
+footer.st-colophon .st-colophon__top ul a.st-social__link {
+  width: 40px;
+  height: 40px;
+  flex: 0 0 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #232333;
+  border: 1px solid rgba(255, 255, 255, .12);
+  border-radius: 50%;
+  color: #fff;
+  text-decoration: none;
+  transition: background var(--st-ease), border-color var(--st-ease);
+}
+footer.st-colophon .st-social__link svg { width: 20px; height: 20px; fill: #fff; display: block; }
+footer.st-colophon .st-social__link:hover { background: var(--st-rose); border-color: transparent; color: #fff; }
+footer.st-colophon .st-social__link:focus-visible { outline: 3px solid var(--st-rose-glow); outline-offset: 3px; }
 .st-colophon__top ul { display: flex; flex-direction: column; gap: 0.55rem; margin: 0; padding: 0; list-style: none; }
 .st-colophon__top li { font-size: 0.95rem; font-weight: 550; }
 footer.st-colophon a.st-colophon__contact-btn {
