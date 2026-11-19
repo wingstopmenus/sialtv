@@ -1136,19 +1136,28 @@ footer.st-colophon a { color: #c8c4d6; text-decoration: none; transition: color 
 footer.st-colophon .st-colophon__top ul a { color: #c8c4d6; }
 footer.st-colophon a:hover { color: var(--st-rose-glow); text-decoration: none; }
 footer.st-colophon a:focus-visible { outline: 3px solid var(--st-rose-glow); outline-offset: 3px; }
-/* 2026-11-19 Social share icons: circular icon links in the footer SialTV
-   column, directly under "About" — round, clean, minimal (reference image).
-   The link rule (0,3,3) beats the footer link colour rule
-   `footer.st-colophon .st-colophon__top ul a` (style.css:1136, 0,2,3) —
-   that rule would otherwise paint the white icons #c8c4d6 (measured in a
-   Playwright computed-style probe, 2026-11-19). The svg fill is set to
-   #fff directly as well, so the glyph stays white even if the link colour
-   is ever overridden. The hover rule (0,3,1) beats the generic
+/* 2026-11-19 Social share icons — MOVED (user correction ~09:10 PKT):
+   the row now lives in the footer's FIRST (brand) column, directly below
+   the blurb <p> — NOT in the SialTV column (the earlier placement, under
+   "About", was the wrong spot). The old rule
+   `footer.st-colophon .st-colophon__top ul a.st-social__link` (0,3,3)
+   can no longer match anything, because the row is no longer inside a
+   <ul>. The link rule below is scoped to the brand column instead, at
+   (0,3,2) — it still beats the footer link colour rule
+   `footer.st-colophon .st-colophon__top ul a` (style.css, 0,2,3) and the
+   later `body.st-inner a` (0,1,2), either of which would otherwise paint
+   the white icons #c8c4d6 / rose-deep (measured in a Playwright
+   computed-style probe, 2026-11-19). The svg fill is set to #fff directly
+   as well, so the glyph stays white even if the link colour is ever
+   overridden. The hover rule (0,3,1) beats the generic
    `footer.st-colophon a:hover` (0,2,2), so the icon stays white on the
    rose hover fill. These are links, not buttons, so the body.st-home
-   button reset does not apply. */
-footer.st-colophon .st-social { display: flex; gap: 10px; }
-footer.st-colophon .st-colophon__top ul a.st-social__link {
+   button reset does not apply. The row needs its own top margin: the
+   blurb <p> carries no bottom margin on the homepage (body.st-home p
+   reset) and the old <li> got its spacing from the column <ul>'s 0.55rem
+   gap. 1rem matches the wordmark's own bottom margin. */
+footer.st-colophon .st-colophon__brand .st-social { display: flex; gap: 10px; margin-top: 1rem; }
+footer.st-colophon .st-colophon__brand a.st-social__link {
   width: 40px;
   height: 40px;
   flex: 0 0 40px;
