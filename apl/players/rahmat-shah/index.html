@@ -22,7 +22,7 @@
 <meta name="twitter:description" content="Rahmat Shah captains Nangarhar Cosmic into APL 2026-27. His Test and ODI record, the captain swap story and what Cosmic need — read the profile.">
 <meta name="theme-color" content="#090811">
 <script type="application/ld+json">
-{"@context": "https://schema.org", "@type": "WebPage", "name": "Rahmat Shah APL 2026-27 — Captain & Batter", "url": "https://sialtv.com/apl/players/rahmat-shah/", "description": "Rahmat Shah captains Nangarhar Cosmic into APL 2026-27. His Test and ODI record, the captain swap story and what Cosmic need — read the profile.", "datePublished": "2026-11-12T02:35:00Z", "dateModified": "2026-11-18T20:22:33Z"}
+{"@context": "https://schema.org", "@type": "WebPage", "name": "Rahmat Shah APL 2026-27 — Captain & Batter", "url": "https://sialtv.com/apl/players/rahmat-shah/", "description": "Rahmat Shah captains Nangarhar Cosmic into APL 2026-27. His Test and ODI record, the captain swap story and what Cosmic need — read the profile.", "datePublished": "2026-11-12T02:35:00Z", "dateModified": "2026-11-19T02:20:38Z"}
 </script>
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "SialTV", "item": "https://sialtv.com/"}, {"@type": "ListItem", "position": 2, "name": "Afghanistan Premier League", "item": "https://sialtv.com/apl/"}, {"@type": "ListItem", "position": 3, "name": "APL Players", "item": "https://sialtv.com/apl/players/"}, {"@type": "ListItem", "position": 4, "name": "Rahmat Shah", "item": "https://sialtv.com/apl/players/rahmat-shah/"}]}
@@ -137,7 +137,7 @@
     <h1>Rahmat Shah &mdash; the captain carrying Nangarhar&rsquo;s hopes</h1>
     <p>Rahmat Shah captains Nangarhar Cosmic in APL 2026-27 &mdash; and he captains Afghanistan in Tests and ODIs too. The top-order batter leads a squad built around Alex Hales, Shakib Al Hasan and Kamindu Mendis, with the season starting on 27 December 2026 in the UAE.</p>
         <a class="hero-cta" href="/apl/teams/nangarhar-cosmic/">See Nangarhar Cosmic&rsquo;s squad <span aria-hidden="true">&rsaquo;</span></a>
-    <p class="updated">Last updated: 18 November 2026</p>
+    <p class="updated">Last updated: 19 November 2026</p>
   </div>
 </section>
 <div class="wrap"><div class="stat-cards">
@@ -254,6 +254,7 @@
         <h2>SialTV</h2>
         <ul>
           <li><a href="/about/">About</a></li>
+          <li><button type="button" class="st-share">Share</button></li>
           <li><a href="/contact/">Contact Us</a></li>
           <li><a href="/privacy-policy/">Privacy Policy</a></li>
           <li><a href="/disclaimer/">Disclaimer</a></li>
@@ -272,6 +273,45 @@
     </div>
   </div>
 </footer>
+<script>
+/* SialTV footer Share button (2026-11-19): shares this page. Uses the
+   browser share sheet when available, otherwise copies the page URL and
+   shows "Link copied" briefly. No external service, no tracking. */
+(function () {
+  var btns = document.querySelectorAll('.st-share');
+  for (var i = 0; i < btns.length; i++) {
+    btns[i].addEventListener('click', function () {
+      var b = this;
+      var url = location.href;
+      if (navigator.share) {
+        navigator.share({ title: document.title, url: url }).catch(function () {});
+        return;
+      }
+      function done() {
+        var t = b.textContent;
+        b.textContent = 'Link copied';
+        setTimeout(function () { b.textContent = t; }, 2000);
+      }
+      function fallback() {
+        var ta = document.createElement('textarea');
+        ta.value = url;
+        ta.setAttribute('readonly', '');
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); done(); } catch (e) {}
+        document.body.removeChild(ta);
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).then(done, fallback);
+      } else {
+        fallback();
+      }
+    });
+  }
+})();
+</script>
 <script>
 /* Direction D: scroll-reveal + count-up. Progressive enhancement: without
    JS nothing is hidden (the .js class gates the hidden state); with

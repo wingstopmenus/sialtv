@@ -22,7 +22,7 @@
 <meta name="twitter:description" content="Zubairullah Akbari joins Nangarhar Cosmic in APL 2026-27 as a Supplementary pick. The left-hander, his big hundreds and his role — read the profile.">
 <meta name="theme-color" content="#090811">
 <script type="application/ld+json">
-{"@context": "https://schema.org", "@type": "WebPage", "name": "Zubairullah Akbari APL 2026-27 — All-Rounder", "url": "https://sialtv.com/apl/players/zubairullah-akbari/", "description": "Zubairullah Akbari joins Nangarhar Cosmic in APL 2026-27 as a Supplementary pick. The left-hander, his big hundreds and his role — read the profile.", "datePublished": "2026-11-12T02:53:00Z", "dateModified": "2026-11-18T20:22:33Z"}
+{"@context": "https://schema.org", "@type": "WebPage", "name": "Zubairullah Akbari APL 2026-27 — All-Rounder", "url": "https://sialtv.com/apl/players/zubairullah-akbari/", "description": "Zubairullah Akbari joins Nangarhar Cosmic in APL 2026-27 as a Supplementary pick. The left-hander, his big hundreds and his role — read the profile.", "datePublished": "2026-11-12T02:53:00Z", "dateModified": "2026-11-19T02:20:38Z"}
 </script>
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "SialTV", "item": "https://sialtv.com/"}, {"@type": "ListItem", "position": 2, "name": "Afghanistan Premier League", "item": "https://sialtv.com/apl/"}, {"@type": "ListItem", "position": 3, "name": "APL Players", "item": "https://sialtv.com/apl/players/"}, {"@type": "ListItem", "position": 4, "name": "Zubairullah Akbari", "item": "https://sialtv.com/apl/players/zubairullah-akbari/"}]}
@@ -137,7 +137,7 @@
     <h1>Zubairullah Akbari &mdash; the left-hander with two big hundreds</h1>
     <p>Zubairullah Akbari &mdash; listed as Zubaid Akbari everywhere outside the APL &mdash; is a Nangarhar Cosmic Supplementary pick for APL 2026-27: a 26-year-old left-hand batter and slow left-arm orthodox bowler with four T20Is for Afghanistan already behind him.</p>
         <a class="hero-cta" href="/apl/teams/nangarhar-cosmic/">See Nangarhar Cosmic&rsquo;s squad <span aria-hidden="true">&rsaquo;</span></a>
-    <p class="updated">Last updated: 18 November 2026</p>
+    <p class="updated">Last updated: 19 November 2026</p>
   </div>
 </section>
 <div class="wrap"><div class="stat-cards">
@@ -254,6 +254,7 @@
         <h2>SialTV</h2>
         <ul>
           <li><a href="/about/">About</a></li>
+          <li><button type="button" class="st-share">Share</button></li>
           <li><a href="/contact/">Contact Us</a></li>
           <li><a href="/privacy-policy/">Privacy Policy</a></li>
           <li><a href="/disclaimer/">Disclaimer</a></li>
@@ -272,6 +273,45 @@
     </div>
   </div>
 </footer>
+<script>
+/* SialTV footer Share button (2026-11-19): shares this page. Uses the
+   browser share sheet when available, otherwise copies the page URL and
+   shows "Link copied" briefly. No external service, no tracking. */
+(function () {
+  var btns = document.querySelectorAll('.st-share');
+  for (var i = 0; i < btns.length; i++) {
+    btns[i].addEventListener('click', function () {
+      var b = this;
+      var url = location.href;
+      if (navigator.share) {
+        navigator.share({ title: document.title, url: url }).catch(function () {});
+        return;
+      }
+      function done() {
+        var t = b.textContent;
+        b.textContent = 'Link copied';
+        setTimeout(function () { b.textContent = t; }, 2000);
+      }
+      function fallback() {
+        var ta = document.createElement('textarea');
+        ta.value = url;
+        ta.setAttribute('readonly', '');
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); done(); } catch (e) {}
+        document.body.removeChild(ta);
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).then(done, fallback);
+      } else {
+        fallback();
+      }
+    });
+  }
+})();
+</script>
 <script>
 /* Direction D: scroll-reveal + count-up. Progressive enhancement: without
    JS nothing is hidden (the .js class gates the hidden state); with
