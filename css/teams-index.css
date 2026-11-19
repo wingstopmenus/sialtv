@@ -185,7 +185,13 @@ body.st-inner.league-ilt20.page-ilt20-teams .team-body p:first-of-type { font-we
    Logo Blurry hai Quality bhi thk kero"). Rule 34 — one thing only: the
    logo tile grows 80px -> 120px desktop, 64px -> 96px mobile. The logo
    sources are now 150-320px intrinsic (was 92-96px), so the bigger tile
-   stays sharp on retina (120 CSS px needs ~240 device px). Scoped to the
+   stays sharp on retina (120 CSS px needs ~240 device px).
+   2026-11-19 (Family 5 logo-bigger, user order): 120px -> 140px
+   desktop, 96px -> 112px mobile — same rule, all three leagues equally.
+   Displayed content box at 140px is 125.6px (140 - 2x7.2px tile
+   padding), still below the smallest source (150px), so no softening
+   at 1x density. Size confirmed by the coordinator as the single shared
+   size for all three leagues (140/112). Scoped to the
    three teams INDEX pages only (body.page-*-teams) — team pages, strip,
    points tables untouched. Specificity (0,5,2) matches the ILT20 template
    block above and this block sits AFTER it, so it wins on source order;
@@ -194,9 +200,9 @@ body.st-inner.league-ilt20.page-ilt20-teams .team-body p:first-of-type { font-we
    exclusion (above) unchanged — size only. */
 body.st-inner.league-npl.page-npl-teams .team img.tl-tile,
 body.st-inner.league-ilt20.page-ilt20-teams .team img.tl-tile,
-body.st-inner.league-apl.page-apl-teams .team img.tl-tile { width: 7.5rem; height: 7.5rem; }
+body.st-inner.league-apl.page-apl-teams .team img.tl-tile { width: 8.75rem; height: 8.75rem; }
 @media (max-width: 640px) {
   body.st-inner.league-npl.page-npl-teams .team img.tl-tile,
   body.st-inner.league-ilt20.page-ilt20-teams .team img.tl-tile,
-  body.st-inner.league-apl.page-apl-teams .team img.tl-tile { width: 6rem; height: 6rem; }
+  body.st-inner.league-apl.page-apl-teams .team img.tl-tile { width: 7rem; height: 7rem; }
 }
