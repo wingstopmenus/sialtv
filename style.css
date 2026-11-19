@@ -1136,23 +1136,6 @@ footer.st-colophon a { color: #c8c4d6; text-decoration: none; transition: color 
 footer.st-colophon .st-colophon__top ul a { color: #c8c4d6; }
 footer.st-colophon a:hover { color: var(--st-rose-glow); text-decoration: none; }
 footer.st-colophon a:focus-visible { outline: 3px solid var(--st-rose-glow); outline-offset: 3px; }
-/* 2026-11-19 Share button: a <button>, not a link — it must look exactly
-   like the footer column links. This rule (0,2,2) beats the body.st-home
-   button reset (style.css:60, 0,1,2), and resets the UA button chrome on
-   inner pages, which have no button reset at all. */
-footer.st-colophon button.st-share {
-  background: none;
-  border: 0;
-  padding: 0;
-  font: inherit;
-  color: #c8c4d6;
-  text-decoration: none;
-  text-align: start;
-  cursor: pointer;
-  transition: color var(--st-ease);
-}
-footer.st-colophon button.st-share:hover { color: var(--st-rose-glow); }
-footer.st-colophon button.st-share:focus-visible { outline: 3px solid var(--st-rose-glow); outline-offset: 3px; }
 .st-colophon__top ul { display: flex; flex-direction: column; gap: 0.55rem; margin: 0; padding: 0; list-style: none; }
 .st-colophon__top li { font-size: 0.95rem; font-weight: 550; }
 footer.st-colophon a.st-colophon__contact-btn {

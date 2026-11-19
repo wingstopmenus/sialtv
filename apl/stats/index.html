@@ -23,7 +23,7 @@
 <meta name="twitter:description" content="APL 2026-27 stats — top run scorers, wicket takers, strike rates and economy, once play starts. First update after Match 1 on 27 Dec.">
 <meta name="theme-color" content="#090811">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","name":"APL 2026-27 Stats — Top Performances & Records","url":"https://sialtv.com/apl/stats/","description":"APL 2026-27 stats — top run scorers, wicket takers, strike rates and economy, once play starts. First update after Match 1 on 27 Dec.","datePublished":"2026-11-11T05:25:00Z","dateModified": "2026-11-19T02:20:39Z"}
+{"@context":"https://schema.org","@type":"WebPage","name":"APL 2026-27 Stats — Top Performances & Records","url":"https://sialtv.com/apl/stats/","description":"APL 2026-27 stats — top run scorers, wicket takers, strike rates and economy, once play starts. First update after Match 1 on 27 Dec.","datePublished":"2026-11-11T05:25:00Z","dateModified": "2026-11-18T20:39:31Z"}
 </script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"SialTV","item":"https://sialtv.com/"},{"@type":"ListItem","position":2,"name":"Afghanistan Premier League","item":"https://sialtv.com/apl/"},{"@type":"ListItem","position":3,"name":"APL 2026-27 Stats — Top Performances & Records","item":"https://sialtv.com/apl/stats/"}]}
@@ -142,7 +142,7 @@
   <p class="crumbs"><a href="/">SialTV</a> / <a href="/apl/">APL</a> / APL 2026-27 Stats — Top Performances &amp; Records</p>
   
   <h1>APL 2026-27 Stats &mdash; Top Performances &amp; Records</h1>
-  <p class="updated">Last updated: 19 November 2026</p>
+  <p class="updated">Last updated: 18 November 2026</p>
 </div>
 <main id="main">
 <div class="wrap"><div class="home-grid"><div class="home-main">
@@ -288,7 +288,6 @@
         <h2>SialTV</h2>
         <ul>
           <li><a href="/about/">About</a></li>
-          <li><button type="button" class="st-share">Share</button></li>
           <li><a href="/contact/">Contact Us</a></li>
           <li><a href="/privacy-policy/">Privacy Policy</a></li>
           <li><a href="/disclaimer/">Disclaimer</a></li>
@@ -307,45 +306,6 @@
     </div>
   </div>
 </footer>
-<script>
-/* SialTV footer Share button (2026-11-19): shares this page. Uses the
-   browser share sheet when available, otherwise copies the page URL and
-   shows "Link copied" briefly. No external service, no tracking. */
-(function () {
-  var btns = document.querySelectorAll('.st-share');
-  for (var i = 0; i < btns.length; i++) {
-    btns[i].addEventListener('click', function () {
-      var b = this;
-      var url = location.href;
-      if (navigator.share) {
-        navigator.share({ title: document.title, url: url }).catch(function () {});
-        return;
-      }
-      function done() {
-        var t = b.textContent;
-        b.textContent = 'Link copied';
-        setTimeout(function () { b.textContent = t; }, 2000);
-      }
-      function fallback() {
-        var ta = document.createElement('textarea');
-        ta.value = url;
-        ta.setAttribute('readonly', '');
-        ta.style.position = 'fixed';
-        ta.style.opacity = '0';
-        document.body.appendChild(ta);
-        ta.select();
-        try { document.execCommand('copy'); done(); } catch (e) {}
-        document.body.removeChild(ta);
-      }
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(url).then(done, fallback);
-      } else {
-        fallback();
-      }
-    });
-  }
-})();
-</script>
 
 <script>
 /* Direction D: scroll-reveal + count-up. Progressive enhancement: without
