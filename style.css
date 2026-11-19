@@ -2982,6 +2982,12 @@ body.st-inner .rx-date-group[hidden] { display: none; }
 body.st-inner.league-npl .details-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem 1.5rem; margin: 0; }
 body.st-inner.league-npl .details-grid dt { font-size: 0.75rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--st-mute); margin-bottom: 0.125rem; }
 body.st-inner.league-npl .details-grid dd { margin: 0; font-size: 0.9375rem; color: var(--st-ink); }
+/* APL — same rule, league-apl scope (APL profiles fix, 2026-11-19: the APL
+   twin was missing, so APL Profile details rendered as a single-column
+   stacked list instead of the NPL 3-column grid). */
+body.st-inner.league-apl .details-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem 1.5rem; margin: 0; }
+body.st-inner.league-apl .details-grid dt { font-size: 0.75rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--st-mute); margin-bottom: 0.125rem; }
+body.st-inner.league-apl .details-grid dd { margin: 0; font-size: 0.9375rem; color: var(--st-ink); }
 /* ---------- Points-table layout fix — 2026-11-14 (browser verdict 00:29–00:33 PKT) ----------
    Root causes (live HTML/CSS se verify):
    - .rx-pts had no width rule: 13-col table sized to content (~59% of wrap).
@@ -3070,10 +3076,19 @@ body.st-inner.league-npl .player-centre .table-scroll td { padding: .4rem .4rem;
 body.st-inner.league-ilt20 .player-centre .table-scroll table { font-size: .85rem; }
 body.st-inner.league-ilt20 .player-centre .table-scroll th,
 body.st-inner.league-ilt20 .player-centre .table-scroll td { padding: .4rem .4rem; }
+/* APL — same rule, league-apl scope (APL profiles fix, 2026-11-19: the APL
+   twin was missing, so APL profile tables rendered at 15.2px instead of
+   the NPL 13.6px). */
+body.st-inner.league-apl .player-centre .table-scroll table { font-size: .85rem; }
+body.st-inner.league-apl .player-centre .table-scroll th,
+body.st-inner.league-apl .player-centre .table-scroll td { padding: .4rem .4rem; }
 /* VERDICT 2026-11-14 (player pages): tighten the empty grey space below the content. */
 body.st-inner.league-npl footer.st-colophon { margin-top: 1.5rem; }
 /* ILT20 — same rule, league-ilt20 scope (FIX ROUND 2, 2026-11-18, defect 10). */
 body.st-inner.league-ilt20 footer.st-colophon { margin-top: 1.5rem; }
+/* APL — same rule, league-apl scope (APL profiles fix, 2026-11-19: the APL
+   twin was missing, so the gap above the footer was 48px instead of 24px). */
+body.st-inner.league-apl footer.st-colophon { margin-top: 1.5rem; }
 /* ---------- Points-table layout fix 2 — 2026-11-14 (browser verdict 01:33 PKT) ----------
    Root causes (live HTML/CSS se verify):
    - FAIL 1 table 82%: .rx-pts display:block tha (document fallback body:not(.st-home)

@@ -955,3 +955,23 @@ body.st-inner.league-ilt20 .hub-crumbs .crumbs a { color: var(--st-rose-deep); }
    .tm2-cover (Full NPL Coverage) mirrors were sidebar-only; the sidebar is
    gone, so these rules are dead. (team-page .tp-list/.tp-photo rules live
    in style.css and are untouched — the hub still uses them.) */
+
+/* G. APL stat cards — beautified 2026-11-19 (APL profiles fix). The Gen A
+   profile pages emit four .stat-card divs (big value + label + note);
+   until now NO rule styled them, so they rendered as full-width run-on
+   text lines (1320px wide, 28px tall each). White cards in the site
+   language: rose value, night label, muted note; 4 columns on desktop,
+   2 columns at phone width. Scoped league-apl only — NPL/ILT20 profiles
+   have no stat cards. Values are heterogeneous (numbers, draft
+   categories, years, styles, figures), so the value wraps and the card
+   grows; the longest value ("Supplementary", 13 chars) fits at both
+   widths. The count-up JS ([data-count]) is untouched. */
+body.st-inner.league-apl .stat-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: .75rem; margin: 0 0 1.25rem; }
+body.st-inner.league-apl .stat-card { background: #fff; border: 1px solid #e9e4f5; border-radius: 14px; padding: .9rem 1rem .85rem; min-width: 0; }
+body.st-inner.league-apl .stat-card b { display: block; font-size: 1.5rem; line-height: 1.15; font-weight: 800; color: var(--st-rose); overflow-wrap: break-word; }
+body.st-inner.league-apl .stat-card span { display: block; font-size: .8rem; font-weight: 700; color: var(--st-night); margin-top: .25rem; }
+body.st-inner.league-apl .stat-card i { display: block; font-style: normal; font-size: .8rem; line-height: 1.4; color: #8f8aa3; margin-top: .15rem; }
+@media (max-width: 640px) {
+  body.st-inner.league-apl .stat-cards { grid-template-columns: repeat(2, 1fr); }
+  body.st-inner.league-apl .stat-card b { font-size: 1.05rem; }
+}
