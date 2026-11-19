@@ -16,7 +16,7 @@
 <meta name="twitter:description" content="Chitwan Rhinos won by 4 wickets in Match 25 of the Nepal Premier League at Kirtipur. Full scorecard, ball-by-ball commentary and points table.">
 <meta name="theme-color" content="#090811">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","name": "Bolts vs Rhinos NPL Match 25 \u2014 Scorecard & Result","url":"https://sialtv.com/npl/matches/2026/match-25/","description": "Chitwan Rhinos won by 4 wickets in Match 25 of the Nepal Premier League at Kirtipur. Full scorecard, ball-by-ball commentary and points table.","datePublished":"2026-11-11T14:08:00Z","dateModified": "2026-11-18T20:23:23Z"}
+{"@context":"https://schema.org","@type":"WebPage","name": "Bolts vs Rhinos NPL Match 25 \u2014 Scorecard & Result","url":"https://sialtv.com/npl/matches/2026/match-25/","description": "Chitwan Rhinos won by 4 wickets in Match 25 of the Nepal Premier League at Kirtipur. Full scorecard, ball-by-ball commentary and points table.","datePublished":"2026-11-11T14:08:00Z","dateModified": "2026-11-19T02:20:37Z"}
 </script>
 <script type="application/ld+json">
 {
@@ -177,7 +177,7 @@
 <p class="mh-pos"><a href="/npl/teams/janakpur-bolts/">Janakpur Bolts <span class="mh-pos-pill">#6</span></a><span class="mh-vs">vs</span><a href="/npl/teams/chitwan-rhinos/">Chitwan Rhinos <span class="mh-pos-pill">#4</span></a></p>
     <p class="match-status">Friday, 13 November 2026 at 5:00 PM NST</p>
     <div class="mh-live" id="mh-live"><p class="mh-live-line"><span class="mh-live-badge">Result</span> <span>25th Match, Kirtipur, November 13, 2026, Nepal Premier League</span></p><p class="mh-live-nav"><a href="/npl/matches/2026/match-24/">&lsaquo; Match 24</a> <span aria-hidden="true">·</span> <a href="/npl/matches/2026/match-26/">Match 26 &rsaquo;</a></p><p class="mh-live-team" id="mh-score-bat">Janakpur Bolts (NPL) <strong>88/9 (20 ov)</strong></p><p class="mh-live-team" id="mh-score-field">Chitwan Rhinos (NPL) <strong>92/6 (17.2 ov)</strong></p><p class="mh-live-meta"><span id="mh-toss">Chitwan Rhinos won by 4 wickets</span><span id="mh-updated"></span></p></div>
-    <p class="updated">Last updated: 18 November 2026</p>
+    <p class="updated">Last updated: 19 November 2026</p>
 </div>
 </div>
 
@@ -789,6 +789,7 @@
         <h2>SialTV</h2>
         <ul>
           <li><a href="/about/">About</a></li>
+          <li><button type="button" class="st-share">Share</button></li>
           <li><a href="/contact/">Contact Us</a></li>
           <li><a href="/privacy-policy/">Privacy Policy</a></li>
           <li><a href="/disclaimer/">Disclaimer</a></li>
@@ -807,6 +808,45 @@
     </div>
   </div>
 </footer>
+<script>
+/* SialTV footer Share button (2026-11-19): shares this page. Uses the
+   browser share sheet when available, otherwise copies the page URL and
+   shows "Link copied" briefly. No external service, no tracking. */
+(function () {
+  var btns = document.querySelectorAll('.st-share');
+  for (var i = 0; i < btns.length; i++) {
+    btns[i].addEventListener('click', function () {
+      var b = this;
+      var url = location.href;
+      if (navigator.share) {
+        navigator.share({ title: document.title, url: url }).catch(function () {});
+        return;
+      }
+      function done() {
+        var t = b.textContent;
+        b.textContent = 'Link copied';
+        setTimeout(function () { b.textContent = t; }, 2000);
+      }
+      function fallback() {
+        var ta = document.createElement('textarea');
+        ta.value = url;
+        ta.setAttribute('readonly', '');
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); done(); } catch (e) {}
+        document.body.removeChild(ta);
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).then(done, fallback);
+      } else {
+        fallback();
+      }
+    });
+  }
+})();
+</script>
 <script>
 /* Direction D: scroll-reveal + count-up. Progressive enhancement: without
    JS nothing is hidden (the .js class gates the hidden state); with

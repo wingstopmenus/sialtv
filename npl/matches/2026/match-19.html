@@ -16,7 +16,7 @@
 <meta name="twitter:description" content="Yuvraaj Samra hit 102 off 48 as Pokhara posted 217, the season&#x27;s highest total. Full scorecard and the points-table picture.">
 <meta name="theme-color" content="#090811">
 <script type="application/ld+json">
-{"@context": "https://schema.org", "@type": "WebPage", "name": "Avengers vs Yaks NPL Match 19 — Scorecard & Result", "url": "https://sialtv.com/npl/matches/2026/match-19/", "description": "Yuvraaj Samra hit 102 off 48 as Pokhara posted 217, the season's highest total. Full scorecard and the points-table picture.", "datePublished": "2026-11-11T14:02:00Z", "dateModified": "2026-11-18T20:23:23Z"}
+{"@context": "https://schema.org", "@type": "WebPage", "name": "Avengers vs Yaks NPL Match 19 — Scorecard & Result", "url": "https://sialtv.com/npl/matches/2026/match-19/", "description": "Yuvraaj Samra hit 102 off 48 as Pokhara posted 217, the season's highest total. Full scorecard and the points-table picture.", "datePublished": "2026-11-11T14:02:00Z", "dateModified": "2026-11-19T02:20:37Z"}
 </script>
 <script type="application/ld+json">
 {
@@ -179,7 +179,7 @@
     
     <p class="match-status">Pokhara Avengers 217/3 (20 overs) v Karnali Yaks 154/10 (18.3 overs) — Monday, 9 November 2026, 12:30 PM NST, Tribhuvan University International Cricket Ground, Kirtipur.</p>
     <div class="mh-live" id="mh-live"><p class="mh-live-line"><span class="mh-live-badge">Result</span> <span>19th Match, Kirtipur, November 09, 2026, Nepal Premier League</span></p><p class="mh-live-nav"><a href="/npl/matches/2026/match-18/">&lsaquo; Match 18</a> <span aria-hidden="true">·</span> <a href="/npl/matches/2026/match-20/">Match 20 &rsaquo;</a></p><p class="mh-live-team" id="mh-score-bat">Pokhara Avengers (NPL) <strong>217/3 (20 ov)</strong></p><p class="mh-live-team" id="mh-score-field">Karnali Yaks (NPL) <strong>154/10 (18.3 ov)</strong></p><p class="mh-live-meta"><span id="mh-toss">Pokhara Avengers won by 63 runs</span><span id="mh-updated"></span></p></div>
-    <p class="updated">Last updated: 18 November 2026</p>
+    <p class="updated">Last updated: 19 November 2026</p>
 </div>
 </div>
 
@@ -765,6 +765,7 @@
         <h2>SialTV</h2>
         <ul>
           <li><a href="/about/">About</a></li>
+          <li><button type="button" class="st-share">Share</button></li>
           <li><a href="/contact/">Contact Us</a></li>
           <li><a href="/privacy-policy/">Privacy Policy</a></li>
           <li><a href="/disclaimer/">Disclaimer</a></li>
@@ -783,6 +784,45 @@
     </div>
   </div>
 </footer>
+<script>
+/* SialTV footer Share button (2026-11-19): shares this page. Uses the
+   browser share sheet when available, otherwise copies the page URL and
+   shows "Link copied" briefly. No external service, no tracking. */
+(function () {
+  var btns = document.querySelectorAll('.st-share');
+  for (var i = 0; i < btns.length; i++) {
+    btns[i].addEventListener('click', function () {
+      var b = this;
+      var url = location.href;
+      if (navigator.share) {
+        navigator.share({ title: document.title, url: url }).catch(function () {});
+        return;
+      }
+      function done() {
+        var t = b.textContent;
+        b.textContent = 'Link copied';
+        setTimeout(function () { b.textContent = t; }, 2000);
+      }
+      function fallback() {
+        var ta = document.createElement('textarea');
+        ta.value = url;
+        ta.setAttribute('readonly', '');
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); done(); } catch (e) {}
+        document.body.removeChild(ta);
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).then(done, fallback);
+      } else {
+        fallback();
+      }
+    });
+  }
+})();
+</script>
 <script>
 /* Direction D: scroll-reveal + count-up. Progressive enhancement: without
    JS nothing is hidden (the .js class gates the hidden state); with

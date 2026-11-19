@@ -16,7 +16,7 @@
 <meta name="twitter:description" content="David Warner&#x27;s 66 set up Kathmandu&#x27;s 36-run win over Lumbini. Full scorecard, Jahandad Khan&#x27;s 4 for 23 and the points-table picture.">
 <meta name="theme-color" content="#090811">
 <script type="application/ld+json">
-{"@context": "https://schema.org", "@type": "WebPage", "name": "Gorkhas vs Lions NPL Match 18 — Scorecard & Result", "url": "https://sialtv.com/npl/matches/2026/match-18/", "description": "David Warner's 66 set up Kathmandu's 36-run win over Lumbini. Full scorecard, Jahandad Khan's 4 for 23 and the points-table picture.", "datePublished": "2026-11-11T14:01:00Z", "dateModified": "2026-11-18T20:23:23Z"}
+{"@context": "https://schema.org", "@type": "WebPage", "name": "Gorkhas vs Lions NPL Match 18 — Scorecard & Result", "url": "https://sialtv.com/npl/matches/2026/match-18/", "description": "David Warner's 66 set up Kathmandu's 36-run win over Lumbini. Full scorecard, Jahandad Khan's 4 for 23 and the points-table picture.", "datePublished": "2026-11-11T14:01:00Z", "dateModified": "2026-11-19T02:20:37Z"}
 </script>
 <script type="application/ld+json">
 {
@@ -179,7 +179,7 @@
     
     <p class="match-status">Kathmandu Gorkhas 160/8 (20 overs) v Lumbini Lions 124/10 (19.3 overs) — Saturday, 7 November 2026, 5:00 PM NST, Tribhuvan University International Cricket Ground, Kirtipur.</p>
     <div class="mh-live" id="mh-live"><p class="mh-live-line"><span class="mh-live-badge">Result</span> <span>18th Match, Kirtipur, November 07, 2026, Nepal Premier League</span></p><p class="mh-live-nav"><a href="/npl/matches/2026/match-17/">&lsaquo; Match 17</a> <span aria-hidden="true">·</span> <a href="/npl/matches/2026/match-19/">Match 19 &rsaquo;</a></p><p class="mh-live-team" id="mh-score-bat">Kathmandu Gorkhas (NPL) <strong>160/8 (20 ov)</strong></p><p class="mh-live-team" id="mh-score-field">Lumbini Lions (NPL) <strong>124/10 (19.3 ov)</strong></p><p class="mh-live-meta"><span id="mh-toss">Kathmandu Gorkhas won by 36 runs</span><span id="mh-updated"></span></p></div>
-    <p class="updated">Last updated: 18 November 2026</p>
+    <p class="updated">Last updated: 19 November 2026</p>
 </div>
 </div>
 
@@ -780,6 +780,7 @@
         <h2>SialTV</h2>
         <ul>
           <li><a href="/about/">About</a></li>
+          <li><button type="button" class="st-share">Share</button></li>
           <li><a href="/contact/">Contact Us</a></li>
           <li><a href="/privacy-policy/">Privacy Policy</a></li>
           <li><a href="/disclaimer/">Disclaimer</a></li>
@@ -798,6 +799,45 @@
     </div>
   </div>
 </footer>
+<script>
+/* SialTV footer Share button (2026-11-19): shares this page. Uses the
+   browser share sheet when available, otherwise copies the page URL and
+   shows "Link copied" briefly. No external service, no tracking. */
+(function () {
+  var btns = document.querySelectorAll('.st-share');
+  for (var i = 0; i < btns.length; i++) {
+    btns[i].addEventListener('click', function () {
+      var b = this;
+      var url = location.href;
+      if (navigator.share) {
+        navigator.share({ title: document.title, url: url }).catch(function () {});
+        return;
+      }
+      function done() {
+        var t = b.textContent;
+        b.textContent = 'Link copied';
+        setTimeout(function () { b.textContent = t; }, 2000);
+      }
+      function fallback() {
+        var ta = document.createElement('textarea');
+        ta.value = url;
+        ta.setAttribute('readonly', '');
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); done(); } catch (e) {}
+        document.body.removeChild(ta);
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).then(done, fallback);
+      } else {
+        fallback();
+      }
+    });
+  }
+})();
+</script>
 <script>
 /* Direction D: scroll-reveal + count-up. Progressive enhancement: without
    JS nothing is hidden (the .js class gates the hidden state); with

@@ -16,7 +16,7 @@
 <meta name="twitter:description" content="Kathmandu Gorkhas chased 181 to beat Karnali Yaks by four wickets in Match 10, Rashid Khan making 50 and Karan KC 44 off 20. See the full scorecard.">
 <meta name="theme-color" content="#090811">
 <script type="application/ld+json">
-{"@context": "https://schema.org", "@type": "WebPage", "name": "Gorkhas vs Yaks NPL Match 10 — Scorecard & Result", "url": "https://sialtv.com/npl/matches/2026/match-10/", "description": "Kathmandu Gorkhas chased 181 to beat Karnali Yaks by four wickets in Match 10, Rashid Khan making 50 and Karan KC 44 off 20. See the full scorecard.", "datePublished": "2026-11-11T13:53:00Z", "dateModified": "2026-11-18T20:23:23Z"}
+{"@context": "https://schema.org", "@type": "WebPage", "name": "Gorkhas vs Yaks NPL Match 10 — Scorecard & Result", "url": "https://sialtv.com/npl/matches/2026/match-10/", "description": "Kathmandu Gorkhas chased 181 to beat Karnali Yaks by four wickets in Match 10, Rashid Khan making 50 and Karan KC 44 off 20. See the full scorecard.", "datePublished": "2026-11-11T13:53:00Z", "dateModified": "2026-11-19T02:20:37Z"}
 </script>
 <script type="application/ld+json">
 {
@@ -178,7 +178,7 @@
     
     <p class="match-status">Kathmandu Gorkhas chased 181 to beat Karnali Yaks by four wickets at the Tribhuvan University International Cricket Ground, Kirtipur, on Monday, 2 November 2026.</p>
     <div class="mh-live" id="mh-live"><p class="mh-live-line"><span class="mh-live-badge">Result</span> <span>10th Match, Kirtipur, November 02, 2026, Nepal Premier League</span></p><p class="mh-live-nav"><a href="/npl/matches/2026/match-9/">&lsaquo; Match 9</a> <span aria-hidden="true">·</span> <a href="/npl/matches/2026/match-11/">Match 11 &rsaquo;</a></p><p class="mh-live-team" id="mh-score-bat">Karnali Yaks (NPL) <strong>180/6 (20 ov)</strong></p><p class="mh-live-team" id="mh-score-field">Kathmandu Gorkhas (NPL) <strong>181/6 (19.4 ov)</strong></p><p class="mh-live-meta"><span id="mh-toss">Kathmandu Gorkhas won by 4 wickets</span><span id="mh-updated"></span></p></div>
-    <p class="updated">Last updated: 18 November 2026</p>
+    <p class="updated">Last updated: 19 November 2026</p>
 </div>
 </div>
 
@@ -756,6 +756,7 @@
         <h2>SialTV</h2>
         <ul>
           <li><a href="/about/">About</a></li>
+          <li><button type="button" class="st-share">Share</button></li>
           <li><a href="/contact/">Contact Us</a></li>
           <li><a href="/privacy-policy/">Privacy Policy</a></li>
           <li><a href="/disclaimer/">Disclaimer</a></li>
@@ -774,6 +775,45 @@
     </div>
   </div>
 </footer>
+<script>
+/* SialTV footer Share button (2026-11-19): shares this page. Uses the
+   browser share sheet when available, otherwise copies the page URL and
+   shows "Link copied" briefly. No external service, no tracking. */
+(function () {
+  var btns = document.querySelectorAll('.st-share');
+  for (var i = 0; i < btns.length; i++) {
+    btns[i].addEventListener('click', function () {
+      var b = this;
+      var url = location.href;
+      if (navigator.share) {
+        navigator.share({ title: document.title, url: url }).catch(function () {});
+        return;
+      }
+      function done() {
+        var t = b.textContent;
+        b.textContent = 'Link copied';
+        setTimeout(function () { b.textContent = t; }, 2000);
+      }
+      function fallback() {
+        var ta = document.createElement('textarea');
+        ta.value = url;
+        ta.setAttribute('readonly', '');
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); done(); } catch (e) {}
+        document.body.removeChild(ta);
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).then(done, fallback);
+      } else {
+        fallback();
+      }
+    });
+  }
+})();
+</script>
 <script>
 /* Direction D: scroll-reveal + count-up. Progressive enhancement: without
    JS nothing is hidden (the .js class gates the hidden state); with

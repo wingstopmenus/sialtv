@@ -16,7 +16,7 @@
 <meta name="twitter:description" content="Rahul Yadav's 4 for 31 kept Kathmandu to 115, then Moeen Ali's unbeaten 58 led Janakpur home by 8 wickets. Full NPL Match 5 scorecard here.">
 <meta name="theme-color" content="#090811">
 <script type="application/ld+json">
-{"@context": "https://schema.org", "@type": "WebPage", "name": "Janakpur vs Kathmandu NPL Match 5 — Scorecard & Result", "url": "https://sialtv.com/npl/matches/2026/match-5/", "description": "Rahul Yadav's 4 for 31 kept Kathmandu to 115, then Moeen Ali's unbeaten 58 led Janakpur home by 8 wickets. Full NPL Match 5 scorecard here.", "datePublished": "2026-11-11T13:48:00Z", "dateModified": "2026-11-18T20:23:23Z"}
+{"@context": "https://schema.org", "@type": "WebPage", "name": "Janakpur vs Kathmandu NPL Match 5 — Scorecard & Result", "url": "https://sialtv.com/npl/matches/2026/match-5/", "description": "Rahul Yadav's 4 for 31 kept Kathmandu to 115, then Moeen Ali's unbeaten 58 led Janakpur home by 8 wickets. Full NPL Match 5 scorecard here.", "datePublished": "2026-11-11T13:48:00Z", "dateModified": "2026-11-19T02:20:37Z"}
 </script>
 <script type="application/ld+json">
 {
@@ -178,7 +178,7 @@
     
     <p class="match-status">Janakpur Bolts bowled Kathmandu Gorkhas out for 115 and chased it down by 8 wickets, with Rahul Yadav taking 4 for 31.</p>
     <div class="mh-live" id="mh-live"><p class="mh-live-line"><span class="mh-live-badge">Result</span> <span>5th Match, Kirtipur, October 29, 2026, Nepal Premier League</span></p><p class="mh-live-nav"><a href="/npl/matches/2026/match-4/">&lsaquo; Match 4</a> <span aria-hidden="true">·</span> <a href="/npl/matches/2026/match-6/">Match 6 &rsaquo;</a></p><p class="mh-live-team" id="mh-score-bat">Kathmandu Gorkhas (NPL) <strong>115/10 (19.3 ov)</strong></p><p class="mh-live-team" id="mh-score-field">Janakpur Bolts (NPL) <strong>116/2 (17.2 ov)</strong></p><p class="mh-live-meta"><span id="mh-toss">Janakpur Bolts won by 8 wickets</span><span id="mh-updated"></span></p></div>
-    <p class="updated">Last updated: 18 November 2026</p>
+    <p class="updated">Last updated: 19 November 2026</p>
 </div>
 </div>
 
@@ -721,6 +721,7 @@
         <h2>SialTV</h2>
         <ul>
           <li><a href="/about/">About</a></li>
+          <li><button type="button" class="st-share">Share</button></li>
           <li><a href="/contact/">Contact Us</a></li>
           <li><a href="/privacy-policy/">Privacy Policy</a></li>
           <li><a href="/disclaimer/">Disclaimer</a></li>
@@ -739,6 +740,45 @@
     </div>
   </div>
 </footer>
+<script>
+/* SialTV footer Share button (2026-11-19): shares this page. Uses the
+   browser share sheet when available, otherwise copies the page URL and
+   shows "Link copied" briefly. No external service, no tracking. */
+(function () {
+  var btns = document.querySelectorAll('.st-share');
+  for (var i = 0; i < btns.length; i++) {
+    btns[i].addEventListener('click', function () {
+      var b = this;
+      var url = location.href;
+      if (navigator.share) {
+        navigator.share({ title: document.title, url: url }).catch(function () {});
+        return;
+      }
+      function done() {
+        var t = b.textContent;
+        b.textContent = 'Link copied';
+        setTimeout(function () { b.textContent = t; }, 2000);
+      }
+      function fallback() {
+        var ta = document.createElement('textarea');
+        ta.value = url;
+        ta.setAttribute('readonly', '');
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); done(); } catch (e) {}
+        document.body.removeChild(ta);
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).then(done, fallback);
+      } else {
+        fallback();
+      }
+    });
+  }
+})();
+</script>
 <script>
 /* Direction D: scroll-reveal + count-up. Progressive enhancement: without
    JS nothing is hidden (the .js class gates the hidden state); with

@@ -16,7 +16,7 @@
 <meta name="twitter:description" content="Andre Russell starred with bat and ball as Biratnagar Kings edged Janakpur Bolts by two runs in Match 12. Read the full scorecard and the last-ball finish.">
 <meta name="theme-color" content="#090811">
 <script type="application/ld+json">
-{"@context": "https://schema.org", "@type": "WebPage", "name": "Kings vs Bolts NPL Match 12 — Scorecard & Result", "url": "https://sialtv.com/npl/matches/2026/match-12/", "description": "Andre Russell starred with bat and ball as Biratnagar Kings edged Janakpur Bolts by two runs in Match 12. Read the full scorecard and the last-ball finish.", "datePublished": "2026-11-11T13:55:00Z", "dateModified": "2026-11-18T20:23:23Z"}
+{"@context": "https://schema.org", "@type": "WebPage", "name": "Kings vs Bolts NPL Match 12 — Scorecard & Result", "url": "https://sialtv.com/npl/matches/2026/match-12/", "description": "Andre Russell starred with bat and ball as Biratnagar Kings edged Janakpur Bolts by two runs in Match 12. Read the full scorecard and the last-ball finish.", "datePublished": "2026-11-11T13:55:00Z", "dateModified": "2026-11-19T02:20:37Z"}
 </script>
 <script type="application/ld+json">
 {
@@ -179,7 +179,7 @@
     
     <p class="match-status">Biratnagar Kings made 174 for 3 and beat Janakpur Bolts by two runs at the Tribhuvan University International Cricket Ground, Kirtipur, on Tuesday, 3 November 2026.</p>
     <div class="mh-live" id="mh-live"><p class="mh-live-line"><span class="mh-live-badge">Result</span> <span>12th Match, Kirtipur, November 03, 2026, Nepal Premier League</span></p><p class="mh-live-nav"><a href="/npl/matches/2026/match-11/">&lsaquo; Match 11</a> <span aria-hidden="true">·</span> <a href="/npl/matches/2026/match-13/">Match 13 &rsaquo;</a></p><p class="mh-live-team" id="mh-score-bat">Biratnagar Kings (NPL) <strong>174/3 (20 ov)</strong></p><p class="mh-live-team" id="mh-score-field">Janakpur Bolts (NPL) <strong>172/7 (20 ov)</strong></p><p class="mh-live-meta"><span id="mh-toss">Biratnagar Kings won by 2 runs</span><span id="mh-updated"></span></p></div>
-    <p class="updated">Last updated: 18 November 2026</p>
+    <p class="updated">Last updated: 19 November 2026</p>
 </div>
 </div>
 
@@ -712,6 +712,7 @@
         <h2>SialTV</h2>
         <ul>
           <li><a href="/about/">About</a></li>
+          <li><button type="button" class="st-share">Share</button></li>
           <li><a href="/contact/">Contact Us</a></li>
           <li><a href="/privacy-policy/">Privacy Policy</a></li>
           <li><a href="/disclaimer/">Disclaimer</a></li>
@@ -730,6 +731,45 @@
     </div>
   </div>
 </footer>
+<script>
+/* SialTV footer Share button (2026-11-19): shares this page. Uses the
+   browser share sheet when available, otherwise copies the page URL and
+   shows "Link copied" briefly. No external service, no tracking. */
+(function () {
+  var btns = document.querySelectorAll('.st-share');
+  for (var i = 0; i < btns.length; i++) {
+    btns[i].addEventListener('click', function () {
+      var b = this;
+      var url = location.href;
+      if (navigator.share) {
+        navigator.share({ title: document.title, url: url }).catch(function () {});
+        return;
+      }
+      function done() {
+        var t = b.textContent;
+        b.textContent = 'Link copied';
+        setTimeout(function () { b.textContent = t; }, 2000);
+      }
+      function fallback() {
+        var ta = document.createElement('textarea');
+        ta.value = url;
+        ta.setAttribute('readonly', '');
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); done(); } catch (e) {}
+        document.body.removeChild(ta);
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).then(done, fallback);
+      } else {
+        fallback();
+      }
+    });
+  }
+})();
+</script>
 <script>
 /* Direction D: scroll-reveal + count-up. Progressive enhancement: without
    JS nothing is hidden (the .js class gates the hidden state); with
