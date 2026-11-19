@@ -3329,3 +3329,23 @@ body.st-inner.league-apl .hub3-right .table-scroll table.t-pts th:nth-child(3) {
 body.st-inner.league-apl .hub3-right .table-scroll table.t-pts th:nth-child(4) { width: 27px; }
 body.st-inner.league-apl .hub3-right .table-scroll table.t-pts th:nth-child(5) { width: 44px; }
 body.st-inner.league-apl .hub3-right .table-scroll table.t-pts th:nth-child(6) { width: 65px; }
+
+/* APL — same rule, league-apl scope (Family 8, 2026-11-19, profile-hero parity):
+   without this twin the APL profile hero falls back to the old 72px-circle
+   rules — photo a small centred circle, name centred, stats stacked below —
+   while the NPL/ILT20 hero is the 160px square left block. This is the exact
+   twin the ILT20 profiles got in FIX ROUND 2 (2026-11-18, defect 10); the
+   players.css hero-stats twin (min-width 981px, 3-column grid, stats in the
+   right column) already exists for league-apl, it only needs this grid shell.
+   NPL/ILT20 selectors unchanged. */
+body.st-inner.league-apl .profile-card { display: grid; grid-template-columns: 160px minmax(0, 1fr); align-items: stretch; padding: 0; overflow: hidden; }
+body.st-inner.league-apl .profile-card .pc-photo-wrap { width: 160px; height: 160px; }
+body.st-inner.league-apl .profile-card .pc-photo-wrap .pc-photo { width: 100%; height: 100%; border-radius: 0; object-fit: cover; display: block; }
+body.st-inner.league-apl .profile-card .pc-photo-wrap .init.big { width: 100%; height: 100%; border-radius: 0; background: var(--st-rose); color: #fff; font-size: 2rem; font-weight: 800; display: flex; align-items: center; justify-content: center; margin: 0; }
+body.st-inner.league-apl .profile-card .pc-text { padding: 1.25rem 1.2rem; min-width: 0; display: flex; flex-direction: column; justify-content: center; }
+body.st-inner.league-apl .profile-card .pc-name { margin: 0 0 0.35rem; }
+body.st-inner.league-apl .profile-card .pc-summary { font-size: 0.875rem; line-height: 1.5; }
+@media (max-width: 640px) {
+  body.st-inner.league-apl .profile-card .pc-name { font-size: 1.25rem; }
+  body.st-inner.league-apl .profile-card .pc-text { padding: 1rem; }
+}
