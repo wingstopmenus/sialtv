@@ -2791,6 +2791,43 @@ body.league-npl #records .season-records { display: grid; grid-template-columns:
 body.league-npl #records .sr-item { background: var(--st-surface); border: 1px solid var(--st-line); border-left: 3px solid var(--st-rose); border-radius: 0.7rem; padding: 0.8rem 1rem; }
 body.league-npl #records .sr-label { display: block; font-size: 0.78rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; color: var(--st-rose-deep); margin-bottom: 0.25rem; }
 body.league-npl #records .sr-value { display: block; line-height: 1.5; }
+/* Hub parity (Family 1, 2026-11-19): the Records & Teams polish above is
+   scoped to body.league-npl, but the ILT20/APL hubs now carry the same
+   sections. These shared rules give them the identical rendering.
+   Addition only — the NPL rules above are untouched. */
+body.league-ilt20 #records .t-nums,
+body.league-apl #records .t-nums { font-size: 0.85rem; }
+body.league-ilt20 #records .t-nums th,
+body.league-ilt20 #records .t-nums td,
+body.league-apl #records .t-nums th,
+body.league-apl #records .t-nums td { padding: 0.4rem 0.3rem; }
+body.league-ilt20 #records .records-col h3,
+body.league-apl #records .records-col h3 { letter-spacing: -0.01em; }
+body.league-ilt20 #records .records-grid table.t-nums,
+body.league-apl #records .records-grid table.t-nums { display: table; width: 100%; }
+body.league-ilt20 #records .records-col,
+body.league-apl #records .records-col { background: var(--st-surface); border: 1px solid var(--st-line); border-radius: var(--st-radius-sm); padding: 1rem 1.1rem; box-shadow: var(--st-shadow-sm); }
+body.league-ilt20 #records .records-col h3,
+body.league-apl #records .records-col h3 { margin: 0 0 0.6rem; font-size: 1.05rem; }
+body.league-ilt20 #records .records-grid .t-nums tbody tr:hover,
+body.league-apl #records .records-grid .t-nums tbody tr:hover { background: var(--st-bg-soft); }
+body.league-ilt20 #records .records-grid .t-nums td:nth-child(4),
+body.league-apl #records .records-grid .t-nums td:nth-child(4) { font-weight: 800; }
+body.league-ilt20 #records .season-records,
+body.league-apl #records .season-records { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.75rem; margin: 0 0 0.75rem; }
+@media (max-width: 700px) { body.league-ilt20 #records .season-records, body.league-apl #records .season-records { grid-template-columns: 1fr; } }
+body.league-ilt20 #records .sr-item,
+body.league-apl #records .sr-item { background: var(--st-surface); border: 1px solid var(--st-line); border-left: 3px solid var(--st-rose); border-radius: 0.7rem; padding: 0.8rem 1rem; }
+body.league-ilt20 #records .sr-label,
+body.league-apl #records .sr-label { display: block; font-size: 0.78rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; color: var(--st-rose-deep); margin-bottom: 0.25rem; }
+body.league-ilt20 #records .sr-value,
+body.league-apl #records .sr-value { display: block; line-height: 1.5; }
+body.league-ilt20 #squads .team,
+body.league-apl #squads .team { padding: 1.25rem 1.4rem; transition: transform 0.15s ease, box-shadow 0.15s ease; }
+body.league-ilt20 #squads .team:hover,
+body.league-apl #squads .team:hover { transform: translateY(-2px); box-shadow: 0 14px 30px -14px rgba(16,12,42,0.22); }
+body.league-ilt20 #squads .team-body p,
+body.league-apl #squads .team-body p { line-height: 1.65; font-size: 0.95rem; }
 /* FAQ: numbered accordion cards with a chevron. Same questions/answers. */
 body.league-npl #faq { counter-reset: faq; }
 body.league-npl #faq .faq-item { position: relative; padding: 1rem 1.2rem 1rem 3.25rem; }
