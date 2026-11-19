@@ -686,10 +686,23 @@ function sialtv_keep_scorecards(array $payload, string $cachedJson): array
    ('Qualifier 1', 'Eliminator', 'Qualifier 2', 'Final'). */
 function sialtv_stats_stage(string $desc): ?string
 {
-    if (preg_match('/^Match\s+\d+$/i', trim($desc))) {
+    $d = trim($desc);
+    if (preg_match('/^Match\s+\d+$/i', $d)) {
         return null;
     }
-    $d = trim($desc);
+    /* The live scoreboard appends venue / day-night notes to the desc
+       ("Qualifier 2,  (D/N) at Kirtipur") — the bare stage name is
+       everything before the first comma or " ("; the JS exact-matches
+       it against PLAYOFF_DESCS, so a dirty stage would count a
+       playoff match as a league match and move the frozen table. */
+    $cut = strlen($d);
+    foreach ([',', ' ('] as $sep) {
+        $pos = strpos($d, $sep);
+        if ($pos !== false && $pos < $cut) {
+            $cut = $pos;
+        }
+    }
+    $d = trim(substr($d, 0, $cut));
     return $d === '' ? null : $d;
 }
 

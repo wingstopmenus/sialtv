@@ -5,9 +5,13 @@
    never a scroll jump (Cricinfo behaviour).
 
    Design (see ../DATA-CONTRACT.md):
-   - Points: computed from the endpoint payload's matches (scores,
-     overs, status) — the same rules as live-scores.js computePoints
-     and the points-table builder. No aggregate needed.
+   - Points: computed from the AGGREGATE file (the full 32-match
+     season), never from the endpoint payload — the live payload is
+     a rolling window (1 match while live), and computing from it
+     would render an all-zeros table (Defect 2, live 2026-11-19).
+     The payload is only the flip detector (live -> result) and the
+     poll-interval signal. Same rules as live-scores.js computePoints
+     and the points-table builder.
    - Stats: computed from the aggregate file
      data/runtime/<league>-stats-agg.json, fetched ONLY when the
      endpoint's statsVersion hash changes and coverage is complete.
@@ -760,9 +764,26 @@
     var t = m[which];
     return (typeof t === 'object' && t) ? t.name : t;
   }
+  function bareStage(s) {
+    /* "Qualifier 2,  (D/N) at Kirtipur" -> "Qualifier 2": the live
+       scoreboard appends venue / day-night notes to the desc, and the
+       stage the endpoint stores can carry them too. Strip from the
+       first comma or " (" so the exact PLAYOFF_DESCS match below
+       cannot miss on a dirty stage. */
+    if (s === undefined || s === null) return null;
+    var d = String(s), cut = d.length, p;
+    p = d.indexOf(',');
+    if (p !== -1 && p < cut) cut = p;
+    p = d.indexOf(' (');
+    if (p !== -1 && p < cut) cut = p;
+    d = d.slice(0, cut).replace(/^\s+|\s+$/g, '');
+    return d === '' ? null : d;
+  }
   function matchStage(m) {
-    if (m.stage !== undefined && m.stage !== null) return m.stage;
-    if (PLAYOFF_DESCS.indexOf(m.matchDesc) !== -1) return m.matchDesc;
+    var st = bareStage(m.stage);
+    if (st !== null) return st;
+    st = bareStage(m.matchDesc);
+    if (st !== null && PLAYOFF_DESCS.indexOf(st) !== -1) return st;
     return null;
   }
   function isAbandoned(m) {
@@ -789,9 +810,9 @@
   }
   function computePoints(matches, cfg) {
     /* Accepts both the endpoint payload (team1/team2 = names) and the
-       aggregate (team1/team2 = {name, code}) — the stats renderer
-       recomputes the frozen table from the aggregate, the points
-       renderer from the live payload. */
+       aggregate (team1/team2 = {name, code}) — BOTH renderers now
+       compute from the aggregate; the payload is only the flip
+       detector (a rolling window must never feed the table). */
     var t = {};
     Object.keys(cfg.teams).forEach(function (code) {
       t[code] = { code: code, name: cfg.teams[code].name, played: 0, won: 0,
@@ -805,7 +826,9 @@
     matches.forEach(function (m) {
       /* League match = anything without a playoff stage. (The endpoint
          stage comes from matchDesc: null for "Match N", the playoff
-         name otherwise. The leagueStages set is for the aggregate /
+         name otherwise — bareStage() strips the venue / day-night
+         suffix first, so "Qualifier 2,  (D/N) at Kirtipur" still
+         matches. The leagueStages set is for the aggregate /
          matches.json path, where ILT20 league matches carry
          stage='League' — here a null stage is a league match too.) */
       var st = matchStage(m);
@@ -883,6 +906,28 @@
         runs_for: r.forR, balls_for: r.forB, runs_against: r.agR, balls_against: r.agB };
     });
   }
+  function winnerBattedFirst(m, winSide, cfg) {
+    /* Batting order beats team order: the aggregate carries no
+       statusText, so the margin type (runs vs wickets) comes from
+       which innings the winner batted — period 1 = batted first =
+       won by runs; period 2 = chased = won by wickets. The old
+       team-order fallback ("higher scorer = runs winner") is wrong
+       whenever the fixture's team2 batted first (M14: LUL won by 16
+       runs, heuristic said 2 wickets). Returns null when the innings
+       are unavailable, and the caller keeps the old runs fallback. */
+    var inns = m.innings || (m.scorecard && m.scorecard.innings) || [];
+    if (!inns.length) return null;
+    var winTeam = winSide === 0 ? teamNameOf(m, 'team1') : teamNameOf(m, 'team2');
+    var winCode = teamCodeOf(cfg, winTeam);
+    for (var i = 0; i < inns.length; i++) {
+      var inn = inns[i];
+      if (!inn) continue;
+      if ((inn.code && inn.code === winCode) || cleanTeam(inn.team || '') === cleanTeam(winTeam)) {
+        return inn.period === 1;
+      }
+    }
+    return null;
+  }
   function resultText(m, cfg) {
     if (isAbandoned(m)) return 'Match ' + m.matchNo + ' abandoned \u2014 no result, points shared';
     var s1 = parseScore(m.score1), s2 = parseScore(m.score2);
@@ -897,6 +942,10 @@
        type is read from the text. Falls back to the heuristic when
        the text carries no type. */
     var byWkts = /wkt|wicket/i.test(m.statusText || '');
+    if (!m.statusText) {
+      var bf = winnerBattedFirst(m, s1.runs > s2.runs ? 0 : 1, cfg);
+      if (bf !== null) byWkts = !bf;
+    }
     var winName, winCode, margin;
     if (s1.runs > s2.runs) {
       winName = cleanTeam(teamNameOf(m, 'team1')); winCode = teamCodeOf(cfg, teamNameOf(m, 'team1'));
@@ -1562,12 +1611,16 @@
     }
     return false;
   }
-  function computeAndRender(matches) {
-    var points = computePoints(matches, state.cfg);
+  function renderPointsFromAggregate(agg) {
+    /* Points (full table + minis) come from the aggregate, never from
+       the rolling payload window: a 1-match live payload would render
+       an all-zeros table (Defect 2, live 2026-11-19 — the points page
+       showed all zeros). The payload is only the flip detector. */
+    var points = computePoints(agg.matches, state.cfg);
     var byNo = {};
-    matches.forEach(function (m) { byNo[m.matchNo] = m; });
+    agg.matches.forEach(function (m) { byNo[m.matchNo] = m; });
     state.matchesByNo = byNo;
-    renderPointsTable(points, byNo, matches, state.cfg);
+    renderPointsTable(points, byNo, agg.matches, state.cfg);
     renderMinis(points, state.cfg);
     return points;
   }
@@ -1593,7 +1646,6 @@
           state.prevStatus[m.matchNo] = m.status;
         });
         if (flip) { state.pendingFlip = true; state.settlePolls = 0; }
-        computeAndRender(matches);
         var sv = payload.statsVersion;
         if (sv && sv.hash && sv.hash !== state.lastHash) {
           state.lastHash = sv.hash;
@@ -1603,6 +1655,7 @@
               .then(function (agg) {
                 if (agg.version && agg.version.withCards === agg.version.results) {
                   renderFromAggregate(agg);
+                  renderPointsFromAggregate(agg);
                   if (state.pendingFlip) {
                     state.pendingFlip = false;
                     state.settlePolls = 0;
@@ -1610,7 +1663,13 @@
                 }
                 return anyLive(matches);
               })
-              .catch(function (e) { if (window.console) console.warn('[sialtv] aggregate fetch failed', e); return anyLive(matches); });
+              .catch(function (e) {
+                if (window.console) console.warn('[sialtv] aggregate fetch failed', e);
+                /* Retry on the next poll: a failed first fetch must not
+                   leave the pages on baked tables forever. */
+                state.lastHash = null;
+                return anyLive(matches);
+              });
           }
         }
         if (state.pendingFlip) {
@@ -1660,13 +1719,14 @@
     LEAGUES: LEAGUES, PLAYOFF_DESCS: PLAYOFF_DESCS,
     aggregate: aggregate, tables: tables, records: records,
     computePoints: computePoints, pointsMiniRows: pointsMiniRows,
+    bareStage: bareStage, matchStage: matchStage,
     leadHtml: leadHtml, resultText: resultText, detailRowsHtml: detailRowsHtml,
     nextCellHtml: nextCellHtml, parseScore: parseScore, oversToBalls: oversToBalls,
     ballsToOvers: ballsToOvers, pyRound: pyRound, pyFixed: pyFixed,
     fmtAve: fmtAve, fmtSr: fmtSr, fmtEcon: fmtEcon, fmtBsr: fmtBsr,
     dateLabel: dateLabel, dateLong: dateLong, ordinal: ordinal, tm: tm,
     cleanTeam: cleanTeam, teamCodeOf: teamCodeOf, playerCellHtml: playerCellHtml,
-    _state: state, _pollOnce: pollOnce, _computeAndRender: computeAndRender,
+    _state: state, _pollOnce: pollOnce, _renderPointsFromAggregate: renderPointsFromAggregate,
     _renderFromAggregate: renderFromAggregate, _boot: boot
   };
   if (typeof window !== 'undefined') window.sialtvPointsStats = api;
