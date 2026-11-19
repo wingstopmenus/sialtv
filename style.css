@@ -2185,25 +2185,26 @@ body.st-inner.league-ilt20 .pts-mini td:nth-child(n+2), body.st-inner.league-ilt
 body.st-inner.league-ilt20 .fix-date td { background: var(--st-bg-soft); font-weight: 800; font-size: 0.8125rem; letter-spacing: .06em; text-transform: uppercase; color: var(--st-ink-2); }
 
 /* Stats components. */
-body.st-inner.league-ilt20 .rx-stat-table { margin: 0 0 1.75rem; }
-body.st-inner.league-ilt20 .rx-stat-table h3 { font-size: 1.25rem; color: var(--st-ink); margin: 0 0 0.625rem; }
-body.st-inner.league-ilt20 .rx-stat-table table { width: 100%; }
-body.st-inner.league-ilt20 .rx-empty { color: var(--st-mute); text-align: center; padding: 1.125rem 0; }
+body.st-inner.league-ilt20 .rx-stat-table, body.st-inner.league-apl .rx-stat-table { margin: 0 0 1.75rem; }
+body.st-inner.league-ilt20 .rx-stat-table h3, body.st-inner.league-apl .rx-stat-table h3 { font-size: 1.25rem; color: var(--st-ink); margin: 0 0 0.625rem; }
+body.st-inner.league-ilt20 .rx-stat-table table, body.st-inner.league-apl .rx-stat-table table { width: 100%; }
+body.st-inner.league-ilt20 .rx-empty, body.st-inner.league-apl .rx-empty { color: var(--st-mute); text-align: center; padding: 1.125rem 0; }
 body.st-inner.league-ilt20 .rx-footnote { color: var(--st-mute); font-size: 0.875rem; margin: 0.875rem 0 0; }
 body.st-inner.league-ilt20 .rx-legend { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.25rem 1.5rem; font-size: 0.875rem; color: var(--st-ink-2); margin: 0.875rem 0 0; }
 body.st-inner.league-ilt20 .rx-legend b { color: var(--st-ink); }
 body.st-inner.league-ilt20 .rx-note-card { border: 1px solid var(--st-line); border-radius: var(--st-radius-sm); padding: 1.25rem 1.375rem; background: var(--st-surface); margin: 0 0 1.25rem; }
 body.st-inner.league-ilt20 .rx-note-card p { margin: 0 0 0.625rem; }
 body.st-inner.league-ilt20 .rx-note-card p:last-child { margin-bottom: 0; }
-body.st-inner.league-ilt20 .rx-records { border: 1px solid var(--st-line); border-radius: var(--st-radius-sm); background: var(--st-surface); padding: 1.125rem 1.25rem; }
-body.st-inner.league-ilt20 .rx-records h3 { margin: 0 0 0.25rem; font-size: 0.9375rem; letter-spacing: .04em; color: var(--st-mute); text-transform: uppercase; }
-body.st-inner.league-ilt20 .rx-records ul { list-style: none; margin: 0.75rem 0 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem 1rem; }
-body.st-inner.league-ilt20 .rx-records ul a { color: var(--st-ink); text-decoration: none; font-weight: 600; }
-body.st-inner.league-ilt20 .rx-records ul a:hover { color: var(--st-rose-deep); }
-body.st-inner.league-ilt20 .rx-records .rx-seeall { float: right; }
-body.st-inner.league-ilt20 .rx-viewall { margin: 0 0 1rem; }
-body.st-inner.league-ilt20 .rx-viewall a { color: var(--st-rose-deep); text-decoration: none; font-weight: 600; }
+body.st-inner.league-ilt20 .rx-records, body.st-inner.league-apl .rx-records { border: 1px solid var(--st-line); border-radius: var(--st-radius-sm); background: var(--st-surface); padding: 1.125rem 1.25rem; }
+body.st-inner.league-ilt20 .rx-records h3, body.st-inner.league-apl .rx-records h3 { margin: 0 0 0.25rem; font-size: 0.9375rem; letter-spacing: .04em; color: var(--st-mute); text-transform: uppercase; }
+body.st-inner.league-ilt20 .rx-records ul, body.st-inner.league-apl .rx-records ul { list-style: none; margin: 0.75rem 0 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem 1rem; }
+body.st-inner.league-ilt20 .rx-records ul a, body.st-inner.league-apl .rx-records ul a { color: var(--st-ink); text-decoration: none; font-weight: 600; }
+body.st-inner.league-ilt20 .rx-records ul a:hover, body.st-inner.league-apl .rx-records ul a:hover { color: var(--st-rose-deep); }
+body.st-inner.league-ilt20 .rx-records .rx-seeall, body.st-inner.league-apl .rx-records .rx-seeall { float: right; }
+body.st-inner.league-ilt20 .rx-viewall, body.st-inner.league-apl .rx-viewall { margin: 0 0 1rem; }
+body.st-inner.league-ilt20 .rx-viewall a, body.st-inner.league-apl .rx-viewall a { color: var(--st-rose-deep); text-decoration: none; font-weight: 600; }
 body.st-inner.league-ilt20 .rx-seeall { font-size: 0.875rem; font-weight: 700; color: var(--st-rose-deep); text-decoration: none; }
+body.st-inner.league-apl .rx-records .rx-seeall { font-size: 0.875rem; font-weight: 700; color: var(--st-rose-deep); text-decoration: none; }
 body.st-inner.league-ilt20 .rx-arrow { font-weight: 800; color: var(--st-rose-deep); }
 
 /* Number-column tables (right-aligned numbers). */
@@ -2236,7 +2237,7 @@ body.st-inner.league-ilt20 .u-sr-only { position: absolute; width: 1px; height: 
   body.st-inner.league-ilt20 .player-right, body.st-inner.league-ilt20 .team-right,
   body.st-inner.league-ilt20 .player-centre, body.st-inner.league-ilt20 .team-centre { grid-area: auto; }
   body.st-inner.league-ilt20 .rx-legend { grid-template-columns: 1fr 1fr; }
-  body.st-inner.league-ilt20 .rx-records ul { grid-template-columns: 1fr; }
+  body.st-inner.league-ilt20 .rx-records ul, body.st-inner.league-apl .rx-records ul { grid-template-columns: 1fr; }
 }
 
 /* Layout fix — 2026-11-13 (section by section: strip polish, NPL hub 3-col, records 2-col). */

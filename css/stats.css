@@ -1,13 +1,13 @@
 /* NPL stats page — Cricinfo structure, sialtv theme.
    Palette (locked, user order 2026-11-14): lavender #f5f3fb, rose #e11d48,
    night #090811. No Cricinfo brand colour anywhere — not on tabs, accents,
-   sidebar, strip or nav. Scoped to body.page-npl-stats, body.page-ilt20-stats (.sts-). */
+   sidebar, strip or nav. Scoped to body.page-npl-stats, body.page-ilt20-stats, body.page-apl-stats (.sts-). */
 
 /* --- content rhythm + section heads --- */
-body.page-npl-stats .home-main section, body.page-ilt20-stats .home-main section { margin-bottom: 2.5rem; }
-body.page-npl-stats .home-main section:last-child, body.page-ilt20-stats .home-main section:last-child { margin-bottom: 0; }
-body.page-npl-stats .st-block__head, body.page-ilt20-stats .st-block__head { margin-bottom: 1rem; }
-body.page-npl-stats .st-block__head h2, body.page-ilt20-stats .st-block__head h2 {
+body.page-npl-stats .home-main section, body.page-ilt20-stats .home-main section, body.page-apl-stats .home-main section { margin-bottom: 2.5rem; }
+body.page-npl-stats .home-main section:last-child, body.page-ilt20-stats .home-main section:last-child, body.page-apl-stats .home-main section:last-child { margin-bottom: 0; }
+body.page-npl-stats .st-block__head, body.page-ilt20-stats .st-block__head, body.page-apl-stats .st-block__head { margin-bottom: 1rem; }
+body.page-npl-stats .st-block__head h2, body.page-ilt20-stats .st-block__head h2, body.page-apl-stats .st-block__head h2 {
   color: #090811;
   font-size: 1.5rem;
   line-height: 1.25;
@@ -16,18 +16,18 @@ body.page-npl-stats .st-block__head h2, body.page-ilt20-stats .st-block__head h2
   border-bottom: 3px solid #e11d48;
   display: inline-block;
 }
-body.page-npl-stats .rx-viewall, body.page-ilt20-stats .rx-viewall { margin: .6rem 0 0; }
-body.page-npl-stats .rx-viewall a, body.page-ilt20-stats .rx-viewall a { color: #e11d48; font-weight: 700; }
+body.page-npl-stats .rx-viewall, body.page-ilt20-stats .rx-viewall, body.page-apl-stats .rx-viewall { margin: .6rem 0 0; }
+body.page-npl-stats .rx-viewall a, body.page-ilt20-stats .rx-viewall a, body.page-apl-stats .rx-viewall a { color: #e11d48; font-weight: 700; }
 
 /* --- Top performances cards --- */
-body.page-npl-stats .rx-perf-grid, body.page-ilt20-stats .rx-perf-grid { gap: 1rem; }
-body.page-npl-stats .rx-perf-card, body.page-ilt20-stats .rx-perf-card {
+body.page-npl-stats .rx-perf-grid, body.page-ilt20-stats .rx-perf-grid, body.page-apl-stats .rx-perf-grid { gap: 1rem; }
+body.page-npl-stats .rx-perf-card, body.page-ilt20-stats .rx-perf-card, body.page-apl-stats .rx-perf-card {
   border-top: 3px solid #e11d48;
   background: #fff;
 }
-body.page-npl-stats .rx-perf-card h3, body.page-ilt20-stats .rx-perf-card h3 { color: #090811; }
-body.page-npl-stats .rx-perf-card .rx-perf-note, body.page-ilt20-stats .rx-perf-card .rx-perf-note { color: #6b6580; font-size: .85rem; margin: 0 0 .25rem; }
-body.page-npl-stats .rx-perf-row .rx-ava, body.page-ilt20-stats .rx-perf-row .rx-ava {
+body.page-npl-stats .rx-perf-card h3, body.page-ilt20-stats .rx-perf-card h3, body.page-apl-stats .rx-perf-card h3 { color: #090811; }
+body.page-npl-stats .rx-perf-card .rx-perf-note, body.page-ilt20-stats .rx-perf-card .rx-perf-note, body.page-apl-stats .rx-perf-card .rx-perf-note { color: #6b6580; font-size: .85rem; margin: 0 0 .25rem; }
+body.page-npl-stats .rx-perf-row .rx-ava, body.page-ilt20-stats .rx-perf-row .rx-ava, body.page-apl-stats .rx-perf-row .rx-ava {
   background: #f5f3fb;
   color: #090811;
   border: 1px solid #e4ddf3;
@@ -41,18 +41,18 @@ body.page-npl-stats .rx-perf-row .rx-ava, body.page-ilt20-stats .rx-perf-row .rx
   font-size: .85rem;
   flex: none;
 }
-body.page-npl-stats .rx-perf-row .rx-perf-fig, body.page-ilt20-stats .rx-perf-row .rx-perf-fig { color: #e11d48; }
-body.page-npl-stats .rx-perf-foot a, body.page-ilt20-stats .rx-perf-foot a { color: #e11d48; }
+body.page-npl-stats .rx-perf-row .rx-perf-fig, body.page-ilt20-stats .rx-perf-row .rx-perf-fig, body.page-apl-stats .rx-perf-row .rx-perf-fig { color: #e11d48; }
+body.page-npl-stats .rx-perf-foot a, body.page-ilt20-stats .rx-perf-foot a, body.page-apl-stats .rx-perf-foot a { color: #e11d48; }
 
 /* --- Full season tables --- */
-body.page-npl-stats .rx-stat-table, body.page-ilt20-stats .rx-stat-table { margin: 0 0 1.75rem; }
-body.page-npl-stats .rx-stat-table h3, body.page-ilt20-stats .rx-stat-table h3 {
+body.page-npl-stats .rx-stat-table, body.page-ilt20-stats .rx-stat-table, body.page-apl-stats .rx-stat-table { margin: 0 0 1.75rem; }
+body.page-npl-stats .rx-stat-table h3, body.page-ilt20-stats .rx-stat-table h3, body.page-apl-stats .rx-stat-table h3 {
   color: #090811;
   font-size: 1.2rem;
   margin: 0 0 .6rem;
 }
-body.page-npl-stats .rx-stat-table table, body.page-ilt20-stats .rx-stat-table table { width: 100%; border-collapse: collapse; }
-body.page-npl-stats .rx-stat-table thead th, body.page-ilt20-stats .rx-stat-table thead th {
+body.page-npl-stats .rx-stat-table table, body.page-ilt20-stats .rx-stat-table table, body.page-apl-stats .rx-stat-table table { width: 100%; border-collapse: collapse; }
+body.page-npl-stats .rx-stat-table thead th, body.page-ilt20-stats .rx-stat-table thead th, body.page-apl-stats .rx-stat-table thead th {
   background: #f5f3fb;
   color: #090811;
   text-align: left;
@@ -60,62 +60,62 @@ body.page-npl-stats .rx-stat-table thead th, body.page-ilt20-stats .rx-stat-tabl
   border-bottom: 2px solid #e4ddf3;
   white-space: nowrap;
 }
-body.page-npl-stats .rx-stat-table thead th[data-sort], body.page-ilt20-stats .rx-stat-table thead th[data-sort] { cursor: pointer; }
-body.page-npl-stats .rx-stat-table tbody td, body.page-ilt20-stats .rx-stat-table tbody td {
+body.page-npl-stats .rx-stat-table thead th[data-sort], body.page-ilt20-stats .rx-stat-table thead th[data-sort], body.page-apl-stats .rx-stat-table thead th[data-sort] { cursor: pointer; }
+body.page-npl-stats .rx-stat-table tbody td, body.page-ilt20-stats .rx-stat-table tbody td, body.page-apl-stats .rx-stat-table tbody td {
   padding: .55rem .7rem;
   border-bottom: 1px solid #efeaf9;
   font-variant-numeric: tabular-nums;
 }
-body.page-npl-stats .rx-stat-table tbody tr:nth-child(even), body.page-ilt20-stats .rx-stat-table tbody tr:nth-child(even) { background: #faf9fd; }
-body.page-npl-stats .rx-stat-table tbody tr:hover, body.page-ilt20-stats .rx-stat-table tbody tr:hover { background: #f5f3fb; }
-body.page-npl-stats .rx-stat-table td a, body.page-ilt20-stats .rx-stat-table td a { color: #090811; font-weight: 600; }
-body.page-npl-stats .rx-stat-table td a:hover, body.page-ilt20-stats .rx-stat-table td a:hover { color: #e11d48; }
-body.page-npl-stats #team-stats td a, body.page-ilt20-stats #team-stats td a { color: #090811; font-weight: 600; }
-body.page-npl-stats #team-stats td a:hover, body.page-ilt20-stats #team-stats td a:hover { color: #e11d48; }
-body.page-npl-stats .rx-table-note, body.page-ilt20-stats .rx-table-note { color: #6b6580; font-size: .85rem; margin: 0 0 .5rem; }
-body.page-npl-stats details.rx-zero, body.page-ilt20-stats details.rx-zero { margin: .5rem 0 0; }
-body.page-npl-stats details.rx-zero summary, body.page-ilt20-stats details.rx-zero summary { cursor: pointer; color: #e11d48; font-weight: 700; }
+body.page-npl-stats .rx-stat-table tbody tr:nth-child(even), body.page-ilt20-stats .rx-stat-table tbody tr:nth-child(even), body.page-apl-stats .rx-stat-table tbody tr:nth-child(even) { background: #faf9fd; }
+body.page-npl-stats .rx-stat-table tbody tr:hover, body.page-ilt20-stats .rx-stat-table tbody tr:hover, body.page-apl-stats .rx-stat-table tbody tr:hover { background: #f5f3fb; }
+body.page-npl-stats .rx-stat-table td a, body.page-ilt20-stats .rx-stat-table td a, body.page-apl-stats .rx-stat-table td a { color: #090811; font-weight: 600; }
+body.page-npl-stats .rx-stat-table td a:hover, body.page-ilt20-stats .rx-stat-table td a:hover, body.page-apl-stats .rx-stat-table td a:hover { color: #e11d48; }
+body.page-npl-stats #team-stats td a, body.page-ilt20-stats #team-stats td a, body.page-apl-stats #team-stats td a { color: #090811; font-weight: 600; }
+body.page-npl-stats #team-stats td a:hover, body.page-ilt20-stats #team-stats td a:hover, body.page-apl-stats #team-stats td a:hover { color: #e11d48; }
+body.page-npl-stats .rx-table-note, body.page-ilt20-stats .rx-table-note, body.page-apl-stats .rx-table-note { color: #6b6580; font-size: .85rem; margin: 0 0 .5rem; }
+body.page-npl-stats details.rx-zero, body.page-ilt20-stats details.rx-zero, body.page-apl-stats details.rx-zero { margin: .5rem 0 0; }
+body.page-npl-stats details.rx-zero summary, body.page-ilt20-stats details.rx-zero summary, body.page-apl-stats details.rx-zero summary { cursor: pointer; color: #e11d48; font-weight: 700; }
 
 /* --- Team stats + Season records --- */
-body.page-npl-stats #team-stats table, body.page-ilt20-stats #team-stats table { width: 100%; border-collapse: collapse; }
-body.page-npl-stats #team-stats thead th, body.page-ilt20-stats #team-stats thead th {
+body.page-npl-stats #team-stats table, body.page-ilt20-stats #team-stats table, body.page-apl-stats #team-stats table { width: 100%; border-collapse: collapse; }
+body.page-npl-stats #team-stats thead th, body.page-ilt20-stats #team-stats thead th, body.page-apl-stats #team-stats thead th {
   background: #f5f3fb;
   color: #090811;
   text-align: left;
   padding: .6rem .7rem;
   border-bottom: 2px solid #e4ddf3;
 }
-body.page-npl-stats #team-stats tbody td, body.page-ilt20-stats #team-stats tbody td { padding: .55rem .7rem; border-bottom: 1px solid #efeaf9; font-variant-numeric: tabular-nums; }
-body.page-npl-stats #team-stats tbody tr:nth-child(even), body.page-ilt20-stats #team-stats tbody tr:nth-child(even) { background: #faf9fd; }
-body.page-npl-stats #records table, body.page-ilt20-stats #records table { width: 100%; border-collapse: collapse; }
-body.page-npl-stats #records thead th, body.page-ilt20-stats #records thead th {
+body.page-npl-stats #team-stats tbody td, body.page-ilt20-stats #team-stats tbody td, body.page-apl-stats #team-stats tbody td { padding: .55rem .7rem; border-bottom: 1px solid #efeaf9; font-variant-numeric: tabular-nums; }
+body.page-npl-stats #team-stats tbody tr:nth-child(even), body.page-ilt20-stats #team-stats tbody tr:nth-child(even), body.page-apl-stats #team-stats tbody tr:nth-child(even) { background: #faf9fd; }
+body.page-npl-stats #records table, body.page-ilt20-stats #records table, body.page-apl-stats #records table { width: 100%; border-collapse: collapse; }
+body.page-npl-stats #records thead th, body.page-ilt20-stats #records thead th, body.page-apl-stats #records thead th {
   background: #f5f3fb;
   color: #090811;
   text-align: left;
   padding: .6rem .7rem;
   border-bottom: 2px solid #e4ddf3;
 }
-body.page-npl-stats #records tbody td, body.page-ilt20-stats #records tbody td { padding: .6rem .7rem; border-bottom: 1px solid #efeaf9; }
-body.page-npl-stats #records tbody td a, body.page-ilt20-stats #records tbody td a { color: #090811; font-weight: 600; }
-body.page-npl-stats #records tbody td a:hover, body.page-ilt20-stats #records tbody td a:hover { color: #e11d48; }
-body.page-npl-stats .note, body.page-ilt20-stats .note { color: #6b6580; }
+body.page-npl-stats #records tbody td, body.page-ilt20-stats #records tbody td, body.page-apl-stats #records tbody td { padding: .6rem .7rem; border-bottom: 1px solid #efeaf9; }
+body.page-npl-stats #records tbody td a, body.page-ilt20-stats #records tbody td a, body.page-apl-stats #records tbody td a { color: #090811; font-weight: 600; }
+body.page-npl-stats #records tbody td a:hover, body.page-ilt20-stats #records tbody td a:hover, body.page-apl-stats #records tbody td a:hover { color: #e11d48; }
+body.page-npl-stats .note, body.page-ilt20-stats .note, body.page-apl-stats .note { color: #6b6580; }
 
 
 /* --- Sidebar rail (300px — base 320px rule lives in style.css, overridden here; sticky) --- */
-body.page-npl-stats .sts-card, body.page-ilt20-stats .sts-card {
+body.page-npl-stats .sts-card, body.page-ilt20-stats .sts-card, body.page-apl-stats .sts-card {
   background: #fff;
   border: 1px solid #e4ddf3;
   border-radius: 12px;
   padding: 1rem 1.1rem;
 }
-body.page-npl-stats .sts-card h3, body.page-ilt20-stats .sts-card h3 {
+body.page-npl-stats .sts-card h3, body.page-ilt20-stats .sts-card h3, body.page-apl-stats .sts-card h3 {
   font-size: .92rem;
   letter-spacing: .04em;
   text-transform: uppercase;
   color: #090811;
   margin: 0 0 .25rem;
 }
-body.page-npl-stats .sts-card h3 .sts-seeall, body.page-ilt20-stats .sts-card h3 .sts-seeall {
+body.page-npl-stats .sts-card h3 .sts-seeall, body.page-ilt20-stats .sts-card h3 .sts-seeall, body.page-apl-stats .sts-card h3 .sts-seeall {
   float: right;
   text-transform: none;
   letter-spacing: 0;
@@ -123,25 +123,25 @@ body.page-npl-stats .sts-card h3 .sts-seeall, body.page-ilt20-stats .sts-card h3
   font-weight: 700;
   color: #e11d48;
 }
-body.page-npl-stats .sts-card .sts-league, body.page-ilt20-stats .sts-card .sts-league {
+body.page-npl-stats .sts-card .sts-league, body.page-ilt20-stats .sts-card .sts-league, body.page-apl-stats .sts-card .sts-league {
   color: #6b6580;
   font-size: .8rem;
   letter-spacing: .05em;
   text-transform: uppercase;
   margin: 0 0 .6rem;
 }
-body.page-npl-stats .sts-card ul, body.page-ilt20-stats .sts-card ul { list-style: none; margin: 0; padding: 0; }
-body.page-npl-stats .sts-card li, body.page-ilt20-stats .sts-card li { padding: .32rem 0; border-top: 1px solid #f0ebfa; }
-body.page-npl-stats .sts-card li:first-child, body.page-ilt20-stats .sts-card li:first-child { border-top: 0; }
-body.page-npl-stats .sts-card li a, body.page-ilt20-stats .sts-card li a { color: #090811; font-weight: 600; text-decoration: none; }
-body.page-npl-stats .sts-card li a:hover, body.page-ilt20-stats .sts-card li a:hover { color: #e11d48; }
-body.page-npl-stats .sts-card li span, body.page-ilt20-stats .sts-card li span { display: block; color: #6b6580; font-size: .83rem; line-height: 1.4; }
-body.page-npl-stats .sts-nav ul, body.page-ilt20-stats .sts-nav ul { display: grid; grid-template-columns: 1fr 1fr; gap: 0 .9rem; }
-body.page-npl-stats .sts-nav li, body.page-ilt20-stats .sts-nav li { font-size: .92rem; }
+body.page-npl-stats .sts-card ul, body.page-ilt20-stats .sts-card ul, body.page-apl-stats .sts-card ul { list-style: none; margin: 0; padding: 0; }
+body.page-npl-stats .sts-card li, body.page-ilt20-stats .sts-card li, body.page-apl-stats .sts-card li { padding: .32rem 0; border-top: 1px solid #f0ebfa; }
+body.page-npl-stats .sts-card li:first-child, body.page-ilt20-stats .sts-card li:first-child, body.page-apl-stats .sts-card li:first-child { border-top: 0; }
+body.page-npl-stats .sts-card li a, body.page-ilt20-stats .sts-card li a, body.page-apl-stats .sts-card li a { color: #090811; font-weight: 600; text-decoration: none; }
+body.page-npl-stats .sts-card li a:hover, body.page-ilt20-stats .sts-card li a:hover, body.page-apl-stats .sts-card li a:hover { color: #e11d48; }
+body.page-npl-stats .sts-card li span, body.page-ilt20-stats .sts-card li span, body.page-apl-stats .sts-card li span { display: block; color: #6b6580; font-size: .83rem; line-height: 1.4; }
+body.page-npl-stats .sts-nav ul, body.page-ilt20-stats .sts-nav ul, body.page-apl-stats .sts-nav ul { display: grid; grid-template-columns: 1fr 1fr; gap: 0 .9rem; }
+body.page-npl-stats .sts-nav li, body.page-ilt20-stats .sts-nav li, body.page-apl-stats .sts-nav li { font-size: .92rem; }
 
 /* mini points table */
-body.page-npl-stats .sts-table table, body.page-ilt20-stats .sts-table table { display: table; width: 100%; border-collapse: collapse; font-size: .88rem; }
-body.page-npl-stats .sts-table th, body.page-ilt20-stats .sts-table th {
+body.page-npl-stats .sts-table table, body.page-ilt20-stats .sts-table table, body.page-apl-stats .sts-table table { display: table; width: 100%; border-collapse: collapse; font-size: .88rem; }
+body.page-npl-stats .sts-table th, body.page-ilt20-stats .sts-table th, body.page-apl-stats .sts-table th {
   text-align: left;
   color: #6b6580;
   font-size: .78rem;
@@ -150,50 +150,50 @@ body.page-npl-stats .sts-table th, body.page-ilt20-stats .sts-table th {
   padding: .35rem .3rem;
   border-bottom: 2px solid #e4ddf3;
 }
-body.page-npl-stats .sts-table th:nth-child(n+2), body.page-ilt20-stats .sts-table th:nth-child(n+2),
-body.page-npl-stats .sts-table td:nth-child(n+2), body.page-ilt20-stats .sts-table td:nth-child(n+2) { text-align: right; }
-body.page-npl-stats .sts-table td, body.page-ilt20-stats .sts-table td { padding: .42rem .3rem; border-bottom: 1px solid #f0ebfa; font-variant-numeric: tabular-nums; }
-body.page-npl-stats .sts-table td:first-child, body.page-ilt20-stats .sts-table td:first-child { font-weight: 700; color: #090811; }
-body.page-npl-stats .sts-table .sts-note, body.page-ilt20-stats .sts-table .sts-note { color: #6b6580; font-size: .82rem; margin: .6rem 0 0; }
+body.page-npl-stats .sts-table th:nth-child(n+2), body.page-ilt20-stats .sts-table th:nth-child(n+2), body.page-apl-stats .sts-table th:nth-child(n+2),
+body.page-npl-stats .sts-table td:nth-child(n+2), body.page-ilt20-stats .sts-table td:nth-child(n+2), body.page-apl-stats .sts-table td:nth-child(n+2) { text-align: right; }
+body.page-npl-stats .sts-table td, body.page-ilt20-stats .sts-table td, body.page-apl-stats .sts-table td { padding: .42rem .3rem; border-bottom: 1px solid #f0ebfa; font-variant-numeric: tabular-nums; }
+body.page-npl-stats .sts-table td:first-child, body.page-ilt20-stats .sts-table td:first-child, body.page-apl-stats .sts-table td:first-child { font-weight: 700; color: #090811; }
+body.page-npl-stats .sts-table .sts-note, body.page-ilt20-stats .sts-table .sts-note, body.page-apl-stats .sts-table .sts-note { color: #6b6580; font-size: .82rem; margin: .6rem 0 0; }
 
 /* --- narrow screens: rail stacks below content (grid 1fr, style.css) --- */
 @media (max-width: 980px) {
-  body.page-npl-stats .sts-nav ul, body.page-ilt20-stats .sts-nav ul { grid-template-columns: 1fr 1fr; }
-  body.page-npl-stats .st-block__head h2, body.page-ilt20-stats .st-block__head h2 { font-size: 1.3rem; }
+  body.page-npl-stats .sts-nav ul, body.page-ilt20-stats .sts-nav ul, body.page-apl-stats .sts-nav ul { grid-template-columns: 1fr 1fr; }
+  body.page-npl-stats .st-block__head h2, body.page-ilt20-stats .st-block__head h2, body.page-apl-stats .st-block__head h2 { font-size: 1.3rem; }
 }
 @media (max-width: 640px) {
-  body.page-npl-stats .rx-perf-grid, body.page-ilt20-stats .rx-perf-grid { grid-template-columns: 1fr; }
-  body.page-npl-stats .home-main section, body.page-ilt20-stats .home-main section { margin-bottom: 2rem; }
+  body.page-npl-stats .rx-perf-grid, body.page-ilt20-stats .rx-perf-grid, body.page-apl-stats .rx-perf-grid { grid-template-columns: 1fr; }
+  body.page-npl-stats .home-main section, body.page-ilt20-stats .home-main section, body.page-apl-stats .home-main section { margin-bottom: 2rem; }
 }
 
 /* --- Beautify 2026-11-14: "yet to" comma runs as chips --- */
-body.page-npl-stats details.rx-zero ul.rx-zero-chips, body.page-ilt20-stats details.rx-zero ul.rx-zero-chips { list-style: none; margin: .6rem 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: .45rem; }
-body.page-npl-stats details.rx-zero ul.rx-zero-chips li, body.page-ilt20-stats details.rx-zero ul.rx-zero-chips li { background: #f5f3fb; border: 1px solid #e4ddf3; color: #090811; border-radius: 999px; padding: .3rem .7rem; font-size: .85rem; line-height: 1.4; }
-body.page-npl-stats details.rx-zero ul.rx-zero-chips li span, body.page-ilt20-stats details.rx-zero ul.rx-zero-chips li span { color: #6b6580; }
+body.page-npl-stats details.rx-zero ul.rx-zero-chips, body.page-ilt20-stats details.rx-zero ul.rx-zero-chips, body.page-apl-stats details.rx-zero ul.rx-zero-chips { list-style: none; margin: .6rem 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: .45rem; }
+body.page-npl-stats details.rx-zero ul.rx-zero-chips li, body.page-ilt20-stats details.rx-zero ul.rx-zero-chips li, body.page-apl-stats details.rx-zero ul.rx-zero-chips li { background: #f5f3fb; border: 1px solid #e4ddf3; color: #090811; border-radius: 999px; padding: .3rem .7rem; font-size: .85rem; line-height: 1.4; }
+body.page-npl-stats details.rx-zero ul.rx-zero-chips li span, body.page-ilt20-stats details.rx-zero ul.rx-zero-chips li span, body.page-apl-stats details.rx-zero ul.rx-zero-chips li span { color: #6b6580; }
 
 /* --- Beautify 2026-11-14: Top Performances photos (same 2.5rem circle as the monogram) --- */
-body.page-npl-stats .rx-perf-row img.rx-perf-photo, body.page-ilt20-stats .rx-perf-row img.rx-perf-photo { width: 2.5rem; height: 2.5rem; border-radius: 50%; object-fit: cover; flex: none; border: 1px solid #e4ddf3; }
+body.page-npl-stats .rx-perf-row img.rx-perf-photo, body.page-ilt20-stats .rx-perf-row img.rx-perf-photo, body.page-apl-stats .rx-perf-row img.rx-perf-photo { width: 2.5rem; height: 2.5rem; border-radius: 50%; object-fit: cover; flex: none; border: 1px solid #e4ddf3; }
 
 /* --- Beautify 2026-11-14: real table layout. The site-wide base rule makes every table
    display:block, so the inner table shrink-wraps to content and leaves empty space on the
    right (same pattern as the hub fixes2 fix). Restore real table layout so stats tables
    span the full content column on desktop and mobile. Team stats keeps a min-width so
    its 10 columns scroll inside .table-scroll on phones instead of squeezing. --- */
-body.page-npl-stats .rx-stat-table table, body.page-ilt20-stats .rx-stat-table table, body.page-npl-stats #records table, body.page-ilt20-stats #records table { display: table; }
-body.page-npl-stats #team-stats table, body.page-ilt20-stats #team-stats table { display: table; min-width: 34rem; }
+body.page-npl-stats .rx-stat-table table, body.page-ilt20-stats .rx-stat-table table, body.page-apl-stats .rx-stat-table table, body.page-npl-stats #records table, body.page-ilt20-stats #records table, body.page-apl-stats #records table { display: table; }
+body.page-npl-stats #team-stats table, body.page-ilt20-stats #team-stats table, body.page-apl-stats #team-stats table { display: table; min-width: 34rem; }
 
 /* --- Sidebar rail 320px (FIX-3 2026-11-15): matches the hub right rail
    (.hub3 = 300px minmax(0,1fr) 320px). style.css .home-grid is 1.5fr/0.85fr,
    so the width is set here; stats.css loads after style.css. The ≤980px
    stacked mobile layout is untouched (this rule is ≥981px only). --- */
 @media (min-width: 981px) {
-  body.page-npl-stats .home-grid, body.page-ilt20-stats .home-grid { grid-template-columns: minmax(0, 1fr) 320px; }
+  body.page-npl-stats .home-grid, body.page-ilt20-stats .home-grid, body.page-apl-stats .home-grid { grid-template-columns: minmax(0, 1fr) 320px; }
 }
 /* --- Sidebar mini as teams mini (2026-11-15): same .t-pts pts-mini table (logos/codes +
    M/W/L/PTS/NRR). Rail padding mirrors the teams rail so 6 columns fit the 300px rail. --- */
-body.page-npl-stats .sts-table .pts-mini th, body.page-ilt20-stats .sts-table .pts-mini th,
-body.page-npl-stats .sts-table .pts-mini td, body.page-ilt20-stats .sts-table .pts-mini td { padding: 0.5rem 0.35rem; }
-body.page-npl-stats .sts-table .pts-mini td:first-child, body.page-ilt20-stats .sts-table .pts-mini td:first-child { gap: 0.4rem; }
+body.page-npl-stats .sts-table .pts-mini th, body.page-ilt20-stats .sts-table .pts-mini th, body.page-apl-stats .sts-table .pts-mini th,
+body.page-npl-stats .sts-table .pts-mini td, body.page-ilt20-stats .sts-table .pts-mini td, body.page-apl-stats .sts-table .pts-mini td { padding: 0.5rem 0.35rem; }
+body.page-npl-stats .sts-table .pts-mini td:first-child, body.page-ilt20-stats .sts-table .pts-mini td:first-child, body.page-apl-stats .sts-table .pts-mini td:first-child { gap: 0.4rem; }
 
 /* --- Content tables beautify (2026-11-15): night headers, card frame,
    right-aligned numbers, headline-stat emphasis, rose-tint hover.
@@ -205,9 +205,9 @@ body.page-npl-stats .sts-table .pts-mini td:first-child, body.page-ilt20-stats .
 /* Table as a card: white, bordered, rounded corners. Applies to the 12
    full-season tables + their 12 "See all" tables + Team stats + Season
    records (all inside .rx-stat-table / #team-stats / #records). */
-body.page-npl-stats .rx-stat-table table, body.page-ilt20-stats .rx-stat-table table,
-body.page-npl-stats #team-stats table, body.page-ilt20-stats #team-stats table,
-body.page-npl-stats #records table, body.page-ilt20-stats #records table {
+body.page-npl-stats .rx-stat-table table, body.page-ilt20-stats .rx-stat-table table, body.page-apl-stats .rx-stat-table table,
+body.page-npl-stats #team-stats table, body.page-ilt20-stats #team-stats table, body.page-apl-stats #team-stats table,
+body.page-npl-stats #records table, body.page-ilt20-stats #records table, body.page-apl-stats #records table {
   background: #fff;
   border: 1px solid #e4ddf3;
   border-radius: 12px;
@@ -219,9 +219,9 @@ body.page-npl-stats #records table, body.page-ilt20-stats #records table {
 /* Night header, white uppercase text, rose rule underneath. Sortable
    headers keep cursor:pointer (earlier rule); the sort arrow (.rx-arrow,
    added by the inline sort script) reads rose on night. */
-body.page-npl-stats .rx-stat-table thead th, body.page-ilt20-stats .rx-stat-table thead th,
-body.page-npl-stats #team-stats thead th, body.page-ilt20-stats #team-stats thead th,
-body.page-npl-stats #records thead th, body.page-ilt20-stats #records thead th {
+body.page-npl-stats .rx-stat-table thead th, body.page-ilt20-stats .rx-stat-table thead th, body.page-apl-stats .rx-stat-table thead th,
+body.page-npl-stats #team-stats thead th, body.page-ilt20-stats #team-stats thead th, body.page-apl-stats #team-stats thead th,
+body.page-npl-stats #records thead th, body.page-ilt20-stats #records thead th, body.page-apl-stats #records thead th {
   background: #090811;
   color: #fff;
   text-transform: uppercase;
@@ -230,96 +230,96 @@ body.page-npl-stats #records thead th, body.page-ilt20-stats #records thead th {
   padding: .7rem .75rem;
   border-bottom: 2px solid #e11d48;
 }
-body.page-npl-stats .rx-stat-table thead th .rx-arrow, body.page-ilt20-stats .rx-stat-table thead th .rx-arrow,
-body.page-npl-stats #team-stats thead th .rx-arrow, body.page-ilt20-stats #team-stats thead th .rx-arrow {
+body.page-npl-stats .rx-stat-table thead th .rx-arrow, body.page-ilt20-stats .rx-stat-table thead th .rx-arrow, body.page-apl-stats .rx-stat-table thead th .rx-arrow,
+body.page-npl-stats #team-stats thead th .rx-arrow, body.page-ilt20-stats #team-stats thead th .rx-arrow, body.page-apl-stats #team-stats thead th .rx-arrow {
   color: #e11d48;
   margin-left: .3rem;
   font-size: .7rem;
 }
 /* Rounded table corners (border-collapse:separate needs the corner cells). */
-body.page-npl-stats .rx-stat-table thead th:first-child, body.page-ilt20-stats .rx-stat-table thead th:first-child,
-body.page-npl-stats #team-stats thead th:first-child, body.page-ilt20-stats #team-stats thead th:first-child,
-body.page-npl-stats #records thead th:first-child, body.page-ilt20-stats #records thead th:first-child { border-top-left-radius: 11px; }
-body.page-npl-stats .rx-stat-table thead th:last-child, body.page-ilt20-stats .rx-stat-table thead th:last-child,
-body.page-npl-stats #team-stats thead th:last-child, body.page-ilt20-stats #team-stats thead th:last-child,
-body.page-npl-stats #records thead th:last-child, body.page-ilt20-stats #records thead th:last-child { border-top-right-radius: 11px; }
-body.page-npl-stats .rx-stat-table tbody tr:last-child td:first-child, body.page-ilt20-stats .rx-stat-table tbody tr:last-child td:first-child,
-body.page-npl-stats #team-stats tbody tr:last-child td:first-child, body.page-ilt20-stats #team-stats tbody tr:last-child td:first-child,
-body.page-npl-stats #records tbody tr:last-child td:first-child, body.page-ilt20-stats #records tbody tr:last-child td:first-child { border-bottom-left-radius: 11px; }
-body.page-npl-stats .rx-stat-table tbody tr:last-child td:last-child, body.page-ilt20-stats .rx-stat-table tbody tr:last-child td:last-child,
-body.page-npl-stats #team-stats tbody tr:last-child td:last-child, body.page-ilt20-stats #team-stats tbody tr:last-child td:last-child,
-body.page-npl-stats #records tbody tr:last-child td:last-child, body.page-ilt20-stats #records tbody tr:last-child td:last-child { border-bottom-right-radius: 11px; }
+body.page-npl-stats .rx-stat-table thead th:first-child, body.page-ilt20-stats .rx-stat-table thead th:first-child, body.page-apl-stats .rx-stat-table thead th:first-child,
+body.page-npl-stats #team-stats thead th:first-child, body.page-ilt20-stats #team-stats thead th:first-child, body.page-apl-stats #team-stats thead th:first-child,
+body.page-npl-stats #records thead th:first-child, body.page-ilt20-stats #records thead th:first-child, body.page-apl-stats #records thead th:first-child { border-top-left-radius: 11px; }
+body.page-npl-stats .rx-stat-table thead th:last-child, body.page-ilt20-stats .rx-stat-table thead th:last-child, body.page-apl-stats .rx-stat-table thead th:last-child,
+body.page-npl-stats #team-stats thead th:last-child, body.page-ilt20-stats #team-stats thead th:last-child, body.page-apl-stats #team-stats thead th:last-child,
+body.page-npl-stats #records thead th:last-child, body.page-ilt20-stats #records thead th:last-child, body.page-apl-stats #records thead th:last-child { border-top-right-radius: 11px; }
+body.page-npl-stats .rx-stat-table tbody tr:last-child td:first-child, body.page-ilt20-stats .rx-stat-table tbody tr:last-child td:first-child, body.page-apl-stats .rx-stat-table tbody tr:last-child td:first-child,
+body.page-npl-stats #team-stats tbody tr:last-child td:first-child, body.page-ilt20-stats #team-stats tbody tr:last-child td:first-child, body.page-apl-stats #team-stats tbody tr:last-child td:first-child,
+body.page-npl-stats #records tbody tr:last-child td:first-child, body.page-ilt20-stats #records tbody tr:last-child td:first-child, body.page-apl-stats #records tbody tr:last-child td:first-child { border-bottom-left-radius: 11px; }
+body.page-npl-stats .rx-stat-table tbody tr:last-child td:last-child, body.page-ilt20-stats .rx-stat-table tbody tr:last-child td:last-child, body.page-apl-stats .rx-stat-table tbody tr:last-child td:last-child,
+body.page-npl-stats #team-stats tbody tr:last-child td:last-child, body.page-ilt20-stats #team-stats tbody tr:last-child td:last-child, body.page-apl-stats #team-stats tbody tr:last-child td:last-child,
+body.page-npl-stats #records tbody tr:last-child td:last-child, body.page-ilt20-stats #records tbody tr:last-child td:last-child, body.page-apl-stats #records tbody tr:last-child td:last-child { border-bottom-right-radius: 11px; }
 
 /* Body cells: roomier padding, hairline row separators (kept). */
-body.page-npl-stats .rx-stat-table tbody td, body.page-ilt20-stats .rx-stat-table tbody td,
-body.page-npl-stats #team-stats tbody td, body.page-ilt20-stats #team-stats tbody td,
-body.page-npl-stats #records tbody td, body.page-ilt20-stats #records tbody td {
+body.page-npl-stats .rx-stat-table tbody td, body.page-ilt20-stats .rx-stat-table tbody td, body.page-apl-stats .rx-stat-table tbody td,
+body.page-npl-stats #team-stats tbody td, body.page-ilt20-stats #team-stats tbody td, body.page-apl-stats #team-stats tbody td,
+body.page-npl-stats #records tbody td, body.page-ilt20-stats #records tbody td, body.page-apl-stats #records tbody td {
   padding: .6rem .75rem;
   border-bottom: 1px solid #efeaf9;
 }
 /* Zebra (kept) + rose-tint hover (was lavender). Records gains zebra/hover
    for the first time — it had neither. */
-body.page-npl-stats #records tbody tr:nth-child(even), body.page-ilt20-stats #records tbody tr:nth-child(even) { background: #faf9fd; }
-body.page-npl-stats .rx-stat-table tbody tr:hover, body.page-ilt20-stats .rx-stat-table tbody tr:hover,
-body.page-npl-stats #team-stats tbody tr:hover, body.page-ilt20-stats #team-stats tbody tr:hover,
-body.page-npl-stats #records tbody tr:hover, body.page-ilt20-stats #records tbody tr:hover { background: #fdf0f3; }
+body.page-npl-stats #records tbody tr:nth-child(even), body.page-ilt20-stats #records tbody tr:nth-child(even), body.page-apl-stats #records tbody tr:nth-child(even) { background: #faf9fd; }
+body.page-npl-stats .rx-stat-table tbody tr:hover, body.page-ilt20-stats .rx-stat-table tbody tr:hover, body.page-apl-stats .rx-stat-table tbody tr:hover,
+body.page-npl-stats #team-stats tbody tr:hover, body.page-ilt20-stats #team-stats tbody tr:hover, body.page-apl-stats #team-stats tbody tr:hover,
+body.page-npl-stats #records tbody tr:hover, body.page-ilt20-stats #records tbody tr:hover, body.page-apl-stats #records tbody tr:hover { background: #fdf0f3; }
 
 /* First column (player / team / record name): semibold night even when the
    name has no profile link (e.g. Dawid Malan, D'Arcy Short). */
-body.page-npl-stats .rx-stat-table tbody td:first-child, body.page-ilt20-stats .rx-stat-table tbody td:first-child,
-body.page-npl-stats #team-stats tbody td:first-child, body.page-ilt20-stats #team-stats tbody td:first-child,
-body.page-npl-stats #records tbody td:first-child, body.page-ilt20-stats #records tbody td:first-child {
+body.page-npl-stats .rx-stat-table tbody td:first-child, body.page-ilt20-stats .rx-stat-table tbody td:first-child, body.page-apl-stats .rx-stat-table tbody td:first-child,
+body.page-npl-stats #team-stats tbody td:first-child, body.page-ilt20-stats #team-stats tbody td:first-child, body.page-apl-stats #team-stats tbody td:first-child,
+body.page-npl-stats #records tbody td:first-child, body.page-ilt20-stats #records tbody td:first-child, body.page-apl-stats #records tbody td:first-child {
   font-weight: 600;
   color: #090811;
 }
 
 /* Numbers right-aligned (first column stays left). Records is all text,
    so it is excluded from right-alignment. */
-body.page-npl-stats .rx-stat-table th:not(:first-child), body.page-ilt20-stats .rx-stat-table th:not(:first-child),
-body.page-npl-stats .rx-stat-table td:not(:first-child), body.page-ilt20-stats .rx-stat-table td:not(:first-child),
-body.page-npl-stats #team-stats th:not(:first-child), body.page-ilt20-stats #team-stats th:not(:first-child),
-body.page-npl-stats #team-stats td:not(:first-child), body.page-ilt20-stats #team-stats td:not(:first-child) { text-align: right; }
+body.page-npl-stats .rx-stat-table th:not(:first-child), body.page-ilt20-stats .rx-stat-table th:not(:first-child), body.page-apl-stats .rx-stat-table th:not(:first-child),
+body.page-npl-stats .rx-stat-table td:not(:first-child), body.page-ilt20-stats .rx-stat-table td:not(:first-child), body.page-apl-stats .rx-stat-table td:not(:first-child),
+body.page-npl-stats #team-stats th:not(:first-child), body.page-ilt20-stats #team-stats th:not(:first-child), body.page-apl-stats #team-stats th:not(:first-child),
+body.page-npl-stats #team-stats td:not(:first-child), body.page-ilt20-stats #team-stats td:not(:first-child), body.page-apl-stats #team-stats td:not(:first-child) { text-align: right; }
 /* Text columns back to left: "Match" (trailing col) and "Result". */
-body.page-npl-stats #high-scores th:last-child, body.page-ilt20-stats #high-scores th:last-child,
-body.page-npl-stats #high-scores td:last-child, body.page-ilt20-stats #high-scores td:last-child,
-body.page-npl-stats #best-bowling th:last-child, body.page-ilt20-stats #best-bowling th:last-child,
-body.page-npl-stats #best-bowling td:last-child, body.page-ilt20-stats #best-bowling td:last-child,
-body.page-npl-stats #fastest-50 th:last-child, body.page-ilt20-stats #fastest-50 th:last-child,
-body.page-npl-stats #fastest-50 td:last-child, body.page-ilt20-stats #fastest-50 td:last-child,
-body.page-npl-stats #high-team-totals th:nth-child(5), body.page-ilt20-stats #high-team-totals th:nth-child(5),
-body.page-npl-stats #high-team-totals td:nth-child(5), body.page-ilt20-stats #high-team-totals td:nth-child(5),
-body.page-npl-stats #high-team-totals th:nth-child(6), body.page-ilt20-stats #high-team-totals th:nth-child(6),
-body.page-npl-stats #high-team-totals td:nth-child(6), body.page-ilt20-stats #high-team-totals td:nth-child(6) { text-align: left; }
+body.page-npl-stats #high-scores th:last-child, body.page-ilt20-stats #high-scores th:last-child, body.page-apl-stats #high-scores th:last-child,
+body.page-npl-stats #high-scores td:last-child, body.page-ilt20-stats #high-scores td:last-child, body.page-apl-stats #high-scores td:last-child,
+body.page-npl-stats #best-bowling th:last-child, body.page-ilt20-stats #best-bowling th:last-child, body.page-apl-stats #best-bowling th:last-child,
+body.page-npl-stats #best-bowling td:last-child, body.page-ilt20-stats #best-bowling td:last-child, body.page-apl-stats #best-bowling td:last-child,
+body.page-npl-stats #fastest-50 th:last-child, body.page-ilt20-stats #fastest-50 th:last-child, body.page-apl-stats #fastest-50 th:last-child,
+body.page-npl-stats #fastest-50 td:last-child, body.page-ilt20-stats #fastest-50 td:last-child, body.page-apl-stats #fastest-50 td:last-child,
+body.page-npl-stats #high-team-totals th:nth-child(5), body.page-ilt20-stats #high-team-totals th:nth-child(5), body.page-apl-stats #high-team-totals th:nth-child(5),
+body.page-npl-stats #high-team-totals td:nth-child(5), body.page-ilt20-stats #high-team-totals td:nth-child(5), body.page-apl-stats #high-team-totals td:nth-child(5),
+body.page-npl-stats #high-team-totals th:nth-child(6), body.page-ilt20-stats #high-team-totals th:nth-child(6), body.page-apl-stats #high-team-totals th:nth-child(6),
+body.page-npl-stats #high-team-totals td:nth-child(6), body.page-ilt20-stats #high-team-totals td:nth-child(6), body.page-apl-stats #high-team-totals td:nth-child(6) { text-align: left; }
 
 /* Headline stat of each table, extra-bold night: the number the table is
    about (Runs, Wkts, Score, Ct, SR, 6s, 4s, 50s, Balls, Ducks, Pts). */
-body.page-npl-stats #most-runs td:nth-child(3), body.page-ilt20-stats #most-runs td:nth-child(3),
-body.page-npl-stats #most-wickets td:nth-child(3), body.page-ilt20-stats #most-wickets td:nth-child(3),
-body.page-npl-stats #high-scores td:nth-child(2), body.page-ilt20-stats #high-scores td:nth-child(2),
-body.page-npl-stats #best-bowling td:nth-child(4), body.page-ilt20-stats #best-bowling td:nth-child(4),
-body.page-npl-stats #high-team-totals td:nth-child(2), body.page-ilt20-stats #high-team-totals td:nth-child(2),
-body.page-npl-stats #most-catches td:nth-child(3), body.page-ilt20-stats #most-catches td:nth-child(3),
-body.page-npl-stats #strike-rates td:nth-child(5), body.page-ilt20-stats #strike-rates td:nth-child(5),
-body.page-npl-stats #most-sixes td:nth-child(3), body.page-ilt20-stats #most-sixes td:nth-child(3),
-body.page-npl-stats #most-fours td:nth-child(3), body.page-ilt20-stats #most-fours td:nth-child(3),
-body.page-npl-stats #fifties td:nth-child(2), body.page-ilt20-stats #fifties td:nth-child(2),
-body.page-npl-stats #fastest-50 td:nth-child(3), body.page-ilt20-stats #fastest-50 td:nth-child(3),
-body.page-npl-stats #most-ducks td:nth-child(2), body.page-ilt20-stats #most-ducks td:nth-child(2),
-body.page-npl-stats #team-stats td:nth-child(7), body.page-ilt20-stats #team-stats td:nth-child(7) {
+body.page-npl-stats #most-runs td:nth-child(3), body.page-ilt20-stats #most-runs td:nth-child(3), body.page-apl-stats #most-runs td:nth-child(3),
+body.page-npl-stats #most-wickets td:nth-child(3), body.page-ilt20-stats #most-wickets td:nth-child(3), body.page-apl-stats #most-wickets td:nth-child(3),
+body.page-npl-stats #high-scores td:nth-child(2), body.page-ilt20-stats #high-scores td:nth-child(2), body.page-apl-stats #high-scores td:nth-child(2),
+body.page-npl-stats #best-bowling td:nth-child(4), body.page-ilt20-stats #best-bowling td:nth-child(4), body.page-apl-stats #best-bowling td:nth-child(4),
+body.page-npl-stats #high-team-totals td:nth-child(2), body.page-ilt20-stats #high-team-totals td:nth-child(2), body.page-apl-stats #high-team-totals td:nth-child(2),
+body.page-npl-stats #most-catches td:nth-child(3), body.page-ilt20-stats #most-catches td:nth-child(3), body.page-apl-stats #most-catches td:nth-child(3),
+body.page-npl-stats #strike-rates td:nth-child(5), body.page-ilt20-stats #strike-rates td:nth-child(5), body.page-apl-stats #strike-rates td:nth-child(5),
+body.page-npl-stats #most-sixes td:nth-child(3), body.page-ilt20-stats #most-sixes td:nth-child(3), body.page-apl-stats #most-sixes td:nth-child(3),
+body.page-npl-stats #most-fours td:nth-child(3), body.page-ilt20-stats #most-fours td:nth-child(3), body.page-apl-stats #most-fours td:nth-child(3),
+body.page-npl-stats #fifties td:nth-child(2), body.page-ilt20-stats #fifties td:nth-child(2), body.page-apl-stats #fifties td:nth-child(2),
+body.page-npl-stats #fastest-50 td:nth-child(3), body.page-ilt20-stats #fastest-50 td:nth-child(3), body.page-apl-stats #fastest-50 td:nth-child(3),
+body.page-npl-stats #most-ducks td:nth-child(2), body.page-ilt20-stats #most-ducks td:nth-child(2), body.page-apl-stats #most-ducks td:nth-child(2),
+body.page-npl-stats #team-stats td:nth-child(7), body.page-ilt20-stats #team-stats td:nth-child(7), body.page-apl-stats #team-stats td:nth-child(7) {
   font-weight: 800;
   color: #090811;
 }
 
 /* Section headings consistency: each full-season table's h3 gets the same
    rose left bar as the teams page's top-four cards. */
-body.page-npl-stats .rx-stat-table h3, body.page-ilt20-stats .rx-stat-table h3 {
+body.page-npl-stats .rx-stat-table h3, body.page-ilt20-stats .rx-stat-table h3, body.page-apl-stats .rx-stat-table h3 {
   border-left: 3px solid #e11d48;
   padding-left: .6rem;
 }
 
 /* "See all N players" summary: same rose bold treatment as the "yet to"
    (rx-zero) summary above it. */
-body.page-npl-stats details.rx-more summary, body.page-ilt20-stats details.rx-more summary {
+body.page-npl-stats details.rx-more summary, body.page-ilt20-stats details.rx-more summary, body.page-apl-stats details.rx-more summary {
   cursor: pointer;
   color: #e11d48;
   font-weight: 700;
@@ -328,16 +328,16 @@ body.page-npl-stats details.rx-more summary, body.page-ilt20-stats details.rx-mo
 
 /* Top Performances cards: same hover lift as the teams cards
    (translate + shadow), with a reduced-motion guard. */
-body.page-npl-stats .rx-perf-card, body.page-ilt20-stats .rx-perf-card {
+body.page-npl-stats .rx-perf-card, body.page-ilt20-stats .rx-perf-card, body.page-apl-stats .rx-perf-card {
   transition: transform .18s ease, box-shadow .18s ease;
 }
-body.page-npl-stats .rx-perf-card:hover, body.page-ilt20-stats .rx-perf-card:hover {
+body.page-npl-stats .rx-perf-card:hover, body.page-ilt20-stats .rx-perf-card:hover, body.page-apl-stats .rx-perf-card:hover {
   transform: translateY(-3px);
   box-shadow: 0 10px 24px rgba(9, 8, 17, .10);
 }
 @media (prefers-reduced-motion: reduce) {
-  body.page-npl-stats .rx-perf-card, body.page-ilt20-stats .rx-perf-card { transition: none; }
-  body.page-npl-stats .rx-perf-card:hover, body.page-ilt20-stats .rx-perf-card:hover { transform: none; }
+  body.page-npl-stats .rx-perf-card, body.page-ilt20-stats .rx-perf-card, body.page-apl-stats .rx-perf-card { transition: none; }
+  body.page-npl-stats .rx-perf-card:hover, body.page-ilt20-stats .rx-perf-card:hover, body.page-apl-stats .rx-perf-card:hover { transform: none; }
 }
 
 /* --- FIX-3 (2026-11-15): sidebar cards match the NPL hub right rail
@@ -348,18 +348,18 @@ body.page-npl-stats .rx-perf-card:hover, body.page-ilt20-stats .rx-perf-card:hov
    rose top border (0,1,0) and its nth-child colours (0,2,0). --- */
 
 /* Nav card keeps its 2-column link grid (the hub has no nav card). */
-body.page-npl-stats .side-card.sts-nav ul, body.page-ilt20-stats .side-card.sts-nav ul { display: grid; grid-template-columns: 1fr 1fr; gap: 0 .9rem; }
-body.page-npl-stats .side-card.sts-nav li, body.page-ilt20-stats .side-card.sts-nav li { font-size: .92rem; }
+body.page-npl-stats .side-card.sts-nav ul, body.page-ilt20-stats .side-card.sts-nav ul, body.page-apl-stats .side-card.sts-nav ul { display: grid; grid-template-columns: 1fr 1fr; gap: 0 .9rem; }
+body.page-npl-stats .side-card.sts-nav li, body.page-ilt20-stats .side-card.sts-nav li, body.page-apl-stats .side-card.sts-nav li { font-size: .92rem; }
 /* League line under the nav heading: hub-style muted, normal case. */
-body.page-npl-stats .side-card .sts-league, body.page-ilt20-stats .side-card .sts-league { color: #667085; font-size: .9rem; margin: 0 0 .6rem; }
+body.page-npl-stats .side-card .sts-league, body.page-ilt20-stats .side-card .sts-league, body.page-apl-stats .side-card .sts-league { color: #667085; font-size: .9rem; margin: 0 0 .6rem; }
 /* Sidebar links keep the live weight; sub-lines keep the live grey. */
-body.page-npl-stats .side-card li > a, body.page-ilt20-stats .side-card li > a { font-weight: 600; }
-body.page-npl-stats .side-card li > span, body.page-ilt20-stats .side-card li > span { color: #6b6580; font-size: .83rem; line-height: 1.4; }
+body.page-npl-stats .side-card li > a, body.page-ilt20-stats .side-card li > a, body.page-apl-stats .side-card li > a { font-weight: 600; }
+body.page-npl-stats .side-card li > span, body.page-ilt20-stats .side-card li > span, body.page-apl-stats .side-card li > span { color: #6b6580; font-size: .83rem; line-height: 1.4; }
 /* Points mini: hub rows — no hairline separators, no lavender header
    underline (the rose thead bar comes from /style.css .t-pts). Cell padding
    is governed by the style.css #points-table ID rules (0.45rem 0.35rem) on
    both pages — identical by construction, so no padding override here. */
-body.page-npl-stats .sts-table .pts-mini thead th, body.page-ilt20-stats .sts-table .pts-mini thead th { border-bottom: 0; }
-body.page-npl-stats .sts-table .pts-mini td, body.page-ilt20-stats .sts-table .pts-mini td { border-bottom: 0; }
+body.page-npl-stats .sts-table .pts-mini thead th, body.page-ilt20-stats .sts-table .pts-mini thead th, body.page-apl-stats .sts-table .pts-mini thead th { border-bottom: 0; }
+body.page-npl-stats .sts-table .pts-mini td, body.page-ilt20-stats .sts-table .pts-mini td, body.page-apl-stats .sts-table .pts-mini td { border-bottom: 0; }
 /* Hub footnote under the points table (same mute grey as the hub). */
-body.page-npl-stats .side-card .note, body.page-ilt20-stats .side-card .note { color: #667085; }
+body.page-npl-stats .side-card .note, body.page-ilt20-stats .side-card .note, body.page-apl-stats .side-card .note { color: #667085; }
