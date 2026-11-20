@@ -1001,31 +1001,57 @@ function sialtv_merge_static_schedule(array $payload, string $league): array
     if (!is_array($static['matches'] ?? null)) {
         return $payload;
     }
-    $have = [];
-    foreach ($payload['matches'] as $m) {
+    $byId = [];
+    foreach ($payload['matches'] as $i => $m) {
         if (is_array($m) && isset($m['id'])) {
-            $have[(string) $m['id']] = true;
+            $byId[(string) $m['id']] = $i;
         }
     }
     $extra = [];
+    $changed = false;
     foreach ($static['matches'] as $m) {
-        if (!is_array($m) || empty($m['id']) || !empty($have[(string) $m['id']])) {
+        if (!is_array($m) || empty($m['id'])) {
             continue;
         }
-        $st = strtolower((string) ($m['status'] ?? ''));
-        if ($st !== 'upcoming' && $st !== 'live') {
+        $id = (string) $m['id'];
+        if (!isset($byId[$id])) {
+            $st = strtolower((string) ($m['status'] ?? ''));
+            if ($st !== 'upcoming' && $st !== 'live') {
+                continue;
+            }
+            $extra[] = $m;
             continue;
         }
-        $extra[] = $m;
+        /* Backfill (2026-11-20): the ESPN mapper never emits
+           kickoffIso, and emits venue null when there is no summary
+           (the match is still ~a day away, outside the live window).
+           Whichever match ESPN's scoreboard currently lists would
+           otherwise lose both fields, and the homepage spotlight
+           skips it (it picks the next match with a kickoff time).
+           The site's own schedule is the authority for kickoff times,
+           so fill those two fields from the static file — only when
+           the payload's value is empty, never overwriting an
+           ESPN-derived value that is present. */
+        $i = $byId[$id];
+        if (empty($payload['matches'][$i]['kickoffIso']) && !empty($m['kickoffIso'])) {
+            $payload['matches'][$i]['kickoffIso'] = $m['kickoffIso'];
+            $changed = true;
+        }
+        if (empty($payload['matches'][$i]['venue']) && !empty($m['venue'])) {
+            $payload['matches'][$i]['venue'] = $m['venue'];
+            $changed = true;
+        }
     }
-    if ($extra === []) {
+    if ($extra === [] && !$changed) {
         return $payload;
     }
-    $merged = array_merge($payload['matches'], $extra);
-    usort($merged, static function ($a, $b) {
-        return ((int) ($a['matchNo'] ?? 0)) <=> ((int) ($b['matchNo'] ?? 0));
-    });
-    $payload['matches'] = array_values($merged);
+    if ($extra !== []) {
+        $merged = array_merge($payload['matches'], $extra);
+        usort($merged, static function ($a, $b) {
+            return ((int) ($a['matchNo'] ?? 0)) <=> ((int) ($b['matchNo'] ?? 0));
+        });
+        $payload['matches'] = array_values($merged);
+    }
     return $payload;
 }
 
