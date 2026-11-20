@@ -7,8 +7,9 @@
    3 days) is separate and untouched.
    DUAL SPOTLIGHT (2026-11-20, user order): when two leagues overlap, the
    second does NOT wait for the first to finish — both show. ILT20
-   appends beside the baked NPL block from the day before its opener
-   (20 Nov) while NPL is still live; from 22 Nov NPL has ended and
+   PREPENDS before the baked NPL block from the day before its opener
+   (20 Nov) while NPL is still live — latest on top — so the visitor
+   sees the new league first; from 22 Nov NPL has ended and
    ILT20 replaces it as before. APL is unchanged: it replaces ILT20
    from 21 Dec, and ILT20 ends 20 Dec, so the two never overlap. */
 (function () {
@@ -22,12 +23,12 @@
      day after the ILT20 final. The baked NPL spotlight still covers Q2
      and the Final — it is replaced, never rewritten, on 22 Nov. */
   var SPOTLIGHT_FROM = { ilt20: '2026-11-22', apl: '2026-12-21' };
-  /* Dual window: first day a league APPENDS its spotlight block beside
+  /* Dual window: first day a league PREPENDS its spotlight block before
      the baked NPL block instead of replacing it. ILT20 from the day
      before its opener (20 Nov), so both leagues show while NPL is
-     still live. No APL entry: APL replaces ILT20 from 21 Dec and
-     ILT20 ends 20 Dec, so the two never overlap. */
-  var SPOTLIGHT_APPEND_FROM = { ilt20: '2026-11-20' };
+     still live — latest on top. No APL entry: APL replaces ILT20 from
+     21 Dec and ILT20 ends 20 Dec, so the two never overlap. */
+  var SPOTLIGHT_PREPEND_FROM = { ilt20: '2026-11-20' };
   /* First match day per league (verified). The hero panel flips to
      "Now playing" only once the appended league is actually playing. */
   var LEAGUE_START = { ilt20: '2026-11-21' };
@@ -108,8 +109,8 @@
     if (today >= parseDate(SPOTLIGHT_FROM.ilt20)) return 'ilt20';
     return 'npl';
   }
-  /* dual: appended beside the baked NPL block. The appended shell gets
-     a top margin equal to the section's own bottom padding (2.75rem),
+  /* dual: prepended before the baked NPL block. The prepended shell gets
+     a bottom margin equal to the section's own bottom padding (2.75rem),
      so the two blocks read as siblings — without it the second heading
      would sit directly on the first block's cards. The replace path
      (single block) keeps no margin: the section padding already
@@ -124,7 +125,7 @@
         '<span><b>' + it.b + '</b><span>' + it.s + '</span></span>' +
         '<span class="st-spot__go" aria-hidden="true">→</span></a>';
     }
-    return '<div class="st-shell"' + (dual ? ' style="margin-top: 2.75rem"' : '') + '>' +
+    return '<div class="st-shell"' + (dual ? ' style="margin-bottom: 2.75rem"' : '') + '>' +
       '<header class="st-block__head st-block__head--left">' +
       '<h2 id="st-' + lg + '-title">' + d.title + '</h2><p>' + d.intro + '</p></header>' +
       '<div class="st-spot">' +
@@ -169,14 +170,16 @@
       return;
     }
     if (active === 'npl') {
-      /* Dual window: while NPL is still live, ILT20 appends beside the
-         baked NPL block from the day before its opener. The baked block
-         stays byte-identical and aria-labelledby still points at it.
-         The hero panel stays baked ("Up next") until ILT20's first
-         match day, when it flips to "Now playing". */
+      /* Dual window: while NPL is still live, ILT20 prepends before the
+         baked NPL block from the day before its opener — latest on top.
+         The baked block stays byte-identical; aria-labelledby moves to
+         the first block's heading (ILT20). The hero panel stays baked
+         ("Up next") until ILT20's first match day, when it flips to
+         "Now playing". */
       var today = startOfToday();
-      if (today >= parseDate(SPOTLIGHT_APPEND_FROM.ilt20)) {
-        spot.insertAdjacentHTML('beforeend', renderSpot('ilt20', true));
+      if (today >= parseDate(SPOTLIGHT_PREPEND_FROM.ilt20)) {
+        spot.insertAdjacentHTML('afterbegin', renderSpot('ilt20', true));
+        spot.setAttribute('aria-labelledby', 'st-ilt20-title');
         if (today >= parseDate(LEAGUE_START.ilt20)) renderNext('ilt20');
       }
       return;
