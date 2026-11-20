@@ -4,7 +4,13 @@
    after its final, but the spotlight moves the day after the NPL final —
    ILT20 from 22 Nov 2026, APL from 21 Dec 2026 (the day after the
    ILT20 final). The strip's own LEAGUE_END rule (flash-scores.js, final +
-   3 days) is separate and untouched. */
+   3 days) is separate and untouched.
+   DUAL SPOTLIGHT (2026-11-20, user order): when two leagues overlap, the
+   second does NOT wait for the first to finish — both show. ILT20
+   appends beside the baked NPL block from the day before its opener
+   (20 Nov) while NPL is still live; from 22 Nov NPL has ended and
+   ILT20 replaces it as before. APL is unchanged: it replaces ILT20
+   from 21 Dec, and ILT20 ends 20 Dec, so the two never overlap. */
 (function () {
   'use strict';
 
@@ -12,9 +18,19 @@
      final begins (local date). */
   var LEAGUE_END = { npl: '2026-11-21', ilt20: '2026-12-20', apl: '2027-01-20' };
   /* First day the spotlight shows the next league (verified dates). ILT20
-     leads from the day after the NPL final (22 Nov) so the NPL spotlight
-     covers Q2 and the Final; APL leads from the day after the ILT20 final. */
+     leads from the day after the NPL final (22 Nov); APL leads from the
+     day after the ILT20 final. The baked NPL spotlight still covers Q2
+     and the Final — it is replaced, never rewritten, on 22 Nov. */
   var SPOTLIGHT_FROM = { ilt20: '2026-11-22', apl: '2026-12-21' };
+  /* Dual window: first day a league APPENDS its spotlight block beside
+     the baked NPL block instead of replacing it. ILT20 from the day
+     before its opener (20 Nov), so both leagues show while NPL is
+     still live. No APL entry: APL replaces ILT20 from 21 Dec and
+     ILT20 ends 20 Dec, so the two never overlap. */
+  var SPOTLIGHT_APPEND_FROM = { ilt20: '2026-11-20' };
+  /* First match day per league (verified). The hero panel flips to
+     "Now playing" only once the appended league is actually playing. */
+  var LEAGUE_START = { ilt20: '2026-11-21' };
 
   var ICONS = {
     calendar: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>',
@@ -92,7 +108,13 @@
     if (today >= parseDate(SPOTLIGHT_FROM.ilt20)) return 'ilt20';
     return 'npl';
   }
-  function renderSpot(lg) {
+  /* dual: appended beside the baked NPL block. The appended shell gets
+     a top margin equal to the section's own bottom padding (2.75rem),
+     so the two blocks read as siblings — without it the second heading
+     would sit directly on the first block's cards. The replace path
+     (single block) keeps no margin: the section padding already
+     separates it from the section edge. */
+  function renderSpot(lg, dual) {
     var d = SPOT[lg];
     var out = '';
     for (var i = 0; i < d.items.length; i++) {
@@ -102,7 +124,7 @@
         '<span><b>' + it.b + '</b><span>' + it.s + '</span></span>' +
         '<span class="st-spot__go" aria-hidden="true">→</span></a>';
     }
-    return '<div class="st-shell">' +
+    return '<div class="st-shell"' + (dual ? ' style="margin-top: 2.75rem"' : '') + '>' +
       '<header class="st-block__head st-block__head--left">' +
       '<h2 id="st-' + lg + '-title">' + d.title + '</h2><p>' + d.intro + '</p></header>' +
       '<div class="st-spot">' +
@@ -146,7 +168,19 @@
       renderNext(null);
       return;
     }
-    if (active === 'npl') return;
+    if (active === 'npl') {
+      /* Dual window: while NPL is still live, ILT20 appends beside the
+         baked NPL block from the day before its opener. The baked block
+         stays byte-identical and aria-labelledby still points at it.
+         The hero panel stays baked ("Up next") until ILT20's first
+         match day, when it flips to "Now playing". */
+      var today = startOfToday();
+      if (today >= parseDate(SPOTLIGHT_APPEND_FROM.ilt20)) {
+        spot.insertAdjacentHTML('beforeend', renderSpot('ilt20', true));
+        if (today >= parseDate(LEAGUE_START.ilt20)) renderNext('ilt20');
+      }
+      return;
+    }
     renderNext(active);
     spot.setAttribute('aria-labelledby', 'st-' + active + '-title');
     spot.innerHTML = renderSpot(active);
