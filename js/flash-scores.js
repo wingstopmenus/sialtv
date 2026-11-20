@@ -552,6 +552,17 @@
     cta: 'Open the NPL hub'
   };
   var heroSlider = { keys: [], index: 0, timer: null, lastHtml: '' };
+  /* ILT20 Season 5 opener (verified 2026-11-20): Desert Vipers vs MI
+     Emirates, Sat 21 Nov 2026, 6:30 PM GST (7:30 PM PKT), Dubai
+     International Stadium. A hard-coded fixture constant, NOT endpoint
+     data — the ILT20 endpoint's next-match pick is M2, not M1 (flagged
+     2026-11-20). The bake writes the same slide, so the first poll
+     seeds instead of flashing. Self-expiring: once the kickoff passes
+     it drops out and the hero is NPL-only again. */
+  var ILT20_OPENER = { team1: 'Desert Vipers', team2: 'MI Emirates',
+    href: '/ilt20/matches/2026-27/match-1/', label: 'Season opener',
+    desc: 'Season opener', matchNo: 1,
+    kickoff: '2026-11-21T14:30:00Z', venue: 'Dubai', date: '2026-11-21' };
   function heroSlidesFor(st, fixtures) {
     var slides = [];
     if (st.live) slides.push(liveSlide(st.live, fixtures));
@@ -561,6 +572,9 @@
       slides.push(nextSlide(fx));
     });
     if (!slides.length && st.next) slides.push(nextSlide(st.next));
+    /* 2026-11-20: the ILT20 opener joins the hero as a second slide
+       while its kickoff is still ahead (see ILT20_OPENER above). */
+    if (Date.parse(ILT20_OPENER.kickoff) > Date.now()) slides.push(nextSlide(ILT20_OPENER));
     return slides;
   }
   function applyHeroSlide() {
