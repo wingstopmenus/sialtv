@@ -1,6 +1,6 @@
 {
  "league": "npl",
- "generatedAt": "2026-11-19T10:00:00Z",
+ "generatedAt": "2026-11-21T16:45:50Z",
  "fullNames": [
   "Aaditya Mahata",
   "Aakash Chand",
@@ -66,6 +66,7 @@
   "Fabian Allen",
   "Ganesh Gautam",
   "Gautam KC",
+  "George Munsey",
   "Grant Stewart",
   "Gulshan Kumar Jha",
   "Harishankar Shah",
@@ -159,6 +160,7 @@
   "Surya Tamang",
   "Suryanshu Koirala",
   "Tek Rawat",
+  "Thanuka Dabare",
   "Tharindu Ratnayake",
   "Tilak Bhandari",
   "Tom Taylor",
@@ -170,10 +172,10 @@
   "Yuvraj Khatri"
  ],
  "version": {
-  "through_match": 30,
-  "results": 29,
-  "withCards": 29,
-  "hash": "ec25602c98f4e82aa988431fd8c2bc55"
+  "through_match": 32,
+  "results": 31,
+  "withCards": 31,
+  "hash": "bd6cdeb7e8b37ffbc896c1aa39277146"
  },
  "matches": [
   {
@@ -2373,7 +2375,7 @@
    "date": "2026-10-31",
    "matchDesc": "Match 8",
    "stage": null,
-   "quota": 5,
+   "quota": 20,
    "status": "result",
    "team1": {
     "name": "Biratnagar Kings",
@@ -10667,7 +10669,7 @@
    "matchDesc": "Qualifier 2",
    "stage": "Qualifier 2",
    "quota": 20,
-   "status": "upcoming",
+   "status": "result",
    "team1": {
     "name": "Sudur Paschim Royals",
     "code": "SPR"
@@ -10676,55 +10678,361 @@
     "name": "Chitwan Rhinos",
     "code": "CHR"
    },
-   "score1": null,
-   "score2": null,
-   "overs1": null,
-   "overs2": null,
-   "winner": null,
-   "innings": [],
+   "score1": "136/7",
+   "score2": "133/9",
+   "overs1": "19.5",
+   "overs2": "20.0",
+   "winner": "SPR",
+   "innings": [
+    {
+     "team": "Chitwan Rhinos",
+     "code": "CHR",
+     "period": 1,
+     "total": "133/9",
+     "overs": "20.0",
+     "batting": [
+      {
+       "name": "Dev Khanal",
+       "dismissal": "c Pandey b Airee",
+       "not_out": false,
+       "runs": 6,
+       "balls": 9,
+       "fours": 1,
+       "sixes": 0
+      },
+      {
+       "name": "Kamil Mishara",
+       "dismissal": "c \u2020Bhandari b Kuggeleijn",
+       "not_out": false,
+       "runs": 4,
+       "balls": 3,
+       "fours": 1,
+       "sixes": 0
+      },
+      {
+       "name": "Dawid Malan",
+       "dismissal": "not out",
+       "not_out": true,
+       "runs": 71,
+       "balls": 51,
+       "fours": 9,
+       "sixes": 2
+      },
+      {
+       "name": "Ravi Bopara",
+       "dismissal": "c Airee b Dhami",
+       "not_out": false,
+       "runs": 1,
+       "balls": 8,
+       "fours": 0,
+       "sixes": 0
+      },
+      {
+       "name": "Bibek Yadav",
+       "dismissal": "c Pandey b Ratnayake",
+       "not_out": false,
+       "runs": 3,
+       "balls": 11,
+       "fours": 0,
+       "sixes": 0
+      },
+      {
+       "name": "Kushal Malla",
+       "dismissal": "c Munsey b Pandey",
+       "not_out": false,
+       "runs": 1,
+       "balls": 5,
+       "fours": 0,
+       "sixes": 0
+      },
+      {
+       "name": "Usama Mir",
+       "dismissal": "c Airee b Ratnayake",
+       "not_out": false,
+       "runs": 2,
+       "balls": 5,
+       "fours": 0,
+       "sixes": 0
+      },
+      {
+       "name": "Salahuddin Khan",
+       "dismissal": "c Munsey b Kuggeleijn",
+       "not_out": false,
+       "runs": 18,
+       "balls": 16,
+       "fours": 0,
+       "sixes": 1
+      },
+      {
+       "name": "Kamal Airee",
+       "dismissal": "c Airee b Kuggeleijn",
+       "not_out": false,
+       "runs": 10,
+       "balls": 8,
+       "fours": 0,
+       "sixes": 1
+      },
+      {
+       "name": "Rijan Dhakal",
+       "dismissal": "run out",
+       "not_out": false,
+       "runs": 3,
+       "balls": 4,
+       "fours": 0,
+       "sixes": 0
+      }
+     ],
+     "bowling": [
+      {
+       "name": "Hemant Dhami",
+       "overs": "4.0",
+       "balls": 24,
+       "maidens": 0,
+       "runs": 32,
+       "wickets": 1,
+       "wides": 6,
+       "noballs": 0
+      },
+      {
+       "name": "Scott Kuggeleijn",
+       "overs": "4.0",
+       "balls": 24,
+       "maidens": 0,
+       "runs": 27,
+       "wickets": 3,
+       "wides": 0,
+       "noballs": 0
+      },
+      {
+       "name": "Dipendra Singh Airee",
+       "overs": "4.0",
+       "balls": 24,
+       "maidens": 1,
+       "runs": 20,
+       "wickets": 1,
+       "wides": 0,
+       "noballs": 0
+      },
+      {
+       "name": "Anil Kharel",
+       "overs": "1.0",
+       "balls": 6,
+       "maidens": 0,
+       "runs": 11,
+       "wickets": 0,
+       "wides": 0,
+       "noballs": 0
+      },
+      {
+       "name": "Ishan Pandey",
+       "overs": "3.0",
+       "balls": 18,
+       "maidens": 0,
+       "runs": 17,
+       "wickets": 1,
+       "wides": 0,
+       "noballs": 0
+      },
+      {
+       "name": "Tharindu Ratnayake",
+       "overs": "4.0",
+       "balls": 24,
+       "maidens": 0,
+       "runs": 23,
+       "wickets": 2,
+       "wides": 1,
+       "noballs": 0
+      }
+     ],
+     "yet": [
+      "Ranjit Kumar"
+     ]
+    },
+    {
+     "team": "Sudur Paschim Royals",
+     "code": "SPR",
+     "period": 2,
+     "total": "136/7",
+     "overs": "19.5",
+     "batting": [
+      {
+       "name": "George Munsey",
+       "dismissal": "c \u2020Yadav b Dhakal",
+       "not_out": false,
+       "runs": 8,
+       "balls": 15,
+       "fours": 1,
+       "sixes": 0
+      },
+      {
+       "name": "Binod Bhandari",
+       "dismissal": "c Airee b Kumar",
+       "not_out": false,
+       "runs": 23,
+       "balls": 13,
+       "fours": 1,
+       "sixes": 2
+      },
+      {
+       "name": "Scott Kuggeleijn",
+       "dismissal": "lbw b Usama Mir",
+       "not_out": false,
+       "runs": 2,
+       "balls": 5,
+       "fours": 0,
+       "sixes": 0
+      },
+      {
+       "name": "Ishan Pandey",
+       "dismissal": "c & b Kumar",
+       "not_out": false,
+       "runs": 10,
+       "balls": 9,
+       "fours": 2,
+       "sixes": 0
+      },
+      {
+       "name": "Dipendra Singh Airee",
+       "dismissal": "c Mishara b Salahuddin Khan",
+       "not_out": false,
+       "runs": 15,
+       "balls": 16,
+       "fours": 1,
+       "sixes": 0
+      },
+      {
+       "name": "Tharindu Ratnayake",
+       "dismissal": "not out",
+       "not_out": true,
+       "runs": 53,
+       "balls": 42,
+       "fours": 7,
+       "sixes": 0
+      },
+      {
+       "name": "Aarif Sheikh",
+       "dismissal": "b Airee",
+       "not_out": false,
+       "runs": 10,
+       "balls": 10,
+       "fours": 0,
+       "sixes": 0
+      },
+      {
+       "name": "Fabian Allen",
+       "dismissal": "run out",
+       "not_out": false,
+       "runs": 5,
+       "balls": 10,
+       "fours": 0,
+       "sixes": 0
+      }
+     ],
+     "bowling": [
+      {
+       "name": "Kamal Airee",
+       "overs": "4.0",
+       "balls": 24,
+       "maidens": 0,
+       "runs": 26,
+       "wickets": 1,
+       "wides": 0,
+       "noballs": 0
+      },
+      {
+       "name": "Rijan Dhakal",
+       "overs": "4.0",
+       "balls": 24,
+       "maidens": 0,
+       "runs": 26,
+       "wickets": 1,
+       "wides": 0,
+       "noballs": 0
+      },
+      {
+       "name": "Ranjit Kumar",
+       "overs": "3.0",
+       "balls": 18,
+       "maidens": 0,
+       "runs": 25,
+       "wickets": 2,
+       "wides": 3,
+       "noballs": 0
+      },
+      {
+       "name": "Usama Mir",
+       "overs": "4.0",
+       "balls": 24,
+       "maidens": 0,
+       "runs": 14,
+       "wickets": 1,
+       "wides": 0,
+       "noballs": 0
+      },
+      {
+       "name": "Salahuddin Khan",
+       "overs": "3.0",
+       "balls": 18,
+       "maidens": 0,
+       "runs": 30,
+       "wickets": 1,
+       "wides": 2,
+       "noballs": 1
+      },
+      {
+       "name": "Kushal Malla",
+       "overs": "1.0",
+       "balls": 6,
+       "maidens": 0,
+       "runs": 6,
+       "wickets": 0,
+       "wides": 0,
+       "noballs": 0
+      },
+      {
+       "name": "Kamil Mishara",
+       "overs": "0.5",
+       "balls": 5,
+       "maidens": 0,
+       "runs": 5,
+       "wickets": 0,
+       "wides": 0,
+       "noballs": 0
+      }
+     ],
+     "yet": [
+      "Dipak Bohara",
+      "Hemant Dhami",
+      "Anil Kharel"
+     ]
+    }
+   ],
    "xi": {
     "SPR": [
-     "Aarif Sheikh",
-     "Abinash Bohara",
-     "Anil Kharel",
-     "Ayub Chand",
+     "George Munsey",
      "Binod Bhandari",
-     "Brandon McMullen",
-     "Dipak Bohara",
-     "Dipendra Singh Airee",
-     "Fabian Allen",
-     "Hemant Dhami",
-     "Hikmat Mahara",
-     "Ishan Pandey",
-     "Milan Bohara",
-     "Sachin Bhatta",
-     "Saif Zaib",
      "Scott Kuggeleijn",
-     "Sherfane Rutherford",
-     "Tek Rawat",
-     "Tharindu Ratnayake"
+     "Ishan Pandey",
+     "Dipendra Singh Airee",
+     "Tharindu Ratnayake",
+     "Aarif Sheikh",
+     "Fabian Allen",
+     "Dipak Bohara",
+     "Hemant Dhami",
+     "Anil Kharel"
     ],
     "CHR": [
-     "Arjun Saud",
-     "Ashok Dhami",
-     "Bibek Yadav",
-     "Bipin Rawal",
-     "Dan Mousley",
-     "Dawid Malan",
-     "Deepak Bohara",
      "Dev Khanal",
-     "Gautam KC",
-     "Kamal Airee",
      "Kamil Mishara",
-     "Kushal Malla",
-     "Mousom Dhakal",
-     "Ranjit Kumar",
+     "Dawid Malan",
      "Ravi Bopara",
-     "Rijan Dhakal",
+     "Bibek Yadav",
+     "Kushal Malla",
+     "Usama Mir",
      "Salahuddin Khan",
-     "Sikandar Raza",
-     "Tom Taylor",
-     "Usama Mir"
+     "Kamal Airee",
+     "Rijan Dhakal",
+     "Ranjit Kumar"
     ]
    }
   },
@@ -10734,22 +11042,298 @@
    "matchDesc": "Final",
    "stage": "Final",
    "quota": 20,
-   "status": "upcoming",
+   "status": "result",
    "team1": {
-    "name": "To be decided",
-    "code": "TBC"
+    "name": "Lumbini Lions",
+    "code": "LUL"
    },
    "team2": {
-    "name": "To be decided",
-    "code": "TBC"
+    "name": "Sudur Paschim Royals",
+    "code": "SPR"
    },
-   "score1": null,
-   "score2": null,
-   "overs1": null,
-   "overs2": null,
-   "winner": null,
-   "innings": [],
-   "xi": {}
+   "score1": "155/6",
+   "score2": "158/0",
+   "overs1": "20.0",
+   "overs2": "13.3",
+   "winner": "SPR",
+   "innings": [
+    {
+     "team": "Lumbini Lions",
+     "code": "LUL",
+     "period": 1,
+     "total": "155/6",
+     "overs": "20.0",
+     "batting": [
+      {
+       "name": "D'Arcy Short",
+       "dismissal": "b Airee",
+       "not_out": false,
+       "runs": 21,
+       "balls": 18,
+       "fours": 4,
+       "sixes": 0
+      },
+      {
+       "name": "Aasif Sheikh",
+       "dismissal": "lbw b Kuggeleijn",
+       "not_out": false,
+       "runs": 1,
+       "balls": 4,
+       "fours": 0,
+       "sixes": 0
+      },
+      {
+       "name": "Rohit Paudel",
+       "dismissal": "run out",
+       "not_out": false,
+       "runs": 30,
+       "balls": 31,
+       "fours": 2,
+       "sixes": 0
+      },
+      {
+       "name": "Niroshan Dickwella",
+       "dismissal": "b Ratnayake",
+       "not_out": false,
+       "runs": 28,
+       "balls": 17,
+       "fours": 1,
+       "sixes": 2
+      },
+      {
+       "name": "Dilip Nath",
+       "dismissal": "not out",
+       "not_out": true,
+       "runs": 39,
+       "balls": 31,
+       "fours": 0,
+       "sixes": 3
+      },
+      {
+       "name": "Sundeep Jora",
+       "dismissal": "c Airee b Kuggeleijn",
+       "not_out": false,
+       "runs": 4,
+       "balls": 5,
+       "fours": 0,
+       "sixes": 0
+      },
+      {
+       "name": "Ali Sheikh",
+       "dismissal": "c Kuggeleijn b Dhami",
+       "not_out": false,
+       "runs": 24,
+       "balls": 12,
+       "fours": 2,
+       "sixes": 2
+      },
+      {
+       "name": "Ruben Trumpelmann",
+       "dismissal": "not out",
+       "not_out": true,
+       "runs": 4,
+       "balls": 2,
+       "fours": 1,
+       "sixes": 0
+      }
+     ],
+     "bowling": [
+      {
+       "name": "Scott Kuggeleijn",
+       "overs": "4.0",
+       "balls": 24,
+       "maidens": 0,
+       "runs": 25,
+       "wickets": 2,
+       "wides": 0,
+       "noballs": 0
+      },
+      {
+       "name": "Hemant Dhami",
+       "overs": "4.0",
+       "balls": 24,
+       "maidens": 0,
+       "runs": 23,
+       "wickets": 1,
+       "wides": 1,
+       "noballs": 0
+      },
+      {
+       "name": "Tharindu Ratnayake",
+       "overs": "4.0",
+       "balls": 24,
+       "maidens": 0,
+       "runs": 24,
+       "wickets": 1,
+       "wides": 0,
+       "noballs": 0
+      },
+      {
+       "name": "Dipendra Singh Airee",
+       "overs": "4.0",
+       "balls": 24,
+       "maidens": 0,
+       "runs": 25,
+       "wickets": 1,
+       "wides": 0,
+       "noballs": 0
+      },
+      {
+       "name": "Anil Kharel",
+       "overs": "2.0",
+       "balls": 12,
+       "maidens": 0,
+       "runs": 25,
+       "wickets": 0,
+       "wides": 0,
+       "noballs": 0
+      },
+      {
+       "name": "Ishan Pandey",
+       "overs": "2.0",
+       "balls": 12,
+       "maidens": 0,
+       "runs": 30,
+       "wickets": 0,
+       "wides": 0,
+       "noballs": 0
+      }
+     ],
+     "yet": [
+      "Abhishesh Gautam",
+      "Sher Malla",
+      "Kishor Mahato"
+     ]
+    },
+    {
+     "team": "Sudur Paschim Royals",
+     "code": "SPR",
+     "period": 2,
+     "total": "158/0",
+     "overs": "13.3",
+     "batting": [
+      {
+       "name": "George Munsey",
+       "dismissal": "not out",
+       "not_out": true,
+       "runs": 125,
+       "balls": 54,
+       "fours": 8,
+       "sixes": 12
+      },
+      {
+       "name": "Binod Bhandari",
+       "dismissal": "not out",
+       "not_out": true,
+       "runs": 30,
+       "balls": 27,
+       "fours": 3,
+       "sixes": 0
+      }
+     ],
+     "bowling": [
+      {
+       "name": "Ruben Trumpelmann",
+       "overs": "2.0",
+       "balls": 12,
+       "maidens": 0,
+       "runs": 26,
+       "wickets": 0,
+       "wides": 1,
+       "noballs": 0
+      },
+      {
+       "name": "Kishor Mahato",
+       "overs": "3.0",
+       "balls": 18,
+       "maidens": 0,
+       "runs": 38,
+       "wickets": 0,
+       "wides": 0,
+       "noballs": 0
+      },
+      {
+       "name": "Sher Malla",
+       "overs": "3.3",
+       "balls": 21,
+       "maidens": 0,
+       "runs": 34,
+       "wickets": 0,
+       "wides": 0,
+       "noballs": 0
+      },
+      {
+       "name": "Abhishesh Gautam",
+       "overs": "2.0",
+       "balls": 12,
+       "maidens": 0,
+       "runs": 20,
+       "wickets": 0,
+       "wides": 0,
+       "noballs": 0
+      },
+      {
+       "name": "D'Arcy Short",
+       "overs": "2.0",
+       "balls": 12,
+       "maidens": 0,
+       "runs": 21,
+       "wickets": 0,
+       "wides": 0,
+       "noballs": 0
+      },
+      {
+       "name": "Rohit Paudel",
+       "overs": "1.0",
+       "balls": 6,
+       "maidens": 0,
+       "runs": 18,
+       "wickets": 0,
+       "wides": 0,
+       "noballs": 0
+      }
+     ],
+     "yet": [
+      "Scott Kuggeleijn",
+      "Ishan Pandey",
+      "Dipendra Singh Airee",
+      "Tharindu Ratnayake",
+      "Aarif Sheikh",
+      "Saif Zaib",
+      "Dipak Bohara",
+      "Hemant Dhami",
+      "Anil Kharel"
+     ]
+    }
+   ],
+   "xi": {
+    "LUL": [
+     "D'Arcy Short",
+     "Aasif Sheikh",
+     "Rohit Paudel",
+     "Niroshan Dickwella",
+     "Dilip Nath",
+     "Sundeep Jora",
+     "Ali Sheikh",
+     "Ruben Trumpelmann",
+     "Abhishesh Gautam",
+     "Sher Malla",
+     "Kishor Mahato"
+    ],
+    "SPR": [
+     "George Munsey",
+     "Binod Bhandari",
+     "Scott Kuggeleijn",
+     "Ishan Pandey",
+     "Dipendra Singh Airee",
+     "Tharindu Ratnayake",
+     "Aarif Sheikh",
+     "Saif Zaib",
+     "Dipak Bohara",
+     "Hemant Dhami",
+     "Anil Kharel"
+    ]
+   }
   }
  ]
 }

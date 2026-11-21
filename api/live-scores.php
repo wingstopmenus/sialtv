@@ -894,6 +894,25 @@ function sialtv_stats_canonical($v)
     return $out;
 }
 
+/* Results recorded in the committed state file (NPL history ledger:
+   data/live-scores-state.json results[] with status 'result').
+   Cached per request. */
+function sialtv_stats_state_results(): int
+{
+    static $count = null;
+    if ($count !== null) {
+        return $count;
+    }
+    $count = 0;
+    $state = json_decode((string) @file_get_contents(dirname(__DIR__) . '/data/live-scores-state.json'), true);
+    foreach ((is_array($state['results'] ?? null) ? $state['results'] : []) as $r) {
+        if (is_array($r) && ($r['status'] ?? '') === 'result') {
+            $count++;
+        }
+    }
+    return $count;
+}
+
 /* Maintain data/runtime/<league>-stats-agg.json from the payload and
    return the statsVersion block for the payload. Never throws: any
    failure leaves the aggregate untouched and reports the last known
@@ -908,14 +927,68 @@ function sialtv_stats_aggregate(array $payload, string $league): array
             $agg = json_decode((string) @file_get_contents($aggPath), true);
         }
         if (!is_array($agg) || !is_array($agg['matches'] ?? null)) {
+            /* The runtime dir is server-generated (not in the repo), so
+               a deploy that wipes untracked files removes it too — the
+               seed copy below would fail without the dir, and the
+               aggregate would restart EMPTY (live 2026-11-21: after a
+               deploy wipe only the Final re-entered it, results: 1). */
+            @mkdir(dirname($aggPath), 0755, true);
             if (is_file($seedPath)) {
                 @copy($seedPath, $aggPath);
                 $agg = json_decode((string) @file_get_contents($aggPath), true);
             }
             if (!is_array($agg) || !is_array($agg['matches'] ?? null)) {
+                /* Copy failed (or no seed file yet): load the seed
+                   straight into memory — the write block below
+                   materialises the file. */
+                if (is_file($seedPath)) {
+                    $agg = json_decode((string) @file_get_contents($seedPath), true);
+                }
+            }
+            if (!is_array($agg) || !is_array($agg['matches'] ?? null)) {
                 $agg = ['league' => $league, 'generatedAt' => gmdate('c'),
                     'fullNames' => [], 'version' => ['through_match' => 0, 'results' => 0, 'withCards' => 0, 'hash' => ''],
                     'matches' => []];
+            }
+        }
+        $changed = false;
+        /* Heal a thin aggregate: if it holds fewer results than the
+           committed state file records, it lost history (deploy wipe
+           + partial re-append — the rolling payload only ever re-adds
+           the current match, so older results never come back on their
+           own). The seed is the complete snapshot through its
+           through_match, so it wins on conflicts; aggregate entries
+           the seed does not have (newer than the seed) are kept.
+           NPL-only: the state file is the NPL history ledger. */
+        if ($league === 'npl' && is_file($seedPath)) {
+            $want = sialtv_stats_state_results();
+            $have = 0;
+            foreach ($agg['matches'] as $e) {
+                if (is_array($e) && ($e['status'] ?? '') === 'result') {
+                    $have++;
+                }
+            }
+            if ($want > 0 && $have < $want) {
+                $seed = json_decode((string) @file_get_contents($seedPath), true);
+                $seedResults = is_array($seed['version'] ?? null) ? (int) ($seed['version']['results'] ?? 0) : 0;
+                if (is_array($seed) && is_array($seed['matches'] ?? null) && $seedResults > $have) {
+                    $seedByNo = [];
+                    foreach ($seed['matches'] as $e) {
+                        if (is_array($e) && isset($e['matchNo'])) {
+                            $seedByNo[(int) $e['matchNo']] = $e;
+                        }
+                    }
+                    foreach ($agg['matches'] as $e) {
+                        if (is_array($e) && isset($e['matchNo']) && !isset($seedByNo[(int) $e['matchNo']])) {
+                            $seedByNo[(int) $e['matchNo']] = $e;
+                        }
+                    }
+                    $agg['matches'] = array_values($seedByNo);
+                    $agg['fullNames'] = array_values(array_unique(array_merge(
+                        is_array($seed['fullNames'] ?? null) ? $seed['fullNames'] : [],
+                        is_array($agg['fullNames'] ?? null) ? $agg['fullNames'] : [])));
+                    $changed = true;
+                }
             }
         }
         $quotas = sialtv_stats_quotas($league);
@@ -925,7 +998,6 @@ function sialtv_stats_aggregate(array $payload, string $league): array
                 $byNo[(int) $e['matchNo']] = $i;
             }
         }
-        $changed = false;
         foreach ((is_array($payload['matches'] ?? null) ? $payload['matches'] : []) as $m) {
             if (!is_array($m) || (int) ($m['matchNo'] ?? 0) <= 0) {
                 continue;

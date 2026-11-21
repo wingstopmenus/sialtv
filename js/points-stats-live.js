@@ -1596,7 +1596,8 @@
     league: null, cfg: null, slugMap: {},
     matchesByNo: {}, prevStatus: {},
     pendingFlip: false, settlePolls: 0,
-    lastHash: null, timer: null, stopped: false
+    lastHash: null, timer: null, stopped: false,
+    expectedResults: null
   };
   function apiUrl() {
     return '/api/live-scores.php?league=' + state.league;
@@ -1610,6 +1611,33 @@
       if (matches[i].status === 'live') return true;
     }
     return false;
+  }
+  /* Coverage gate (pure, unit-tested): withCards === results is not
+     enough — a thin aggregate (1 result, 1 card) passes it and would
+     render 1-match stats + an all-zeros points table over the baked
+     season (live 2026-11-21). Also require the aggregate to cover the
+     committed history: expectedResults from the state file (0 =
+     unknown — other leagues, or the fetch failed — old behaviour). */
+  function aggComplete(agg, expectedResults) {
+    if (!agg || !agg.version) return false;
+    var v = agg.version;
+    if (v.withCards !== v.results) return false;
+    return v.results >= (expectedResults || 0);
+  }
+  /* Committed history, once per page load: how many results the state
+     file records. NPL-only — the state file is the NPL ledger; other
+     leagues keep the old gate (expectedResults stays 0). A failed
+     fetch also falls back to 0, never blocks rendering forever. */
+  function loadExpected() {
+    if (state.league !== 'npl' || state.expectedResults !== null) return Promise.resolve();
+    return fetch('/data/live-scores-state.json', { headers: { 'Accept': 'application/json' } })
+      .then(function (r) { if (!r.ok) throw new Error('state ' + r.status); return r.json(); })
+      .then(function (s) {
+        var n = 0;
+        (s.results || []).forEach(function (r) { if (r && r.status === 'result') n++; });
+        state.expectedResults = n;
+      })
+      .catch(function () { state.expectedResults = 0; });
   }
   function renderPointsFromAggregate(agg) {
     /* Points (full table + minis) come from the aggregate, never from
@@ -1635,6 +1663,9 @@
   }
   function pollOnce() {
     if (state.stopped || document.hidden) return Promise.resolve(false);
+    return loadExpected().then(pollOnceFetch);
+  }
+  function pollOnceFetch() {
     return fetch(apiUrl(), { cache: 'no-cache', headers: { 'Accept': 'application/json' } })
       .then(function (r) { if (!r.ok) throw new Error('api ' + r.status); return r.json(); })
       .then(function (payload) {
@@ -1653,7 +1684,7 @@
             return fetch(aggUrl(sv.hash), { cache: 'no-cache', headers: { 'Accept': 'application/json' } })
               .then(function (r) { if (!r.ok) throw new Error('agg ' + r.status); return r.json(); })
               .then(function (agg) {
-                if (agg.version && agg.version.withCards === agg.version.results) {
+                if (aggComplete(agg, state.expectedResults)) {
                   renderFromAggregate(agg);
                   renderPointsFromAggregate(agg);
                   if (state.pendingFlip) {
@@ -1719,6 +1750,7 @@
     LEAGUES: LEAGUES, PLAYOFF_DESCS: PLAYOFF_DESCS,
     aggregate: aggregate, tables: tables, records: records,
     computePoints: computePoints, pointsMiniRows: pointsMiniRows,
+    aggComplete: aggComplete,
     bareStage: bareStage, matchStage: matchStage,
     leadHtml: leadHtml, resultText: resultText, detailRowsHtml: detailRowsHtml,
     nextCellHtml: nextCellHtml, parseScore: parseScore, oversToBalls: oversToBalls,
