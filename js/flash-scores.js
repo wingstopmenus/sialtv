@@ -376,6 +376,10 @@
   function nstDateStr(d) {
     return new Date(d.getTime() + (5 * 60 + 45) * 60000).toISOString().slice(0, 10);
   }
+  /* GST calendar date (UTC+4) for an instant — ILT20 fixtures are in GST. */
+  function gstDateStr(d) {
+    return new Date(d.getTime() + 4 * 60 * 60000).toISOString().slice(0, 10);
+  }
   var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   var MONTHS_S = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   var DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -475,17 +479,21 @@
     html += '<span class="st-panel__link">' + heroEsc(o.cta) + ' <span aria-hidden="true">\u2192</span></span>';
     return html;
   }
-  function liveSlide(m, fixtures) {
+  function liveSlide(m, fixtures, league) {
+    league = league || 'npl';
     var t1 = heroShortName(m.team1), t2 = heroShortName(m.team2);
     var parts = [];
     if (m.score1) parts.push(m.score1 + (m.overs1 ? ' (' + m.overs1 + ' ov)' : ''));
     if (m.score2) parts.push(m.score2 + (m.overs2 ? ' (' + m.overs2 + ' ov)' : ''));
     return {
-      key: 'live-' + m.matchNo,
-      href: '/npl/matches/2026/match-' + m.matchNo + '/',
+      /* League-prefixed keys for non-NPL slides: NPL M1 and ILT20 M1
+         would otherwise share the key 'live-1' and the slider would
+         keep the wrong index. NPL keys are unchanged. */
+      key: (league === 'npl' ? 'live-' : 'live-' + league + '-') + m.matchNo,
+      href: matchUrl(league, m.matchNo),
       kicker: '<span class="live-dot" aria-hidden="true"></span>Live now',
       strong: t1 + ' vs ' + t2,
-      meta: matchLabelFor(m.matchNo, fixtures),
+      meta: league === 'npl' ? matchLabelFor(m.matchNo, fixtures) : 'DP World ILT20 · Match ' + m.matchNo,
       sub: parts.join(' \u00b7 ') || (m.statusText || ''),
       scores: heroScoreRow(m.team1, m.score1 || 'Yet to Bat') +
         heroScoreRow(m.team2, m.score2 || 'Yet to Bat'),
@@ -498,14 +506,15 @@
      next match — the score update lands here, as on the strip cards.
      heroSlidesFor only picks it while the result is from today, so the
      next morning the hero moves on to the next match. */
-  function resultSlide(m, fixtures) {
+  function resultSlide(m, fixtures, league) {
+    league = league || 'npl';
     return {
-      key: 'result-' + m.matchNo,
-      href: '/npl/matches/2026/match-' + m.matchNo + '/',
+      key: (league === 'npl' ? 'result-' : 'result-' + league + '-') + m.matchNo,
+      href: matchUrl(league, m.matchNo),
       kicker: 'Result',
       strong: resultHeadline(m),
-      meta: matchLabelFor(m.matchNo, fixtures),
-      sub: resultLine(m, 'npl') + ' Open the scorecard for the full result.',
+      meta: league === 'npl' ? matchLabelFor(m.matchNo, fixtures) : 'DP World ILT20 · Match ' + m.matchNo,
+      sub: resultLine(m, league) + ' Open the scorecard for the full result.',
       scores: heroScoreRow(m.team1, m.score1 || '') +
         heroScoreRow(m.team2, m.score2 || ''),
       kickoff: '',
@@ -576,6 +585,30 @@
        while its kickoff is still ahead (see ILT20_OPENER above). */
     if (Date.parse(ILT20_OPENER.kickoff) > Date.now()) slides.push(nextSlide(ILT20_OPENER));
     return slides;
+  }
+  /* ILT20 hero slide (2026-11-21): the ILT20 feed is NOT part of
+     heroSlidesFor (NPL-only). The live ILT20 match — or today's
+     finished one — prepends as the FIRST hero slide, ahead of the NPL
+     slides, because the NPL season is over (its slide is a same-day
+     result) while ILT20 is the league in season. Fixed precedence for
+     that season state, NOT a latest-first rule: if NPL returns to a
+     live season while ILT20 is also live, revisit the order. LIVE
+     means hasStarted only — a score, a ball or an innings row; the
+     feed's early "live" flag and the toss alone do NOT count. A
+     finished match shows only while it is still today (GST date),
+     then drops out; an upcoming match never shows here (the opener
+     next-slide in heroSlidesFor covers M1 only, while its kickoff is
+     ahead). */
+  function heroIlt20SlideFor(data, now) {
+    var matches = (data && data.matches) || [];
+    var live = null, latestResult = null;
+    matches.forEach(function (m) {
+      if (isLiveNow(m) && !live) live = m;
+      if (m.status === 'result' && (!latestResult || (m.matchNo || 0) > (latestResult.matchNo || 0))) latestResult = m;
+    });
+    if (live) return liveSlide(live, null, 'ilt20');
+    if (latestResult && latestResult.date === gstDateStr(now || new Date())) return resultSlide(latestResult, null, 'ilt20');
+    return null;
   }
   function applyHeroSlide() {
     var track = document.getElementById('heroTrack');
@@ -684,7 +717,24 @@
       }
       if (!slides.length) return;
     }
-    renderHero(slides);
+    /* The live ILT20 match (or today's ILT20 result) goes FIRST, ahead
+       of the NPL slides — the NPL season is over, ILT20 is in season.
+       sialtvScores caches per league for 10s, so this usually reuses
+       the ILT20 loader's same-tick fetch; on failure the hero stays
+       NPL-only, exactly as before. The href filter drops the stale
+       opener next-slide if it names the same match (kickoff gate
+       already drops it once the kickoff passes; this covers clock
+       skew), so the match never appears twice. One render only, so
+       the first-poll seeding in renderHero still applies. */
+    if (window.sialtvScores) {
+      window.sialtvScores('ilt20').then(function (ilt) {
+        var extra = heroIlt20SlideFor(ilt, new Date());
+        if (extra) slides = slides.filter(function (s) { return s.href !== extra.href; });
+        renderHero(extra ? [extra].concat(slides) : slides);
+      }).catch(function () { renderHero(slides); });
+    } else {
+      renderHero(slides);
+    }
   }
   /* NPL spotlight auto-update (2026-11-13): the baked feature (M22, 12 Nov)
      never moved because the cron is paused. This rewrites the feature card
