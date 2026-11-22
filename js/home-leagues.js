@@ -44,8 +44,8 @@
   var SPOT = {
     ilt20: {
       title: 'International League T20',
-      intro: 'Season 5 runs from 21 November to 20 December 2026 across Dubai, Sharjah and Abu Dhabi, with six teams playing 34 matches. The opener is Desert Vipers against MI Emirates in Dubai.',
-      feature: { kicker: 'Season opener · Match 1', href: '/ilt20/matches/2026-27/match-1/', h: 'Desert Vipers vs MI Emirates', p: 'The defending champions open Season 5 against MI Emirates in Dubai on Saturday, 21 November. Open the match page for the fixture.', cta: 'Match page' },
+      intro: 'Season 5 is under way, running from 21 November to 20 December 2026 across Dubai, Sharjah and Abu Dhabi, with six teams playing 34 matches. The final is in Dubai on 20 December 2026.',
+      feature: { kicker: 'ILT20 Season 5', href: '/ilt20/', h: 'International League T20 Season 5', p: 'Six teams, 34 matches across Dubai, Sharjah and Abu Dhabi, with the final in Dubai on 20 December 2026. Open the ILT20 hub for fixtures, results and the points table.', cta: 'Open the hub' },
       listTitle: 'Also on the ILT20 hub',
       items: [
         { href: '/ilt20/schedule/', icon: 'calendar', b: 'Full ILT20 schedule', s: 'All 34 fixtures from 21 November to 20 December, including the playoffs from 16 December.' },
