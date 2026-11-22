@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-11-11T13:01:45Z",
+  "fetchedAt": "2026-11-22T06:36:04Z",
   "source": "sialtv-schedule",
   "series": "DP World ILT20 2026-27",
   "matches": [
@@ -13,17 +13,60 @@
       "team2": "MI Emirates",
       "abbr1": "DV",
       "abbr2": "MIE",
-      "status": "upcoming",
-      "statusText": "Desert Vipers vs MI Emirates — Saturday, 21 November 2026, evening session (GST)",
-      "toss": null,
-      "score1": null,
-      "score2": null,
-      "overs1": null,
-      "overs2": null,
+      "status": "result",
+      "statusText": "MI Emirates won by 52 runs",
+      "toss": "Desert Vipers won the toss, elected to field first",
+      "score1": "122",
+      "score2": "174/8",
+      "overs1": "19.1",
+      "overs2": "20",
       "venue": "Dubai International Stadium, Dubai",
       "date": "2026-11-21",
       "kickoffIso": "2026-11-21T14:30:00Z",
-      "scorecard": null,
+      "scorecard": {
+        "innings": [
+          {
+            "team": "MI Emirates",
+            "total": "174/8",
+            "overs": "20",
+            "batting": [
+              {
+                "name": "Kusal Perera",
+                "runs": 58,
+                "balls": 40
+              }
+            ],
+            "bowling": [
+              {
+                "name": "Naseem Shah",
+                "wickets": 2,
+                "runs": 24,
+                "overs": "4"
+              }
+            ]
+          },
+          {
+            "team": "Desert Vipers",
+            "total": "122",
+            "overs": "19.1",
+            "batting": [
+              {
+                "name": "Joe Clarke",
+                "runs": 35,
+                "balls": 28
+              }
+            ],
+            "bowling": [
+              {
+                "name": "Chris Jordan",
+                "wickets": 4,
+                "runs": 19,
+                "overs": "3"
+              }
+            ]
+          }
+        ]
+      },
       "commentary": [],
       "overTimeline": [],
       "live": null
