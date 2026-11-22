@@ -953,15 +953,24 @@ function sialtv_stats_aggregate(array $payload, string $league): array
         }
         $changed = false;
         /* Heal a thin aggregate: if it holds fewer results than the
-           committed state file records, it lost history (deploy wipe
+           committed history records, it lost history (deploy wipe
            + partial re-append — the rolling payload only ever re-adds
            the current match, so older results never come back on their
            own). The seed is the complete snapshot through its
            through_match, so it wins on conflicts; aggregate entries
            the seed does not have (newer than the seed) are kept.
-           NPL-only: the state file is the NPL history ledger. */
-        if ($league === 'npl' && is_file($seedPath)) {
-            $want = sialtv_stats_state_results();
+           Yardstick: NPL uses the state file (the NPL history
+           ledger); other leagues (ILT20) have no state file, so the
+           seed's own version.results is the yardstick. ILT20 2026-11-22:
+           without this, a deploy wipe loses M1 forever — the payload
+           window has moved on and no longer carries M1's card. */
+        if (is_file($seedPath)) {
+            $seed = json_decode((string) @file_get_contents($seedPath), true);
+            $seedResults = is_array($seed['version'] ?? null) ? (int) ($seed['version']['results'] ?? 0) : 0;
+            /* NPL: the state file is the committed history ledger.
+               ILT20 (and any league with a seed but no state file):
+               the seed's version.results is the yardstick. */
+            $want = ($league === 'npl') ? sialtv_stats_state_results() : $seedResults;
             $have = 0;
             foreach ($agg['matches'] as $e) {
                 if (is_array($e) && ($e['status'] ?? '') === 'result') {
@@ -969,8 +978,6 @@ function sialtv_stats_aggregate(array $payload, string $league): array
                 }
             }
             if ($want > 0 && $have < $want) {
-                $seed = json_decode((string) @file_get_contents($seedPath), true);
-                $seedResults = is_array($seed['version'] ?? null) ? (int) ($seed['version']['results'] ?? 0) : 0;
                 if (is_array($seed) && is_array($seed['matches'] ?? null) && $seedResults > $have) {
                     $seedByNo = [];
                     foreach ($seed['matches'] as $e) {

@@ -74,6 +74,13 @@
       leagueStages: ['League'],
       ducksDisplay: {},
       fullNameOverrides: {},
+      /* The ILT20 stats page's records section carries ALL-TIME
+         records (Hales 1,156 runs; Farooqi 50 wickets) and stays
+         that way — renderRecords must not overwrite its rows or its
+         champions note with season records. The intro (page top)
+         still updates from the season compute. NPL/APL do not set
+         this: their records tables are season records. */
+      allTimeRecords: true,
       tiebreakSentence: true,
       basePath: '/ilt20/',
       seasonLabel: 'ILT20 Season 5'
@@ -219,7 +226,7 @@
   CatcherResolver.prototype._initials = function (name) {
     return initialsOf(this.fullNameOf[name] || name);
   };
-  CatcherResolver.prototype.resolve = function (token, keeper, sub, fieldXi, roster) {
+  CatcherResolver.prototype.resolve = function (token, keeper, sub, fieldXi, roster, participants) {
     if (!token) return null;
     var self = this;
     function inSet(s, v) { return s.indexOf(v) !== -1; }
@@ -231,6 +238,12 @@
     if (inSet(fieldXi, token)) return token;
     if (inSet(roster, token)) return token;
     if (this.fullNames.indexOf(token) !== -1) return token;
+    /* Rule 3b: exact full name among the fielding team's
+       participants in THIS match (batting/bowling/yet). ILT20 M1:
+       the card writes "c Nangeyalia Khan b ..." while the XI spells
+       him "Kharoti" — the participant list carries the card's own
+       spelling, so it resolves where the XI cannot. */
+    if (participants && inSet(participants, token)) return token;
     var pool = union(fieldXi, roster);
     var cand = pool.filter(function (n) {
       return n.slice(-(token.length + 1)) === ' ' + token && token.split(/\s+/).length >= 2;
@@ -263,6 +276,30 @@
       var sur2 = surnameOf(token);
       cand = roster.filter(function (n) { return surnameOf(n) === sur2; });
       if (cand.length === 1) return cand[0];
+      /* A substitute who played in NO match XI and is in NO
+         players.json (ILT20 M1: Gudakesh Motie, 3 catches as
+         "c sub (Motie)") is in neither pool — fall back to the
+         fielding team's participants in THIS match, then to the
+         league full-name set, surname-unique in both. */
+      var pools = [participants || [], this.fullNames];
+      for (var pi = 0; pi < pools.length; pi++) {
+        cand = pools[pi].filter(function (n) { return surnameOf(n) === sur2; });
+        if (cand.length === 1) return cand[0];
+      }
+    }
+    /* Rule 9: surname-only token, unique among the fielding team's
+       participants in THIS match — regardless of the sub flag.
+       ILT20 M1: the scorecard writes "c Motie b ..." (no "sub (...)"
+       wrapper, so sub is false and rule 8 never fires), and Motie is
+       in no XI and no players.json. Rules 1-8 all failed, so the
+       token matches nobody known — a unique surname match among the
+       actual fielders is the catcher. Single-word token only: a
+       full-name token that reaches here has no participant match
+       either — do not guess. */
+    if (token.split(/\s+/).length === 1) {
+      var sur3 = surnameOf(token);
+      cand = (participants || []).filter(function (n) { return surnameOf(n) === sur3; });
+      if (cand.length === 1) return cand[0];
     }
     return null;
   };
@@ -283,6 +320,89 @@
     var d = String(b.dismissal || '').trim().toLowerCase();
     return d === 'not out' || d === 'retired hurt' || d === 'absent hurt' || d === 'absent ill';
   }
+  /* Merge a split-shape aggregate entry into the clean 2-innings
+     shape aggregate() assumes. The endpoint appends one entry per
+     payload scorecard innings (sialtv_stats_entry: $period++ per
+     innings half), so a match arrives as FOUR entries: team A
+     bowling, team B batting, team A batting, team B bowling (ILT20
+     M1 live). Four entries double the team totals (m, for/against),
+     break the `inns.length === 2` points/win blocks, and duplicate
+     the team-totals rows — while batting/bowling totals stay correct
+     (each appears once). Merge by team code: batting + yet +
+     total/overs from the team's own halves (total/overs from the
+     batting half, period renumbered by batting order — the team whose
+     batting half came first batted first); a bowling-only half is the
+     bowling OF the other team's innings (the DV bowling half is the
+     bowling of the MIE innings), so it is assigned to the other team.
+     A clean 2-innings entry passes through unchanged; any shape that
+     is not a 2-team split is returned untouched (fail safe — the old
+     behaviour, never a crash). */
+  function mergeSplitInnings(m) {
+    var inns = m.innings || [];
+    if (inns.length <= 2) return inns;
+    var byCode = {}, order = [], bowlLists = [], i, inn;
+    for (i = 0; i < inns.length; i++) {
+      inn = inns[i];
+      if (!inn || !inn.code) return inns;
+      var e = byCode[inn.code];
+      if (!e) {
+        e = byCode[inn.code] = { code: inn.code, team: inn.team,
+          total: inn.total, overs: inn.overs, batting: [], bowling: [],
+          yet: [], batPeriod: Infinity };
+        order.push(e);
+      }
+      if ((inn.batting || []).length) {
+        e.batting = e.batting.concat(inn.batting);
+        if (inn.period < e.batPeriod) {
+          e.batPeriod = inn.period;
+          e.total = inn.total; e.overs = inn.overs;
+        }
+      }
+      if ((inn.bowling || []).length) {
+        if ((inn.batting || []).length) {
+          /* A half carrying both batting and bowling is a clean half:
+             its bowling stays with its own innings. */
+          e.bowling = e.bowling.concat(inn.bowling);
+        } else {
+          /* A bowling-only half is the bowling OF the other team's
+             innings, not its own: the DV bowling half (period 1) is
+             the bowling of the MIE innings, and the MIE bowling half
+             (period 4) is the bowling of the DV innings. Held aside
+             and assigned to the other team below. */
+          bowlLists.push({ code: inn.code, bowling: inn.bowling });
+        }
+      }
+      (inn.yet || []).forEach(function (y) {
+        if (e.yet.indexOf(y) === -1) e.yet.push(y);
+      });
+    }
+    if (order.length !== 2) return inns;
+    if (order[0].batPeriod === Infinity || order[1].batPeriod === Infinity) return inns;
+    /* Assign each bowling-only half to the OTHER team's entry. */
+    bowlLists.forEach(function (bl) {
+      var target = order[0].code === bl.code ? order[1] : order[0];
+      target.bowling = target.bowling.concat(bl.bowling);
+    });
+    order.sort(function (a, b) { return a.batPeriod - b.batPeriod; });
+    return order.map(function (e, idx) {
+      return { team: e.team, code: e.code, period: idx + 1, total: e.total,
+        overs: e.overs, batting: e.batting, bowling: e.bowling, yet: e.yet };
+    });
+  }
+  /* Is this a league match for the points table / leagueLatest?
+     NPL league matches carry no stage; ILT20/APL league matches
+     carry stage 'League' in their matches.json — but the endpoint
+     stores the matchDesc stage, so ILT20 league matches arrive as
+     '1st Match', '2nd Match', ... (and a bare 'Match N' desc stores
+     null). All three forms count; the four playoff descs never do. */
+  function isLeagueStage(m, cfg) {
+    var st = matchStage(m);
+    if (st === null) return true;
+    if (PLAYOFF_DESCS.indexOf(st) !== -1) return false;
+    if (cfg.leagueStages.indexOf(st) !== -1) return true;
+    return /^\d+(st|nd|rd|th) Match$/.test(st);
+  }
+
   function aggregate(matches, cfg, fullNames) {
     /* fullNames = the league's full player-name set (players.json
        names) for the resolver's rule 3 — "exact full name anywhere in
@@ -338,7 +458,7 @@
       dates[n] = m.date;
       if (m.status === 'result') {
         latest = m;
-        if (cfg.leagueStages.indexOf(m.stage === undefined ? null : m.stage) !== -1) leagueLatest = m;
+        if (isLeagueStage(m, cfg)) leagueLatest = m;
       }
       var t1 = m.team1, t2 = m.team2;
       teamRec(t1.code, t1.name); teamRec(t2.code, t2.name);
@@ -349,9 +469,36 @@
         });
         return;
       }
-      Object.keys(m.xi || {}).forEach(function (code) {
-        (m.xi[code] || []).forEach(function (p) { played[p] = (played[p] || 0) + 1; });
+      /* Split entries merge to the clean 2-innings shape first: every
+         use below (wins, team totals, batting/bowling, played) reads
+         this array, never m.innings directly. */
+      var inns = mergeSplitInnings(m);
+      /* Participants per team in THIS match (batting + bowling + yet
+         names, merged shape: all three lists belong to inn.code) —
+         the catcher resolver's rule 3b/8/9 pool, and the appearance
+         half of `played` below. */
+      var participantsByCode = {};
+      inns.forEach(function (inn) {
+        var set = participantsByCode[inn.code] ||
+          (participantsByCode[inn.code] = {});
+        (inn.batting || []).forEach(function (b) { set[b.name] = true; });
+        (inn.bowling || []).forEach(function (b) { set[b.name] = true; });
+        (inn.yet || []).forEach(function (y) { set[y] = true; });
       });
+      /* `played` counts everyone who took part: the XI plus the
+         batting/bowling/yet names in the card. ILT20 impact
+         substitutes (Fakhar Zaman, Gudakesh Motie) are in no XI but
+         batted/bowled — xi-only counting gives them 0 matches, so
+         the catches table would show "Motie 0 3". A name counts once
+         per match. */
+      var tookPart = {};
+      Object.keys(m.xi || {}).forEach(function (code) {
+        (m.xi[code] || []).forEach(function (p) { tookPart[p] = true; });
+      });
+      Object.keys(participantsByCode).forEach(function (code) {
+        Object.keys(participantsByCode[code]).forEach(function (p) { tookPart[p] = true; });
+      });
+      Object.keys(tookPart).forEach(function (p) { played[p] = (played[p] || 0) + 1; });
       var winCode = m.winner || null;
       if (!winCode && m.score1 && m.score2) {
         var s1 = parseScore(m.score1), s2 = parseScore(m.score2);
@@ -359,7 +506,6 @@
           winCode = s1.runs > s2.runs ? t1.code : t2.code;
         }
       }
-      var inns = m.innings || [];
       if (inns.length === 2 && winCode) {
         var first = inns[0];
         var fr = parseScore(first.total), sr = parseScore(inns[1].total);
@@ -407,7 +553,8 @@
           }
           var pc = parseCatcher(b.dismissal || '');
           if (pc) {
-            var full = resolver.resolve(pc.token, pc.keeper, pc.sub, fieldXi, fieldRoster);
+            var full = resolver.resolve(pc.token, pc.keeper, pc.sub, fieldXi, fieldRoster,
+              Object.keys(participantsByCode[opp.code] || {}));
             if (full) {
               if (!catchMap[full]) catchMap[full] = { ct: 0 };
               catchMap[full].ct++;
@@ -716,7 +863,9 @@
         ' are the season\u2019s only centuries';
     }
     var intro = 'SialTV lists every figure from the verified scorecards. ' +
-      'After Match ' + nLatest + ', ' + playedN + ' matches have been played';
+      'After Match ' + nLatest + ', ' +
+      (playedN === 1 ? '1 match has been played'
+                     : playedN + ' matches have been played');
     if (abText) intro += ' \u2014 ' + abText;
     intro += '. ' + runTop[0] + ' leads the runs with ' + runTop[2] + ', ' +
       wktTop[0] + ' leads the wickets with ' + wktTop[2] + ', and ' + centText + '.';
@@ -880,7 +1029,7 @@
       nrr = pyRound(nrr, 3);
       return { code: code, name: x.name, played: x.played, won: x.won,
         lost: x.lost, tied: x.tied, noresult: x.noresult, points: x.points,
-        nrr: nrr, nrrDisplay: (nrr < 0 ? '' : '+') + pyFixed(nrr, 3),
+        nrr: nrr, nrrDisplay: (nrr > 0 ? '+' : '') + pyFixed(nrr, 3),
         forR: x.forR, forB: x.forB, agR: x.agR, agB: x.agB,
         forStr: x.forR + '/' + ballsToOvers(x.forB),
         againstStr: x.agR + '/' + ballsToOvers(x.agB) };
@@ -915,7 +1064,8 @@
        whenever the fixture's team2 batted first (M14: LUL won by 16
        runs, heuristic said 2 wickets). Returns null when the innings
        are unavailable, and the caller keeps the old runs fallback. */
-    var inns = m.innings || (m.scorecard && m.scorecard.innings) || [];
+    var inns = mergeSplitInnings(m);
+    if (!inns.length) inns = (m.scorecard && m.scorecard.innings) || [];
     if (!inns.length) return null;
     var winTeam = winSide === 0 ? teamNameOf(m, 'team1') : teamNameOf(m, 'team2');
     var winCode = teamCodeOf(cfg, winTeam);
@@ -923,6 +1073,11 @@
       var inn = inns[i];
       if (!inn) continue;
       if ((inn.code && inn.code === winCode) || cleanTeam(inn.team || '') === cleanTeam(winTeam)) {
+        /* The merged innings renumber by batting order (period 1 =
+           batted first). Without the merge, a split entry's first
+           matching half is the winner's BATTING half at period 2 —
+           ILT20 M1 live — and this returns false, so resultText
+           would say "won by 2 wickets" for a 52-run win. */
         return inn.period === 1;
       }
     }
@@ -1321,6 +1476,11 @@
       var tbody = table.querySelector('tbody');
       if (!tbody) return false;
       var changed = false;
+      /* Leagues whose records section carries ALL-TIME records (ILT20:
+         Hales 1,156 runs; Farooqi 50 wickets) keep the baked rows and
+         the champions note — the season compute must not overwrite
+         them. The intro below still updates from the season compute. */
+      if (!cfg.allTimeRecords) {
       var rows = tbody.querySelectorAll('tr');
       rec.rows.forEach(function (r, ri) {
         var tr = rows[ri];
@@ -1340,6 +1500,7 @@
       });
       var note = sec ? sec.querySelector('p.note') : null;
       if (note && note.textContent !== rec.note) { note.textContent = rec.note; changed = true; }
+      }
       var intro = null;
       /* The intro is NOT in this section: it is the page's first
          paragraph, inside <section id="top"> right after the H1.
@@ -1394,8 +1555,19 @@
       var existing = Array.prototype.slice.call(grid.querySelectorAll('.rx-perf-row'));
       var byName = {};
       existing.forEach(function (row) {
-        var a = row.querySelector('.rx-perf-who a');
-        if (a) byName[(a.textContent || '').trim()] = row;
+        /* The name is a link when the player has a profile, plain text
+           when they do not (e.g. Gudakesh Motie — no profile on the site).
+           Keying on the link only misses the plain-text row, and the
+           render then appends a duplicate — ILT20 M1, Top Wicket Takers
+           showed Motie twice after the first poll. */
+        var who = row.querySelector('.rx-perf-who');
+        if (!who) return;
+        var a = who.querySelector('a');
+        var nm = a ? (a.textContent || '').trim() : '';
+        if (!nm && who.firstChild && who.firstChild.nodeType === 3) {
+          nm = (who.firstChild.textContent || '').trim();
+        }
+        if (nm) byName[nm] = row;
       });
       def.rows.forEach(function (r, idx) {
         var name = r[0], fig;
@@ -1476,8 +1648,19 @@
       var existing = Array.prototype.slice.call(ul.querySelectorAll('li'));
       var byName = {};
       existing.forEach(function (li) {
-        var a = li.querySelector('.tp-name');
-        if (a) byName[(a.textContent || '').trim()] = li;
+        /* Same plain-text-name fallback as renderPerfCards: a player
+           without a profile renders their name as a text node, not a
+           .tp-name link. Without it the render appends a duplicate row —
+           the cap-at-3 prune then swaps it in, so no visible duplicate,
+           but the baked row is needlessly replaced. */
+        var main = li.querySelector('.tp-main');
+        if (!main) return;
+        var a = main.querySelector('.tp-name');
+        var nm = a ? (a.textContent || '').trim() : '';
+        if (!nm && main.firstChild && main.firstChild.nodeType === 3) {
+          nm = (main.firstChild.textContent || '').trim();
+        }
+        if (nm) byName[nm] = li;
       });
       def.rows.forEach(function (r, idx) {
         var name = r[0];
@@ -1576,6 +1759,17 @@
     if (changed) writes.stats++;
     return changed;
   }
+  function clearEmptyNotes() {
+    /* The pre-season "No stats yet" paragraphs sit beside the tables
+       the JS just filled. A re-bake removes them; the JS removes them
+       too, so a wired-but-not-rebaked page still reads correctly
+       after the first poll. Only called after a real render. */
+    var nodes = document.querySelectorAll('.rx-empty');
+    for (var i = 0; i < nodes.length; i++) {
+      var n = nodes[i];
+      if (n.parentNode) n.parentNode.removeChild(n);
+    }
+  }
   function renderAllStats(tab, rec, raw, cfg, slugMap) {
     /* raw = tables()'s output, which carries batRaw/bowlRaw/played
        for the perf cards + sidebar leaders. */
@@ -1586,6 +1780,7 @@
     if (renderPerfCards(tab, raw, cfg, slugMap)) c = true;
     if (renderSidebarLeaders(tab, raw, cfg, slugMap)) c = true;
     if (renderZeroLists(tab, cfg)) c = true;
+    if (c) clearEmptyNotes();
     return c;
   }
 
@@ -1597,7 +1792,7 @@
     matchesByNo: {}, prevStatus: {},
     pendingFlip: false, settlePolls: 0,
     lastHash: null, timer: null, stopped: false,
-    expectedResults: null
+    expectedResults: null, payloadMatches: null
   };
   function apiUrl() {
     return '/api/live-scores.php?league=' + state.league;
@@ -1617,12 +1812,49 @@
      render 1-match stats + an all-zeros points table over the baked
      season (live 2026-11-21). Also require the aggregate to cover the
      committed history: expectedResults from the state file (0 =
-     unknown — other leagues, or the fetch failed — old behaviour). */
+     unknown — other leagues, or the fetch failed — old behaviour).
+     And require at least one result: an empty aggregate (0 === 0)
+     must never render over the baked tables. */
   function aggComplete(agg, expectedResults) {
     if (!agg || !agg.version) return false;
     var v = agg.version;
     if (v.withCards !== v.results) return false;
+    if (v.results < 1) return false;
     return v.results >= (expectedResults || 0);
+  }
+  /* ILT20 coverage expectation (no state file): how many results the
+     schedule says should exist — payload matches whose kickoff is in
+     the past, minus matches currently live, minus abandoned entries
+     already in the aggregate (the version counts results only, so an
+     abandoned match must not count toward the expectation). The
+     payload carries the full 34-match schedule (static-merged), so
+     the count is complete even though the rolling live window has
+     moved on. A stale 'upcoming' stub for a played match (M1) still
+     counts: its kickoff is past. Known edge: a match delayed past
+     its kickoff (still 'upcoming', unplayed) counts too and blocks
+     rendering until it flips live/result — fail-closed, never a wrong
+     render; the gate only runs when a new aggregate version lands. */
+  function expectedFromPayload(matches, agg) {
+    var now = Date.now(), n = 0, i, m, kick;
+    for (i = 0; i < (matches || []).length; i++) {
+      m = matches[i];
+      if (!m || !m.kickoffIso) continue;
+      kick = Date.parse(m.kickoffIso);
+      if (isNaN(kick) || kick > now) continue;
+      if (m.status === 'live') continue;
+      n++;
+    }
+    if (agg) {
+      (agg.matches || []).forEach(function (am) {
+        if (am && am.status === 'abandoned') n--;
+      });
+    }
+    return Math.max(0, n);
+  }
+  function expectedFor(league, matches, agg) {
+    if (league === 'npl') return state.expectedResults;
+    if (league === 'ilt20') return expectedFromPayload(matches, agg);
+    return 0;
   }
   /* Committed history, once per page load: how many results the state
      file records. NPL-only — the state file is the NPL ledger; other
@@ -1639,16 +1871,42 @@
       })
       .catch(function () { state.expectedResults = 0; });
   }
+  /* Points (full table + minis) come from the aggregate, never from
+     the rolling payload window alone: a 1-match live payload would
+     render an all-zeros table (Defect 2, live 2026-11-19 — the
+     points page showed all zeros). The payload contributes only
+     forward-looking info (upcoming fixtures for the Next column, and
+     the league-ended test). A stale 'upcoming' stub for an already
+     played match (ILT20 M1: kickoff past, no scores) is excluded by
+     its past kickoff — the aggregate is the truth for played
+     matches. Aggregate wins on duplicate matchNo. A 'live' payload
+     match is kept (it contributes no rows but keeps the league
+     un-ended). Without a payload (unit test), the aggregate alone
+     is used — the old behaviour. */
+  function mergedMatches(aggMatches, payloadMatches) {
+    var byNo = {}, out = [], i, m;
+    (aggMatches || []).forEach(function (x) {
+      if (x && x.matchNo) { byNo[x.matchNo] = true; out.push(x); }
+    });
+    var now = Date.now();
+    for (i = 0; i < (payloadMatches || []).length; i++) {
+      m = payloadMatches[i];
+      if (!m || !m.matchNo || byNo[m.matchNo]) continue;
+      if (m.status === 'live') { out.push(m); continue; }
+      if (m.status !== 'upcoming') continue;
+      var kick = m.kickoffIso ? Date.parse(m.kickoffIso) : NaN;
+      if (!isNaN(kick) && kick <= now) continue;
+      out.push(m);
+    }
+    return out;
+  }
   function renderPointsFromAggregate(agg) {
-    /* Points (full table + minis) come from the aggregate, never from
-       the rolling payload window: a 1-match live payload would render
-       an all-zeros table (Defect 2, live 2026-11-19 — the points page
-       showed all zeros). The payload is only the flip detector. */
-    var points = computePoints(agg.matches, state.cfg);
+    var merged = mergedMatches(agg.matches, state.payloadMatches);
+    var points = computePoints(merged, state.cfg);
     var byNo = {};
-    agg.matches.forEach(function (m) { byNo[m.matchNo] = m; });
+    merged.forEach(function (m) { byNo[m.matchNo] = m; });
     state.matchesByNo = byNo;
-    renderPointsTable(points, byNo, agg.matches, state.cfg);
+    renderPointsTable(points, byNo, merged, state.cfg);
     renderMinis(points, state.cfg);
     return points;
   }
@@ -1670,6 +1928,11 @@
       .then(function (r) { if (!r.ok) throw new Error('api ' + r.status); return r.json(); })
       .then(function (payload) {
         var matches = payload.matches || [];
+        /* The payload is the forward-looking half of the points
+           merge (upcoming fixtures + live matches) and the ILT20
+           coverage expectation. Stored per poll, never cached
+           across polls. */
+        state.payloadMatches = matches;
         var flip = false;
         matches.forEach(function (m) {
           var prev = state.prevStatus[m.matchNo];
@@ -1684,7 +1947,7 @@
             return fetch(aggUrl(sv.hash), { cache: 'no-cache', headers: { 'Accept': 'application/json' } })
               .then(function (r) { if (!r.ok) throw new Error('agg ' + r.status); return r.json(); })
               .then(function (agg) {
-                if (aggComplete(agg, state.expectedResults)) {
+                if (aggComplete(agg, expectedFor(state.league, matches, agg))) {
                   renderFromAggregate(agg);
                   renderPointsFromAggregate(agg);
                   if (state.pendingFlip) {
@@ -1750,7 +2013,9 @@
     LEAGUES: LEAGUES, PLAYOFF_DESCS: PLAYOFF_DESCS,
     aggregate: aggregate, tables: tables, records: records,
     computePoints: computePoints, pointsMiniRows: pointsMiniRows,
-    aggComplete: aggComplete,
+    aggComplete: aggComplete, mergeSplitInnings: mergeSplitInnings,
+    isLeagueStage: isLeagueStage, expectedFromPayload: expectedFromPayload,
+    mergedMatches: mergedMatches,
     bareStage: bareStage, matchStage: matchStage,
     leadHtml: leadHtml, resultText: resultText, detailRowsHtml: detailRowsHtml,
     nextCellHtml: nextCellHtml, parseScore: parseScore, oversToBalls: oversToBalls,
