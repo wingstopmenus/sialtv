@@ -2,17 +2,19 @@
 (function () {
   'use strict';
   var mount = document.querySelector('[data-site-match-strip]');
-  if (!mount) return;
+  if (!mount || mount.dataset.stripMounted) return;
+  mount.dataset.stripMounted = 'true';
+  mount.setAttribute('data-strip-loading', '');
 
   function load(src, ready) {
     if (ready && ready()) return Promise.resolve();
     var existing = Array.from(document.scripts).find(function (script) {
       return script.src === new URL(src, location.href).href;
     });
-    return new Promise(function (resolve) {
+    return new Promise(function (resolve, reject) {
       var script = existing || document.createElement('script');
       script.addEventListener('load', resolve, { once: true });
-      script.addEventListener('error', resolve, { once: true });
+      script.addEventListener('error', reject, { once: true });
       if (!existing) {
         script.src = src;
         document.body.appendChild(script);
@@ -67,6 +69,9 @@
     })
     .then(function () {
       if (window.sialtvLocalTime) window.sialtvLocalTime();
-      return load(window.sialtvHomeLeagues ? '/js/flash-scores.js?v=3' : '/js/flash-scores.js?v=2');
+      return load('/js/flash-scores.js?v=4');
+    }).catch(function () {
+      mount.removeAttribute('data-strip-loading');
+      mount.innerHTML = '<div class="wrap"><a href="/live-scores/">Live cricket scores</a></div>';
     });
 })();

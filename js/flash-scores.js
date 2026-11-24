@@ -243,17 +243,46 @@
     matches.sort(function (a, b) {
       return order(a) - order(b) || (order(a) === 2 ? b.matchNo - a.matchNo : a.matchNo - b.matchNo);
     });
-    var html = matches.map(function (m) { return cardHtml(m, league); }).join('');
-    if (track._sharedHtml === html) return;
-    track._sharedHtml = html;
-    track.innerHTML = html;
-    all.querySelectorAll('.score-card[data-league="' + league + '"]').forEach(function (card) { card.remove(); });
-    all.insertAdjacentHTML('beforeend', html);
-    reorderStripTracks(track);
-    [track, all].forEach(function (group) {
-      var pill = strip.querySelector('[data-strip-filter="' + group.dataset.stripGroup + '"]');
-      if (pill) pill.textContent = pill.textContent.replace(/\(\d+\)$/, '(' + group.querySelectorAll('.score-card').length + ')');
+    var entries = matches.map(function (match) {
+      return { number: String(match.matchNo), html: cardHtml(match, league) };
     });
+    [track, all].forEach(function (group) {
+      var existing = new Map();
+      group.querySelectorAll('.score-card[data-league="' + league + '"]').forEach(function (card) {
+        existing.set(card.dataset.matchNo, card);
+      });
+      var template = document.createElement('template');
+      entries.forEach(function (entry) {
+        var card = existing.get(entry.number);
+        existing.delete(entry.number);
+        if (card && card._renderedMatch === entry.html) return;
+        template.innerHTML = entry.html;
+        var fresh = template.content.firstElementChild;
+        if (!card || card.tagName !== fresh.tagName) {
+          if (card) card.replaceWith(fresh);
+          else group.appendChild(fresh);
+          card = fresh;
+        } else {
+          ['href', 'data-kind', 'data-live', 'data-match-time'].forEach(function (name) {
+            var value = fresh.getAttribute(name);
+            if (value !== null) setAttr(card, name, value);
+            else if (card.hasAttribute(name)) card.removeAttribute(name);
+          });
+          var selectors = '.sc-label, .sc-match, .sc-team, .sc-score, .sc-result';
+          var fields = card.querySelectorAll(selectors);
+          fresh.querySelectorAll(selectors).forEach(function (field, index) {
+            var current = fields[index];
+            setAttr(current, 'class', field.className);
+            if (current.innerHTML !== field.innerHTML) current.innerHTML = field.innerHTML;
+          });
+        }
+        card._renderedMatch = entry.html;
+      });
+      existing.forEach(function (card) { card.remove(); });
+      var pill = strip.querySelector('[data-strip-filter="' + group.dataset.stripGroup + '"]');
+      if (pill) setText(pill, pill.textContent.replace(/\(\d+\)$/, '(' + group.querySelectorAll('.score-card').length + ')'));
+    });
+    reorderStripTracks(track);
     updateArrows(strip);
   }
 
@@ -342,7 +371,7 @@
     } else if (container && container.classList && container.classList.contains('st-strip-track')) {
       tracks = [container];
     }
-    var moved = [];
+    var moved = false;
     tracks.forEach(function (track) {
       var cards = Array.prototype.slice.call(track.querySelectorAll('.score-card'));
       if (cards.length < 2) return;
@@ -356,17 +385,19 @@
       });
       var changed = sorted.some(function (s, k) { return s.c !== cards[k]; });
       if (!changed) return;
-      sorted.forEach(function (s) { track.appendChild(s.c); });
-      moved.push(track);
+      var left = track.scrollLeft;
+      var bounds = track.getBoundingClientRect();
+      var visible = left > 0 && cards.find(function (card) {
+        return card.getBoundingClientRect().right > bounds.left;
+      });
+      var offset = visible ? visible.getBoundingClientRect().left : 0;
+      sorted.forEach(function (item, index) {
+        if (track.children[index] !== item.c) track.insertBefore(item.c, track.children[index] || null);
+      });
+      if (visible) track.scrollTo({ left: left + visible.getBoundingClientRect().left - offset, behavior: 'instant' });
+      moved = true;
     });
-    /* Reset the TRACK's scroll (the track is the scrollable element, not the
-       .st-strip-view wrapper) so the new first card (the live match) is
-       visible. Instant, not smooth, so the snap does not land mid-card. */
-    moved.forEach(function (track) {
-      if (track.scrollTo) track.scrollTo({ left: 0, behavior: 'instant' });
-      else track.scrollLeft = 0;
-    });
-    return moved.length > 0;
+    return moved;
   }
 
 
@@ -519,27 +550,18 @@
       cta: 'Match preview'
     };
   }
-  var heroSlider = { keys: [], index: 0, timer: null, lastHtml: '' };
+  var heroSlider = { keys: [], index: 0 };
   function applyHeroSlide() {
     var track = document.getElementById('heroTrack');
     if (!track) return;
-    track.style.transform = heroSlider.index ? 'translateX(-' + (heroSlider.index * 100) + '%)' : '';
+    var transform = heroSlider.index ? 'translateX(-' + (heroSlider.index * 100) + '%)' : '';
+    if (track.style.transform !== transform) track.style.transform = transform;
   }
   function heroGo(i) {
     var n = heroSlider.keys.length;
     if (n < 2) return;
     heroSlider.index = (i + n) % n;
     applyHeroSlide();
-    startHeroAuto();
-  }
-  function startHeroAuto() {
-    stopHeroAuto();
-    if (heroSlider.keys.length < 2) return;
-    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    heroSlider.timer = setInterval(function () { heroGo(heroSlider.index + 1); }, 6000);
-  }
-  function stopHeroAuto() {
-    if (heroSlider.timer) { clearInterval(heroSlider.timer); heroSlider.timer = null; }
   }
   function initHeroSlider() {
     var slider = document.getElementById('heroSlider');
@@ -549,66 +571,63 @@
     var next = slider.querySelector('[data-hero-next]');
     if (prev) prev.addEventListener('click', function () { heroGo(heroSlider.index - 1); });
     if (next) next.addEventListener('click', function () { heroGo(heroSlider.index + 1); });
-    slider.addEventListener('mouseenter', stopHeroAuto);
-    slider.addEventListener('mouseleave', startHeroAuto);
-    slider.addEventListener('focusin', stopHeroAuto);
-    slider.addEventListener('focusout', startHeroAuto);
     var sx = null;
-    slider.addEventListener('touchstart', function (e) { sx = e.changedTouches[0].clientX; stopHeroAuto(); }, { passive: true });
+    slider.addEventListener('touchstart', function (e) { sx = e.changedTouches[0].clientX; }, { passive: true });
     slider.addEventListener('touchend', function (e) {
       if (sx === null) return;
       var dx = e.changedTouches[0].clientX - sx;
       sx = null;
       if (dx < -40) heroGo(heroSlider.index + 1);
       else if (dx > 40) heroGo(heroSlider.index - 1);
-      else startHeroAuto();
     }, { passive: true });
-  }
-  /* First poll: does the baked hero already show exactly these slides?
-     The bake and the poller build the same slide (same href, same
-     kicker) for an unchanged state — in that case leave the baked DOM
-     alone and seed the baseline instead of rewriting it. The rewrite
-     is the visible flash on page load. */
-  function bakedHeroMatches(slides) {
-    var track = document.getElementById('heroTrack');
-    if (!track) return false;
-    var baked = track.querySelectorAll('a.st-hero-slide');
-    if (baked.length !== slides.length) return false;
-    for (var i = 0; i < slides.length; i++) {
-      if ((baked[i].getAttribute('href') || '') !== slides[i].href) return false;
-      var k = baked[i].querySelector('.st-panel__kicker');
-      var kt = k ? k.textContent.replace(/\s+/g, ' ').trim() : '';
-      var want = slides[i].kicker.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
-      if (kt !== want) return false;
-    }
-    return true;
   }
   function renderHero(slides) {
     var track = document.getElementById('heroTrack');
     var slider = document.getElementById('heroSlider');
     if (!track || !slider) return;
-    var keys = slides.map(function (s) { return s.key; });
-    var html = slides.map(function (s) {
-      return '<a class="st-panel st-panel--featured st-hero-slide" href="' + heroEsc(s.href) + '">' + heroSlideInner(s) + '</a>';
-    }).join('');
-    if (html !== heroSlider.lastHtml) {
-      if (!heroSlider.lastHtml && bakedHeroMatches(slides)) {
-        /* Unchanged since the bake — seed the baseline, write nothing. */
-        heroSlider.keys = keys;
-        heroSlider.lastHtml = html;
-      } else {
-        var cur = heroSlider.keys[heroSlider.index];
-        track.innerHTML = html;
-        heroSlider.keys = keys;
-        heroSlider.lastHtml = html;
-        var ni = keys.indexOf(cur);
-        heroSlider.index = ni >= 0 ? ni : 0;
-        applyHeroSlide();
+    var current = heroSlider.keys[heroSlider.index];
+    var existing = new Map();
+    Array.from(track.children).forEach(function (slide) { existing.set(slide.dataset.slideKey, slide); });
+    slides.forEach(function (slide, index) {
+      var card = existing.get(slide.key);
+      if (card) existing.delete(slide.key);
+      else {
+        card = document.createElement('a');
+        card.className = 'st-panel st-panel--featured st-hero-slide';
+        card.dataset.slideKey = slide.key;
       }
-    }
-    var nav = slider.querySelector('.st-hero-nav');
-    if (nav) nav.hidden = keys.length < 2;
-    if (keys.length > 1) startHeroAuto(); else stopHeroAuto();
+      setAttr(card, 'href', slide.href);
+      var html = heroSlideInner(slide);
+      if (card._heroHtml !== html) {
+        var template = document.createElement('template');
+        template.innerHTML = html;
+        var fields = Array.from(template.content.children);
+        fields.forEach(function (field, position) {
+          var prior = card.children[position];
+          if (!prior) card.appendChild(field);
+          else if (prior.tagName !== field.tagName || prior.className !== field.className) prior.replaceWith(field);
+          else if (prior.classList.contains('st-panel__scores') && prior.children.length === field.children.length) {
+            Array.from(field.querySelectorAll('b')).forEach(function (score, i) {
+              var oldScore = prior.querySelectorAll('b')[i];
+              if (oldScore) {
+                setText(oldScore, score.textContent);
+                setAttr(oldScore, 'class', score.className);
+              }
+            });
+          } else if (!prior.hasAttribute('data-kickoff') &&
+                     prior.innerHTML !== field.innerHTML) prior.innerHTML = field.innerHTML;
+        });
+        while (card.children.length > fields.length) card.lastElementChild.remove();
+        card._heroHtml = html;
+      }
+      if (track.children[index] !== card) track.insertBefore(card, track.children[index] || null);
+    });
+    existing.forEach(function (slide) { slide.remove(); });
+    heroSlider.keys = slides.map(function (slide) { return slide.key; });
+    var index = heroSlider.keys.indexOf(current);
+    heroSlider.index = index < 0 ? 0 : index;
+    applyHeroSlide();
+    setHidden(slider.querySelector('.st-hero-nav'), slides.length < 2);
     stripCountdowns();
   }
   function refreshHero(coverage) {
@@ -628,7 +647,13 @@
     });
     results.sort(function (a, b) { return b.time - a.time; });
     upcoming.sort(function (a, b) { return a.time - b.time; });
-    var slides = live.concat(results.concat(upcoming).map(function (item) { return item.slide; }));
+    var seen = new Set();
+    var slides = live.concat(results.concat(upcoming).map(function (item) { return item.slide; })).filter(function (slide) {
+      if (seen.has(slide.href)) return false;
+      seen.add(slide.href);
+      slide.key = slide.href;
+      return true;
+    });
     if (!slides.length) slides.push({
       key: 'series', href: '/live-scores/', kicker: 'Cricket match centre',
       strong: 'Live scores and fixtures', meta: '', sub: '', scores: '', kickoff: '',
@@ -1264,14 +1289,17 @@
     var fixtures = document.querySelector('#fxFixtures, #fxResults');
     document.querySelectorAll('.slp-flash[data-league]:not(#sialtvFlash)').forEach(function (group) {
       var lg = group.dataset.league;
+      var shared = group.closest('[data-site-match-strip]');
+      function render(data) {
+        if (!group.isConnected || !data || !data.matches || !data.matches.length) return;
+        if (shared) updateSharedStrip(group, data, lg);
+        else refreshFlash(group, data, lg);
+        if (fixtures) refreshFixtures(data, lg);
+      }
       loaders.push(function () {
-        if (document.hidden) return;
-        loadLeague(lg, function (data) {
-          if (!group.isConnected) return;
-          if (group.closest('[data-site-match-strip]')) updateSharedStrip(group, data, lg);
-          else refreshFlash(group, data, lg);
-          if (fixtures) refreshFixtures(data, lg);
-        });
+        if (document.hidden || !group.isConnected) return;
+        if (shared) return window.sialtvScores(lg).then(render);
+        loadLeague(lg, render);
       });
     });
     if (home && window.sialtvHomeLeagues) {
@@ -1294,7 +1322,7 @@
           allPill.textContent = 'All Matches (' + all.querySelectorAll('.score-card').length + ')';
           strip.hidden = !seasons.length;
         }
-        Promise.all(seasons.filter(function (league) { return league.feed; }).map(function (league) {
+        return Promise.all(seasons.filter(function (league) { return league.feed; }).map(function (league) {
           return window.sialtvScores(league.key).then(function (data) { return { league: league, data: data }; });
         })).then(function (items) {
           refreshHero(items);
@@ -1326,11 +1354,23 @@
         }).catch(function () {});
       });
     }
-    if (!loaders.length) return;
-    function loadAll() { loaders.forEach(function (fn) { fn(); }); }
+    var pending;
+    var mount = document.querySelector('[data-site-match-strip]');
+    function reveal() {
+      if (mount) mount.removeAttribute('data-strip-loading');
+      document.querySelectorAll('.st-strip').forEach(updateArrows);
+    }
+    function loadAll() {
+      if (pending || document.hidden) return;
+      pending = Promise.allSettled(loaders.map(function (load) { return load(); })).then(function () {
+        reveal();
+        pending = null;
+      });
+    }
+    if (!loaders.length) { reveal(); return; }
     loadAll();
     setInterval(loadAll, POLL_MS);
-    document.addEventListener('visibilitychange', function () { if (!document.hidden) loadAll(); });
+    document.addEventListener('visibilitychange', loadAll);
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);

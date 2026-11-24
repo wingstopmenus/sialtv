@@ -45,7 +45,9 @@
   var cache = {};
 
   function fetchJson(url) {
-    return fetch(url, { cache: 'no-store' }).then(function (r) {
+    var options = { cache: 'no-store' };
+    if (typeof AbortSignal !== 'undefined' && AbortSignal.timeout) options.signal = AbortSignal.timeout(12000);
+    return fetch(url, options).then(function (r) {
       if (!r.ok) throw new Error('HTTP ' + r.status);
       return r.json();
     });
@@ -56,7 +58,7 @@
     var now = Date.now();
     var c = cache[league];
     if (c && c.data && now - c.at < CACHE_MS) return Promise.resolve(c.data);
-    if (c && c.promise && now - c.at < CACHE_MS) return c.promise;
+    if (c && c.promise) return c.promise;
     var p = fetchJson(FEED_API + encodeURIComponent(league)).then(function (d) {
       if (d && d.matches && d.matches.length) {
         return mergeRecentResults(d, league).then(function (merged) {
@@ -66,8 +68,15 @@
       }
       throw new Error('empty live feed');
     }).catch(function () {
+      if (c && c.data) {
+        cache[league] = { at: Date.now(), data: c.data };
+        return c.data;
+      }
       var s = STATIC_FEED[league];
-      if (!s) return { fetchedAt: '', source: 'none', matches: [] };
+      if (!s) {
+        delete cache[league];
+        return { fetchedAt: '', source: 'none', matches: [] };
+      }
       return fetchJson(s).then(function (d) {
         /* Stamp the league on the static fallback: the strip's
            cross-league guard (flash-scores.js refreshCarousel) trusts
@@ -78,6 +87,7 @@
         cache[league] = { at: Date.now(), data: d };
         return d;
       }).catch(function () {
+        delete cache[league];
         return { fetchedAt: '', source: 'none', matches: [] };
       });
     });

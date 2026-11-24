@@ -2018,6 +2018,16 @@ body.st-inner .faq-item p { margin: 0.6rem 0 0; color: var(--st-ink-2); }
    Unscoped on purpose: the hub is body.st-inner, the homepage is
    body.st-home and the live-scores pages use the old chrome, so the strip
    carries its own card styles instead of relying on the inner-page rules. */
+[data-site-match-strip]:empty,
+[data-site-match-strip][data-strip-loading] { min-height: 12.5rem; }
+[data-site-match-strip][data-strip-loading] { visibility: hidden; }
+[data-site-match-strip] .score-card .sc-result {
+  min-height: 2.8em;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
 .st-strip { background: var(--st-bg, #f5f3fb); border-bottom: 1px solid var(--st-line, #e3dff0); padding: 0.8rem 0 0.95rem; }
 .st-strip-pills { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 0.75rem; }
 .st-strip-pill { background: var(--st-surface, #fff); border: 1px solid var(--st-line, #e3dff0); color: var(--st-ink-2, #3b4258); font-weight: 650; font-size: 0.85rem; padding: 0.45rem 0.85rem; border-radius: 999px; cursor: pointer; font-family: inherit; }
@@ -3363,4 +3373,43 @@ body.st-inner.league-apl .profile-card .pc-summary { font-size: 0.875rem; line-h
 @media (max-width: 640px) {
   body.st-inner.league-apl .profile-card .pc-name { font-size: 1.25rem; }
   body.st-inner.league-apl .profile-card .pc-text { padding: 1rem; }
+}
+
+/* Compact score rows keep the team and its score readable on phones. */
+@media (max-width: 640px) {
+  [data-site-match-strip] .st-strip-track {
+    scroll-snap-type: x proximity;
+    overscroll-behavior-x: contain;
+  }
+
+  [data-site-match-strip] .score-card {
+    scroll-snap-align: start;
+  }
+
+  [data-site-match-strip] .st-strip .sc-team,
+  body.st-inner [data-site-match-strip] .st-strip .sc-team {
+    flex: 1 1 auto;
+    min-width: 0;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    line-height: 1.25;
+    gap: 0.4rem;
+  }
+
+  [data-site-match-strip] .sc-score,
+  .st-panel__scores b,
+  body.st-inner .rx-res-team .rx-res-score {
+    flex: 0 0 auto;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .st-splash .st-panel__scores {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .st-splash .st-panel__scores > span { min-width: 0; }
+  .st-splash .st-panel__team small { overflow-wrap: anywhere; }
+  body.st-inner .rx-res-team { min-width: 0; overflow-wrap: anywhere; }
+  body.st-inner .rx-res-team img.team-logo { flex: 0 0 auto; }
 }
