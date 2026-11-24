@@ -820,26 +820,51 @@
     return pick((data && data.matches) || []);
   }
 
+  function matchSummary(match) {
+    var scores = [1, 2].map(function (side) {
+      return [teamName(match['team' + side]), match['score' + side]].filter(Boolean).join(' ');
+    }).join(' · ');
+    return [scores, cleanMatchStatus(match)].filter(Boolean);
+  }
+
+  function cleanMatchStatus(match) {
+    return String(match.statusText || '').replace(/\s*\((NPL|ILT20|SA20|BBL)\)/g, '');
+  }
+
+  function updateFixtureTables(tables, matches) {
+    var byNumber = new Map(matches.map(function (match) { return [match.matchNo, match]; }));
+    tables.forEach(function (table) {
+      table.querySelectorAll('tr').forEach(function (row) {
+        var result = row.querySelector('[data-fixture-result]');
+        if (!result) return;
+        var match = byNumber.get(Number(result.dataset.fixtureResult));
+        if (match && (match.status === 'result' || isLiveShown(match))) {
+          setText(result, matchSummary(match).join(' — '));
+        }
+      });
+    });
+  }
+
   function boot() {
     var results = document.querySelector('[data-league-results]');
     var schedule = document.querySelector('[data-league-schedule]');
-    if (results || schedule) {
-      var league = results ? results.dataset.leagueResults : schedule.dataset.leagueSchedule;
+    var tables = Array.from(document.querySelectorAll('[data-league-fixtures]'));
+    if (results || schedule || tables.length) {
+      var league = results ? results.dataset.leagueResults :
+        (schedule ? schedule.dataset.leagueSchedule : tables[0].dataset.leagueFixtures);
       function updateLeaguePage() {
         if (document.hidden) return;
         sialtvScores(league).then(function (data) {
-          if (schedule) {
-            reconcileList(league, data.matches, null, schedule);
-            return;
-          }
+          if (tables.length) updateFixtureTables(tables, data.matches);
+          if (schedule) reconcileList(league, data.matches, null, schedule);
+          if (!results) return;
+          var livePage = results.hasAttribute('data-include-live');
           var rows = data.matches.filter(function (m) {
-            return m.status === 'result' && Number.isSafeInteger(m.matchNo) && m.matchNo > 0;
-          }).sort(function (a, b) { return b.matchNo - a.matchNo; }).map(function (m) {
-            var scores = [1, 2].map(function (side) {
-              return [teamName(m['team' + side]), m['score' + side]].filter(Boolean).join(' ');
-            }).join(' · ');
+            return (m.status === 'result' || (livePage && isLiveShown(m))) && Number.isSafeInteger(m.matchNo) && m.matchNo > 0;
+          }).sort(function (a, b) { return Number(isLiveShown(b)) - Number(isLiveShown(a)) || b.matchNo - a.matchNo; }).map(function (m) {
+            var summary = matchSummary(m);
             return '<tr><td><a href="' + matchUrl(league, m.matchNo) + '">Match ' + m.matchNo +
-              '</a></td><td>' + esc(scores) + '</td><td>' + esc(m.statusText) + '</td></tr>';
+              '</a></td><td>' + esc(summary[0]) + '</td><td>' + esc(summary[1] || '') + '</td></tr>';
           });
           if (rows.length) setHtml(results, rows.join(''));
         });
@@ -856,12 +881,14 @@
          box; the state file drives rankings, records and the Quick
          Links note. Each fetch fails soft, so one dead source never
          blocks the other two. */
-      var nplP = sialtvScores('npl').catch(function () { return null; });
-      var iltP = sialtvScores('ilt20').catch(function () { return null; });
-      var stP = fetchState(false);
+      var hasNpl = !!panel.querySelector('.rx-res-box[data-league="npl"]');
+      var hasIlt20 = !!panel.querySelector('.rx-res-box[data-league="ilt20"]');
+      var nplP = hasNpl ? sialtvScores('npl') : Promise.resolve(null);
+      var iltP = hasIlt20 ? sialtvScores('ilt20') : Promise.resolve(null);
+      var stP = hasNpl ? fetchState(false) : Promise.resolve(null);
       Promise.all([nplP, iltP, stP]).then(function (all) {
         var data = all[0], ilt = all[1], state = all[2];
-        if (data && data.matches && data.matches.length) { renderPanel(data, ilt, state); }
+        if (data || ilt) renderPanel(data || { matches: [] }, ilt, state);
       }).catch(function () {});
     }
     load();

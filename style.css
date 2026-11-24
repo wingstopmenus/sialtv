@@ -3415,3 +3415,14 @@ body.st-inner.league-apl .profile-card .pc-summary { font-size: 0.875rem; line-h
 }
 
 .st-strip [data-strip-empty] { margin: 1rem 0; color: var(--st-ink-2, #3b4258); }
+
+.player-portrait {
+  display: block;
+  width: 4.5rem;
+  height: 4.5rem;
+  object-fit: cover;
+  border-radius: 0.7rem;
+  margin-block-end: 0.5rem;
+}
+[data-legacy-match-score] { padding-block: 0.8rem; }
+[data-legacy-match-score] p { margin-block: 0.25rem; }

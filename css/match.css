@@ -45,7 +45,7 @@
    inline script after <body> only when the match is inside its live
    window, and removed by match-live.js after the first poll resolves
    (or after 8 s by the script's own fallback). */
-html.ci-gate .ci-head, html.ci-gate .ci-tabs, html.ci-gate .ci-main { visibility: hidden; }
+
 /* Sticky rail on desktop: the rail (973px) is far shorter than the main
    column (2729px on a result page), so it used to leave a 1756px void
    below it while scrolling. .ci-layout already uses align-items:start,

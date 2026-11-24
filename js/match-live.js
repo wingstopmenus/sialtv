@@ -52,12 +52,6 @@
   var NEAR_KICKOFF = 15 * 60 * 1000;
   var WINDOW_BEFORE = 2 * 60 * 60 * 1000;
 
-  var STATIC_SNAPSHOT = {
-    npl: '/data/live-scores.json',
-    ilt20: '/data/ilt20-live-scores.json',
-    sa20: '/data/sa20-live-scores.json',
-    apl: '/data/apl-live-scores.json'
-  };
   var TEAM_CODE = {
     'Biratnagar Kings': 'BIK', 'Lumbini Lions': 'LUL',
     'Kathmandu Gorkhas': 'KAG', 'Sudur Paschim Royals': 'SPR',
@@ -440,13 +434,23 @@
       }
       throw new Error('match not in feed');
     }
-    return getJson('/api/live-scores.php?league=' + encodeURIComponent(ident.league))
-      .then(pick)
-      .catch(function () {
-        var snap = STATIC_SNAPSHOT[ident.league];
-        if (!snap) throw new Error('no static snapshot for ' + ident.league);
-        return getJson(snap).then(pick);
-      });
+    var shared = window.sialtvScores;
+    var ready = window.sialtvMatchFeedReady || (window.sialtvMatchFeedReady = shared ? Promise.resolve() : new Promise(function (resolve, reject) {
+      var script = document.querySelector('script[src^="/js/live-scores.js"]');
+      var existing = Boolean(script);
+      if (!script) {
+        script = document.createElement('script');
+        script.src = '/js/live-scores.js';
+      }
+      script.addEventListener('load', resolve, { once: true });
+      script.addEventListener('error', function () {
+        window.sialtvMatchFeedReady = null;
+        script.remove();
+        reject(new Error('Score feed unavailable'));
+      }, { once: true });
+      if (!existing) document.head.appendChild(script);
+    }));
+    return ready.then(function () { return window.sialtvScores(ident.league); }).then(pick);
   }
 
   /* ---------- feed -> numbers (derived only, never invented) ---------- */
@@ -3235,9 +3239,29 @@
     });
   }
 
+  function renderLegacyMatch(match) {
+    var box = $('[data-legacy-match-score]');
+    if (!box) {
+      var main = $('main');
+      if (!main) return;
+      box = document.createElement('section');
+      box.className = 'wrap';
+      box.dataset.legacyMatchScore = '';
+      var heading = document.createElement('h2');
+      heading.textContent = 'Match scores';
+      box.append(heading, document.createElement('p'), document.createElement('p'), document.createElement('p'));
+      main.prepend(box);
+    }
+    var rows = box.querySelectorAll('p');
+    setText(rows[0], [cleanName(match.team1), match.score1].filter(Boolean).join(' '));
+    setText(rows[1], [cleanName(match.team2), match.score2].filter(Boolean).join(' '));
+    setText(rows[2], cleanName(match.statusText));
+  }
+
   function boot() {
     var ident = identity();
     if (!ident) return;
+    var legacy = !document.querySelector('[data-ci-tabs]');
     wireTabs();
     wireSquads();
     wireOvers();
@@ -3263,23 +3287,13 @@
       }
     });
 
-    /* Baked result: no fetch, no poll, ever. */
-    if (ident.state === 'result' || ident.state === 'abandoned') {
-      applyTabSet(ident.state);
-      openTab(DEFAULT_TAB[ident.state] || 'summary', { silent: true });
-      ungate();
-      return;
-    }
     applyTabSet(ident.state);
     openTab(DEFAULT_TAB[ident.state] || 'summary', { silent: true });
     renderCountdown(ident);
-    /* No flip possible (outside the live window): paint the baked
-       state at once. Inside the window the gate stays until the first
-       poll resolves. */
-    if (!inLiveWindow(ident)) ungate();
-    /* 8 s fallback: a slow/dead feed — or a hidden tab that never
-       polls — must never leave the gate on. */
-    setTimeout(ungate, 8000);
+    ungate();
+    var pending = false;
+    var stopped = ident.state === 'abandoned';
+    seenStatus = ident.state;
 
     function schedule(delay) {
       if (timer) clearTimeout(timer);
@@ -3287,7 +3301,8 @@
     }
 
     function tick() {
-      if (document.hidden) return;
+      if (document.hidden || pending || stopped) return;
+      pending = true;
       renderCountdown(ident);
       loadMatch(ident).then(function (res) {
         var m = res.match;
@@ -3317,10 +3332,11 @@
            rewrites innerHTML, so re-rendering identical data is the
            visible refresh the user sees every 30 s. The countdown
            above already ticked; the status block below still runs. */
+        if (ident.state === 'result' && (m.status !== 'result' || !resultComplete(m))) { stopped = true; return; }
         var sig = JSON.stringify(m);
         if (sig !== lastFeedSig) {
           lastFeedSig = sig;
-          try { render(m, res.fetchedAt, ident); } catch (e) { /* live render must never break the page */ }
+          try { if (legacy) renderLegacyMatch(m); else render(m, res.fetchedAt, ident); } catch (e) { /* live render must never break the page */ }
           /* Title tracks the score, not just the state: the feed
              changed, so recompute the score-led title. applyTitle
              writes only when the string actually changed. */
@@ -3341,14 +3357,17 @@
              Keep polling fast until the result payload is complete,
              then stop cleanly. Never poll forever: 10 settle polls
              (~5 min) and the view stands as rendered. */
-          if (resultComplete(m) || resultPolls >= RESULT_SETTLE_POLLS) return;
+          if (legacy || resultComplete(m) || resultPolls >= RESULT_SETTLE_POLLS) { stopped = true; return; }
           resultPolls++;
           schedule(POLL_FAST);
           return;
         }
         resultPolls = 0;
         schedule(POLL_FAST);
-      }).catch(function () { ungate(); schedule(POLL_FAST); });
+      }).catch(function () {
+        if (ident.state === 'result') stopped = true;
+        else schedule(POLL_FAST);
+      }).finally(function () { pending = false; });
     }
 
     tick();
