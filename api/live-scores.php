@@ -95,6 +95,10 @@ if ($league === '' || !preg_match('/^[a-z0-9]+$/', $league)) {
 }
 $seriesId = LEAGUE_SERIES[$league] ?? null;
 if ($seriesId === null) {
+    if ($isCli) {
+        fwrite(STDERR, "League is not configured: " . $league . "\n");
+        exit(1);
+    }
     echo json_encode([
         'fetchedAt' => gmdate('c'),
         'source' => 'espn',
@@ -143,11 +147,22 @@ function sialtv_freshest(string $runtimeLive, string $cachePath): array
     return [$best, $bestAge];
 }
 
-function sialtv_store(string $json, string $cachePath, string $runtimeLive): void
+function sialtv_store(string $json, string $path): bool
 {
-    @file_put_contents($cachePath, $json, LOCK_EX);
-    @mkdir(dirname($runtimeLive), 0755, true);
-    @file_put_contents($runtimeLive, $json, LOCK_EX);
+    $dir = dirname($path);
+    if (!is_dir($dir) && !@mkdir($dir, 0755, true) && !is_dir($dir)) {
+        return false;
+    }
+    $temp = @tempnam($dir, '.sialtv-');
+    if ($temp === false) {
+        return false;
+    }
+    if (@file_put_contents($temp, $json) !== strlen($json) ||
+        !@chmod($temp, 0644) || !@rename($temp, $path)) {
+        @unlink($temp);
+        return false;
+    }
+    return true;
 }
 
 [$freshPath, $freshAge] = sialtv_freshest($runtimeLive, $cachePath);
@@ -164,6 +179,10 @@ if (!$cliRefresh && $freshBody !== null && $freshAge < SIALTV_CACHE_SECONDS) {
 $lock = @fopen($lockPath, 'c');
 $gotLock = $lock && flock($lock, LOCK_EX | LOCK_NB);
 if (!$gotLock) {
+    if ($isCli) {
+        fwrite(STDERR, "Could not acquire the refresh lock for " . $league . "\n");
+        exit(2);
+    }
     if ($freshBody !== null) {
         if (!$isCli) {
             header('X-SialTV-Live-Cache: ' . basename((string) $freshPath) . ';age=' . $freshAge);
@@ -187,7 +206,11 @@ try {
     if (!is_string($json)) {
         throw new RuntimeException('encode');
     }
-    sialtv_store($json, $cachePath, $runtimeLive);
+    $runtimeWritten = sialtv_store($json, $runtimeLive);
+    sialtv_store($json, $cachePath);
+    if ($isCli && !$runtimeWritten) {
+        throw new RuntimeException('Could not write the runtime snapshot');
+    }
     if (!$isCli) {
         header('X-SialTV-Live-Cache: refreshed');
     }
@@ -202,6 +225,10 @@ try {
         ' in ' . $e->getFile() . ':' . $e->getLine() . ' | ' .
         substr(str_replace(["\n", "\r"], ' ', $e->getTraceAsString()), 0, 2000) . "\n",
         FILE_APPEND | LOCK_EX);
+    if ($isCli) {
+        fwrite(STDERR, 'Refresh failed for ' . $league . ': ' . $e->getMessage() . "\n");
+        exit(3);
+    }
     if ($freshBody !== null) {
         if (!$isCli) {
             header('X-SialTV-Live-Cache: stale');
