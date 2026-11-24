@@ -1954,6 +1954,8 @@
                     state.pendingFlip = false;
                     state.settlePolls = 0;
                   }
+                } else {
+                  state.lastHash = null;
                 }
                 return anyLive(matches);
               })

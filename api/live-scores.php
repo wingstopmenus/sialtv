@@ -201,6 +201,7 @@ try {
         $payload = sialtv_keep_scorecards($payload, $cached);
     }
     $payload = sialtv_merge_static_schedule($payload, $league);
+    $payload = sialtv_reconcile_recent_matches($payload, $cached, $seriesId, $league);
     $payload['statsVersion'] = sialtv_stats_aggregate($payload, $league);
     $json = json_encode($payload, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
     if (!is_string($json)) {
@@ -1096,7 +1097,7 @@ function sialtv_stats_aggregate(array $payload, string $league): array
    its scheduled time passes without it going live (12 Nov 2026: M22
    delayed, still unplayed, scoreboard returned only M23 — the panel
    showed M23 as next). Merge unplayed matches from the committed
-   static file back in, in match order. Results come from ESPN only. */
+   snapshot back in, including previously verified results. */
 function sialtv_merge_static_schedule(array $payload, string $league): array
 {
     $path = dirname(__DIR__) . (STATIC_FALLBACK[$league] ?? '');
@@ -1122,7 +1123,7 @@ function sialtv_merge_static_schedule(array $payload, string $league): array
         $id = (string) $m['id'];
         if (!isset($byId[$id])) {
             $st = strtolower((string) ($m['status'] ?? ''));
-            if ($st !== 'upcoming' && $st !== 'live') {
+            if ($st !== 'upcoming' && $st !== 'result' && $st !== 'abandoned') {
                 continue;
             }
             $extra[] = $m;
@@ -1158,6 +1159,68 @@ function sialtv_merge_static_schedule(array $payload, string $league): array
         });
         $payload['matches'] = array_values($merged);
     }
+    return $payload;
+}
+
+/* The scoreboard is a rolling window. Retain confirmed results and
+   recover missing scores from the verified fixture's event summary. */
+function sialtv_reconcile_recent_matches(array $payload, ?string $cached, int $seriesId, string $league): array
+{
+    $matches = array_column($payload['matches'], null, 'id');
+    $previous = $cached === null ? [] : (json_decode($cached, true)['matches'] ?? []);
+    foreach ($previous as $match) {
+        if (($match['status'] ?? '') !== 'result' || empty($match['id'])) {
+            continue;
+        }
+        $current = $matches[$match['id']] ?? null;
+        if (($current['status'] ?? '') !== 'result') {
+            $matches[$match['id']] = $match;
+        }
+    }
+
+    $now = time();
+    $requests = [];
+    foreach ($matches as $key => $match) {
+        $kickoff = strtotime((string) ($match['kickoffIso'] ?? ''));
+        $eventId = (int) ($match['espnEventId'] ?? 0);
+        if (!$kickoff || $kickoff > $now || $kickoff < $now - 14 * 86400 || $eventId < 1) {
+            continue;
+        }
+        $status = $match['status'] ?? '';
+        $needsResult = $status === 'upcoming' && $kickoff < $now - 5 * 3600;
+        $needsCard = $status === 'result' && empty($match['scorecard']['innings'])
+            && (!empty($match['score1']) || !empty($match['score2']));
+        if ($needsResult || $needsCard) {
+            $url = 'https://site.api.espn.com/apis/site/v2/sports/cricket/' . $seriesId . '/summary?event=' . $eventId;
+            $requests[$url] = $key;
+        }
+    }
+    if ($requests !== []) {
+        // Rotate batches so an unresolved event does not block later fixtures.
+        $size = 4;
+        $offset = (intdiv($now, SIALTV_CACHE_SECONDS) % (int) ceil(count($requests) / $size)) * $size;
+        $batch = array_slice($requests, $offset, $size, true);
+        foreach (sialtv_espn_get_multi(array_keys($batch), 4) as $url => $summary) {
+            $key = $batch[$url];
+            $match = $matches[$key];
+            $comp = $summary['header']['competitions'][0] ?? null;
+            if (!is_array($comp) || (int) ($comp['id'] ?? 0) !== (int) $match['espnEventId']
+                || ($comp['status']['type']['state'] ?? '') !== 'post') {
+                continue;
+            }
+            $event = ['id' => $comp['id'], 'date' => $comp['date'] ?? $match['kickoffIso']];
+            $result = sialtv_normalise_event($event, $comp, $summary, $league);
+            if ($result['id'] !== $key) {
+                continue;
+            }
+            $result['kickoffIso'] = $match['kickoffIso'];
+            $result['venue'] = $result['venue'] ?: ($match['venue'] ?? null);
+            $matches[$key] = $result;
+        }
+    }
+
+    $payload['matches'] = array_values($matches);
+    usort($payload['matches'], static fn($a, $b) => $a['matchNo'] <=> $b['matchNo']);
     return $payload;
 }
 

@@ -165,7 +165,10 @@
          there. WITH a toss the match IS live. */
       if (m.status === 'live' && isLiveShown(m)) live = m;
       if (m.status === 'result' && (!latest || m.matchNo > latest.matchNo)) latest = m;
-      if ((m.status === 'upcoming' || (m.status === 'live' && !isLiveShown(m))) && (!next || m.matchNo < next.matchNo)) next = m;
+      var kickoff = Date.parse(m.kickoffIso || '');
+      var canBeNext = Number.isNaN(kickoff) || kickoff > Date.now() || m.status === 'live';
+      if (canBeNext && (m.status === 'upcoming' || (m.status === 'live' && !isLiveShown(m))) &&
+          (!next || m.matchNo < next.matchNo)) next = m;
     });
     return { live: live, latest: latest, next: next };
   }
@@ -741,8 +744,8 @@
      on every card, every poll, and rewrite the whole list every 30
      seconds. Returns true when anything changed (so the caller knows
      to rebuild the Schedule + Results views). */
-  function reconcileList(league, feedMatches, state) {
-    var box = document.querySelector('#tab-live .rx-res-box[data-league="' + league + '"] .rx-res-grid');
+  function reconcileList(league, feedMatches, state, schedule) {
+    var box = schedule || document.querySelector('#tab-live .rx-res-box[data-league="' + league + '"] .rx-res-grid');
     if (!box) return false;
     var changed = false;
     var byNo = {};
@@ -751,7 +754,7 @@
     for (var i = 0; i < cards.length; i++) {
       var no = parseInt(cards[i].getAttribute('data-match-no') || '0', 10);
       var m = byNo[no];
-      if (!m) continue;
+      if (!m || (schedule && m.status === 'upcoming')) continue;
       if (m.status === 'upcoming' && (teamName(m.team1) === 'TBA' || teamName(m.team2) === 'TBA')) continue;
       var fresh = listCardHtml(m, league, state);
       if (!fresh) continue;
@@ -767,6 +770,7 @@
       }
       if (node.outerHTML !== cards[i].outerHTML) { cards[i].outerHTML = node.outerHTML; changed = true; }
     }
+    if (schedule) return changed;
     var have = {};
     box.querySelectorAll('.rx-res-card').forEach(function (c) { have[parseInt(c.getAttribute('data-match-no') || '0', 10)] = true; });
     var missing = (feedMatches || []).filter(function (mm) { return mm.status === 'result' && !have[mm.matchNo]; })
@@ -807,6 +811,33 @@
   }
 
   function boot() {
+    var results = document.querySelector('[data-league-results]');
+    var schedule = document.querySelector('[data-league-schedule]');
+    if (results || schedule) {
+      var league = results ? results.dataset.leagueResults : schedule.dataset.leagueSchedule;
+      function updateLeaguePage() {
+        if (document.hidden) return;
+        sialtvScores(league).then(function (data) {
+          if (schedule) {
+            reconcileList(league, data.matches, null, schedule);
+            return;
+          }
+          var rows = data.matches.filter(function (m) {
+            return m.status === 'result' && Number.isSafeInteger(m.matchNo) && m.matchNo > 0;
+          }).sort(function (a, b) { return b.matchNo - a.matchNo; }).map(function (m) {
+            var scores = [1, 2].map(function (side) {
+              return [teamName(m['team' + side]), m['score' + side]].filter(Boolean).join(' ');
+            }).join(' · ');
+            return '<tr><td><a href="' + matchUrl(league, m.matchNo) + '">Match ' + m.matchNo +
+              '</a></td><td>' + esc(scores) + '</td><td>' + esc(m.statusText) + '</td></tr>';
+          });
+          if (rows.length) setHtml(results, rows.join(''));
+        });
+      }
+      updateLeaguePage();
+      setInterval(updateLeaguePage, POLL_MS);
+      document.addEventListener('visibilitychange', updateLeaguePage);
+    }
     var panel = document.getElementById('tab-live');
     if (!panel) return;
     function load() {
