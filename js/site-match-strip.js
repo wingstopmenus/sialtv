@@ -38,6 +38,6 @@
     })
     .then(function () {
       if (window.sialtvLocalTime) window.sialtvLocalTime();
-      return load('/js/flash-scores.js');
+      return load('/js/flash-scores.js?v=2');
     });
 })();
