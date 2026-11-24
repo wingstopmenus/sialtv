@@ -109,31 +109,8 @@
 </script>
 
 <nav class="series-secnav" aria-label="Nepal Premier League sections"><div class="wrap secnav-row"><div class="secnav-title-wrap"><div class="secnav-title"><button type="button" class="secnav-switch" aria-haspopup="true">Nepal Premier League 2026 <span class="secnav-caret" aria-hidden="true">&#9662;</span></button></div><div class="secnav-drop"><a href="/npl/" aria-current="page">Nepal Premier League 2026</a><a href="/ilt20/">International League T20 2026&ndash;27</a><a href="/apl/">Afghanistan Premier League 2026&ndash;27</a></div></div><span class="secnav-div" aria-hidden="true"></span><div class="secnav-links"><a href="/npl/">Home</a><a href="/npl/schedule/">Fixtures and Results</a><a href="/npl/points-table/">Table</a><a href="/npl/stats/">Stats</a><a href="/npl/teams/">Teams</a><a href="/npl/players/">Players</a></div></div></nav>
-<div id="stripMount"></div>
-<script>
-(function () {
-  var mount = document.getElementById('stripMount');
-  if (!mount) return;
-  function loadScript(src, next) {
-    var s = document.createElement('script');
-    s.src = src;
-    s.onload = function () { if (next) next(); };
-    s.onerror = function () { if (next) next(); };
-    document.body.appendChild(s);
-  }
-  fetch('/fragments/strip.html', { credentials: 'same-origin' })
-    .then(function (r) { if (!r.ok) throw new Error('strip ' + r.status); return r.text(); })
-    .then(function (html) {
-      mount.innerHTML = html;
-      loadScript('/js/team-logos.js', function () {
-        loadScript('/js/live-scores.js', function () {
-          loadScript('/js/flash-scores.js');
-        });
-      });
-    })
-    .catch(function () { if (mount && mount.parentNode) mount.parentNode.removeChild(mount); });
-})();
-</script>
+<div data-site-match-strip></div>
+<script defer src="/js/site-match-strip.js"></script>
 
 
 <div class="wrap page-head"><div class="hub-crumbs"><p class="crumbs"><a href="/">SialTV</a> / <a href="/npl/">Nepal Premier League</a> / NPL 2026 Live Scores</p><p class="updated">Last updated: 19 November 2026</p></div>

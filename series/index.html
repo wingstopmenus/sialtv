@@ -108,31 +108,8 @@
   load(1);
 })();
 </script>
-<div id="stripMount"></div>
-<script>
-(function () {
-  var mount = document.getElementById('stripMount');
-  if (!mount) return;
-  function loadScript(src, next) {
-    var s = document.createElement('script');
-    s.src = src;
-    s.onload = function () { if (next) next(); };
-    s.onerror = function () { if (next) next(); };
-    document.body.appendChild(s);
-  }
-  fetch('/fragments/strip.html', { credentials: 'same-origin' })
-    .then(function (r) { if (!r.ok) throw new Error('strip ' + r.status); return r.text(); })
-    .then(function (html) {
-      mount.innerHTML = html;
-      loadScript('/js/team-logos.js', function () {
-        loadScript('/js/live-scores.js', function () {
-          loadScript('/js/flash-scores.js');
-        });
-      });
-    })
-    .catch(function () { if (mount && mount.parentNode) mount.parentNode.removeChild(mount); });
-})();
-</script>
+<div data-site-match-strip></div>
+<script defer src="/js/site-match-strip.js"></script>
 <main id="main">
 <div class="st-shell">
 <div class="hub-crumbs"><p class="crumbs"><a href="/">Home</a> &rsaquo; Series</p><p class="updated">Last updated: 19 November 2026</p></div>

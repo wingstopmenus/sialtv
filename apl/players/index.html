@@ -112,7 +112,8 @@
 </script>
 
 <nav class="series-secnav" aria-label="Afghanistan Premier League sections"><div class="wrap secnav-row"><div class="secnav-title-wrap"><div class="secnav-title"><button type="button" class="secnav-switch" aria-haspopup="true">Afghanistan Premier League 2026&ndash;27 <span class="secnav-caret" aria-hidden="true">&#9662;</span></button></div><div class="secnav-drop"><a href="/npl/">Nepal Premier League 2026</a><a href="/ilt20/">International League T20 2026&ndash;27</a><a href="/apl/" aria-current="page">Afghanistan Premier League 2026&ndash;27</a></div></div><span class="secnav-div" aria-hidden="true"></span><div class="secnav-links"><a href="/apl/">Home</a><a href="/apl/schedule/">Fixtures and Results</a><a href="/apl/points-table/">Table</a><a href="/apl/stats/">Stats</a><a href="/apl/teams/">Teams</a><a href="/apl/players/" aria-current="page">Players</a></div></div></nav>
-<div class="st-strip" data-strip data-strip-src="/fragments/strip.html" style="min-height:12rem" aria-busy="true"></div>
+<div data-site-match-strip></div>
+<script defer src="/js/site-match-strip.js"></script>
   </div>
   </div>
 
@@ -425,37 +426,7 @@
 </script>
 
 <script src="/js/team-logos.js"></script>
-<script>
-/* Match strip: the shared baked strip (/fragments/strip.html, verbatim from the NPL hub) is fetched and injected here, then the local-time module loads, then the strip driver. */
-(function(){
-  var el = document.querySelector('[data-strip-src]');
-  if (!el) return;
-  fetch(el.getAttribute('data-strip-src'), {credentials: 'same-origin'})
-    .then(function(r){ if (!r.ok) throw new Error('strip ' + r.status); return r.text(); })
-    .then(function(html){
-      var tmp = document.createElement('div');
-      tmp.innerHTML = html;
-      var strip = tmp.querySelector('.st-strip');
-      if (!strip) return;
-      el.parentNode.replaceChild(strip, el);
-      /* Visitor-local times (2026-11-18, LOADER agent): the module
-         loads after the strip fragment is injected and before the
-         strip driver, the same order as the strip chain — so the
-         injected strip cards convert, as does the hub's own M1 line.
-         The module boots on load even when appended late. */
-      var s = document.createElement('script');
-      s.src = '/js/local-time.js';
-      s.onload = function () {
-        var f = document.createElement('script');
-        f.src = '/js/flash-scores.js';
-        document.body.appendChild(f);
-      };
-      s.onerror = s.onload;
-      document.body.appendChild(s);
-    })
-    .catch(function(){ if (el && el.parentNode) el.parentNode.removeChild(el); });
-})();
-</script>
+
 <script>
 /* Players index filter: team chips + name search. Filters in place, no scroll. */
 (function(){

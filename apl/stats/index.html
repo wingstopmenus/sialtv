@@ -111,33 +111,8 @@
 </script>
 
 <nav class="series-secnav" aria-label="Afghanistan Premier League sections"><div class="wrap secnav-row"><div class="secnav-title-wrap"><div class="secnav-title"><button type="button" class="secnav-switch" aria-haspopup="true">Afghanistan Premier League 2026&ndash;27 <span class="secnav-caret" aria-hidden="true">&#9662;</span></button></div><div class="secnav-drop"><a href="/npl/">Nepal Premier League 2026</a><a href="/ilt20/">International League T20 2026&ndash;27</a><a href="/apl/" aria-current="page">Afghanistan Premier League 2026&ndash;27</a></div></div><span class="secnav-div" aria-hidden="true"></span><div class="secnav-links"><a href="/apl/">Home</a><a href="/apl/schedule/">Fixtures and Results</a><a href="/apl/points-table/">Table</a><a href="/apl/stats/" aria-current="page">Stats</a><a href="/apl/teams/">Teams</a><a href="/apl/players/">Players</a></div></div></nav>
-<div id="stripMount"></div>
-<script>
-(function () {
-  var mount = document.getElementById('stripMount');
-  if (!mount) return;
-  function loadScript(src, next) {
-    var s = document.createElement('script');
-    s.src = src;
-    s.onload = function () { if (next) next(); };
-    s.onerror = function () { if (next) next(); };
-    document.body.appendChild(s);
-  }
-  fetch('/fragments/strip.html', { credentials: 'same-origin' })
-    .then(function (r) { if (!r.ok) throw new Error('strip ' + r.status); return r.text(); })
-    .then(function (html) {
-      mount.innerHTML = html;
-      loadScript('/js/team-logos.js', function () {
-        loadScript('/js/live-scores.js', function () {
-          loadScript('/js/local-time.js', function () {
-            loadScript('/js/flash-scores.js');
-          });
-        });
-      });
-    })
-    .catch(function () { if (mount && mount.parentNode) mount.parentNode.removeChild(mount); });
-})();
-</script>
+<div data-site-match-strip></div>
+<script defer src="/js/site-match-strip.js"></script>
 <div class="wrap page-head"><div class="hub-crumbs"><p class="crumbs"><a href="/">SialTV</a> / <a href="/apl/">APL</a> / APL 2026-27 Stats — Top Performances &amp; Records</p><p class="updated">Last updated: 19 November 2026</p></div>
   <h1>APL 2026-27 Stats &mdash; Top Performances &amp; Records</h1>
 </div>
