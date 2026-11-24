@@ -22,56 +22,54 @@
     });
   }
 
-  fetch('/fragments/strip.html', { credentials: 'same-origin' })
-    .then(function (response) {
-      if (!response.ok) throw new Error('Match strip unavailable');
-      return response.text();
-    })
-    .then(function (html) {
-      return Promise.resolve(window.sialtvHomeLeaguesReady).then(function (leagues) {
-        mount.innerHTML = html;
-        if (!Array.isArray(leagues)) return;
-        var strip = mount.querySelector('.st-strip');
-        var view = strip.querySelector('.st-strip-view');
-        var pills = strip.querySelector('.st-strip-pills');
-        var keys = leagues.map(function (league) { return league.key; });
-        strip.querySelectorAll('[data-strip-group], [data-strip-filter], .score-card[data-league]').forEach(function (node) {
-          var key = node.dataset.stripGroup || node.dataset.stripFilter || node.dataset.league;
-          if (key !== 'all' && !keys.includes(key)) node.remove();
-        });
-        leagues.forEach(function (league) {
-          if (!league.feed || strip.querySelector('[data-strip-group="' + league.key + '"]')) return;
-          var pill = document.createElement('button');
-          pill.type = 'button';
-          pill.className = 'st-strip-pill';
-          pill.dataset.stripFilter = league.key;
-          pill.setAttribute('aria-pressed', 'false');
-          pill.textContent = league.code + ' (0)';
-          pills.appendChild(pill);
-          var track = document.createElement('div');
-          track.className = 'st-strip-track slp-flash';
-          track.dataset.stripGroup = league.key;
-          track.dataset.league = league.key;
-          track.hidden = true;
-          view.appendChild(track);
-        });
+  var options = { credentials: 'same-origin' };
+  var calendar = window.sialtvHomeLeaguesReady || fetch('/data/nav-leagues.json?v=2', options)
+    .then(function (response) { if (!response.ok) throw new Error('Calendar unavailable'); return response.json(); })
+    .then(function (data) {
+      return data.leagues.flatMap(function (league) {
+        var today = new Intl.DateTimeFormat('sv-SE', { timeZone: league.zone }).format(new Date());
+        return today > league.final ? [] : [Object.assign({}, league, {
+          key: league.code.toLowerCase(), active: !league.provisional && today >= league.start
+        })];
       });
-    })
-    .catch(function () {
-      mount.innerHTML = '<div class="wrap"><a href="/live-scores/">Live cricket scores</a></div>';
-    })
-    .then(function () {
-      return Promise.all([
-        load('/js/team-logos.js', function () { return window.sialtvTeamLogos; }),
-        load('/js/live-scores.js', function () { return window.sialtvScores; }),
-        load('/js/local-time.js', function () { return window.sialtvLocalTime; })
-      ]);
-    })
-    .then(function () {
-      if (window.sialtvLocalTime) window.sialtvLocalTime();
-      return load('/js/flash-scores.js?v=4');
-    }).catch(function () {
-      mount.removeAttribute('data-strip-loading');
-      mount.innerHTML = '<div class="wrap"><a href="/live-scores/">Live cricket scores</a></div>';
     });
+
+  var shell = fetch('/fragments/strip.html?v=5', options)
+    .then(function (response) { if (!response.ok) throw new Error('Match strip unavailable'); return response.text(); });
+  var feed = load('/js/live-scores.js', function () { return window.sialtvScores; });
+  var logos = load('/js/team-logos.js', function () { return window.sialtvTeamLogos; }).catch(function () {});
+  load('/js/local-time.js', function () { return window.sialtvLocalTime; }).catch(function () {});
+
+  Promise.all([shell, calendar, feed]).then(function (ready) {
+    mount.innerHTML = ready[0];
+    var strip = mount.querySelector('.st-strip');
+    var view = strip.querySelector('.st-strip-view');
+    var pills = strip.querySelector('[data-strip-filter="all"]').parentElement;
+    var leagues = ready[1];
+    if (!leagues.some(function (league) { return league.key === 'apl'; })) view.querySelector('[data-strip-group="apl"]')?.remove();
+    leagues.forEach(function (league) {
+      var track = view.querySelector('[data-strip-group="' + league.key + '"]');
+      if (!league.feed && !track) return;
+      var pill = document.createElement('button');
+      pill.type = 'button';
+      pill.className = 'st-strip-pill';
+      pill.dataset.stripFilter = league.key;
+      pill.setAttribute('aria-pressed', 'false');
+      pill.textContent = league.code + (league.feed ? ' (0)' : '');
+      pills.appendChild(pill);
+      if (track) return;
+      track = document.createElement('div');
+      track.className = 'st-strip-track slp-flash';
+      track.dataset.stripGroup = league.key;
+      track.dataset.league = league.key;
+      track.dataset.inSeason = String(league.active);
+      track.hidden = true;
+      view.insertBefore(track, view.querySelector('[data-strip-prev]'));
+      if (!document.hidden) window.sialtvScores(league.key);
+    });
+    return logos.then(function () { return load('/js/flash-scores.js?v=5'); });
+  }).catch(function () {
+    mount.removeAttribute('data-strip-loading');
+    mount.innerHTML = '<div class="wrap"><a href="/live-scores/">Live cricket scores</a></div>';
+  });
 })();

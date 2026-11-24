@@ -3413,3 +3413,5 @@ body.st-inner.league-apl .profile-card .pc-summary { font-size: 0.875rem; line-h
   body.st-inner .rx-res-team { min-width: 0; overflow-wrap: anywhere; }
   body.st-inner .rx-res-team img.team-logo { flex: 0 0 auto; }
 }
+
+.st-strip [data-strip-empty] { margin: 1rem 0; color: var(--st-ink-2, #3b4258); }

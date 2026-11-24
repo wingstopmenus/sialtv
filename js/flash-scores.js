@@ -220,9 +220,9 @@
     var kickoff = Date.parse(m.kickoffIso || '');
     var label = shown ? 'Live' : (kind === 'result' ? 'Result' : 'Upcoming');
     var html = '<a class="score-card" data-kind="' + kind + '" data-match-no="' + m.matchNo + '" data-league="' + esc(league) + '"' + (liveNow ? ' data-live="1"' : '') +
-      (Number.isFinite(kickoff) ? ' data-match-time="' + kickoff + '"' : '') + ' href="' + matchUrl(league, m.matchNo) + '">';
+      (Number.isFinite(kickoff) || m.date ? ' data-match-time="' + (Number.isFinite(kickoff) ? kickoff : Date.parse(m.date) || 0) + '"' : '') + ' href="' + matchUrl(league, m.matchNo) + '">';
     html += '<div class="sc-top"><p class="sc-label' + (kind === 'upcoming' ? ' upcoming' : kind === 'live' ? ' live' : '') + '">' + label + '</p>';
-    html += '<p class="sc-match">Match ' + m.matchNo + ' &middot; ' + esc(league.toUpperCase()) + ' &middot; ' + esc(venueShort(m, league) || VENUE[league]) + '</p></div>';
+    html += '<p class="sc-match">Match ' + m.matchNo + ' &middot; ' + esc(league.toUpperCase()) + ' &middot; ' + esc(venueShort(m, league) || VENUE[league] || '') + '</p></div>';
     html += '<p class="sc-row"><span class="sc-team">' + chip(m.team1) + esc(shortName(m.team1)) + '</span><span class="sc-score">' + esc(m.score1 || '') + (m.overs1 ? ' (' + esc(m.overs1) + ' ov)' : '') + '</span></p>';
     html += '<p class="sc-row"><span class="sc-team">' + chip(m.team2) + esc(shortName(m.team2)) + '</span><span class="sc-score">' + esc(m.score2 || '') + (m.overs2 ? ' (' + esc(m.overs2) + ' ov)' : '') + '</span></p>';
     var line = kind === 'result' ? cleanStatus(m.statusText) : (shown ? (liveNow ? liveLine(m) : m.toss)
@@ -239,10 +239,6 @@
         (m.status === 'result' || isLiveShown(m) || Date.parse(m.kickoffIso || '') > Date.now());
     });
     if (!matches.length) return;
-    function order(m) { return isLiveShown(m) ? 0 : (m.status === 'result' ? 2 : 1); }
-    matches.sort(function (a, b) {
-      return order(a) - order(b) || (order(a) === 2 ? b.matchNo - a.matchNo : a.matchNo - b.matchNo);
-    });
     var entries = matches.map(function (match) {
       return { number: String(match.matchNo), html: cardHtml(match, league) };
     });
@@ -378,8 +374,9 @@
       var ranked = cards.map(function (c, i) {
         return { c: c, r: kindRank(c), i: i, time: Number(c.dataset.matchTime) || 0 };
       });
+      var rank = track.closest('[data-site-match-strip]') ? [0, 2, 1] : [0, 1, 2];
       var sorted = ranked.slice().sort(function (a, b) {
-        return (a.r - b.r) || (a.time && b.time ? (a.r === 2 ? b.time - a.time : a.time - b.time) : b.time - a.time) ||
+        return (rank[a.r] - rank[b.r]) || (a.time && b.time ? (a.r === 1 ? a.time - b.time : b.time - a.time) : b.time - a.time) ||
           (a.c.dataset.league || '').localeCompare(b.c.dataset.league || '') ||
           (Number(a.c.dataset.matchNo) - Number(b.c.dataset.matchNo)) || (a.i - b.i);
       });
@@ -1136,6 +1133,18 @@
     var prev = strip.querySelector('[data-strip-prev]');
     var next = strip.querySelector('[data-strip-next]');
     var track = visibleTrack(strip);
+    var empty = strip.querySelector('[data-strip-empty]');
+    if (empty) {
+      var filter = strip.dataset.matchStatus || 'all';
+      var cards = track ? Array.from(track.querySelectorAll('.score-card')) : [];
+      var visible = 0;
+      cards.forEach(function (card) {
+        var show = filter === 'all' || filter === card.dataset.kind;
+        setHidden(card, !show);
+        if (show) visible++;
+      });
+      setHidden(empty, !track || visible > 0);
+    }
     if (!track) {
       if (prev) prev.style.display = 'none';
       if (next) next.style.display = 'none';
@@ -1194,6 +1203,16 @@
           g.hidden = g.getAttribute('data-strip-group') !== 'all';
         });
       }
+      var statusPills = strip.querySelectorAll('[data-match-filter]');
+      statusPills.forEach(function (pill) {
+        pill.addEventListener('click', function () {
+          strip.dataset.matchStatus = pill.dataset.matchFilter;
+          statusPills.forEach(function (button) { setAttr(button, 'aria-pressed', button === pill ? 'true' : 'false'); });
+          var track = visibleTrack(strip);
+          if (track) track.scrollTo({ left: 0, behavior: 'instant' });
+          updateArrows(strip);
+        });
+      });
       pills.forEach(function (pill) {
         pill.addEventListener('click', function () {
           var lg = pill.getAttribute('data-strip-filter');
@@ -1281,7 +1300,7 @@
   function boot() {
     initStrip();
     initFxSeg();
-    if (!window.sialtvScores) return;
+    if (!window.sialtvScores) { reveal(); return; }
     var flash = document.getElementById('sialtvFlash');
     var carousel = document.getElementById('scoreCarousel');
     var loaders = [];
@@ -1292,7 +1311,10 @@
       var shared = group.closest('[data-site-match-strip]');
       function render(data) {
         if (!group.isConnected || !data || !data.matches || !data.matches.length) return;
-        if (shared) updateSharedStrip(group, data, lg);
+        if (shared) {
+          updateSharedStrip(group, data, lg);
+          if (group.dataset.inSeason === 'true' && group.querySelector('.score-card')) reveal();
+        }
         else refreshFlash(group, data, lg);
         if (fixtures) refreshFixtures(data, lg);
       }
@@ -1355,9 +1377,10 @@
       });
     }
     var pending;
-    var mount = document.querySelector('[data-site-match-strip]');
     function reveal() {
-      if (mount) mount.removeAttribute('data-strip-loading');
+      var mount = document.querySelector('[data-site-match-strip][data-strip-loading]');
+      if (!mount) return;
+      mount.removeAttribute('data-strip-loading');
       document.querySelectorAll('.st-strip').forEach(updateArrows);
     }
     function loadAll() {
