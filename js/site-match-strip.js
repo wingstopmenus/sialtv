@@ -25,7 +25,36 @@
       if (!response.ok) throw new Error('Match strip unavailable');
       return response.text();
     })
-    .then(function (html) { mount.innerHTML = html; })
+    .then(function (html) {
+      return Promise.resolve(window.sialtvHomeLeaguesReady).then(function (leagues) {
+        mount.innerHTML = html;
+        if (!Array.isArray(leagues)) return;
+        var strip = mount.querySelector('.st-strip');
+        var view = strip.querySelector('.st-strip-view');
+        var pills = strip.querySelector('.st-strip-pills');
+        var keys = leagues.map(function (league) { return league.key; });
+        strip.querySelectorAll('[data-strip-group], [data-strip-filter], .score-card[data-league]').forEach(function (node) {
+          var key = node.dataset.stripGroup || node.dataset.stripFilter || node.dataset.league;
+          if (key !== 'all' && !keys.includes(key)) node.remove();
+        });
+        leagues.forEach(function (league) {
+          if (!league.feed || strip.querySelector('[data-strip-group="' + league.key + '"]')) return;
+          var pill = document.createElement('button');
+          pill.type = 'button';
+          pill.className = 'st-strip-pill';
+          pill.dataset.stripFilter = league.key;
+          pill.setAttribute('aria-pressed', 'false');
+          pill.textContent = league.code + ' (0)';
+          pills.appendChild(pill);
+          var track = document.createElement('div');
+          track.className = 'st-strip-track slp-flash';
+          track.dataset.stripGroup = league.key;
+          track.dataset.league = league.key;
+          track.hidden = true;
+          view.appendChild(track);
+        });
+      });
+    })
     .catch(function () {
       mount.innerHTML = '<div class="wrap"><a href="/live-scores/">Live cricket scores</a></div>';
     })
@@ -38,6 +67,6 @@
     })
     .then(function () {
       if (window.sialtvLocalTime) window.sialtvLocalTime();
-      return load('/js/flash-scores.js?v=2');
+      return load(window.sialtvHomeLeagues ? '/js/flash-scores.js?v=3' : '/js/flash-scores.js?v=2');
     });
 })();

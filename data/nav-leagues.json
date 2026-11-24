@@ -4,19 +4,59 @@
       "code": "NPL",
       "name": "Nepal Premier League",
       "href": "/npl/",
-      "final": "2026-11-21"
+      "start": "2026-10-26",
+      "final": "2026-11-21",
+      "zone": "Asia/Kathmandu",
+      "season": "Season 3",
+      "region": "Nepal",
+      "feed": true
     },
     {
       "code": "ILT20",
-      "name": "ILT20",
+      "name": "International League T20",
       "href": "/ilt20/",
-      "final": "2026-12-20"
+      "start": "2026-11-21",
+      "final": "2026-12-20",
+      "zone": "Asia/Dubai",
+      "season": "Season 5",
+      "region": "United Arab Emirates",
+      "feed": true,
+      "source": "https://www.ilt20.ae/"
+    },
+    {
+      "code": "BBL",
+      "name": "Big Bash League",
+      "href": "/bbl/",
+      "start": "2026-12-12",
+      "final": "2027-01-26",
+      "zone": "Australia/Sydney",
+      "season": "Season 16",
+      "region": "Australia",
+      "feed": true,
+      "source": "https://www.cricket.com.au/matches/series/CA:4691"
     },
     {
       "code": "APL",
       "name": "Afghanistan Premier League",
       "href": "/apl/",
-      "final": "2027-01-20"
+      "start": "2026-12-27",
+      "final": "2027-01-20",
+      "zone": "Asia/Dubai",
+      "season": "2026–27",
+      "region": "United Arab Emirates",
+      "provisional": true
+    },
+    {
+      "code": "SA20",
+      "name": "SA20",
+      "href": "/sa20/",
+      "start": "2027-01-17",
+      "final": "2027-02-21",
+      "zone": "Africa/Johannesburg",
+      "season": "Season 5",
+      "region": "South Africa",
+      "feed": true,
+      "source": "https://www.sa20.co.za/news/all-the-fixtures-for-season-5"
     }
   ]
 }
