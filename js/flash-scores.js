@@ -1400,7 +1400,7 @@
       });
     }
     if (!loaders.length) { reveal(); return; }
-    Promise.resolve(window.sialtvStripSnapshot).then(function (snapshots) {
+    function applySnapshot(snapshots) {
       if (!snapshots) return;
       var found = false;
       document.querySelectorAll('[data-site-match-strip] .st-strip-track[data-league]').forEach(function (track) {
@@ -1410,7 +1410,10 @@
         if (track.querySelector('.score-card')) found = true;
       });
       if (found) reveal();
-    });
+    }
+    var seed = document.querySelector('[data-strip-seed]');
+    if (seed) applySnapshot(JSON.parse(seed.textContent));
+    Promise.resolve(window.sialtvStripSnapshot).then(applySnapshot);
     loadAll();
     setInterval(loadAll, POLL_MS);
     document.addEventListener('visibilitychange', loadAll);

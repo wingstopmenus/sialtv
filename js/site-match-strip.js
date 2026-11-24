@@ -34,7 +34,7 @@
       });
     });
 
-  var shell = fetch('/fragments/strip.html?v=5', options)
+  var shell = fetch('/fragments/strip.html?v=7', options)
     .then(function (response) { if (!response.ok) throw new Error('Match strip unavailable'); return response.text(); });
   var feed = load('/js/live-scores.js', function () { return window.sialtvScores; });
   load('/js/team-logos.js', function () { return window.sialtvTeamLogos; }).catch(function () {});
@@ -73,7 +73,7 @@
       view.insertBefore(track, view.querySelector('[data-strip-prev]'));
       if (!document.hidden) window.sialtvScores(league.key);
     });
-    return load('/js/flash-scores.js?v=6');
+    return load('/js/flash-scores.js?v=7');
   }).catch(function () {
     mount.removeAttribute('data-strip-loading');
     mount.innerHTML = '<div class="wrap"><a href="/live-scores/">Live cricket scores</a></div>';
