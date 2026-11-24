@@ -239,7 +239,14 @@
         (m.status === 'result' || isLiveShown(m) || Date.parse(m.kickoffIso || '') > Date.now());
     });
     if (!matches.length) return;
-    var entries = matches.map(function (match) {
+    var result = matches.filter(function (match) { return match.status === 'result'; }).sort(function (a, b) {
+      return b.matchNo - a.matchNo;
+    }).slice(0, 5);
+    var upcoming = matches.filter(function (match) { return match.status !== 'result' && !isLiveShown(match); }).sort(function (a, b) {
+      return Date.parse(a.kickoffIso) - Date.parse(b.kickoffIso);
+    }).slice(0, 5);
+    var selected = matches.filter(isLiveShown).concat(result, upcoming);
+    var entries = selected.map(function (match) {
       return { number: String(match.matchNo), html: cardHtml(match, league) };
     });
     [track, all].forEach(function (group) {
@@ -1312,6 +1319,7 @@
       function render(data) {
         if (!group.isConnected || !data || !data.matches || !data.matches.length) return;
         if (shared) {
+          freshTracks.add(lg);
           updateSharedStrip(group, data, lg);
           if (group.dataset.inSeason === 'true' && group.querySelector('.score-card')) reveal();
         }
@@ -1377,6 +1385,7 @@
       });
     }
     var pending;
+    var freshTracks = new Set();
     function reveal() {
       var mount = document.querySelector('[data-site-match-strip][data-strip-loading]');
       if (!mount) return;
@@ -1391,6 +1400,17 @@
       });
     }
     if (!loaders.length) { reveal(); return; }
+    Promise.resolve(window.sialtvStripSnapshot).then(function (snapshots) {
+      if (!snapshots) return;
+      var found = false;
+      document.querySelectorAll('[data-site-match-strip] .st-strip-track[data-league]').forEach(function (track) {
+        var league = track.dataset.league;
+        if (freshTracks.has(league) || !snapshots[league]?.matches.length) return;
+        updateSharedStrip(track, snapshots[league], league);
+        if (track.querySelector('.score-card')) found = true;
+      });
+      if (found) reveal();
+    });
     loadAll();
     setInterval(loadAll, POLL_MS);
     document.addEventListener('visibilitychange', loadAll);

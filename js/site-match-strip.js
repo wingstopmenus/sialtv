@@ -37,8 +37,14 @@
   var shell = fetch('/fragments/strip.html?v=5', options)
     .then(function (response) { if (!response.ok) throw new Error('Match strip unavailable'); return response.text(); });
   var feed = load('/js/live-scores.js', function () { return window.sialtvScores; });
-  var logos = load('/js/team-logos.js', function () { return window.sialtvTeamLogos; }).catch(function () {});
+  load('/js/team-logos.js', function () { return window.sialtvTeamLogos; }).catch(function () {});
   load('/js/local-time.js', function () { return window.sialtvLocalTime; }).catch(function () {});
+
+  var snapshotOptions = {};
+  if (typeof AbortSignal !== 'undefined' && AbortSignal.timeout) snapshotOptions.signal = AbortSignal.timeout(2500);
+  window.sialtvStripSnapshot = fetch('/api/match-strip.php', snapshotOptions)
+    .then(function (response) { return response.ok ? response.json() : null; })
+    .catch(function () { return null; });
 
   Promise.all([shell, calendar, feed]).then(function (ready) {
     mount.innerHTML = ready[0];
@@ -67,7 +73,7 @@
       view.insertBefore(track, view.querySelector('[data-strip-prev]'));
       if (!document.hidden) window.sialtvScores(league.key);
     });
-    return logos.then(function () { return load('/js/flash-scores.js?v=5'); });
+    return load('/js/flash-scores.js?v=6');
   }).catch(function () {
     mount.removeAttribute('data-strip-loading');
     mount.innerHTML = '<div class="wrap"><a href="/live-scores/">Live cricket scores</a></div>';
