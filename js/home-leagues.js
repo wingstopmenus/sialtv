@@ -125,9 +125,14 @@
         '<span><b>' + it.b + '</b><span>' + it.s + '</span></span>' +
         '<span class="st-spot__go" aria-hidden="true">→</span></a>';
     }
+    if (lg === 'ilt20') {
+      out = '<a class="st-spot__item" data-spot-next hidden href="/ilt20/schedule/">' +
+        '<span class="st-spot__ico" aria-hidden="true">' + ICONS.calendar + '</span>' +
+        '<span><b></b><span></span></span><span class="st-spot__go" aria-hidden="true">→</span></a>' + out;
+    }
     return '<div class="st-shell"' + (dual ? ' style="margin-bottom: 2.75rem"' : '') + '>' +
       '<header class="st-block__head st-block__head--left">' +
-      '<h2 id="st-' + lg + '-title">' + d.title + '</h2><p>' + d.intro + '</p></header>' +
+      '<h2 id="st-' + lg + '-title">' + 'Match coverage · ' + d.title + '</h2><p>' + d.intro + '</p></header>' +
       '<div class="st-spot">' +
       '<a class="st-spot__feature" href="' + d.feature.href + '">' +
       '<span class="st-panel__kicker">' + d.feature.kicker + '</span>' +

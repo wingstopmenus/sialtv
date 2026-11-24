@@ -217,14 +217,44 @@
     var tossLive = isLiveToss(m);
     var shown = liveNow || tossLive;
     var kind = m.status === 'live' ? (shown ? 'live' : 'upcoming') : (m.status === 'result' ? 'result' : 'upcoming');
-    var label = m.status === 'live' ? (shown ? 'Live' : 'Upcoming') : (m.status === 'result' ? 'Result' : 'Upcoming');
-    var html = '<a class="score-card" data-kind="' + kind + '" data-match-no="' + m.matchNo + '" data-league="' + esc(league) + '"' + (liveNow ? ' data-live="1"' : '') + ' href="' + matchUrl(league, m.matchNo) + '">';
+    var kickoff = Date.parse(m.kickoffIso || '');
+    var label = shown ? 'Live' : (kind === 'result' ? 'Result' : 'Upcoming');
+    var html = '<a class="score-card" data-kind="' + kind + '" data-match-no="' + m.matchNo + '" data-league="' + esc(league) + '"' + (liveNow ? ' data-live="1"' : '') +
+      (Number.isFinite(kickoff) ? ' data-match-time="' + kickoff + '"' : '') + ' href="' + matchUrl(league, m.matchNo) + '">';
     html += '<div class="sc-top"><p class="sc-label' + (kind === 'upcoming' ? ' upcoming' : kind === 'live' ? ' live' : '') + '">' + label + '</p>';
-    html += '<p class="sc-match">Match ' + m.matchNo + ' &middot; ' + esc(league.toUpperCase()) + ' &middot; ' + esc(VENUE[league] || 'Kirtipur') + '</p></div>';
-    html += '<p class="sc-row"><span class="sc-team">' + chip(m.team1) + esc(m.team1) + '</span><span class="sc-score">' + esc(m.score1 || '') + (m.overs1 ? ' (' + esc(m.overs1) + ' ov)' : '') + '</span></p>';
-    html += '<p class="sc-row"><span class="sc-team">' + chip(m.team2) + esc(m.team2) + '</span><span class="sc-score">' + esc(m.score2 || '') + (m.overs2 ? ' (' + esc(m.overs2) + ' ov)' : '') + '</span></p>';
-    html += '<p class="sc-result' + (kind === 'upcoming' ? ' upcoming' : '') + '">' + esc(m.status === 'live' ? (liveNow ? liveLine(m) : (tossLive ? m.toss : '')) : (m.statusText || '')) + '</p></a>';
+    html += '<p class="sc-match">Match ' + m.matchNo + ' &middot; ' + esc(league.toUpperCase()) + ' &middot; ' + esc(venueShort(m, league) || VENUE[league]) + '</p></div>';
+    html += '<p class="sc-row"><span class="sc-team">' + chip(m.team1) + esc(shortName(m.team1)) + '</span><span class="sc-score">' + esc(m.score1 || '') + (m.overs1 ? ' (' + esc(m.overs1) + ' ov)' : '') + '</span></p>';
+    html += '<p class="sc-row"><span class="sc-team">' + chip(m.team2) + esc(shortName(m.team2)) + '</span><span class="sc-score">' + esc(m.score2 || '') + (m.overs2 ? ' (' + esc(m.overs2) + ' ov)' : '') + '</span></p>';
+    var line = kind === 'result' ? cleanStatus(m.statusText) : (shown ? (liveNow ? liveLine(m) : m.toss)
+      : (Number.isFinite(kickoff) ? fmtVenueLine({ kickoff: m.kickoffIso, venue: venueShort(m, league) || VENUE[league] }) : 'Start time to be confirmed'));
+    html += '<p class="sc-result">' + esc(line) + '</p></a>';
     return html;
+  }
+
+  function updateSharedStrip(track, data, league) {
+    var strip = track.closest('.st-strip');
+    var all = strip.querySelector('[data-strip-group="all"]');
+    var matches = data.matches.filter(function (m) {
+      return Number.isSafeInteger(m.matchNo) && m.matchNo > 0 &&
+        (m.status === 'result' || isLiveShown(m) || Date.parse(m.kickoffIso || '') > Date.now());
+    });
+    if (!matches.length) return;
+    function order(m) { return isLiveShown(m) ? 0 : (m.status === 'result' ? 2 : 1); }
+    matches.sort(function (a, b) {
+      return order(a) - order(b) || (order(a) === 2 ? b.matchNo - a.matchNo : a.matchNo - b.matchNo);
+    });
+    var html = matches.map(function (m) { return cardHtml(m, league); }).join('');
+    if (track._sharedHtml === html) return;
+    track._sharedHtml = html;
+    track.innerHTML = html;
+    all.querySelectorAll('.score-card[data-league="' + league + '"]').forEach(function (card) { card.remove(); });
+    all.insertAdjacentHTML('beforeend', html);
+    reorderStripTracks(track);
+    [track, all].forEach(function (group) {
+      var pill = strip.querySelector('[data-strip-filter="' + group.dataset.stripGroup + '"]');
+      if (pill) pill.textContent = pill.textContent.replace(/\(\d+\)$/, '(' + group.querySelectorAll('.score-card').length + ')');
+    });
+    updateArrows(strip);
   }
 
   function refreshFlash(root, data, league) {
@@ -316,9 +346,13 @@
     tracks.forEach(function (track) {
       var cards = Array.prototype.slice.call(track.querySelectorAll('.score-card'));
       if (cards.length < 2) return;
-      var ranked = cards.map(function (c, i) { return { c: c, r: kindRank(c), i: i }; });
+      var ranked = cards.map(function (c, i) {
+        return { c: c, r: kindRank(c), i: i, time: Number(c.dataset.matchTime) || 0 };
+      });
       var sorted = ranked.slice().sort(function (a, b) {
-        return (a.r - b.r) || (a.i - b.i);
+        return (a.r - b.r) || (a.time && b.time ? (a.r === 2 ? b.time - a.time : a.time - b.time) : b.time - a.time) ||
+          (a.c.dataset.league || '').localeCompare(b.c.dataset.league || '') ||
+          (Number(a.c.dataset.matchNo) - Number(b.c.dataset.matchNo)) || (a.i - b.i);
       });
       var changed = sorted.some(function (s, k) { return s.c !== cards[k]; });
       if (!changed) return;
@@ -377,9 +411,6 @@
     return new Date(d.getTime() + (5 * 60 + 45) * 60000).toISOString().slice(0, 10);
   }
   /* GST calendar date (UTC+4) for an instant — ILT20 fixtures are in GST. */
-  function gstDateStr(d) {
-    return new Date(d.getTime() + 4 * 60 * 60000).toISOString().slice(0, 10);
-  }
   var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   var MONTHS_S = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   var DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -512,9 +543,9 @@
       key: (league === 'npl' ? 'result-' : 'result-' + league + '-') + m.matchNo,
       href: matchUrl(league, m.matchNo),
       kicker: 'Result',
-      strong: resultHeadline(m),
+      strong: heroShortName(m.team1) + ' vs ' + heroShortName(m.team2),
       meta: league === 'npl' ? matchLabelFor(m.matchNo, fixtures) : 'DP World ILT20 · Match ' + m.matchNo,
-      sub: resultLine(m, league) + ' Open the scorecard for the full result.',
+      sub: cleanStatus(m.statusText),
       scores: heroScoreRow(m.team1, m.score1 || '') +
         heroScoreRow(m.team2, m.score2 || ''),
       kickoff: '',
@@ -586,60 +617,16 @@
     if (Date.parse(ILT20_OPENER.kickoff) > Date.now()) slides.push(nextSlide(ILT20_OPENER));
     return slides;
   }
-  /* ILT20 hero slides (2026-11-21, next-slides added 2026-11-22): the
-     ILT20 feed is NOT part of heroSlidesFor (NPL-only). The live ILT20
-     match — or today's finished one — prepends as the FIRST hero slide,
-     ahead of the NPL slides, because the NPL season is over (its slide
-     is a same-day result) while ILT20 is the league in season. Fixed
-     precedence for that season state, NOT a latest-first rule: if NPL
-     returns to a live season while ILT20 is also live, revisit the
-     order. LIVE means hasStarted only — a score, a ball or an innings
-     row; the feed's early "live" flag and the toss alone do NOT count.
-     A finished match shows only while it is still today (GST date),
-     then drops out. With no live match and no result today, today's
-     upcoming matches become next-slides in kickoff order (M2 then M3
-     on Sun 22 Nov) — same as the NPL hero's next-slides, so the hero
-     never shows the NPL "Season complete" card while ILT20 matches
-     are scheduled today. Returns an ARRAY (empty when ILT20 has
-     nothing today). The stale M1 opener can never appear here: its
-     kickoff is past, so the kickoff gate drops it. */
-  /* Feed upcoming match -> the fixture-like shape nextSlide takes
-     (the same mapping spotState builds for the spotlight): href via
-     matchUrl, label from stage/matchDesc ("2nd Match"), venue city
-     via venueShort ("Sharjah", not the full stadium name), kickoff
-     from kickoffIso. */
-  function ilt20Fixture(m) {
-    var label = m.stage || String(m.matchDesc || '').split(',')[0].trim() || 'Match';
-    return { matchNo: m.matchNo, kickoff: m.kickoffIso, date: m.date,
-      team1: m.team1, team2: m.team2, abbr1: m.abbr1, abbr2: m.abbr2,
-      label: label, desc: label, venue: venueShort(m, 'ilt20'),
-      href: matchUrl('ilt20', m.matchNo) };
-  }
   function heroIlt20SlideFor(data, now) {
-    var matches = (data && data.matches) || [];
-    var live = null, latestResult = null;
-    matches.forEach(function (m) {
-      if (isLiveNow(m) && !live) live = m;
-      if (m.status === 'result' && (!latestResult || (m.matchNo || 0) > (latestResult.matchNo || 0))) latestResult = m;
-    });
-    if (live) return [liveSlide(live, null, 'ilt20')];
+    var state = spotState(data, null, 'ilt20', now);
     var slides = [];
-    var today = gstDateStr(now || new Date());
-    if (latestResult && latestResult.date === today) slides.push(resultSlide(latestResult, null, 'ilt20'));
-    var t = (now || new Date()).getTime();
-    var done = {};
-    matches.forEach(function (m) { if (m.status === 'result' || isLiveShown(m)) done[m.matchNo] = true; });
-    matches.filter(function (m) {
-      return m.status === 'upcoming' && m.kickoffIso && Date.parse(m.kickoffIso) > t && !done[m.matchNo] && m.date === today;
-    }).sort(function (a, b) { return Date.parse(a.kickoffIso) - Date.parse(b.kickoffIso); })
-    .forEach(function (m) {
-      /* League-prefixed key, like the live/result slides: NPL M2 and
-         ILT20 M2 would otherwise share the key 'next-2' and the
-         slider would keep the wrong index. */
-      var s = nextSlide(ilt20Fixture(m));
-      s.key = 'next-ilt20-' + m.matchNo;
-      slides.push(s);
-    });
+    if (state.live) slides.push(liveSlide(state.live, null, 'ilt20'));
+    if (state.latestResult) slides.push(resultSlide(state.latestResult, null, 'ilt20'));
+    if (state.next) {
+      var next = nextSlide(state.next);
+      next.key = 'next-ilt20-' + state.next.matchNo;
+      slides.push(next);
+    }
     return slides;
   }
   function applyHeroSlide() {
@@ -733,74 +720,20 @@
     if (keys.length > 1) startHeroAuto(); else stopHeroAuto();
     stripCountdowns();
   }
-  function refreshHero(data, fixtures) {
-    var track = document.getElementById('heroTrack');
-    if (!track || !data || !data.matches) return;
+  function refreshHero(npl, fixtures, ilt20) {
+    if (!document.getElementById('heroTrack')) return;
     initHeroSlider();
-    var st = nplState(data, fixtures, new Date());
-    var nplSlides = heroSlidesFor(st, fixtures);
-    /* SEASON_DONE applies ONLY when the COMBINED ILT20+NPL slide list
-       is empty — never show the NPL "Season complete" card while ILT20
-       matches are scheduled today. Same gate as before (schedule
-       loaded and the final's kickoff passed); schedule not loaded yet
-       leaves the baked panel alone. */
-    function seasonDoneSlides() {
-      if (fixtures && fixtures.length) {
-        var lastKick = 0;
-        fixtures.forEach(function (f) { var t = Date.parse(f.kickoff || ''); if (t > lastKick) lastKick = t; });
-        if (lastKick && Date.now() > lastKick) return [SEASON_DONE];
-      }
-      return [];
-    }
-    function dedupeSlides(list) {
-      var seen = {}, out = [];
-      list.forEach(function (s) { if (!seen[s.href]) { seen[s.href] = true; out.push(s); } });
-      return out;
-    }
-    /* The ILT20 slides (live / today's result / today's upcoming
-       next-slides, in that order) go FIRST, ahead of the NPL slides —
-       the NPL season is over, ILT20 is in season. sialtvScores caches
-       per league for 10s, so this usually reuses the ILT20 loader's
-       same-tick fetch. The href filter drops the stale opener
-       next-slide if it names the same match (kickoff gate already
-       drops it once the kickoff passes; this covers clock skew), so a
-       match never appears twice. One render only, so the first-poll
-       seeding in renderHero still applies. */
-    if (window.sialtvScores) {
-      window.sialtvScores('ilt20').then(function (ilt) {
-        var combined = dedupeSlides(heroIlt20SlideFor(ilt, new Date()).concat(nplSlides));
-        if (!combined.length) combined = seasonDoneSlides();
-        if (combined.length) renderHero(combined);
-      }).catch(function () {
-        /* ILT20 fetch failure -> NPL slides + SEASON_DONE exactly as
-           before: the hero stays NPL-only. */
-        var fallback = nplSlides.length ? nplSlides : seasonDoneSlides();
-        if (fallback.length) renderHero(fallback);
-      });
-    } else {
-      var only = nplSlides.length ? nplSlides : seasonDoneSlides();
-      if (only.length) renderHero(only);
-    }
-  }
-  /* NPL spotlight auto-update (2026-11-13): the baked feature (M22, 12 Nov)
-     never moved because the cron is paused. This rewrites the feature card
-     + first list item from the same merged state as the hero, on every
-     poll. It runs ONLY while the spotlight is still NPL — once
-     home-leagues.js swaps it to ILT20/APL (19 Nov / 21 Dec) the feature
-     href no longer starts with /npl/ and this returns without touching it.
-     Baked HTML stays as the no-JS/SEO fallback. */
-  /* "Chitwan Rhinos (NPL) won by 4 wickets" -> "Chitwan Rhinos beat
-     Janakpur Bolts by 4 wickets" (the baked feature format). Falls back
-     to the status text with league tags stripped. */
-  function resultHeadline(r) {
-    var st = (r.statusText || '').replace(/\s*\([^)]*\)/g, '').trim();
-    var mm = st.match(/^(.*?) won by (.+)$/);
-    if (mm) {
-      var w = mm[1].trim();
-      var t1 = heroShortName(r.team1), t2 = heroShortName(r.team2);
-      return w + ' beat ' + (w === t1 ? t2 : t1) + ' by ' + mm[2];
-    }
-    return st;
+    var now = new Date();
+    var nplSlides = heroSlidesFor(nplState(npl, fixtures, now), fixtures);
+    var slides = heroIlt20SlideFor(ilt20, now).concat(nplSlides);
+    var seen = new Set();
+    slides = slides.filter(function (slide) {
+      if (seen.has(slide.href)) return false;
+      seen.add(slide.href);
+      return true;
+    });
+    if (slides.length) renderHero(slides);
+    else if (fixtures && fixtures.length) renderHero([SEASON_DONE]);
   }
   function resultLine(r, league) {
     return shortTeam(r.team1) + ' ' + (r.score1 || '') + (r.overs1 ? ' (' + r.overs1 + ' ov)' : '') + ', ' +
@@ -885,19 +818,21 @@
     }).sort(function (a, b) { return Date.parse(a.kickoffIso) - Date.parse(b.kickoffIso); })
     .map(function (m) {
       return { matchNo: m.matchNo, kickoff: m.kickoffIso, date: m.date,
-        team1: m.team1, team2: m.team2, abbr1: m.abbr1, abbr2: m.abbr2,
-        venue: m.venue, href: matchUrl(league, m.matchNo) };
+        team1: heroShortName(m.team1), team2: heroShortName(m.team2), abbr1: m.abbr1, abbr2: m.abbr2,
+        label: m.stage || m.matchDesc || 'Fixture', venue: venueShort(m, league) || VENUE[league], href: matchUrl(league, m.matchNo) };
     });
     return { live: live, latestResult: latestResult, next: upcoming[0] || null };
   }
   function refreshSpotlight(data, fixtures) {
     var spot = document.getElementById('home-spotlight');
     if (!spot) return;
-    var feat = spot.querySelector('.st-spot__feature');
-    if (!feat) return;
-    var href = feat.getAttribute('href') || '';
-    var league = spotLeague(href);
+    var league = data && data.league;
     if (!league) return;
+    var feat = Array.from(spot.querySelectorAll('.st-spot__feature')).find(function (feature) {
+      return spotLeague(feature.getAttribute('href') || '') === league;
+    });
+    if (!feat) return;
+    spot = feat.closest('.st-spot');
     /* The feed belongs to one league; the spotlight shows one league.
        A poll for another league must not rewrite this spotlight — the
        NPL poll firing while the spotlight is ILT20 would otherwise
@@ -923,7 +858,7 @@
     } else if (st.latestResult) {
       var r = st.latestResult;
       f = { href: matchUrl(league, r.matchNo), kicker: 'Featured result · Match ' + r.matchNo,
-        h: resultHeadline(r), p: resultLine(r, league) + ' Open the scorecard for the full result.', cta: 'Scorecard and result' };
+        h: heroShortName(r.team1) + ' vs ' + heroShortName(r.team2), p: resultLine(r, league) + ' ' + cleanStatus(r.statusText), cta: 'Scorecard and result' };
       prev = prevResultOf(r, data);
     } else if (st.next) {
       var nx = st.next;
@@ -937,6 +872,16 @@
     if (!f) return;
     setSpotFeature(feat, f);
     if (prev) setSpotItem(spot, prev, league);
+    var next = spot.querySelector('[data-spot-next]');
+    if (next) {
+      var showNext = st.next && st.next.href !== f.href;
+      setHidden(next, !showNext);
+      if (showNext) {
+        setAttr(next, 'href', st.next.href);
+        setText(next.querySelector('b'), 'Next match · ' + st.next.team1 + ' vs ' + st.next.team2);
+        setText(next.querySelector('b + span'), fmtVenueLine(st.next));
+      }
+    }
   }
 
   function refreshCarousel(carousel, data, knownLeague) {
@@ -962,7 +907,7 @@
        the copies too, matched by league + match number. */
     var league = carousel.getAttribute('data-league');
     if (league) {
-      document.querySelectorAll('[data-strip-group="all"] .score-card[data-league="' + league + '"][data-match-no]').forEach(function (c) { cards.push(c); });
+      (carousel.closest('.st-strip') || carousel).querySelectorAll('[data-strip-group="all"] .score-card[data-league="' + league + '"][data-match-no]').forEach(function (c) { cards.push(c); });
     }
     cards.forEach(function (card) {
       var m = byNo[parseInt(card.getAttribute('data-match-no'), 10)];
@@ -1465,46 +1410,40 @@
     var flash = document.getElementById('sialtvFlash');
     var carousel = document.getElementById('scoreCarousel');
     var loaders = [];
-    /* Site-wide live-scores page: one .slp-flash per league, each
-       polled on its own league feed. #sialtvFlash is excluded — the
-       single-league path below already handles it (the NPL
-       live-scores page carries both the id and the class). */
+    var home = document.getElementById('heroTrack');
+    var fixtures = document.querySelector('#fxFixtures, #fxResults');
     document.querySelectorAll('.slp-flash[data-league]:not(#sialtvFlash)').forEach(function (group) {
-      var lg = group.getAttribute('data-league');
+      var lg = group.dataset.league;
       loaders.push(function () {
         if (document.hidden) return;
-        /* Each updater isolated: a throw in one must not kill the others. */
         loadLeague(lg, function (data) {
-          try { refreshFlash(group, data, lg); } catch (e) { if (window.console && console.warn) console.warn('[flash-scores] refreshFlash failed:', e); }
-          /* The visible default "all" track is a separate copy of the
-             cards (no .slp-flash class, no data-league) — refresh it
-             from the same feed so the default view flips too.
-             refreshCarousel only touches cards this feed knows (and,
-             with the feed-league guard, only this league's cards), so
-             other leagues' cards are left alone. */
-          try {
-            var all = document.querySelector('.st-strip-track[data-strip-group="all"]');
-            if (all) refreshCarousel(all, data, lg);
-          } catch (e) { if (window.console && console.warn) console.warn('[flash-scores] refreshAll failed:', e); }
-          try { refreshFixtures(data, lg); } catch (e) { if (window.console && console.warn) console.warn('[flash-scores] refreshFixtures failed:', e); }
-          if (lg === 'npl') {
-            /* Schedule first, then hero + spotlight from the merged state.
-               The schedule fetch is cached, so every 30s poll reuses it. */
-            loadNplSchedule().then(function (fixtures) {
-              try { refreshHero(data, fixtures); } catch (e) { if (window.console && console.warn) console.warn('[flash-scores] refreshHero failed:', e); }
-              try { refreshSpotlight(data, fixtures); } catch (e) { if (window.console && console.warn) console.warn('[flash-scores] refreshSpotlight failed:', e); }
-            });
-          } else if (lg === 'ilt20') {
-            /* ILT20 spotlight: live/latest-result/next from the ILT20
-               feed (no separate schedule file — upcoming comes from the
-               feed's own kickoffIso). refreshSpotlight reads the
-               spotlight's href prefix, so until the switch this is a
-               no-op. */
-            try { refreshSpotlight(data, null); } catch (e) { if (window.console && console.warn) console.warn('[flash-scores] refreshSpotlight failed:', e); }
-          }
+          if (group.closest('[data-site-match-strip]')) updateSharedStrip(group, data, lg);
+          else refreshFlash(group, data, lg);
+          if (fixtures) refreshFixtures(data, lg);
         });
       });
     });
+    if (home) {
+      loaders.push(function () {
+        if (document.hidden) return;
+        Promise.all([window.sialtvScores('npl'), loadNplSchedule(), window.sialtvScores('ilt20')])
+          .then(function (data) {
+            refreshHero(data[0], data[1], data[2]);
+            refreshSpotlight(data[0], data[1]);
+            refreshSpotlight(data[2], null);
+          }).catch(function (error) { console.warn('Match coverage update failed', error); });
+      });
+    }
+    // Fixture hubs still update when their league is archived from the strip.
+    if (fixtures) {
+      var fixtureLeague = fixtures.dataset.league || location.pathname.split('/')[1] || 'npl';
+      if (!document.querySelector('.slp-flash[data-league="' + fixtureLeague + '"]') &&
+          /^(npl|ilt20|sa20|bbl)$/.test(fixtureLeague)) {
+        loaders.push(function () {
+          if (!document.hidden) loadLeague(fixtureLeague, function (data) { refreshFixtures(data, fixtureLeague); });
+        });
+      }
+    }
     if (flash || carousel) {
       var league = (flash && flash.getAttribute('data-league')) ||
         (carousel && carousel.getAttribute('data-flash')) || 'npl';
